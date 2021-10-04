@@ -1,0 +1,23 @@
+.root {
+  width: 220px;
+  position: absolute;
+  right: 0;
+  outline: 1px solid #dedede;
+  height: 100vh;
+}
+
+.navigation {
+  display: flex;
+  background-color: grey;
+
+  &__item {
+    padding: 5px;
+    cursor: pointer;
+    color: #000;
+    opacity: 0.3;
+
+    &_active {
+      opacity: 1;
+    }
+  }
+}

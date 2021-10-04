@@ -1,0 +1,26 @@
+.header {
+  position: absolute;
+  width: 100%;
+  height: 82px;
+  left: 0px;
+  top: 0px;
+  align-items: center;
+  background: hsl(209, 100%, 19%);
+  display: flex;
+}
+
+.logo {
+  height: 82px;
+  width: 225px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &_text {
+    position: relative;
+    top: 6px;
+    left: 5px;
+    margin-right: 15px;
+  }
+}

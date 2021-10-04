@@ -1,0 +1,15 @@
+.root {
+  height: 82px;
+  width: 225px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &_text {
+    position: relative;
+    top: 6px;
+    left: 5px;
+    margin-right: 15px;
+  }
+}
