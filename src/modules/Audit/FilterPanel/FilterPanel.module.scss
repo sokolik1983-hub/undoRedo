@@ -1,0 +1,14 @@
+.root {
+  display: flex;
+  position: fixed;
+  right: 0px;
+  top: 90px;
+  width: 264px;
+  background-color: aquamarine;
+  height: 100vh;
+
+  .buttonClose {
+    width: 100px;
+    height: 40px;
+  }
+}
