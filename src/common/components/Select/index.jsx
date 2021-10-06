@@ -2,9 +2,22 @@ import PropTypes from 'prop-types'
 import React from 'react';
 import Option from './option';
 
-const Select = ({ name, options }) => {
+/**
+ * @param name - имя Select для HTML
+ * @param options - передача элементов списка в виде [{value: '1', text: '1'},{}...]
+ * @param defaultValue - значение по умолчанию, будет на первой строке
+ * @param onSelectItem - возвращает выбранное значение
+ */
+
+const Select = ({ name, options, defaultValue, onSelectItem }) => {
   return (
-    <select name={name || 'select'}>
+    <select
+      name={name || 'select'}
+      onChange={e => onSelectItem(e.target.value)}
+    >
+      { defaultValue && (
+        <option selected>{defaultValue}</option>
+      )}
       {
         options.map(item => {
           return (
@@ -26,4 +39,6 @@ Select.propTypes = {
       text: PropTypes.string.isRequired,
     }).isRequired,
   ),
+  defaultValue: PropTypes.string,
+  onSelectItem: PropTypes.func,
 }
