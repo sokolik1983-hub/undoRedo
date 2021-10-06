@@ -21,6 +21,7 @@ function HomePage() {
         <i className="fas fa-user" />
         <RouterLink to="/Reporting/report-create">
           <div className={styles.button}>
+
             <NoteAddIcon />
             <div className={styles['button_text']}>Новый отчет</div>
           </div>
