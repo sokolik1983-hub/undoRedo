@@ -1,33 +1,34 @@
-import React from "react";
-// import {
-//   AlertCircle as AlertCircleIcon,
-// } from "react-feather";
-import SettingsInputComponentIcon from "@material-ui/icons/SettingsInputComponent";
-import StorageIcon from "@material-ui/icons/Storage";
-import PeopleIcon from "@material-ui/icons/People";
-import DeleteSweepIcon from "@material-ui/icons/DeleteSweep";
+import React from 'react';
+import SettingsInputComponentIcon from '@material-ui/icons/SettingsInputComponent';
+import StorageIcon from '@material-ui/icons/Storage';
+import PeopleIcon from '@material-ui/icons/People';
+import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 
 const navigationMenu = [
   {
-    href: "/Reporting/audit",
+    href: '/Reporting/audit',
     icon: <SettingsInputComponentIcon />,
-    title: "Аудит",
+    title: 'Аудит',
+    id: 'audit'
   },
   {
-    href: "/Reporting/roles",
+    href: '/Reporting/roles',
     icon: <StorageIcon />,
-    title: "Роли",
+    title: 'Роли',
+    id: 'roles'
   },
   {
-    href: "/Reporting/users",
+    href: '/Reporting/users',
     icon: <PeopleIcon />,
-    title: "Пользователи и полномочия",
+    title: 'Пользователи и полномочия',
+    id: 'users'
   },
   {
-    href: "/Reporting/trash",
+    href: '/Reporting/trash',
     icon: <DeleteSweepIcon />,
-    title: "Корзина",
-  },
+    title: 'Корзина',
+    id: 'recycle'
+  }
 ];
 
 export default navigationMenu;

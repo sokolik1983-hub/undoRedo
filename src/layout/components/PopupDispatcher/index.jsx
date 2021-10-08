@@ -8,7 +8,7 @@ import { hidePopup } from '../../../data/reducers/ui';
 
 function PopupDispatcher() {
   // const popupData = useSelector(state => state.ui.popupData);
-  const popupVisible = useSelector(state => state.ui.popupVisible);
+  const popupVisible = useSelector(state => state.app.ui?.popupVisible);
   const dispatch = useDispatch();
 
   function renderContent() {

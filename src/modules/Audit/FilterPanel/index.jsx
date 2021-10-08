@@ -5,7 +5,7 @@ import styles from './FilterPanel.module.scss';
 
 function FilterPanel() {
   const dispatch = useDispatch();
-  const audit = useSelector(state => state.audit);
+  const audit = useSelector(state => state.app.audit);
   const wrapperRef = useRef(null);
 
   function handleSetFilters() {

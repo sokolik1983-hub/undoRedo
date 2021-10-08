@@ -7,7 +7,7 @@ import FilterPanel from './FilterPanel';
 
 function Audit() {
   const dispatch = useDispatch();
-  const audit = useSelector(state => state.audit);
+  const audit = useSelector(state => state.app.audit);
 
   useEffect(() => {
     dispatch(getAuditEvents({ filters: { ...audit.filters } }));

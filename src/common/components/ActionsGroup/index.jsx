@@ -16,6 +16,7 @@ function ActionsGroup({ actions, title, ...props }) {
                 [styles['actions__btn_active']]: item.isActive
               })}
               onClick={item.action}
+              key={item.id}
             >
               <Tooltip key={item.id} placement="top" title={item.name} arrow>
                 {item.icon}

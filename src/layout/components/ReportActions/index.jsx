@@ -26,7 +26,7 @@ import ActionsGroup from "../../../common/components/ActionsGroup";
 
 function ReportActions() {
   const dispatch = useDispatch();
-  const reportUi = useSelector((state) => state.reportDesigner.ui);
+  const reportUi = useSelector((state) => state.app.reportDesigner.ui);
 
   return (
     <div className={styles.root}>

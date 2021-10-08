@@ -31,7 +31,7 @@ function HomePage() {
       <div className={styles.section}>
         {navigationMenu &&
           navigationMenu.map(menuItem => (
-            <RouterLink to={menuItem.href}>
+            <RouterLink to={menuItem.href} key={menuItem.id}>
               <div className={styles.button}>
                 {menuItem.icon}
                 <div className={styles['button_text']}>{menuItem.title}</div>

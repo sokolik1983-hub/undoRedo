@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -9,7 +9,9 @@ import {
   TextField,
   makeStyles
 } from '@material-ui/core';
-import { SERVER_API_URL } from '../../common/constants/config';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../../data/actions/auth';
+import { REDIRECT_LINKS } from '../../common/constants/common';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,7 +24,17 @@ const useStyles = makeStyles(theme => ({
 
 const LoginPage = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const auth = useSelector(state => state.app.auth);
+
+  useEffect(() => {
+    if (auth) {
+      if (auth.isAuth) {
+        navigate(REDIRECT_LINKS.HOME_PAGE, { replace: false });
+      }
+    }
+  }, [auth]);
 
   return (
     <div className={classes.root} title="Login">
@@ -46,30 +58,7 @@ const LoginPage = () => {
                 .max(255)
                 .required('Password is required')
             })}
-            onSubmit={values => {
-              return fetch(
-                `${SERVER_API_URL}authUser?login=${values.login}&password=${values.password}`,
-                {
-                  credentials: 'include',
-                  mode: 'cors'
-                }
-              )
-                .then(response => response.json())
-                .then(json => {
-                  localStorage.setItem('isAuthReporting', 'true');
-                  localStorage.setItem(
-                    'userInfoReporting',
-                    JSON.stringify(json.userInfo)
-                  );
-                  navigate('/Reporting/dashboard', { replace: false });
-                })
-                .catch(err => {
-                  localStorage.removeItem('isAuthReporting');
-                  localStorage.removeItem('userInfoReporting');
-                  // eslint-disable-next-line no-alert
-                  alert(JSON.stringify(err.message));
-                });
-            }}
+            onSubmit={values => dispatch(loginUser(values))}
           >
             {({
               errors,
