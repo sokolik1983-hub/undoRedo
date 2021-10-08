@@ -24,16 +24,28 @@ function Audit() {
 
   function handleDropObject(event) {
     const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
-    const newColumns = lodash.cloneDeep(audit.columns).map(item => {
-      if (item.id >= event.target.id) {
-        item.order += 1;
+    const clonedColumns = lodash.cloneDeep(audit.columns);
+    const targetOrder = lodash.find(
+      audit.columns,
+      it => it.id === event.target.id
+    )?.order;
+
+    const newColumns = clonedColumns.map(item => {
+      if (selectedEl.order < targetOrder) {
+        if (item.id === selectedEl.id) {
+          item.order = targetOrder;
+        } else if (item.order > selectedEl.order && item.order <= targetOrder) {
+          item.order -= 1;
+        }
       }
-      if (item.id === selectedEl.id) {
-        item.order = lodash.find(
-          audit.columns,
-          it => it.id === event.target.id
-        )?.order;
+      if (selectedEl.order > targetOrder) {
+        if (item.id === selectedEl.id) {
+          item.order = targetOrder;
+        } else if (item.order < selectedEl.order && item.order >= targetOrder) {
+          item.order += 1;
+        }
       }
+
       return item;
     });
 
