@@ -1,12 +1,21 @@
 import React from 'react';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 import styles from './UserActions.module.scss';
 import ActionsGroup from '../../../../common/components/ActionsGroup';
 import { logoutUser } from '../../../../data/actions/auth';
+import { REDIRECT_LINKS } from '../../../../common/constants/common';
 
 function UserActions() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  function handleLogout() {
+    dispatch(logoutUser());
+    navigate(REDIRECT_LINKS.LOGIN_PAGE, { replace: false });
+    return false;
+  }
 
   return (
     <div className={styles.root}>
@@ -17,7 +26,7 @@ function UserActions() {
             id: 'QUIT',
             name: 'Quit',
             icon: <ExitToAppIcon className={styles.icon} />,
-            action: () => dispatch(logoutUser())
+            action: handleLogout
           }
         ]}
       />

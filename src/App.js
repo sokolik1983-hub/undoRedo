@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect} from 'react';
 import { useRoutes, useNavigate } from 'react-router-dom';
 import './App.css';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import routes from './routes';
 import { REDIRECT_LINKS } from './common/constants/common';
+import { logout } from './data/reducers/auth';
 
 function AuthProvider({ children }) {
   return <>{children}</>;
@@ -17,15 +18,15 @@ AuthProvider.propTypes = {
 function App() {
   const routing = useRoutes(routes);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const auth = useSelector(state => state.app.auth);
 
   useEffect(() => {
-    if (auth) {
-      if (!auth.isAuth) {
-        navigate(REDIRECT_LINKS.LOGIN_PAGE, { replace: false });
-      }
+    if (auth && !auth.isAuth) {
+      dispatch(logout());
+      navigate(REDIRECT_LINKS.LOGIN_PAGE, { replace: false });
     }
-  }, [auth]);
+  }, []);
 
   return <AuthProvider>{routing}</AuthProvider>;
 }
