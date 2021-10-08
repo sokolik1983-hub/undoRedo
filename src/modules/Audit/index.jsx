@@ -5,12 +5,15 @@ import { getAuditEvents } from '../../data/actions/audit';
 import { setColumns, showFilterPanel } from '../../data/reducers/audit';
 import styles from './Audit.module.scss';
 import FilterPanel from './FilterPanel';
+import { setCurrentPage } from '../../data/reducers/ui';
+import { AUDIT_PAGE } from '../../common/constants/pages';
 
 function Audit() {
   const dispatch = useDispatch();
   const audit = useSelector(state => state.app.audit);
 
   useEffect(() => {
+    dispatch(setCurrentPage(AUDIT_PAGE));
     dispatch(getAuditEvents({ filters: { ...audit.filters } }));
   }, []);
 
@@ -55,7 +58,7 @@ function Audit() {
   function renderContent() {
     return (
       <div className={styles.list}>
-        {audit.events ? (
+        {audit.events?.length > 0 ? (
           <table>
             <thead>
               <tr>
@@ -109,7 +112,6 @@ function Audit() {
 
   return (
     <div className={styles.root}>
-      <h1>Audit Content</h1>
       {renderContent()}
       <button onClick={handleShowFilters} type="button">
         show filters

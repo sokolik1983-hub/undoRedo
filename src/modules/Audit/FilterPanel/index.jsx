@@ -52,7 +52,7 @@ function FilterPanel() {
       >
         close
       </button>
-      FilterPanel
+      <h3>FilterPanel</h3>
       <table>
         <tbody>
           {lodash.sortBy(audit.columns, 'order').map(item => (

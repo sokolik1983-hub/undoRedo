@@ -5,5 +5,7 @@ export const REDIRECT_LINKS = {
 };
 
 export const PAGE_TITLES = {
-  DASHBOARD_PAGE: 'Dashboard'
+  DASHBOARD_PAGE: 'Dashboard',
+  AUDIT_PAGE: 'Audit',
+  TRASH_PAGE: 'Trash',
 };
