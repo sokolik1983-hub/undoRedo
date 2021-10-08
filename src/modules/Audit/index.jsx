@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import lodash from 'lodash';
 import { getAuditEvents } from '../../data/actions/audit';
-import { showFilterPanel } from '../../data/reducers/audit';
+import { setColumns, showFilterPanel } from '../../data/reducers/audit';
 import styles from './Audit.module.scss';
 import FilterPanel from './FilterPanel';
 
@@ -17,6 +18,28 @@ function Audit() {
     dispatch(getAuditEvents({ filters: { ...audit.filters } }));
   }, [audit.filters]);
 
+  function allowDrop(event) {
+    event.preventDefault();
+  }
+
+  function handleDropObject(event) {
+    const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
+    const newColumns = lodash.cloneDeep(audit.columns).map(item => {
+      if (item.id >= event.target.id) {
+        item.order += 1;
+      }
+      if (item.id === selectedEl.id) {
+        item.order = lodash.find(
+          audit.columns,
+          it => it.id === event.target.id
+        )?.order;
+      }
+      return item;
+    });
+
+    dispatch(setColumns(newColumns));
+  }
+
   function renderContent() {
     return (
       <div className={styles.list}>
@@ -24,16 +47,38 @@ function Audit() {
           <table>
             <thead>
               <tr>
-                {audit.columns.map(item => (
-                  <td key={item.id}>{item.name}</td>
-                ))}
+                {lodash
+                  .sortBy(audit.columns, 'order')
+                  .filter(item => item.show)
+                  .map(item => (
+                    <th
+                      key={item.id}
+                      id={item.id}
+                      order={item.order}
+                      draggable="true"
+                      onDragStart={event => {
+                        event.dataTransfer.setData(
+                          'text/plain',
+                          JSON.stringify(item)
+                        );
+                      }}
+                      onDrop={handleDropObject}
+                      onDragOver={allowDrop}
+                    >
+                      {item.name}
+                    </th>
+                  ))}
               </tr>
             </thead>
             <tbody>
               {audit.events.map(item => (
                 <tr key={item.id}>
-                  <td>{item.id}</td>
-                  <td>{item.message}</td>
+                  {lodash
+                    .sortBy(audit.columns, 'order')
+                    .filter(column => column.show)
+                    .map(column => (
+                      <td key={column.id}>{item[column.id]}</td>
+                    ))}
                 </tr>
               ))}
             </tbody>
