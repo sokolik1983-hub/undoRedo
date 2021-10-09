@@ -11,9 +11,13 @@ const ui = createSlice({
     popupVisible: false,
     popupData: {},
     currentPage: '',
-    isLoadingData: false
+    isLoadingData: false,
+    isNavShowing: false
   },
   reducers: {
+    showNav: (state, action) => {
+      state.isNavShowing = action.payload;
+    },
     setLoadingData: (state, action) => {
       state.isLoadingData = action.payload;
     },
@@ -51,7 +55,8 @@ export const {
   setPopupData,
   clearPopupData,
   setCurrentPage,
-  setLoadingData
+  setLoadingData,
+  showNav
 } = ui.actions;
 
 export default ui.reducer;

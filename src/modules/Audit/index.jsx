@@ -51,7 +51,7 @@ function Audit() {
 
       return item;
     });
-
+    event.dataTransfer.clearData();
     dispatch(setColumns(newColumns));
   }
 
