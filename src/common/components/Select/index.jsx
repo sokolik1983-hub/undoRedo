@@ -42,3 +42,9 @@ Select.propTypes = {
   defaultValue: PropTypes.string,
   onSelectItem: PropTypes.func,
 }
+
+Select.defaultProps = {
+  name: '',
+  options: [{value: '', text: ''}],
+  onSelectItem: () => {},
+}
