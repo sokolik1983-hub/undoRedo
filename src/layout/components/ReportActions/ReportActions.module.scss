@@ -1,7 +1,8 @@
 .root {
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  align-items: center;
+  width: 80%;
 }
 
 .leftActions {
@@ -10,6 +11,7 @@
 
 .rightActions {
   display: flex;
+  margin-right: 100px;
 }
 
 .icon {

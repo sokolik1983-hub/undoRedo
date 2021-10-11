@@ -5,6 +5,7 @@ import PopupContainer from '../../../common/components/PopupContainer';
 import { QUERY_PANEL_POPUP } from '../../../common/constants/popups';
 
 import { hidePopup } from '../../../data/reducers/ui';
+import QueryPanel from '../../../modules/QueryPanel';
 
 function PopupDispatcher() {
   // const popupData = useSelector(state => state.ui.popupData);
@@ -14,7 +15,7 @@ function PopupDispatcher() {
   function renderContent() {
     switch (popupVisible) {
       case QUERY_PANEL_POPUP:
-        return <h1>QueryPanel</h1>;
+        return <QueryPanel />;
       default:
         return null;
     }
@@ -43,16 +44,14 @@ function PopupDispatcher() {
   }
 
   return (
-    <div>
-      <PopupContainer
-        open={popupVisible}
-        actions={renderActions()}
-        onClose={handleClosePopup}
-        title={renderTitle()}
-      >
-        {renderContent()}
-      </PopupContainer>
-    </div>
+    <PopupContainer
+      open={popupVisible}
+      actions={renderActions()}
+      onClose={handleClosePopup}
+      title={renderTitle()}
+    >
+      {renderContent()}
+    </PopupContainer>
   );
 }
 

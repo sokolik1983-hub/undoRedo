@@ -15,6 +15,10 @@ function Navigation() {
     dispatch(showNav(false));
   }
 
+  function handleClick() {
+    dispatch(showNav(false));
+  }
+
   return (
     <>
       <div className={styles.root}>
@@ -24,6 +28,7 @@ function Navigation() {
               to={menuItem.href}
               key={menuItem.id}
               className={styles.link}
+              onClick={handleClick}
             >
               <div className={styles.menuItem}>
                 <div className={styles['menuItem_icon']}>{menuItem.icon}</div>

@@ -7,6 +7,7 @@ import Audit from './modules/Audit';
 import Users from './modules/Users';
 import Roles from './modules/Roles';
 import RecycleBin from './modules/RecycleBin';
+import ReportDesigner from './modules/ReportDesigner';
 
 const routes = [
   {
@@ -19,7 +20,10 @@ const routes = [
       { path: 'audit', element: <Audit /> },
       { path: 'users', element: <Users /> },
       { path: 'roles', element: <Roles /> },
-      { path: 'trash', element: <RecycleBin /> }
+      { path: 'trash', element: <RecycleBin /> },
+      { path: 'report/create/:folder_id', element: <ReportDesigner /> },
+      { path: 'report/:report_id/show', element: <ReportDesigner /> },
+      { path: 'report/:report_id', element: <ReportDesigner /> }
     ]
   },
   {

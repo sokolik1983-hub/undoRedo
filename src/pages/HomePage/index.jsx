@@ -19,7 +19,7 @@ function HomePage() {
       <p>Избранное</p>
       <div className={styles.section}>
         <i className="fas fa-user" />
-        <RouterLink to="/Reporting/report-create">
+        <RouterLink to="/Reporting/report/create">
           <div className={styles.button}>
             <NoteAddIcon />
             <div className={styles['button_text']}>Новый отчет</div>

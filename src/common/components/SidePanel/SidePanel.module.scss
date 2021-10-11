@@ -1,9 +1,11 @@
 .root {
   width: 220px;
-  position: absolute;
+  position: fixed;
   right: 0;
+  top: 85px;
   outline: 1px solid #dedede;
   height: 100vh;
+  background-color: #fff;
 }
 
 .navigation {

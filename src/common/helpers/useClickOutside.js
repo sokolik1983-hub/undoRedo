@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 
-// eslint-disable-next-line import/prefer-default-export
-export function useClickOutside(ref, action) {
+function useClickOutside(ref, action) {
   useEffect(() => {
     function handleClickOutside(event) {
       event.stopPropagation();
@@ -15,3 +14,5 @@ export function useClickOutside(ref, action) {
     };
   }, [ref]);
 }
+
+export default useClickOutside;
