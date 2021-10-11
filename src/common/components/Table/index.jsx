@@ -49,9 +49,6 @@ const Table = ({
     setColumnsHandler(newColumns);
   }
 
-  const arr = headersArr.sort((a,b) => a-b)
-  console.log(arr);
-
   return (
     <table className={getStyles()}>
       <thead className={isHeaderSticky ? styles.tableHeaderSticky : null}>
