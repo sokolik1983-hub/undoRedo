@@ -1,25 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import lodash from 'lodash';
-import classes from './Table.module.scss';
+import styles from './Table.module.scss';
 
 const Table = ({
   headersArr = [],
   bodyArr = [],
   size = 'medium',
   isHeaderSticky = true,
-  setColumnsHandler
+  setColumnsHandler,
+  actions
 }) => {
   const getStyles = () => {
-    if (size === 'small') return classes.tableSmall;
-    if (size === 'large') return classes.tableLarge;
-    return classes.tableMedium;
+    if (size === 'small') return styles.tableSmall;
+    if (size === 'large') return styles.tableLarge;
+    return styles.tableMedium;
   };
 
   function allowDrop(event) {
     event.preventDefault();
   }
-  
+
   function handleDropObject(event) {
     const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
     const clonedColumns = lodash.cloneDeep(headersArr);
@@ -49,8 +50,8 @@ const Table = ({
   }
 
   return (
-    <table>
-      <thead className={isHeaderSticky ? classes.tableHeaderSticky : null}>
+    <table className={getStyles()}>
+      <thead className={isHeaderSticky ? styles.tableHeaderSticky : null}>
         <tr>
           {headersArr &&
             headersArr.map(column => (
@@ -67,7 +68,6 @@ const Table = ({
                 }}
                 onDrop={handleDropObject}
                 onDragOver={allowDrop}
-                className={getStyles()}
               >
                 {column.name}
               </th>
@@ -78,10 +78,11 @@ const Table = ({
         <tr>
           {bodyArr &&
             bodyArr.map(item => (
-              <td className={getStyles()} key={item.id}>
+              <td key={item.id}>
                 {item.name}
               </td>
             ))}
+          {actions}
         </tr>
       </tbody>
     </table>
@@ -93,7 +94,8 @@ Table.propTypes = {
   bodyArr: PropTypes.arrayOf(PropTypes.object).isRequired,
   size: PropTypes.string,
   isHeaderSticky: PropTypes.bool,
-  setColumnsHandler: PropTypes.func
+  setColumnsHandler: PropTypes.func,
+  actions: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default Table;

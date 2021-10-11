@@ -1,18 +1,41 @@
-.tableSmall {
-    padding: 2px;
+.tableSmall th {
+    cursor: pointer;
+    padding: 4px;
     font-size: 10px,
 }
 
-.tableMedium {
+.tableMedium th {
+    cursor: pointer;
     padding: 14px;
     font-size: 16px,
 }
 
-.tableLarge {
+.tableLarge th {
+    cursor: pointer;
+    padding: 20px;
+    font-size: 22px;
+}
+
+.tableSmall td {
+    padding: 4px;
+    font-size: 10px,
+}
+
+.tableMedium td {
+    padding: 14px;
+    font-size: 16px,
+}
+
+.tableLarge td {
     padding: 20px;
     font-size: 22px;
 }
 
 .tableHeaderSticky {
     position: sticky;
+}
+
+tr {
+    display: flex;
+    align-items: center;
 }
