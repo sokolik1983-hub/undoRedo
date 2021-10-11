@@ -10,10 +10,14 @@ import Option from './option';
  */
 
 const Select = ({ name, options, defaultValue, onSelectItem }) => {
+  const handleItemSelect = e => {
+    onSelectItem(e.target.value)
+  }
+
   return (
     <select
       name={name || 'select'}
-      onChange={e => onSelectItem(e.target.value)}
+      onChange={handleItemSelect}
     >
       { defaultValue && (
         <option selected>{defaultValue}</option>
