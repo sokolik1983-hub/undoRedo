@@ -41,9 +41,6 @@ function Audit() {
 
   return (
     <div className={styles.root}>
-      <button onClick={handleShowFilters} type="button">
-        show filters
-      </button>
 
       <Table
         headersArr={auditTableHeadersArr}
@@ -52,6 +49,10 @@ function Audit() {
       />
 
       <FilterPanel />
+
+      <button onClick={handleShowFilters} type="button">
+        show filters
+      </button>
     </div>
   );
 }
