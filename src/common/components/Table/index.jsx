@@ -51,8 +51,6 @@ const Table = ({
       return item;
     });
 
-    console.log(newColumns);
-
     event.dataTransfer.clearData();
     setColumnsHandler(newColumns);
   }
