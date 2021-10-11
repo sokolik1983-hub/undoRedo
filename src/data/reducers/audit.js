@@ -4,7 +4,13 @@ import moment from 'moment';
 const audit = createSlice({
   name: 'audit',
   initialState: {
-    events: [],
+    events: [
+      { id: 'id', name: 'ИД', show: true },
+      { id: 'message', name: 'Событие', show: true },
+      { id: 'userName', name: 'Имя пользователя', show: true },
+      { id: 'message', name: 'Событие', show: true },
+      { id: 'date', name: 'Дата и время', show: true }
+    ],
     columns: [
       { id: 'id', name: 'ИД', show: true, order: 1 },
       { id: 'message', name: 'Событие', show: true, order: 2 },
