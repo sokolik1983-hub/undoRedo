@@ -28,23 +28,31 @@ const Table = ({
       ?.order;
 
     const newColumns = clonedColumns.map(item => {
-      if (selectedEl.order < targetOrder) {
-        if (item.id === selectedEl.id) {
-          item.order = targetOrder;
-        } else if (item.order > selectedEl.order && item.order <= targetOrder) {
-          item.order -= 1;
-        }
+      switch (true) {
+        case selectedEl.order < targetOrder:
+          if (item.id === selectedEl.id) {
+            item.order = targetOrder;
+          } else if (item.order > selectedEl.order && item.order <= targetOrder)
+            item.order -= 1;
+          break;
+        case selectedEl.order > targetOrder:
+          if (item.id === selectedEl.id) {
+            item.order = targetOrder;
+          } else if (
+            item.order < selectedEl.order &&
+            item.order >= targetOrder
+          ) {
+            item.order += 1;
+          }
+          break;
+        default:
+          return item;
       }
-      if (selectedEl.order > targetOrder) {
-        if (item.id === selectedEl.id) {
-          item.order = targetOrder;
-        } else if (item.order < selectedEl.order && item.order >= targetOrder) {
-          item.order += 1;
-        }
-      }
-
       return item;
     });
+
+    console.log(newColumns);
+
     event.dataTransfer.clearData();
     setColumnsHandler(newColumns);
   }
@@ -76,12 +84,7 @@ const Table = ({
       </thead>
       <tbody>
         <tr>
-          {bodyArr &&
-            bodyArr.map(item => (
-              <td key={item.id}>
-                {item.name}
-              </td>
-            ))}
+          {bodyArr && bodyArr.map(item => <td key={item.id}>{item.name}</td>)}
           {actions}
         </tr>
       </tbody>
@@ -95,7 +98,7 @@ Table.propTypes = {
   size: PropTypes.string,
   isHeaderSticky: PropTypes.bool,
   setColumnsHandler: PropTypes.func,
-  actions: PropTypes.arrayOf(PropTypes.object),
+  actions: PropTypes.arrayOf(PropTypes.object)
 };
 
 export default Table;
