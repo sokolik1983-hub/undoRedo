@@ -11,14 +11,16 @@ import { REPORT_DESIGNER_PAGE } from '../../../common/constants/pages';
 
 function TopBar() {
   const ui = useSelector(state => state.app.ui);
+  const auth = useSelector(state => state.app.auth);
+
   return (
     <header className={styles.header}>
       <Logo />
-      <MenuButton />
+      {auth && auth.isAuth && <MenuButton />}
       {ui.currentPage === REPORT_DESIGNER_PAGE && <ReportActions />}
       {ui.currentPage !== REPORT_DESIGNER_PAGE && <PageDescription />}
       <LoadingIndicator />
-      <UserActions />
+      {auth && auth.isAuth && <UserActions />}
     </header>
   );
 }
