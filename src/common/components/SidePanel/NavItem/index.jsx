@@ -1,22 +1,25 @@
-import React from "react";
-import styles from "./NavItem.module.scss";
-import { Tooltip } from "@material-ui/core";
-import clsx from "clsx";
+/* eslint-disable react/prop-types */
+import React from 'react';
+import { Tooltip } from '@material-ui/core';
+import clsx from 'clsx';
+import styles from './NavItem.module.scss';
 
-export default function NavItem(props) {
+function NavItem({ id, onClick, active, title, icon }) {
   function handleClick() {
-    props.onClick(props.id);
+    onClick(id);
   }
 
   const itemClass = clsx(styles.navigation__item, {
-    [styles.navigation__item_active]: props.active,
+    [styles.navigation__item_active]: active
   });
 
   return (
     <div className={itemClass} onClick={handleClick}>
-      <Tooltip title={props.title} placement="top">
-        {props.icon}
+      <Tooltip title={title} placement="top">
+        {icon}
       </Tooltip>
     </div>
   );
 }
+
+export default NavItem;

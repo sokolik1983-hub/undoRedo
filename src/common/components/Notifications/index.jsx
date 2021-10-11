@@ -5,10 +5,10 @@ import { useSelector } from 'react-redux';
 
 function Notifications() {
   const { enqueueSnackbar } = useSnackbar();
-  const notifications = useSelector(state => state.notifications);
+  const notifications = useSelector(state => state.app.notifications);
 
   useEffect(() => {
-    if (notifications.message) {
+    if (notifications?.message) {
       enqueueSnackbar(notifications.message, {
         variant: notifications.messageType
       });

@@ -19,7 +19,7 @@ function HomePage() {
       <p>Избранное</p>
       <div className={styles.section}>
         <i className="fas fa-user" />
-        <RouterLink to="/Reporting/report-create">
+        <RouterLink to="/Reporting/report/create">
           <div className={styles.button}>
             <NoteAddIcon />
             <div className={styles['button_text']}>Новый отчет</div>
@@ -31,7 +31,7 @@ function HomePage() {
       <div className={styles.section}>
         {navigationMenu &&
           navigationMenu.map(menuItem => (
-            <RouterLink to={menuItem.href}>
+            <RouterLink to={menuItem.href} key={menuItem.id}>
               <div className={styles.button}>
                 {menuItem.icon}
                 <div className={styles['button_text']}>{menuItem.title}</div>

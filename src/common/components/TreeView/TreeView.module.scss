@@ -1,0 +1,29 @@
+.container {
+  list-style: none;
+  padding: 0;
+}
+
+.node {
+  padding: 5px 10px;
+}
+
+.node-icon {
+  font-size: 14px;
+  margin-right: 5px;
+}
+
+.node-actions {
+  display: flex;
+  align-items: center;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.toggler {
+  cursor: pointer;
+}

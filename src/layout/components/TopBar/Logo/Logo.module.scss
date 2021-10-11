@@ -1,10 +1,10 @@
 .root {
-  height: 82px;
-  width: 225px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  margin-left: 15px;
+  margin-right: 30px;
 
   &_text {
     position: relative;

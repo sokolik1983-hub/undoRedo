@@ -1,21 +1,22 @@
-import React, { useState } from "react";
-import NavItem from "./NavItem/index.jsx";
-import styles from "./SidePanel.module.scss";
+/* eslint-disable react/prop-types */
+import React from 'react';
+import NavItem from './NavItem';
+import styles from './SidePanel.module.scss';
 
-export default function NavigationMenu(props) {
+export default function NavigationMenu({ onClick, menu = [], activePage }) {
   function handleClick(id) {
-    props.onClick(id);
+    onClick(id);
   }
 
   return (
     <div className={styles.navigation}>
-      {props.menu &&
-        props.menu.map((item) => (
+      {menu &&
+        menu.map(item => (
           <NavItem
             key={item.id}
             {...item}
             onClick={handleClick}
-            active={props.activePage === item.id}
+            active={activePage === item.id}
           />
         ))}
     </div>

@@ -1,0 +1,28 @@
+.root {
+  display: flex;
+  flex-direction: column;
+
+  .content {
+      outline: 1px solid grey;
+      display: flex;
+
+    .leftPanel {
+      width: 20%;
+      outline: 1px solid grey;
+      min-width: 100px;
+    }
+
+    .rightPanel {
+      width: 80%;
+      min-width: 300px;
+      display: flex;
+      flex-direction: column;
+      outline: 1px solid grey;
+
+      .section {
+      outline: 1px solid grey;
+      width: 100%;
+      }
+    }
+  }
+}

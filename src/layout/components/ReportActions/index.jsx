@@ -1,32 +1,32 @@
-import { Tooltip } from "@material-ui/core";
-import React from "react";
-import styles from "./ReportActions.module.scss";
+import React from 'react';
 
-import SaveIcon from "@material-ui/icons/Save";
-import UndoIcon from "@material-ui/icons/Undo";
-import RedoIcon from "@material-ui/icons/Redo";
-import EqualizerIcon from "@material-ui/icons/Equalizer";
-import RefreshIcon from "@material-ui/icons/Refresh";
-import TableChartIcon from "@material-ui/icons/TableChart";
-import PieChartIcon from "@material-ui/icons/PieChart";
-import TextFieldsIcon from "@material-ui/icons/TextFields";
+import SaveIcon from '@material-ui/icons/Save';
+import UndoIcon from '@material-ui/icons/Undo';
+import RedoIcon from '@material-ui/icons/Redo';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
+import RefreshIcon from '@material-ui/icons/Refresh';
+import TableChartIcon from '@material-ui/icons/TableChart';
+import PieChartIcon from '@material-ui/icons/PieChart';
+import TextFieldsIcon from '@material-ui/icons/TextFields';
 
-import PermDataSettingIcon from "@material-ui/icons/PermDataSetting";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import PermDataSettingIcon from '@material-ui/icons/PermDataSetting';
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
 
-import { showQueryPanel, hideQueryPanel } from "../../../data/reducers/ui";
-import { showNotification } from "../../../data/reducers/notifications";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  showReportPanel,
-  showConfigPanel,
-} from "../../../data/reducers/reportDesigner";
-import ActionsGroup from "../../../common/components/ActionsGroup";
+  setReportPanelVisible,
+  setCreatingElement,
+  setConfigPanelVisible,
+  setFormulaEditorVisible
+} from '../../../data/reducers/reportDesigner';
+import ActionsGroup from '../../../common/components/ActionsGroup';
+import styles from './ReportActions.module.scss';
+import { showNotification } from '../../../data/reducers/notifications';
+import { showQueryPanel } from '../../../data/reducers/ui';
 
 function ReportActions() {
   const dispatch = useDispatch();
-  const reportUi = useSelector((state) => state.reportDesigner.ui);
+  const reportUi = useSelector(state => state.app.reportDesigner.ui);
 
   return (
     <div className={styles.root}>
@@ -36,20 +36,20 @@ function ReportActions() {
           titleClassName={styles.text}
           actions={[
             {
-              id: "SAVE",
-              name: "Save",
-              icon: <SaveIcon className={styles.icon} />,
+              id: 'SAVE',
+              name: 'Save',
+              icon: <SaveIcon className={styles.icon} />
             },
             {
-              id: "UNDO",
-              name: "Undo",
-              icon: <UndoIcon className={styles.icon} />,
+              id: 'UNDO',
+              name: 'Undo',
+              icon: <UndoIcon className={styles.icon} />
             },
             {
-              id: "REDO",
-              name: "Redo",
-              icon: <RedoIcon className={styles.icon} />,
-            },
+              id: 'REDO',
+              name: 'Redo',
+              icon: <RedoIcon className={styles.icon} />
+            }
           ]}
         />
         <ActionsGroup
@@ -57,20 +57,20 @@ function ReportActions() {
           titleClassName={styles.text}
           actions={[
             {
-              id: "DATA",
-              name: "Change data",
+              id: 'DATA',
+              name: 'Change data',
               icon: <EqualizerIcon className={styles.icon} />,
-              action: () => dispatch(showQueryPanel()),
+              action: () => dispatch(showQueryPanel())
             },
             {
-              id: "REFRESH",
-              name: "Refresh data",
+              id: 'REFRESH',
+              name: 'Refresh data',
               icon: <RefreshIcon className={styles.icon} />,
               action: () =>
                 dispatch(
-                  showNotification({ message: "alloha", messageType: "error" })
-                ),
-            },
+                  showNotification({ message: 'alloha', messageType: 'error' })
+                )
+            }
           ]}
         />
         <ActionsGroup
@@ -78,20 +78,26 @@ function ReportActions() {
           titleClassName={styles.text}
           actions={[
             {
-              id: "TABLE",
-              name: "Insert table",
+              id: 'TABLE',
+              name: 'Insert table',
               icon: <TableChartIcon className={styles.icon} />,
+              action: () => dispatch(setCreatingElement('table')),
+              isActive: reportUi && reportUi.creatingElement === 'table'
             },
             {
-              id: "GRAPH",
-              name: "Insert graph",
+              id: 'GRAPH',
+              name: 'Insert graph',
               icon: <PieChartIcon className={styles.icon} />,
+              action: () => dispatch(setCreatingElement('graph')),
+              isActive: reportUi && reportUi.creatingElement === 'graph'
             },
             {
-              id: "TEXT",
-              name: "Insert text",
+              id: 'TEXT',
+              name: 'Insert text',
               icon: <TextFieldsIcon className={styles.icon} />,
-            },
+              action: () => dispatch(setCreatingElement('text')),
+              isActive: reportUi && reportUi.creatingElement === 'text'
+            }
           ]}
         />
       </div>
@@ -100,19 +106,26 @@ function ReportActions() {
           titleClassName={styles.text}
           actions={[
             {
-              id: "CONFIG",
-              name: "Show config panel",
+              id: 'FORMULA',
+              name: 'Show Formula Editor panel',
               icon: <PermDataSettingIcon className={styles.icon} />,
-              action: () => dispatch(showConfigPanel()),
-              isActive: reportUi && reportUi.showConfigPanel,
+              action: () => dispatch(setFormulaEditorVisible()),
+              isActive: reportUi && reportUi.showFormulaEditor
             },
             {
-              id: "NAVIGATION",
-              name: "Show report navigation",
-              icon: <AccountTreeIcon className={styles.icon} />,
-              action: () => dispatch(showReportPanel()),
-              isActive: reportUi && reportUi.showReportPanel,
+              id: 'CONFIG',
+              name: 'Show config panel',
+              icon: <PermDataSettingIcon className={styles.icon} />,
+              action: () => dispatch(setConfigPanelVisible()),
+              isActive: reportUi && reportUi.showConfigPanel
             },
+            {
+              id: 'NAVIGATION',
+              name: 'Show report navigation',
+              icon: <AccountTreeIcon className={styles.icon} />,
+              action: () => dispatch(setReportPanelVisible()),
+              isActive: reportUi && reportUi.showReportPanel
+            }
           ]}
         />
       </div>

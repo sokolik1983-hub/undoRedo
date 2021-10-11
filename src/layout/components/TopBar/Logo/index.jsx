@@ -1,16 +1,17 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
+import { REDIRECT_LINKS } from '../../../../common/constants/common';
 import styles from './Logo.module.scss';
 
 function Logo() {
   const navigate = useNavigate();
 
   function handleGoHome() {
-    navigate('/Reporting/dashboard', { replace: false });
+    navigate(REDIRECT_LINKS.HOME_PAGE, { replace: false });
   }
 
   return (
-    <div className={styles.logo} onClick={handleGoHome}>
+    <div className={styles.root} onClick={handleGoHome}>
       <svg
         width="39"
         height="39"

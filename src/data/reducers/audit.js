@@ -6,8 +6,11 @@ const audit = createSlice({
   initialState: {
     events: [],
     columns: [
-      { id: 'id', name: 'ИД', show: true },
-      { id: 'message', name: 'Событие', show: true }
+      { id: 'id', name: 'ИД', show: true, order: 1 },
+      { id: 'message', name: 'Событие', show: true, order: 2 },
+      { id: 'struct_name', name: 'struct_name', show: true, order: 3 },
+      { id: 'user_name', name: 'user_name', show: true, order: 4 },
+      { id: 'audit_time', name: 'audit_time', show: true, order: 5 },
     ],
     search: {},
     filters: {
@@ -33,6 +36,9 @@ const audit = createSlice({
     },
     setSearch: (state, action) => {
       state.search = action.payload;
+    },
+    setColumns: (state, action) => {
+      state.columns = action.payload;
     }
   }
 });
@@ -41,7 +47,8 @@ export const {
   showFilterPanel,
   setEvents,
   setSearch,
-  setFilters
+  setFilters,
+  setColumns
 } = audit.actions;
 
 export default audit.reducer;

@@ -10,38 +10,39 @@ const ui = createSlice({
   initialState: {
     popupVisible: false,
     popupData: {},
-    currentPage: ''
+    currentPage: '',
+    isLoadingData: false,
+    isNavShowing: false
   },
   reducers: {
-    showQueryPanel: state => ({
-      ...state,
-      popupVisible: QUERY_PANEL_POPUP
-    }),
-    showConnectorPopup: state => ({
-      ...state,
-      popupVisible: CONNECTOR_POPUP
-    }),
-    showUniversePopup: state => ({
-      ...state,
-      popupVisible: UNIVERSE_POPUP
-    }),
-    hidePopup: state => ({
-      ...state,
-      popupVisible: false,
-      popupData: {}
-    }),
-    setPopupData: (state, action) => ({
-      ...state,
-      popupData: action.payload
-    }),
-    clearPopupData: state => ({
-      ...state,
-      popupData: {}
-    }),
-    setCurrentPage: (state, action) => ({
-      ...state,
-      currentPage: action.payload
-    })
+    showNav: (state, action) => {
+      state.isNavShowing = action.payload;
+    },
+    setLoadingData: (state, action) => {
+      state.isLoadingData = action.payload;
+    },
+    showQueryPanel: state => {
+      state.popupVisible = QUERY_PANEL_POPUP;
+    },
+    showConnectorPopup: state => {
+      state.popupVisible = CONNECTOR_POPUP;
+    },
+    showUniversePopup: state => {
+      state.popupVisible = UNIVERSE_POPUP;
+    },
+    hidePopup: state => {
+      state.popupVisible = false;
+      state.popupData = {};
+    },
+    setPopupData: (state, action) => {
+      state.popupData = action.payload;
+    },
+    clearPopupData: state => {
+      state.popupData = {};
+    },
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload;
+    }
   }
 });
 
@@ -53,7 +54,9 @@ export const {
   hidePopup,
   setPopupData,
   clearPopupData,
-  setCurrentPage
+  setCurrentPage,
+  setLoadingData,
+  showNav
 } = ui.actions;
 
 export default ui.reducer;
