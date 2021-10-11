@@ -1,41 +1,45 @@
-.tableSmall th {
+.tableSmall {
+  th {
     cursor: pointer;
     padding: 4px;
-    font-size: 10px,
+    font-size: 10px;
+  }
+  td {
+    padding: 4px;
+    font-size: 10p;
+  }
 }
 
-.tableMedium th {
+.tableMedium {
+  th {
     cursor: pointer;
     padding: 14px;
-    font-size: 16px,
+    font-size: 16px;
+  }
+  td {
+    padding: 14px;
+    font-size: 16px;
+  }
 }
 
-.tableLarge th {
+.tableLarge {
+  th {
     cursor: pointer;
     padding: 20px;
     font-size: 22px;
-}
-
-.tableSmall td {
-    padding: 4px;
-    font-size: 10px,
-}
-
-.tableMedium td {
-    padding: 14px;
-    font-size: 16px,
-}
-
-.tableLarge td {
+  }
+  td {
     padding: 20px;
     font-size: 22px;
+  }
 }
 
 .tableHeaderSticky {
-    position: sticky;
+  position: sticky;
 }
 
 tr {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

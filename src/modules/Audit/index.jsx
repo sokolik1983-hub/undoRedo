@@ -45,13 +45,13 @@ function Audit() {
         show filters
       </button>
 
-      <FilterPanel />
-
       <Table
         headersArr={auditTableHeadersArr}
         bodyArr={auditTableBodyArr}
         setColumnsHandler={handleSetColumns}
       />
+
+      <FilterPanel />
     </div>
   );
 }

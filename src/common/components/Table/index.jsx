@@ -49,6 +49,9 @@ const Table = ({
     setColumnsHandler(newColumns);
   }
 
+  const arr = headersArr.sort((a,b) => a-b)
+  console.log(arr);
+
   return (
     <table className={getStyles()}>
       <thead className={isHeaderSticky ? styles.tableHeaderSticky : null}>
@@ -95,7 +98,7 @@ Table.propTypes = {
   size: PropTypes.string,
   isHeaderSticky: PropTypes.bool,
   setColumnsHandler: PropTypes.func,
-  actions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  actions: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default Table;
