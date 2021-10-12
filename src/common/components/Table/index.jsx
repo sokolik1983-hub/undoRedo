@@ -1,5 +1,4 @@
 import React from 'react';
-import Pagination from 'react-js-pagination';
 import PropTypes from 'prop-types';
 import lodash from 'lodash';
 import styles from './Table.module.scss';
@@ -21,8 +20,7 @@ const Table = ({
   setColumnsHandler,
   actions
 }) => {
-  const [activePage, setActivePage] = React.useState(1);
-
+  
   const getStyles = () => {
     switch (size) {
       case 'small':
@@ -63,11 +61,6 @@ const Table = ({
     setColumnsHandler(newColumns);
   }
 
-  function handlePageChange(pageNumber) {
-    console.log(`active page is ${pageNumber}`);
-    setActivePage({ pageNumber });
-  }
-
   return (
     <div>
       <table className={getStyles()}>
@@ -101,16 +94,6 @@ const Table = ({
           </tr>
         </tbody>
       </table>
-
-      <Pagination
-        activePage={activePage}
-        itemsCountPerPage={1}
-        totalItemsCount={bodyArr.length}
-        pageRangeDisplayed={5}
-        onChange={handlePageChange}
-        innerClass={styles.pagination}
-        activeClass={styles.pagination}
-      />
     </div>
   );
 };
