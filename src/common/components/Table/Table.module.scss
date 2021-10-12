@@ -43,3 +43,12 @@ tr {
   align-items: center;
   justify-content: space-between;
 }
+
+.pagination {
+  display: flex;
+  padding: 14;
+  li {
+    padding: 4px;
+    list-style: none;
+  }
+}

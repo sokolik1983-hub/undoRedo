@@ -9,7 +9,8 @@ const audit = createSlice({
       { id: 'message', name: 'Событие', show: true },
       { id: 'userName', name: 'Имя пользователя', show: true },
       { id: 'message', name: 'Событие', show: true },
-      { id: 'date', name: 'Дата и время', show: true }
+      { id: 'date', name: 'Дата и время', show: true },
+      { id: 'date', name: 'Дата и время', show: true },
     ],
     columns: [
       { id: 'id', name: 'ИД', show: true, order: 1 },
@@ -17,6 +18,7 @@ const audit = createSlice({
       { id: 'struct_name', name: 'struct_name', show: true, order: 3 },
       { id: 'user_name', name: 'user_name', show: true, order: 4 },
       { id: 'audit_time', name: 'audit_time', show: true, order: 5 },
+      
     ],
     search: {},
     filters: {
