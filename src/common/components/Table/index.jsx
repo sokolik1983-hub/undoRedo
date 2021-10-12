@@ -20,7 +20,6 @@ const Table = ({
   setColumnsHandler,
   actions
 }) => {
-  
   const getStyles = () => {
     switch (size) {
       case 'small':
@@ -87,12 +86,18 @@ const Table = ({
               ))}
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            {bodyArr && bodyArr.map(item => <td key={item.id}>{item.name}</td>)}
-            {actions}
+
+        {bodyArr.map(item => (
+          <tr key={item.id}>
+            {lodash
+              .sortBy(headersArr, 'order')
+              .filter(column => column.show)
+              .map(column => (
+                <td key={column.id}>{item[column.id]}</td>
+              ))}
+            {actions?.length > 0 && actions}
           </tr>
-        </tbody>
+        ))}
       </table>
     </div>
   );

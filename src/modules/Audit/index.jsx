@@ -26,10 +26,6 @@ function Audit() {
     .sortBy(audit.columns, 'order')
     .filter(item => item.show);
 
-  const auditTableBodyArr = lodash
-    .sortBy(audit.columns, 'order')
-    .filter(column => column.show);
-
   const handleSetColumns = value => {
     dispatch(setColumns(value));
   };
@@ -43,7 +39,7 @@ function Audit() {
     <div className={styles.root}>
       <Table
         headersArr={auditTableHeadersArr}
-        bodyArr={auditTableBodyArr}
+        bodyArr={audit.events}
         setColumnsHandler={handleSetColumns}
       />
 
