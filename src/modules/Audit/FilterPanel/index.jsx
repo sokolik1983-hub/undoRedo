@@ -28,7 +28,6 @@ function FilterPanel() {
     const newColumns = lodash.cloneDeep(audit.columns).map(item => {
       if (item.id === columnId) {
         // eslint-disable-next-line no-debugger
-        debugger;
         item.show = event.target.checked;
       }
 

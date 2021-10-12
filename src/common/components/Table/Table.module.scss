@@ -1,0 +1,54 @@
+.tableSmall {
+  th {
+    cursor: pointer;
+    padding: 4px;
+    font-size: 10px;
+  }
+  td {
+    padding: 4px;
+    font-size: 10p;
+  }
+}
+
+.tableMedium {
+  th {
+    cursor: pointer;
+    padding: 14px;
+    font-size: 16px;
+  }
+  td {
+    padding: 14px;
+    font-size: 16px;
+  }
+}
+
+.tableLarge {
+  th {
+    cursor: pointer;
+    padding: 20px;
+    font-size: 22px;
+  }
+  td {
+    padding: 20px;
+    font-size: 22px;
+  }
+}
+
+.tableHeaderSticky {
+  position: sticky;
+}
+
+tr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pagination {
+  display: flex;
+  padding: 14;
+  li {
+    padding: 4px;
+    list-style: none;
+  }
+}
