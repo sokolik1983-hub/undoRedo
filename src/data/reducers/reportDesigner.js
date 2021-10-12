@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import lodash from 'lodash';
+import { combineReducers } from 'redux';
+import undoable from 'redux-undo';
 
 export const reportObject = {
   id: 0,
@@ -38,6 +40,7 @@ export const tableObject = {
     sortingType: ''
   },
   filters: [],
+  styles: {},
   columns: [
     {
       object: {},
@@ -52,7 +55,7 @@ export const tableObject = {
   ]
 };
 export const graphObject = {
-  id: 1,
+  id: 2,
   title: 'Graph 1',
   titlePosition: 'center',
   legend: 'show',
@@ -75,18 +78,87 @@ export const graphObject = {
     default: []
   }
 };
+export const shapeObject = {
+  id: 3,
+  title: 'Shape 1',
+  type: 'shape',
+  shapeType: 'rect',
+  position: {
+    x: 100,
+    y: 100
+  },
+  scales: {
+    width: 250,
+    height: 250
+  }
+};
+export const textObject = {
+  id: 4,
+  title: 'Text 1',
+  type: 'text',
+  position: {
+    x: 100,
+    y: 100
+  },
+  scales: {
+    width: 250,
+    height: 250
+  },
+  object: {},
+  styles: {}
+};
 
 const reportDesigner = createSlice({
   name: 'reportDesigner',
   initialState: {
     reports: [reportObject],
     activeReport: 0,
-    activeNodes: [],
+    activeNodes: []
+  },
+  reducers: {
+    setActiveReport: (state, action) => {
+      state.activeReport = action.payload;
+    },
+    setActiveNodes: (state, action) => {
+      state.activeNodes = action.payload;
+    },
+    setReports: (state, action) => {
+      state.reports = action.payload.reports;
+      state.activeReport = action.payload.activeReport;
+    },
+    setStructure: (state, action) => {
+      const report = lodash.find(
+        state.reports,
+        item => item.id === state.activeReport
+      );
+      report.structure = action.payload;
+    },
+    setActiveNodeStyle: (state, action) => {
+      const report = lodash.find(
+        state.reports,
+        item => item.id === state.activeReport
+      );
+
+      state.activeNodes.forEach(node => {
+        const reportNode = lodash.find(
+          report.structure,
+          item => item.id === node.id
+        );
+
+        reportNode.styles = { ...reportNode.styles, ...action.payload };
+      });
+    }
+  }
+});
+
+const reportDesignerUI = createSlice({
+  name: 'reportDesignerUI',
+  initialState: {
     ui: {
       showConfigPanel: false,
       showReportPanel: false,
       showFormulaEditor: false,
-      creatingElement: null,
+      creatingElement: null
     }
   },
   reducers: {
@@ -101,35 +173,26 @@ const reportDesigner = createSlice({
     },
     setConfigPanelVisible: state => {
       state.ui.showConfigPanel = !state.ui.showConfigPanel;
-    },
-    setActiveReport: (state, action) => {
-      state.activeReport = action.payload;
-    },
-    setActiveNodes: (state, action) => {
-      state.activeNodes = action.payload;
-    },
-    setReports: (state, action) => {
-      state.reports = action.payload;
-    },
-    setStructure: (state, action) => {
-      const report = lodash.find(
-        state.reports,
-        item => item.id === state.activeReport
-      );
-      report.structure = action.payload;
     }
   }
 });
 
 export const {
-  setReportPanelVisible,
-  setConfigPanelVisible,
-  setFormulaEditorVisible,
-  setReports,
   setActiveReport,
-  setStructure,
   setActiveNodes,
-  setCreatingElement
+  setReports,
+  setStructure,
+  setActiveNodeStyle
 } = reportDesigner.actions;
 
-export default reportDesigner.reducer;
+export const {
+  setCreatingElement,
+  setReportPanelVisible,
+  setFormulaEditorVisible,
+  setConfigPanelVisible
+} = reportDesignerUI.actions;
+
+export default combineReducers({
+  reportsUi: reportDesignerUI.reducer,
+  reportsData: undoable(reportDesigner.reducer)
+});

@@ -13,26 +13,37 @@
   margin: 20px;
 }
 
+.is_active {
+  border: 2px solid royalblue;
+}
+
 .table {
-  background-color: blue;
+  background-color: #fff;
 
   table {
-    border: 1px solid red;
     width: 100%;
     height: 100%;
     border-collapse: collapse;
 
     td {
-      border: 1px solid red;
+      border: 1px solid #000;
     }
     th {
-      border: 1px solid red;
+      border: 1px solid #000;
     }
   }
 }
 
 .graph {
   background-color: red;
+}
+
+.shape {
+  background-color: rgb(60, 187, 21);
+}
+
+.text {
+  background-color: rgb(161, 26, 105);
 }
 
 .handler {

@@ -10,7 +10,9 @@ import {
   setCreatingElement,
   setReports,
   setStructure,
-  tableObject
+  shapeObject,
+  tableObject,
+  textObject
 } from '../../data/reducers/reportDesigner';
 import Block from './Block';
 import styles from './ReportDesigner.module.scss';
@@ -22,8 +24,8 @@ import { REPORT_DESIGNER_PAGE } from '../../common/constants/pages';
 const BLOCK_TYPES = {
   table: tableObject,
   graph: graphObject,
-  text: {},
-  shape: {}
+  text: textObject,
+  shape: shapeObject
 };
 
 function ReportDesigner() {
@@ -31,13 +33,13 @@ function ReportDesigner() {
   const dispatch = useDispatch();
   const reportDesigner = useSelector(state => state.app.reportDesigner);
   const currentReport = getCurrentReport(
-    reportDesigner.reports,
-    reportDesigner.activeReport
+    reportDesigner.reportsData.present.reports,
+    reportDesigner.reportsData.present.activeReport
   );
 
   useEffect(() => {
     dispatch(setCurrentPage(REPORT_DESIGNER_PAGE));
-  });
+  }, []);
 
   function handleMouseMove(event) {
     setMousePosition({
@@ -48,11 +50,11 @@ function ReportDesigner() {
 
   function handleAddBlock(event) {
     event.stopPropagation();
-    if (reportDesigner.ui.creatingElement) {
+    if (reportDesigner.reportsUi.ui.creatingElement) {
       const newStructure = [
         ...currentReport.structure,
         {
-          ...BLOCK_TYPES[reportDesigner.ui.creatingElement],
+          ...BLOCK_TYPES[reportDesigner.reportsUi.ui.creatingElement],
           position: mousePosition,
           id: currentReport.structure.length + 1
         }
@@ -89,15 +91,19 @@ function ReportDesigner() {
 
   function handleAddReport() {
     const newReports = [
-      ...reportDesigner.reports,
+      ...reportDesigner.reportsData.present.reports,
       {
         ...reportObject,
-        id: reportDesigner.reports.length + 1,
-        name: `Report ${reportDesigner.reports.length + 1}`
+        id: reportDesigner.reportsData.present.reports.length + 1,
+        name: `Report ${reportDesigner.reportsData.present.reports.length + 1}`
       }
     ];
-    dispatch(setReports(newReports));
-    dispatch(setActiveReport(reportDesigner.reports.length + 1));
+    dispatch(
+      setReports({
+        reports: newReports,
+        activeReport: reportDesigner.reportsData.present.reports.length + 1
+      })
+    );
   }
   const handleSelectReport = reportId => event => {
     event.stopPropagation();
@@ -117,22 +123,50 @@ function ReportDesigner() {
   };
 
   const handleSelect = (structureItem, addItem) => {
-    let newActiveNodes = [structureItem];
-    if (addItem) {
-      newActiveNodes = [...reportDesigner.activeNodes, structureItem];
+    if (
+      lodash.find(reportDesigner.reportsData.present.activeNodes, structureItem)
+    ) {
+      const filteredNodes = reportDesigner.reportsData.present.activeNodes.filter(
+        item => item.id !== structureItem.id
+      );
+      dispatch(setActiveNodes(filteredNodes));
+    } else {
+      let newActiveNodes = [structureItem];
+      if (addItem) {
+        newActiveNodes = [
+          ...reportDesigner.reportsData.present.activeNodes,
+          structureItem
+        ];
+      }
+      dispatch(setActiveNodes(newActiveNodes));
     }
-    dispatch(setActiveNodes(newActiveNodes));
   };
+
+  function checkIsActiveNode(id) {
+    return !lodash.isEmpty(
+      lodash.find(
+        reportDesigner.reportsData.present.activeNodes,
+        item => item.id === id
+      )
+    );
+  }
+
+  function handleDisableSelection() {
+    if (reportDesigner.reportsData.present.activeNodes.length > 0) {
+      dispatch(setActiveNodes([]));
+    }
+  }
 
   return (
     <div className={styles.root}>
       <div className={styles.tabs}>
-        {reportDesigner.reports &&
-          reportDesigner.reports.map((report, idx) => (
+        {reportDesigner.reportsData.present.reports &&
+          reportDesigner.reportsData.present.reports.map((report, idx) => (
             <div
               key={report.id}
               className={clsx(styles.tab, {
-                [styles.tab_active]: reportDesigner.activeReport === report.id
+                [styles.tab_active]:
+                  reportDesigner.reportsData.present.activeReport === report.id
               })}
               onClick={handleSelectReport(report.id)}
             >
@@ -155,6 +189,7 @@ function ReportDesigner() {
         className={styles.container}
         onMouseMove={handleMouseMove}
         onClick={handleAddBlock}
+        onDoubleClick={handleDisableSelection}
       >
         {currentReport &&
           currentReport.structure?.map(block => (
@@ -165,14 +200,17 @@ function ReportDesigner() {
               onChangePosition={handleChangePosition}
               onChangeScales={handleChangeScales}
               onSelect={handleSelect}
+              isActiveNode={checkIsActiveNode(block.id)}
             />
           ))}
       </div>
 
-      {reportDesigner.ui.showConfigPanel && (
-        <SidePanel marginRight={reportDesigner.ui.showReportPanel ? 220 : 0} />
+      {reportDesigner.reportsUi.ui.showConfigPanel && (
+        <SidePanel
+          marginRight={reportDesigner.reportsUi.ui.showReportPanel ? 220 : 0}
+        />
       )}
-      {reportDesigner.ui.showReportPanel && <SidePanel />}
+      {reportDesigner.reportsUi.ui.showReportPanel && <SidePanel />}
     </div>
   );
 }

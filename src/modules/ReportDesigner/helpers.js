@@ -4,3 +4,7 @@ import lodash from 'lodash';
 export function getCurrentReport(array, id) {
   return lodash.find(array, item => item.id === id);
 }
+
+export function isActiveNode(array, id) {
+  return lodash.find(array, item => item.id === id);
+}
