@@ -18,8 +18,6 @@ function Audit() {
   const audit = useSelector(state => state.app.audit);
   const activePage = useSelector(state => state.app.audit.activePage);
 
-  console.log(activePage);
-
   useEffect(() => {
     dispatch(setCurrentPage(AUDIT_PAGE));
     dispatch(getAuditEvents({ filters: { ...audit.filters } }));
