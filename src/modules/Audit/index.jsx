@@ -57,7 +57,11 @@ function Audit() {
 
       <FilterPanel />
 
-      <button onClick={handleShowFilters} type="button">
+      <button
+        style={{ margin: '0 auto', height: '42px'}}
+        onClick={handleShowFilters}
+        type="button"
+      >
         Показать фильтры
       </button>
     </div>
