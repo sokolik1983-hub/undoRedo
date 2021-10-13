@@ -2,7 +2,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
 import { getAuditEvents } from '../../data/actions/audit';
-import { setColumns, showFilterPanel } from '../../data/reducers/audit';
+import {
+  setColumns,
+  showFilterPanel,
+  setActivePage
+} from '../../data/reducers/audit';
 import styles from './Audit.module.scss';
 import FilterPanel from './FilterPanel';
 import { setCurrentPage } from '../../data/reducers/ui';
@@ -12,6 +16,9 @@ import Table from '../../common/components/Table/index';
 function Audit() {
   const dispatch = useDispatch();
   const audit = useSelector(state => state.app.audit);
+  const activePage = useSelector(state => state.app.audit.activePage);
+
+  console.log(activePage);
 
   useEffect(() => {
     dispatch(setCurrentPage(AUDIT_PAGE));
@@ -35,12 +42,19 @@ function Audit() {
     dispatch(showFilterPanel());
   }
 
+  const handleSetActivePage = value => {
+    dispatch(setActivePage(value));
+  };
+
   return (
     <div className={styles.root}>
       <Table
         headersArr={auditTableHeadersArr}
         bodyArr={audit.events}
         setColumnsHandler={handleSetColumns}
+        size="small"
+        setActivePageHandler={handleSetActivePage}
+        activePage={activePage}
       />
 
       <FilterPanel />

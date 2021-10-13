@@ -1,4 +1,5 @@
 import React from 'react';
+import Pagination from 'react-js-pagination';
 import PropTypes from 'prop-types';
 import lodash from 'lodash';
 import styles from './Table.module.scss';
@@ -10,6 +11,10 @@ import styles from './Table.module.scss';
  * @param isHeaderSticky - булево значение для прилипающего хэдереа
  * @param setColumnsHandler - функция для передачи значений в стор при перетаскивании колонок
  * @param actions - элемент в конце строк таблицы для реализации событий удаления/редактирования итд.
+ * @param itemsCountPerPage - число для вывода количества строк для пагинации
+ * @param activePage - число текущей страницы для пагинации
+ * @param setActivePageHandler - функция для передачи в стор числа страницы для пагинации
+
  */
 
 const Table = ({
@@ -18,7 +23,10 @@ const Table = ({
   size = 'medium',
   isHeaderSticky = true,
   setColumnsHandler,
-  actions
+  actions,
+  itemsCountPerPage = 10,
+  setActivePageHandler,
+  activePage
 }) => {
   const getStyles = () => {
     switch (size) {
@@ -60,6 +68,11 @@ const Table = ({
     setColumnsHandler(newColumns);
   }
 
+  function handlePageChange(pageNumber) {
+    console.log(`active page is ${pageNumber}`);
+    setActivePageHandler(pageNumber);
+  }
+
   return (
     <div>
       <table className={getStyles()}>
@@ -87,18 +100,32 @@ const Table = ({
           </tr>
         </thead>
 
-        {bodyArr.map(item => (
-          <tr key={item.id}>
-            {lodash
-              .sortBy(headersArr, 'order')
-              .filter(column => column.show)
-              .map(column => (
-                <td key={column.id}>{item[column.id]}</td>
-              ))}
-            {actions?.length > 0 && actions}
-          </tr>
-        ))}
+        {bodyArr
+          .slice(
+            activePage * itemsCountPerPage,
+            activePage * itemsCountPerPage + itemsCountPerPage
+          )
+          .map(item => (
+            <tr key={item.id}>
+              {lodash
+                .sortBy(headersArr, 'order')
+                .filter(column => column.show)
+                .map(column => (
+                  <td key={column.id}>{item[column.id]}</td>
+                ))}
+              {actions?.length > 0 && actions}
+            </tr>
+          ))}
       </table>
+      <Pagination
+        activePage={activePage}
+        itemsCountPerPage={itemsCountPerPage}
+        totalItemsCount={bodyArr.length}
+        pageRangeDisplayed={5}
+        onChange={handlePageChange}
+        innerClass={styles.pagination}
+        activeLinkClass={styles.activeLink}
+      />
     </div>
   );
 };
@@ -109,7 +136,10 @@ Table.propTypes = {
   size: PropTypes.string,
   isHeaderSticky: PropTypes.bool,
   setColumnsHandler: PropTypes.func,
-  actions: PropTypes.arrayOf(PropTypes.object)
+  actions: PropTypes.arrayOf(PropTypes.object),
+  itemsCountPerPage: PropTypes.number,
+  setActivePageHandler: PropTypes.func,
+  activePage: PropTypes.number,
 };
 
 export default Table;
