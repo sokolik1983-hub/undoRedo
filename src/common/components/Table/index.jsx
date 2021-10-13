@@ -69,7 +69,6 @@ const Table = ({
   }
 
   function handlePageChange(pageNumber) {
-    console.log(`active page is ${pageNumber}`);
     setActivePageHandler(pageNumber);
   }
 
