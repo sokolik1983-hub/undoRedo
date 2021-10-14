@@ -143,6 +143,8 @@ const Table = ({
           activeLinkClass={styles.activeLink}
         />
 
+        <span>Количество строк на странице:</span>
+
         <Select
           name="table"
           options={perPageValues}
