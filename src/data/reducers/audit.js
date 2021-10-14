@@ -22,7 +22,6 @@ const audit = createSlice({
     ui: {
       showFilterPanel: false
     },
-    activePage: 1
   },
 
   reducers: {
@@ -41,9 +40,6 @@ const audit = createSlice({
     setColumns: (state, action) => {
       state.columns = action.payload;
     },
-    setActivePage: (state, action) => {
-      state.activePage = action.payload;
-    }
   }
 });
 
@@ -53,7 +49,6 @@ export const {
   setSearch,
   setFilters,
   setColumns,
-  setActivePage
 } = audit.actions;
 
 export default audit.reducer;

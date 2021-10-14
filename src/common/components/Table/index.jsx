@@ -12,9 +12,7 @@ import styles from './Table.module.scss';
  * @param setColumnsHandler - функция для передачи значений в стор при перетаскивании колонок
  * @param actions - элемент в конце строк таблицы для реализации событий удаления/редактирования итд.
  * @param itemsCountPerPage - число для вывода количества строк для пагинации
- * @param activePage - число текущей страницы для пагинации
- * @param setActivePageHandler - функция для передачи в стор числа страницы для пагинации
-
+ * @param paginationAlign - строка описывающая позиционирование пагинации в таблице: 'flex-left', 'flex-right', 'center' 
  */
 
 const Table = ({
@@ -25,9 +23,9 @@ const Table = ({
   setColumnsHandler,
   actions,
   itemsCountPerPage = 10,
-  setActivePageHandler,
-  activePage
+  paginationAlign = 'center'
 }) => {
+  const [activePage, setActivePage] = React.useState(1);
   const getStyles = () => {
     switch (size) {
       case 'small':
@@ -69,11 +67,13 @@ const Table = ({
   }
 
   function handlePageChange(pageNumber) {
-    setActivePageHandler(pageNumber);
+    setActivePage(pageNumber);
   }
 
+  console.log(paginationAlign);
+
   return (
-    <div>
+    <div style={{display: 'flex', flexDirection: 'column', alignItems: paginationAlign}}>
       <table className={getStyles()}>
         <thead className={isHeaderSticky ? styles.tableHeaderSticky : null}>
           <tr>
@@ -137,8 +137,7 @@ Table.propTypes = {
   setColumnsHandler: PropTypes.func,
   actions: PropTypes.arrayOf(PropTypes.object),
   itemsCountPerPage: PropTypes.number,
-  setActivePageHandler: PropTypes.func,
-  activePage: PropTypes.number,
+  paginationAlign: PropTypes.string
 };
 
 export default Table;
