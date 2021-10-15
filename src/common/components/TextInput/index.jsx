@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
+import clsx from 'clsx';
 import styles from './TextInput.module.scss';
 
 /**
@@ -13,7 +13,7 @@ import styles from './TextInput.module.scss';
  * @param onBlur - функция, которая выполнится когда произодйет выходи из фокуса инпута
  * @param value - значение инпута
  * @param fullwidth - булево значние, предназначенное для растягивания инпута на всю ширину родительского элемента
- * @param attrs - передаваемые атрибуты
+ * @param props - передаваемые атрибуты
  */
 
 const TextInput = ({
@@ -26,9 +26,9 @@ const TextInput = ({
   onBlur,
   value,
   fullWidth,
-  ...attrs
+  ...props
 }) => {
-  const classes = cn(
+  const classes = clsx(
     styles.input,
     className,
     { [styles.error]: error },
@@ -39,14 +39,6 @@ const TextInput = ({
     onChange(event.target.value);
   };
 
-  const handleChangeFocus = () => {
-    onFocus();
-  };
-
-  const handleBlur = () => {
-    onBlur();
-  };
-
   return (
     <div className={styles.inputWrapper}>
       {label && (
@@ -54,14 +46,14 @@ const TextInput = ({
           {label}
         </label>
       )}
-      {attrs.required && <span className={styles.inputRequired}>Required</span>}
+      {props.required && <span className={styles.inputRequired}>Required</span>}
       <input
         onChange={handleOnChange}
-        onFocus={handleChangeFocus}
-        onBlur={handleBlur}
+        onFocus={onFocus}
+        onBlur={onBlur}
         name={id}
         className={classes}
-        {...attrs}
+        {...props}
         value={value}
       />
       {error && <span className={styles.textError}>{error}</span>}
@@ -80,7 +72,8 @@ TextInput.propTypes = {
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   value: PropTypes.string,
-  fullWidth: PropTypes.bool
+  fullWidth: PropTypes.bool,
+  required: PropTypes.bool
 };
 
 TextInput.defaultProps = {
