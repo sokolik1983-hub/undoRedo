@@ -1,5 +1,5 @@
 import React from 'react';
-import cn from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import styles from './Button.module.scss';
 
@@ -10,8 +10,9 @@ import styles from './Button.module.scss';
  * @param disabled - булево значение, которое дизейблит кнопку
  * @param active - булево значение для определения активного состояния
  * @param size - размер кнопки из трех: small, medium , large, по умолчанию medium
- * @param attrs - атрибуты кнопки
+ * @param props - атрибуты кнопки
  * @param color - строка определяющая цвет кнопки: primary, danger, success
+ * @param props - атрибуты кнопки
  */
 
 const Button = ({
@@ -22,9 +23,9 @@ const Button = ({
   active,
   size,
   color,
-  ...attrs
+  ...props
 }) => {
-  const classes = cn(
+  const classes = clsx(
     styles.btn,
     className,
     { active },
@@ -44,14 +45,15 @@ const Button = ({
     }
   };
 
-  const Tag = attrs.href ? 'a' : 'button';
+  const Tag = props.href ? 'a' : 'button';
 
   return (
     <Tag
-      {...attrs}
+      {...props}
       className={classes}
       onClick={onClickAction}
       disabled={disabled}
+      type={Tag === 'button' ? props.type : null}
     >
       {children}
     </Tag>
@@ -65,7 +67,9 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   active: PropTypes.bool,
   size: PropTypes.string,
-  color: PropTypes.string
+  color: PropTypes.string,
+  href: PropTypes.string,
+  type: PropTypes.string
 };
 
 Button.defaultProps = {
