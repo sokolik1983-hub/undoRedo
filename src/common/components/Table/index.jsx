@@ -31,7 +31,8 @@ const Table = ({
     { text: '10', value: 10 },
     { text: '20', value: 20 },
     { text: '30', value: 30 },
-    { text: '50', value: 50 }
+    { text: '50', value: 50 },
+    { text: 'Все', value: 'all' }
   ];
 
   const getStyles = () => {
@@ -79,7 +80,19 @@ const Table = ({
   };
 
   const handleRowsPerPageChange = value => {
-    setItemsCountPerPage(Number(value));
+    if (value === 'all') {
+      setItemsCountPerPage(value);
+    } else {
+      setItemsCountPerPage(Number(value));
+    }
+  };
+
+  const getArr = () => {
+    if (itemsCountPerPage === 'all') return bodyArr;
+    return bodyArr.slice(
+      activePage * itemsCountPerPage,
+      activePage * itemsCountPerPage + itemsCountPerPage
+    );
   };
 
   return (
@@ -115,22 +128,17 @@ const Table = ({
           </tr>
         </thead>
 
-        {bodyArr
-          .slice(
-            activePage * itemsCountPerPage,
-            activePage * itemsCountPerPage + itemsCountPerPage
-          )
-          .map(item => (
-            <tr key={item.id}>
-              {lodash
-                .sortBy(headersArr, 'order')
-                .filter(column => column.show)
-                .map(column => (
-                  <td key={column.id}>{item[column.id]}</td>
-                ))}
-              {actions?.length > 0 && actions}
-            </tr>
-          ))}
+        {getArr().map(item => (
+          <tr key={item.id}>
+            {lodash
+              .sortBy(headersArr, 'order')
+              .filter(column => column.show)
+              .map(column => (
+                <td key={column.id}>{item[column.id]}</td>
+              ))}
+            {actions?.length > 0 && actions}
+          </tr>
+        ))}
       </table>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Pagination
