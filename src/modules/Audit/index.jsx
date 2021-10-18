@@ -8,7 +8,6 @@ import FilterPanel from './FilterPanel';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { AUDIT_PAGE } from '../../common/constants/pages';
 import Table from '../../common/components/Table/index';
-import CheckBox from '../../common/components/CheckBox/index';
 
 function Audit() {
   const dispatch = useDispatch();
@@ -49,8 +48,6 @@ function Audit() {
       <button onClick={handleShowFilters} type="button">
         Показать фильтры
       </button>
-
-      <CheckBox />
     </div>
   );
 }
