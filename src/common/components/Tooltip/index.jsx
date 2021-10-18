@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import cl from 'classnames';
+import clsx from 'clsx';
 
 const ToolTip = ({ children, content, style, position }) => {
-  const classes = cl('tooltip', { position });
+  const [isVisible, setIsVisible] = useState(false);
+
+  const classes = clsx('tooltip', { position });
 
   return (
     <span className="tooltipWrapper">
-      <span style={style} className={classes}>
-        {content}
+      {isVisible && (
+        <span style={style} className={classes}>
+          {content}
+        </span>
+      )}
+      <span
+        onMouseEnter={() => setIsVisible(true)}
+        onMouseLeave={() => setIsVisible(false)}
+        className="targetElement"
+      >
+        {children}
       </span>
-      <span className="targetElement">{children}</span>
     </span>
   );
 };
