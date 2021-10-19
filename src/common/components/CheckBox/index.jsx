@@ -29,8 +29,8 @@ const CheckBox = ({
   const classes = clsx(styles.checkBox, className);
 
   const handleChange = event => {
-    setIsChecked(checked);
-    onChange(event);
+    setIsChecked(event.target.checked);
+    onChange(event.target.checked);
   };
 
   return (
