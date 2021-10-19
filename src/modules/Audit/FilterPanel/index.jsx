@@ -49,9 +49,9 @@ function FilterPanel() {
         type="button"
         className={styles.buttonClose}
       >
-        close
+        Закрыть
       </button>
-      <h3>FilterPanel</h3>
+      <h3>Фильтрация</h3>
       <table>
         <tbody>
           {lodash.sortBy(audit.columns, 'order').map(item => (
