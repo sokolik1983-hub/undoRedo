@@ -9,12 +9,15 @@ import styles from './Icon.module.scss';
  * @param children - иконка, которую отрисует компонент Icon
  */
 
-const Icon = ({ size, className, children, ...props }) => {
+const Icon = ({ size, className, children, color, ...props }) => {
   const classes = clsx(
     className,
     { [styles.small]: size === 'small' },
     { [styles.medium]: size === 'medium' },
-    { [styles.large]: size === 'large' }
+    { [styles.large]: size === 'large' },
+    { [styles.danger]: color === 'danger' },
+    { [styles.primary]: color === 'primary' },
+    { [styles.sucess]: color === 'sucess' }
   );
 
   return (
@@ -29,11 +32,13 @@ export default Icon;
 Icon.propTypes = {
   size: PropTypes.string,
   className: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
+  color: PropTypes.string
 };
 
 Icon.defaultProps = {
   size: 'medium',
-  className: '', 
-  children: null
+  className: '',
+  children: null,
+  color: ''
 };
