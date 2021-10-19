@@ -4,13 +4,11 @@ import clsx from 'clsx';
 import Button from '../Button/index';
 import Icon from '../Icon/index';
 
-const IconButton = ({ children, textContent, onClick, ...props }) => {
+const IconButton = ({ children, textContent, onClick }) => {
   const classes = clsx();
 
-  console.log(classes);
-
   return (
-    <Button onClick={onClick}>
+    <Button className={classes} onClick={onClick}>
       {textContent}
       <Icon>{children}</Icon>
     </Button>
@@ -20,5 +18,13 @@ const IconButton = ({ children, textContent, onClick, ...props }) => {
 export default IconButton;
 
 IconButton.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  textContent: PropTypes.string,
+  onClick: PropTypes.func
+};
+
+IconButton.defaultProps = {
+  children: null,
+  textContent: '',
+  onClick: () => {}
 };
