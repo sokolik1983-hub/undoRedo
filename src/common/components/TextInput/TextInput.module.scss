@@ -1,0 +1,24 @@
+.input {
+    border-radius: 4px
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputLabel, .inputRequired {
+    font-size: 0.9em;
+}
+
+.fullWidth {
+  width: auto;
+}
+
+.error {
+  border-color: red;
+}
+
+.textError {
+    color: red;
+}
