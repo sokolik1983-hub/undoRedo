@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import styles from './CheckBox.module.scss';
@@ -21,14 +21,15 @@ const CheckBox = ({
   onChange,
   className,
   value,
+  checked,
   ...props
 }) => {
-  const [checked, setChecked] = React.useState(false);
+  const [isChecked, setIsChecked] = useState(checked);
 
   const classes = clsx(styles.checkBox, className);
 
   const handleChange = event => {
-    setChecked(event.target.checked);
+    setIsChecked(checked);
     onChange(event);
   };
 
@@ -40,7 +41,7 @@ const CheckBox = ({
           value={value}
           name={name}
           type="checkbox"
-          checked={checked}
+          checked={isChecked}
           onChange={handleChange}
           disabled={disabled}
           {...props}
@@ -65,7 +66,11 @@ CheckBox.propTypes = {
 
 CheckBox.defaultProps = {
   id: '',
+  name: '',
   label: '',
+  className: '',
+  value: '',
+  checked: false,
   disabled: false,
   onChange: () => {}
 };
