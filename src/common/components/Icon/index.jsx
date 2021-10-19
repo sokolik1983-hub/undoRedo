@@ -5,7 +5,7 @@ import styles from './Icon.module.scss';
 
 /**
  * @param size - строка,размер иконки, один из small, medium, large, по умолчанию medium
- * @param onSelectItem - строка, внешний класс для стилизации иконки
+ * @param className - строка, внешний класс для стилизации иконки
  * @param children - иконка, которую отрисует компонент Icon
  */
 
