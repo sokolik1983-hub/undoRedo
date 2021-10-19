@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import Button from '../Button/index';
 import Icon from '../Icon/index';
+import Button from '../Button/index';
+import styles from './IconButton.module.scss';
 
 const IconButton = ({ children, textContent, onClick }) => {
-  const classes = clsx();
-
   return (
-    <Button className={classes} onClick={onClick}>
+    <Button className={styles.iconButton} onClick={onClick}>
       {textContent}
-      <Icon>{children}</Icon>
+      <Icon color="primary">{children}</Icon>
     </Button>
   );
 };
