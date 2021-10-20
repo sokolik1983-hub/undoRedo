@@ -24,7 +24,7 @@ const CheckBox = ({
   checked,
   ...props
 }) => {
-  const [isChecked, setIsChecked] = useState(checked);
+  const [isChecked, setIsChecked] = useState(false);
 
   const classes = clsx(styles.checkBox, className);
 
