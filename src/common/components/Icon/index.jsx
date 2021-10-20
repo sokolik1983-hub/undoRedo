@@ -12,12 +12,8 @@ import styles from './Icon.module.scss';
 const Icon = ({ size, className, children, color, ...props }) => {
   const classes = clsx(
     className,
-    { [styles.small]: size === 'small' },
-    { [styles.medium]: size === 'medium' },
-    { [styles.large]: size === 'large' },
-    { [styles.danger]: color === 'danger' },
-    { [styles.primary]: color === 'primary' },
-    { [styles.sucess]: color === 'sucess' }
+    [styles[size]],
+    [styles[color]]
   );
 
   return (

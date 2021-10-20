@@ -29,12 +29,8 @@ const Button = ({
     styles.btn,
     className,
     { active },
-    { [styles.small]: size === 'small' },
-    { [styles.medium]: size === 'medium' },
-    { [styles.large]: size === 'large' },
-    { [styles.danger]: color === 'danger' },
-    { [styles.primary]: color === 'primary' },
-    { [styles.sucess]: color === 'sucess' }
+    [styles[size]],
+    [styles[color]]
   );
 
   const onClickAction = event => {
