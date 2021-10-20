@@ -28,9 +28,7 @@ const IconButton = ({
     styles.iconButton,
     className,
     { active },
-    { [styles.small]: size === 'small' },
-    { [styles.medium]: size === 'medium' },
-    { [styles.large]: size === 'large' }
+    [styles[size]],
   );
 
   const onClickAction = event => {
