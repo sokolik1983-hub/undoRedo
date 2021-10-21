@@ -3,6 +3,13 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import styles from './Tooltip.module.scss';
 
+/**
+ * @param children - нода, оборачиваемая компонентом Tooltip
+ * @param content - строка, текст подсказки, который отображает компонент Tooltip
+ * @param style - объект, внешние стили для кастомизации компонента
+ * @param position - строка, положение подсказки относительно оборачиваемой ноды: top, left, bottom, right, по дефолту - top
+ */
+
 const Tooltip = ({ children, content, style, position }) => {
   const [visible, setVisible] = useState(false);
 
