@@ -21,9 +21,9 @@ const Icon = ({ size, className, children, color, ...props }) => {
   );
 
   return (
-    <div className={classes} {...props}>
+    <svg className={classes} {...props}>
       {children}
-    </div>
+    </svg>
   );
 };
 

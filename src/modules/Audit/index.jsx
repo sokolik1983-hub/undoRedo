@@ -47,12 +47,7 @@ function Audit() {
 
       <FilterPanel />
 
-      <Button
-        size="large"
-        onClick={handleShowFilters}
-        type="button"
-        active
-      >
+      <Button size="large" onClick={handleShowFilters} type="button" active>
         Показать фильтры
       </Button>
     </div>
