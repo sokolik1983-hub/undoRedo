@@ -7,7 +7,6 @@ import {
   showFilterPanel
 } from '../../../data/reducers/audit';
 import styles from './FilterPanel.module.scss';
-import Modal from '../../../common/components/Modal/index';
 
 function FilterPanel() {
   const dispatch = useDispatch();
@@ -52,8 +51,6 @@ function FilterPanel() {
       >
         Закрыть
       </button>
-
-      <Modal />
 
       <h3>Фильтрация</h3>
       <table>

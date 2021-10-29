@@ -1,8 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Modal.module.scss';
 
+/**
+ * @param visible - булево значение, определяющее, будет ли видно модальное окно
+ * @param title - строка содержащая текст заголовка
+ * @param content - строка содержащая текст контента по середине
+ * @param footer - строка содержащая ноду для обработки событий окна
+ * @param onClose - функция, которая сработает, когда зароется модальное окно
+ */
+
 const Modal = ({ visible, title, content, footer, onClose }) => {
+  const [isModal, setIsModal] = useState(false);
+
+  useEffect(() => setIsModal(visible), [visible]);
+
   const onKeydown = ({ key }) => {
     switch (key) {
       case 'Escape':
@@ -13,26 +25,31 @@ const Modal = ({ visible, title, content, footer, onClose }) => {
     }
   };
 
+  const handleClose = () => {
+    onClose();
+    setIsModal(false);
+  };
+
   useEffect(() => {
     document.addEventListener('keydown', onKeydown);
     return () => document.removeEventListener('keydown', onKeydown);
   });
 
-  if (!visible) return null;
+  if (!isModal) return null;
 
   return (
-    <div className={styles.modal} onClick={onClose}>
+    <div className={styles.modal} onClick={handleClose}>
       <div className={styles.modalDialog} onClick={e => e.stopPropagation()}>
         <div className={styles.modalHeader}>
-          <h3 className="modal-title">{title}</h3>
-          <span className="modal-close" onClick={onClose}>
+          <h3 className={styles.modalTitle}>{title}</h3>
+          <span className={styles.modalClose} onClick={handleClose}>
             &times;
           </span>
         </div>
-        <div className="modal-body">
-          <div className="modal-content">{content}</div>
+        <div className={styles.modalBody}>
+          <div className={styles.modalContent}>{content}</div>
         </div>
-        {footer && <div className="modal-footer">{footer}</div>}
+        {footer && <div className={styles.modalFooter}>{footer}</div>}
       </div>
     </div>
   );
@@ -44,8 +61,15 @@ Modal.propTypes = {
   visible: PropTypes.bool,
   title: PropTypes.string,
   content: PropTypes.string,
-  footer: PropTypes.string,
+  footer: PropTypes.node,
   onClose: PropTypes.func
 };
 
-Modal.defaultProps = {};
+Modal.defaultProps = {
+  visible: false,
+  title: '',
+  content: '',
+  footer: null,
+  onClose: () => {},
+
+};

@@ -38,27 +38,27 @@
   align-items: center;
   padding: 1rem;
 }
-.modal-header {
+.modalHeader {
   border-bottom: 1px solid #dbdbdb;
   justify-content: space-between;
 }
-.modal-footer {
+.modalFooter {
   border-top: 1px solid #dbdbdb;
   justify-content: flex-end;
 }
-.modal-close {
+.modalClose {
   cursor: pointer;
   padding: 1rem;
   margin: -1rem -1rem -1rem auto;
 }
-.modal-body {
+.modalBody {
   overflow: auto;
 }
-.modal-content {
+.modalContent {
   padding: 1rem;
 }
 
-.modal-title {
+.modalTitle {
   margin: 0;
 }
 
