@@ -87,13 +87,13 @@ const Table = ({
     }
   };
 
-  const getArr = () => {
+ /*  const getArr = () => {
     if (itemsCountPerPage === 'all') return bodyArr;
     return bodyArr.slice(
       activePage * itemsCountPerPage,
       activePage * itemsCountPerPage + itemsCountPerPage
     );
-  };
+  }; */
 
   return (
     <div
@@ -128,7 +128,7 @@ const Table = ({
           </tr>
         </thead>
 
-        {getArr().map(item => (
+        {bodyArr && bodyArr.map(item => (
           <tr key={item.id}>
             {lodash
               .sortBy(headersArr, 'order')
@@ -144,7 +144,7 @@ const Table = ({
         <Pagination
           activePage={activePage}
           itemsCountPerPage={itemsCountPerPage}
-          totalItemsCount={bodyArr.length}
+          totalItemsCount={bodyArr?.length}
           pageRangeDisplayed={5}
           onChange={handlePageChange}
           innerClass={styles.pagination}

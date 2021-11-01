@@ -51,6 +51,7 @@ function FilterPanel() {
       >
         Закрыть
       </button>
+
       <h3>Фильтрация</h3>
       <table>
         <tbody>

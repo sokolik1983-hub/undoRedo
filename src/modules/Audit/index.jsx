@@ -48,17 +48,11 @@ function Audit() {
 
       <FilterPanel />
 
-<<<<<<< HEAD
       <Tooltip position="bottom" content="Показать фильтры для редактирования таблицы">
         <Button size="large" onClick={handleShowFilters} type="button" active>
           Показать фильтры
         </Button>
       </Tooltip>
-=======
-      <Button size="large" onClick={handleShowFilters} type="button" active>
-        Показать фильтры
-      </Button>
->>>>>>> master
     </div>
   );
 }
