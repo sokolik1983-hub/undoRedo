@@ -3,7 +3,7 @@ import Pagination from 'react-js-pagination';
 import PropTypes from 'prop-types';
 import lodash from 'lodash';
 import styles from './Table.module.scss';
-import Select from '../Select/index';
+import Select from '../Select';
 
 /**
  * @param headersArr - массив объектов для отрисовки заголовков колонок таблицы

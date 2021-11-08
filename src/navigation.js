@@ -3,11 +3,25 @@ import SettingsInputComponentIcon from '@material-ui/icons/SettingsInputComponen
 import StorageIcon from '@material-ui/icons/Storage';
 import PeopleIcon from '@material-ui/icons/People';
 import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import LinkIcon from '@material-ui/icons/Link';
 
 const navigationMenu = [
   {
     href: '/Reporting/audit',
+    icon: <LinkIcon />,
+    title: 'коннекторы',
+    id: 'connectors'
+  },
+  {
+    href: '/Reporting/audit',
     icon: <SettingsInputComponentIcon />,
+    title: 'семантика',
+    id: 'symlayers'
+  },
+  {
+    href: '/Reporting/audit',
+    icon: <AssignmentIcon />,
     title: 'аудит',
     id: 'audit'
   },
