@@ -1,8 +1,11 @@
 import clsx from 'clsx';
-import React from 'react';
+import React, { useRef } from 'react';
 import { Rnd } from 'react-rnd';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './Block.module.scss';
+import { setSelectedColumns } from '../../../data/reducers/reportDesigner';
+import DataTable from './DataTable';
 
 function Block({
   id,
@@ -16,32 +19,77 @@ function Block({
   isActiveNode,
   ...blockProps
 }) {
+  const refContent = useRef();
+  const dispatch = useDispatch();
+  const reportsUi = useSelector(state => state.app.reportDesigner.reportsUi.ui);
+
+  // useEffect(() => {
+  //   const { width, height } = refContent?.current?.getBoundingClientRect();
+  //   if (scales.width !== width || scales.height !== height) {
+  //     onChangeScales(id, {
+  //       width,
+  //       height
+  //     });
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   const {
+  //     width,
+  //     height,
+  //     // x,
+  //     // y
+  //   } = refContent?.current?.getBoundingClientRect();
+  //   if (scales.width !== width || scales.height !== height) {
+  //     onChangeScales(id, {
+  //       width,
+  //       height,
+  //       // x,
+  //       // y: position.y < 103 ? position.y : y - 103
+  //     });
+  //   }
+  // }, [refContent, scales]);
+
+  const handleSelectColumn = columnId => event => {
+    event.stopPropagation();
+    if (isActiveNode) {
+      if (reportsUi.selectedColumns) {
+        if (reportsUi.selectedColumns[id]?.includes(columnId)) {
+          dispatch(
+            setSelectedColumns({
+              [id]: [
+                ...reportsUi.selectedColumns[id].filter(
+                  item => item !== columnId
+                )
+              ]
+            })
+          );
+        } else {
+          dispatch(
+            setSelectedColumns({
+              [id]: reportsUi.selectedColumns[id]
+                ? [...reportsUi.selectedColumns[id], columnId]
+                : [columnId]
+            })
+          );
+        }
+      } else {
+        dispatch(setSelectedColumns({ [id]: [columnId] }));
+      }
+    }
+  };
+
   function renderContent() {
     switch (type) {
       case 'table':
         return (
-          <table style={{ ...blockProps.styles }}>
-            <thead>
-              <tr>
-                <th>id</th>
-                <th>name</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>id</td>
-                <td>name</td>
-              </tr>
-              <tr>
-                <td>id</td>
-                <td>name</td>
-              </tr>
-              <tr>
-                <td>id</td>
-                <td>name</td>
-              </tr>
-            </tbody>
-          </table>
+          <DataTable
+            blockStyles={blockProps.styles}
+            structureItem={structureItem}
+            onSelectColumnHead={handleSelectColumn}
+            id={id}
+            refContent={refContent}
+          />
         );
       case 'graph':
         return <div style={{ ...blockProps.styles }}>Graphoc</div>;

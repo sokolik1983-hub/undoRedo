@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import React from 'react';
 import Option from './Option';
 
@@ -11,24 +11,15 @@ import Option from './Option';
 
 const Select = ({ name, options, defaultValue, onSelectItem }) => {
   const handleItemSelect = e => {
-    onSelectItem(e.target.value)
-  }
+    onSelectItem(e.target.value);
+  };
 
   return (
-    <select
-      name={name || 'select'}
-      onChange={handleItemSelect}
-    >
-      { defaultValue && (
-        <option selected>{defaultValue}</option>
-      )}
-      {
-        options.map(item => {
-          return (
-            <Option text={item.text} value={item.value} />
-          )
-        })
-      }
+    <select name={name || 'select'} onChange={handleItemSelect}>
+      {defaultValue && <option selected>{defaultValue}</option>}
+      {options.map(item => (
+        <Option text={item.text} value={item.value} />
+      ))}
     </select>
   );
 };
@@ -40,15 +31,15 @@ Select.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-    }).isRequired,
+      text: PropTypes.string.isRequired
+    }).isRequired
   ),
   defaultValue: PropTypes.string,
-  onSelectItem: PropTypes.func,
-}
+  onSelectItem: PropTypes.func
+};
 
 Select.defaultProps = {
   name: '',
-  options: [{value: '', text: ''}],
-  onSelectItem: () => {},
-}
+  options: [{ value: '', text: '' }],
+  onSelectItem: () => {}
+};

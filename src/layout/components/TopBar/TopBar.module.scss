@@ -1,13 +1,14 @@
 .header {
-  position: absolute;
   width: 100%;
   height: 82px;
   left: 0px;
-  top: 0px;
   align-items: center;
   background: hsl(209, 100%, 19%);
   display: flex;
   color: #fff;
+  position: fixed;
+  top: 0;
+  z-index: 10;
 }
 
 .logo {

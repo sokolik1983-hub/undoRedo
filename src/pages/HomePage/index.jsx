@@ -16,13 +16,30 @@ function HomePage() {
 
   return (
     <div className={styles.root}>
+      <p>Недавние документы</p>
+      <div className={styles.section}>
+        <i className="fas fa-user" />
+        <RouterLink to="/Reporting/report/create">
+          <div className={styles.button}>
+            <NoteAddIcon />
+            <div className={styles['button_text']}>отчет1</div>
+          </div>
+        </RouterLink>
+        <RouterLink to="/Reporting/report/create">
+          <div className={styles.button}>
+            <NoteAddIcon />
+            <div className={styles['button_text']}>отчет2</div>
+          </div>
+        </RouterLink>
+      </div>
+      <hr />
       <p>Избранное</p>
       <div className={styles.section}>
         <i className="fas fa-user" />
         <RouterLink to="/Reporting/report/create">
           <div className={styles.button}>
             <NoteAddIcon />
-            <div className={styles['button_text']}>Новый отчет</div>
+            <div className={styles['button_text']}>создать отчет</div>
           </div>
         </RouterLink>
       </div>

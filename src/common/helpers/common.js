@@ -15,3 +15,10 @@ export const deepFind = ({ array, key = 'id', value }) => {
 
   return target;
 };
+
+export const transformOptions = array => {
+  return array?.map(item => ({
+    value: item,
+    text: item
+  }));
+};

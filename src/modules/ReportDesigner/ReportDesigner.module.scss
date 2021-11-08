@@ -7,7 +7,18 @@
   width: 100%;
   height: 100%;
   outline: 1px solid black;
-  
+  overflow: hidden;
+  position:relative;
+
+  &-portrait {
+    width: 1240px;
+    height: 1754px;
+  }
+
+  &-landscape {
+    width: 1754px;
+    height: 1240px;
+  }
 }
 
 .tabs {
@@ -20,4 +31,10 @@
       background-color: red;
     }
   }
+}
+
+.formulaEditor {
+  width: 100%;
+  height: 35px;
+  background-color: #fff;
 }

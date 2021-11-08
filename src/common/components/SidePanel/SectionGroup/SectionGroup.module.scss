@@ -1,0 +1,23 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.title {
+  font-size: 12px;
+  padding: 5px;
+}
+
+.actions {
+  display: flex;
+
+  &__btn {
+    margin: 5px;
+    cursor: pointer;
+
+    &_active {
+      outline: 1px solid #fff;
+    }
+  }
+}

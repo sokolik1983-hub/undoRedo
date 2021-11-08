@@ -7,8 +7,10 @@ import {
   reportObject,
   setActiveNodes,
   setActiveReport,
+  setConfigPanelVisible,
   setCreatingElement,
   setReports,
+  setSelectedColumns,
   setStructure,
   shapeObject,
   tableObject,
@@ -16,10 +18,12 @@ import {
 } from '../../data/reducers/reportDesigner';
 import Block from './Block';
 import styles from './ReportDesigner.module.scss';
-import { getCurrentReport } from './helpers';
+import { generateId, getCurrentReport } from './helpers';
 import SidePanel from '../../common/components/SidePanel';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { REPORT_DESIGNER_PAGE } from '../../common/constants/pages';
+import { SIDE_PANEL_TYPES } from '../../common/constants/common';
+import FormulaEditor from '../../common/components/FormulaEditor';
 
 const BLOCK_TYPES = {
   table: tableObject,
@@ -37,8 +41,31 @@ function ReportDesigner() {
     reportDesigner.reportsData.present.activeReport
   );
 
+  function handleKeyUp(event) {
+    // event.stopPropagation();
+    if (event.keyCode === 46 || event.keyCode === 8) {
+      if (reportDesigner.reportsData.present.activeNodes.length > 0) {
+        const activeNodeIds = reportDesigner.reportsData.present.activeNodes.map(
+          item => item.id
+        );
+        const filteredStructure = currentReport.structure?.filter(
+          item => !activeNodeIds.includes(item.id)
+        );
+        dispatch(setStructure(filteredStructure));
+        dispatch(setActiveNodes([]));
+      }
+    }
+  }
+
   useEffect(() => {
     dispatch(setCurrentPage(REPORT_DESIGNER_PAGE));
+    document.body.addEventListener('keyup', handleKeyUp);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      document.body.removeEventListener('keyup', handleKeyUp);
+    };
   }, []);
 
   function handleMouseMove(event) {
@@ -56,7 +83,7 @@ function ReportDesigner() {
         {
           ...BLOCK_TYPES[reportDesigner.reportsUi.ui.creatingElement],
           position: mousePosition,
-          id: currentReport.structure.length + 1
+          id: generateId()
         }
       ];
 
@@ -130,6 +157,7 @@ function ReportDesigner() {
         item => item.id !== structureItem.id
       );
       dispatch(setActiveNodes(filteredNodes));
+      dispatch(setConfigPanelVisible(true));
     } else {
       let newActiveNodes = [structureItem];
       if (addItem) {
@@ -139,6 +167,7 @@ function ReportDesigner() {
         ];
       }
       dispatch(setActiveNodes(newActiveNodes));
+      dispatch(setConfigPanelVisible(true));
     }
   };
 
@@ -154,11 +183,17 @@ function ReportDesigner() {
   function handleDisableSelection() {
     if (reportDesigner.reportsData.present.activeNodes.length > 0) {
       dispatch(setActiveNodes([]));
+      dispatch(setSelectedColumns());
     }
   }
 
   return (
     <div className={styles.root}>
+      {reportDesigner.reportsUi.ui.showFormulaEditor && (
+        <div className={styles.formulaEditor}>
+          <FormulaEditor />
+        </div>
+      )}
       <div className={styles.tabs}>
         {reportDesigner.reportsData.present.reports &&
           reportDesigner.reportsData.present.reports.map((report, idx) => (
@@ -186,7 +221,7 @@ function ReportDesigner() {
         </button>
       </div>
       <div
-        className={styles.container}
+        className={clsx(styles.container, styles['container-portrait'])}
         onMouseMove={handleMouseMove}
         onClick={handleAddBlock}
         onDoubleClick={handleDisableSelection}
@@ -207,10 +242,13 @@ function ReportDesigner() {
 
       {reportDesigner.reportsUi.ui.showConfigPanel && (
         <SidePanel
-          marginRight={reportDesigner.reportsUi.ui.showReportPanel ? 220 : 0}
+          navType={SIDE_PANEL_TYPES.BLOCK_MENU}
+          marginRight={reportDesigner.reportsUi.ui.showReportPanel ? 250 : 0}
         />
       )}
-      {reportDesigner.reportsUi.ui.showReportPanel && <SidePanel />}
+      {reportDesigner.reportsUi.ui.showReportPanel && (
+        <SidePanel navType={SIDE_PANEL_TYPES.CONFIG_MENU} />
+      )}
     </div>
   );
 }

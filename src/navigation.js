@@ -8,25 +8,25 @@ const navigationMenu = [
   {
     href: '/Reporting/audit',
     icon: <SettingsInputComponentIcon />,
-    title: 'Аудит',
+    title: 'аудит',
     id: 'audit'
   },
   {
     href: '/Reporting/roles',
     icon: <StorageIcon />,
-    title: 'Роли',
+    title: 'роли',
     id: 'roles'
   },
   {
     href: '/Reporting/users',
     icon: <PeopleIcon />,
-    title: 'Пользователи и полномочия',
+    title: 'пользователи',
     id: 'users'
   },
   {
     href: '/Reporting/trash',
     icon: <DeleteSweepIcon />,
-    title: 'Корзина',
+    title: 'корзина',
     id: 'recycle'
   }
 ];

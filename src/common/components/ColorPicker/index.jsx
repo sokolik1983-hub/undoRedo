@@ -26,7 +26,7 @@ function ColorPicker({ onChangeColor, className, icon }) {
       <label
         className={styles['color-selector']}
         htmlFor="color_picker"
-        style={{ color }}
+        // style={{ color }}
       >
         {icon}
         <input
