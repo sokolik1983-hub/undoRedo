@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Pagination from 'react-js-pagination';
 import PropTypes from 'prop-types';
 import lodash from 'lodash';
 import styles from './Table.module.scss';
+import Select from '../Select/index';
 
 /**
  * @param headersArr - массив объектов для отрисовки заголовков колонок таблицы
@@ -10,6 +12,7 @@ import styles from './Table.module.scss';
  * @param isHeaderSticky - булево значение для прилипающего хэдереа
  * @param setColumnsHandler - функция для передачи значений в стор при перетаскивании колонок
  * @param actions - элемент в конце строк таблицы для реализации событий удаления/редактирования итд.
+ * @param paginationAlign - строка описывающая позиционирование пагинации в таблице: 'flex-left', 'flex-right', 'center'
  */
 
 const Table = ({
@@ -18,8 +21,20 @@ const Table = ({
   size = 'medium',
   isHeaderSticky = true,
   setColumnsHandler,
-  actions
+  actions,
+  paginationAlign = 'flex-start'
 }) => {
+  const [activePage, setActivePage] = useState(1);
+  const [itemsCountPerPage, setItemsCountPerPage] = useState(10);
+
+  const perPageValues = [
+    { text: '10', value: 10 },
+    { text: '20', value: 20 },
+    { text: '30', value: 30 },
+    { text: '50', value: 50 },
+    { text: 'Все', value: 'all' }
+  ];
+
   const getStyles = () => {
     switch (size) {
       case 'small':
@@ -60,8 +75,34 @@ const Table = ({
     setColumnsHandler(newColumns);
   }
 
+  const handlePageChange = pageNumber => {
+    setActivePage(pageNumber);
+  };
+
+  const handleRowsPerPageChange = value => {
+    if (value === 'all') {
+      setItemsCountPerPage(value);
+    } else {
+      setItemsCountPerPage(Number(value));
+    }
+  };
+
+ /*  const getArr = () => {
+    if (itemsCountPerPage === 'all') return bodyArr;
+    return bodyArr.slice(
+      activePage * itemsCountPerPage,
+      activePage * itemsCountPerPage + itemsCountPerPage
+    );
+  }; */
+
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: paginationAlign
+      }}
+    >
       <table className={getStyles()}>
         <thead className={isHeaderSticky ? styles.tableHeaderSticky : null}>
           <tr>
@@ -87,7 +128,7 @@ const Table = ({
           </tr>
         </thead>
 
-        {bodyArr.map(item => (
+        {bodyArr && bodyArr.map(item => (
           <tr key={item.id}>
             {lodash
               .sortBy(headersArr, 'order')
@@ -99,6 +140,25 @@ const Table = ({
           </tr>
         ))}
       </table>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Pagination
+          activePage={activePage}
+          itemsCountPerPage={itemsCountPerPage}
+          totalItemsCount={bodyArr?.length}
+          pageRangeDisplayed={5}
+          onChange={handlePageChange}
+          innerClass={styles.pagination}
+          activeLinkClass={styles.activeLink}
+        />
+
+        <span>Количество строк на странице:</span>
+
+        <Select
+          name="table"
+          options={perPageValues}
+          onSelectItem={handleRowsPerPageChange}
+        />
+      </div>
     </div>
   );
 };
@@ -109,7 +169,8 @@ Table.propTypes = {
   size: PropTypes.string,
   isHeaderSticky: PropTypes.bool,
   setColumnsHandler: PropTypes.func,
-  actions: PropTypes.arrayOf(PropTypes.object)
+  actions: PropTypes.arrayOf(PropTypes.object),
+  paginationAlign: PropTypes.string
 };
 
 export default Table;

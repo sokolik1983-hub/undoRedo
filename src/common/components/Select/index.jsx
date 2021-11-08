@@ -15,11 +15,14 @@ const Select = ({ name, options, defaultValue, onSelectItem }) => {
   };
 
   return (
-    <select name={name || 'select'} onChange={handleItemSelect}>
+    <select
+      name={name || 'select'}
+      onChange={handleItemSelect}
+    >
       {defaultValue && <option selected>{defaultValue}</option>}
-      {options.map(item => (
-        <Option text={item.text} value={item.value} />
-      ))}
+      {options.map(item => {
+        return <Option text={item.text} value={item.value} />;
+      })}
     </select>
   );
 };

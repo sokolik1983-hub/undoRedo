@@ -8,6 +8,8 @@ import FilterPanel from './FilterPanel';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { AUDIT_PAGE } from '../../common/constants/pages';
 import Table from '../../common/components/Table/index';
+import Button from '../../common/components/Button/index';
+import Tooltip from '../../common/components/Tooltip/index';
 
 function Audit() {
   const dispatch = useDispatch();
@@ -41,13 +43,16 @@ function Audit() {
         headersArr={auditTableHeadersArr}
         bodyArr={audit.events}
         setColumnsHandler={handleSetColumns}
+        size="small"
       />
 
       <FilterPanel />
 
-      <button onClick={handleShowFilters} type="button">
-        Показать фильтры
-      </button>
+      <Tooltip position="bottom" content="Показать фильтры для редактирования таблицы">
+        <Button size="large" onClick={handleShowFilters} type="button" active>
+          Показать фильтры
+        </Button>
+      </Tooltip>
     </div>
   );
 }
