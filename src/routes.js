@@ -20,6 +20,8 @@ const routes = [
       { path: 'audit', element: <Audit /> },
       { path: 'users', element: <Users /> },
       { path: 'roles', element: <Roles /> },
+      { path: 'connectors', element: <Roles /> },
+      { path: 'symlayers', element: <Roles /> },
       { path: 'trash', element: <RecycleBin /> },
       { path: 'report/create/:folder_id', element: <ReportDesigner /> },
       { path: 'report/:report_id/show', element: <ReportDesigner /> },

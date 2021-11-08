@@ -8,13 +8,13 @@ import LinkIcon from '@material-ui/icons/Link';
 
 const navigationMenu = [
   {
-    href: '/Reporting/audit',
+    href: '/Reporting/connectors',
     icon: <LinkIcon />,
     title: 'коннекторы',
     id: 'connectors'
   },
   {
-    href: '/Reporting/audit',
+    href: '/Reporting/symlayers',
     icon: <SettingsInputComponentIcon />,
     title: 'семантика',
     id: 'symlayers'
