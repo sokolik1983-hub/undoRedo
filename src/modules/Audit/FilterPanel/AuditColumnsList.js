@@ -2,7 +2,7 @@ import React from 'react';
 import lodash from 'lodash';
 import PropTypes from 'prop-types';
 
-const AuditColumnsList = ({ audit, setColumnsHandler }) => {
+const AuditColumnsList = ({ audit, handleSetColumns }) => {
   const isVisibleColumn = columnId =>
     lodash.find(audit.columns, item => item.id === columnId)?.show;
 
@@ -15,7 +15,7 @@ const AuditColumnsList = ({ audit, setColumnsHandler }) => {
       }
       return item;
     });
-   setColumnsHandler(newColumns)
+    handleSetColumns(newColumns);
   };
 
   return (
@@ -46,9 +46,9 @@ export default AuditColumnsList;
 
 AuditColumnsList.propTypes = {
   audit: PropTypes.object.isRequired,
-  setColumnsHandler: PropTypes.func
+  handleSetColumns: PropTypes.func
 };
 
 AuditColumnsList.defaultProps = {
-    setColumnsHandler: () => {}
+  handleSetColumns: () => {},
 };

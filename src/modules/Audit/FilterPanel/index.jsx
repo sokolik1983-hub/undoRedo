@@ -23,9 +23,13 @@ function FilterPanel() {
     dispatch(showFilterPanel());
   };
 
-  const setColumnsHandler = (newColumns) => {
+  const handleSetColumns = newColumns => {
     dispatch(setColumns(newColumns));
-  }
+  };
+
+  const handleSetFilters = value => {
+    dispatch(setFilters(value));
+  };
 
   if (!audit.ui.showFilterPanel) return null;
 
@@ -40,14 +44,12 @@ function FilterPanel() {
       </button>
 
       <h3>Фильтрация</h3>
-      <AuditColumnsList
-        audit={audit}
-        setColumnsHandler={setColumnsHandler}
-      />
+      <AuditColumnsList audit={audit} handleSetColumns={handleSetColumns} />
       <AuditFilters
         audit={audit}
         dispatch={dispatch}
         setFilters={setFilters}
+        handleSetFilters={handleSetFilters}
         actions={actions}
       />
     </div>

@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import Select from '../../../common/components/Select/index';
 
-const AuditFilters = ({ audit, dispatch, setFilters, actions }) => {
-
-  const handleChangeFilters = (name) => (value) => {
-    dispatch(setFilters({ ...audit.filters, [name]: value }));
+const AuditFilters = ({
+  audit,
+  actions,
+  handleSetFilters
+}) => {
+  const handleChangeFilters = name => value => {
+    handleSetFilters({ ...audit.filters, [name]: value });
   };
 
   const today = new Date().toLocaleDateString();
@@ -33,6 +36,8 @@ const AuditFilters = ({ audit, dispatch, setFilters, actions }) => {
     };
   });
 
+  console.log(actions)
+
   return (
     <>
       <Select
@@ -53,9 +58,11 @@ export default AuditFilters;
 
 AuditFilters.propTypes = {
   audit: PropTypes.object.isRequired,
-  dispatch: PropTypes.func,
-  setFilters: PropTypes.func,
-  actions: PropTypes.array
+  actions: PropTypes.array,
+  handleSetFilters: PropTypes.func,
 };
 
-AuditFilters.defaultProps = {};
+AuditFilters.defaultProps = {
+  actions: [],
+  handleSetFilters: () => {},
+};
