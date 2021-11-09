@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import routes from './routes';
 import { REDIRECT_LINKS } from './common/constants/common';
 import { logout } from './data/reducers/auth';
-import { getDictionaries } from './data/reducers/data'
+import { getDictionaries } from './data/actions/app'
 
 function AuthProvider({ children }) {
   return <>{children}</>;
