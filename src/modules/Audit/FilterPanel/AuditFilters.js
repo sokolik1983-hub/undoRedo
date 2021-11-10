@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Select from '../../../common/components/Select/index';
+import Modal from '../../../common/components/Modal/index';
+import DatePicker from '../../../common/components/DatePicker';
+import Button from '../../../common/components/Button';
 
-const AuditFilters = ({
-  audit,
-  actions,
-  handleSetFilters
-}) => {
+const AuditFilters = ({ audit, actions, handleSetFilters }) => {
+  const [isModal, setIsModal] = useState(false);
+
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
   const handleChangeFilters = name => value => {
-    handleSetFilters({ ...audit.filters, [name]: value });
+    if (value === 'selectDate') {
+      setIsModal(true);
+    } else handleSetFilters({ ...audit.filters, [name]: value });
   };
 
   const today = new Date().toLocaleDateString();
@@ -26,30 +32,71 @@ const AuditFilters = ({
       value: month,
       text: 'Последние 30 дней'
     },
-    { value: 'all', text: 'Все' }
+    {
+      value: 'selectDate',
+      text: 'Выбрать дату'
+    }
   ];
 
-  const actionNames = actions?.map(action => {
+  const actionOptions = actions?.map(action => {
     return {
       text: action.name,
       value: action.name
     };
   });
 
-  console.log(actions)
+  actionOptions.unshift({
+    text: 'Все',
+    value: null
+  });
+
+  const handleCloseModal = () => {
+    setIsModal(false);
+    handleSetFilters({
+      ...audit.filters,
+      'time_start': startDate.split("-").reverse().join("."),
+      'time_finish': endDate.split("-").reverse().join(".")
+    });
+  };
+
+  const content = (
+    <div>
+      <DatePicker onDateSelect={setStartDate} name="startDate" />
+      <DatePicker onDateSelect={setEndDate} name="endDate" />
+    </div>
+  );
+
+  const footer = (
+    <Button onClick={handleCloseModal} type="button">
+      Показать даты
+    </Button>
+  );
 
   return (
     <>
-      <Select
-        name="action_name"
-        options={actionNames}
-        onSelectItem={handleChangeFilters('action_name')}
+      <Modal
+        visible={isModal}
+        onClose={() => setIsModal(false)}
+        title="Выберите дату"
+        content={content}
+        footer={footer}
       />
-      <Select
-        name="time_start"
-        options={timeOptions}
-        onSelectItem={handleChangeFilters('time_start')}
-      />
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <span>Событие</span>
+        <Select
+          name="action_name"
+          options={actionOptions}
+          onSelectItem={handleChangeFilters('action_name')}
+        />
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <span>Дата</span>
+        <Select
+          name="time_start"
+          options={timeOptions}
+          onSelectItem={handleChangeFilters('time_start')}
+        />
+      </div>
     </>
   );
 };
@@ -59,10 +106,10 @@ export default AuditFilters;
 AuditFilters.propTypes = {
   audit: PropTypes.object.isRequired,
   actions: PropTypes.array,
-  handleSetFilters: PropTypes.func,
+  handleSetFilters: PropTypes.func
 };
 
 AuditFilters.defaultProps = {
   actions: [],
-  handleSetFilters: () => {},
+  handleSetFilters: () => {}
 };

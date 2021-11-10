@@ -13,7 +13,6 @@ function FilterPanel() {
   const dispatch = useDispatch();
   const audit = useSelector(state => state.app.audit);
   const wrapperRef = useRef(null);
-
   const actions = useSelector(
     state => state.app.data.dictionaries.audit_action
   );
@@ -47,8 +46,6 @@ function FilterPanel() {
       <AuditColumnsList audit={audit} handleSetColumns={handleSetColumns} />
       <AuditFilters
         audit={audit}
-        dispatch={dispatch}
-        setFilters={setFilters}
         handleSetFilters={handleSetFilters}
         actions={actions}
       />

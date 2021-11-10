@@ -40,8 +40,6 @@ function Audit() {
     dispatch(showFilterPanel());
   }
 
-  console.log(audit)
-
   return (
     <div className={styles.root}>
       <Table
@@ -54,7 +52,7 @@ function Audit() {
       <FilterPanel />
 
       <Tooltip position="bottom" content="Показать фильтры для редактирования таблицы">
-        <Button size="large" onClick={handleShowFilters} type="button" active>
+        <Button size="large" onClick={handleShowFilters} type="button">
           Показать фильтры
         </Button>
       </Tooltip>
