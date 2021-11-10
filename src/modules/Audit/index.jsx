@@ -2,7 +2,10 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
 import { getAuditEvents } from '../../data/actions/audit';
-import { setColumns, showFilterPanel } from '../../data/reducers/audit';
+import {
+  setColumns,
+  showFilterPanel /* setFilters */
+} from '../../data/reducers/audit';
 import styles from './Audit.module.scss';
 import FilterPanel from './FilterPanel';
 import { setCurrentPage } from '../../data/reducers/ui';
@@ -49,7 +52,7 @@ function Audit() {
       <FilterPanel />
 
       <Tooltip position="bottom" content="Показать фильтры для редактирования таблицы">
-        <Button size="large" onClick={handleShowFilters} type="button" active>
+        <Button size="large" onClick={handleShowFilters} type="button">
           Показать фильтры
         </Button>
       </Tooltip>

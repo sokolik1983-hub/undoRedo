@@ -14,10 +14,9 @@ const audit = createSlice({
     ],
     search: {},
     filters: {
-      time_start: moment(Date.now() - 1 * 24 * 3600 * 1000).format(
+      time_start: moment(Date.now() - 15 * 24 * 3600 * 1000).format(
         'DD.MM.YYYY'
       ),
-      time_finish: null
     },
     ui: {
       showFilterPanel: false
