@@ -18,6 +18,15 @@ const AuditFilters = ({ audit, actions, handleSetFilters }) => {
     } else handleSetFilters({ ...audit.filters, [name]: value });
   };
 
+  const handleCloseModal = () => {
+    setIsModal(false);
+    handleSetFilters({
+      ...audit.filters,
+      'time_start': startDate.split("-").reverse().join("."),
+      'time_finish': endDate.split("-").reverse().join(".")
+    });
+  };
+
   const today = new Date().toLocaleDateString();
   const week = moment(Date.now() - 7 * 24 * 3600 * 1000).format('DD.MM.YYYY');
   const month = moment(Date.now() - 30 * 24 * 3600 * 1000).format('DD.MM.YYYY');
@@ -49,15 +58,6 @@ const AuditFilters = ({ audit, actions, handleSetFilters }) => {
     text: 'Все',
     value: null
   });
-
-  const handleCloseModal = () => {
-    setIsModal(false);
-    handleSetFilters({
-      ...audit.filters,
-      'time_start': startDate.split("-").reverse().join("."),
-      'time_finish': endDate.split("-").reverse().join(".")
-    });
-  };
 
   const content = (
     <div>
