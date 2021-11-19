@@ -31,7 +31,7 @@ function FilterPanel() {
         Закрыть
       </Button>
 
-      <h3>Фильтрация</h3>
+      <h3 className={styles.title}>Фильтрация</h3>
       <ColumnsList arr={trash.columns} handleSetColumns={handleSetColumns} />
     </div>
   );

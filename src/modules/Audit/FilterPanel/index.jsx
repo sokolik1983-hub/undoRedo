@@ -6,7 +6,7 @@ import {
   showFilterPanel
 } from '../../../data/reducers/audit';
 import styles from './FilterPanel.module.scss';
-import AuditFilters from './AuditFilters';
+import AuditFilters from './AuditFilters/AuditFilters';
 import ColumnsList from '../../../common/components/ColumnsList';
 import Button from '../../../common/components/Button';
 
@@ -43,7 +43,7 @@ function FilterPanel() {
         Закрыть
       </Button>
 
-      <h3>Фильтрация</h3>
+      <h3 className={styles.title}>Фильтрация</h3>
       <ColumnsList arr={audit.columns} handleSetColumns={handleSetColumns} />
       <AuditFilters
         audit={audit}

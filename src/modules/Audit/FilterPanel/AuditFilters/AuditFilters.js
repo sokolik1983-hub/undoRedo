@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import Select from '../../../common/components/Select/index';
-import Modal from '../../../common/components/Modal/index';
-import DatePicker from '../../../common/components/DatePicker';
-import Button from '../../../common/components/Button';
+import Select from '../../../../common/components/Select/index';
+import Modal from '../../../../common/components/Modal/index';
+import DatePicker from '../../../../common/components/DatePicker/index'
+import Button from '../../../../common/components/Button/index';
+import styles from './AuditFilters.module.scss'
 
 const AuditFilters = ({ audit, actions, handleSetFilters }) => {
   const [isModal, setIsModal] = useState(false);
@@ -82,7 +83,7 @@ const AuditFilters = ({ audit, actions, handleSetFilters }) => {
         footer={footer}
       />
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <span>Событие</span>
+        <span className={styles.title}>Событие</span>
         <Select
           name="action_name"
           options={actionOptions}
@@ -90,7 +91,7 @@ const AuditFilters = ({ audit, actions, handleSetFilters }) => {
         />
       </div>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <span>Дата</span>
+        <span className={styles.title}>Дата</span>
         <Select
           name="time_start"
           options={timeOptions}
