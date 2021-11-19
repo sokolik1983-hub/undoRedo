@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import lodash from 'lodash';
 import styles from './Table.module.scss';
 import Select from '../Select';
+import Button from '../Button'
 
 /**
  * @param headersArr - массив объектов для отрисовки заголовков колонок таблицы
@@ -140,9 +141,9 @@ const Table = ({
               {actions &&
                 actions.map(el => {
                   return (
-                    <button type="button" onClick={el.onClick(item)}>
+                    <Button size="small" type="button" onClick={el.onClick(item)}>
                       {el.text}
-                    </button>
+                    </Button>
                   );
                 })}
             </tr>

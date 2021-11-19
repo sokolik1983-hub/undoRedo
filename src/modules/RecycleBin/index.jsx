@@ -28,7 +28,6 @@ function RecycleBin() {
 
   const handleRestore = item => () => {
     restoreTrashItem({ id: item.id, type_name: item.type_name });
-    console.log(item);
   };
 
   const handleClear = () => {
@@ -49,9 +48,9 @@ function RecycleBin() {
   return (
     <div className={styles.root}>
       <h3>RecycleBin Content</h3>
-      <button onClick={handleClear} type="button">
+      <Button onClick={handleClear} type="button">
         Очистить корзину
-      </button>
+      </Button>
       <Table
         headersArr={trashTableHeadersArr}
         bodyArr={trashItems}
@@ -63,7 +62,7 @@ function RecycleBin() {
         position="bottom"
         content="Показать фильтры для редактирования таблицы"
       >
-        <Button size="large" onClick={handleShowFilters} type="button">
+        <Button onClick={handleShowFilters} type="button">
           Показать фильтры
         </Button>
       </Tooltip>

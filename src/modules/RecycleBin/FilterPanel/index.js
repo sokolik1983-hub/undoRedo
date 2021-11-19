@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ColumnsList from '../../../common/components/ColumnsList';
 import { setColumns, showFilterPanel } from '../../../data/reducers/trash';
+import ColumnsList from '../../../common/components/ColumnsList';
+import Button from '../../../common/components/Button';
 import styles from '../../Audit/FilterPanel/FilterPanel.module.scss';
 
 function FilterPanel() {
@@ -22,13 +23,13 @@ function FilterPanel() {
 
   return (
     <div className={styles.root} ref={wrapperRef}>
-      <button
+      <Button
         onClick={handleHideFilterPanel}
         type="button"
         className={styles.buttonClose}
       >
         Закрыть
-      </button>
+      </Button>
 
       <h3>Фильтрация</h3>
       <ColumnsList arr={trash.columns} handleSetColumns={handleSetColumns} />
