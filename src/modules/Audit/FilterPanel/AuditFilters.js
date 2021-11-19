@@ -22,8 +22,8 @@ const AuditFilters = ({ audit, actions, handleSetFilters }) => {
     setIsModal(false);
     handleSetFilters({
       ...audit.filters,
-      'time_start': startDate.split("-").reverse().join("."),
-      'time_finish': endDate.split("-").reverse().join(".")
+      'time_start': startDate?.split("-").reverse().join("."),
+      'time_finish': endDate?.split("-").reverse().join(".")
     });
   };
 

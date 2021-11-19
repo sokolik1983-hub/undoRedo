@@ -8,6 +8,7 @@ import {
 import styles from './FilterPanel.module.scss';
 import AuditFilters from './AuditFilters';
 import ColumnsList from '../../../common/components/ColumnsList';
+import Button from '../../../common/components/Button';
 
 function FilterPanel() {
   const dispatch = useDispatch();
@@ -34,13 +35,13 @@ function FilterPanel() {
 
   return (
     <div className={styles.root} ref={wrapperRef}>
-      <button
+      <Button
         onClick={handleHideFilterPanel}
         type="button"
         className={styles.buttonClose}
       >
         Закрыть
-      </button>
+      </Button>
 
       <h3>Фильтрация</h3>
       <ColumnsList arr={audit.columns} handleSetColumns={handleSetColumns} />
