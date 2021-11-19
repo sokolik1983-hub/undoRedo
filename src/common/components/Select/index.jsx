@@ -21,7 +21,7 @@ const Select = ({ name, options, defaultValue, onSelectItem }) => {
     >
       {defaultValue && <option selected>{defaultValue}</option>}
       {options.map(item => {
-        return <Option text={item.text} value={item.value} />;
+        return <Option text={item.text} value={item.value} key={item.text} />;
       })}
     </select>
   );

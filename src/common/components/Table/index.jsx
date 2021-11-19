@@ -11,7 +11,7 @@ import Select from '../Select';
  * @param size - строка для установки размеры таблицы из трех: small, medium, large, по умолчанию - medium
  * @param isHeaderSticky - булево значение для прилипающего хэдереа
  * @param setColumnsHandler - функция для передачи значений в стор при перетаскивании колонок
- * @param actions - элемент в конце строк таблицы для реализации событий удаления/редактирования итд.
+ * @param actions - массив элементов в конце строк таблицы для реализации событий удаления/редактирования итд.
  * @param paginationAlign - строка описывающая позиционирование пагинации в таблице: 'flex-left', 'flex-right', 'center'
  */
 
@@ -87,7 +87,7 @@ const Table = ({
     }
   };
 
- /*  const getArr = () => {
+  /*  const getArr = () => {
     if (itemsCountPerPage === 'all') return bodyArr;
     return bodyArr.slice(
       activePage * itemsCountPerPage,
@@ -128,17 +128,25 @@ const Table = ({
           </tr>
         </thead>
 
-        {bodyArr && bodyArr.map(item => (
-          <tr key={item.id}>
-            {lodash
-              .sortBy(headersArr, 'order')
-              .filter(column => column.show)
-              .map(column => (
-                <td key={column.id}>{item[column.id]}</td>
-              ))}
-            {actions?.length > 0 && actions}
-          </tr>
-        ))}
+        {bodyArr &&
+          bodyArr.map(item => (
+            <tr key={item.id}>
+              {lodash
+                .sortBy(headersArr, 'order')
+                .filter(column => column.show)
+                .map(column => (
+                  <td key={column.id}>{item[column.id]}</td>
+                ))}
+              {actions &&
+                actions.map(el => {
+                  return (
+                    <button type="button" onClick={el.onClick(item)}>
+                      {el.text}
+                    </button>
+                  );
+                })}
+            </tr>
+          ))}
       </table>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Pagination

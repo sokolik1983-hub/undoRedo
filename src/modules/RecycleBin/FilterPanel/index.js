@@ -1,21 +1,13 @@
 import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setColumns,
-  setFilters,
-  showFilterPanel
-} from '../../../data/reducers/audit';
-import styles from './FilterPanel.module.scss';
-import AuditFilters from './AuditFilters';
 import ColumnsList from '../../../common/components/ColumnsList';
+import { setColumns, showFilterPanel } from '../../../data/reducers/trash';
+import styles from '../../Audit/FilterPanel/FilterPanel.module.scss';
 
 function FilterPanel() {
   const dispatch = useDispatch();
-  const audit = useSelector(state => state.app.audit);
+  const trash = useSelector(state => state.app.trash);
   const wrapperRef = useRef(null);
-  const actions = useSelector(
-    state => state.app.data.dictionaries.audit_action
-  );
 
   const handleHideFilterPanel = event => {
     event.stopPropagation();
@@ -26,11 +18,7 @@ function FilterPanel() {
     dispatch(setColumns(newColumns));
   };
 
-  const handleSetFilters = value => {
-    dispatch(setFilters(value));
-  };
-
-  if (!audit.ui.showFilterPanel) return null;
+  if (!trash.ui.showFilterPanel) return null;
 
   return (
     <div className={styles.root} ref={wrapperRef}>
@@ -43,12 +31,7 @@ function FilterPanel() {
       </button>
 
       <h3>Фильтрация</h3>
-      <ColumnsList arr={audit.columns} handleSetColumns={handleSetColumns} />
-      <AuditFilters
-        audit={audit}
-        handleSetFilters={handleSetFilters}
-        actions={actions}
-      />
+      <ColumnsList arr={trash.columns} handleSetColumns={handleSetColumns} />
     </div>
   );
 }
