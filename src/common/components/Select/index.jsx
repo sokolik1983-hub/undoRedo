@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Option from './Option';
+import Option from './option';
 
 /**
  * @param name - имя Select для HTML
