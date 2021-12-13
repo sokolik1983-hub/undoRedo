@@ -3,13 +3,32 @@ import { createSlice } from '@reduxjs/toolkit';
 const trash = createSlice({
   name: 'trash',
   initialState: {
-    items: [],
-    searchString: ''
+    columns: [
+      { id: 'drop_dt', name: 'Дата', show: true, order: 1 },
+      { id: 'type_name', name: 'Тип', show: true, order: 2 },
+      { id: 'name', name: 'Имя', show: true, order: 3 }
+    ],
+    items: [
+      { drop_dt: Date.now(), type_name: 'string', name: 'name', id: 1 },
+      { drop_dt: Date.now(), type_name: 'string', name: 'name', id: 2 },
+      { drop_dt: Date.now(), type_name: 'string', name: 'name', id: 3 },
+      { drop_dt: Date.now(), type_name: 'string', name: 'name', id: 4 }
+    ],
+    searchString: '',
+    ui: {
+      showFilterPanel: false
+    }
   },
 
   reducers: {
+    showFilterPanel: state => {
+      state.ui.showFilterPanel = !state.ui.showFilterPanel;
+    },
     setItems: (state, action) => {
       state.items = action.payload;
+    },
+    setColumns: (state, action) => {
+      state.columns = action.payload;
     },
     setSearchString: (state, action) => {
       state.searchString = action.payload;
@@ -17,7 +36,12 @@ const trash = createSlice({
   }
 });
 
-export const { setSearchString, setItems } = trash.actions;
+export const {
+  setSearchString,
+  setItems,
+  setColumns,
+  showFilterPanel
+} = trash.actions;
 
 export default trash.reducer;
 

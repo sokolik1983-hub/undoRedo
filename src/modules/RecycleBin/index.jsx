@@ -1,19 +1,30 @@
 import React, { useEffect } from 'react';
+import lodash from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   clearTrash,
   getTrashEvents,
   restoreTrashItem
 } from '../../data/actions/trash';
+import { setColumns, showFilterPanel } from '../../data/reducers/trash';
+import Table from '../../common/components/Table/index';
+import Button from '../../common/components/Button/index';
+import Tooltip from '../../common/components/Tooltip/index';
 import styles from './RecycleBin.module.scss';
+import FilterPanel from './FilterPanel';
 
 function RecycleBin() {
   const dispatch = useDispatch();
-  const trashItems = useSelector(state => state.app.trash.items);
+  const trash = useSelector(state => state.app.trash);
+  const trashItems = trash.items;
 
   useEffect(() => {
     dispatch(getTrashEvents());
   }, []);
+
+  const trashTableHeadersArr = lodash
+    .sortBy(trash.columns, 'order')
+    .filter(item => item.show);
 
   const handleRestore = item => () => {
     restoreTrashItem({ id: item.id, type_name: item.type_name });
@@ -23,41 +34,40 @@ function RecycleBin() {
     clearTrash({});
   };
 
-  function renderContent() {
-    return trashItems.length > 0 ? (
-      <table width="100vw">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          {trashItems.map(item => (
-            <tr key={item.id}>
-              <td>{item.drop_dt}</td>
-              <td>{item.type_name}</td>
-              <td>{item.name}</td>
-              <td>
-                <button onClick={handleRestore(item)} type="button">
-                  Restore
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    ) : null;
-  }
+  const handleSetColumns = value => {
+    dispatch(setColumns(value));
+  };
+
+  const handleShowFilters = event => {
+    event.stopPropagation();
+    dispatch(showFilterPanel());
+  };
+
+  const actions = [{ onClick: handleRestore, text: 'Восстановить' }];
 
   return (
     <div className={styles.root}>
       <h3>RecycleBin Content</h3>
-      <button onClick={handleClear} type="button">
-        RecycleBin Clear
-      </button>
-      {renderContent()}
+      <Button onClick={handleClear} type="button">
+        Очистить корзину
+      </Button>
+      <Table
+        headersArr={trashTableHeadersArr}
+        bodyArr={trashItems}
+        size="small"
+        setColumnsHandler={handleSetColumns}
+        actions={actions}
+      />
+      <Tooltip
+        position="bottom"
+        content="Показать фильтры для редактирования таблицы"
+      >
+        <Button onClick={handleShowFilters} type="button">
+          Показать фильтры
+        </Button>
+      </Tooltip>
+
+      <FilterPanel />
     </div>
   );
 }

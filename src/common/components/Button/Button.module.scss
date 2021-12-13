@@ -1,5 +1,6 @@
 .btn {
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .btn:active {
@@ -9,21 +10,30 @@
 }
 
 .small {
-  width: 64px;
-  height: 32px;
+  min-width: 64px;
+  height: 22px;
   font-size: 0.7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .medium {
-  width: 88px;
+  min-width: 88px;
   height: 36px;
   font-size: 0.9rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .large {
-  width: 92px;
+  min-width: 92px;
   height: 42px;
   font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .danger {

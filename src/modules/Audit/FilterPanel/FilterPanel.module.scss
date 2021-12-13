@@ -5,11 +5,15 @@
   right: 0px;
   top: 90px;
   width: 264px;
-  background-color: aquamarine;
+  background: hsl(209, 100%, 19%);
   /* height: 100vh; */
 
   .buttonClose {
     width: 100px;
     height: 40px;
   }
+}
+
+.title {
+  color: #FFFF
 }
