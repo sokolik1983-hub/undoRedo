@@ -1,8 +1,8 @@
 import axios from 'axios';
 import lodash from 'lodash';
-import { SERVER_API_URL } from '../common/constants/config';
-import { showNotification } from './reducers/notifications';
 import { setLoadingData } from './reducers/ui';
+import { showNotification } from './reducers/notifications';
+import { SERVER_API_URL } from '../common/constants/config';
 
 export const request = async ({ type = 'request', params, func, dispatch }) => {
   try {
@@ -47,11 +47,11 @@ export const requestAuth = async ({ params, dispatch }) => {
   try {
     const response = await axios({
       method: 'get',
+      withCredentials: true,
       url: `${SERVER_API_URL}authUser?login=${params.login}&password=${params.password}`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      withCredentials: true
+      }
     });
 
     if (response && response.status === 200) {

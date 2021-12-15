@@ -1,7 +1,7 @@
+import { combineReducers } from 'redux';
 /* eslint-disable no-lonely-if */
 import { createSlice } from '@reduxjs/toolkit';
 import lodash from 'lodash';
-import { combineReducers } from 'redux';
 import undoable from 'redux-undo';
 
 export const columnObject = {
