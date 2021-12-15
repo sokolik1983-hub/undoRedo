@@ -7,9 +7,10 @@
       display: flex;
 
     .leftPanel {
-      width: 20%;
+      width: 30%;
       outline: 1px solid grey;
       min-width: 100px;
+      min-height: 50vh;
     }
 
     .rightPanel {

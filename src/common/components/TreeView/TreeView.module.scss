@@ -1,10 +1,15 @@
 .container {
   list-style: none;
   padding: 0;
+  padding-left: 10px;
 }
 
 .node {
-  padding: 5px 10px;
+  //padding: 5px 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border: none;
 }
 
 .node-icon {
@@ -22,6 +27,10 @@
   align-items: center;
   font-size: 14px;
   line-height: 14px;
+}
+
+.head span {
+  margin: 4px 0;
 }
 
 .toggler {
