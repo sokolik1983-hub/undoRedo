@@ -18,8 +18,12 @@ function RecycleBin() {
   const trash = useSelector(state => state.app.trash);
   const trashItems = trash.items;
 
+  const trashItemsWithUniqueId = trashItems.map(item => {
+    return { ...item, uniqueId: item.id + item.type_name };
+  });
+
   useEffect(() => {
-    dispatch(getTrashEvents());
+    dispatch(getTrashEvents({ filters: { ...trash.filters } }));
   }, []);
 
   const trashTableHeadersArr = lodash
@@ -27,11 +31,12 @@ function RecycleBin() {
     .filter(item => item.show);
 
   const handleRestore = item => () => {
-    restoreTrashItem({ id: item.id, type_name: item.type_name });
+    dispatch(restoreTrashItem({ id: item.id, type_name: item.type_name }));
+    console.log({ id: item.id, type_name: item.type_name });
   };
 
   const handleClear = () => {
-    clearTrash({});
+    dispatch(clearTrash());
   };
 
   const handleSetColumns = value => {
@@ -43,17 +48,17 @@ function RecycleBin() {
     dispatch(showFilterPanel());
   };
 
-  const actions = [{ onClick: handleRestore, text: 'Восстановить' }];
+  const actions = [{ onClick: handleRestore, text: 'Восстановить', id: 1 }];
 
   return (
     <div className={styles.root}>
-      <h3>RecycleBin Content</h3>
+      <h3>Корзина</h3>
       <Button onClick={handleClear} type="button">
         Очистить корзину
       </Button>
       <Table
         headersArr={trashTableHeadersArr}
-        bodyArr={trashItems}
+        bodyArr={trashItemsWithUniqueId}
         size="small"
         setColumnsHandler={handleSetColumns}
         actions={actions}

@@ -13,7 +13,6 @@ export const getTrashEvents = queryParams => {
       });
       if (response?.success) {
         // eslint-disable-next-line no-debugger
-        debugger
         dispatch(setItems(response.result));
       }
     } catch (err) {

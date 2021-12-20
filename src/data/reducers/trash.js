@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import moment from 'moment';
 
 const trash = createSlice({
   name: 'trash',
@@ -8,15 +9,13 @@ const trash = createSlice({
       { id: 'type_name', name: 'Тип', show: true, order: 2 },
       { id: 'name', name: 'Имя', show: true, order: 3 }
     ],
-    items: [
-      { drop_dt: Date.now(), type_name: 'string', name: 'name', id: 1 },
-      { drop_dt: Date.now(), type_name: 'string', name: 'name', id: 2 },
-      { drop_dt: Date.now(), type_name: 'string', name: 'name', id: 3 },
-      { drop_dt: Date.now(), type_name: 'string', name: 'name', id: 4 }
-    ],
+    items: [],
     searchString: '',
     ui: {
       showFilterPanel: false
+    },
+    filters: {
+      time_start: moment(Date.now()).format('DD.MM.YYYY')
     }
   },
 
