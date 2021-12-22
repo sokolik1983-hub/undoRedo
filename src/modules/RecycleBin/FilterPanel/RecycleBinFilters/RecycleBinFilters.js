@@ -1,9 +1,9 @@
 import React from 'react';
 /* import PropTypes from 'prop-types'; */
 import Select from '../../../../common/components/Select/index';
-import styles from './BinFilters.module.scss';
+import styles from './RecycleBinFilters.scss'
 
-const BinFilters = () => {
+const RecycleBinFilters = () => {
   const typeOptions = [
     { text: 'report', value: 'report' },
     { text: 'folder', value: 'folder' },
@@ -19,8 +19,8 @@ const BinFilters = () => {
   );
 };
 
-export default BinFilters;
+export default RecycleBinFilters;
 
-BinFilters.propTypes = {};
+RecycleBinFilters.propTypes = {};
 
-BinFilters.defaultProps = {};
+RecycleBinFilters.defaultProps = {};
