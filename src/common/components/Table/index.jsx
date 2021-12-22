@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import lodash from 'lodash';
 import styles from './Table.module.scss';
 import Select from '../Select';
-import Button from '../Button'
+import Button from '../Button';
 
 /**
  * @param headersArr - массив объектов для отрисовки заголовков колонок таблицы
@@ -29,10 +29,10 @@ const Table = ({
   const [itemsCountPerPage, setItemsCountPerPage] = useState(10);
 
   const perPageValues = [
-    { text: '10', value: 10 },
-    { text: '20', value: 20 },
-    { text: '30', value: 30 },
-    { text: '50', value: 50 },
+    { text: '10', value: '10' },
+    { text: '20', value: '20' },
+    { text: '30', value: '30' },
+    { text: '50', value: '50' },
     { text: 'Все', value: 'all' }
   ];
 
@@ -129,25 +129,33 @@ const Table = ({
           </tr>
         </thead>
 
-        {bodyArr &&
-          bodyArr.map(item => (
-            <tr key={item.id}>
-              {lodash
-                .sortBy(headersArr, 'order')
-                .filter(column => column.show)
-                .map(column => (
-                  <td key={column.id}>{item[column.id]}</td>
-                ))}
-              {actions &&
-                actions.map(el => {
-                  return (
-                    <Button size="small" type="button" onClick={el.onClick(item)}>
-                      {el.text}
-                    </Button>
-                  );
-                })}
-            </tr>
-          ))}
+        <tbody>
+          {bodyArr &&
+            bodyArr.map(item => (
+              <tr key={item.uniqueId || item.id}>
+                {lodash
+                  .sortBy(headersArr, 'order')
+                  .filter(column => column.show)
+                  .map(column => (
+                    <td key={column.id}>{item[column.id]}</td>
+                  ))}
+                {actions &&
+                  actions.map(el => {
+                    return (
+                      <td style={{padding: 0, border: 0}} key={el.id}>
+                        <Button
+                          size="small"
+                          type="button"
+                          onClick={el.onClick(item)}
+                        >
+                          {el.text}
+                        </Button>
+                      </td>
+                    );
+                  })}
+              </tr>
+            ))}
+        </tbody>
       </table>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Pagination
