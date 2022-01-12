@@ -12,12 +12,17 @@ function Connectors() {
     dispatch(getConnectors());
   }, []);
 
-  console.log(connectors);
+  const onSelect = () => {};
+  const onRefresh = () => {};
 
   return (
     <div className={styles.root}>
       Connectors Content
-      <TreeView data={connectors.children}/>
+      <TreeView
+        data={connectors.children}
+        onSelect={onSelect}
+        onRefresh={onRefresh}
+      />
     </div>
   );
 }
