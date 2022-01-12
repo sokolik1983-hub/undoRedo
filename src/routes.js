@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import Layout from './layout';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
+import Connectors from './modules/Connectors';
 import Audit from './modules/Audit';
 import Users from './modules/Users';
 import Roles from './modules/Roles';
@@ -20,7 +21,7 @@ const routes = [
       { path: 'audit', element: <Audit /> },
       { path: 'users', element: <Users /> },
       { path: 'roles', element: <Roles /> },
-      { path: 'connectors', element: <Roles /> },
+      { path: 'connectors', element: <Connectors /> },
       { path: 'symlayers', element: <Roles /> },
       { path: 'trash', element: <RecycleBin /> },
       { path: 'report/create/:folder_id', element: <ReportDesigner /> },
