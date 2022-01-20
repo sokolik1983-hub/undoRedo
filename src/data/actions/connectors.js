@@ -36,3 +36,20 @@ export const saveConnector = queryParams => {
     }
   };
 };
+
+export const removeConnector = queryParams => {
+  return async dispatch => {
+    try {
+      await request({
+        func: 'CONNECT.DROP',
+        params: queryParams,
+        dispatch
+      });
+    } catch (err) {
+      dispatch(
+        showNotification({ message: err.message, messageType: 'error' })
+      );
+    }
+  };
+};
+

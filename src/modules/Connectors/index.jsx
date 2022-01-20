@@ -42,17 +42,17 @@ function Connectors() {
   // Делаем из полученных из словаря типов, источников, типов соединения подходящие массивы options для компонента Select
   const typeOptions = types?.map(item => ({
     text: item.name,
-    value: item.id + ''
+    value: String(item.id)
   }));
 
   const sourceOptions = sources?.map(item => ({
     text: item.name,
-    value: item.source_type_id + ''
+    value: String(item.source_type_id)
   }));
 
   const connectionOptions = connections?.map(item => ({
     text: item.name,
-    value: item.source_id + ''
+    value: String(item.source_id)
   }));
 
   // Хэнделры для открытия/закрытия модалки
@@ -144,7 +144,6 @@ function Connectors() {
           ></TextInput>
         </>
       )}
-      {}
     </form>
   );
 
