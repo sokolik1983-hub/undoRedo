@@ -1,19 +1,17 @@
-/* eslint-disable import/prefer-default-export */
 import { request } from '../helpers';
+import { setConnectors } from '../reducers/data';
 import { showNotification } from '../reducers/notifications';
-import { setItems } from '../reducers/trash';
 
-export const getTrashEvents = queryParams => {
+export const getConnectors = queryParams => {
   return async dispatch => {
     try {
       const response = await request({
-        func: 'RECYCLE_BIN.LIST',
+        func: 'CONNECT.LIST.READ',
         params: queryParams,
         dispatch
       });
       if (response?.success) {
-        // eslint-disable-next-line no-debugger
-        dispatch(setItems(response.result));
+        dispatch(setConnectors(response.result));
       }
     } catch (err) {
       dispatch(
@@ -23,17 +21,14 @@ export const getTrashEvents = queryParams => {
   };
 };
 
-export const restoreTrashItem = queryParams => {
+export const saveConnector = queryParams => {
   return async dispatch => {
     try {
-      const response = await request({
-        func: 'RECYCLE_BIN.RESTORE',
+      await request({
+        func: 'CONNECT.SAVE',
         params: queryParams,
         dispatch
       });
-      if (response?.success) {
-        dispatch(getTrashEvents());
-      }
     } catch (err) {
       dispatch(
         showNotification({ message: err.message, messageType: 'error' })
@@ -42,17 +37,14 @@ export const restoreTrashItem = queryParams => {
   };
 };
 
-export const clearTrash = queryParams => {
+export const removeConnector = queryParams => {
   return async dispatch => {
     try {
-      const response = await request({
-        func: 'RECYCLE_BIN.CLEAR',
+      await request({
+        func: 'CONNECT.DROP',
         params: queryParams,
         dispatch
       });
-      if (response?.success) {
-        dispatch(getTrashEvents());
-      }
     } catch (err) {
       dispatch(
         showNotification({ message: err.message, messageType: 'error' })
@@ -60,3 +52,4 @@ export const clearTrash = queryParams => {
     }
   };
 };
+

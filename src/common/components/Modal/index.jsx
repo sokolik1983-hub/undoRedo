@@ -5,7 +5,7 @@ import styles from './Modal.module.scss';
 /**
  * @param visible - булево значение, определяющее, будет ли видно модальное окно
  * @param title - строка содержащая текст заголовка
- * @param content - строка содержащая текст контента по середине
+ * @param content - нода, содержащая в себе контент по середину
  * @param footer - строка содержащая ноду для обработки событий окна
  * @param onClose - функция, которая сработает, когда зароется модальное окно
  */
@@ -60,7 +60,7 @@ export default Modal;
 Modal.propTypes = {
   visible: PropTypes.bool,
   title: PropTypes.string,
-  content: PropTypes.string,
+  content: PropTypes.node,
   footer: PropTypes.node,
   onClose: PropTypes.func
 };
@@ -68,7 +68,7 @@ Modal.propTypes = {
 Modal.defaultProps = {
   visible: false,
   title: '',
-  content: '',
+  content: null,
   footer: null,
   onClose: () => {},
 

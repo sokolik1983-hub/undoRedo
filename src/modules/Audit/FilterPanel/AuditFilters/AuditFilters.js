@@ -57,7 +57,7 @@ const AuditFilters = ({ audit, actions, handleSetFilters }) => {
 
   actionOptions.unshift({
     text: 'Все',
-    value: null
+    value: 'all'
   });
 
   const content = (

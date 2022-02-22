@@ -4,6 +4,7 @@ import { setColumns, showFilterPanel } from '../../../data/reducers/trash';
 import ColumnsList from '../../../common/components/ColumnsList';
 import Button from '../../../common/components/Button';
 import styles from '../../Audit/FilterPanel/FilterPanel.module.scss';
+import RecycleBinFilters from './RecycleBinFilters/RecycleBinFilters';
 
 function FilterPanel() {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ function FilterPanel() {
 
       <h3 className={styles.title}>Фильтрация</h3>
       <ColumnsList arr={trash.columns} handleSetColumns={handleSetColumns} />
+      <RecycleBinFilters />
     </div>
   );
 }
