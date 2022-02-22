@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import clsx from 'clsx';
 import { showNav } from '../../../data/reducers/ui';
 import navigationMenu from '../../../navigation';
 import styles from './Navigation.module.scss';
@@ -8,8 +9,6 @@ import styles from './Navigation.module.scss';
 function Navigation() {
   const isNavShowing = useSelector(state => state.app.ui?.isNavShowing);
   const dispatch = useDispatch();
-
-  if (!isNavShowing) return null;
 
   function handleHideMenu() {
     dispatch(showNav(false));
@@ -21,7 +20,7 @@ function Navigation() {
 
   return (
     <>
-      <div className={styles.root}>
+      <div className={clsx(styles.root, { [styles.opened]: isNavShowing })}>
         {navigationMenu &&
           navigationMenu.map(menuItem => (
             <RouterLink
@@ -37,7 +36,9 @@ function Navigation() {
             </RouterLink>
           ))}
       </div>
-      <div className={styles.overlay} onClick={handleHideMenu} />
+      {isNavShowing && (
+        <div className={styles.overlay} onClick={handleHideMenu} />
+      )}
     </>
   );
 }

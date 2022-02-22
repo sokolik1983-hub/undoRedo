@@ -68,7 +68,7 @@ export default function SidePanel({ marginRight, navType }) {
   );
 
   const currentNode = lodash.find(
-    currentReport.structure,
+    currentReport?.structure,
     item => item.id === activeNode?.id
   );
 
@@ -234,6 +234,7 @@ export default function SidePanel({ marginRight, navType }) {
     const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
     event.dataTransfer.clearData();
     refreshFieldsStore(selectedEl);
+
     dispatch(
       addTableColumn({
         column: { ...columnObject, object: { ...selectedEl.object } },

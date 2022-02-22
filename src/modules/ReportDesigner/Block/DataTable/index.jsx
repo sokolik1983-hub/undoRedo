@@ -47,7 +47,7 @@ function DataTable({
 
     dispatch(
       addTableColumn({
-        column: { ...columnObject, object: { ...selectedEl } },
+        column: { ...columnObject, object: { ...selectedEl.object } },
         id
       })
     );

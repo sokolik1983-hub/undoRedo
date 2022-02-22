@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import lodash from 'lodash';
@@ -138,14 +139,23 @@ function ReportDesigner() {
   };
   const handleDeleteReport = reportId => event => {
     event.stopPropagation();
-    if (reportDesigner.reports?.length > 1) {
-      const newReports = reportDesigner.reports.filter(
+    debugger;
+    const reportIdx = lodash.findIndex(
+      reportDesigner.reportsData.present.reports,
+      item => item.id === reportId
+    );
+    if (reportDesigner.reportsData.present.reports?.length > 1) {
+      const newReports = reportDesigner.reportsData.present.reports.filter(
         report => report.id !== reportId
       );
-      if (reportDesigner.activeReport === reportId) {
-        dispatch(setActiveReport(reportDesigner.reports[0]?.id));
+      if (reportDesigner.reportsData.present.activeReport === reportId) {
+        dispatch(
+          setActiveReport(
+            reportDesigner.reportsData.present.reports[reportIdx - 1]?.id
+          )
+        );
       }
-      dispatch(setReports(newReports));
+      dispatch(setReports({ reports: newReports }));
     }
   };
 

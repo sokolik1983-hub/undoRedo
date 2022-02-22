@@ -31,7 +31,7 @@ export const reportObject = {
       { id: '00002', name: 'OGRN' },
       { id: '00003', name: 'COUNT' },
       { id: '00004', name: 'YEAR' },
-      { id: '00005', name: 'SUMMA' },
+      { id: '00005', name: 'SUMMA' }
     ],
     filters: [],
     prompts: [],
@@ -47,7 +47,7 @@ export const reportObject = {
       ['5', '55', '6', '2021', '66'],
       ['7', '68', '7', '2022', '77'],
       ['8', '66', '8', '2022', '88'],
-      ['10', '65', '9', '2022', '99'],
+      ['10', '65', '9', '2022', '99']
       // ['1', '11'],
       // ['1', '32'],
       // ['1', '33'],
@@ -155,7 +155,7 @@ export const reportObject = {
       { id: '00002', name: 'OGRN' },
       { id: '00003', name: 'COUNT' },
       { id: '00004', name: 'YEAR' },
-      { id: '00005', name: 'SUMMA' },
+      { id: '00005', name: 'SUMMA' }
     ],
     query: ''
   },
@@ -258,7 +258,6 @@ const reportDesigner = createSlice({
     },
     setReports: (state, action) => {
       state.reports = action.payload.reports;
-      state.activeReport = action.payload.activeReport;
     },
     setStructure: (state, action) => {
       const report = lodash.find(
