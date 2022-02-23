@@ -1,6 +1,6 @@
 import { requestAuth } from '../helpers';
 import { login, logout } from '../reducers/auth';
-import { showNotification } from '../reducers/notifications';
+import { notificationShown } from '../reducers/notifications';
 
 export const loginUser = queryParams => {
   return async dispatch => {
@@ -20,7 +20,7 @@ export const loginUser = queryParams => {
       }
     } catch (err) {
       dispatch(
-        showNotification({ message: err.message, messageType: 'error' })
+        notificationShown({ message: err.message, messageType: 'error' })
       );
     }
   };

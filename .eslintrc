@@ -32,6 +32,7 @@
     "react/require-default-props": "off",
     "operator-linebreak": "off",
     "arrow-parens": 0,
-    "dot-notation": "off"
+    "dot-notation": "off",
+    "react/react-in-jsx-scope": "off"
   }
 }

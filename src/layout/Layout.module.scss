@@ -1,3 +1,23 @@
+.root {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(192.95deg, #bceeeb -58.31%, #cbe6fa 90.65%);
+}
+.background_image {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  filter: blur(25px);
+  z-index: -1;
+  background-image: url('./assets/home_bg.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .content {
-    margin-top: 82px;
+  padding: 64px;
 }

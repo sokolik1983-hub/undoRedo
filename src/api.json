@@ -1,0 +1,158 @@
+{
+    "auth": {
+        "/login": {
+            "request": {
+                "method": "POST",
+                "body": {
+                    "password": "password",
+                    "username": "username"
+                }
+            },
+            "response": {
+                "200": {
+                    "password_expired": false,
+                    "authenticated": true,
+                    "message": "Logged in as UserName"
+                },
+                "401": {
+                    "message": "Wrong credentials"
+                }
+            }
+        }
+    },
+    "users": {
+        "/me": {
+            "request": {
+                "method": "GET"
+            },
+            "response": {
+                "200": {
+                    "id": 1,
+                    "username": "username",
+                    "full_name": "User Name",
+                    "user_roles": [
+                        {
+                            "id": 1,
+                            "name": "admin",
+                            "permissions": [
+                                "connectors_full",
+                                "universe_view",
+                                "report_full"
+                            ]
+                        }
+                    ],
+                    "is_blocked": false,
+                    "last_login_time": "2022-02-23T01:24:44"
+                },
+                "422": {
+                    "message": "User not found"
+                }
+            }
+        }
+    },
+    "connections": {
+        "/list": {
+            "request": {
+                "method": "GET",
+                "params": {
+                    "get_next": true // if response has "is_next"
+                }
+            },
+            "response": {
+                "200": {
+                    "data": [
+                        {
+                            "id": 39,
+                            "name": "Test Connection",
+                            "can_delete": false,
+                            "connection_type_name": "CONNECT_STRING",
+                            "db_name": null,
+                            "db_port": null,
+                            "db_server": null,
+                            "source_id": 2,
+                            "symlayer_count": 1
+                        }
+                    ],
+                    "total_count": 100,
+                    "is_next": true // if data has more than default count
+                }
+            }
+        },
+        "/edit/:id": {
+            "request": {
+                "method": "PATCH",
+                "params": {
+                    "id": 1,
+                    "name": "Test Connection New",
+                    "connection_type_name": "CONNECT_STRING",
+                    "connection_string": "CONNECT_STRING",
+                    "db_name": null,
+                    "db_port": null,
+                    "db_server": null,
+                    "source_id": 2
+                }
+            },
+            "response": {
+                "200": {
+                    "message": "Record created"
+                },
+                "422": {
+                    "message": "Record not created",
+                    "errors": [
+                        "input_data_invalid"
+                    ]
+                }
+            }
+        },
+        "/show": {
+            "request": {
+                "method": "GET",
+                "params": {
+                    "id": 1 // if response has "is_next"
+                }
+            },
+            "response": {
+                "200": {
+                    "data": [
+                        {
+                            "id": 39,
+                            "name": "Test Connection",
+                            "can_delete": false,
+                            "connection_type_name": "CONNECT_STRING",
+                            "db_name": null,
+                            "db_port": null,
+                            "db_server": null,
+                            "source_id": 2,
+                            "symlayer_count": 1
+                        }
+                    ]
+                }
+            }
+        },
+        "/create": {
+            "request": {
+                "method": "POST",
+                "params": {
+                    "name": "Test Connection",
+                    "connection_type_name": "CONNECT_STRING",
+                    "connection_string": "CONNECT_STRING",
+                    "db_name": null,
+                    "db_port": null,
+                    "db_server": null,
+                    "source_id": 2
+                }
+            },
+            "response": {
+                "200": {
+                    "message": "Record created"
+                },
+                "422": {
+                    "message": "Record not created",
+                    "errors": [
+                        "input_data_invalid"
+                    ]
+                }
+            }
+        }
+    }
+}

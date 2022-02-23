@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { request } from '../helpers';
 import { setEvents } from '../reducers/audit';
-import { showNotification } from '../reducers/notifications';
+import { notificationShown } from '../reducers/notifications';
 
 export const getAuditEvents = queryParams => {
   return async dispatch => {
@@ -16,7 +16,7 @@ export const getAuditEvents = queryParams => {
       }
     } catch (err) {
       dispatch(
-        showNotification({ message: err.message, messageType: 'error' })
+        notificationShown({ message: err.message, messageType: 'error' })
       );
     }
   };

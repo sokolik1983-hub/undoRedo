@@ -8,6 +8,7 @@ import Button from '../../common/components/Button';
 import Modal from '../../common/components/Modal';
 import TextInput from '../../common/components/TextInput';
 import Select from '../../common/components/Select';
+import ConnectorsList from './ConnectorsList/ConnectorsList';
 
 function Connectors() {
   const dispatch = useDispatch();
@@ -159,6 +160,7 @@ function Connectors() {
   return (
     <div className={styles.root}>
       Connectors Content
+      <ConnectorsList />
       <Button onClick={createConnectorModalHandler}>Создать коннектор</Button>
       <Modal
         visible={isVisible}

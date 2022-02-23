@@ -1,8 +1,9 @@
 import axios from 'axios';
 import lodash from 'lodash';
 import { setLoadingData } from './reducers/ui';
-import { showNotification } from './reducers/notifications';
 import { SERVER_API_URL } from '../common/constants/config';
+// eslint-disable-next-line import/no-cycle
+import { notificationShown } from './reducers/notifications';
 
 export const request = async ({ type = 'request', params, func, dispatch }) => {
   try {
@@ -36,7 +37,7 @@ export const request = async ({ type = 'request', params, func, dispatch }) => {
 
     throw Error(response.errorText);
   } catch (err) {
-    dispatch(showNotification({ message: err.message, messageType: 'error' }));
+    dispatch(notificationShown({ message: err.message, messageType: 'error' }));
     dispatch(setLoadingData(false));
   }
 
@@ -60,8 +61,19 @@ export const requestAuth = async ({ params, dispatch }) => {
 
     throw Error(response.errorText);
   } catch (err) {
-    dispatch(showNotification({ message: err.message, messageType: 'error' }));
+    dispatch(notificationShown({ message: err.message, messageType: 'error' }));
   }
 
   return null;
 };
+
+export const prefixLS = str => `tby:md:${str}`;
+
+export const getSimpleID = () => {
+  const ms = new Date().getTime();
+  const rnd = Math.random() * 1000;
+
+  return parseInt(`${ms + rnd}`, 2);
+};
+
+export const delay = ms => new Promise(resolve => setTimeout(resolve, ms));

@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { request } from '../helpers';
 import { setDictionaries } from '../reducers/data';
-import { showNotification } from '../reducers/notifications';
+import { notificationShown } from '../reducers/notifications';
 
 export const getDictionaries = queryParams => {
   return async dispatch => {
@@ -16,7 +16,7 @@ export const getDictionaries = queryParams => {
       }
     } catch (err) {
       dispatch(
-        showNotification({ message: err.message, messageType: 'error' })
+        notificationShown({ message: err.message, messageType: 'error' })
       );
     }
   };

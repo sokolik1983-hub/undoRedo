@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { request } from '../helpers';
-import { showNotification } from '../reducers/notifications';
+import { notificationShown } from '../reducers/notifications';
 import { setItems } from '../reducers/trash';
 
 export const getTrashEvents = queryParams => {
@@ -17,7 +17,7 @@ export const getTrashEvents = queryParams => {
       }
     } catch (err) {
       dispatch(
-        showNotification({ message: err.message, messageType: 'error' })
+        notificationShown({ message: err.message, messageType: 'error' })
       );
     }
   };
@@ -36,7 +36,7 @@ export const restoreTrashItem = queryParams => {
       }
     } catch (err) {
       dispatch(
-        showNotification({ message: err.message, messageType: 'error' })
+        notificationShown({ message: err.message, messageType: 'error' })
       );
     }
   };
@@ -55,7 +55,7 @@ export const clearTrash = queryParams => {
       }
     } catch (err) {
       dispatch(
-        showNotification({ message: err.message, messageType: 'error' })
+        notificationShown({ message: err.message, messageType: 'error' })
       );
     }
   };

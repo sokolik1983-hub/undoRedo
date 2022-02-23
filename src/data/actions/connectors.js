@@ -1,6 +1,6 @@
 import { request } from '../helpers';
 import { setConnectors } from '../reducers/data';
-import { showNotification } from '../reducers/notifications';
+import { notificationShown } from '../reducers/notifications';
 
 export const getConnectors = queryParams => {
   return async dispatch => {
@@ -15,7 +15,7 @@ export const getConnectors = queryParams => {
       }
     } catch (err) {
       dispatch(
-        showNotification({ message: err.message, messageType: 'error' })
+        notificationShown({ message: err.message, messageType: 'error' })
       );
     }
   };
@@ -31,7 +31,7 @@ export const saveConnector = queryParams => {
       });
     } catch (err) {
       dispatch(
-        showNotification({ message: err.message, messageType: 'error' })
+        notificationShown({ message: err.message, messageType: 'error' })
       );
     }
   };
@@ -47,7 +47,7 @@ export const removeConnector = queryParams => {
       });
     } catch (err) {
       dispatch(
-        showNotification({ message: err.message, messageType: 'error' })
+        notificationShown({ message: err.message, messageType: 'error' })
       );
     }
   };

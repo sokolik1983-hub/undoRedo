@@ -1,19 +1,28 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+// eslint-disable-next-line import/no-cycle
+import { getSimpleID } from '../helpers';
 
 const notifications = createSlice({
-  name: "notifications",
+  name: 'notifications',
   initialState: {
-    message: null,
-    messageType: null,
+    items: []
   },
   reducers: {
-    showNotification: (state, action) => {
-      state.message = action.payload.message;
-      state.messageType = action.payload.messageType;
+    notificationShown: (state, action) => {
+      state.items.push({
+        id: getSimpleID(),
+        autoHide: true,
+        ...action.payload
+      });
     },
-  },
+    notificationClosed: (state, action) => {
+      state.items = state.items.filter(
+        notification => notification.id !== action.payload.id
+      );
+    }
+  }
 });
 
-export const { showNotification } = notifications.actions;
+export const { notificationShown, notificationClosed } = notifications.actions;
 
 export default notifications.reducer;
