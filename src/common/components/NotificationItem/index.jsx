@@ -4,7 +4,7 @@ import WarnIcon from '../../../layout/assets/warnIcon.svg';
 import styles from './NotificationItem.module.scss';
 
 const NotificationItem = ({
-  notification: { id, autoHide, variant, title, message, buttonText },
+  notification: { id, autoHide, variant, title, message, buttonText, reason, advice },
   onClose
 }) => {
 
@@ -16,7 +16,25 @@ const NotificationItem = ({
         <img src={WarnIcon} className={styles.topIcon} alt="React Logo" />
         <span>{title || 'Внимание, ошибка'}</span>
       </div>
-      {message && <span className={styles.message}>{message}</span>}
+      {message && (
+        <div className={styles.message}>
+          {(reason || advice) &&
+            <span className={styles.messageHeader}>Что произошло</span>}
+          <span>{message}</span>
+        </div>
+      )}
+      {reason && (
+        <div className={styles.reason}>
+          <span className={styles.reasonHeader}>Почему это произошло</span>
+          <span>{reason}</span>
+        </div>
+      )}
+      {advice && (
+        <div className={styles.advice}>
+          <span className={styles.adviceHeader}>Что мне делать</span>
+          <span>{advice}</span>
+        </div>
+      )}
       {!autoHide && (
         <div
           className={styles.button}

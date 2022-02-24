@@ -2,9 +2,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 14px 20px 72px 20px;
+  padding: 14px 0 72px 0;
   width: 426px;
-  min-height: 152px;
   margin: 10px;
   background: linear-gradient(152.97deg, rgba(226, 27, 0, 0.75) 0%, rgba(255, 148, 22, 0.75) 100%);
   box-shadow: 0 7px 17px rgba(34, 82, 102, 0.75);
@@ -21,15 +20,19 @@
   font-size: 24px;
   line-height: 28px;
   color: #FFFFFF;
-  margin-bottom: 43px;
+  margin-bottom: 20px;
+  padding: 0 20px;
 }
 
-.message {
+.message, .reason, .advice {
+  display: flex;
+  flex-direction: column;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
   line-height: 19px;
   color: #FFFFFF;
+  padding: 10px 20px ;
 }
 
 .button {
@@ -52,6 +55,22 @@
   cursor: pointer;
 }
 
-.topIcon {
+.reason {
+  background: rgba(0, 0, 0, 0.2);
+}
 
+.advice {
+  background: rgba(0, 52, 153, 0.5);
+}
+
+.topIcon {
+  margin-right: 10px;
+}
+
+.messageHeader, .adviceHeader, .reasonHeader {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  margin-bottom: 5px;
 }

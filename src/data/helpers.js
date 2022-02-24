@@ -37,7 +37,11 @@ export const request = async ({ type = 'request', params, func, dispatch }) => {
 
     throw Error(response.errorText);
   } catch (err) {
-    dispatch(notificationShown({ message: err.message, messageType: 'error' }));
+    dispatch(notificationShown({
+      message: err.message,
+      messageType: 'error',
+      reason: 'Возможно не прошли авторизацию',
+      advice: 'Нажать кнопку выход и авторизоваться' }));
     dispatch(setLoadingData(false));
   }
 
