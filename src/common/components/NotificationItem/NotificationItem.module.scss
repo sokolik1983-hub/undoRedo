@@ -4,7 +4,7 @@
   flex-direction: column;
   padding: 14px 20px 72px 20px;
   width: 426px;
-  min-height: 204px;
+  min-height: 152px;
   margin: 10px;
   background: linear-gradient(152.97deg, rgba(226, 27, 0, 0.75) 0%, rgba(255, 148, 22, 0.75) 100%);
   box-shadow: 0 7px 17px rgba(34, 82, 102, 0.75);
@@ -13,6 +13,9 @@
 }
 
 .title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   font-style: normal;
   font-weight: bold;
   font-size: 24px;
@@ -47,4 +50,8 @@
   line-height: 15px;
   color: #FFFFFF;
   cursor: pointer;
+}
+
+.topIcon {
+
 }

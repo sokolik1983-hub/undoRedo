@@ -34,8 +34,6 @@ const NotificationsList = () => {
     dispatch(notificationClosed({ id }));
   };
 
-  console.log(notifications, 'notifications');
-
   return (
     <Portal container={document.body}>
       <div className={styles.root}>

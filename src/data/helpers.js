@@ -70,10 +70,7 @@ export const requestAuth = async ({ params, dispatch }) => {
 export const prefixLS = str => `tby:md:${str}`;
 
 export const getSimpleID = () => {
-  const ms = new Date().getTime();
-  const rnd = Math.random() * 1000;
-
-  return parseInt(`${ms + rnd}`, 2);
+  return Math.random().toString(16).slice(2);
 };
 
 export const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
