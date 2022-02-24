@@ -2,14 +2,14 @@ import cn from 'clsx';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 
-import CloseIcon from '@material-ui/icons/Close';
+// import CloseIcon from '@material-ui/icons/Close';
 import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
 import ErrorOutlineRoundedIcon from '@material-ui/icons/ErrorOutlineRounded';
 import CheckCircleOutlineRoundedIcon from '@material-ui/icons/CheckCircleOutlineRounded';
 import InfoRoundedIcon from '@material-ui/icons/InfoRounded';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import styles from './NotificationItem.module.scss';
-import IconButton from '../IconButton';
+// import IconButton from '../IconButton';
 
 const ICONS = {
   error: <ErrorOutlineRoundedIcon />,
@@ -22,7 +22,7 @@ const ICONS = {
 const AUTO_HIDE_DURATION = 5000;
 
 const NotificationItem = ({
-  notification: { id, autoHide, variant, icon, title, message },
+  notification: { id, autoHide, variant, icon, title, message, buttonText },
   onClose
 }) => {
   const [closeTimer, setCloseTimer] = useState(null);
@@ -46,17 +46,15 @@ const NotificationItem = ({
   return (
     <div className={cn(styles.root, styles[variant])}>
       {icon && ICONS[icon]}
-      {title && <p className={styles.title}>{title}</p>}
-      {message}
+      <span className={styles.title}>{title || 'Внимание, ошибка'}</span>
+      {message && <span className={styles.message}>{message}</span>}
       {!autoHide && (
-        <IconButton
-          aria-label="close"
-          color="inherit"
-          size="small"
+        <div
+          className={styles.button}
           onClick={handleAlertClose}
         >
-          <CloseIcon fontSize="inherit" />
-        </IconButton>
+          {buttonText || 'OK'}
+        </div>
       )}
     </div>
   );
