@@ -7,23 +7,15 @@ import {
   Button,
   Container,
   TextField,
-  makeStyles
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../data/actions/auth';
 import { REDIRECT_LINKS } from '../../common/constants/common';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    height: '100%',
-    paddingBottom: theme.spacing(3),
-    paddingTop: 82
-  }
-}));
+import styles from './LoginPage.module.scss';
+import logo from './logo.svg';
+import avatar from './avatar.svg';
 
 const LoginPage = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const auth = useSelector(state => state.app.auth);
@@ -37,14 +29,13 @@ const LoginPage = () => {
   }, [auth]);
 
   return (
-    <div className={classes.root} title="Login">
+    <div title="Login">
       <Box
-        display="flex"
-        flexDirection="column"
-        height="100%"
-        justifyContent="center"
+        className={styles.box}
       >
-        <Container maxWidth="sm">
+        <img className={styles.logo} src={logo} alt="logo" />
+        <img className={styles.avatar} src={avatar} alt="avatar" />
+        <Container maxWidth="sm" className={styles.formContainer}>
           <Formik
             initialValues={{
               login: 'test1',
@@ -69,12 +60,12 @@ const LoginPage = () => {
               touched,
               values
             }) => (
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} className={styles.form}>
                 <TextField
                   error={Boolean(touched.login && errors.login)}
                   fullWidth
                   helperText={touched.login && errors.login}
-                  label="Логин"
+                  label="Имя пользователя"
                   margin="normal"
                   name="login"
                   onBlur={handleBlur}
@@ -82,6 +73,8 @@ const LoginPage = () => {
                   type="text"
                   value={values.login}
                   variant="outlined"
+                  InputLabelProps={{ shrink: false }}
+                  className={styles.textField}
                 />
                 <TextField
                   error={Boolean(touched.password && errors.password)}
@@ -95,13 +88,13 @@ const LoginPage = () => {
                   type="password"
                   value={values.password}
                   variant="outlined"
+                  InputLabelProps={{ shrink: false }}
+                  className={styles.textField}
                 />
-                <Box my={2}>
+                <Box m={0}>
                   <Button
-                    color="primary"
+                    className={styles.btn}
                     disabled={isSubmitting}
-                    fullWidth
-                    size="large"
                     type="submit"
                     variant="contained"
                   >

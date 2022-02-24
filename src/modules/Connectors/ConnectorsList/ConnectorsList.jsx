@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import React, { useSelector } from 'react-redux';
 import styles from './ConnectorsList.module.scss';
 import ConnectorsListNavigation from './ConnectorsListNavigation';
 
