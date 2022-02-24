@@ -72,5 +72,27 @@
   font-weight: bold;
   font-size: 16px;
   line-height: 19px;
-  margin-bottom: 5px;
+}
+
+.reasonHeader, .adviceHeader {
+  cursor: pointer;
+}
+
+.messageText, .reasonText, .adviseText {
+  margin-top: 5px;
+}
+
+.reasonArrowDown {
+  transform: rotate(180deg);
+}
+
+.adviseArrowDown {
+  transform: rotate(180deg);
+}
+
+.reasonHeaderBox, .adviseHeaderBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  cursor: pointer;
 }

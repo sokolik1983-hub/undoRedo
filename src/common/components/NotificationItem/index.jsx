@@ -1,13 +1,16 @@
 import cn from 'clsx';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import WarnIcon from '../../../layout/assets/warnIcon.svg';
+import CollapseIcon from '../../../layout/assets/collapseArrow.svg';
 import styles from './NotificationItem.module.scss';
 
 const NotificationItem = ({
   notification: { id, autoHide, variant, title, message, buttonText, reason, advice },
   onClose
 }) => {
-
+  const [reasonHidden, setReasonHidden] = useState(false);
+  const [adviseHidden, setAdviseHidden] = useState(false);
   const handleAlertClose = () => onClose(id);
 
   return (
@@ -18,21 +21,42 @@ const NotificationItem = ({
       </div>
       {message && (
         <div className={styles.message}>
-          {(reason || advice) &&
-            <span className={styles.messageHeader}>Что произошло</span>}
-          <span>{message}</span>
+          {(reason || advice) && (
+            <span className={styles.messageHeader}>
+              Что произошло
+            </span>
+          )}
+          <span className={styles.messageText}>{message}</span>
         </div>
       )}
       {reason && (
         <div className={styles.reason}>
-          <span className={styles.reasonHeader}>Почему это произошло</span>
-          <span>{reason}</span>
+          <div
+            className={styles.reasonHeaderBox}
+            onClick={() => {setReasonHidden(!reasonHidden)}}
+          >
+            <span className={styles.reasonHeader}>
+              Почему это произошло
+            </span>
+            <img src={CollapseIcon} className={reasonHidden && styles.reasonArrowDown} alt="Arrow" />
+          </div>
+
+          {!reasonHidden && <span className={styles.reasonText}>{reason}</span>}
         </div>
       )}
       {advice && (
         <div className={styles.advice}>
-          <span className={styles.adviceHeader}>Что мне делать</span>
-          <span>{advice}</span>
+          <div
+            className={styles.adviseHeaderBox}
+            onClick={() => {setAdviseHidden(!adviseHidden)}}
+          >
+            <span className={styles.adviceHeader}>
+              Что мне делать
+            </span>
+            <img src={CollapseIcon} className={adviseHidden && styles.adviseArrowDown} alt="Arrow" />
+          </div>
+
+          {!adviseHidden && <span className={styles.adviseText}>{advice}</span>}
         </div>
       )}
       {!autoHide && (
