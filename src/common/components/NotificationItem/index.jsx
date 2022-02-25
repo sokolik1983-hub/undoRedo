@@ -5,7 +5,8 @@ import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
 import ErrorOutlineRoundedIcon from '@material-ui/icons/ErrorOutlineRounded';
 import CheckCircleOutlineRoundedIcon from '@material-ui/icons/CheckCircleOutlineRounded';
 import InfoRoundedIcon from '@material-ui/icons/InfoRounded';
-import MailOutlineIcon from '@material-ui/icons/MailOutline';import WarnIcon from '../../../layout/assets/warnIcon.svg';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import WarnIcon from '../../../layout/assets/warnIcon.svg';
 import CollapseIcon from '../../../layout/assets/collapseArrow.svg';
 import styles from './NotificationItem.module.scss';
 
