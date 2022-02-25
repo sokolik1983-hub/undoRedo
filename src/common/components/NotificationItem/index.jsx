@@ -1,6 +1,6 @@
 import cn from 'clsx';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import CloseIcon from '@material-ui/icons/Close';
 import WarningRoundedIcon from '@material-ui/icons/WarningRounded';

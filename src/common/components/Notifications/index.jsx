@@ -20,7 +20,6 @@
 
 // export default Notifications;
 
-import React from 'react';
 import Portal from '@material-ui/core/Portal';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';

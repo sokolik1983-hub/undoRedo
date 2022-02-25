@@ -1,4 +1,3 @@
-import React from 'react';
 import IconButton from '../../../common/components/IconButton';
 import TextInput from '../../../common/components/TextInput';
 import styles from './ConnectorsList.module.scss';
