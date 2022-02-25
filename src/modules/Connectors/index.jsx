@@ -82,7 +82,7 @@ function Connectors() {
       <TextInput
         label="Название коннектора"
         value={connectName}
-        onChange={setConnectName}
+        onChange={e => setConnectName(e.target.value)}
         id="connectorName"
       />
       <Select
@@ -109,37 +109,37 @@ function Connectors() {
         <>
           <TextInput
             value={login}
-            onChange={setLogin}
+            onChange={e => setLogin(e.target.value)}
             id="login"
             label="Логин"
           ></TextInput>
           <TextInput
             value={pass}
-            onChange={setPass}
+            onChange={e => setPass(e.target.value)}
             id="password"
             label="Пароль"
           ></TextInput>
           <TextInput
             value={connectionStr}
-            onChange={setConnectionStr}
+            onChange={e => setConnectionStr(e.target.value)}
             id="connectionStr"
             label="Строка соединения"
           ></TextInput>
           <TextInput
             value={port}
-            onChange={setPort}
+            onChange={e => setPort(e.target.value)}
             id="port"
             label="Порт"
           ></TextInput>
           <TextInput
             value={nameIP}
-            onChange={setNameIP}
+            onChange={e => setNameIP(e.target.value)}
             id="nameAPI"
             label="Имя или IP сервера"
           ></TextInput>
           <TextInput
             value={baseSIDService}
-            onchange={setBaseSIDService}
+            onChange={e => setBaseSIDService(e.target.value)}
             id="baseSIDService"
             label="Название Базы, SID, Имя сервиса"
           ></TextInput>
