@@ -1,22 +1,75 @@
 import cn from 'clsx';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import WarnIcon from '../../../layout/assets/warnIcon.svg';
+import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
+import ErrorOutlineRoundedIcon from '@material-ui/icons/ErrorOutlineRounded';
+import CheckCircleOutlineRoundedIcon from '@material-ui/icons/CheckCircleOutlineRounded';
+import InfoRoundedIcon from '@material-ui/icons/InfoRounded';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';import WarnIcon from '../../../layout/assets/warnIcon.svg';
 import CollapseIcon from '../../../layout/assets/collapseArrow.svg';
 import styles from './NotificationItem.module.scss';
 
+const ICONS = {
+  error: <ErrorOutlineRoundedIcon />,
+  success: <CheckCircleOutlineRoundedIcon />,
+  warning: <WarningRoundedIcon />,
+  info: <InfoRoundedIcon />,
+  email: <MailOutlineIcon />
+};
+
+const AUTO_HIDE_DURATION = 5000;
+
+/**
+ * @param autoHide - автозакрытие модального окна, если не задано, то false
+ * @param variant - варинт уведомления TODO пока не реализовано
+ * @param icon - иконка заголовка (из константы ICONS), если не задан, то Warning
+ * @param title - заголовок модального окна
+ * @param message - сообщение в уведомление
+ * @param buttonText - текст кнопки закрытия, если не задан, то ОК
+ * @param reason - причина уведомления
+ * @param advise - совет по исправлению
+ */
+
 const NotificationItem = ({
-  notification: { id, autoHide, variant, title, message, buttonText, reason, advice },
+  notification: {
+    id,
+    autoHide,
+    variant,
+    icon,
+    title,
+    message,
+    buttonText,
+    reason,
+    advice,
+  },
   onClose
 }) => {
-  const [reasonHidden, setReasonHidden] = useState(false);
-  const [adviseHidden, setAdviseHidden] = useState(false);
+  const [reasonHidden, setReasonHidden] = useState(true);
+  const [adviseHidden, setAdviseHidden] = useState(true);
+  const [closeTimer, setCloseTimer] = useState(null);
+
+  useEffect(() => {
+    if (autoHide) {
+      setCloseTimer(
+        setTimeout(() => {
+          onClose(id);
+        }, AUTO_HIDE_DURATION)
+      );
+    }
+
+    return () => {
+      clearTimeout(closeTimer);
+    };
+  }, []);
+
   const handleAlertClose = () => onClose(id);
 
   return (
     <div className={cn(styles.root, styles[variant])}>
       <div className={styles.title}>
-        <img src={WarnIcon} className={styles.topIcon} alt="React Logo" />
+        {icon
+          ? ICONS[icon]
+          : <img src={WarnIcon} className={styles.topIcon} alt="WarningIcon" />}
         <span>{title || 'Внимание, ошибка'}</span>
       </div>
       {message && (
