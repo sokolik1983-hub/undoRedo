@@ -1,45 +1,45 @@
 import React from 'react';
-import SettingsInputComponentIcon from '@material-ui/icons/SettingsInputComponent';
-import StorageIcon from '@material-ui/icons/Storage';
-import PeopleIcon from '@material-ui/icons/People';
-import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import LinkIcon from '@material-ui/icons/Link';
+import ConnectorsIcon from './layout/assets/ConnectorsIcon'
+import LayersIcon from './layout/assets/LayersIcon'
+import AuditIcon from './layout/assets/AuditIcon'
+import RolesIcon from './layout/assets/RolesIcon'
+import UsersIcon from './layout/assets/UsersIcon'
+import BinIcon from './layout/assets/BinIcon'
 
 const navigationMenu = [
   {
     href: '/Reporting/connectors',
-    icon: <LinkIcon />,
+    icon: <ConnectorsIcon />,
     title: 'коннекторы',
     id: 'connectors'
   },
   {
     href: '/Reporting/symlayers',
-    icon: <SettingsInputComponentIcon />,
+    icon: <LayersIcon />,
     title: 'семантика',
     id: 'symlayers'
   },
   {
     href: '/Reporting/audit',
-    icon: <AssignmentIcon />,
+    icon: <AuditIcon />,
     title: 'аудит',
     id: 'audit'
   },
   {
     href: '/Reporting/roles',
-    icon: <StorageIcon />,
+    icon: <RolesIcon />,
     title: 'роли',
     id: 'roles'
   },
   {
     href: '/Reporting/users',
-    icon: <PeopleIcon />,
+    icon: <UsersIcon />,
     title: 'пользователи',
     id: 'users'
   },
   {
     href: '/Reporting/trash',
-    icon: <DeleteSweepIcon />,
+    icon: <BinIcon />,
     title: 'корзина',
     id: 'recycle'
   }
