@@ -1,0 +1,43 @@
+.itemsWrapper {
+  position: absolute;
+
+  background: linear-gradient(152.97deg, rgba(21, 21, 21, 0.208) 0%, rgba(21, 21, 21, 0) 100%);
+  /* blur-bg-eff */
+
+  filter: drop-shadow(0px 4px 4px rgba(34, 82, 102, 0.25));
+  backdrop-filter: blur(7px);
+  /* Note: backdrop-filter has minimal browser support */
+
+  border-radius: 7.5px;
+  box-shadow: 0 4px 4px rgba(34, 82, 102, 0.25);
+}
+
+.wrapper {
+  position: relative;
+}
+
+.mainButton {
+  cursor: pointer;
+}
+
+.dropDownItem {
+  display: flex;
+  flex-direction: row;
+  padding: 0 22px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 15px;
+}
+
+.dropDownItem:first-child {
+  border-radius: 7.5px 7.5px 0 0;
+}
+
+.dropDownItem:last-child {
+  border-radius: 0 0 7.5px 7.5px;
+}
+
+.dropDownItem:hover {
+  background-color: #FFFFFF;
+}

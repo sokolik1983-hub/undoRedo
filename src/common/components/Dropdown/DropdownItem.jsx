@@ -4,14 +4,10 @@ import styles from './Dropdown.module.scss';
 
 const DropdownItem = ({ className, onClick, title, icon, children, text }) => {
 
-  const handleClick = (e) => {
-    onClick(e);
-  };
-
   return (
     <div
       className={cn(styles.dropDownItem, className)}
-      onClick={handleClick}
+      onClick={(e) => onClick(e)}
       title={title}
     >
       { icon && (
