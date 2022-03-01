@@ -25,7 +25,7 @@ const LoginPage = () => {
   }, [auth]);
 
   return (
-    <div title="Login">
+    <div>
       <div className={styles.box}>
         <img className={styles.logo} src={logo} alt="logo" />
         <img className={styles.avatar} src={avatar} alt="avatar" />
@@ -59,7 +59,7 @@ const LoginPage = () => {
                 wrapperClassName={styles.inputWrapper}
                 id="login"
                 type="text"
-                label="Имя пользователя" 
+                label="Имя пользователя"
                 value={values.login}
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -70,7 +70,7 @@ const LoginPage = () => {
                 wrapperClassName={styles.inputWrapper}
                 id="password"
                 type="password"
-                label="Пароль" 
+                label="Пароль"
                 value={values.password}
                 onBlur={handleBlur}
                 onChange={handleChange}
