@@ -66,3 +66,37 @@ export const SIDE_PANEL_TYPES = {
   CONFIG_MENU: 'CONFIG_MENU',
   BLOCK_MENU: 'BLOCK_MENU'
 };
+
+
+export const DEFAULT_USER_ACTIONS = [
+  {
+    action: 'user',
+    title: 'Профиль',
+    text: 'Профиль',
+  },
+  {
+    action: 'print',
+    title: 'Печать',
+    text: 'Печать',
+  },
+  {
+    action: 'metadata',
+    title: 'Обмен метаданными',
+    text: 'Обмен метаданными',
+  },
+  {
+    action: 'settings',
+    title: 'Настройки',
+    text: 'Настройки',
+  },
+  {
+    action: 'exit',
+    title: 'Смена пользователя',
+    text: 'Смена пользователя',
+  },
+  {
+    action: 'logout',
+    title: 'Выход',
+    text: 'Выход',
+  }
+];

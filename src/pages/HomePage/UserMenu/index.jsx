@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import Dropdown from '../../../common/components/Dropdown';
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import { logoutUser } from '../../../data/actions/auth';
-import { REDIRECT_LINKS } from '../../../common/constants/common';
+import { REDIRECT_LINKS, DEFAULT_USER_ACTIONS } from '../../../common/constants/common';
 import AvatarIcon from '../../../layout/assets/miniAvatar.svg';
 import styles from './UserMenu.module.scss';
 
@@ -12,15 +12,6 @@ const UserMenu = () => {
   const dispatch = useDispatch();
   const userInfo = window.localStorage.getItem('userInfo');
 
-  const handleClick = () => {
-    console.log('menu clicked');
-  };
-
-  const handleLogoutClick = () => {
-    dispatch(logoutUser());
-    navigate(REDIRECT_LINKS.LOGIN_PAGE, { replace: false });
-    return false;
-  };
 
   const mainButton = () => {
     return (
@@ -36,14 +27,31 @@ const UserMenu = () => {
     )
   };
 
+  const handleLogoutClick = () => {
+    dispatch(logoutUser());
+    navigate(REDIRECT_LINKS.LOGIN_PAGE, { replace: false });
+    return false;
+  };
+
+  const handleItemClick = (action) => {
+    switch (action) {
+      case 'logout':
+        handleLogoutClick();
+        break;
+      default:
+        console.log(action);
+    }
+  };
+
+  const makingItems = () => {
+   return DEFAULT_USER_ACTIONS.map(item => {
+     return <DropdownItem onClick={() => handleItemClick(item.action)} className={styles.menuItem} title={item.title} text={item.text} />
+   })
+  };
+
   return (
     <Dropdown mainButton={mainButton()} itemsWrapper={styles.itemsWrapper}>
-      <DropdownItem onClick={handleClick} className={styles.menuItem} title='Профиль' text='Профиль' />
-      <DropdownItem onClick={handleClick} className={styles.menuItem} title='Печать' text='Печать' />
-      <DropdownItem onClick={handleClick} className={styles.menuItem} title='Обмен метаданными' text='Обмен метаданными' />
-      <DropdownItem onClick={handleClick} className={styles.menuItem} title='Настройки' text='Настройка' />
-      <DropdownItem onClick={handleClick} className={styles.menuItem} title='Смена пользователя' text='Смена пользователя' />
-      <DropdownItem onClick={handleLogoutClick} className={styles.menuItem} title='Выход' text='Выход' />
+      {makingItems()}
     </Dropdown>
   )
 };
