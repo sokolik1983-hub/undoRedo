@@ -4,7 +4,14 @@
 
 @font-face {
   font-family: 'Roboto';
-  font-weight: 900;
+  font-weight: normal;
+  src: local('Roboto'),
+    url(./layout/assets/fonts/Roboto-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-weight: bold;
   src: local('Roboto'),
     url(./layout/assets/fonts/Roboto-Bold.ttf) format('truetype');
 }
