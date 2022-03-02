@@ -18,34 +18,34 @@ function HomePage() {
 
   return (
     <div className={styles.root}>
-      <div className={styles.pos}>
+      <div className={styles.recentSubstractPosition}>
         <Substruct />
       </div>
-      <div className={styles.posFavorites}>
+      <div className={styles.favoritesSubstractPosition}>
         <SubstructFavorites />
       </div>
-      <div className={styles.posApps}>
+      <div className={styles.appsSubstractPosition}>
         <SubstructApps />
       </div>
 
-      <div className={styles.wrapper}>
-        <p style={{ margin: '26px 26px 26px 36px', width: '180px' }}>Недавние</p>
+      <div className={styles.recentWrapper}>
+        <p>Недавние</p>
         <div className={styles.section}>
-          <HomePageButton title="Отчет 1" def />
-          <HomePageButton title="Отчет 2" def />
-          <HomePageButton title="Отчет 3" def />
+          <HomePageButton title="Отчет 1" isDocument />
+          <HomePageButton title="Отчет 2" isDocument />
+          <HomePageButton title="Отчет 3" isDocument />
         </div>
       </div>
 
-      <div className={styles.wrapperFavorites}>
-        <p style={{ margin: '26px 26px 26px 36px', width: '180px'}}>Избранное</p>
+      <div className={styles.favoritesWrapper}>
+        <p>Избранное</p>
         <div className={styles.section}>
-          <HomePageButton title="Отчет 1" def />
+          <HomePageButton title="Отчет 1" isDocument />
         </div>
       </div>
 
-      <div className={styles.wrapperApps}>
-        <p style={{margin: '26px 26px 26px 36px', width: '180px'}}>Приложения</p>
+      <div className={styles.appsWrapper}>
+        <p>Приложения</p>
         <div className={styles.section}>
           {navigationMenu &&
             navigationMenu.map(item => {

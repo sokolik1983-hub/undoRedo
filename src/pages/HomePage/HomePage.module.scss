@@ -18,44 +18,50 @@
   }
 }
 
-.wrapper {
+.recentWrapper {
   display: flex;
   align-items: end;
-  /* background: url(../../layout/assets/Subtract.svg);
-  background-repeat: no-repeat; */
+  p {
+    width: 180px;
+    margin: 26px 26px 26px 36px;
+  }
 }
 
-.wrapperFavorites {
+.favoritesWrapper {
   display: flex;
   align-items: end;
   margin-top: 81px;
-/*   background: left 10% / 60% 150% repeat-x url(../../layout/assets/SubtractStar.svg);
-  background-repeat: no-repeat; */
+  p {
+    width: 180px;
+    margin: 26px 26px 26px 36px;
+  }
 }
 
-.wrapperApps {
+.appsWrapper {
   display: flex;
   margin-top: 81px;
   align-items: end;
-/*   background: left 10% / 60% 150% repeat-x url(../../layout/assets/SubtractCubes.svg);
-  background-repeat: no-repeat; */
+  p {
+    width: 180px;
+    margin: 26px 26px 26px 36px;
+  }
 }
 
-.pos {
+.recentSubstractPosition {
   position: absolute;
   left: 0;
   top: 8.5rem;
   z-index: -1;
 }
 
-.posFavorites {
+.favoritesSubstractPosition {
   position: absolute;
   left: 0;
   top: 22rem;
   z-index: -1;
 }
 
-.posApps {
+.appsSubstractPosition {
   position: absolute;
   left: 0;
   top: 35rem;
