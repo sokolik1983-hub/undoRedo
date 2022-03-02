@@ -1,10 +1,11 @@
 import { useState, useRef } from 'react';
+import cn from 'clsx';
 import PropTypes from 'prop-types';
 import styles from './Dropdown.module.scss';
 import useClickOutside from '../../helpers/useClickOutside';
 
 const Dropdown = (props) => {
-  const { className, mainButton, children } = props;
+  const { className, mainButton, children, itemsWrapper } = props;
   const [isOpened, setIsOpened] = useState(false);
 
   const toggleMenu = () => {
@@ -17,11 +18,13 @@ const Dropdown = (props) => {
   return (
     <div className={styles.wrapper} ref={clickRef}>
       <div
-        className={className}
+        className={cn(styles.mainButton, className)}
         onClick={toggleMenu}
       >
         {mainButton}
-        { isOpened && children }
+        <div className={cn(styles.itemsWrapper, itemsWrapper)}>
+          { isOpened && children }
+        </div>
       </div>
     </div>
   )
@@ -33,4 +36,5 @@ Dropdown.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   mainButton: PropTypes.node,
+  itemsWrapper: PropTypes.string,
 }

@@ -1,11 +1,12 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import cn from 'clsx';
 import styles from './Dropdown.module.scss';
 
-const DropdownItem = ({ className, onClick, title, icon, children, text }) => {
+const DropdownItem = ({ className, onClick, children, item }) => {
+  const { title, action, text, icon } = item;
 
-  const handleClick = (e) => {
-    onClick(e);
+  const handleClick = () => {
+    onClick(action);
   };
 
   return (
@@ -14,27 +15,24 @@ const DropdownItem = ({ className, onClick, title, icon, children, text }) => {
       onClick={handleClick}
       title={title}
     >
-      { icon && (
-        <div className={styles.icon}>
-          { icon }
-        </div>
-      ) }
-      { children || text }
+      {icon && <div className={styles.icon}>{icon}</div>}
+      {children || text}
     </div>
-  )
+  );
 };
 
 export default DropdownItem;
 
-DropdownItem.prototype = {
-
-}
+DropdownItem.prototype = {};
 
 DropdownItem.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  icon: PropTypes.node,
-  onClick: PropTypes.func.isRequired,
-  text: PropTypes.string,
-  title: PropTypes.string.isRequired
-}
+  item: PropTypes.objectOf({
+    icon: PropTypes.node,
+    text: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    action: PropTypes.string
+  }),
+  onClick: PropTypes.func.isRequired
+};
