@@ -8,6 +8,7 @@ import styles from './HomePage.module.scss';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { DASHBOARD_PAGE } from '../../common/constants/pages';
 import navigationMenu from '../../navigation';
+import UserMenu from './UserMenu';
 
 function HomePage() {
   const dispatch = useDispatch();
