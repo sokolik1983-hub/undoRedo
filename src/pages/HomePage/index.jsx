@@ -19,6 +19,9 @@ function HomePage() {
 
   return (
     <div className={styles.root}>
+      <div className={styles.userMenuWrapper}>
+        <UserMenu />
+      </div>
       <div className={styles.recentSubstractPosition}>
         <Substruct />
       </div>
