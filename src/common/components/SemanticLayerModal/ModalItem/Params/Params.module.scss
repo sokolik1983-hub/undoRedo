@@ -1,0 +1,91 @@
+.wrapperColumn {
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.wrapper {
+  display: flex;
+}
+
+.title {
+  width: 50%;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  color: #949494;
+}
+
+.text {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 144.69%;
+  color: #000000;
+}
+
+.change {
+  background: linear-gradient(180deg, #D9C8B0 0%, rgba(245, 162, 38, 0) 100%), #312101;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  border: none;
+  margin-left: 11px;
+  height: 22px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 12px;
+  color: white;
+}
+
+.delete {
+  background: linear-gradient(180deg, #EEBBBB 0%, rgba(48, 0, 0, 0) 100%), #960000;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  border: none;
+  margin-left: 11px;
+  height: 22px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 12px;
+  color: white;
+}
+
+.add {
+  background: linear-gradient(180deg, #C4C4C4 0%, rgba(196, 196, 196, 0) 100%);
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 12px;
+  color: white;
+  border: none;
+  height: 22px;
+  margin-left: auto;
+}
+
+table {
+  margin-bottom: 7px;
+}
+
+table td {
+  color: black;
+  border-collapse: collapse;
+  border: none;
+  border-bottom: 1px dashed #D9D9D9;
+  
+}
+
+.wrapperInput {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.color {
+  background: rgba(255, 255, 255, 0.5);
+  margin: 0 -23px;
+  padding: 0 23px;
+}

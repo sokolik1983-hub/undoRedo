@@ -16,8 +16,11 @@
 
 .modalDialog {
   width: 100%;
-  max-width: 550px;
-  background: white;
+  max-width: 426px;
+  background: linear-gradient(152.97deg, rgba(0, 55, 137, 0.75) 0%, rgba(0, 55, 137, 0.375) 100%);
+  box-shadow: 0px 7px 17px rgba(34, 82, 102, 0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 10px; 
   position: relative;
   margin: 0 20px;
   max-height: calc(100vh - 40px);
@@ -39,8 +42,9 @@
   padding: 1rem;
 }
 .modalHeader {
-  border-bottom: 1px solid #dbdbdb;
+  // border-bottom: 1px solid #dbdbdb;
   justify-content: space-between;
+  color: #dbdbdb;
 }
 .modalFooter {
   border-top: 1px solid #dbdbdb;
@@ -55,7 +59,7 @@
   overflow: auto;
 }
 .modalContent {
-  padding: 1rem;
+  padding: 1rem 0;
 }
 
 .modalTitle {
