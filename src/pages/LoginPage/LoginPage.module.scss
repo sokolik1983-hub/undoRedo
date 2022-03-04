@@ -1,0 +1,61 @@
+.box {
+  margin: 0 auto;
+  padding-top: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 444px;
+  background: linear-gradient(
+    0.26deg,
+    rgba(255, 255, 255, 0.87) -10.48%,
+    #ffffff -10.47%,
+    rgba(255, 255, 255, 0) 81.3%
+  );
+  box-shadow: 0px 12px 27px rgba(12, 74, 167, 0.31);
+}
+
+.avatar {
+  margin: 48px 0 20px;
+}
+
+.btn {
+  color: #fff;
+  font-weight: bold;
+  font-size: 13px;
+  background: linear-gradient(199.32deg, #1ae3d7 -13.92%, #0945df 111.71%);
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  border: none;
+  height: 29px;
+  margin: 35px 0;
+}
+
+.form {
+  width: 100%;
+  padding: 0 54px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.textInput {
+  font-size: 16px;
+  padding: 12px;
+  border: none;
+  background: #cbe6fa;
+  box-shadow: 0px 5px 10px 5px #a2c9e6 inset;
+}
+
+.inputWrapper {
+  width: 100%;
+
+  & label {
+    margin: 0 0 5px 10px;
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  &:last-of-type {
+    margin-top: 25px;
+  }
+}

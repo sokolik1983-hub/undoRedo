@@ -11,7 +11,7 @@ const notifications = createSlice({
     notificationShown: (state, action) => {
       state.items.push({
         id: getSimpleID(),
-        autoHide: true,
+        autoHide: false,
         ...action.payload
       });
     },

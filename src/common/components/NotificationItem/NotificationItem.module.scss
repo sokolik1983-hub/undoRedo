@@ -1,7 +1,98 @@
 .root {
-  border: 1px solid black;
-  padding: 10px;
-  width: 300px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 0 72px 0;
+  width: 426px;
   margin: 10px;
-  background-color: #fff;
+  background: linear-gradient(152.97deg, rgba(226, 27, 0, 0.75) 0%, rgba(255, 148, 22, 0.75) 100%);
+  box-shadow: 0 7px 17px rgba(34, 82, 102, 0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 28px;
+  color: #FFFFFF;
+  margin-bottom: 20px;
+  padding: 0 20px;
+}
+
+.message, .reason, .advice {
+  display: flex;
+  flex-direction: column;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  color: #FFFFFF;
+  padding: 10px 20px ;
+}
+
+.button {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  height: 29px;
+  bottom: 23px;
+  right: 20px;
+  background: linear-gradient(199.32deg, #1AE3D7 -13.92%, #0945DF 111.71%);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 15px;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.reason {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.advice {
+  background: rgba(0, 52, 153, 0.5);
+}
+
+.topIcon {
+  margin-right: 10px;
+}
+
+.messageHeader, .adviceHeader, .reasonHeader {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.reasonHeader, .adviceHeader {
+  cursor: pointer;
+}
+
+.messageText, .reasonText, .adviseText {
+  margin-top: 5px;
+}
+
+.reasonArrowDown {
+  transform: rotate(180deg);
+}
+
+.adviseArrowDown {
+  transform: rotate(180deg);
+}
+
+.reasonHeaderBox, .adviseHeaderBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  cursor: pointer;
 }

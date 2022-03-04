@@ -19,6 +19,7 @@ import styles from './TextInput.module.scss';
 const TextInput = ({
   id,
   className,
+  wrapperClassName,
   label,
   error,
   onChange,
@@ -35,12 +36,13 @@ const TextInput = ({
     { [styles.fullWidth]: className ? false : fullWidth }
   );
 
-  const handleOnChange = event => {
-    onChange(event.target.value);
-  };
+  const wrapperClasses = clsx(
+    styles.inputWrapper,
+    wrapperClassName
+  )
 
   return (
-    <div className={styles.inputWrapper}>
+    <div className={wrapperClasses}>
       {label && (
         <label className={styles.inputlabel} htmlFor={id}>
           {label}
@@ -48,7 +50,7 @@ const TextInput = ({
       )}
       {props.required && <span className={styles.inputRequired}>Required</span>}
       <input
-        onChange={handleOnChange}
+        onChange={onChange}
         onFocus={onFocus}
         onBlur={onBlur}
         name={id}
@@ -66,6 +68,7 @@ export default TextInput;
 TextInput.propTypes = {
   id: PropTypes.string.isRequired,
   className: PropTypes.string,
+  wrapperClassName: PropTypes.string,
   label: PropTypes.string,
   error: PropTypes.string,
   onChange: PropTypes.func,
@@ -78,6 +81,7 @@ TextInput.propTypes = {
 
 TextInput.defaultProps = {
   className: '',
+  wrapperClassName: '',
   label: '',
   error: '',
   onChange: () => {},
