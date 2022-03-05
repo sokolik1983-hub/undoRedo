@@ -7,8 +7,8 @@ import { loginUser } from '../../data/actions/auth';
 import { REDIRECT_LINKS } from '../../common/constants/common';
 import TextInput from '../../common/components/TextInput';
 import Button from '../../common/components/Button';
-import logo from '../../layout/assets/login-page-logo.svg';
-import avatar from '../../layout/assets/login-page-avatar.svg';
+import { ReactComponent as LogoIcon } from '../../layout/assets/login-page-logo.svg';
+import { ReactComponent as AvatarIcon } from '../../layout/assets/login-page-avatar.svg';
 import styles from './LoginPage.module.scss';
 
 const LoginPage = () => {
@@ -27,8 +27,8 @@ const LoginPage = () => {
   return (
     <div>
       <div className={styles.box}>
-        <img className={styles.logo} src={logo} alt="logo" />
-        <img className={styles.avatar} src={avatar} alt="avatar" />
+        <LogoIcon className={styles.logo} />
+        <AvatarIcon className={styles.avatar} />
         <Formik
           initialValues={{
             login: 'test1',
