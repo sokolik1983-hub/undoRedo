@@ -22,7 +22,7 @@ import styles from './ReportDesigner.module.scss';
 import { generateId, getCurrentReport } from './helpers';
 import SidePanel from '../../common/components/SidePanel';
 import { setCurrentPage } from '../../data/reducers/ui';
-import { REPORT_DESIGNER_PAGE } from '../../common/constants/pages';
+import { PAGE } from '../../common/constants/pages';
 import { SIDE_PANEL_TYPES } from '../../common/constants/common';
 import FormulaEditor from '../../common/components/FormulaEditor';
 
@@ -59,7 +59,7 @@ function ReportDesigner() {
   }
 
   useEffect(() => {
-    dispatch(setCurrentPage(REPORT_DESIGNER_PAGE));
+    dispatch(setCurrentPage(PAGE.REPORT_DESIGNER));
     document.body.addEventListener('keyup', handleKeyUp);
   }, []);
 

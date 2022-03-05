@@ -6,22 +6,18 @@ import SubstructFavorites from '../../layout/assets/SubstructFavorites';
 import SubstructApps from '../../layout/assets/SubstructApps';
 import styles from './HomePage.module.scss';
 import { setCurrentPage } from '../../data/reducers/ui';
-import { DASHBOARD_PAGE } from '../../common/constants/pages';
+import { PAGE } from '../../common/constants/pages';
 import navigationMenu from '../../navigation';
-import UserMenu from './UserMenu';
 
 function HomePage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setCurrentPage(DASHBOARD_PAGE));
+    dispatch(setCurrentPage(PAGE.DASHBOARD));
   }, []);
 
   return (
     <div className={styles.root}>
-      <div className={styles.userMenuWrapper}>
-        <UserMenu />
-      </div>
       <div className={styles.recentSubstractPosition}>
         <Substruct />
       </div>

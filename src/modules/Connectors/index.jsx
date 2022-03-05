@@ -9,10 +9,15 @@ import Modal from '../../common/components/Modal';
 import TextInput from '../../common/components/TextInput';
 import Select from '../../common/components/Select';
 import ConnectorsList from './ConnectorsList/ConnectorsList';
+import { setCurrentPage } from '../../data/reducers/ui';
+import { PAGE } from '../../common/constants/pages';
 
 function Connectors() {
   const dispatch = useDispatch();
   const connectors = useSelector(state => state.app.data.connectors);
+  useEffect(() => {
+    dispatch(setCurrentPage(PAGE.CONNECTORS));
+  }, []);
 
   // Получаем из словаря типы, источники, типы соединения
   const types = useSelector(state => state.app.data.dictionaries.source_type);
