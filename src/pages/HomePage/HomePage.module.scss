@@ -8,7 +8,6 @@
 
 .section {
   display: flex;
-  margin: 20px 0;
 
   a {
     color: inherit;
@@ -19,43 +18,54 @@
   }
 }
 
-.button {
-  width: 120px;
-  height: 120px;
-  background-color: #fff;
+.recentWrapper {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  cursor: pointer;
-  margin-right: 20px;
-  border-radius: 20px;
-
-  svg {
-    width: 100%;
-    height: 30%;
-    fill: #00315f;
+  align-items: end;
+  p {
+    width: 180px;
+    margin: 26px 26px 26px 36px;
   }
+}
 
-  &_text {
-    word-break: unset;
-    width: 80%;
-    text-align: center;
-    margin-top: 5px;
-    font-size: 14px;
+.favoritesWrapper {
+  display: flex;
+  align-items: end;
+  margin-top: 81px;
+  p {
+    width: 180px;
+    margin: 26px 26px 26px 36px;
   }
+}
 
-  &:hover {
-    background-color: #00315f;
-    color: #fff;
-    -webkit-box-shadow: 0 5px 10px 2px rgba(34, 60, 80, 0.2);
-    -moz-box-shadow: 0 5px 10px 2px rgba(34, 60, 80, 0.2);
-    box-shadow: 0 5px 10px 2px rgba(34, 60, 80, 0.2);
-
-    svg {
-      fill: #fff;
-    }
+.appsWrapper {
+  display: flex;
+  margin-top: 81px;
+  align-items: end;
+  p {
+    width: 180px;
+    margin: 26px 26px 26px 36px;
   }
+}
+
+.recentSubstractPosition {
+  position: absolute;
+  left: 0;
+  top: 8.5rem;
+  z-index: -1;
+}
+
+.favoritesSubstractPosition {
+  position: absolute;
+  left: 0;
+  top: 22rem;
+  z-index: -1;
+}
+
+.appsSubstractPosition {
+  position: absolute;
+  left: 0;
+  top: 35rem;
+  z-index: -1;
 }
 
 .userMenuWrapper {

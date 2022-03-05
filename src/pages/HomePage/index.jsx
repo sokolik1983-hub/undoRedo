@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import NoteAddIcon from '@material-ui/icons/NoteAdd';
+import HomePageButton from './HomePageButton/HomePageButton';
+import Substruct from '../../layout/assets/Substract';
+import SubstructFavorites from '../../layout/assets/SubstructFavorites';
+import SubstructApps from '../../layout/assets/SubstructApps';
 import styles from './HomePage.module.scss';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { DASHBOARD_PAGE } from '../../common/constants/pages';
@@ -20,45 +22,46 @@ function HomePage() {
       <div className={styles.userMenuWrapper}>
         <UserMenu />
       </div>
-      <p>Недавние документы</p>
-      <div className={styles.section}>
-        <i className="fas fa-user" />
-        <RouterLink to="/Reporting/report/create">
-          <div className={styles.button}>
-            <NoteAddIcon />
-            <div className={styles['button_text']}>отчет1</div>
-          </div>
-        </RouterLink>
-        <RouterLink to="/Reporting/report/create">
-          <div className={styles.button}>
-            <NoteAddIcon />
-            <div className={styles['button_text']}>отчет2</div>
-          </div>
-        </RouterLink>
+      <div className={styles.recentSubstractPosition}>
+        <Substruct />
       </div>
-      <hr />
-      <p>Избранное</p>
-      <div className={styles.section}>
-        <i className="fas fa-user" />
-        <RouterLink to="/Reporting/report/create">
-          <div className={styles.button}>
-            <NoteAddIcon />
-            <div className={styles['button_text']}>создать отчет</div>
-          </div>
-        </RouterLink>
+      <div className={styles.favoritesSubstractPosition}>
+        <SubstructFavorites />
       </div>
-      <hr />
-      <p>Приложения</p>
-      <div className={styles.section}>
-        {navigationMenu &&
-          navigationMenu.map(menuItem => (
-            <RouterLink to={menuItem.href} key={menuItem.id}>
-              <div className={styles.button}>
-                {menuItem.icon}
-                <div className={styles['button_text']}>{menuItem.title}</div>
-              </div>
-            </RouterLink>
-          ))}
+      <div className={styles.appsSubstractPosition}>
+        <SubstructApps />
+      </div>
+
+      <div className={styles.recentWrapper}>
+        <p>Недавние</p>
+        <div className={styles.section}>
+          <HomePageButton title="Отчет 1" isDocument />
+          <HomePageButton title="Отчет 2" isDocument />
+          <HomePageButton title="Отчет 3" isDocument />
+        </div>
+      </div>
+
+      <div className={styles.favoritesWrapper}>
+        <p>Избранное</p>
+        <div className={styles.section}>
+          <HomePageButton title="Отчет 1" isDocument />
+        </div>
+      </div>
+
+      <div className={styles.appsWrapper}>
+        <p>Приложения</p>
+        <div className={styles.section}>
+          {navigationMenu &&
+            navigationMenu.map(item => {
+              return (
+                <HomePageButton
+                  title={item.title}
+                  href={item.href}
+                  icon={item.icon}
+                />
+              );
+            })}
+        </div>
       </div>
     </div>
   );
