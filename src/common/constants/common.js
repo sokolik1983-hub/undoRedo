@@ -1,3 +1,11 @@
+import { ReactComponent as ChangeUserIcon } from '../../layout/assets/changeUser.svg';
+import { ReactComponent as ExchangeDataIcon } from '../../layout/assets/exchange.svg';
+import { ReactComponent as FaceIcon } from '../../layout/assets/face.svg';
+import { ReactComponent as GearIcon } from '../../layout/assets/gear.svg';
+import { ReactComponent as LogoutIcon } from '../../layout/assets/logout.svg';
+import { ReactComponent as PrinterIcon } from '../../layout/assets/printer.svg';
+
+
 export const REDIRECT_LINKS = {
   HOME_PAGE: '/Reporting/dashboard',
   LOGIN_PAGE: '/Reporting/login'
@@ -78,30 +86,36 @@ export const DEFAULT_USER_ACTIONS = [
     action: 'user',
     title: 'Профиль',
     text: 'Профиль',
+    icon: <FaceIcon />,
   },
   {
     action: 'print',
     title: 'Печать',
     text: 'Печать',
+    icon: <PrinterIcon />,
   },
   {
     action: 'metadata',
     title: 'Обмен метаданными',
     text: 'Обмен метаданными',
+    icon: <ExchangeDataIcon />,
   },
   {
     action: 'settings',
     title: 'Настройки',
     text: 'Настройки',
+    icon: <GearIcon />,
   },
   {
     action: 'exit',
     title: 'Смена пользователя',
     text: 'Смена пользователя',
+    icon: <ChangeUserIcon />,
   },
   {
     action: 'logout',
     title: 'Выход',
     text: 'Выход',
+    icon: <LogoutIcon />,
   }
 ];

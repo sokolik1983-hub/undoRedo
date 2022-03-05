@@ -7,7 +7,7 @@ import {
   REDIRECT_LINKS,
   DEFAULT_USER_ACTIONS
 } from '../../../../common/constants/common';
-import AvatarIcon from '../../../assets/miniAvatar.svg';
+import { ReactComponent as AvatarIcon } from '../../../assets/miniAvatar.svg';
 import styles from './UserMenu.module.scss';
 
 const UserMenu = () => {
@@ -19,7 +19,7 @@ const UserMenu = () => {
     return (
       <div className={styles.mainButton}>
         <div>
-          <img src={AvatarIcon} alt="Avatar" />
+          <AvatarIcon />
         </div>
         <div className={styles.mainButtonRight}>
           <span>{JSON.parse(userInfo).user_login}</span>
