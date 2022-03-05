@@ -9,7 +9,7 @@ import {
 import styles from './Audit.module.scss';
 import FilterPanel from './FilterPanel';
 import { setCurrentPage } from '../../data/reducers/ui';
-import { AUDIT_PAGE } from '../../common/constants/pages';
+import { PAGE } from '../../common/constants/pages';
 import Table from '../../common/components/Table/index';
 import Button from '../../common/components/Button/index';
 import Tooltip from '../../common/components/Tooltip/index';
@@ -19,7 +19,7 @@ function Audit() {
   const audit = useSelector(state => state.app.audit);
 
   useEffect(() => {
-    dispatch(setCurrentPage(AUDIT_PAGE));
+    dispatch(setCurrentPage(PAGE.AUDIT));
     dispatch(getAuditEvents({ filters: { ...audit.filters } }));
   }, []);
 

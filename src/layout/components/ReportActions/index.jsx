@@ -20,7 +20,7 @@ import {
 } from '../../../data/reducers/reportDesigner';
 import ActionsGroup from '../../../common/components/ActionsGroup';
 import styles from './ReportActions.module.scss';
-import { showNotification } from '../../../data/reducers/notifications';
+import { notificationShown } from '../../../data/reducers/notifications';
 import { showQueryPanel } from '../../../data/reducers/ui';
 import FormulaIcon from '../../../common/components/Icon';
 
@@ -70,7 +70,7 @@ function ReportActions() {
               icon: <RefreshIcon className={styles.icon} />,
               action: () =>
                 dispatch(
-                  showNotification({ message: 'alloha', messageType: 'error' })
+                  notificationShown({ message: 'alloha', messageType: 'error' })
                 )
             }
           ]}

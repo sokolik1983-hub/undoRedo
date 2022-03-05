@@ -4,22 +4,18 @@ import { useDispatch } from 'react-redux';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import styles from './HomePage.module.scss';
 import { setCurrentPage } from '../../data/reducers/ui';
-import { DASHBOARD_PAGE } from '../../common/constants/pages';
+import { PAGE } from '../../common/constants/pages';
 import navigationMenu from '../../navigation';
-import UserMenu from './UserMenu';
 
 function HomePage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setCurrentPage(DASHBOARD_PAGE));
+    dispatch(setCurrentPage(PAGE.DASHBOARD));
   }, []);
 
   return (
     <div className={styles.root}>
-      <div className={styles.userMenuWrapper}>
-        <UserMenu />
-      </div>
       <p>Недавние документы</p>
       <div className={styles.section}>
         <i className="fas fa-user" />

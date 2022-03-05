@@ -1,26 +1,18 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import UserActions from './UserActions';
 import styles from './TopBar.module.scss';
 import Logo from './Logo';
-import PageDescription from './PageDescription';
-import LoadingIndicator from './LoadingIndicator';
-import MenuButton from './MenuButton';
-import ReportActions from '../ReportActions';
-import { REPORT_DESIGNER_PAGE } from '../../../common/constants/pages';
+import UserMenu from './UserMenu';
 
-function TopBar() {
-  const ui = useSelector(state => state.app.ui);
-  const auth = useSelector(state => state.app.auth);
+const TopBar = () => {
+  const actions = null; // TODO добавить экшены в зависимости от выбранного модуля
 
   return (
     <header className={styles.header}>
       <Logo />
-      {auth && auth.isAuth && <MenuButton />}
-      {ui.currentPage === REPORT_DESIGNER_PAGE && <ReportActions />}
-      {ui.currentPage !== REPORT_DESIGNER_PAGE && <PageDescription />}
-      <LoadingIndicator />
-      {auth && auth.isAuth && <UserActions />}
+      <div className={styles.actions}>{actions}</div>
+      <div className={styles.userMenuWrapper}>
+        <UserMenu />
+      </div>
     </header>
   );
 }

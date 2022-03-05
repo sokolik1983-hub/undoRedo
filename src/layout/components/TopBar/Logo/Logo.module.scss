@@ -13,3 +13,28 @@
     margin-right: 15px;
   }
 }
+
+.defaultLogoWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.pageTitle {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 21px;
+
+  margin-top: -5px;
+}
+
+.pageLogo {
+  margin-left: 7px;
+}

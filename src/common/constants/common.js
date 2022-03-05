@@ -4,9 +4,14 @@ export const REDIRECT_LINKS = {
 };
 
 export const PAGE_TITLES = {
-  DASHBOARD_PAGE: 'Dashboard',
-  AUDIT_PAGE: 'Audit',
-  TRASH_PAGE: 'Trash'
+  DASHBOARD: 'Главная страница',
+  AUDIT: 'Аудит',
+  TRASH: 'Корзина',
+  SEMANTIC: 'Семантика',
+  ROLES: 'Роли',
+  USERS: 'Пользователи',
+  CONNECTORS: 'Коннекторы',
+  REPORTS: 'Отчеты',
 };
 
 export const FONT_LIST = [
