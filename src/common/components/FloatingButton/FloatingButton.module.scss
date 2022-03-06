@@ -1,0 +1,15 @@
+.btn {
+  border-radius: 4px;
+  cursor: pointer;
+  position: fixed;
+  z-index: 100;
+  bottom: 15px;
+  right: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.label {
+  font-size: 20px;
+  font-weight: 500;
+}

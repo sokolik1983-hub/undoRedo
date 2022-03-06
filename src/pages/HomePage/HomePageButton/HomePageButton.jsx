@@ -5,19 +5,18 @@ import styles from './HomePageButton.module.scss';
 
 const HomePageButton = ({ title, href, icon, isDocument }) => {
   return (
-    <>
-      <i className="fas fa-user" />
+    <div className={styles.homePageButtonWrapper}>
       <RouterLink to={href || ''}>
-        <div className={styles.homePageButtonWrapper}>
-          <div
-            className={isDocument ? styles.homePageDocumentButton : styles.homePageButton}
-          >
-            {icon}
-          </div>
-          <div className={styles.buttonText}>{title}</div>
+        <div
+          className={
+            isDocument ? styles.homePageDocumentButton : styles.homePageButton
+          }
+        >
+          {icon}
         </div>
+        <div className={styles.buttonText}>{title}</div>
       </RouterLink>
-    </>
+    </div>
   );
 };
 
