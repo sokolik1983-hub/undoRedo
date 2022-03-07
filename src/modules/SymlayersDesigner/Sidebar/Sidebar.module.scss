@@ -1,0 +1,65 @@
+.root {
+  background: linear-gradient(
+    152.97deg,
+    #ffffff 0%,
+    rgba(255, 255, 255, 0.22) 100%
+  );
+  flex: none;
+  box-shadow: 0px 12px 27px rgba(12, 74, 167, 0.31);
+  border-radius: 10px;
+  width: 300px;
+  height: 700px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  padding: 0px 16px;
+
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  border-bottom: 1px solid grey;
+  align-items: center;
+  padding: 10px 16px;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.tab {
+  color: grey;
+  cursor: pointer;
+  font: 14px;
+}
+
+.activeTab {
+  color: black;
+  font-weight: 600;
+}
+
+.tableActions {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 4px 0px;
+}
+
+.tableFilters {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}

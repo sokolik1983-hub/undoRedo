@@ -28,7 +28,7 @@ function HomePage() {
   }, []);
 
   const handleClick = () => {
-    alert('click create');
+    console.log('click create');
   };
 
   return (

@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import Layout from './layout';
@@ -9,6 +10,7 @@ import Users from './modules/Users';
 import Roles from './modules/Roles';
 import RecycleBin from './modules/RecycleBin';
 import ReportDesigner from './modules/ReportDesigner';
+import SymlayersDesigner from './modules/SymlayersDesigner';
 
 const routes = [
   {
@@ -23,6 +25,7 @@ const routes = [
       { path: 'roles', element: <Roles /> },
       { path: 'connectors', element: <Connectors /> },
       { path: 'symlayers', element: <Roles /> },
+      { path: 'symlayers/create', element: <SymlayersDesigner /> },
       { path: 'trash', element: <RecycleBin /> },
       { path: 'report/create/:folder_id', element: <ReportDesigner /> },
       { path: 'report/:report_id/show', element: <ReportDesigner /> },

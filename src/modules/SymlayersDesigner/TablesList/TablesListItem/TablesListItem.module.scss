@@ -1,0 +1,16 @@
+.root {
+  font-size: 14px;
+  padding: 2px 4px;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: #2b6dd082;
+    color: #fff;
+    cursor: pointer;
+  }
+}
+
+.active {
+  color: #fff;
+  background-color: #2B6DD0;
+}

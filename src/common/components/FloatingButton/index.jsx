@@ -16,7 +16,7 @@ const FloatingButton = ({ onClick, icon, text, ...props }) => {
 
   return (
     <div {...props} className={styles.btn} onClick={onClickAction}>
-      {icon}
+      <div className={styles.icon}>{icon}</div>
       <span className={styles.label}>{text}</span>
     </div>
   );

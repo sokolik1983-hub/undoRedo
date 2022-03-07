@@ -44,8 +44,8 @@ const DocumentsIcon = () => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(8.13318 0.426136) rotate(136.4) scale(2.67769 6.55773)"
         >
-          <stop stop-color="#1AE3D7" />
-          <stop offset="1" stop-color="#0945DF" />
+          <stop stopColor="#1AE3D7" />
+          <stop offset="1" stopColor="#0945DF" />
         </radialGradient>
         <radialGradient
           id="paint1_radial_63_304"
@@ -55,8 +55,8 @@ const DocumentsIcon = () => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(8.3402 4.17547) rotate(110.112) scale(6.24072 9.88156)"
         >
-          <stop stop-color="#1AE3D7" />
-          <stop offset="1" stop-color="#0945DF" />
+          <stop stopColor="#1AE3D7" />
+          <stop offset="1" stopColor="#0945DF" />
         </radialGradient>
         <radialGradient
           id="paint2_radial_63_304"
@@ -66,8 +66,8 @@ const DocumentsIcon = () => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(29.8734 10.3367) rotate(136.407) scale(2.67736 6.55683)"
         >
-          <stop stop-color="#1AE3D7" />
-          <stop offset="1" stop-color="#0945DF" />
+          <stop stopColor="#1AE3D7" />
+          <stop offset="1" stopColor="#0945DF" />
         </radialGradient>
         <radialGradient
           id="paint3_radial_63_304"
@@ -77,8 +77,8 @@ const DocumentsIcon = () => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(30.0805 14.0865) rotate(110.111) scale(6.24093 9.88172)"
         >
-          <stop stop-color="#1AE3D7" />
-          <stop offset="1" stop-color="#0945DF" />
+          <stop stopColor="#1AE3D7" />
+          <stop offset="1" stopColor="#0945DF" />
         </radialGradient>
         <radialGradient
           id="paint4_radial_63_304"
@@ -88,8 +88,8 @@ const DocumentsIcon = () => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(29.8732 23.3454) rotate(136.409) scale(2.67727 6.55661)"
         >
-          <stop stop-color="#1AE3D7" />
-          <stop offset="1" stop-color="#0945DF" />
+          <stop stopColor="#1AE3D7" />
+          <stop offset="1" stopColor="#0945DF" />
         </radialGradient>
         <radialGradient
           id="paint5_radial_63_304"
@@ -99,8 +99,8 @@ const DocumentsIcon = () => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(30.0805 27.0949) rotate(110.111) scale(6.24114 9.88176)"
         >
-          <stop stop-color="#1AE3D7" />
-          <stop offset="1" stop-color="#0945DF" />
+          <stop stopColor="#1AE3D7" />
+          <stop offset="1" stopColor="#0945DF" />
         </radialGradient>
         <radialGradient
           id="paint6_radial_63_304"
@@ -110,8 +110,8 @@ const DocumentsIcon = () => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(18.4836 10.2913) rotate(94.1341) scale(19.6824 6.94021)"
         >
-          <stop stop-color="#1AE3D7" />
-          <stop offset="1" stop-color="#0945DF" />
+          <stop stopColor="#1AE3D7" />
+          <stop offset="1" stopColor="#0945DF" />
         </radialGradient>
       </defs>
     </svg>
