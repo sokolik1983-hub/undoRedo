@@ -1,14 +1,17 @@
 .header {
   width: 100%;
-  height: 82px;
-  left: 0px;
-  align-items: center;
-  background: hsl(209, 100%, 19%);
   display: flex;
-  color: #fff;
-  position: fixed;
-  top: 0;
-  z-index: 10;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 24px;
+}
+
+.actions {
+  width: 100%;
+}
+
+.userMenuWrapper {
+  min-width: 122px;
 }
 
 .logo {

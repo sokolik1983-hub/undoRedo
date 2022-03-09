@@ -12,11 +12,16 @@ import Button from '../../common/components/Button/index';
 import Tooltip from '../../common/components/Tooltip/index';
 import styles from './RecycleBin.module.scss';
 import FilterPanel from './FilterPanel';
+import { setCurrentPage } from '../../data/reducers/ui';
+import { PAGE } from '../../common/constants/pages';
 
 function RecycleBin() {
   const dispatch = useDispatch();
   const trash = useSelector(state => state.app.trash);
   const trashItems = trash.items;
+  useEffect(() => {
+    dispatch(setCurrentPage(PAGE.TRASH));
+  }, []);
 
   const trashItemsWithUniqueId = trashItems.map(item => {
     return { ...item, uniqueId: item.id + item.type_name };

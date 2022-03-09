@@ -23,7 +23,7 @@
 .dropDownItem {
   display: flex;
   flex-direction: row;
-  padding: 0 22px;
+  padding: 0 8px;
   font-style: normal;
   font-weight: normal;
   font-size: 13px;
@@ -40,4 +40,8 @@
 
 .dropDownItem:hover {
   background-color: #FFFFFF;
+}
+
+.icon {
+  margin-right: 8px;
 }

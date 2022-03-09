@@ -1,0 +1,22 @@
+.btn {
+  border-radius: 4px;
+  cursor: pointer;
+  position: fixed;
+  z-index: 100;
+  bottom: 15px;
+  right: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.label {
+  font-size: 20px;
+  font-weight: 500;
+  width: 100px;
+}

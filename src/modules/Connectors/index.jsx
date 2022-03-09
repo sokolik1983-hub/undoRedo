@@ -12,9 +12,15 @@ import ConnectorsList from './ConnectorsList/ConnectorsList';
 import ConnectorsListProvider from './context/connectorsList';
 import IconButton from '../../common/components/IconButton';
 import { ReactComponent as CreateConnector } from '../../layout/assets/create-connector.svg';
+import { setCurrentPage } from '../../data/reducers/ui';
+import { PAGE } from '../../common/constants/pages';
 
 function Connectors() {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setCurrentPage(PAGE.CONNECTORS));
+  }, []);
 
   // Получаем из словаря типы, источники, типы соединения
   const types = useSelector(state => state.app.data.dictionaries.source_type);

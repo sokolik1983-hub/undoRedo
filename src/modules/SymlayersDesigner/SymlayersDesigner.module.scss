@@ -1,0 +1,47 @@
+.root {
+  padding: 25px;
+}
+
+.container {
+  background: linear-gradient(
+    152.97deg,
+    #ffffff 0%,
+    rgba(255, 255, 255, 0.22) 100%
+  );
+  /* shad */
+
+  box-shadow: 0px 12px 27px rgba(12, 74, 167, 0.31);
+  border-radius: 10px;
+}
+.sidebar {
+  width: 200px;
+  height: 700px;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.schema {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.links {
+  width: 500px;
+  height: 200px;
+}
+
+.contexts {
+  width: 400px;
+  height: 200px;
+}
