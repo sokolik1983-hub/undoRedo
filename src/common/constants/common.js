@@ -4,6 +4,13 @@ import { ReactComponent as FaceIcon } from '../../layout/assets/face.svg';
 import { ReactComponent as GearIcon } from '../../layout/assets/gear.svg';
 import { ReactComponent as LogoutIcon } from '../../layout/assets/logout.svg';
 import { ReactComponent as PrinterIcon } from '../../layout/assets/printer.svg';
+import { ReactComponent as AddConnection } from '../../layout/assets/semanticActionsIcons/addConnection.svg';
+import { ReactComponent as ConnectionsPanel } from '../../layout/assets/semanticActionsIcons/connectionsPanel.svg';
+import { ReactComponent as ContextPanel } from '../../layout/assets/semanticActionsIcons/contextPanel.svg';
+import { ReactComponent as DefineConnections } from '../../layout/assets/semanticActionsIcons/defineConnections.svg';
+import { ReactComponent as FindTool } from '../../layout/assets/semanticActionsIcons/findTool.svg';
+import { ReactComponent as RefreshStructure } from '../../layout/assets/semanticActionsIcons/refreshStructure.svg';
+import { ReactComponent as Divider } from '../../layout/assets/headerActionsDivider.svg';
 
 
 export const REDIRECT_LINKS = {
@@ -117,5 +124,56 @@ export const DEFAULT_USER_ACTIONS = [
     title: 'Выход',
     text: 'Выход',
     icon: <LogoutIcon />,
+  }
+];
+
+export const SEMANTIC_PAGE_ACTIONS = [
+  {
+    action: 'contextPanel',
+    title: 'Панель контекстов',
+    text: 'Панель контекстов',
+    icon: <ContextPanel />,
+  },
+  {
+    action: 'connectionsPanel',
+    title: 'Панель связей',
+    text: 'Панель связей',
+    icon: <ConnectionsPanel />,
+  },
+  {
+    type: 'divider',
+    icon: <Divider />
+  },
+  {
+    action: 'refreshStructure',
+    title: 'Обновить структуру',
+    text: 'Обновить структуру',
+    icon: <RefreshStructure />,
+  },
+  {
+    type: 'divider',
+    icon: <Divider />
+  },
+  {
+    action: 'defineConnections',
+    title: 'Определить связи',
+    text: 'Определить связи',
+    icon: <DefineConnections />,
+  },
+  {
+    action: 'addConnection',
+    title: 'Добавить связь',
+    text: 'Добавить связь',
+    icon: <AddConnection />,
+  },
+  {
+    type: 'divider',
+    icon: <Divider />
+  },
+  {
+    action: 'commonSearch',
+    title: 'Общий поиск',
+    text: 'Общий поиск',
+    icon: <FindTool />,
   }
 ];

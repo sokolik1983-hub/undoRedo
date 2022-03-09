@@ -1,0 +1,30 @@
+.actionWrapper {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  margin-left: 24px;
+}
+
+.divider {
+  composes: actionWrapper;
+  cursor: auto;
+}
+
+.actionWrapper span {
+  width: min-content;
+  text-align: center;
+  font-weight: normal;
+  font-size: 8px;
+  line-height: 9px;
+  margin-top: 7px;
+}
+
+.actionsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  margin-top: 42px;
+}

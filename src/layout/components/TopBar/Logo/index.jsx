@@ -17,7 +17,7 @@ function Logo() {
 
   const getLogo = () => {
     if (currentPage === PAGE.DASHBOARD) {
-      return <LogoMain />
+      return <div className={styles.logoMain}><LogoMain /></div>
     }
     return <DefaultLogo currentPage={currentPage} />
   };
