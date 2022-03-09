@@ -1,10 +1,11 @@
 import React from 'react';
 import ModalItem from '..';
 import styles from './Control.module.scss';
-import CheckBox from '../../../CheckBox';
-import TextInput from '../../../TextInput';
+import CheckBox from '../../../../../common/components/CheckBox';
+import TextInput from '../../../../../common/components/TextInput';
 
 const Control = () => {
+
   return (
     <ModalItem title='Управление'>
       <div className={styles.wrapper}>
@@ -19,10 +20,10 @@ const Control = () => {
           </div>
           <div className={styles.wrapper}>
             <CheckBox />
-            <p className={styles.text}>Текстовые строки не более</p>
+            <p className={styles.lastText}>Текстовые строки не более</p>
           </div>
         </div>
-        <div style={{marginLeft:'37px'}}>
+        <div className={styles.rightColumn}>
           <div className={styles.wrapper}>
             <TextInput className={styles.input} />
             <span className={styles.text}>строк</span>
@@ -32,7 +33,7 @@ const Control = () => {
             <span className={styles.text}>минут</span>
           </div>
           <div className={styles.wrapper}>
-            <TextInput className={styles.input} />
+            <TextInput className={styles.lastInput} />
             <span className={styles.text}>символов</span>
           </div>
         </div>

@@ -6,33 +6,43 @@
   right: 0;
   width: 100%;
   z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: rgba(0, 0, 0, 0.25);
   animation-name: appear;
   animation-duration: 300ms;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+
+  &.modalWithScroll {
+    overflow: hidden;
+    padding: 0;
+  }
 }
 
 .modalDialog {
   width: 100%;
-  max-width: 426px;
-  background: linear-gradient(152.97deg, rgba(0, 55, 137, 0.75) 0%, rgba(0, 55, 137, 0.375) 100%);
-  box-shadow: 0px 7px 17px rgba(34, 82, 102, 0.75);
-  backdrop-filter: blur(10px);
-  border-radius: 10px; 
+  max-width: 550px;
+  background: white;
   position: relative;
-  margin: 0 20px;
-  max-height: calc(100vh - 40px);
+  margin: 20px 0;
   text-align: left;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: auto;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: slide-in;
   animation-duration: 0.5s;
+  margin: auto;
+
+  &.modalDialogWithScroll {
+    overflow: hidden;
+    max-height: calc(100vh - 40px);
+    margin: 0 20px;
+  }
 }
 
 .modalHeader,
@@ -42,7 +52,7 @@
   padding: 1rem;
 }
 .modalHeader {
-  // border-bottom: 1px solid #dbdbdb;
+  border-bottom: 1px solid #dbdbdb;
   justify-content: space-between;
   color: #dbdbdb;
 }
@@ -56,7 +66,10 @@
   margin: -1rem -1rem -1rem auto;
 }
 .modalBody {
-  overflow: auto;
+  overflow: hidden;
+  &.modalBodyWithScroll {
+    overflow: auto;
+  }
 }
 .modalContent {
   padding: 1rem 0;
@@ -81,4 +94,9 @@
   to {
     transform: translateY(0);
   }
+}
+
+
+.withModalScroll {
+
 }

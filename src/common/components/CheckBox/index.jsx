@@ -35,7 +35,7 @@ const CheckBox = ({
 
   return (
     <div className={classes}>
-      <label htmlFor={id}>
+      <label htmlFor={id} className={styles.container}>
         <input
           id={id}
           value={value}
@@ -46,6 +46,7 @@ const CheckBox = ({
           disabled={disabled}
           {...props}
         />
+        <span className={styles.checkMark} />
         {label}
       </label>
     </div>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import ModalItem from "..";
 import styles from './TextFieldItem.module.scss';
-import TextInput from '../../../TextInput';
+import TextInput from '../../../../../common/components/TextInput';
 
 const TextFieldItem = ({title, className}) => {
   return (

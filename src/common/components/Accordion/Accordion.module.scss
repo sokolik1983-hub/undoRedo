@@ -3,6 +3,12 @@
   margin: 2rem auto;
 }
 
+.item {
+  &:hover {
+    background: rgba(0, 0, 0, 0.5);
+  }
+}
+
 .title {
   display: flex;
   flex-direction: row;
@@ -14,11 +20,7 @@
   font-weight: bold;
   font-size: 14px;
   line-height: 16px;
-  padding: 5px 30px 5px 18px;
-
-  &:hover {
-    background-color: #00000080;
-  }
+  padding: 4px 30px 5px 18px;
 }
 
 .content {
@@ -28,7 +30,11 @@
   font-size: 14px;
   line-height: 16px;
   color: white;
-  padding: 0 23px 10px 23px;
+  padding: 0 23px 16px 23px;
+
+  &.contentNoPadding {
+    padding-bottom: 0;
+  }
 }
 
 .arrowActive {

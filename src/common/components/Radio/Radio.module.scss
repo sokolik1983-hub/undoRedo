@@ -4,10 +4,17 @@
 
 .indents {
   margin-left: 18px;
+  display: flex;
+  align-items: center;
 }
 
 .indentsLarge {
   margin-left: 30px;
+}
+
+.align {
+  vertical-align: middle;
+  margin: -2px 7px 0 0;
 }
 
 .text {

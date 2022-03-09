@@ -7,6 +7,15 @@
   display: flex;
 }
 
+.indents {
+  margin-left: 32px;
+}
+
+.textWrapper {
+  display: flex;
+  margin-bottom: 4px;
+}
+
 .text {
   font-style: normal;
   font-weight: 500;
@@ -15,8 +24,7 @@
   border: none;
   width: 100%;
   justify-content: initial;
+  padding-top: 2px;
   margin: 0;
-  white-space: nowrap;
-  margin-bottom: 4px;
   white-space: break-spaces;
 }

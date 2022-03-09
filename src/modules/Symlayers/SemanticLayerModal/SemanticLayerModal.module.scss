@@ -42,3 +42,23 @@
 .comments {
   min-height: 54px;
 }
+
+.title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 28px;
+  color: #FFFFFF;
+}
+
+.dialog {
+  max-width: 426px;
+  background: linear-gradient(152.97deg, rgba(0, 55, 137, 0.75) 0%, rgba(0, 55, 137, 0.375) 100%);
+  box-shadow: 0px 7px 17px rgba(34, 82, 102, 0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 10px; 
+}
+
+.header {
+  border-bottom: none;
+}

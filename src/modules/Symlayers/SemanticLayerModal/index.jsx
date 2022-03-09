@@ -1,6 +1,6 @@
 import React from 'react';
-import Modal from '../Modal';
-import Button from '../Button';
+import Modal from '../../../common/components/Modal';
+import Button from '../../../common/components/Button';
 import styles from './SemanticLayerModal.module.scss';
 import SqlItem from './ModalItem/SqlItem';
 import Params from './ModalItem/Params';
@@ -35,7 +35,11 @@ const SemanticLayerModal = () => {
         <Modal 
           title='Создать семантический слой' 
           visible='true' 
-          content={content} 
+          content={content}
+          withScroll={false}
+          titleClassName={styles.title}
+          dialogClassName={styles.dialog}
+          headerClassName={styles.header}
         />
       </div>
     );

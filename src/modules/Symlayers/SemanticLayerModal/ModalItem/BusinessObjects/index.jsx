@@ -1,7 +1,7 @@
 import React from 'react';
 import ModalItem from '..';
 import styles from './BusinessObjects.module.scss';
-import Select from '../../../Select';
+import Select from '../../../../../common/components/Select';
 
 const BusinessObjects = () => {
   return ( 
@@ -9,11 +9,11 @@ const BusinessObjects = () => {
       <div className={styles.wrapper}>
         <div className={styles.top}>
           <div className={styles.select}>
-            <Select />
+            <Select fullWidth />
           </div> 
           <div className={styles.select}>
             <p className={styles.tables}>Таблицы</p>
-            <Select  />
+            <Select fullWidth />
           </div>
         </div>
         <p className={styles.text}>Связи</p>
