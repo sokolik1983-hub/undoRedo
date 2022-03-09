@@ -1,4 +1,19 @@
 .form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+}
+
+.root {
+  height: 100%;
+  position: relative;
+}
+
+.createButton {
+  margin: 0;
+  height: max-content;
+  width: max-content;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  transform: translate(50%, 50%);
 }

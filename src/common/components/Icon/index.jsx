@@ -9,17 +9,13 @@ import styles from './Icon.module.scss';
  * @param children - иконка, которую отрисует компонент Icon
  */
 
-const Icon = ({ size, className, children, color, ...props }) => {
-  const classes = clsx(
-    className,
-    [styles[size]],
-    [styles[color]]
-  );
+const Icon = ({ size, className, children, color, src, ...props }) => {
+  const classes = clsx(className, styles.icon, [styles[size]], [styles[color]]);
 
   return (
-    <svg className={classes} {...props}>
+    <span className={classes} {...props}>
       {children}
-    </svg>
+    </span>
   );
 };
 
@@ -29,11 +25,12 @@ Icon.propTypes = {
   size: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
-  color: PropTypes.string
+  color: PropTypes.string,
+  src: PropTypes.string
 };
 
 Icon.defaultProps = {
-  size: 'medium',
+  size: 'default',
   className: '',
   children: null,
   color: ''
