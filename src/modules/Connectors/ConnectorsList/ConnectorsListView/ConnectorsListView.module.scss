@@ -1,0 +1,64 @@
+.connectorsList {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 100%;
+  padding-bottom: 30px;
+
+  & div span {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &.multiColumnView {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+
+    & .itemsWrapper {
+      width: auto;
+    }
+
+    & div {
+      width: 250px;
+
+      & span {
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
+
+.itemsWrapper {
+  z-index: 10;
+  width: auto;
+  display: flex;
+  background: linear-gradient(
+    152.97deg,
+    rgba(47, 137, 187, 0.208) 0%,
+    rgba(21, 21, 21, 0) 100%
+  );
+  filter: drop-shadow(0px 4px 4px rgba(34, 82, 102, 0.25));
+  backdrop-filter: blur(7px);
+  border-radius: 7.5px;
+}
+
+::-webkit-scrollbar {
+  height: 12px;
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 100vh;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(23, 64, 87, 0.7);
+  border-radius: 100vh;
+}

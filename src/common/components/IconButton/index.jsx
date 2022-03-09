@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import Icon from '../Icon/index';
+import Icon from '../Icon';
 import styles from './IconButton.module.scss';
 
 /**
@@ -22,14 +22,12 @@ const IconButton = ({
   disabled,
   className,
   active,
+  render,
   ...props
 }) => {
-  const classes = clsx(
-    styles.iconButton,
-    className,
-    { active },
-    [styles[size]],
-  );
+  const classes = clsx(styles.iconButton, className, { active }, [
+    styles[size]
+  ]);
 
   const onClickAction = event => {
     if (disabled) {
@@ -49,8 +47,9 @@ const IconButton = ({
       onClick={onClickAction}
       {...props}
     >
+      {/* TODO: Remove Icon component */}
       <Icon color={color} size={size}>
-        {children}
+        {render && render()}
       </Icon>
     </Tag>
   );
@@ -66,7 +65,8 @@ IconButton.propTypes = {
   disabled: PropTypes.bool,
   active: PropTypes.bool,
   className: PropTypes.string,
-  href: PropTypes.string
+  href: PropTypes.string,
+  render: PropTypes.func
 };
 
 IconButton.defaultProps = {

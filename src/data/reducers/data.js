@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const data = createSlice({
   name: "data",
   initialState: {
-    connectors: [],
+    connectors: {},
     connectorsTree: [],
     universes: [],
     universesTree: [],
