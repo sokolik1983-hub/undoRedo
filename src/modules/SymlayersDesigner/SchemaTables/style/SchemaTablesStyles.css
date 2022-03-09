@@ -1,0 +1,57 @@
+.table-row {
+  position: relative;
+}
+.MuiTableRow-root.focused-table-row{
+  outline: 1px solid rgb(255,165,0);
+  background-color: rgba(255,165,0);
+}
+.MuiTableRow-root.higlited-table-row{
+  outline: 1px solid rgb(255,255,0);
+  background-color: rgba(255,255,0);
+}
+.table-row:hover {
+  background-color: rgba(0, 0, 255, 0.2);
+  outline: 1px solid blue;
+}
+
+.link {
+  stroke: blueviolet;
+  stroke-width: 2px;
+  fill: none;
+}
+
+.link-group {
+  pointer-events: stroke;
+}
+
+.link-group:hover .link {
+  stroke: blue;
+  stroke-width: 2px;
+  stroke-dasharray: 4 2;
+  animation: dash 0.1s linear infinite;
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 6;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.link-mask {
+  stroke: rgba(0, 0, 0, 0);
+  stroke-width: 20px;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
