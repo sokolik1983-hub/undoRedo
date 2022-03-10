@@ -9,12 +9,12 @@ const ConnectorsListNavigationViewToggler = ({ showMultipleColumns }) => {
     <div className={styles.viewToggle}>
       <IconButton
         className={styles.btn}
-        render={() => <MultipleColumns />}
+        icon={<MultipleColumns />}
         onClick={() => showMultipleColumns(true)}
       />
       <IconButton
         className={styles.btn}
-        render={() => <SingleColumn />}
+        icon={<SingleColumn />}
         onClick={() => showMultipleColumns(false)}
       />
     </div>

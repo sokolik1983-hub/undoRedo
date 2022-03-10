@@ -16,20 +16,20 @@ const ConnectorsListNavigationActions = ({
       <div>
         <IconButton
           className={styles.btnPrev}
-          render={() => <ArrowLeftIcon />}
+          icon={<ArrowLeftIcon />}
           onClick={onPrevClick}
           disabled={actionButtonIsDisable.prev}
         />
         <IconButton
           className={styles.btnNext}
-          render={() => <ArrowRightIcon />}
+          icon={<ArrowRightIcon />}
           onClick={onNextClick}
           disabled={actionButtonIsDisable.next}
         />
       </div>
       <IconButton
         className={styles.btnUp}
-        render={() => <ArrowUpIcon />}
+        icon={<ArrowUpIcon />}
         onClick={onUpClick}
         disabled={actionButtonIsDisable.up}
       />

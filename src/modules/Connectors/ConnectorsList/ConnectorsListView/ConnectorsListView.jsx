@@ -9,20 +9,6 @@ import { useConnectorsListData } from '../../context/connectorsList';
 import { FOLDER_ITEM_DROPDOWN_ACTIONS } from '../../helper';
 import styles from './ConnectorsListView.module.scss';
 
-// const FOLDER_ITEM_DROPDOWN_ACTION = [
-//   <IconButton title="edit" render={() => <EditIcon />} onClick={() => {}} />,
-//   <IconButton
-//     title="move to bin"
-//     render={() => <BinIcon />}
-//     onClick={() => {}}
-//   />,
-//   <IconButton
-//     title="settings"
-//     render={() => <SettingsIcon />}
-//     onClick={() => {}}
-//   />
-// ];
-
 const ConnectorsListView = () => {
   const {
     connectors,
@@ -38,7 +24,7 @@ const ConnectorsListView = () => {
 
   const makingItems = () =>
     FOLDER_ITEM_DROPDOWN_ACTIONS.map(({ title, icon }) => (
-      <IconButton title={title} render={() => icon} onClick={() => {}} />
+      <IconButton title={title} icon={icon} onClick={() => {}} size="small" />
     ));
 
   return (

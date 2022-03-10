@@ -134,3 +134,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 100vh;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(23, 64, 87, 0.7);
+  border-radius: 100vh;
+}

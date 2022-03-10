@@ -10,7 +10,7 @@ import TextInput from '../../common/components/TextInput';
 import Select from '../../common/components/Select';
 import ConnectorsList from './ConnectorsList/ConnectorsList';
 import ConnectorsListProvider from './context/connectorsList';
-import IconButton from '../../common/components/IconButton';
+import FloatingButton from '../../common/components/FloatingButton';
 import { ReactComponent as CreateConnector } from '../../layout/assets/create-connector.svg';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
@@ -166,12 +166,12 @@ function Connectors() {
       <ConnectorsListProvider>
         <ConnectorsList />
       </ConnectorsListProvider>
-      <IconButton
-        title="Создать коннектор"
-        className={styles.createButton}
-        render={() => <CreateConnector />}
+      <FloatingButton
+        icon={<CreateConnector />}
+        text="Создать коннектор"
         onClick={createConnectorModalHandler}
       />
+
       <Modal
         visible={isVisible}
         onClose={closeConnectorModalHandler}

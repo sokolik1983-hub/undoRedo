@@ -12,6 +12,7 @@ import styles from './IconButton.module.scss';
  * @param disabled - булево значение, которое дизейблит кнопку
  * @param className - класс, который добавится кнопке
  * @param active - булево значение для определения активного состояния
+ * @param icon - иконка для кнопки
  */
 
 const IconButton = ({
@@ -22,7 +23,7 @@ const IconButton = ({
   disabled,
   className,
   active,
-  render,
+  icon,
   ...props
 }) => {
   const classes = clsx(styles.iconButton, className, { active }, [
@@ -47,9 +48,8 @@ const IconButton = ({
       onClick={onClickAction}
       {...props}
     >
-      {/* TODO: Remove Icon component */}
-      <Icon color={color} size={size}>
-        {render && render()}
+      <Icon color={color} size={size} className={styles.icon}>
+        {icon}
       </Icon>
     </Tag>
   );
@@ -66,7 +66,7 @@ IconButton.propTypes = {
   active: PropTypes.bool,
   className: PropTypes.string,
   href: PropTypes.string,
-  render: PropTypes.func
+  icon: PropTypes.node
 };
 
 IconButton.defaultProps = {
@@ -74,5 +74,6 @@ IconButton.defaultProps = {
   onClick: () => {},
   size: 'medium',
   color: '',
-  disabled: false
+  disabled: false,
+  icon: null
 };

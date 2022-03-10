@@ -1,7 +1,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
-import { useContext, createContext, useState, useEffect } from 'react';
+import { useContext, createContext, useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getConnectors } from '../../../data/actions/connectors';
 import { sortFoldersAndItems } from '../helper';
@@ -11,14 +11,14 @@ export const useConnectorsListData = () => useContext(ConnectorsListContext);
 
 const ConnectorsListProvider = ({ children }) => {
   const dispatch = useDispatch();
+  const connectors = useSelector(state => state.app.data.connectors);
 
   // Получаем список коннекторов
   useEffect(() => {
     dispatch(getConnectors());
   }, []);
 
-  const rootFolder = useSelector(state => {
-    const connectors = state.app.data.connectors;
+  const rootFolder = useMemo(() => {
     if (!connectors.children) return connectors;
     const sortedConnectorsChildren = sortFoldersAndItems(connectors.children);
 
@@ -26,7 +26,7 @@ const ConnectorsListProvider = ({ children }) => {
       ...connectors,
       children: sortedConnectorsChildren
     };
-  });
+  }, [connectors]);
 
   const [foldersHistory, setFoldersHistory] = useState([rootFolder]);
   const [currentFolderIndex, setCurrentFolderIndex] = useState(0);
@@ -40,7 +40,7 @@ const ConnectorsListProvider = ({ children }) => {
 
   useEffect(() => {
     setFoldersHistory([rootFolder]);
-  }, []);
+  }, [connectors]);
 
   useEffect(() => {
     setActionButtonIsDisable({

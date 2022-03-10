@@ -10,11 +10,7 @@ const Search = ({ className, onSubmit, value, onChange }) => {
 
   return (
     <form className={classes} onSubmit={onSubmit}>
-      <IconButton
-        className={styles.btn}
-        render={() => <Magnifier />}
-        type="submit"
-      />
+      <IconButton className={styles.btn} icon={<Magnifier />} type="submit" />
       <TextInput
         className={styles.searchInput}
         id="search"
