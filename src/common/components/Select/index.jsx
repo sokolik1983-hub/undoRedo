@@ -1,20 +1,28 @@
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import Option from './Option';
+import styles from './Select.module.scss';
 
 /**
  * @param name - имя Select для HTML
  * @param options - передача элементов списка в виде [{value: '1', text: '1'},{}...]
  * @param defaultValue - значение по умолчанию, будет на первой строке
  * @param onSelectItem - возвращает выбранное значение
+ * @param fullWidth - компонент занимает всю ширину контейнера
  */
 
-const Select = ({ name, options, defaultValue, onSelectItem }) => {
+const Select = ({ name, options, defaultValue, onSelectItem, fullWidth }) => {
+  const classes = clsx(
+    { [styles.isJustify]: fullWidth }
+  );
+
   const handleItemSelect = e => {
     onSelectItem(e.target.value);
   };
 
   return (
     <select
+      className={classes}
       name={name || 'select'}
       onChange={handleItemSelect}
     >
@@ -37,11 +45,13 @@ Select.propTypes = {
     }).isRequired
   ),
   defaultValue: PropTypes.string,
+  fullWidth: PropTypes.bool,
   onSelectItem: PropTypes.func
 };
 
 Select.defaultProps = {
   name: '',
   options: [{ value: '', text: '' }],
-  onSelectItem: () => {}
+  onSelectItem: () => {},
+  fullWidth: false,
 };

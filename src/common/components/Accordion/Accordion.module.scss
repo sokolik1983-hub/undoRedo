@@ -1,0 +1,42 @@
+.accordion {
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.item {
+  &:hover {
+    background: rgba(0, 0, 0, 0.5);
+  }
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  cursor: pointer;
+  background: transparent; 
+  color: white;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  padding: 4px 30px 5px 18px;
+}
+
+.content {
+  background-color: transparent;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  color: white;
+  padding: 0 23px 16px 23px;
+
+  &.contentNoPadding {
+    padding-bottom: 0;
+  }
+}
+
+.arrowActive {
+  transform: rotate(-180deg);
+}

@@ -19,7 +19,10 @@
 }
 
 .content {
+  // padding: 64px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   width: 100vw;
+  overflow: hidden;
 }

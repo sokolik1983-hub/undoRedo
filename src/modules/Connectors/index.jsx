@@ -1,7 +1,7 @@
 /* eslint-disable */
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getConnectors, saveConnector } from '../../data/actions/connectors';
+import { saveConnector } from '../../data/actions/connectors';
 import styles from './Connectors.module.scss';
 import TreeView from '../../common/components/TreeView/index';
 import Button from '../../common/components/Button';
@@ -9,12 +9,15 @@ import Modal from '../../common/components/Modal';
 import TextInput from '../../common/components/TextInput';
 import Select from '../../common/components/Select';
 import ConnectorsList from './ConnectorsList/ConnectorsList';
+import ConnectorsListProvider from './context/connectorsList';
+import FloatingButton from '../../common/components/FloatingButton';
+import { ReactComponent as CreateConnector } from '../../layout/assets/create-connector.svg';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
 
 function Connectors() {
   const dispatch = useDispatch();
-  const connectors = useSelector(state => state.app.data.connectors);
+
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.CONNECTORS));
   }, []);
@@ -39,11 +42,6 @@ function Connectors() {
 
   // Видима/невидима модалка добавления коннектора
   const [isVisible, setIsVisible] = useState(false);
-
-  // Получаем список коннекторов
-  useEffect(() => {
-    dispatch(getConnectors());
-  }, []);
 
   // Делаем из полученных из словаря типов, источников, типов соединения подходящие массивы options для компонента Select
   const typeOptions = types?.map(item => ({
@@ -105,12 +103,13 @@ function Connectors() {
       <Select
         value={connectionType}
         onSelectItem={setConnectionType}
-        options={connectionOptions?.filter( // Фильтруем для получения подходящих options на основе источника
+        options={connectionOptions?.filter(
+          // Фильтруем для получения подходящих options на основе источника
           item => item.value === connectSource
         )}
         defaultValue="Тип соединения"
       />
-      {+connectionType === 2 && ( //В зависимости от выбранного типа соединения дорисовываем поля ввода 
+      {+connectionType === 2 && ( //В зависимости от выбранного типа соединения дорисовываем поля ввода
         <>
           <TextInput
             value={login}
@@ -164,9 +163,15 @@ function Connectors() {
 
   return (
     <div className={styles.root}>
-      Connectors Content
-      <ConnectorsList />
-      <Button onClick={createConnectorModalHandler}>Создать коннектор</Button>
+      <ConnectorsListProvider>
+        <ConnectorsList />
+      </ConnectorsListProvider>
+      <FloatingButton
+        icon={<CreateConnector />}
+        text="Создать коннектор"
+        onClick={createConnectorModalHandler}
+      />
+
       <Modal
         visible={isVisible}
         onClose={closeConnectorModalHandler}

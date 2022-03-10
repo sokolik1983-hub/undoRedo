@@ -1,12 +1,25 @@
 .iconButton {
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+
+  &:hover > .icon {
+    opacity: 1;
+  }
+}
+
+.icon {
+  opacity: 0.5;
 }
 
 .small {
   width: 28px;
   height: 28px;
   padding: 0;
-  margin: 10px;
+  margin: 0px;
 }
 
 .medium {

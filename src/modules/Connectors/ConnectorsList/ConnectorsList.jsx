@@ -1,19 +1,15 @@
-import { useSelector } from 'react-redux';
 import styles from './ConnectorsList.module.scss';
-import ConnectorsListNavigation from './ConnectorsListNavigation';
+import ConnectorsListNavigation from './ConnectorsListNavigation/ConnectorsListNavigation';
+import ConnectorsListView from './ConnectorsListView/ConnectorsListView';
 
-function ConnectorsList() {
-  const connectors = useSelector(state => state.app.data.connectors);
-
+const ConnectorsList = () => {
   return (
     <div className={styles.root}>
-      <div className={styles.title}>Spisok</div>
+      <div className={styles.title}>Список соединений</div>
       <ConnectorsListNavigation />
-      {connectors?.children?.map(item => {
-        return <p key={item.id}>{item.connect_name}</p>;
-      })}
+      <ConnectorsListView />
     </div>
   );
-}
+};
 
 export default ConnectorsList;

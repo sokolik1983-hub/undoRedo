@@ -11,6 +11,7 @@ import Roles from './modules/Roles';
 import RecycleBin from './modules/RecycleBin';
 import ReportDesigner from './modules/ReportDesigner';
 import SymlayersDesigner from './modules/SymlayersDesigner';
+import Symlayers from './modules/Symlayers';
 
 const routes = [
   {
@@ -24,7 +25,7 @@ const routes = [
       { path: 'users', element: <Users /> },
       { path: 'roles', element: <Roles /> },
       { path: 'connectors', element: <Connectors /> },
-      { path: 'symlayers', element: <Roles /> },
+      { path: 'symlayers', element: <Symlayers /> },
       { path: 'symlayers/create', element: <SymlayersDesigner /> },
       { path: 'trash', element: <RecycleBin /> },
       { path: 'report/create/:folder_id', element: <ReportDesigner /> },

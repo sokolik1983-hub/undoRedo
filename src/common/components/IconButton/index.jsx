@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import Icon from '../Icon/index';
+import Icon from '../Icon';
 import styles from './IconButton.module.scss';
 
 /**
@@ -12,6 +12,7 @@ import styles from './IconButton.module.scss';
  * @param disabled - булево значение, которое дизейблит кнопку
  * @param className - класс, который добавится кнопке
  * @param active - булево значение для определения активного состояния
+ * @param icon - иконка для кнопки
  */
 
 const IconButton = ({
@@ -22,14 +23,12 @@ const IconButton = ({
   disabled,
   className,
   active,
+  icon,
   ...props
 }) => {
-  const classes = clsx(
-    styles.iconButton,
-    className,
-    { active },
-    [styles[size]],
-  );
+  const classes = clsx(styles.iconButton, className, { active }, [
+    styles[size]
+  ]);
 
   const onClickAction = event => {
     if (disabled) {
@@ -49,8 +48,8 @@ const IconButton = ({
       onClick={onClickAction}
       {...props}
     >
-      <Icon color={color} size={size}>
-        {children}
+      <Icon color={color} size={size} className={styles.icon}>
+        {icon}
       </Icon>
     </Tag>
   );
@@ -66,7 +65,8 @@ IconButton.propTypes = {
   disabled: PropTypes.bool,
   active: PropTypes.bool,
   className: PropTypes.string,
-  href: PropTypes.string
+  href: PropTypes.string,
+  icon: PropTypes.node
 };
 
 IconButton.defaultProps = {
@@ -74,5 +74,6 @@ IconButton.defaultProps = {
   onClick: () => {},
   size: 'medium',
   color: '',
-  disabled: false
+  disabled: false,
+  icon: null
 };

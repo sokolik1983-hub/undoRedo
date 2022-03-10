@@ -1,0 +1,37 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  margin-left: 11px;
+}
+
+.list {
+  list-style-type: none;
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-left: 0;
+
+  &:last-child {
+    margin-left: 58px;
+  }
+}
+
+.text {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 144.69%;
+  border: none;
+  width: 100%;
+  justify-content: initial;
+  margin: 0;
+  white-space: nowrap;
+  margin-bottom: 5px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.noData {
+  color: rgba(255, 255, 255, 0.2);
+}

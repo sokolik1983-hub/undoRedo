@@ -1,0 +1,17 @@
+.folderItem {
+  padding: 5px 0 5px 18px;
+  display: flex;
+  align-items: center;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+  cursor: pointer;
+
+  & img {
+    display: block;
+    height: 100%;
+    margin-right: 6px;
+  }
+}

@@ -6,6 +6,7 @@ import styles from './TextInput.module.scss';
 /**
  * @param id - уникальное значние для инпута
  * @param className - классы для кастомизации инпута
+ * @param labelClassName - классы для кастомизации лейбла
  * @param label - строка содеражащая текст лейбла инпута
  * @param error - строка содержащая текст ошибки при валидации
  * @param onChange - функция для получения значения инпута
@@ -20,6 +21,7 @@ const TextInput = ({
   id,
   className,
   wrapperClassName,
+  labelClassName,
   label,
   error,
   onChange,
@@ -41,10 +43,15 @@ const TextInput = ({
     wrapperClassName
   )
 
+  const labelClasses = clsx(
+    styles.inputLabel,
+    labelClassName
+  )
+
   return (
     <div className={wrapperClasses}>
       {label && (
-        <label className={styles.inputlabel} htmlFor={id}>
+        <label className={labelClasses} htmlFor={id}>
           {label}
         </label>
       )}
@@ -70,6 +77,7 @@ TextInput.propTypes = {
   className: PropTypes.string,
   wrapperClassName: PropTypes.string,
   label: PropTypes.string,
+  labelClassName: PropTypes.string,
   error: PropTypes.string,
   onChange: PropTypes.func,
   onFocus: PropTypes.func,
@@ -82,6 +90,7 @@ TextInput.propTypes = {
 TextInput.defaultProps = {
   className: '',
   wrapperClassName: '',
+  labelClassName: '',
   label: '',
   error: '',
   onChange: () => {},
