@@ -15,7 +15,6 @@ export const sortFoldersAndItems = folderChildren => {
         sensitivity: 'accent'
       })
     );
-  debugger;
   const items = folderChildren
     ?.filter(i => !i?.isFolder)
     .sort((a, b) =>

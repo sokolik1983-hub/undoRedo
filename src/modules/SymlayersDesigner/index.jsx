@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
 import styles from './SymlayersDesigner.module.scss';
 import Sidebar from './Sidebar';
 import TablesList from './TablesList';
 import SchemaTables from './SchemaTables';
+import ObjectsConnectionEditor from './ObjectsConnectionEditor';
 
 function SymlayersDesigner() {
   const dispatch = useDispatch();
@@ -13,6 +14,8 @@ function SymlayersDesigner() {
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.SEMANTIC));
   }, []);
+
+  const isObjectsConnectionsModalOpened = useSelector(state => state.app.ui.modalVisible)
 
   return (
     <div className={styles.root}>
@@ -65,6 +68,8 @@ function SymlayersDesigner() {
           </div>
         </div>
       </div>
+      {isObjectsConnectionsModalOpened &&
+        <ObjectsConnectionEditor visible={isObjectsConnectionsModalOpened} />}
     </div>
   );
 }
