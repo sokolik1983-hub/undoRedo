@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import routes from './routes';
 import { REDIRECT_LINKS } from './common/constants/common';
 import { logout } from './data/reducers/auth';
-import { getDictionaries } from './data/actions/app'
+import { getDictionaries,getDictionariesReady } from './data/actions/app'
 
 function AuthProvider({ children }) {
   return <>{children}</>;
@@ -27,10 +27,18 @@ function App() {
       dispatch(logout());
       navigate(REDIRECT_LINKS.LOGIN_PAGE, { replace: false });
     }
-    dispatch(getDictionaries())
   }, []);
 
-  return <AuthProvider>{routing}</AuthProvider>;
+  const id = useSelector(state => state.app.data.dictionaries);
+  return (
+    <AuthProvider>
+      <div>
+        <button type="submit" onClick={() => dispatch(getDictionaries({login: 'tes1t', password: '123'}))}>Отправить запрос</button>
+        <button type="submit" onClick={() => dispatch(getDictionariesReady(id))}>Получить ответ</button>
+        {routing}
+      </div>
+    </AuthProvider>
+);
 }
 
 export default App;
