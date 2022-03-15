@@ -4,6 +4,12 @@ import PropTypes from 'prop-types';
 import { ReactComponent as Arrow } from '../../../layout/assets/semanticLayerModal/arrow.svg'
 import styles from './Accordion.module.scss';
 
+/**
+ * @param title - строка для заголовка
+ * @param noPadding - отсутствие нижнего отступа у элемента
+ * @param children - нода для отрисовки контента
+ */
+
 const Accordion = ({ title, noPadding, children }) => {
   const [isActive, setIsActive] = useState(false);
   const contentClasses = clsx(styles.content, {

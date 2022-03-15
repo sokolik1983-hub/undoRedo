@@ -1,44 +1,54 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import styles from './Radio.module.scss';
 
-const Radio = ({text1, text2}) => {
-  const [currentRadioValue, setCurrentValue] = useState()
+/**
+ * @param id - строка для связки лейбла и радио
+ * @param name - строка с именем радио
+ * @param label - строка - текст который ссылается на радио
+ * @param disabled - булево значение, задизейблен ли радио
+ * @param onChange - функция выполняющаяся при нажатии на радио
+ * @param className - класс для стилизации радио
+ * @param value - значние радио
+ */
 
-  const handleRadioChange = (e) => {
-    setCurrentValue(e.target.value);
-  };
+const Radio = ({
+  id,
+  name,
+  label,
+  disabled,
+  onChange,
+  wrapperClass,
+  labelClass,
+  value,
+  checked,
+  ...props
+}) => {
+  const wrapperClasses = clsx(styles.wrapper, wrapperClass);
+  const labelClasses = clsx(styles.label, labelClass);
 
-  return ( 
-    <div className={styles.wrapper}>
-      <div className={styles.indents}>
-        <label htmlFor="radioItem1" className={styles.text}>
-          <input
-            id="radioItem1"
-            className={styles.align}
-            name="radioItem1"
-            type="radio"
-            value="radio1"
-            onChange={handleRadioChange}
-            checked={currentRadioValue === 'radio1'}
-          />
-          {text1}
-        </label>
-      </div>
-      <div className={styles.indentsLarge}>
-        <label htmlFor="radioItem2" className={styles.text}>
-          <input
-            id="radioItem2"
-            className={styles.align}
-            name="radioItem2"
-            type="radio"
-            value="radio2"
-            onChange={handleRadioChange}
-            checked={currentRadioValue === 'radio2'}
-          />
-          {text2}
-        </label>
-      </div>
+  const handleChange = (event) => onChange(event);
+
+  const changeCb = !disabled && !checked ? handleChange : () => {};
+
+  return (
+    <div className={wrapperClasses}>
+      <input
+        id={id}
+        value={value}
+        name={name}
+        type="radio"
+        checked={checked}
+        onChange={changeCb}
+        disabled={disabled}
+        className={styles.input}
+        {...props}
+      />
+      <span className={styles.mark} />
+      <label htmlFor={id} className={labelClasses}>
+        {label}
+      </label>
     </div>
   );
 };
@@ -46,11 +56,25 @@ const Radio = ({text1, text2}) => {
 export default Radio;
 
 Radio.propTypes = {
-  text1: PropTypes.string,
-  text2: PropTypes.string,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  label: PropTypes.string,
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func,
+  wrapperClass: PropTypes.string,
+  labelClass: PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.string,
+  checked: PropTypes.bool
 };
 
 Radio.defaultProps = {
-  text1: '',
-  text2: ''
+  id: '',
+  name: '',
+  label: '',
+  wrapperClass: '',
+  labelClass: '',
+  value: '',
+  checked: false,
+  disabled: false,
+  onChange: () => {}
 };

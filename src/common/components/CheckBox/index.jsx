@@ -19,23 +19,26 @@ const CheckBox = ({
   label,
   disabled,
   onChange,
-  className,
+  wrapperClass,
+  labelClass,
   value,
   checked,
   ...props
 }) => {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(checked);
 
-  const classes = clsx(styles.checkBox, className);
+  const wrapperClasses = clsx(styles.wrapper, wrapperClass);
+  const labelClasses = clsx(styles.label, labelClass);
 
   const handleChange = event => {
     setIsChecked(event.target.checked);
-    onChange(event.target.checked);
+    onChange(event);
   };
 
   return (
-    <div className={classes}>
-      <label htmlFor={id} className={styles.container}>
+    // eslint-disable-next-line jsx-a11y/label-has-associated-control
+    <label className={wrapperClasses}>
+      <span className={styles.container}>
         <input
           id={id}
           value={value}
@@ -44,12 +47,15 @@ const CheckBox = ({
           checked={isChecked}
           onChange={handleChange}
           disabled={disabled}
+          className={styles.input}
           {...props}
         />
-        <span className={styles.checkMark} />
+        <span className={styles.mark} />
+      </span>
+      <label htmlFor={id} className={labelClasses}>
         {label}
       </label>
-    </div>
+    </label>
   );
 };
 
@@ -60,7 +66,8 @@ CheckBox.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
-  className: PropTypes.string,
+  wrapperClass: PropTypes.string,
+  labelClass: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.string,
   checked: PropTypes.bool
@@ -70,7 +77,8 @@ CheckBox.defaultProps = {
   id: '',
   name: '',
   label: '',
-  className: '',
+  wrapperClass: '',
+  labelClass: '',
   value: '',
   checked: false,
   disabled: false,

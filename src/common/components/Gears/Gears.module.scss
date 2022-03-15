@@ -1,0 +1,57 @@
+.circles {
+  position: absolute;
+  left: 7px;
+  top: 27px;
+  overflow:hidden;
+}
+
+.no1 {
+  height: 29px;
+  width: 29px;
+  left: -34px;
+  top: -3px;
+  background: url('../../../layout/assets/semanticLayerModal/gearTop.svg');
+  animation-name: crcA1;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.no2 {
+  left: -51px;
+  width: 22px;
+  height: 23px;
+  top:12px;
+  background: url('../../../layout/assets/semanticLayerModal/gearMiddle.svg');
+  animation-name: crcA2;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.no3 {
+  width: 17px;
+  height: 18px;
+  left: -36px;
+  top: 28px;
+  background: url('../../../layout/assets/semanticLayerModal/gearBottom.svg');
+  animation-name: crcA1;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.stop {
+  animation-name: inherit;
+}
+
+  
+@keyframes crcA1 {
+  0% {transform:rotate(0deg);}
+  100% {transform:rotate(360deg);}
+}
+
+@keyframes crcA2 {
+  0% {transform:rotate(0deg);}
+  100% {transform:rotate(-360deg);}
+}
