@@ -173,7 +173,7 @@ function Symlayers() {
         text="Создать юниверс"
         onClick={createConnectorModalHandler}
       />
-      {isVisible && <SemanticLayerModal />}
+      {isVisible && <SemanticLayerModal onClick={closeConnectorModalHandler} />}
     </div>
   );
 }
