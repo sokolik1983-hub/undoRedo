@@ -18,13 +18,13 @@
 .gearsIcon {
   position: absolute;
   right: -77px;
-  top: -12px;
+  top: -10px;
 }
 
 .wireIcon {
   position: absolute;
-  top: -22px;
-  right: 2px;
+  top: -23px;
+  right: 0px;
   cursor: pointer;
 
   &:hover + .hide {
@@ -37,7 +37,7 @@
   backdrop-filter: blur(7px);
   border-radius: 3px;
   top: -39px;
-  right: -51px;
+  right: -53px;
   }
 }
 

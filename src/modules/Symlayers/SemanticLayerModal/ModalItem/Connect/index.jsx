@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Gears from '../../../../../common/components/Gears';
 import ModalItem from '..';
@@ -13,6 +13,12 @@ import Button from '../../../../../common/components/Button';
 
 const Connect = ({title}) => {
 
+  const [isActive, setIsActive] = useState(false);
+
+  const onClickAction = () => {
+    setIsActive(!isActive);
+  }
+
   return (
     <ModalItem title={title}>
       <div className={styles.wrapper}>
@@ -22,7 +28,7 @@ const Connect = ({title}) => {
             <div className={styles.hide}>
               <p className={styles.text}>создать соединение</p>
             </div>
-            <Gears isSpinning className={styles.gearsIcon} />
+            <Gears isSpinning={isActive} className={styles.gearsIcon} />
           </div>
         </div>
         <Select 
@@ -34,7 +40,7 @@ const Connect = ({title}) => {
           <Button className={styles.edit}>
             Редактировать
           </Button>
-          <Button className={styles.test}>
+          <Button type='button' onClick={onClickAction} className={styles.test}>
             Тест соедиения
           </Button>
         </div>
