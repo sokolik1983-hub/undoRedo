@@ -13,7 +13,7 @@ import styles from './Select.module.scss';
 
 const Select = ({ name, options, defaultValue, onSelectItem, fullWidth }) => {
   const classes = clsx(
-    { [styles.isJustify]: fullWidth }
+    { [styles.isJustify]: fullWidth }, styles.content
   );
 
   const handleItemSelect = e => {
