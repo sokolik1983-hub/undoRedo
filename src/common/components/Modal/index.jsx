@@ -14,9 +14,10 @@ import  { ReactComponent as CloseIcon }  from '../../../layout/assets/close.svg'
  * @param titleClassName - классы для кастомизации title
  * @param dialogClassName - классы для кастомизации dialog
  * @param dialogClassName - классы для кастомизации header
+ * @param bodyClassName - класс для тела окна
  */
 
-const Modal = ({ visible, title, content, footer, onClose, withScroll, titleClassName, dialogClassName, headerClassName }) => {
+const Modal = ({ visible, title, content, footer, onClose, withScroll, titleClassName, dialogClassName, headerClassName, bodyClassName }) => {
   const [isModal, setIsModal] = useState(false);
 
   const modalClasses = clsx(
@@ -31,7 +32,8 @@ const Modal = ({ visible, title, content, footer, onClose, withScroll, titleClas
 
   const modalBodyClasses = clsx(
     styles.modalBody,
-    { [styles.modalBodyWithScroll]: withScroll }
+    { [styles.modalBodyWithScroll]: withScroll },
+    bodyClassName
   );
 
   const titleClasses = clsx(
@@ -97,7 +99,8 @@ Modal.propTypes = {
   onClose: PropTypes.func,
   titleClassName: PropTypes.string,
   dialogClassName: PropTypes.string,
-  headerClassName: PropTypes.string
+  headerClassName: PropTypes.string,
+  bodyClassName: PropTypes.string,
 };
 
 Modal.defaultProps = {

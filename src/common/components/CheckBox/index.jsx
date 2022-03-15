@@ -30,9 +30,9 @@ const CheckBox = ({
   const wrapperClasses = clsx(styles.wrapper, wrapperClass);
   const labelClasses = clsx(styles.label, labelClass);
 
-  const handleChange = event => {
-    setIsChecked(event.target.checked);
-    onChange(event);
+  const handleChange = () => {
+    setIsChecked(prev => !prev);
+    onChange(isChecked);
   };
 
   return (
@@ -52,7 +52,8 @@ const CheckBox = ({
         />
         <span className={styles.mark} />
       </span>
-      <label htmlFor={id} className={labelClasses}>
+      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+      <label htmlFor={id} className={labelClasses} onClick={handleChange}>
         {label}
       </label>
     </label>

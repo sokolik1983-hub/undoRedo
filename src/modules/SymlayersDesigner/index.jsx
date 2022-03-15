@@ -69,7 +69,7 @@ function SymlayersDesigner() {
         </div>
       </div>
       {isObjectsConnectionsModalOpened &&
-        <ObjectsConnectionEditor visible={isObjectsConnectionsModalOpened} />}
+        <ObjectsConnectionEditor visible={isObjectsConnectionsModalOpened && true} />}
     </div>
   );
 }
