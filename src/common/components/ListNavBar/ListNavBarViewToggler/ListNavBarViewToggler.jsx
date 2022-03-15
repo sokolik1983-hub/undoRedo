@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import IconButton from '../../../../common/components/IconButton';
+import IconButton from '../../IconButton';
 import { ReactComponent as SingleColumn } from '../../../../layout/assets/toggle-single-column.svg';
 import { ReactComponent as MultipleColumns } from '../../../../layout/assets/toggle-multiple-columns.svg';
-import styles from './ConnectorsListNavigationViewToggler.module.scss';
+import styles from './ListNavBarViewToggler.module.scss';
 
-const ConnectorsListNavigationViewToggler = ({ showMultipleColumns }) => {
+const ListNavBarViewToggler = ({ showMultipleColumns }) => {
   return (
     <div className={styles.viewToggle}>
       <IconButton
@@ -21,8 +21,8 @@ const ConnectorsListNavigationViewToggler = ({ showMultipleColumns }) => {
   );
 };
 
-export default ConnectorsListNavigationViewToggler;
+export default ListNavBarViewToggler;
 
-ConnectorsListNavigationViewToggler.propTypes = {
+ListNavBarViewToggler.propTypes = {
   showMultipleColumns: PropTypes.func
 };

@@ -12,6 +12,7 @@ import { ReactComponent as FindTool } from '../../layout/assets/semanticActionsI
 import { ReactComponent as RefreshStructure } from '../../layout/assets/semanticActionsIcons/refreshStructure.svg';
 import { ReactComponent as Divider } from '../../layout/assets/headerActionsDivider.svg';
 
+export const TABLE_CELL_EMPTY_VALUE = '-';
 
 export const REDIRECT_LINKS = {
   HOME_PAGE: '/Reporting/dashboard',

@@ -1,0 +1,33 @@
+.listItem {
+  padding: 5px 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-self: center;
+  grid-gap: 6px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+  cursor: pointer;
+
+  &.active {
+    background-color: #2b6dd0;
+    border-radius: 3px;
+    color: #ffffff;
+    transition: all 0.2s;
+  }
+
+  & .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  & .name {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
