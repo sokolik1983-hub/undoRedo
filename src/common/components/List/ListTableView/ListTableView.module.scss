@@ -38,4 +38,9 @@
   & td {
     padding-left: 18px;
   }
+
+  & col:not(:first-child) {
+    width: 15%;
+    min-width: 150px;
+  }
 }

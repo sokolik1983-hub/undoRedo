@@ -24,6 +24,7 @@ const ListNavBar = ({
   moveToNextFolder,
   actionButtonIsDisable,
   getBreadcrumbs,
+  isMulticolumnsView,
   multiColumnViewAction,
   searchValue,
   setSearchValue,
@@ -45,7 +46,10 @@ const ListNavBar = ({
           value={getBreadcrumbs()}
           disabled
         />
-        <ListNavBarViewToggler showMultipleColumns={multiColumnViewAction} />
+        <ListNavBarViewToggler
+          isMulticolumnsView={isMulticolumnsView}
+          showMultipleColumns={multiColumnViewAction}
+        />
       </div>
       <Search
         className={styles.search}
@@ -65,6 +69,7 @@ ListNavBar.propTypes = {
   moveToNextFolder: PropTypes.func,
   actionButtonIsDisable: PropTypes.object,
   getBreadcrumbs: PropTypes.func,
+  isMulticolumnsView: PropTypes.bool,
   multiColumnViewAction: PropTypes.func,
   searchValue: PropTypes.string,
   setSearchValue: PropTypes.func,

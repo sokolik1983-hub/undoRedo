@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import useClickOutside from '../../../helpers/useClickOutside';
 import styles from './ListItem.module.scss';
 
-const ListItem = ({ name, onDoubleClick, className, icon }) => {
+const ListItem = ({ name, onDoubleClick, className, icon, ...props }) => {
   const [active, setActive] = useState(false);
   const clickRef = useRef();
 
@@ -24,6 +24,7 @@ const ListItem = ({ name, onDoubleClick, className, icon }) => {
       onDoubleClick={onDoubleClick}
       onClick={toggleMenu}
       ref={clickRef}
+      {...props}
     >
       <span className={styles.icon}>{icon}</span>
       <span className={styles.name}>{name}</span>

@@ -15,6 +15,10 @@
   height: max-content;
   width: max-content;
 
+  &:disabled {
+    pointer-events: none;
+  }
+
   &:disabled svg {
     fill: #ababab;
   }

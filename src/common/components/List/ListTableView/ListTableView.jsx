@@ -5,12 +5,10 @@ const ListTableView = ({ tableHeader, tableRows }) => {
   return (
     <div className={styles.tableWrapper}>
       <table className={styles.listTable}>
-        {/* TODO: make dynamic cols count */}
         <colgroup>
-          <col span="1" />
-          <col span="1" style={{ width: '15%' }} />
-          <col span="1" style={{ width: '15%' }} />
-          <col span="1" style={{ width: '15%' }} />
+          {tableHeader.map(i => (
+            <col key={i.props.children} span="1" />
+          ))}
         </colgroup>
         <thead>
           <tr>{tableHeader}</tr>

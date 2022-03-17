@@ -19,6 +19,7 @@ import { ReactComponent as FolderIcon } from '../../../layout/assets/folder-icon
 import { ReactComponent as ConnectorIcon } from '../../../layout/assets/connector-icon.svg';
 import { TABLE_CELL_EMPTY_VALUE } from '../../../common/constants/common';
 import styles from './ConnectorsList.module.scss';
+import Tooltip from '../../../common/components/NewTooltip/Tooltip';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
@@ -123,20 +124,24 @@ const ConnectorsList = () => {
 
   const getUniverseDropdownItems = id =>
     FOLDER_ITEM_DROPDOWN_ACTIONS.map(item => (
-      <DropdownItem
-        className={styles.dropdownItem}
-        onClick={action => handleItemClick(id, action)}
-        item={item}
-      />
+      <Tooltip key={item.action} text={item.title} space={5}>
+        <DropdownItem
+          className={styles.dropdownItem}
+          onClick={action => handleItemClick(id, action)}
+          item={item}
+        />
+      </Tooltip>
     ));
 
   const getFolderDropdownItems = id =>
     FOLDER_DROPDOWN_ACTIONS.map(item => (
-      <DropdownItem
-        className={styles.dropdownItem}
-        onClick={action => handleItemClick(id, action)}
-        item={item}
-      />
+      <Tooltip key={item.action} text={item.title} space={5}>
+        <DropdownItem
+          className={styles.dropdownItem}
+          onClick={action => handleItemClick(id, action)}
+          item={item}
+        />
+      </Tooltip>
     ));
 
   const listItems = foldersHistory[currentFolderIndex]?.children;
@@ -226,6 +231,7 @@ const ConnectorsList = () => {
         moveToNextFolder={moveToNextFolder}
         actionButtonIsDisable={actionButtonIsDisable}
         getBreadcrumbs={getBreadcrumbs}
+        isMulticolumnsView={multiColumnView}
         multiColumnViewAction={setMultiColumnView}
         searchValue={searchValue}
         setSearchValue={setSearchValue}
