@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import cn from 'clsx';
 import PropTypes from 'prop-types'
@@ -9,37 +10,20 @@ import styles from './ObjectsConnectionsEditor.module.scss';
 import ConnectionTable from './ConnectionTable';
 import ConnectionType from './ConnectionType';
 import FormulaBlock from './FormulaBlock';
+import SqlEditor from './SqlEditor';
+import { TABLE1_EXAMPLE, TABLE2_EXAMPLE } from '../../../common/constants/universes';
 
-const TABLE1_EXAMPLE = {
-  id: 1,
-  name: 'Table1',
-  columns: [
-    { id: 1, name: 'column1' },
-    { id: 2, name: 'column2' },
-    { id: 3, name: 'column3' },
-    { id: 4, name: 'column4' },
-    { id: 5, name: 'column5' }
-  ]
-};
-
-const TABLE2_EXAMPLE = {
-  id: 2,
-  name: 'Table2',
-  columns: [
-    { id: 1, name: 'column6' },
-    { id: 2, name: 'column7' },
-    { id: 3, name: 'column8' },
-    { id: 4, name: 'column9' },
-    { id: 5, name: 'column0' }
-  ]
-};
+// TODO: добавить обработку при выборе полей таблиц
 
 const ObjectsConnectionEditor = ({visible}) => {
   const dispatch = useDispatch();
+  const [sqlEditorOpened, setSqlEditorOpened] = useState(false);
+
   const closeHandler = () => {
     return dispatch(setObjectsConnectionsModal(false))
   };
-  const modalContent = () => {
+
+  const changeConnectionModalContent = () => {
     return (
       <div className={styles.modalWrapper}>
         <div className={styles.tablesWrapper}>
@@ -47,9 +31,13 @@ const ObjectsConnectionEditor = ({visible}) => {
           <ConnectionType />
           <ConnectionTable tableName='Таблица В' tables={[TABLE1_EXAMPLE, TABLE2_EXAMPLE]} />
         </div>
-        <FormulaBlock />
+        <FormulaBlock
+          editButtonEnabled
+          handleOpenSqlEditor={() => setSqlEditorOpened(true)}
+          showTitle
+        />
         <div className={cn(modalStyles.buttonsWrapper, styles.buttonsWrapper)}>
-          <Button className={modalStyles.save}>Сохранить</Button>
+          <Button className={cn(modalStyles.save, styles.save)}>Сохранить</Button>
           <Button
             className={modalStyles.cancel}
             onClick={closeHandler}
@@ -57,6 +45,12 @@ const ObjectsConnectionEditor = ({visible}) => {
             Отмена
           </Button>
         </div>
+        {sqlEditorOpened && (
+          <SqlEditor
+            visible={sqlEditorOpened && true}
+            handleCloseClick={() => setSqlEditorOpened(false)}
+          />
+        )}
       </div>
     )
   };
@@ -64,7 +58,7 @@ const ObjectsConnectionEditor = ({visible}) => {
   return (
     <Modal
       title='Изменить связь'
-      content={modalContent()}
+      content={changeConnectionModalContent()}
       withScroll={false}
       visible={visible}
       onClose={closeHandler}
@@ -72,6 +66,7 @@ const ObjectsConnectionEditor = ({visible}) => {
       dialogClassName={cn(modalStyles.dialog, styles.dialog)}
       headerClassName={modalStyles.header}
       bodyClassName={styles.modalBody}
+      contentClassName={styles.modalContent}
     />
   )
 };

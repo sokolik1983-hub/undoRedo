@@ -40,7 +40,7 @@ const ConnectionTable = ({tableName, tables}) => {
         {selectedTable && selectedTable.columns.map(item => (<option value={item.name} key={item.id}>{item.name}</option>))}
       </select>
       <div className={styles.outsideConnectCheckbox}>
-        <CheckBox label='Внешнее объединение' />
+        <CheckBox wrapperClass={styles.checkBoxWrapper} label='Внешнее объединение' />
       </div>
     </div>
   )

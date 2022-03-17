@@ -4,6 +4,13 @@
   height: 570px;
 };
 
+.sqlDialog {
+  max-width: unset;
+  margin: 0 5%;
+  height: 520px;
+  background: linear-gradient(152.97deg, #005889 0%, rgba(0, 88, 137, 0.5) 100%);
+};
+
 .tablesWrapper {
   display: flex;
   flex-direction: row;
@@ -21,9 +28,11 @@
 
 .buttonsWrapper {
   height: 53px;
+  justify-content: center;
+  margin-top: 29px;
 }
 
-.modalWrapper {
+.modalWrapper, .sqlModalWrapper {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -184,4 +193,66 @@
   position: absolute;
   top: 15px;
   right: 32px;
+}
+
+.sqlMainContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100%;
+  padding: 8px 23px 11px 23px;
+  color: #FFFFFF;
+}
+
+.sqlBottomContent {
+
+}
+
+.sqlFunctionDescription {
+  padding-left: 26px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: #FFFFFF;
+}
+
+.sqlFunctionDescText {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  padding: 8px 23px;
+  height: 50px;
+  overflow-y: auto;
+  margin-top: 4px;
+
+  color: #FFFFFF;
+}
+
+.save {
+  margin: unset;
+}
+
+.modalContent {
+  padding-top: 0;
+  padding-bottom: 28px;
+}
+
+.sqlTables, .sqlOperators, .sqlFunctions {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.sqlOperators {
+  width: 145px;
+  margin: 0 12px;
+}
+
+.tableColumnName {
+  padding-left: 15px;
+}
+
+.checkBoxWrapper {
+  align-items: center;
 }
