@@ -7,11 +7,12 @@ import modalStyles from '../../../Symlayers/SemanticLayerModal/SemanticLayerModa
 import Modal from '../../../../common/components/Modal';
 import SqlMiddleContent from './SqlMiddleContent';
 
-const SqlConnectionEditor = ({ visible, handleCloseClick }) => {
+const SqlConnectionEditor = ({ visible, handleCloseClick, expression }) => {
+  console.log(expression);
   const modalContent = () => {
     return (
       <div className={styles.sqlModalWrapper}>
-        <FormulaBlock editButtonEnabled={false} />
+        <FormulaBlock editButtonEnabled={false} text={expression} />
         <SqlMiddleContent />
         <div className={styles.sqlBottomContent}>
           <span className={styles.sqlFunctionDescription}>
@@ -61,5 +62,6 @@ export default SqlConnectionEditor;
 
 SqlConnectionEditor.propTypes = {
   handleCloseClick: PropTypes.func,
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
+  expression: PropTypes.string,
 }
