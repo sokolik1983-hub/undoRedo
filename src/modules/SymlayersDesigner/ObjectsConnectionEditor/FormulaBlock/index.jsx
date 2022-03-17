@@ -1,13 +1,16 @@
-// import { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types'
 import styles from '../ObjectsConnectionsEditor.module.scss';
 import Button from '../../../../common/components/Button';
 import Gears from '../../../../common/components/Gears';
 
 const FormulaBlock = ({editButtonEnabled, handleOpenSqlEditor, showTitle, text}) => {
-  // const [isSpinning, setIsSpinning] = useState(false); -  TODO: расскоментировать
-  const isSpinning = false; // TODO: удалить, после расскоментирования выше
+  const [isSpinning, setIsSpinning] = useState(false);
 
+  const handleTestButtonClick = () => {
+    setIsSpinning(true);
+    setTimeout(() => setIsSpinning(false), 3000);
+  };
   return (
     <div className={styles.formulaWrapper}>
       {showTitle && <span className={styles.expressionTitle}>Выражение</span> }
@@ -25,7 +28,9 @@ const FormulaBlock = ({editButtonEnabled, handleOpenSqlEditor, showTitle, text})
                 Редактировать
               </Button>
             )}
-            <Button className={styles.testButton}>Тестировать</Button>
+            <Button className={styles.testButton} onClick={handleTestButtonClick}>
+              Тестировать
+            </Button>
           </div>
         </div>
         <Gears isSpinning={isSpinning} className={styles.gearsIcon} />

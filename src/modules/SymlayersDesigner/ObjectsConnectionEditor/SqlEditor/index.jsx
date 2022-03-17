@@ -8,7 +8,6 @@ import Modal from '../../../../common/components/Modal';
 import SqlMiddleContent from './SqlMiddleContent';
 
 const SqlConnectionEditor = ({ visible, handleCloseClick, expression }) => {
-  console.log(expression);
   const modalContent = () => {
     return (
       <div className={styles.sqlModalWrapper}>
