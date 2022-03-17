@@ -30,6 +30,23 @@ export const TABLE2_EXAMPLE = {
     { id: 2, name: 'column7' },
     { id: 3, name: 'column8' },
     { id: 4, name: 'column9' },
-    { id: 5, name: 'column0' }
+    { id: 5, name: 'column10' }
   ]
 };
+
+export const TABLE3_EXAMPLE = {
+  id: 3,
+  name: 'Table3',
+  columns: [
+    { id: 1, name: 'column11' },
+    { id: 2, name: 'column12' },
+    { id: 3, name: 'column13' },
+    { id: 4, name: 'column14' },
+    { id: 5, name: 'column15' }
+  ]
+};
+
+export const TABLES_NAME_FOR_CONNECT = {
+  TABLE_A: 'Таблица А',
+  TABLE_B: 'Таблица В',
+}

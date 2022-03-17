@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { useState } from 'react';
 import {ReactComponent as DefineConnectionIcon} from '../../../../layout/assets/semanticActionsIcons/defineConnections.svg';
 import styles from '../ObjectsConnectionsEditor.module.scss';
@@ -6,18 +7,22 @@ import ConnectionImages from './ConnectionImages';
 import Tooltip from '../../../../common/components/Tooltip';
 
 const values = [
-  {value: '=', text: '='},
-  {value: '!=', text: '!='},
-  {value: '<', text: '<'},
-  {value: '>', text: '>'},
+  {value: '=', text: '=', name: 'EQUAL'},
+  {value: '!=', text: '!=', name: 'NO_EQUAL'},
+  {value: '<', text: '<', name: 'LESS_THAN'},
+  {value: '>', text: '>', name: 'MORE_THAN'},
 ];
 
-const ConnectionType = () => {
+const ConnectionType = ({ onSelectExpression }) => {
   const [left, setLeft] = useState(false);
   const [right, setRight] = useState(false);
+
+  // меняет значение 1 к N слева
   const handleLeftSideClick = () => {
     setLeft(prev => !prev)
   }
+
+  // меняет значение 1 к N справа
   const handleRightSideClick = () => {
     setRight(prev => !prev)
   };
@@ -37,6 +42,8 @@ const ConnectionType = () => {
         <Select
           className={styles.connectionSelect}
           options={values}
+          onSelectItem={onSelectExpression}
+          // defaultValue={values[0].value}
         />
         <div onClick={() => handleRightSideClick()}>
           <ConnectionImages side='right' connectSeveral={right} />
@@ -47,3 +54,7 @@ const ConnectionType = () => {
 };
 
 export default ConnectionType;
+
+ConnectionType.propTypes = {
+  onSelectExpression: PropTypes.func // возвращает выбранный оператор
+}

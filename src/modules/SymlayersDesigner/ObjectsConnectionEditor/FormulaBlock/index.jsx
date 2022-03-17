@@ -4,7 +4,7 @@ import styles from '../ObjectsConnectionsEditor.module.scss';
 import Button from '../../../../common/components/Button';
 import Gears from '../../../../common/components/Gears';
 
-const FormulaBlock = ({editButtonEnabled, handleOpenSqlEditor, showTitle}) => {
+const FormulaBlock = ({editButtonEnabled, handleOpenSqlEditor, showTitle, text}) => {
   // const [isSpinning, setIsSpinning] = useState(false); -  TODO: расскоментировать
   const isSpinning = false; // TODO: удалить, после расскоментирования выше
 
@@ -14,7 +14,7 @@ const FormulaBlock = ({editButtonEnabled, handleOpenSqlEditor, showTitle}) => {
       <div className={styles.expressionWrapper}>
         <div className={styles.formulaLeftSide}>
           <div className={styles.expressionBox}>
-            Information_schema.constraint_table_usage.constraint_catalog=information_schema.check_constraints.constraint_catalog
+            {text}
           </div>
           <div className={styles.formulaButtons}>
             {editButtonEnabled && (
@@ -40,4 +40,5 @@ FormulaBlock.propTypes = {
   editButtonEnabled: PropTypes.bool.isRequired,
   handleOpenSqlEditor: PropTypes.func,
   showTitle: PropTypes.bool,
+  text: PropTypes.string
 }
