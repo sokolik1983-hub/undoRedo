@@ -9,12 +9,14 @@ import styles from './Select.module.scss';
  * @param defaultValue - значение по умолчанию, будет на первой строке
  * @param onSelectItem - возвращает выбранное значение
  * @param fullWidth - компонент занимает всю ширину контейнера
+ * @param className - стили
  */
 
-const Select = ({ name, options, defaultValue, onSelectItem, fullWidth }) => {
+const Select = ({ name, options, defaultValue, onSelectItem, fullWidth, className }) => {
   const classes = clsx(
-    styles.select,
-    { [styles.isJustify]: fullWidth }
+    { [styles.isJustify]: fullWidth },
+    styles.content,
+    className
   );
 
   const handleItemSelect = e => {
@@ -47,7 +49,8 @@ Select.propTypes = {
   ),
   defaultValue: PropTypes.string,
   fullWidth: PropTypes.bool,
-  onSelectItem: PropTypes.func
+  onSelectItem: PropTypes.func,
+  className: PropTypes.string,
 };
 
 Select.defaultProps = {

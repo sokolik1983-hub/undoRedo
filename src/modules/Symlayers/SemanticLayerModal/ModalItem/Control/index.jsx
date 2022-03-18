@@ -1,39 +1,39 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ModalItem from '..';
 import styles from './Control.module.scss';
-import CheckBox from '../../../../../common/components/CheckBox';
+import CheckboxField from '../../../../../common/components/formikFields/checkboxField';
 import TextInput from '../../../../../common/components/TextInput';
 
-const Control = () => {
+/**
+ * @param title - строка для заголовка
+ */
+
+const ControlMap = [
+  { value: 'maxRequest', label: 'Результат запроса не более' },
+  { value: 'maxTime', label: 'Время выполение запроса не более' },
+  { value: 'maxText', label: 'Текстовые строки не более' },
+];
+
+const Control = ({title}) => {
 
   return (
-    <ModalItem title='Управление'>
+    <ModalItem title={title}>
       <div className={styles.wrapper}>
         <div className={styles.leftColumn}>
-          <div className={styles.wrapper}>
-            <CheckBox />
-            <p className={styles.text}>Результат запроса не более</p>
-          </div>
-          <div className={styles.wrapper}>
-            <CheckBox />
-            <p className={styles.text}>Время выполение запроса не более</p>
-          </div>
-          <div className={styles.wrapper}>
-            <CheckBox />
-            <p className={styles.lastText}>Текстовые строки не более</p>
-          </div>
+          {ControlMap.map(item => <CheckboxField name='Control' key={item.value} {...item} />)}
         </div>
         <div className={styles.rightColumn}>
           <div className={styles.wrapper}>
-            <TextInput className={styles.input} />
+            <TextInput className={styles.input} id='strings' value='' />
             <span className={styles.text}>строк</span>
           </div>
           <div className={styles.wrapper}>
-            <TextInput className={styles.input} />
+            <TextInput className={styles.input} id='mins' value='' />
             <span className={styles.text}>минут</span>
           </div>
           <div className={styles.wrapper}>
-            <TextInput className={styles.lastInput} />
+            <TextInput className={styles.lastInput} id='symbols' value='' />
             <span className={styles.text}>символов</span>
           </div>
         </div>
@@ -43,3 +43,11 @@ const Control = () => {
 };
 
 export default Control;
+
+Control.propTypes = {
+  title: PropTypes.string
+};
+
+Control.defaultProps = {
+  title: ''
+};
