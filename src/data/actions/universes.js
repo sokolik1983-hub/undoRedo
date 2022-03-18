@@ -1,6 +1,7 @@
 import { request } from '../helpers';
 import { setUniverses } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
+import { showObjectsConnectionsModal, closeModal } from '../reducers/ui';
 
 export const getUniverses = queryParams => {
   return async dispatch => {
@@ -53,3 +54,6 @@ export const removeConnector = queryParams => {
   };
 };
 
+export const setObjectsConnectionsModal = (open) => {
+  return dispatch => dispatch(open ? showObjectsConnectionsModal() : closeModal());
+};

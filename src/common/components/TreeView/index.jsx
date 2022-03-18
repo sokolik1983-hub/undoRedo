@@ -19,8 +19,6 @@ const TreeView = ({ data = [], onSelect, onRefresh }) => {
       array: clonedData,
       value: selectedEl.parent_id
     });
-    // eslint-disable-next-line no-debugger
-    debugger;
     if (targetFolder && targetFolder.isFolder) {
       targetFolder.children.push({ ...selectedEl, parent_id: targetFolder.id });
     }

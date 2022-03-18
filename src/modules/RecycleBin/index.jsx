@@ -37,7 +37,6 @@ function RecycleBin() {
 
   const handleRestore = item => () => {
     dispatch(restoreTrashItem({ id: item.id, type_name: item.type_name }));
-    console.log({ id: item.id, type_name: item.type_name });
   };
 
   const handleClear = () => {
