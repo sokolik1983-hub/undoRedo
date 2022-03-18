@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-vars */
 import clsx from 'clsx';
@@ -8,75 +9,126 @@ import styles from './Tooltip.module.scss';
 
 const newPlacement = position => ({
   current: position,
-  flip() {
+  flipX() {
     if (this.current === 'left') return 'right';
     if (this.current === 'right') return 'left';
     if (this.current === 'top-left') return 'top-right';
     if (this.current === 'top-right') return 'top-left';
     if (this.current === 'bottom-left') return 'bottom-right';
     if (this.current === 'bottom-right') return 'bottom-left';
+  },
+  flipY() {
+    if (this.current === 'top-left') return 'bottom-left';
+    if (this.current === 'top-right') return 'bottom-right';
+    if (this.current === 'bottom-left') return 'top-left';
+    if (this.current === 'bottom-right') return 'top-right';
   }
 });
 
 const getPoint = (elem, tooltip, placement, space) => {
-  const point = { x: 0, y: 0 };
+  let point = { x: 0, y: 0 };
   const { top, bottom, left, right } = elem.getBoundingClientRect();
   const boundaries = {
     top: space,
-    bottom: window.innerHeight - elem.offsetHeight - space,
+    bottom: window.innerHeight - tooltip.offsetHeight - space,
     left: space,
-    right: window.innerWidth - elem.offsetWidth - space
+    right: window.innerWidth - tooltip.offsetWidth - space
   };
+  // Проверка: пересекает ли элемент правую границу
+  const rightOverlap = right > window.innerWidth - space;
+  // Проверка: пересекает ли элемент левую границу
+  const leftOverlap = left < space;
 
-  switch (placement) {
-    case 'top-left': {
-      point.x = left;
-      point.y = top - tooltip.offsetHeight - space;
-      break;
-    }
-    case 'top-right': {
-      point.x = right - tooltip.offsetWidth;
-      point.y = top - tooltip.offsetHeight - space;
-      break;
-    }
-    case 'bottom-right': {
-      point.x = right - tooltip.offsetWidth;
-      point.y = top + tooltip.offsetHeight + space;
-      break;
-    }
-    case 'left': {
-      point.x = left - tooltip.offsetWidth - space;
-      point.y = top + (elem.offsetHeight - tooltip.offsetHeight) / 2;
-      break;
-    }
-    case 'right': {
-      point.x = right + space;
-      point.y = top + (elem.offsetHeight - tooltip.offsetHeight) / 2;
-      break;
-    }
-    default:
-      // bottom-left is default
-      point.x = left;
-      point.y = bottom + space;
-  }
+  /* переменная count нужна для создания условия выхода из рекурсии,
+   * в случае если тултип нигде не помещается
+   */
+  let count = 0;
 
-  // if (
-  //   ((placement === 'left' || placement === 'right') &&
-  //     (point.x > boundaries.right || point.x < boundaries.left)) ||
-  //   ((placement === 'top' || placement === 'bottom') &&
-  //     (point.y > boundaries.bottom || point.y < boundaries.top))
-  // )
-  //   getPoint(elem, tooltip, newPlacement(placement), space);
+  return (function recursive(placement) {
+    count++;
 
-  return point;
+    switch (placement) {
+      case 'top-left': {
+        point.x = leftOverlap ? space : left;
+        point.y = top - tooltip.offsetHeight - space;
+        break;
+      }
+      case 'top-right': {
+        point.x = rightOverlap
+          ? window.innerWidth - tooltip.offsetWidth - space
+          : right - tooltip.offsetWidth;
+        point.y = top - tooltip.offsetHeight - space;
+        break;
+      }
+      case 'bottom-right': {
+        point.x = rightOverlap
+          ? window.innerWidth - tooltip.offsetWidth - space
+          : right - tooltip.offsetWidth;
+        point.y = top + elem.offsetHeight + space;
+        break;
+      }
+      case 'left': {
+        point.x = left - tooltip.offsetWidth - space;
+        point.y = top + (elem.offsetHeight - tooltip.offsetHeight) / 2;
+        break;
+      }
+      case 'right': {
+        point.x = right + space;
+        point.y = top + (elem.offsetHeight - tooltip.offsetHeight) / 2;
+        break;
+      }
+      default:
+        // bottom-left is default
+        point.x = leftOverlap ? space : left;
+        point.y = bottom + space;
+    }
+
+    /* отменяем рекурсию если ни изначальное положение тултипа ни противоположное
+     * не удовлетворяют граничным условиям
+     */
+    if (count > 2) return;
+
+    // пересечение по вертикали и горизонтали
+    const isUpAndRightIntersection =
+      point.x > boundaries.right && point.y < boundaries.top;
+    const isUpAndLeftIntersection =
+      point.x < boundaries.left && point.y < boundaries.top;
+    const isBottomAndRightIntersection =
+      point.x > boundaries.right && point.y > boundaries.bottom;
+    const isBottomAndLeftIntersection =
+      point.x < boundaries.left && point.y > boundaries.bottom;
+    // пересечение только по вертикали и горизонтали
+    const isVerticalIntersection =
+      point.y < boundaries.top || point.y > boundaries.bottom;
+    const isHorizontalIntersection =
+      point.x < boundaries.left || point.x > boundaries.right;
+
+    if (isUpAndRightIntersection) point = recursive('bottom-right');
+    if (isUpAndLeftIntersection) point = recursive('bottom-left');
+    if (isBottomAndRightIntersection) point = recursive('top-right');
+    if (isBottomAndLeftIntersection) point = recursive('top-left');
+    if (isVerticalIntersection)
+      point = recursive(newPlacement(placement).flipY());
+    if (isHorizontalIntersection)
+      point = recursive(newPlacement(placement).flipX());
+
+    return point;
+  })(placement);
 };
 
-const Tooltip = ({ text, placement, space, children }) => {
+const Tooltip = ({
+  className,
+  text,
+  placement,
+  space,
+  isCtrlHold,
+  children
+}) => {
   const [isVisible, setIsVisible] = useState(false);
   const positionRef = useRef({ x: 0, y: 0 });
   const tooltipRef = useRef();
 
-  const tooltipClasses = clsx(styles.tooltip, {
+  const tooltipClasses = clsx(styles.tooltip, className, {
     [styles.visible]: isVisible
   });
 
@@ -90,10 +142,16 @@ const Tooltip = ({ text, placement, space, children }) => {
     );
   };
 
+  const handleMouseOverCtrl = e => {
+    if (e.ctrlKey) {
+      handleMouseOver(e);
+    }
+  };
+
   return (
     <>
       {cloneElement(children, {
-        onMouseOver: handleMouseOver,
+        onMouseOver: isCtrlHold ? handleMouseOverCtrl : handleMouseOver,
         onMouseOut: () => setIsVisible(false)
       })}
 
@@ -117,6 +175,7 @@ const Tooltip = ({ text, placement, space, children }) => {
 export default Tooltip;
 
 Tooltip.propTypes = {
+  className: PropTypes.string,
   text: PropTypes.string,
   children: PropTypes.node,
   placement: PropTypes.oneOf([
@@ -127,7 +186,8 @@ Tooltip.propTypes = {
     'left',
     'right'
   ]),
-  space: PropTypes.any
+  space: PropTypes.any,
+  isCtrlHold: PropTypes.bool
 };
 
 Tooltip.defaultProps = {

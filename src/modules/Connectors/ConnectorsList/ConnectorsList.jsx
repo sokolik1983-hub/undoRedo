@@ -164,14 +164,20 @@ const ConnectorsList = () => {
             className={styles.dropdownColumn}
             itemsWrapper={styles.itemsWrapper}
             mainButton={
-              <ListItem
-                className={styles.folderItemsColumnView}
-                name={isFolder ? item.folder_name : item.connect_name}
-                onDoubleClick={
-                  isFolder ? () => onFolderDoubleClick(item) : null
-                }
-                icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
-              />
+              <Tooltip
+                placement="bottom-left"
+                text={isFolder ? item.folder_name : item.connect_name}
+                space={5}
+              >
+                <ListItem
+                  className={styles.folderItemsColumnView}
+                  name={isFolder ? item.folder_name : item.connect_name}
+                  onDoubleClick={
+                    isFolder ? () => onFolderDoubleClick(item) : null
+                  }
+                  icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
+                />
+              </Tooltip>
             }
           >
             {isFolder
