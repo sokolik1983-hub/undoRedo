@@ -25,14 +25,14 @@ const CheckBox = ({
   checked,
   ...props
 }) => {
-  const [isChecked, setIsChecked] = useState(checked);
+  const [isChecked, setIsChecked] = useState(false);
 
   const wrapperClasses = clsx(styles.wrapper, wrapperClass);
   const labelClasses = clsx(styles.label, labelClass);
 
-  const handleChange = () => {
-    setIsChecked(prev => !prev);
-    onChange(isChecked);
+  const handleChange = event => {
+    setIsChecked(event.target.checked);
+    onChange(event);
   };
 
   return (
@@ -52,8 +52,7 @@ const CheckBox = ({
         />
         <span className={styles.mark} />
       </span>
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
-      <label htmlFor={id} className={labelClasses} onClick={handleChange}>
+      <label htmlFor={id} className={labelClasses}>
         {label}
       </label>
     </label>
