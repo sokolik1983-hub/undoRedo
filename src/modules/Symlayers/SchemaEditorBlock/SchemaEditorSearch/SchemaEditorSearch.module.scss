@@ -1,0 +1,24 @@
+.search {
+  display: flex;
+  align-items: baseline;
+  height: 100%;
+  background: linear-gradient(199.32deg, #1AE3D7 -13.92%, #0945DF 111.71%);
+  margin-top: 10px;
+}
+
+.input {
+  width: 85%;
+  margin: 2px;
+  border-radius: initial;
+  border: none;
+  margin-left: auto;
+}
+
+.text {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 15px;
+  color: #FFFFFF;
+  margin: 0;
+  padding-left: 9px;
+}
