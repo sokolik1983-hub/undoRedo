@@ -135,7 +135,7 @@ function Connectors() {
         </div>
       </div>
       {+connectionType === 2 && ( //В зависимости от выбранного типа соединения дорисовываем поля ввода
-        <>
+        <div className={styles.connectionWrapper}>
           <TextInput
             labelClassName={styles.connectorsLabel}
             value={login}
@@ -173,7 +173,7 @@ function Connectors() {
             id="baseSIDService"
             label="Название Базы, SID, Имя сервиса"
           ></TextInput>
-        </>
+        </div>
       )}
     </form>
   );
