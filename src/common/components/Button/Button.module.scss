@@ -20,13 +20,14 @@
 }
 
 .medium {
-  min-width: 88px;
-  height: 36px;
-  font-size: 0.9rem;
+  min-width: 102px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   white-space: nowrap;
+  font-size: 13px;
+  line-height: 15px;
 }
 
 .large {
@@ -67,8 +68,6 @@
   border-radius: 3px;
   font-style: normal;
   font-weight: bold;
-  font-size: 13px;
-  line-height: 15px;
   color: white;
   border: none;
   margin-left: auto;

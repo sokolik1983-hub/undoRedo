@@ -52,7 +52,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
 .connectionWrapper {
@@ -64,9 +63,30 @@
 
 .connectionTypeWrapper {
   width: 100%;
-  padding-left: 18px;
+  padding-left: 24px;
 }
 
 .connectionTypeInputsWrapper {
   padding-left: 36px;
+}
+
+.testConnectionButton {
+  font-size: 10px;
+  width: 102px;
+  height: 22px;
+  margin-top: 92px;
+}
+
+.gearsIconWrapper {
+  position: relative;
+  top: 40px;
+}
+
+.connectorsLabel {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #ffffff;
 }

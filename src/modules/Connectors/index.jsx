@@ -89,6 +89,7 @@ function Connectors() {
           value={connectName}
           onChange={e => setConnectName(e.target.value)}
           id="connectorName"
+          labelClassName={styles.connectorsLabel}
         />
       </div>
       <div className={styles.connectionWrapper}>
@@ -130,8 +131,10 @@ function Connectors() {
           </div>
         </div>
         <div className={styles.testConnectionWrapper}>
+          <div className={styles.gearsIconWrapper}>
           <GearsIcon />
-          <Button color="primary">Тест соединения</Button>
+          </div>
+          <Button className={styles.testConnectionButton} color="primary">Тест соединения</Button>
         </div>
       </div>
       {+connectionType === 2 && ( //В зависимости от выбранного типа соединения дорисовываем поля ввода
