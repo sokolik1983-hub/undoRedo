@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  CONNECTOR_POPUP,
+  CONNECTOR_POPUP, OBJECTS_CONNECTIONS_MODAL,
   QUERY_PANEL_POPUP,
   UNIVERSE_POPUP
 } from '../../common/constants/popups';
@@ -9,6 +9,7 @@ const ui = createSlice({
   name: 'ui',
   initialState: {
     popupVisible: false,
+    modalVisible: false,
     popupData: {},
     currentPage: '',
     isLoadingData: false,
@@ -30,9 +31,16 @@ const ui = createSlice({
     showUniversePopup: state => {
       state.popupVisible = UNIVERSE_POPUP;
     },
+    showObjectsConnectionsModal: state => {
+      state.modalVisible = OBJECTS_CONNECTIONS_MODAL;
+    },
     hidePopup: state => {
       state.popupVisible = false;
       state.popupData = {};
+    },
+    closeModal: state => {
+      state.modalVisible = false;
+      state.modalData = {};
     },
     setPopupData: (state, action) => {
       state.popupData = action.payload;
@@ -56,7 +64,9 @@ export const {
   clearPopupData,
   setCurrentPage,
   setLoadingData,
-  showNav
+  showNav,
+  showObjectsConnectionsModal,
+  closeModal,
 } = ui.actions;
 
 export default ui.reducer;

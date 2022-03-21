@@ -1,0 +1,258 @@
+.dialog {
+  max-width: unset;
+  margin: 0 5%;
+  height: 570px;
+};
+
+.sqlDialog {
+  max-width: unset;
+  margin: 0 5%;
+  height: 520px;
+  background: linear-gradient(152.97deg, #005889 0%, rgba(0, 88, 137, 0.5) 100%);
+};
+
+.tablesWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 24px;
+  color: #FFFFFF;
+  height: 100%;
+}
+
+.tableContent {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.buttonsWrapper {
+  height: 53px;
+  justify-content: center;
+  margin-top: 29px;
+}
+
+.modalWrapper, .sqlModalWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.modalBody {
+  height: 100%;
+}
+
+.selectColumn {
+  height: 100%;
+}
+
+.connectionsWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 156px;
+  padding: 64px 0;
+}
+
+.connectionTypeText {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 13px;
+  color: #FFFFFF;
+}
+
+.iconWrapper {
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.tableName {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  margin-bottom: 4px;
+}
+
+.connectTypeBlock {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.connectionSelect {
+  margin: 0 4px;
+}
+
+.expressionWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  height: 125px;
+  background: rgba(0, 0, 0, 0.5);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 2px;
+  padding-left: 26px;
+  padding-top: 7px;
+  padding-bottom: 10px;
+}
+
+.formulaWrapper {
+
+}
+
+.formulaLeftSide {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-right: 120px;
+}
+
+.expressionTitle {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 12px;
+  padding-left: 24px;
+  color: #FFFFFF;
+}
+
+.columnTitle {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+  margin-top: 13px;
+  margin-bottom: 5px;
+}
+
+.connectImagesWrapper {
+  cursor: pointer;
+}
+
+.switchSide {
+  transform: scale(-1, 1);
+}
+
+.expressionBox {
+  background-color: #FFFFFF;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+  height: 100%;
+  overflow-y: auto;
+  padding: 14px 8px;
+}
+
+.outsideConnectCheckbox {
+  padding-top: 11px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.formulaButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.editButton {
+  background: linear-gradient(180deg, #B69056 0%, #734E12 100%), #312101;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  border: none;
+  margin-left: 11px;
+  height: 22px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 12px;
+  color: white;
+
+  margin-right: 12px;
+}
+
+.testButton {
+  background: linear-gradient(199.32deg, #1AE3D7 -13.92%, #0945DF 111.71%);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  font-style: normal;
+  font-weight: bold;
+  color: white;
+  border: none;
+  font-size: 10px;
+  line-height: 12px;
+  height: 22px;
+}
+
+.gearsIcon {
+  position: absolute;
+  top: 15px;
+  right: 32px;
+}
+
+.sqlMainContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100%;
+  padding: 8px 23px 11px 23px;
+  color: #FFFFFF;
+}
+
+.sqlBottomContent {
+
+}
+
+.sqlFunctionDescription {
+  padding-left: 26px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: #FFFFFF;
+}
+
+.sqlFunctionDescText {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  padding: 8px 23px;
+  height: 50px;
+  overflow-y: auto;
+  margin-top: 4px;
+
+  color: #FFFFFF;
+}
+
+.save {
+  margin: unset;
+}
+
+.modalContent {
+  padding-top: 0;
+  padding-bottom: 28px;
+}
+
+.sqlTables, .sqlOperators, .sqlFunctions {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.sqlOperators {
+  width: 145px;
+  margin: 0 12px;
+}
+
+.tableColumnName {
+  padding-left: 15px;
+}
+
+.checkBoxWrapper {
+  align-items: center;
+}
