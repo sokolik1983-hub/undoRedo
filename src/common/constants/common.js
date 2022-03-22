@@ -11,6 +11,11 @@ import { ReactComponent as DefineConnections } from '../../layout/assets/semanti
 import { ReactComponent as FindTool } from '../../layout/assets/semanticActionsIcons/findTool.svg';
 import { ReactComponent as RefreshStructure } from '../../layout/assets/semanticActionsIcons/refreshStructure.svg';
 import { ReactComponent as Divider } from '../../layout/assets/headerActionsDivider.svg';
+import { ReactComponent as DisableAddConnection } from '../../layout/assets/semanticActionsIcons/disAddConnection.svg';
+import { ReactComponent as DisableConnectionsPanel } from '../../layout/assets/semanticActionsIcons/disConnectionsPanel.svg';
+import { ReactComponent as DisableContextPanel } from '../../layout/assets/semanticActionsIcons/disContextPanel.svg';
+import { ReactComponent as DisableDefineConnections } from '../../layout/assets/semanticActionsIcons/disDefineConnections.svg';
+import { ReactComponent as DisableRefreshStructure } from '../../layout/assets/semanticActionsIcons/disRefreshStructure.svg';
 
 export const TABLE_CELL_EMPTY_VALUE = '-';
 export const BREADCRUMBS_ROOT = '..'
@@ -135,47 +140,61 @@ export const SEMANTIC_PAGE_ACTIONS = [
     title: 'Панель контекстов',
     text: 'Панель контекстов',
     icon: <ContextPanel />,
+    enable: true,
+    disIcon: <DisableContextPanel />
   },
   {
     action: 'connectionsPanel',
     title: 'Панель связей',
     text: 'Панель связей',
     icon: <ConnectionsPanel />,
+    enable: false,
+    disIcon: <DisableConnectionsPanel />
   },
   {
     type: 'divider',
     icon: <Divider />,
+    enable: true
   },
   {
     action: 'refreshStructure',
     title: 'Обновить структуру',
     text: 'Обновить структуру',
     icon: <RefreshStructure />,
+    enable: false,
+    disIcon: <DisableRefreshStructure />
   },
   {
     type: 'divider',
     icon: <Divider />,
+    enable: true
   },
   {
     action: 'defineConnections',
     title: 'Определить связи',
     text: 'Определить связи',
     icon: <DefineConnections />,
+    enable: true,
+    disIcon: <DisableDefineConnections />
   },
   {
     action: 'addConnection',
     title: 'Добавить связь',
     text: 'Добавить связь',
     icon: <AddConnection />,
+    enable: true,
+    disIcon: <DisableAddConnection />
   },
   {
     type: 'divider',
-    icon: <Divider />
+    icon: <Divider />,
+    enable: true
   },
   {
     action: 'commonSearch',
     title: 'Общий поиск',
     text: 'Общий поиск',
     icon: <FindTool />,
+    enable: true
   }
 ];
