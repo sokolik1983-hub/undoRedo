@@ -23,8 +23,15 @@
 
 .modalDialog {
   width: 100%;
-  max-width: 550px;
-  background: white;
+  max-width: 426px;
+  background: linear-gradient(
+    152.97deg,
+    rgba(0, 55, 137, 0.75) 0%,
+    rgba(0, 55, 137, 0.375) 100%
+  );
+  box-shadow: 0px 7px 17px rgba(34, 82, 102, 0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
   position: relative;
   margin: 20px 0;
   text-align: left;
@@ -52,12 +59,10 @@
   padding: 1rem;
 }
 .modalHeader {
-  border-bottom: 1px solid #dbdbdb;
   justify-content: space-between;
   color: #dbdbdb;
 }
 .modalFooter {
-  border-top: 1px solid #dbdbdb;
   justify-content: flex-end;
 }
 .modalClose {
@@ -95,6 +100,9 @@
   to {
     transform: translateY(0);
   }
+}
+
+.withModalScroll {
 }
 
 .close {

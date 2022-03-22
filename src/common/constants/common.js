@@ -17,6 +17,9 @@ import { ReactComponent as DisableContextPanel } from '../../layout/assets/seman
 import { ReactComponent as DisableDefineConnections } from '../../layout/assets/semanticActionsIcons/disDefineConnections.svg';
 import { ReactComponent as DisableRefreshStructure } from '../../layout/assets/semanticActionsIcons/disRefreshStructure.svg';
 
+export const TABLE_CELL_EMPTY_VALUE = '-';
+export const BREADCRUMBS_ROOT = '..'
+
 export const REDIRECT_LINKS = {
   HOME_PAGE: '/Reporting/dashboard',
   LOGIN_PAGE: '/Reporting/login'
