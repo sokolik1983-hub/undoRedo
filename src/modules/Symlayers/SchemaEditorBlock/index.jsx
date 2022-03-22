@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable react/prop-types */
 /* eslint-disable no-shadow */
 import React, { useState } from 'react';
 import clsx from 'clsx';
@@ -10,24 +12,14 @@ import TextInput from '../../../common/components/TextInput';
 import Dropdown from '../../../common/components/Dropdown';
 
 const data = [
-  { text: 'База базаз', id: '1' },
-  { text: 'Изменить вид', id: '2' },
-  { text: 'Правая база', id: '3' },
-  { text: 'База 54', id: '4' },
-  { text: 'База Дурости', id: '5' },
-  { text: 'База Умных', id: '6' },
-  { text: 'База Странных', id: '7' },
-  { text: 'База Левых', id: '8' },
-  { text: 'База правых', id: '9' },
-  { text: 'База базаз', id: '1' },
-  { text: 'Изменить вид', id: '2' },
-  { text: 'Правая база', id: '3' },
-  { text: 'База 54', id: '4' },
-  { text: 'База Дурости', id: '5' },
-  { text: 'База Умных', id: '6' },
-  { text: 'База Странных', id: '7' },
-  { text: 'База Левых', id: '8' },
-  { text: 'База правых', id: '9' }
+  { text: 'Колонка', id: '1' },
+  { text: 'Колонка 1', id: '2' },
+  { text: 'Колонка 2', id: '3' },
+  { text: 'Колонка 3', id: '4' },
+  { text: 'Колонка 4', id: '5' },
+  { text: 'Колонка 5', id: '6' },
+  { text: 'Колонка 6', id: '7' },
+  { text: 'Колонка 7', id: '8' },
 ];
 
 const items = [
@@ -38,8 +30,10 @@ const items = [
   { text: 'Определение числа строк' }
 ];
 
-// eslint-disable-next-line react/prop-types
-const ShemaEditorBlock = ({ heading = 'MR_D_Options DTF' }) => {
+const ShemaEditorBlock = ({
+  heading = 'MR_D_Options DTF',
+  onTableDragStart
+}) => {
   const [filterableFields, setFilterableFields] = useState(data);
   const [searchValue, setSearchValue] = useState('');
   const [isActive, setIsActive] = useState(false);
@@ -64,10 +58,19 @@ const ShemaEditorBlock = ({ heading = 'MR_D_Options DTF' }) => {
   };
 
   return (
-    <div className={styles.wrapper} id="123" draggable>
+    <div className={styles.wrapper}>
       <div>
         <div className={styles.header}>
-          <h1 className={styles.heading}>{heading}</h1>
+          <h1
+            className={styles.heading}
+            onMouseDown={event => {
+              event.stopPropagation();
+              if (event.button !== 0) return;
+              onTableDragStart(event);
+            }}
+          >
+            {heading}
+          </h1>
           <div className={styles.iconsContainer}>
             <MagnifierWhite
               onClick={() => setIsActive(!isActive)}

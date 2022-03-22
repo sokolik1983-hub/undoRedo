@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
 import styles from './Users.module.scss';
-import ShemaEditorBlock from '../Symlayers/SchemaEditorBlock';
+import SchemaEditorBlock from '../Symlayers/SchemaEditorBlock';
 
 function Users() {
   const dispatch = useDispatch();
@@ -12,9 +12,7 @@ function Users() {
   }, []);
   return (
     <div className={styles.root}> 
-      
-      <ShemaEditorBlock />
-     
+      <SchemaEditorBlock />
     </div>
 );
 }

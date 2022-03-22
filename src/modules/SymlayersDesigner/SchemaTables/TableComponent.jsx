@@ -39,6 +39,7 @@ import React, {
   useRef,
   useState
 } from 'react';
+import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock';
 // import { useApplicationActions } from 'src/data/appProvider';
 import { SymanticLayerContext } from './context';
 
@@ -270,15 +271,12 @@ const TableComponent = ({
 
   const onTableDragStart = useCallback(
     event => {
+      console.log('dragging start');
       event.stopPropagation();
-
       const delta = posToCoord(event).dif(ActualPosition);
-
       const dragCallback = ({ state, commit }, { postition }) => {
         const res = postition.dif(state.dragState.delta);
-
         const value = { ...position, deltaPosition: res };
-
         commit('SET_TABLE_POSITION', { tableId, value });
       };
 
@@ -367,8 +365,10 @@ const TableComponent = ({
       <foreignObject
         x={0}
         y={0}
-        width={(tableSize && `${tableSize.width + 2}px`) || '330px'}
-        height={tableSize && `${tableSize.height + 2}px`}
+        width="460px"
+        height="550px"
+        // width={(tableSize && `${tableSize.width + 2}px`) || '360px'}
+        // height={tableSize && `${tableSize.height + 2}px`}
         style={{
           outline: focusedTableHere
             ? `2px solid ${
@@ -377,7 +377,8 @@ const TableComponent = ({
             : undefined
         }}
       >
-        <div
+        <SchemaEditorBlock onTableDragStart={onTableDragStart} />
+        {/* <div
           className={`${classes.tableItem} unselectable`}
           style={{ margin: 0, display: 'flex', flexDirection: 'column' }}
           ref={tableRef}
@@ -737,7 +738,7 @@ const TableComponent = ({
               </Button>
             </DialogActions>
           </Dialog>
-        )}
+        )} */}
       </foreignObject>
     </g>
   );
