@@ -20,7 +20,7 @@ export const style = () => ({
     display: 'flex',
     alignItems: 'stretch',
     position: 'relative',
-    height: 500
+    height: '80vh'
   },
   minimapBackground: {
     backgroundColor: 'white',

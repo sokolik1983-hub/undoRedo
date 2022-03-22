@@ -320,7 +320,7 @@ const Provided = props => {
           return (
             <Table
               tableId={tableId}
-              key={`table_${index}`}
+              key={tableId}
               isShadow={isShadow}
               forceUpdate={forceUpdate}
               onCreateSynonym={props.onCreateSynonym}

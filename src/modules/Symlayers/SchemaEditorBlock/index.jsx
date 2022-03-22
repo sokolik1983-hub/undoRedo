@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable react/prop-types */
 /* eslint-disable no-shadow */
 import React, { useState } from 'react';
 import clsx from 'clsx';
@@ -10,36 +12,28 @@ import { ReactComponent as CloseInput } from '../../../layout/assets/schemaEdito
 import TextInput from '../../../common/components/TextInput';
 
 const data = [
-  {text: 'База базаз', id: '1'},
-  {text: 'Изменить вид', id: '2'},
-  {text: 'Правая база', id: '3'},
-  {text: 'База 54', id: '4'},
-  {text: 'База Дурости', id: '5'},
-  {text: 'База Умных', id: '6'},
-  {text: 'База Странных', id: '7'},
-  {text: 'База Левых', id: '8'},
-  {text: 'База правых', id: '9'},
-  {text: 'База базаз', id: '1'},
-  {text: 'Изменить вид', id: '2'},
-  {text: 'Правая база', id: '3'},
-  {text: 'База 54', id: '4'},
-  {text: 'База Дурости', id: '5'},
-  {text: 'База Умных', id: '6'},
-  {text: 'База Странных', id: '7'},
-  {text: 'База Левых', id: '8'},
-  {text: 'База правых', id: '9'},
+  { text: 'Колонка', id: '1' },
+  { text: 'Колонка 1', id: '2' },
+  { text: 'Колонка 2', id: '3' },
+  { text: 'Колонка 3', id: '4' },
+  { text: 'Колонка 4', id: '5' },
+  { text: 'Колонка 5', id: '6' },
+  { text: 'Колонка 6', id: '7' },
+  { text: 'Колонка 7', id: '8' },
 ];
 
 const items = [
-  {text: 'Псевдоним'},
-  {text: 'Изменить вид'},
-  {text: 'Определение ключей'},
-  {text: 'Определение числа элементов'},
-  {text: 'Определение числа строк'},
+  { text: 'Псевдоним' },
+  { text: 'Изменить вид' },
+  { text: 'Определение ключей' },
+  { text: 'Определение числа элементов' },
+  { text: 'Определение числа строк' }
 ];
 
-// eslint-disable-next-line react/prop-types
-const ShemaEditorBlock = ({ heading='MR_D_Options DTF' }) => {
+const ShemaEditorBlock = ({
+  heading = 'MR_D_Options DTF',
+  onTableDragStart
+}) => {
   const [filterableFields, setFilterableFields] = useState(data);
   const [searchValue, setSearchValue] = useState('');
   const [isActive, setIsActive] = useState(false);
@@ -49,54 +43,85 @@ const ShemaEditorBlock = ({ heading='MR_D_Options DTF' }) => {
   });
 
   const handleClick = () => {
-    console.log('click from ShemaEditorBlock')
+    console.log('click from ShemaEditorBlock');
   };
 
   const handleSearch = e => {
     const value = e.target.value.toLowerCase();
 
     setSearchValue(value);
-    setFilterableFields(data.filter(i => {
-      return i.text.toLowerCase().includes(value);
-    }));
+    setFilterableFields(
+      data.filter(i => {
+        return i.text.toLowerCase().includes(value);
+      })
+    );
   };
 
   return (
-    <div className={styles.wrapper} id='123' draggable>
+    <div className={styles.wrapper}>
       <div>
         <div className={styles.header}>
-          <h1 className={styles.heading}>{ heading }</h1>
+          <h1
+            className={styles.heading}
+            onMouseDown={event => {
+              event.stopPropagation();
+              if (event.button !== 0) return;
+              onTableDragStart(event);
+            }}
+          >
+            {heading}
+          </h1>
           <div className={styles.iconsContainer}>
-            <MagnifierWhite onClick={() => setIsActive(!isActive)} className={styles.magnifier} />
+            <MagnifierWhite
+              onClick={() => setIsActive(!isActive)}
+              className={styles.magnifier}
+            />
             <Dropdown
-              className={styles.buttonIndents} 
-              mainButton={<DotsMenu className={styles.menu} />} 
+              className={styles.buttonIndents}
+              mainButton={<DotsMenu className={styles.menu} />}
               itemsWrapper={styles.itemsWrapper}
             >
               {items.map(i => (
-                <DropdownItem item={i} onClick={handleClick} className={styles.text} />
-                ))}
+                <DropdownItem
+                  item={i}
+                  onClick={handleClick}
+                  className={styles.text}
+                />
+              ))}
             </Dropdown>
           </div>
         </div>
         <div className={isActive ? styles.inputWrapper : styles.hide}>
-          <TextInput className={styles.input} onChange={handleSearch} value={searchValue} id='1' type='text' />
-          <CloseInput className={styles.icon} onClick={() => setIsActive(!isActive)} />
+          <TextInput
+            className={styles.input}
+            onChange={handleSearch}
+            value={searchValue}
+            id="1"
+            type="text"
+          />
+          <CloseInput
+            className={styles.icon}
+            onClick={() => setIsActive(!isActive)}
+          />
         </div>
       </div>
       <div className={contentClasses}>
         <ul className={styles.list}>
-          <DropdownItem item='' onClick={handleClick} className={styles.search} />
+          <DropdownItem
+            item=""
+            onClick={handleClick}
+            className={styles.search}
+          />
           {filterableFields.map((item, idx) => (
-              // eslint-disable-next-line react/no-array-index-key
+            // eslint-disable-next-line react/no-array-index-key
             <li className={styles.item} key={idx}>
               {item.text}
             </li>
-            ))}
+          ))}
         </ul>
       </div>
     </div>
-  )
+  );
 };
 
 export default ShemaEditorBlock;
