@@ -8,6 +8,7 @@ export const PAGE = {
   AUDIT: "AUDIT",
   TRASH: "TRASH",
   SEMANTIC: 'SEMANTIC',
+  SEMANTIC_LIST: 'SEMANTIC_LIST',
   ROLES: 'ROLES',
   USERS: 'USERS',
 }

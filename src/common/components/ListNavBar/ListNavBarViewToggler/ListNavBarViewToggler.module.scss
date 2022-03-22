@@ -8,6 +8,11 @@
   height: max-content;
   width: max-content;
 
+  &.multicolumnView span,
+  &.tableView span {
+    opacity: 1;
+  }
+
   &:first-child {
     margin-right: 15px;
   }
