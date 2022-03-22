@@ -14,6 +14,7 @@ import FloatingButton from '../../common/components/FloatingButton';
 import { ReactComponent as CreateConnector } from '../../layout/assets/create-connector.svg';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
+import { ReactComponent as GearsIcon } from '../../layout/assets/semanticLayerModal/gears.svg';
 
 function Connectors() {
   const dispatch = useDispatch();
@@ -82,36 +83,64 @@ function Connectors() {
   // Контент для модалки для добавления коннеткора
   const createConnectorModalContent = (
     <form className={styles.form}>
-      <TextInput
-        label="Название коннектора"
-        value={connectName}
-        onChange={e => setConnectName(e.target.value)}
-        id="connectorName"
-      />
-      <Select
-        value={connectType}
-        options={typeOptions}
-        defaultValue="Тип коннектора"
-        onSelectItem={setConnectType}
-      />
-      <Select
-        value={connectSource}
-        onSelectItem={setConnectSource}
-        options={sourceOptions?.filter(item => item.value === connectType)} // Фильтурем для получения подходящих options в завимисомти от типо коннектора
-        defaultValue="Источник"
-      />
-      <Select
-        value={connectionType}
-        onSelectItem={setConnectionType}
-        options={connectionOptions?.filter(
-          // Фильтруем для получения подходящих options на основе источника
-          item => item.value === connectSource
-        )}
-        defaultValue="Тип соединения"
-      />
+      <div className={styles.connectionWrapper}>
+        <TextInput
+          label="Введите имя соединения"
+          value={connectName}
+          onChange={e => setConnectName(e.target.value)}
+          id="connectorName"
+          labelClassName={styles.connectorsLabel}
+        />
+      </div>
+      <div className={styles.connectionWrapper}>
+        <p className={styles.selectText}>Тип</p>
+        <Select
+          value={connectType}
+          options={typeOptions}
+          defaultValue="Тип коннектора"
+          onSelectItem={setConnectType}
+        />
+      </div>
+      <div className={styles.connectionWrapper}>
+        <p className={styles.selectText}>Источник</p>
+        <Select
+          value={connectSource}
+          onSelectItem={setConnectSource}
+          options={sourceOptions?.filter(item => item.value === connectType)} // Фильтурем для получения подходящих options в завимисомти от типо коннектора
+          defaultValue="Источник"
+        />
+      </div>
+      <div className={styles.connectionTypeSection}>
+        <div className={styles.connectionTypeWrapper}>
+          <p className={styles.selectText}>Тип соединения</p>
+          <div style={{ marginBottom: '25px' }}>
+            <Select
+              fullWidth
+              value={connectionType}
+              onSelectItem={setConnectionType}
+              options={connectionOptions?.filter(
+                item => item.value === connectSource
+              )}
+              defaultValue="Тип соединения"
+            />
+          </div>
+          <div className={styles.connectionTypeInputsWrapper}>
+            <TextInput className={styles.connectorsInput} />
+            <TextInput className={styles.connectorsInput} />
+            <TextInput className={styles.connectorsInput} />
+          </div>
+        </div>
+        <div className={styles.testConnectionWrapper}>
+          <div className={styles.gearsIconWrapper}>
+          <GearsIcon />
+          </div>
+          <Button className={styles.testConnectionButton} color="primary">Тест соединения</Button>
+        </div>
+      </div>
       {+connectionType === 2 && ( //В зависимости от выбранного типа соединения дорисовываем поля ввода
-        <>
+        <div className={styles.connectionWrapper}>
           <TextInput
+            labelClassName={styles.connectorsLabel}
             value={login}
             onChange={e => setLogin(e.target.value)}
             id="login"
@@ -147,7 +176,7 @@ function Connectors() {
             id="baseSIDService"
             label="Название Базы, SID, Имя сервиса"
           ></TextInput>
-        </>
+        </div>
       )}
     </form>
   );
@@ -155,9 +184,12 @@ function Connectors() {
   // Футер модалки
   const createConnectorModalFooter = (
     <>
-      <Button>Тест соединения</Button>
-      <Button onClick={addConnetor}>Сохранить</Button>
-      <Button onClick={closeConnectorModalHandler}>Отмена</Button>
+      <Button color="sucess" onClick={addConnetor}>
+        Сохранить
+      </Button>
+      <Button color="primary" onClick={closeConnectorModalHandler}>
+        Отмена
+      </Button>
     </>
   );
 
@@ -175,7 +207,7 @@ function Connectors() {
       <Modal
         visible={isVisible}
         onClose={closeConnectorModalHandler}
-        title="Создание коннектора"
+        title="Новое соединение"
         content={createConnectorModalContent}
         footer={createConnectorModalFooter}
       />
