@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import Icon from '../Icon';
 import styles from './IconButton.module.scss';
 
 /**
@@ -48,9 +47,9 @@ const IconButton = ({
       onClick={onClickAction}
       {...props}
     >
-      <Icon color={color} size={size} className={styles.icon}>
+      <span className={styles.icon} color={color} size={size}>
         {icon}
-      </Icon>
+      </span>
     </Tag>
   );
 };

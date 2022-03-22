@@ -9,7 +9,7 @@ function Users() {
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.USERS));
   }, []);
-  return <div className={styles.root}>Users Content</div>;
+  return <div className={styles.root}>USERS</div>;
 }
 
 export default Users;

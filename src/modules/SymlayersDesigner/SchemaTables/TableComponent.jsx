@@ -6,30 +6,8 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/prop-types */
 import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  LinearProgress,
-  makeStyles,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TextField,
-  Tooltip,
-  Typography
+  makeStyles
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import DragIndicatorIcon from '@material-ui/icons/DragIndicator';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import FilterIcon from '@material-ui/icons/FilterList';
-import LinkIcon from '@material-ui/icons/Link';
-import PageviewIcon from '@material-ui/icons/Pageview';
 import lodash from 'lodash';
 import React, {
   useCallback,
@@ -39,6 +17,7 @@ import React, {
   useRef,
   useState
 } from 'react';
+import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock';
 // import { useApplicationActions } from 'src/data/appProvider';
 import { SymanticLayerContext } from './context';
 
@@ -270,15 +249,12 @@ const TableComponent = ({
 
   const onTableDragStart = useCallback(
     event => {
+      console.log('dragging start');
       event.stopPropagation();
-
       const delta = posToCoord(event).dif(ActualPosition);
-
       const dragCallback = ({ state, commit }, { postition }) => {
         const res = postition.dif(state.dragState.delta);
-
         const value = { ...position, deltaPosition: res };
-
         commit('SET_TABLE_POSITION', { tableId, value });
       };
 
@@ -367,8 +343,10 @@ const TableComponent = ({
       <foreignObject
         x={0}
         y={0}
-        width={(tableSize && `${tableSize.width + 2}px`) || '330px'}
-        height={tableSize && `${tableSize.height + 2}px`}
+        width="460px"
+        height="550px"
+        // width={(tableSize && `${tableSize.width + 2}px`) || '360px'}
+        // height={tableSize && `${tableSize.height + 2}px`}
         style={{
           outline: focusedTableHere
             ? `2px solid ${
@@ -377,7 +355,8 @@ const TableComponent = ({
             : undefined
         }}
       >
-        <div
+        <SchemaEditorBlock onTableDragStart={onTableDragStart} />
+        {/* <div
           className={`${classes.tableItem} unselectable`}
           style={{ margin: 0, display: 'flex', flexDirection: 'column' }}
           ref={tableRef}
@@ -737,7 +716,7 @@ const TableComponent = ({
               </Button>
             </DialogActions>
           </Dialog>
-        )}
+        )} */}
       </foreignObject>
     </g>
   );

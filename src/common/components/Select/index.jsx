@@ -15,6 +15,7 @@ import styles from './Select.module.scss';
 const Select = ({ name, options, defaultValue, onSelectItem, fullWidth, className }) => {
   const classes = clsx(
     { [styles.isJustify]: fullWidth },
+    styles.select,
     styles.content,
     className
   );

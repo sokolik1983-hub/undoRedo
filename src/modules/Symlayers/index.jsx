@@ -20,7 +20,7 @@ function Symlayers() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setCurrentPage(PAGE.SEMANTIC));
+    dispatch(setCurrentPage(PAGE.SEMANTIC_LIST));
   }, []);
 
   // Получаем из словаря типы, источники, типы соединения

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import IconButton from '../../../../common/components/IconButton';
-import { ReactComponent as SingleColumn } from '../../../../layout/assets/toggle-single-column.svg';
-import { ReactComponent as MultipleColumns } from '../../../../layout/assets/toggle-multiple-columns.svg';
+import { ReactComponent as SingleColumn } from '../../../../layout/assets/toggle-single-column-inactive.svg';
+import { ReactComponent as MultipleColumns } from '../../../../layout/assets/toggle-multiple-columns-active.svg';
 import styles from './ConnectorsListNavigationViewToggler.module.scss';
 
 const ConnectorsListNavigationViewToggler = ({ showMultipleColumns }) => {
