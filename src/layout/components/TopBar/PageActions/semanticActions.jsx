@@ -16,29 +16,16 @@ const SemanticActions = () => {
     <div className={styles.actionsContainer}>
       {SEMANTIC_PAGE_ACTIONS.map(item => {
         return (
-          item.enable ? (
-            <div
-              className={item.type === 'divider' ? styles.divider : styles.actionWrapper}
-              title={item.title || ''}
-              onClick={() => getAction(item.action)}
-            >
-              {item.icon}
-              <span>
-                {item.text || ''}
-              </span>
-            </div>
-          ) :
-          (
-            <div
-              className={styles.actionWrapper}
-              title={item.title || ''}
-            >
-              {item.disIcon}
-              <span className={styles.deactivated}>
-                {item.text || ''}
-              </span>
-            </div>
-          )
+          <div
+            className={item.type === 'divider' ? styles.divider : styles.actionWrapper}
+            title={item.title || ''}
+            onClick={() => getAction(item.action)}
+          >
+            {item.enable ? item.icon : item.disIcon}
+            <span className={item.enable ? null : styles.deactivated}>
+              {item.text || ''}
+            </span>
+          </div>
         )
       })}
     </div>
