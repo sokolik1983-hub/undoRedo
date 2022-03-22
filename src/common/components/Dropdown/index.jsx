@@ -1,8 +1,8 @@
-import { useState, useRef } from 'react';
 import cn from 'clsx';
+import { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import styles from './Dropdown.module.scss';
 import useClickOutside from '../../helpers/useClickOutside';
+import styles from './Dropdown.module.scss';
 
 /**
  * @param className - класс для стилизации дропдауна
