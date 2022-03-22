@@ -19,7 +19,7 @@ const SemanticActions = () => {
           <div
             className={item.type === 'divider' ? styles.divider : styles.actionWrapper}
             title={item.title || ''}
-            onClick={() => getAction(item.action)}
+            onClick={() => item.enable && getAction(item.action)}
           >
             {item.enable ? item.icon : item.disIcon}
             <span className={item.enable ? null : styles.deactivated}>
