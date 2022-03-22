@@ -144,7 +144,7 @@ export const SEMANTIC_PAGE_ACTIONS = [
   },
   {
     type: 'divider',
-    icon: <Divider />
+    icon: <Divider />,
   },
   {
     action: 'refreshStructure',
@@ -154,7 +154,7 @@ export const SEMANTIC_PAGE_ACTIONS = [
   },
   {
     type: 'divider',
-    icon: <Divider />
+    icon: <Divider />,
   },
   {
     action: 'defineConnections',

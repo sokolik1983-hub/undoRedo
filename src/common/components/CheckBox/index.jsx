@@ -25,7 +25,7 @@ const CheckBox = ({
   checked,
   ...props
 }) => {
-  const [isChecked, setIsChecked] = useState(checked);
+  const [isChecked, setIsChecked] = useState(false);
 
   const wrapperClasses = clsx(styles.wrapper, wrapperClass);
   const labelClasses = clsx(styles.label, labelClass);
