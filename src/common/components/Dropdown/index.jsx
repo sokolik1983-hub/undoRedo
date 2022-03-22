@@ -1,8 +1,8 @@
-import { useState, useRef } from 'react';
 import cn from 'clsx';
+import { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import styles from './Dropdown.module.scss';
 import useClickOutside from '../../helpers/useClickOutside';
+import styles from './Dropdown.module.scss';
 
 /**
  * @param className - класс для стилизации дропдауна
@@ -12,7 +12,7 @@ import useClickOutside from '../../helpers/useClickOutside';
  * @param notHideable - булево значение, позволяющее не закрывать дропдаун по клику внутри него
  */
 
-const Dropdown = (props) => {
+const Dropdown = props => {
   const { className, mainButton, children, itemsWrapper, notHideable } = props;
   const [isOpened, setIsOpened] = useState(false);
 
@@ -31,11 +31,11 @@ const Dropdown = (props) => {
       >
         {mainButton}
         <div className={cn(styles.itemsWrapper, itemsWrapper)}>
-          { isOpened && children }
+          {isOpened && children}
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default Dropdown;
@@ -46,4 +46,4 @@ Dropdown.propTypes = {
   mainButton: PropTypes.node,
   itemsWrapper: PropTypes.string,
   notHideable: PropTypes.bool
-}
+};

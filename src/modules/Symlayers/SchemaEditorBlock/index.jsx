@@ -1,15 +1,15 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-shadow */
-import React, { useState } from 'react';
 import clsx from 'clsx';
-import styles from './SchemaEditorBlock.module.scss';
-import { ReactComponent as DotsMenu } from '../../../layout/assets/dotsMenu.svg';
+import React, { useState } from 'react';
 import Dropdown from '../../../common/components/Dropdown';
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
-import { ReactComponent as MagnifierWhite } from '../../../layout/assets/schemaEditorBlock/magnifierWhite.svg';
-import { ReactComponent as CloseInput } from '../../../layout/assets/schemaEditorBlock/closeInput.svg';
 import TextInput from '../../../common/components/TextInput';
+import { ReactComponent as DotsMenu } from '../../../layout/assets/dotsMenu.svg';
+import { ReactComponent as CloseInput } from '../../../layout/assets/schemaEditorBlock/closeInput.svg';
+import { ReactComponent as MagnifierWhite } from '../../../layout/assets/schemaEditorBlock/magnifierWhite.svg';
+import styles from './SchemaEditorBlock.module.scss';
 
 const data = [
   { text: 'Колонка', id: '1' },
@@ -19,7 +19,7 @@ const data = [
   { text: 'Колонка 4', id: '5' },
   { text: 'Колонка 5', id: '6' },
   { text: 'Колонка 6', id: '7' },
-  { text: 'Колонка 7', id: '8' },
+  { text: 'Колонка 7', id: '8' }
 ];
 
 const items = [

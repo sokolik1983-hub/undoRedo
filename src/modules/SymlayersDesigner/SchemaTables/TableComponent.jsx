@@ -6,30 +6,8 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/prop-types */
 import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  LinearProgress,
-  makeStyles,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TextField,
-  Tooltip,
-  Typography
+  makeStyles
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import DragIndicatorIcon from '@material-ui/icons/DragIndicator';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import FilterIcon from '@material-ui/icons/FilterList';
-import LinkIcon from '@material-ui/icons/Link';
-import PageviewIcon from '@material-ui/icons/Pageview';
 import lodash from 'lodash';
 import React, {
   useCallback,
