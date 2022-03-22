@@ -1,0 +1,11 @@
+.preloader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  height: 100%;
+
+  & .preloaderText {
+    color: #000000;
+  }
+}

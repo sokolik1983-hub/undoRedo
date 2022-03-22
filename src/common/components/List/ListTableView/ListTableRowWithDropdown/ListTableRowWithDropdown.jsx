@@ -4,7 +4,12 @@ import { useRef, useState } from 'react';
 import useClickOutside from '../../../../helpers/useClickOutside';
 import styles from './ListTableRowWithDropdown.module.scss';
 
-const ListTableRowWithDropdown = ({ children, cells, onDoubleClick }) => {
+const ListTableRowWithDropdown = ({
+  children,
+  cells,
+  onDoubleClick,
+  ...props
+}) => {
   const clickRef = useRef();
   const [isOpened, setIsOpened] = useState(false);
 
@@ -28,6 +33,7 @@ const ListTableRowWithDropdown = ({ children, cells, onDoubleClick }) => {
       ref={clickRef}
       onClick={toggleMenu}
       onDoubleClick={onDoubleClick}
+      {...props}
     >
       {cells}
       <td className={dropdownContainerClasses}>{isOpened && children}</td>

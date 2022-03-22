@@ -10,8 +10,6 @@ import styles from './TextInput.module.scss';
  * @param label - строка содеражащая текст лейбла инпута
  * @param error - строка содержащая текст ошибки при валидации
  * @param onChange - функция для получения значения инпута
- * @param onFocus - функция, которая выполнится, когда инпут будет в фокусе
- * @param onBlur - функция, которая выполнится когда произодйет выходи из фокуса инпута
  * @param value - значение инпута
  * @param fullwidth - булево значние, предназначенное для растягивания инпута на всю ширину родительского элемента
  * @param props - передаваемые атрибуты
@@ -27,8 +25,6 @@ const TextInput = forwardRef(
       label,
       error,
       onChange,
-      onFocus,
-      onBlur,
       value,
       fullWidth,
       ...props
@@ -59,12 +55,10 @@ const TextInput = forwardRef(
         <input
           ref={ref}
           onChange={onChange}
-          onFocus={onFocus}
-          onBlur={onBlur}
           name={id}
           className={classes}
-          {...props}
           value={value}
+          {...props}
         />
         {error && <span className={styles.textError}>{error}</span>}
       </div>
@@ -82,8 +76,6 @@ TextInput.propTypes = {
   labelClassName: PropTypes.string,
   error: PropTypes.string,
   onChange: PropTypes.func,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func,
   value: PropTypes.string,
   fullWidth: PropTypes.bool,
   required: PropTypes.bool
@@ -96,8 +88,6 @@ TextInput.defaultProps = {
   label: '',
   error: '',
   onChange: () => {},
-  onFocus: () => {},
-  onBlur: () => {},
   value: '',
   fullWidth: false
 };

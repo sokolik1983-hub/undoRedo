@@ -1,11 +1,20 @@
 /* eslint-disable no-shadow */
 /* eslint-disable consistent-return */
-/* eslint-disable no-unused-vars */
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { cloneElement, useRef, useState } from 'react';
 import Portal from '../Portal/Portal';
 import styles from './Tooltip.module.scss';
+
+/**
+ * @param children - нода, оборачиваемая компонентом Tooltip
+ * @param className - кастомные стили
+ * @param text - текст тултипа
+ * @param placement - положение тултипа относительно элемента: 'bottom-left', 'bottom-right', 'top-left', 'top-right', 'left', 'right'
+ * @param space - отступ тултипа от элемента
+ * @param isCtrlHold - тултип появляется только при нажатом Ctrl
+ * @param maxWidth - максимальная ширина тултипа. Default: 300px
+ */
 
 const newPlacement = position => ({
   current: position,
@@ -122,11 +131,13 @@ const Tooltip = ({
   placement,
   space,
   isCtrlHold,
+  maxWidth,
   children
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const positionRef = useRef({ x: 0, y: 0 });
   const tooltipRef = useRef();
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const tooltipClasses = clsx(styles.tooltip, className, {
     [styles.visible]: isVisible
@@ -148,25 +159,33 @@ const Tooltip = ({
     }
   };
 
+  const handleMouseOut = () => {
+    setIsDisabled(false);
+    setIsVisible(false);
+  };
+
   return (
     <>
       {cloneElement(children, {
         onMouseOver: isCtrlHold ? handleMouseOverCtrl : handleMouseOver,
-        onMouseOut: () => setIsVisible(false)
+        onMouseOut: handleMouseOut,
+        onMouseDown: () => setIsDisabled(true)
       })}
 
       <Portal>
-        <span
-          className={tooltipClasses}
-          style={{
-            top: `${positionRef?.current?.y}px`,
-            left: `${positionRef?.current?.x}px`
-          }}
-          ref={tooltipRef}
-          positionRef={positionRef}
-        >
-          {text}
-        </span>
+        {isDisabled ? null : (
+          <span
+            className={tooltipClasses}
+            style={{
+              top: `${positionRef?.current?.y}px`,
+              left: `${positionRef?.current?.x}px`,
+              maxWidth: `${maxWidth}px`
+            }}
+            ref={tooltipRef}
+          >
+            {text}
+          </span>
+        )}
       </Portal>
     </>
   );
@@ -187,10 +206,12 @@ Tooltip.propTypes = {
     'right'
   ]),
   space: PropTypes.any,
-  isCtrlHold: PropTypes.bool
+  isCtrlHold: PropTypes.bool,
+  maxWidth: PropTypes.number
 };
 
 Tooltip.defaultProps = {
   placement: 'bottom-left',
-  space: 0
+  space: 0,
+  maxWidth: 300
 };

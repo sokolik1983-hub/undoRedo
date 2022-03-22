@@ -17,9 +17,13 @@ import {
 } from '../helper';
 import { ReactComponent as FolderIcon } from '../../../layout/assets/folder-icon.svg';
 import { ReactComponent as ConnectorIcon } from '../../../layout/assets/connector-icon.svg';
-import { TABLE_CELL_EMPTY_VALUE } from '../../../common/constants/common';
+import {
+  BREADCRUMBS_ROOT,
+  TABLE_CELL_EMPTY_VALUE
+} from '../../../common/constants/common';
 import styles from './ConnectorsList.module.scss';
 import Tooltip from '../../../common/components/NewTooltip/Tooltip';
+import Preloader from '../../../common/components/Preloader/Preloader';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
@@ -77,7 +81,7 @@ const ConnectorsList = () => {
 
   const getBreadcrumbs = () =>
     foldersHistory
-      .map(i => i.folder_name)
+      .map((i, idx) => (idx ? i.folder_name : BREADCRUMBS_ROOT))
       .slice(0, currentFolderIndex + 1)
       .join(` / `);
 
@@ -193,38 +197,45 @@ const ConnectorsList = () => {
   const tableRows = listItems?.map(item => {
     const { isFolder } = item;
     return (
-      <ListTableRowWithDropdown
-        onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
-        cells={
-          <>
-            <td>
-              {editListItemId ===
-              (isFolder ? `folder_${item.folder_id}` : item.id) ? (
-                <ListItemEdit
-                  key={isFolder ? `folder_${item.folder_id}` : item.id}
-                  value={item.folder_name || item.connect_name}
-                  // TODO: implement submit function
-                  // onSubmit={}
-                  onBlur={() => setEditListItemId(null)}
-                />
-              ) : (
-                <ListItem
-                  className={styles.folderItems}
-                  name={isFolder ? item.folder_name : item.connect_name}
-                  icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
-                />
-              )}
-            </td>
-            <td>{'some value' || TABLE_CELL_EMPTY_VALUE}</td>
-            <td>{'some value' || TABLE_CELL_EMPTY_VALUE}</td>
-            <td>{'some value' || TABLE_CELL_EMPTY_VALUE}</td>
-          </>
-        }
+      <Tooltip
+        key={isFolder ? `folder_${item.folder_id}` : item.id}
+        placement="bottom-left"
+        text={isFolder ? item.folder_name : item.connect_name}
+        space={5}
       >
-        {isFolder
-          ? getFolderDropdownItems(`folder_${item.folder_id}`)
-          : getUniverseDropdownItems(item.id)}
-      </ListTableRowWithDropdown>
+        <ListTableRowWithDropdown
+          onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
+          cells={
+            <>
+              <td>
+                {editListItemId ===
+                (isFolder ? `folder_${item.folder_id}` : item.id) ? (
+                  <ListItemEdit
+                    key={isFolder ? `folder_${item.folder_id}` : item.id}
+                    value={item.folder_name || item.connect_name}
+                    // TODO: implement submit function
+                    // onSubmit={}
+                    onBlur={() => setEditListItemId(null)}
+                  />
+                ) : (
+                  <ListItem
+                    className={styles.folderItems}
+                    name={isFolder ? item.folder_name : item.connect_name}
+                    icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
+                  />
+                )}
+              </td>
+              <td>{'some value' || TABLE_CELL_EMPTY_VALUE}</td>
+              <td>{'some value' || TABLE_CELL_EMPTY_VALUE}</td>
+              <td>{'some value' || TABLE_CELL_EMPTY_VALUE}</td>
+            </>
+          }
+        >
+          {isFolder
+            ? getFolderDropdownItems(`folder_${item.folder_id}`)
+            : getUniverseDropdownItems(item.id)}
+        </ListTableRowWithDropdown>
+      </Tooltip>
     );
   });
 
@@ -243,12 +254,16 @@ const ConnectorsList = () => {
         setSearchValue={setSearchValue}
         onSearch={onSearch}
       />
-      <List
-        listItems={listItemsWithDropdown}
-        multiColumnView={multiColumnView}
-        tableHeader={tableHeader}
-        tableRows={tableRows}
-      />
+      {connectors ? (
+        <List
+          listItems={listItemsWithDropdown}
+          multiColumnView={multiColumnView}
+          tableHeader={tableHeader}
+          tableRows={tableRows}
+        />
+      ) : (
+        <Preloader />
+      )}
     </div>
   );
 };
