@@ -49,7 +49,13 @@ const navigationMenu = [
     icon: <BinIcon />,
     title: 'корзина',
     id: 'recycle'
-  }
+  },
+  {
+    href: '/Universe/query',
+    icon: <ConnectorsIcon />,
+    title: 'панель запросов',
+    id: 'query_panel'
+  },
 ];
 
 export default navigationMenu;

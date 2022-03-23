@@ -13,6 +13,7 @@ import ReportDesigner from './modules/ReportDesigner';
 import SymlayersDesigner from './modules/SymlayersDesigner';
 import Symlayers from './modules/Symlayers';
 import Explorer from './modules/Explorer';
+import QueryPanel from './modules/QueryPanel';
 
 const routes = [
   {
@@ -32,7 +33,8 @@ const routes = [
       { path: 'trash', element: <RecycleBin /> },
       { path: 'report/create/:folder_id', element: <ReportDesigner /> },
       { path: 'report/:report_id/show', element: <ReportDesigner /> },
-      { path: 'report/:report_id', element: <ReportDesigner /> }
+      { path: 'report/:report_id', element: <ReportDesigner /> },
+      { path: 'query', element: <QueryPanel /> },
     ]
   },
   {
