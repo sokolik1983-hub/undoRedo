@@ -13,6 +13,7 @@ import styles from './Button.module.scss';
  * @param props - атрибуты кнопки
  * @param color - строка определяющая цвет кнопки: primary, danger, success
  * @param props - атрибуты кнопки
+ * @param buttonStyle - стиль и текст кнопки
  */
 
 const Button = ({
@@ -23,10 +24,21 @@ const Button = ({
   active,
   size,
   color,
+  buttonStyle,
   ...props
 }) => {
   const classes = clsx(
     styles.btn,
+    { [styles.EDIT]: buttonStyle === 'EDIT' },
+    { [styles.TESTCONNECTION]: buttonStyle === 'TESTCONNECTION' },
+    { [styles.SAVE]: buttonStyle === 'SAVE' },
+    { [styles.CANCEL]: buttonStyle === 'CANCEL' },
+    { [styles.ADD]: buttonStyle === 'ADD' },
+    { [styles.CHANGE]: buttonStyle === 'CHANGE' },
+    { [styles.DELETE]: buttonStyle === 'DELETE' },
+    { [styles.TEST]: buttonStyle === 'TEST' },
+    { [styles.GOTIT]: buttonStyle === 'GOTIT' },
+    { [styles.ENTER]: buttonStyle === 'ENTER' },
     className,
     { active },
     [styles[size]],
@@ -42,6 +54,45 @@ const Button = ({
   };
 
   const Tag = props.href ? 'a' : 'button';
+
+  let buttonText = '';
+
+  switch (buttonStyle) {
+    case 'EDIT':
+      buttonText = 'Редактировать';
+      break;
+    case 'TESTCONNECTION':
+      buttonText = 'Тест соединения';
+      break;
+    case 'SAVE':
+      buttonText = 'Сохранить';
+      break;
+    case 'CANCEL':
+      buttonText = 'Отмена';
+      break;
+    case 'ADD':
+      buttonText = 'Добавить';
+      break;
+    case 'CHANGE':
+      buttonText = 'Заменить';
+      break;
+    case 'DELETE':
+      buttonText = 'Удалить';
+      break;
+    case 'TEST':
+      buttonText = 'Тестировать';
+      break;
+    case 'GOTIT':
+      buttonText = 'Я понял';
+      break;
+    case 'ENTER':
+      buttonText = 'Войти в систему';
+      break;
+    default:
+      // eslint-disable-next-line no-unused-vars
+      buttonText = 'Ok';
+      break;
+  }
 
   return (
     <Tag
@@ -65,7 +116,8 @@ Button.propTypes = {
   size: PropTypes.string,
   color: PropTypes.string,
   href: PropTypes.string,
-  type: PropTypes.string
+  type: PropTypes.string,
+  buttonStyle: PropTypes.string,
 };
 
 Button.defaultProps = {
