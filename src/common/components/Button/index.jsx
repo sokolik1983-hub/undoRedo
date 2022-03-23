@@ -102,7 +102,7 @@ const Button = ({
       disabled={disabled}
       type={Tag === 'button' ? props.type : null}
     >
-      {children}
+      {buttonText}
     </Tag>
   );
 };

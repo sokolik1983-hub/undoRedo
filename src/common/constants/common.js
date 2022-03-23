@@ -197,6 +197,7 @@ export const SEMANTIC_PAGE_ACTIONS = [
     icon: <FindTool />,
     enable: true
   }
+
 ];
 
 export const BUTTON = {
