@@ -10,7 +10,8 @@ const ListTableView = ({ tableHeader, tableRows }) => {
             <col key={i.props.children} span="1" />
           ))}
         </colgroup>
-        <thead>
+        {/* TODO: remove and make sticky header */}
+        <thead style={{ background: '#f4fafc' }}> 
           <tr>{tableHeader}</tr>
         </thead>
         <tbody>{tableRows}</tbody>

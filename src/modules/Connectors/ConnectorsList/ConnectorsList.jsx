@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import { useMemo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import lodash from 'lodash';
 import { getConnectors } from '../../../data/actions/connectors';
 import ListNavBar from '../../../common/components/ListNavBar/ListNavBar';
 import List from '../../../common/components/List/List';
@@ -225,9 +226,8 @@ const ConnectorsList = () => {
                   />
                 )}
               </td>
-              <td>{'some value' || TABLE_CELL_EMPTY_VALUE}</td>
-              <td>{'some value' || TABLE_CELL_EMPTY_VALUE}</td>
-              <td>{'some value' || TABLE_CELL_EMPTY_VALUE}</td>
+              <td>{item.connect_type_name || TABLE_CELL_EMPTY_VALUE}</td>
+              <td>{item.symlayer_count || TABLE_CELL_EMPTY_VALUE}</td>
             </>
           }
         >
@@ -254,7 +254,7 @@ const ConnectorsList = () => {
         setSearchValue={setSearchValue}
         onSearch={onSearch}
       />
-      {connectors ? (
+      {!lodash.isEmpty(connectors) ? (
         <List
           listItems={listItemsWithDropdown}
           multiColumnView={multiColumnView}

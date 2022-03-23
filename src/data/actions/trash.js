@@ -12,7 +12,6 @@ export const getTrashEvents = queryParams => {
         dispatch
       });
       if (response?.success) {
-        // eslint-disable-next-line no-debugger
         dispatch(setItems(response.result));
       }
     } catch (err) {

@@ -1,0 +1,29 @@
+.navigationActions {
+  display: flex;
+  align-items: center;
+
+  & div {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.btnPrev,
+.btnNext,
+.btnUp {
+  margin: 0;
+  height: max-content;
+  width: max-content;
+
+  &:disabled svg {
+    fill: #ababab;
+  }
+}
+
+.btnPrev {
+  margin-right: 10px;
+}
+
+.btnUp {
+  margin: 0 16px;
+}

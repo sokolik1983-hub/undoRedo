@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import lodash from 'lodash';
@@ -139,7 +138,6 @@ function ReportDesigner() {
   };
   const handleDeleteReport = reportId => event => {
     event.stopPropagation();
-    debugger;
     const reportIdx = lodash.findIndex(
       reportDesigner.reportsData.present.reports,
       item => item.id === reportId

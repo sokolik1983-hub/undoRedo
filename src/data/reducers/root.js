@@ -7,6 +7,8 @@ import notificationsReducer from './notifications';
 import dataReducer from './data';
 import reportDesignerReducer from './reportDesigner';
 import trashReducer from './trash';
+import schemaDesignerReducer from './schemaDesigner';
+
 
 const appReducer = combineReducers({
   auth: authReducer,
@@ -15,7 +17,8 @@ const appReducer = combineReducers({
   notifications: notificationsReducer,
   data: dataReducer,
   reportDesigner: reportDesignerReducer,
-  trash: trashReducer
+  trash: trashReducer,
+  schemaDesigner: schemaDesignerReducer
 });
 
 const rootReducer = (state, action) => {

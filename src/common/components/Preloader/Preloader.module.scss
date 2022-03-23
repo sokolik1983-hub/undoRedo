@@ -8,4 +8,20 @@
   & .preloaderText {
     color: #000000;
   }
+
+  .logo {
+    animation-duration: 0.7s;
+    animation-name: rotation;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+  }
+}
+
+@keyframes rotation {
+  from {
+    transform: rotateY(180deg);
+  }
+  to {
+    transform: rotateY(0deg);
+  }
 }

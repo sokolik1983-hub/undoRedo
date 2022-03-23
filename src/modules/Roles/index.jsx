@@ -9,7 +9,11 @@ function Roles() {
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.ROLES));
   }, []);
-  return <div className={styles.root}>Roles Content</div>;
+  return (
+    <div className={styles.root}>
+      <h1> Данный модуль находится в стадии разработки </h1>
+    </div>
+  );
 }
 
 export default Roles;

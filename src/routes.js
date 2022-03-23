@@ -12,10 +12,11 @@ import RecycleBin from './modules/RecycleBin';
 import ReportDesigner from './modules/ReportDesigner';
 import SymlayersDesigner from './modules/SymlayersDesigner';
 import Symlayers from './modules/Symlayers';
+import Explorer from './modules/Explorer';
 
 const routes = [
   {
-    path: '/Reporting/',
+    path: '/Universe/',
     element: <Layout />,
     children: [
       { path: '/', element: <HomePage /> },
@@ -23,6 +24,7 @@ const routes = [
       { path: 'login', element: <LoginPage /> },
       { path: 'audit', element: <Audit /> },
       { path: 'users', element: <Users /> },
+      { path: 'explorer', element: <Explorer /> },
       { path: 'roles', element: <Roles /> },
       { path: 'connectors', element: <Connectors /> },
       { path: 'symlayers', element: <Symlayers /> },
@@ -38,8 +40,8 @@ const routes = [
     element: <Layout />,
     children: [
       { path: 'login', element: <LoginPage /> },
-      { path: '/', element: <Navigate to="/Reporting/login" /> },
-      { path: '*', element: <Navigate to="/Reporting/404" /> }
+      { path: '/', element: <Navigate to="/Universe/login" /> },
+      { path: '*', element: <Navigate to="/Universe/404" /> }
     ]
   }
 ];

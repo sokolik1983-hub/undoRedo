@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import axios from 'axios';
 import lodash from 'lodash';
 import { setLoadingData } from './reducers/ui';
@@ -37,11 +38,14 @@ export const request = async ({ type = 'request', params, func, dispatch }) => {
 
     throw Error(response.errorText);
   } catch (err) {
-    dispatch(notificationShown({
-      message: err.message,
-      messageType: 'error',
-      reason: 'Возможно не прошли авторизацию',
-      advice: 'Нажать кнопку выход и авторизоваться' }));
+    dispatch(
+      notificationShown({
+        message: err.message,
+        messageType: 'error',
+        reason: 'Возможно не прошли авторизацию',
+        advice: 'Нажать кнопку выход и авторизоваться'
+      })
+    );
     dispatch(setLoadingData(false));
   }
 
@@ -74,7 +78,18 @@ export const requestAuth = async ({ params, dispatch }) => {
 export const prefixLS = str => `tby:md:${str}`;
 
 export const getSimpleID = () => {
-  return Math.random().toString(16).slice(2);
+  return Math.random()
+    .toString(16)
+    .slice(2);
 };
 
 export const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+export const getTableIdFromParams = ({
+  schema,
+  object_name,
+  object_type_id,
+  connect_id
+}) => {
+  return `${schema}_${object_name}_${object_type_id}_${connect_id}`;
+};

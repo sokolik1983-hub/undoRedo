@@ -2,19 +2,18 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveConnector } from '../../data/actions/connectors';
-import styles from './Connectors.module.scss';
+import styles from './Symlayers.module.scss';
 import TreeView from '../../common/components/TreeView/index';
 import Button from '../../common/components/Button';
 import Modal from '../../common/components/Modal';
 import TextInput from '../../common/components/TextInput';
 import Select from '../../common/components/Select';
-import ConnectorsList from './ConnectorsList/ConnectorsList';
-import ConnectorsListProvider from './context/connectorsList';
 import FloatingButton from '../../common/components/FloatingButton';
 import { ReactComponent as CreateConnector } from '../../layout/assets/create-connector.svg';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
 import SemanticLayerModal from './SemanticLayerModal';
+import SymlayersList from './SymlayersList'
 
 function Symlayers() {
   const dispatch = useDispatch();
@@ -164,9 +163,7 @@ function Symlayers() {
 
   return (
     <div className={styles.root}>
-      <ConnectorsListProvider>
-        <ConnectorsList />
-      </ConnectorsListProvider>
+      <SymlayersList />
 
       <FloatingButton
         icon={<CreateConnector />}

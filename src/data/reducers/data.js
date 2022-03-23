@@ -1,13 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const data = createSlice({
-  name: "data",
+  name: 'data',
   initialState: {
     connectors: {},
     connectorsTree: [],
     universes: [],
     universesTree: [],
-    dictionaries: [],
+    dictionaries: []
   },
   reducers: {
     setConnectors: (state, action) => {
@@ -24,8 +24,8 @@ const data = createSlice({
     },
     setDictionaries: (state, action) => {
       state.dictionaries = action.payload;
-    },
-  },
+    }
+  }
 });
 
 export const {
@@ -33,7 +33,7 @@ export const {
   setUniverses,
   setUniversesTree,
   setDictionaries,
-  setConnectorsTree,
+  setConnectorsTree
 } = data.actions;
 
 export default data.reducer;
