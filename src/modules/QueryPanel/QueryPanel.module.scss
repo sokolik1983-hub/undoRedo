@@ -1,3 +1,10 @@
+.dialog {
+  max-width: unset !important;
+  width: 90% !important;
+  height: 90%;
+  color: #FFFFFF;
+}
+
 .root {
   display: flex;
   flex-direction: column;
