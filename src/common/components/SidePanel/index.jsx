@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
@@ -119,8 +118,6 @@ export default function SidePanel({ marginRight, navType }) {
 
   function handleChangeSortingField(changedItem) {
     const { sorting } = currentNode;
-    // eslint-disable-next-line no-debugger
-    debugger;
     dispatch(
       addSortingField({
         id: currentNode.id,
@@ -139,8 +136,6 @@ export default function SidePanel({ marginRight, navType }) {
 
   function handleRemoveSortingField(removingItem) {
     const { sorting } = currentNode;
-    // eslint-disable-next-line no-debugger
-    debugger;
     dispatch(
       addSortingField({
         id: currentNode.id,

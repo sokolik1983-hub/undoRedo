@@ -3,25 +3,7 @@ import React, { useState } from 'react';
 import styles from './TablesList.module.scss';
 import TablesListItem from './TablesListItem';
 
-const MOCK = [
-  { id: 1, name: 'test' },
-  { id: 2, name: 'test' },
-  { id: 3, name: 'test' },
-  { id: 4, name: 'test' },
-  { id: 5, name: 'test' },
-  { id: 6, name: 'test' },
-  { id: 7, name: 'test' },
-  { id: 8, name: 'test' },
-  { id: 9, name: 'test' },
-  { id: 10, name: 'test' },
-  { id: 11, name: 'test' },
-  { id: 12, name: 'test' },
-  { id: 13, name: 'test' },
-  { id: 14, name: 'test' },
-  { id: 15, name: 'test' }
-];
-
-function TablesList({ title }) {
+function TablesList({ title, items, type }) {
   const [selected, setSelected] = useState(0);
 
   const handleClick = id => {
@@ -38,11 +20,15 @@ function TablesList({ title }) {
       </div>
       <div className={styles.content}>
         <div className={styles.list}>
-          {MOCK.map(item => (
+          {items?.map(item => (
             <TablesListItem
-              key={item.id}
-              id={item.id}
-              name={item.name}
+              key={item}
+              item={item}
+              name={
+                type === 'links'
+                  ? `${item.object1.object} - ${item.object2.object}`
+                  : null
+              }
               onClick={handleClick}
               isActive={selected === item.id}
             />

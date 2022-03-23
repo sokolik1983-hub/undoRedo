@@ -9,7 +9,11 @@ function Users() {
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.USERS));
   }, []);
-  return <div className={styles.root}>USERS</div>;
+  return (
+    <div className={styles.root}>
+      <h1> Данный модуль находится в стадии разработки </h1>
+    </div>
+  );
 }
 
 export default Users;

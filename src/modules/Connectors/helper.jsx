@@ -84,5 +84,4 @@ export const connectorsTableHeader = [
   { name: 'Имя' },
   { name: 'Тип коннектора' },
   { name: 'Источник' },
-  { name: 'Тип соединения' }
 ];

@@ -10,7 +10,6 @@ const ColumnsList = ({ arr, handleSetColumns }) => {
     event.stopPropagation();
     const newColumns = lodash.cloneDeep(arr).map(item => {
       if (item.id === columnId) {
-        // eslint-disable-next-line no-debugger
         item.show = event.target.checked;
       }
       return item;

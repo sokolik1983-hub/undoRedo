@@ -13,7 +13,7 @@ export const style = () => ({
     height: '100%',
 
     fill: 'rgba(0, 0, 0, 0)',
-    stroke: 'black'
+    // stroke: 'black'
   },
 
   workArea: {

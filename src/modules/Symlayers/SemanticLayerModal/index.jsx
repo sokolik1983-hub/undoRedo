@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
-import { Link } from 'react-router-dom';
 import Modal from '../../../common/components/Modal';
 import Button from '../../../common/components/Button';
 import styles from './SemanticLayerModal.module.scss';
@@ -32,7 +31,13 @@ const SemanticLayerModal = ({ onClick }) => {
   };
 
   const content = (
-    <Formik initialValues={semLayerValues} onSubmit={data => console.log(data)}>
+    <Formik
+      initialValues={semLayerValues}
+      onSubmit={data => {
+        window.location.pathname = '/Universe/symlayers/create';
+        console.log(data);
+      }}
+    >
       {({ values, handleChange, handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <TextFieldItem
@@ -68,7 +73,7 @@ const SemanticLayerModal = ({ onClick }) => {
           <Params title="Параметры" />
           <div className={styles.buttonsWrapper}>
             <Button type="submit" className={styles.save}>
-              <Link to="/Reporting/symlayers/create">Сохранить</Link>
+              Сохранить
             </Button>
             <Button className={styles.cancel} onClick={onClickAction}>
               Отмена
@@ -81,7 +86,7 @@ const SemanticLayerModal = ({ onClick }) => {
   return (
     <div>
       <Modal
-        title="Создать семантический слой"
+        title="Создать юниверс"
         visible
         content={content}
         withScroll={false}

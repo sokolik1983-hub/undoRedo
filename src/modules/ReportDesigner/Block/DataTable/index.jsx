@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import clsx from 'clsx';
 import React from 'react';

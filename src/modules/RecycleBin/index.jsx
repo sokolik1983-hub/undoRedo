@@ -1,39 +1,34 @@
 import React, { useEffect } from 'react';
-import lodash from 'lodash';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  clearTrash,
-  getTrashEvents,
-  restoreTrashItem
-} from '../../data/actions/trash';
-import { setColumns, showFilterPanel } from '../../data/reducers/trash';
-import Table from '../../common/components/Table/index';
+import { useDispatch } from 'react-redux';
 import Button from '../../common/components/Button/index';
-import Tooltip from '../../common/components/Tooltip/index';
-import styles from './RecycleBin.module.scss';
-import FilterPanel from './FilterPanel';
-import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
+import { clearTrash, restoreTrashItem } from '../../data/actions/trash';
+// import FilterPanel from './FilterPanel';
+import { setCurrentPage } from '../../data/reducers/ui';
+import ConnectorsList from './ConnectorsList/ConnectorsList';
+// import Tooltip from '../../common/components/Tooltip/index';
+import styles from './RecycleBin.module.scss';
 
 function RecycleBin() {
   const dispatch = useDispatch();
-  const trash = useSelector(state => state.app.trash);
-  const trashItems = trash.items;
+  // const trash = useSelector(state => state.app.trash);
+  // const trashItems = trash.items;
+
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.TRASH));
   }, []);
 
-  const trashItemsWithUniqueId = trashItems.map(item => {
-    return { ...item, uniqueId: item.id + item.type_name };
-  });
+  // const trashItemsWithUniqueId = trashItems.map(item => {
+  //   return { ...item, uniqueId: item.id + item.type_name };
+  // });
 
-  useEffect(() => {
-    dispatch(getTrashEvents({ filters: { ...trash.filters } }));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getTrashEvents({ filters: { ...trash.filters } }));
+  // }, []);
 
-  const trashTableHeadersArr = lodash
-    .sortBy(trash.columns, 'order')
-    .filter(item => item.show);
+  // const trashTableHeadersArr = lodash
+  //   .sortBy(trash.columns, 'order')
+  //   .filter(item => item.show);
 
   const handleRestore = item => () => {
     dispatch(restoreTrashItem({ id: item.id, type_name: item.type_name }));
@@ -43,24 +38,26 @@ function RecycleBin() {
     dispatch(clearTrash());
   };
 
-  const handleSetColumns = value => {
-    dispatch(setColumns(value));
-  };
+  // const handleSetColumns = value => {
+  //   dispatch(setColumns(value));
+  // };
 
-  const handleShowFilters = event => {
-    event.stopPropagation();
-    dispatch(showFilterPanel());
-  };
+  // const handleShowFilters = event => {
+  //   event.stopPropagation();
+  //   dispatch(showFilterPanel());
+  // };
 
-  const actions = [{ onClick: handleRestore, text: 'Восстановить', id: 1 }];
+  // const actions = [{ onClick: handleRestore, text: 'Восстановить', id: 1 }];
 
   return (
     <div className={styles.root}>
-      <h3>Корзина</h3>
-      <Button onClick={handleClear} type="button">
+      <Button onClick={handleClear} type="button" className={styles.button}>
         Очистить корзину
       </Button>
-      <Table
+
+      <ConnectorsList onRestore={handleRestore} />
+
+      {/* <Table
         headersArr={trashTableHeadersArr}
         bodyArr={trashItemsWithUniqueId}
         size="small"
@@ -76,7 +73,7 @@ function RecycleBin() {
         </Button>
       </Tooltip>
 
-      <FilterPanel />
+      <FilterPanel /> */}
     </div>
   );
 }

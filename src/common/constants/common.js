@@ -21,8 +21,8 @@ export const TABLE_CELL_EMPTY_VALUE = '-';
 export const BREADCRUMBS_ROOT = '..'
 
 export const REDIRECT_LINKS = {
-  HOME_PAGE: '/Reporting/dashboard',
-  LOGIN_PAGE: '/Reporting/login'
+  HOME_PAGE: '/Universe/dashboard',
+  LOGIN_PAGE: '/Universe/login'
 };
 
 export const PAGE_TITLES = {
@@ -148,7 +148,7 @@ export const SEMANTIC_PAGE_ACTIONS = [
     title: 'Панель связей',
     text: 'Панель связей',
     icon: <ConnectionsPanel />,
-    enable: false,
+    enable: true,
     disIcon: <DisableConnectionsPanel />
   },
   {

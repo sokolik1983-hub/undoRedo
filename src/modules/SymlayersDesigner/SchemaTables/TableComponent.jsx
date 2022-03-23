@@ -5,9 +5,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable camelcase */
 /* eslint-disable react/prop-types */
-import {
-  makeStyles
-} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import lodash from 'lodash';
 import React, {
   useCallback,
@@ -17,6 +15,12 @@ import React, {
   useRef,
   useState
 } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  getObjectData,
+  getObjectFields
+} from '../../../data/actions/schemaDesigner';
+import { getTableIdFromParams } from '../../../data/helpers';
 import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock';
 // import { useApplicationActions } from 'src/data/appProvider';
 import { SymanticLayerContext } from './context';
@@ -131,6 +135,25 @@ const TableComponent = ({
   const [columns, setColumns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const contentScrollContainer = useRef();
+  const dispatch = useDispatch();
+
+  const selectedTables = useSelector(
+    state => state.app.schemaDesigner.selectedTables
+  );
+
+  const selectedTableColumns =
+    selectedTables[getTableIdFromParams({ ...tableItem, connect_id: 4 })];
+
+  useEffect(() => {
+    dispatch(getObjectFields({ ...tableItem, connect_id: 4 }));
+
+    // .then(response => {
+    //   if (response && response.success) {
+    //     setColumns(response.result);
+    //     setIsLoading(false);
+    //   }
+    // });
+  }, []);
 
   const setExpanded = useCallback(value => SET_EXPANDED({ tableId, value }), [
     SET_EXPANDED,
@@ -164,13 +187,15 @@ const TableComponent = ({
       setColumns(tableItem.columns);
     } else {
       setIsLoading(true);
-      // getObjectFields({ ...tableItem, connect_id }).then(response => {
+      // dispatch(getObjectData({ ...tableItem, connect_id: 4 }))
+
+      // .then(response => {
       //   if (response && response.success) {
       //     setColumns(response.result);
       //     tableItem.columns = response.result;
       //     setIsLoading(false);
       //   }
-      // });
+      // }));
     }
   }, []);
 
@@ -355,7 +380,11 @@ const TableComponent = ({
             : undefined
         }}
       >
-        <SchemaEditorBlock onTableDragStart={onTableDragStart} />
+        <SchemaEditorBlock
+          onTableDragStart={onTableDragStart}
+          selectedTableColumns={selectedTableColumns}
+          selectedTableName={tableItem.object_name}
+        />
         {/* <div
           className={`${classes.tableItem} unselectable`}
           style={{ margin: 0, display: 'flex', flexDirection: 'column' }}

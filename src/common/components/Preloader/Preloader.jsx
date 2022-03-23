@@ -1,9 +1,10 @@
 import styles from './Preloader.module.scss';
+import { ReactComponent as PreloaderIcon } from '../../../layout/assets/preloaderIcon.svg';
 
 const Preloader = () => {
   return (
     <div className={styles.preloader}>
-      <span className={styles.preloaderText}>loading...</span>
+      <PreloaderIcon className={styles.logo} />
     </div>
   );
 };

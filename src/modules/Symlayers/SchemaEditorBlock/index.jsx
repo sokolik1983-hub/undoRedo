@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-shadow */
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Dropdown from '../../../common/components/Dropdown';
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import TextInput from '../../../common/components/TextInput';
@@ -11,16 +11,16 @@ import { ReactComponent as CloseInput } from '../../../layout/assets/schemaEdito
 import { ReactComponent as MagnifierWhite } from '../../../layout/assets/schemaEditorBlock/magnifierWhite.svg';
 import styles from './SchemaEditorBlock.module.scss';
 
-const data = [
-  { text: 'Колонка', id: '1' },
-  { text: 'Колонка 1', id: '2' },
-  { text: 'Колонка 2', id: '3' },
-  { text: 'Колонка 3', id: '4' },
-  { text: 'Колонка 4', id: '5' },
-  { text: 'Колонка 5', id: '6' },
-  { text: 'Колонка 6', id: '7' },
-  { text: 'Колонка 7', id: '8' }
-];
+// const data = [
+//   { text: 'Колонка', id: '1' },
+//   { text: 'Колонка 1', id: '2' },
+//   { text: 'Колонка 2', id: '3' },
+//   { text: 'Колонка 3', id: '4' },
+//   { text: 'Колонка 4', id: '5' },
+//   { text: 'Колонка 5', id: '6' },
+//   { text: 'Колонка 6', id: '7' },
+//   { text: 'Колонка 7', id: '8' }
+// ];
 
 const items = [
   { text: 'Псевдоним' },
@@ -31,12 +31,19 @@ const items = [
 ];
 
 const ShemaEditorBlock = ({
-  heading = 'MR_D_Options DTF',
-  onTableDragStart
+  onTableDragStart,
+  selectedTableName,
+  selectedTableColumns = []
 }) => {
-  const [filterableFields, setFilterableFields] = useState(data);
+  const [filterableFields, setFilterableFields] = useState(
+    selectedTableColumns
+  );
   const [searchValue, setSearchValue] = useState('');
   const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    setFilterableFields(selectedTableColumns);
+  }, [selectedTableColumns]);
 
   const contentClasses = clsx(styles.content, {
     [styles.contentWithSearch]: isActive
@@ -51,8 +58,8 @@ const ShemaEditorBlock = ({
 
     setSearchValue(value);
     setFilterableFields(
-      data.filter(i => {
-        return i.text.toLowerCase().includes(value);
+      selectedTableColumns?.filter(i => {
+        return i.field.toLowerCase().includes(value);
       })
     );
   };
@@ -69,7 +76,7 @@ const ShemaEditorBlock = ({
               onTableDragStart(event);
             }}
           >
-            {heading}
+            {selectedTableName}
           </h1>
           <div className={styles.iconsContainer}>
             <MagnifierWhite
@@ -112,10 +119,12 @@ const ShemaEditorBlock = ({
             onClick={handleClick}
             className={styles.search}
           />
-          {filterableFields.map((item, idx) => (
+
+          {filterableFields.map(item => (
             // eslint-disable-next-line react/no-array-index-key
-            <li className={styles.item} key={idx}>
-              {item.text}
+            <li className={styles.item} key={item.field + item.type}>
+              {item.type}
+              {item.field}
             </li>
           ))}
         </ul>

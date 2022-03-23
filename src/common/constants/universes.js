@@ -46,7 +46,7 @@ export const TABLE3_EXAMPLE = {
   ]
 };
 
-export const TABLES_NAME_FOR_CONNECT = {
+export const  TABLES_NAME_FOR_CONNECT = {
   TABLE_A: 'Таблица А',
   TABLE_B: 'Таблица В',
 }
