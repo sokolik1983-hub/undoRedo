@@ -14,7 +14,7 @@ function Roles() {
   return (
     <>
       <div className={styles.root}>Roles Content</div>
-      <Button buttonStyle={BUTTON.SAVE} />
+      <Button buttonStyle={BUTTON.BLUE}>Сохранить</Button>
     </>
   );
 }
