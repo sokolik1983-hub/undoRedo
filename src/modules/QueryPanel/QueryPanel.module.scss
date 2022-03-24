@@ -1,24 +1,33 @@
+.dialog {
+  max-width: unset !important;
+  width: 90% !important;
+  height: 90%;
+  color: #FFFFFF;
+}
+
 .root {
   display: flex;
   flex-direction: column;
+  padding: 25px;
 
   .content {
-      outline: 1px solid grey;
-      display: flex;
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
 
     .leftPanel {
-      width: 30%;
+      width: 20%;
       outline: 1px solid grey;
       min-width: 100px;
-      min-height: 50vh;
     }
 
     .rightPanel {
-      width: 80%;
+      width: 70%;
       min-width: 300px;
       display: flex;
       flex-direction: column;
       outline: 1px solid grey;
+
 
       .section {
       outline: 1px solid grey;
