@@ -75,6 +75,7 @@ const QueryPanel = ({ visible }) => {
       headerClassName={modalStyles.header}
       bodyClassName={styles.modalBody}
       contentClassName={styles.modalContent}
+      withoutTitle
     />
   );
 }
