@@ -34,6 +34,7 @@ export const PAGE_TITLES = {
   USERS: 'Пользователи',
   CONNECTORS: 'Коннекторы',
   REPORTS: 'Отчеты',
+  QUERY_PANEL: 'Панель запросов',
 };
 
 export const FONT_LIST = [
