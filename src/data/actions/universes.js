@@ -1,7 +1,7 @@
 import { request } from '../helpers';
 import { setUniverses } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
-import { showObjectsConnectionsModal, closeModal } from '../reducers/ui';
+import { showObjectsConnectionsModal, closeModal, showQueryPanelModal, showSemanticLayerModal } from '../reducers/ui';
 
 export const getUniverses = queryParams => {
   return async dispatch => {
@@ -57,3 +57,12 @@ export const removeConnector = queryParams => {
 export const setObjectsConnectionsModal = (open) => {
   return dispatch => dispatch(open ? showObjectsConnectionsModal() : closeModal());
 };
+
+export const setQueryPanelModal = (open) => {
+  return dispatch => dispatch(open ? showQueryPanelModal() : closeModal());
+};
+
+export const setSemanticLayerModal = (open) => {
+  return dispatch => dispatch(open ? showSemanticLayerModal() : closeModal());
+};
+
