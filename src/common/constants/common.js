@@ -201,11 +201,11 @@ export const SEMANTIC_PAGE_ACTIONS = [
 ];
 
 export const BUTTON = {
-  BIGBLUE: 'BIGBLUE', // Я ПОНЯЛ + ВОЙТИ В СИСТЕМУ + ОТМЕНА
-  BIGORANGE: 'BIGORANGE', // СОХРАНИТЬ
-  BROWN: 'BROWN', // РЕДАКТИРОВАТЬ
-  BLUE: 'BLUE', // ТЕСТ СОЕДНИНЕНИЯ + ТЕСТИРОВАТЬ
-  GRAY: 'GRAY', // ДОБАВИТЬ + ПО УМОЛЧАНИЮ 
-  BROWNDARKER: 'BROWNDARKER', // ЗАМЕНИТЬ
-  RED: 'RED', // УДАЛИТЬ
+  BIG_BLUE: 'BIG_BLUE',
+  BIG_ORANGE: 'BIG_ORANGE',
+  BROWN: 'BROWN',
+  BLUE: 'BLUE',
+  GRAY: 'GRAY', 
+  BROWN_DARKER: 'BROWN_DARKER',
+  RED: 'RED',
 }

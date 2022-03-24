@@ -2,6 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import styles from './Button.module.scss';
+import { BUTTON } from '../../constants/common';
 
 /**
  * @param children - нода для отрисовки внутри кнопки
@@ -13,7 +14,7 @@ import styles from './Button.module.scss';
  * @param props - атрибуты кнопки
  * @param color - строка определяющая цвет кнопки: primary, danger, success
  * @param props - атрибуты кнопки
- * @param buttonStyle - стиль и текст кнопки
+ * @param buttonStyle - стиль кнопки
  */
 
 const Button = ({
@@ -29,13 +30,13 @@ const Button = ({
 }) => {
   const classes = clsx(
     styles.btn,
-    { [styles.bigBlue]: buttonStyle === 'BIGBLUE' },
-    { [styles.bigOrange]: buttonStyle === 'BIGORANGE' },
-    { [styles.brown]: buttonStyle === 'BROWN' },
-    { [styles.blue]: buttonStyle === 'BLUE' },
-    { [styles.gray]: buttonStyle === 'GRAY' },
-    { [styles.brownDarker]: buttonStyle === 'BROWNDARKER' },
-    { [styles.red]: buttonStyle === 'RED' },  
+    { [styles.bigBlue]: buttonStyle === BUTTON.BIG_BLUE },
+    { [styles.bigOrange]: buttonStyle === BUTTON.BIG_ORANGE },
+    { [styles.brown]: buttonStyle === BUTTON.BROWN },
+    { [styles.blue]: buttonStyle === BUTTON.BLUE },
+    { [styles.gray]: buttonStyle === BUTTON.GRAY },
+    { [styles.brownDarker]: buttonStyle === BUTTON.BROWN_DARKER },
+    { [styles.red]: buttonStyle === BUTTON.RED },  
     className,
     { active },
     [styles[size]],
