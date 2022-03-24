@@ -33,7 +33,7 @@ function App() {
   return (
     <AuthProvider>
       <div>
-        <button type="submit" onClick={() => dispatch(getDictionaries({login: 'test', password: '123'}))}>Отправить запрос</button>
+        <button type="submit" onClick={() => dispatch(getDictionaries({login2: 'test', password2: '123'}))}>Отправить запрос</button>
         <button type="submit" onClick={() => dispatch(getDictionariesReady(id))}>Получить ответ</button>
         {routing}
       </div>
