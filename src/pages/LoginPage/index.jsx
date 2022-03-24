@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../data/actions/auth';
-import { REDIRECT_LINKS } from '../../common/constants/common';
+import { REDIRECT_LINKS, BUTTON } from '../../common/constants/common';
 import TextInput from '../../common/components/TextInput';
 import Button from '../../common/components/Button';
 import { ReactComponent as LogoIcon } from '../../layout/assets/login-page-logo.svg';
@@ -78,6 +78,7 @@ const LoginPage = () => {
               />
               <Button
                 type="submit"
+                buttonStyle={BUTTON.BIG_BLUE}
                 className={styles.btn}
                 disabled={isSubmitting}
               >

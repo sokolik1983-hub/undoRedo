@@ -198,4 +198,15 @@ export const SEMANTIC_PAGE_ACTIONS = [
     icon: <FindTool />,
     enable: true
   }
+
 ];
+
+export const BUTTON = {
+  BIG_BLUE: 'BIG_BLUE',
+  BIG_ORANGE: 'BIG_ORANGE',
+  BROWN: 'BROWN',
+  BLUE: 'BLUE',
+  GRAY: 'GRAY', 
+  BROWN_DARKER: 'BROWN_DARKER',
+  RED: 'RED',
+}
