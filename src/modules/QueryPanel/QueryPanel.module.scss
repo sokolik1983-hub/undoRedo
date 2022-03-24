@@ -5,6 +5,14 @@
   color: #FFFFFF;
 }
 
+.selectSemantic {
+  span {
+    color: white ;
+    font-size: 15px;
+  }
+  padding-left: 15px !important;
+}
+
 .root {
   display: flex;
   flex-direction: column;
