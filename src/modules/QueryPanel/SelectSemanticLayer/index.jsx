@@ -41,7 +41,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
       <ListItem
         name={isFolder ? item.folder_name : item.name}
         icon={isFolder ? <FolderIcon /> : <UniverseIcon />}
-        className={styles.selectSemantic}
+        className={selectModalStyles.semanticItem}
         onDoubleClick={() => handleItemClick(item)}
       />
     )

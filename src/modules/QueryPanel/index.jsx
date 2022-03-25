@@ -33,7 +33,7 @@ const QueryPanel = ({ visible }) => {
     console.log('click from button');
   };
 
-  const selectSemanticLayer = (value) => {
+  const onSelectSemanticLayer = (value) => {
     setSemanticLayer(value);
     setSemanticLayerModalOpened(false);
   };
@@ -63,7 +63,7 @@ const QueryPanel = ({ visible }) => {
           <SelectSemanticLayer
             visible={semanticLayerModalOpened && true}
             onClose={onCloseSemanticModalHandler}
-            onSelectSemanticLayer={selectSemanticLayer}
+            onSelectSemanticLayer={onSelectSemanticLayer}
           />
         )}
       </div>
