@@ -99,17 +99,14 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
       <>
         <div className={selectModalStyles.navigationActions}>
           <IconButton
-            className='ssaa'
             icon={<ArrowLeftIcon />}
             onClick={moveToPrevFolder}
           />
           <IconButton
-            className='ssaa'
             icon={<ArrowRightIcon />}
             onClick={moveToNextFolder}
           />
           <IconButton
-            className='ssaa'
             icon={<ArrowUpIcon />}
             onClick={moveToRootFolder}
           />
