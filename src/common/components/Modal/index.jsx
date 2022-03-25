@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import styles from './Modal.module.scss';
-import  { ReactComponent as CloseIcon }  from '../../../layout/assets/close.svg'
+import { ReactComponent as CloseIcon } from '../../../layout/assets/close.svg';
 
 /**
  * @param visible - булево значение, определяющее, будет ли видно модальное окно
@@ -17,7 +17,20 @@ import  { ReactComponent as CloseIcon }  from '../../../layout/assets/close.svg'
  * @param bodyClassName - класс для тела окна
  */
 
-const Modal = ({ visible, title, content, footer, onClose, withScroll, titleClassName, dialogClassName, headerClassName, bodyClassName, contentClassName }) => {
+const Modal = ({
+                 withoutTitle,
+                 visible,
+                 title,
+                 content,
+                 footer,
+                 onClose,
+                 withScroll,
+                 titleClassName,
+                 dialogClassName,
+                 headerClassName,
+                 bodyClassName,
+                 contentClassName
+               }) => {
   const [isModal, setIsModal] = useState(false);
 
   const modalClasses = clsx(
@@ -73,12 +86,14 @@ const Modal = ({ visible, title, content, footer, onClose, withScroll, titleClas
   return (
     <div className={modalClasses} onClick={handleClose}>
       <div className={modalDialogClasses} onClick={e => e.stopPropagation()}>
-        <div className={headerClasses}>
-          <h3 className={titleClasses}>{title}</h3>
-          <span className={styles.modalClose} onClick={handleClose}>
-            <CloseIcon className={styles.close} />
-          </span>
-        </div>
+        {!withoutTitle && (
+          <div className={headerClasses}>
+            <h3 className={titleClasses}>{title}</h3>
+            <span className={styles.modalClose} onClick={handleClose}>
+              <CloseIcon className={styles.close} />
+            </span>
+          </div>
+        )}
         <div className={modalBodyClasses}>
           <div className={clsx(styles.modalContent, contentClassName)}>{content}</div>
         </div>
@@ -91,17 +106,18 @@ const Modal = ({ visible, title, content, footer, onClose, withScroll, titleClas
 export default Modal;
 
 Modal.propTypes = {
-  visible: PropTypes.bool,
-  title: PropTypes.string,
-  content: PropTypes.node,
-  footer: PropTypes.node,
-  withScroll: PropTypes.bool,
-  onClose: PropTypes.func,
-  titleClassName: PropTypes.string,
-  dialogClassName: PropTypes.string,
-  headerClassName: PropTypes.string,
   bodyClassName: PropTypes.string,
+  content: PropTypes.node,
   contentClassName: PropTypes.string,
+  dialogClassName: PropTypes.string,
+  footer: PropTypes.node,
+  withoutTitle: PropTypes.bool,
+  headerClassName: PropTypes.string,
+  onClose: PropTypes.func,
+  title: PropTypes.string,
+  titleClassName: PropTypes.string,
+  visible: PropTypes.bool,
+  withScroll: PropTypes.bool
 };
 
 Modal.defaultProps = {
@@ -110,8 +126,10 @@ Modal.defaultProps = {
   content: null,
   footer: null,
   withScroll: true,
-  onClose: () => {},
+  onClose: () => {
+  },
   titleClassName: '',
   dialogClassName: '',
   headerClassName: '',
+  withoutTitle: false,
 };
