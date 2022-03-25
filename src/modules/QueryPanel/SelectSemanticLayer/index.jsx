@@ -96,7 +96,6 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   };
 
   const modalContent = () => {
-    console.log(listItems)
     return (
       <>
         <div className={selectModalStyles.navigationActions}>

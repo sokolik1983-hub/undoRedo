@@ -10,8 +10,6 @@ import { ReactComponent as GreenIcon } from '../../../layout/assets/queryPanel/g
 import { ReactComponent as BlueIcon } from '../../../layout/assets/queryPanel/blueIcon.svg';
 
 const LeftPanel = ({ semanticLayer }) => {
-  console.log(semanticLayer);
-
   const handleClick = () => {
     console.log('Данные организации');
   };
@@ -37,6 +35,7 @@ const LeftPanel = ({ semanticLayer }) => {
         <GreenIcon className={styles.iconsIndents} />
         <BlueIcon className={styles.iconsIndents} />
       </div>
+      <div>{semanticLayer}</div>
       <div className={styles.content} />
     </div>
   );
