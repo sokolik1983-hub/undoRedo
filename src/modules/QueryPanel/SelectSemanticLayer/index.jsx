@@ -13,7 +13,7 @@ import ListItem from '../../../common/components/List/ListItem/ListItem'
 import { ReactComponent as FolderIcon } from '../../../layout/assets/folder-icon.svg';
 import { ReactComponent as UniverseIcon } from '../../../layout/assets/icons/universe-icon.svg';
 
-const SelectSemanticLayer = ({ visible, onClose, selectSemanticLayer }) => {
+const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const dispatch = useDispatch();
   const universes = useSelector(state => state.app.data.universes);
 
@@ -32,7 +32,7 @@ const SelectSemanticLayer = ({ visible, onClose, selectSemanticLayer }) => {
   }, [universes]);
 
   const handleItemClick = (item) => {
-    selectSemanticLayer(item);
+    onSelectSemanticLayer(item);
   }
 
   const listItems = rootFolder?.children && rootFolder?.children.map(item => {
@@ -47,7 +47,7 @@ const SelectSemanticLayer = ({ visible, onClose, selectSemanticLayer }) => {
     )
   });
 
-  const closeHandler = () => {
+  const handleClose = () => {
     return onClose();
   };
 
@@ -68,7 +68,7 @@ const SelectSemanticLayer = ({ visible, onClose, selectSemanticLayer }) => {
       content={modalContent()}
       withScroll
       visible={visible}
-      onClose={closeHandler}
+      onClose={handleClose}
       titleClassName={modalStyles.title}
       dialogClassName={selectModalStyles.dialog}
       headerClassName={modalStyles.header}
@@ -83,5 +83,5 @@ export default SelectSemanticLayer;
 SelectSemanticLayer.propTypes = {
   onClose: PropTypes.func,
   visible: PropTypes.bool.isRequired,
-  selectSemanticLayer: PropTypes.func
+  onSelectSemanticLayer: PropTypes.func
 }

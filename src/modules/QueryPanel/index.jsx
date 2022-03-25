@@ -17,7 +17,7 @@ const QueryPanel = ({ visible }) => {
   const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(false);
   const [semanticLayer, setSemanticLayer] = useState(null);
 
-  const closeHandler = () => {
+  const handleClose = () => {
     return dispatch(setQueryPanelModal(false));
   };
 
@@ -55,7 +55,7 @@ const QueryPanel = ({ visible }) => {
             <div className={styles.buttonsWrapper}>
               <Button onClick={handleClick} className={styles.run}>Запустить</Button>
               <Button onClick={handleClick} className={styles.use}>Применить</Button>
-              <Button onClick={closeHandler} className={styles.cancel}>Отмена</Button>
+              <Button onClick={handleClose} className={styles.cancel}>Отмена</Button>
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@ const QueryPanel = ({ visible }) => {
           <SelectSemanticLayer
             visible={semanticLayerModalOpened && true}
             onClose={onCloseSemanticModalHandler}
-            selectSemanticLayer={selectSemanticLayer}
+            onSelectSemanticLayer={selectSemanticLayer}
           />
         )}
       </div>
@@ -76,7 +76,7 @@ const QueryPanel = ({ visible }) => {
       content={modalContent()}
       withScroll={false}
       visible={visible}
-      onClose={closeHandler}
+      onClose={handleClose}
       titleClassName={modalStyles.title}
       dialogClassName={styles.dialog}
       headerClassName={modalStyles.header}
