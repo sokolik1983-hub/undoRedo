@@ -7,6 +7,10 @@ import Modal from '../../common/components/Modal';
 import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.module.scss';
 import { setQueryPanelModal } from '../../data/actions/universes';
 import SelectSemanticLayer from './SelectSemanticLayer';
+import LeftPanel from './LeftPanel';
+import Objects from './Objects';
+import Results from './Results';
+import Filters from './Filters';
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
@@ -24,20 +28,29 @@ const QueryPanel = ({ visible }) => {
     return  setSemanticLayerModalOpened(false);
   };
 
+  const handleClick = () => {
+    console.log('click from button');
+  };
+
   const modalContent = () => {
     return (
       <div className={styles.root}>
         <div className={styles.content}>
           <div className={styles.leftPanel}>
+            <LeftPanel />
             <Button type="button" onClick={handleShowSelector}>
               Select universe
             </Button>
-            Панель с объектами семантического слоя
           </div>
           <div className={styles.rightPanel}>
-            <div className={styles.section}>objects</div>
-            <div className={styles.section}>filters</div>
-            <div className={styles.section}>results</div>
+            <Objects className={styles.section} title='Объекты отчета' />
+            <Filters className={styles.section} title='Фильтры запроса' />
+            <Results className={styles.section} title='Просмотр данных' />
+            <div className={styles.buttonsWrapper}>
+              <Button onClick={handleClick} className={styles.run}>Запустить</Button>
+              <Button onClick={handleClick} className={styles.use}>Применить</Button>
+              <Button onClick={closeHandler} className={styles.cancel}>Отмена</Button>
+            </div>
           </div>
         </div>
         {semanticLayerModalOpened && (
@@ -62,6 +75,7 @@ const QueryPanel = ({ visible }) => {
       headerClassName={modalStyles.header}
       bodyClassName={styles.modalBody}
       contentClassName={styles.modalContent}
+      withoutTitle
     />
   );
 }

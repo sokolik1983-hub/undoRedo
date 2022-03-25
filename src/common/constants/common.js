@@ -202,14 +202,11 @@ export const SEMANTIC_PAGE_ACTIONS = [
 ];
 
 export const BUTTON = {
-  EDIT: 'EDIT', // РЕДАКТИРОВАТЬ
-  TESTCONNECTION: 'TESTCONNECTION', // ТЕСТ СОЕДНИНЕНИЯ
-  SAVE: 'SAVE', // СОХРАНИТЬ
-  CANCEL: 'CANCEL', // ОТМЕНА
-  ADD: 'ADD', // ДОБАВИТЬ
-  CHANGE: 'CHANGE', // ЗАМЕНИТЬ
-  DELETE: 'DELETE', // УДАЛИТЬ
-  TEST: 'TEST', // ТЕСТИРОВАТЬ
-  GOTIT: 'GOTIT', // Я ПОНЯЛ
-  ENTER: 'ENTER' // ВОЙТИ В СИСТЕМУ (В ДИЗАЙН-МАКЕТЕ - обозначего как 'ВРОДЕ ВСЕ ПРАВИЛЬНО')
+  BIG_BLUE: 'BIG_BLUE',
+  BIG_ORANGE: 'BIG_ORANGE',
+  BROWN: 'BROWN',
+  BLUE: 'BLUE',
+  GRAY: 'GRAY', 
+  BROWN_DARKER: 'BROWN_DARKER',
+  RED: 'RED',
 }
