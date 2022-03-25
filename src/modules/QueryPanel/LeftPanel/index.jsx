@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './LeftPanel.module.scss';
 import Divider from '../../../common/components/Divider';
 import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowOk.svg';
@@ -8,7 +9,8 @@ import { ReactComponent as OrangeIcon } from '../../../layout/assets/queryPanel/
 import { ReactComponent as GreenIcon } from '../../../layout/assets/queryPanel/greenIcon.svg';
 import { ReactComponent as BlueIcon } from '../../../layout/assets/queryPanel/blueIcon.svg';
 
-const LeftPanel = () => {
+const LeftPanel = ({ semanticLayer }) => {
+  console.log(semanticLayer);
 
   const handleClick = () => {
     console.log('Данные организации');
@@ -39,5 +41,9 @@ const LeftPanel = () => {
     </div>
   );
 }  
+
+LeftPanel.propTypes = {
+  semanticLayer: PropTypes.object
+}
 
 export default LeftPanel;

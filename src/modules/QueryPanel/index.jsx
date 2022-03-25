@@ -15,6 +15,7 @@ import Filters from './Filters';
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
   const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(false);
+  const [semanticLayer, setSemanticLayer] = useState(null);
 
   const closeHandler = () => {
     return dispatch(setQueryPanelModal(false));
@@ -25,11 +26,16 @@ const QueryPanel = ({ visible }) => {
   }
 
   const onCloseSemanticModalHandler = () => {
-    return  setSemanticLayerModalOpened(false);
+    return setSemanticLayerModalOpened(false);
   };
 
   const handleClick = () => {
     console.log('click from button');
+  };
+
+  const selectSemanticLayer = (value) => {
+    setSemanticLayer(value);
+    setSemanticLayerModalOpened(false);
   };
 
   const modalContent = () => {
@@ -37,7 +43,7 @@ const QueryPanel = ({ visible }) => {
       <div className={styles.root}>
         <div className={styles.content}>
           <div className={styles.leftPanel}>
-            <LeftPanel />
+            <LeftPanel semanticLayer={semanticLayer} />
             <Button type="button" onClick={handleShowSelector}>
               Select universe
             </Button>
@@ -57,6 +63,7 @@ const QueryPanel = ({ visible }) => {
           <SelectSemanticLayer
             visible={semanticLayerModalOpened && true}
             onClose={onCloseSemanticModalHandler}
+            selectSemanticLayer={selectSemanticLayer}
           />
         )}
       </div>
