@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
 import PropTypes from 'prop-types'
@@ -6,12 +6,16 @@ import modalStyles from '../../Symlayers/SemanticLayerModal/SemanticLayerModal.m
 import styles from '../QueryPanel.module.scss';
 import selectModalStyles from './SelectSemanticLayer.module.scss';
 import Modal from '../../../common/components/Modal';
+import IconButton from '../../../common/components/IconButton';
 import { getUniverses } from '../../../data/actions/universes';
 import { sortFoldersAndItems } from '../../Symlayers/helper';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import ListItem from '../../../common/components/List/ListItem/ListItem'
 import { ReactComponent as FolderIcon } from '../../../layout/assets/folder-icon.svg';
 import { ReactComponent as UniverseIcon } from '../../../layout/assets/icons/universe-icon.svg';
+import { ReactComponent as ArrowRightIcon} from '../../../layout/assets/arrow-right.svg';
+import { ReactComponent as ArrowLeftIcon} from '../../../layout/assets/arrow-left.svg';
+import { ReactComponent as ArrowUpIcon} from '../../../layout/assets/arrow-up.svg';
 
 const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const dispatch = useDispatch();
@@ -31,18 +35,58 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     };
   }, [universes]);
 
+  const [foldersHistory, setFoldersHistory] = useState([rootFolder]);
+  const [currentFolderIndex, setCurrentFolderIndex] = useState(0);
+
+  useEffect(() => {
+    setFoldersHistory([rootFolder]);
+  }, [universes]);
+
+  const onFolderDoubleClick = (folder) => {
+    const folderWithSortedChildren = {
+      ...folder,
+      children: sortFoldersAndItems(folder.children)
+    };
+
+    setFoldersHistory([
+      ...foldersHistory.slice(0, currentFolderIndex + 1),
+      folderWithSortedChildren
+    ]);
+    setCurrentFolderIndex(prev => prev + 1);
+  };
+
   const handleItemClick = (item) => {
     onSelectSemanticLayer(item);
-  }
+  };
 
-  const listItems = rootFolder?.children && rootFolder?.children.map(item => {
+  const moveToPrevFolder = () => {
+    setCurrentFolderIndex(prev => (prev === 0 ? 0 : prev - 1));
+  };
+
+  const moveToNextFolder = () => {
+    setCurrentFolderIndex(prev => 
+      prev === foldersHistory.length ? prev : prev + 1  
+    );
+  };
+
+  const moveToRootFolder = () => {
+    setCurrentFolderIndex(0);
+    setFoldersHistory([rootFolder]);
+  };
+
+
+  const listItems = foldersHistory[currentFolderIndex]?.children?.map(item => {
+    console.log(item);
     const { isFolder } = item;
     return (
       <ListItem
+        key={isFolder ? `folder_${item.folder_id}` : item.id}
         name={isFolder ? item.folder_name : item.name}
         icon={isFolder ? <FolderIcon /> : <UniverseIcon />}
         className={selectModalStyles.semanticItem}
-        onDoubleClick={() => handleItemClick(item)}
+        onDoubleClick={
+          isFolder ? () => onFolderDoubleClick(item) : () => handleItemClick(item)
+        }
       />
     )
   });
@@ -52,10 +96,28 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   };
 
   const modalContent = () => {
+    console.log(listItems)
     return (
       <>
+        <div className={selectModalStyles.navigationActions}>
+          <IconButton
+            className='ssaa'
+            icon={<ArrowLeftIcon />}
+            onClick={moveToPrevFolder}
+          />
+          <IconButton
+            className='ssaa'
+            icon={<ArrowRightIcon />}
+            onClick={moveToNextFolder}
+          />
+          <IconButton
+            className='ssaa'
+            icon={<ArrowUpIcon />}
+            onClick={moveToRootFolder}
+          />
+        </div>
         {!lodash.isEmpty(universes) ? (
-          listItems.map(item => item)
+          listItems?.map(item => item)
         ) : (
           <Preloader />
         )}
