@@ -1,0 +1,62 @@
+.root {
+  background: #FFFFFF;
+  padding: 15px 4px 15px 19px;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding-bottom: 6px;
+}
+
+.request {
+  margin: 0;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 23px;
+  color: #000000;
+}
+
+.data {
+  display: flex;
+  margin-left: 6px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dataText {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 15px;
+  color: #000000;
+  margin: 0;
+  margin-left: 6px;
+}
+
+.plus {
+  margin-left: 14px;
+  cursor: pointer;
+}
+
+.indents {
+  margin-left: 6px;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  padding: 5px 20px 5px 165px;
+}
+
+.iconsIndents {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.content {
+  overflow: hidden;
+  overflow-y: auto;
+  height: 90%;
+}

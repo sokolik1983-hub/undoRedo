@@ -78,7 +78,7 @@ const LoginPage = () => {
               />
               <Button
                 type="submit"
-                buttonStyle={BUTTON.ENTER}
+                buttonStyle={BUTTON.BIG_BLUE}
                 className={styles.btn}
                 disabled={isSubmitting}
               >

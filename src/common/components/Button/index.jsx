@@ -2,6 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import styles from './Button.module.scss';
+import { BUTTON } from '../../constants/common';
 
 /**
  * @param children - нода для отрисовки внутри кнопки
@@ -13,7 +14,7 @@ import styles from './Button.module.scss';
  * @param props - атрибуты кнопки
  * @param color - строка определяющая цвет кнопки: primary, danger, success
  * @param props - атрибуты кнопки
- * @param buttonStyle - стиль и текст кнопки
+ * @param buttonStyle - стиль кнопки
  */
 
 const Button = ({
@@ -29,16 +30,13 @@ const Button = ({
 }) => {
   const classes = clsx(
     styles.btn,
-    { [styles.EDIT]: buttonStyle === 'EDIT' },
-    { [styles.TESTCONNECTION]: buttonStyle === 'TESTCONNECTION' },
-    { [styles.SAVE]: buttonStyle === 'SAVE' },
-    { [styles.CANCEL]: buttonStyle === 'CANCEL' },
-    { [styles.ADD]: buttonStyle === 'ADD' },
-    { [styles.CHANGE]: buttonStyle === 'CHANGE' },
-    { [styles.DELETE]: buttonStyle === 'DELETE' },
-    { [styles.TEST]: buttonStyle === 'TEST' },
-    { [styles.GOTIT]: buttonStyle === 'GOTIT' },
-    { [styles.ENTER]: buttonStyle === 'ENTER' },
+    { [styles.bigBlue]: buttonStyle === BUTTON.BIG_BLUE },
+    { [styles.bigOrange]: buttonStyle === BUTTON.BIG_ORANGE },
+    { [styles.brown]: buttonStyle === BUTTON.BROWN },
+    { [styles.blue]: buttonStyle === BUTTON.BLUE },
+    { [styles.gray]: buttonStyle === BUTTON.GRAY },
+    { [styles.brownDarker]: buttonStyle === BUTTON.BROWN_DARKER },
+    { [styles.red]: buttonStyle === BUTTON.RED },  
     className,
     { active },
     [styles[size]],
@@ -55,45 +53,6 @@ const Button = ({
 
   const Tag = props.href ? 'a' : 'button';
 
-  let buttonText = '';
-
-  switch (buttonStyle) {
-    case 'EDIT':
-      buttonText = 'Редактировать';
-      break;
-    case 'TESTCONNECTION':
-      buttonText = 'Тест соединения';
-      break;
-    case 'SAVE':
-      buttonText = 'Сохранить';
-      break;
-    case 'CANCEL':
-      buttonText = 'Отмена';
-      break;
-    case 'ADD':
-      buttonText = 'Добавить';
-      break;
-    case 'CHANGE':
-      buttonText = 'Заменить';
-      break;
-    case 'DELETE':
-      buttonText = 'Удалить';
-      break;
-    case 'TEST':
-      buttonText = 'Тестировать';
-      break;
-    case 'GOTIT':
-      buttonText = 'Я понял';
-      break;
-    case 'ENTER':
-      buttonText = 'Войти в систему';
-      break;
-    default:
-      // eslint-disable-next-line no-unused-vars
-      buttonText = 'Ok';
-      break;
-  }
-
   return (
     <Tag
       {...props}
@@ -102,7 +61,7 @@ const Button = ({
       disabled={disabled}
       type={Tag === 'button' ? props.type : null}
     >
-      {buttonText}
+      {children}
     </Tag>
   );
 };
@@ -117,7 +76,7 @@ Button.propTypes = {
   color: PropTypes.string,
   href: PropTypes.string,
   type: PropTypes.string,
-  buttonStyle: PropTypes.string,
+  buttonStyle: PropTypes.string
 };
 
 Button.defaultProps = {
