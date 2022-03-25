@@ -76,7 +76,6 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
 
 
   const listItems = foldersHistory[currentFolderIndex]?.children?.map(item => {
-    console.log(item);
     const { isFolder } = item;
     return (
       <ListItem
