@@ -1,35 +1,40 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types'
-import { useDispatch } from 'react-redux';
+/* eslint-disable no-unused-vars */
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './QueryPanel.module.scss';
 import Button from '../../common/components/Button';
 import Modal from '../../common/components/Modal';
 import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.module.scss';
-import { setQueryPanelModal } from '../../data/actions/universes';
+import { getUniverses, setQueryPanelModal } from '../../data/actions/universes';
 import SelectSemanticLayer from './SelectSemanticLayer';
-import LeftPanel from './LeftPanel';
+import ObjectsPanel from './ObjectsPanel';
 import Objects from './Objects';
-import Results from './Results';
 import Filters from './Filters';
+import Results from './Results';
+import QueryPanelControls from './QueryPanelControls/QueryPanelControls';
+import { getConnectors } from '../../data/actions/connectors';
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
-  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(false);
+  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(
+    false
+  );
 
-  const closeHandler = () => {
+  useEffect(() => {
+    dispatch(getUniverses());
+  }, []);
+
+  const handleCloseModal = () => {
     return dispatch(setQueryPanelModal(false));
   };
 
   const handleShowSelector = () => {
     return setSemanticLayerModalOpened(true);
-  }
-
-  const onCloseSemanticModalHandler = () => {
-    return  setSemanticLayerModalOpened(false);
   };
 
-  const handleClick = () => {
-    console.log('click from button');
+  const onCloseSemanticModalHandler = () => {
+    return setSemanticLayerModalOpened(false);
   };
 
   const modalContent = () => {
@@ -37,20 +42,20 @@ const QueryPanel = ({ visible }) => {
       <div className={styles.root}>
         <div className={styles.content}>
           <div className={styles.leftPanel}>
-            <LeftPanel />
+            <ObjectsPanel />
             <Button type="button" onClick={handleShowSelector}>
               Select universe
             </Button>
           </div>
           <div className={styles.rightPanel}>
-            <Objects className={styles.section} title='Объекты отчета' />
-            <Filters className={styles.section} title='Фильтры запроса' />
-            <Results className={styles.section} title='Просмотр данных' />
-            <div className={styles.buttonsWrapper}>
-              <Button onClick={handleClick} className={styles.run}>Запустить</Button>
-              <Button onClick={handleClick} className={styles.use}>Применить</Button>
-              <Button onClick={closeHandler} className={styles.cancel}>Отмена</Button>
-            </div>
+            <Objects className={styles.section} title="Объекты отчета" />
+            <Filters className={styles.section} title="Фильтры запроса" />
+            <Results className={styles.section} title="Просмотр данных" />
+            <QueryPanelControls
+              onRun={() => {}}
+              onApply={() => {}}
+              onCancel={handleCloseModal}
+            />
           </div>
         </div>
         {semanticLayerModalOpened && (
@@ -69,7 +74,7 @@ const QueryPanel = ({ visible }) => {
       content={modalContent()}
       withScroll={false}
       visible={visible}
-      onClose={closeHandler}
+      onClose={handleCloseModal}
       titleClassName={modalStyles.title}
       dialogClassName={styles.dialog}
       headerClassName={modalStyles.header}
@@ -78,10 +83,10 @@ const QueryPanel = ({ visible }) => {
       withoutTitle
     />
   );
-}
+};
 
 export default QueryPanel;
 
 QueryPanel.propTypes = {
   visible: PropTypes.bool.isRequired
-}
+};

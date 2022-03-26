@@ -1,0 +1,16 @@
+.listItem {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  & .listItemIcon {
+    margin-right: 10px;
+    padding: 2px 0;
+  }
+
+  & .listItemText {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
