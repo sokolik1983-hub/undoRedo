@@ -21,7 +21,15 @@ const data = [
   { text: 'Колонка 4', id: '5' },
   { text: 'Колонка 5', id: '6' },
   { text: 'Колонка 6', id: '7' },
-  { text: 'Колонка 7', id: '8' }
+  { text: 'Колонка 7', id: '8' },
+  { text: 'Колонка 8', id: '9' },
+  { text: 'Колонка 9', id: '10' },
+  { text: 'Колонка 10', id: '11' },
+  { text: 'Колонка 11', id: '12' },
+  { text: 'Колонка 12', id: '13' },
+  { text: 'Колонка 13', id: '14' },
+  { text: 'Колонка 14', id: '15' },
+  { text: 'Колонка 15', id: '16' }
 ];
 
 const items = [
@@ -36,14 +44,17 @@ const ItemsListModal = ({ visible, onClose }) => {
   
   const [searchValue, setSearchValue] = useState('');
   const [activeItems, setActiveItems] = useState([]);
-
-  const closeHandler = () => {
-    return onClose();
-  };
-
   const [filterableFields, setFilterableFields] = useState(
     data
   );
+
+  const handleClose = () => {
+    return onClose();
+  };
+
+  const handleReset = () => {
+    setActiveItems([]);
+  };
 
   const handleSearch = e => {
     const value = e.target.value.toLowerCase();
@@ -130,8 +141,8 @@ const ItemsListModal = ({ visible, onClose }) => {
         </div>
         <div className={styles.buttonsWrapper}>
           <Button onClick={handleClick} buttonStyle={BUTTON.BIG_ORANGE} className={styles.button}>Ок</Button>
-          <Button onClick={handleClick} buttonStyle={BUTTON.BIG_GRAY} className={styles.button}>Сброс</Button>
-          <Button onClick={closeHandler} buttonStyle={BUTTON.BIG_BLUE} className={styles.button}>Отмена</Button>
+          <Button onClick={handleReset} buttonStyle={BUTTON.BIG_GRAY} className={styles.button}>Сброс</Button>
+          <Button onClick={handleClose} buttonStyle={BUTTON.BIG_BLUE} className={styles.button}>Отмена</Button>
         </div>
         <Dots className={styles.dots} />
       </div>
@@ -143,7 +154,7 @@ const ItemsListModal = ({ visible, onClose }) => {
       content={modalContent()}
       withScroll={false}
       visible={visible}
-      onClose={closeHandler}
+      onClose={handleClose}
       dialogClassName={styles.dialog}
       bodyClassName={styles.modalBody}
       contentClassName={styles.modalContent}
