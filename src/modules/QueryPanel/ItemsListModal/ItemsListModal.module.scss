@@ -51,12 +51,12 @@
 }
 
 .text {
-  font-weight: 500;
+  font-weight: 500 !important;
   font-size: 13px;
   line-height: 15px;
   color: #000000;
   margin: 0;
-  padding: 4px 5px 4px 9px !important;
+  padding: 3px 9px !important;
   white-space: nowrap;
 
   &:hover {
@@ -65,12 +65,13 @@
   }
 
   &:first-child {
-    margin-top: 13px;
+    margin-top: 8px;
     border-radius: initial !important;
   }
 
   &:last-child {
-    padding-bottom: 9px !important;
+    margin-bottom: 9px;
+    border-radius: initial !important;
   }
 }
 
