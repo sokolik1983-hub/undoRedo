@@ -1,0 +1,53 @@
+.wrapper {
+  display: flex;
+  position: relative;
+  cursor: pointer;
+  align-items: center;
+  height: 30px;
+  width: 174px;
+  background-color: #fff;
+  color: #000;
+  padding: 7px 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 12px;
+
+  span {
+    width: 160px;
+  }
+  button {
+    border: none;
+    outline: none;
+    background-color: #fff;
+    cursor: pointer;
+    padding: 0px;
+    margin: 0px;
+  }
+  div {
+    margin-right: 6px;
+  }
+  &:hover {
+    background: linear-gradient(206.57deg, #FFC700 -15.48%, #DF0909 169.05%);
+    border-color: rgba(23, 64, 87, 0.7);
+    color: #fff;
+    button {
+      background-color: inherit;
+      z-index: 10;
+    }
+    &::after {
+        content:"";
+        position: absolute;
+        width: 172px;
+        height: 28px;
+        left: -1px;
+        border-radius: 4px; 
+        padding: 1px; 
+        background: linear-gradient(206.57deg, #FFC700 -15.48%, #DF0909 169.05%); 
+        -webkit-mask: 
+          linear-gradient(#fff 0 0) content-box, 
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+          mask-composite: exclude; 
+    }
+  }
+}
