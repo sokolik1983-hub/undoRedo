@@ -15,8 +15,9 @@ import Filters from './Filters';
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
   const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(false);
+  const [semanticLayer, setSemanticLayer] = useState(null);
 
-  const closeHandler = () => {
+  const handleClose = () => {
     return dispatch(setQueryPanelModal(false));
   };
 
@@ -25,11 +26,16 @@ const QueryPanel = ({ visible }) => {
   }
 
   const onCloseSemanticModalHandler = () => {
-    return  setSemanticLayerModalOpened(false);
+    return setSemanticLayerModalOpened(false);
   };
 
   const handleClick = () => {
     console.log('click from button');
+  };
+
+  const onSelectSemanticLayer = (value) => {
+    setSemanticLayer(value);
+    setSemanticLayerModalOpened(false);
   };
 
   const modalContent = () => {
@@ -37,7 +43,7 @@ const QueryPanel = ({ visible }) => {
       <div className={styles.root}>
         <div className={styles.content}>
           <div className={styles.leftPanel}>
-            <LeftPanel />
+            <LeftPanel semanticLayer={semanticLayer} />
             <Button type="button" onClick={handleShowSelector}>
               Select universe
             </Button>
@@ -49,7 +55,7 @@ const QueryPanel = ({ visible }) => {
             <div className={styles.buttonsWrapper}>
               <Button onClick={handleClick} className={styles.run}>Запустить</Button>
               <Button onClick={handleClick} className={styles.use}>Применить</Button>
-              <Button onClick={closeHandler} className={styles.cancel}>Отмена</Button>
+              <Button onClick={handleClose} className={styles.cancel}>Отмена</Button>
             </div>
           </div>
         </div>
@@ -57,6 +63,7 @@ const QueryPanel = ({ visible }) => {
           <SelectSemanticLayer
             visible={semanticLayerModalOpened && true}
             onClose={onCloseSemanticModalHandler}
+            onSelectSemanticLayer={onSelectSemanticLayer}
           />
         )}
       </div>
@@ -69,7 +76,7 @@ const QueryPanel = ({ visible }) => {
       content={modalContent()}
       withScroll={false}
       visible={visible}
-      onClose={closeHandler}
+      onClose={handleClose}
       titleClassName={modalStyles.title}
       dialogClassName={styles.dialog}
       headerClassName={modalStyles.header}
