@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './LeftPanel.module.scss';
 import Divider from '../../../common/components/Divider';
 import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowOk.svg';
@@ -8,8 +9,7 @@ import { ReactComponent as OrangeIcon } from '../../../layout/assets/queryPanel/
 import { ReactComponent as GreenIcon } from '../../../layout/assets/queryPanel/greenIcon.svg';
 import { ReactComponent as BlueIcon } from '../../../layout/assets/queryPanel/blueIcon.svg';
 
-const LeftPanel = () => {
-
+const LeftPanel = ({ semanticLayer, onToggleClick }) => {
   const handleClick = () => {
     console.log('Данные организации');
   };
@@ -26,7 +26,7 @@ const LeftPanel = () => {
           </p>
           <Arrow className={styles.indents} />
         </div>
-        <Plus className={styles.plus} />
+        <Plus className={styles.plus} onClick={onToggleClick} />
       </div>
       <Divider color='#0D6CDD' />
       <div className={styles.icons}>
@@ -35,9 +35,15 @@ const LeftPanel = () => {
         <GreenIcon className={styles.iconsIndents} />
         <BlueIcon className={styles.iconsIndents} />
       </div>
+      <div>{semanticLayer?.name}</div>
       <div className={styles.content} />
     </div>
   );
 }  
+
+LeftPanel.propTypes = {
+  semanticLayer: PropTypes.object,
+  onToggleClick: PropTypes.func
+}
 
 export default LeftPanel;

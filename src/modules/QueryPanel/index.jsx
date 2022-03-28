@@ -7,9 +7,8 @@ import Modal from '../../common/components/Modal';
 import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.module.scss';
 import { setQueryPanelModal } from '../../data/actions/universes';
 import SelectSemanticLayer from './SelectSemanticLayer';
-
-import ItemsListModal from './ItemsListModal';
 // ↓ временно, пока не вольется модалка Свойства подсказки
+import ItemsListModal from './ItemsListModal';
 import LeftPanel from './LeftPanel';
 import Objects from './Objects';
 import Results from './Results';
@@ -18,11 +17,13 @@ import Filters from './Filters';
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
   const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(false);
+  const [semanticLayer, setSemanticLayer] = useState(null);
 
   // ↓ временно, пока не вольется модалка Свойства подсказки
   const [semanticListOpened, setSemanticListOpened] = useState(false);
 
-  const closeHandler = () => {
+  
+  const handleClose = () => {
     return dispatch(setQueryPanelModal(false));
   };
 
@@ -36,16 +37,21 @@ const QueryPanel = ({ visible }) => {
   }
 
   const onCloseSemanticModalHandler = () => {
-    return  setSemanticLayerModalOpened(false);
+    return setSemanticLayerModalOpened(false);
   };
 
   // ↓ временно, пока не вольется модалка Свойства подсказки
   const onCloseSemanticListHandler = () => {
-    return  setSemanticListOpened(false);
+    return setSemanticListOpened(false);
   };
 
   const handleClick = () => {
     console.log('click from button');
+  };
+
+  const onSelectSemanticLayer = (value) => {
+    setSemanticLayer(value);
+    setSemanticLayerModalOpened(false);
   };
 
   const modalContent = () => {
@@ -53,11 +59,7 @@ const QueryPanel = ({ visible }) => {
       <div className={styles.root}>
         <div className={styles.content}>
           <div className={styles.leftPanel}>
-            <LeftPanel />
-            {/* ↓ временно, пока не вольется модалка SelectSemanticLayer */}
-            <Button type="button" onClick={handleShowSelector}>
-              Select universe
-            </Button>
+            <LeftPanel semanticLayer={semanticLayer} onToggleClick={handleShowSelector} />
           </div>
           <div className={styles.rightPanel}>
             <Objects className={styles.section} title='Объекты отчета' />
@@ -69,7 +71,7 @@ const QueryPanel = ({ visible }) => {
               <Button onClick={handleShowList}>Список значений</Button>
               <Button onClick={handleClick} className={styles.run}>Запустить</Button>
               <Button onClick={handleClick} className={styles.use}>Применить</Button>
-              <Button onClick={closeHandler} className={styles.cancel}>Отмена</Button>
+              <Button onClick={handleClose} className={styles.cancel}>Отмена</Button>
             </div>
           </div>
         </div>
@@ -77,6 +79,7 @@ const QueryPanel = ({ visible }) => {
           <SelectSemanticLayer
             visible={semanticLayerModalOpened && true}
             onClose={onCloseSemanticModalHandler}
+            onSelectSemanticLayer={onSelectSemanticLayer}
           />
         )}
         {/* ↓ временно, пока не вольется модалка Свойства подсказки */}
@@ -96,7 +99,7 @@ const QueryPanel = ({ visible }) => {
       content={modalContent()}
       withScroll={false}
       visible={visible}
-      onClose={closeHandler}
+      onClose={handleClose}
       titleClassName={modalStyles.title}
       dialogClassName={styles.dialog}
       headerClassName={modalStyles.header}
@@ -105,7 +108,7 @@ const QueryPanel = ({ visible }) => {
       withoutTitle
     />
   );
-}
+};
 
 export default QueryPanel;
 

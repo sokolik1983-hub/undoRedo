@@ -1,0 +1,20 @@
+.dialog {
+  max-width: unset !important;
+  width: 80% !important;
+  min-height: 70%;
+  padding-top: 8%;
+  color: #FFFFFF;
+}
+
+.semanticItem {
+  height: 70%;
+  span {
+    color: white ;
+    font-size: 15px;
+  }
+  padding-left: 15px !important;
+}
+
+.navigationActions {
+  display: flex;
+}
