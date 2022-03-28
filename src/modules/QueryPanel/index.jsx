@@ -13,7 +13,6 @@ import Objects from './Objects';
 import Filters from './Filters';
 import Results from './Results';
 import QueryPanelControls from './QueryPanelControls/QueryPanelControls';
-import { getConnectors } from '../../data/actions/connectors';
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();

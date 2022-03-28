@@ -1,14 +1,12 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-// import PanelListItem from './PanelListItem/PanelListItem';
+import PanelListItem from './PanelListItem/PanelListItem';
 import { ReactComponent as FolderIcon } from '../../../../layout/assets/folder-icon.svg';
+import { ReactComponent as OrangeIcon } from '../../../../layout/assets/queryPanel/orangeIcon.svg';
 import styles from './ObjectsPanelList.module.scss';
 
 const ObjectsPanelList = ({ rootFolder }) => {
   return (
-    // <div className={styles.root}>
     <ul className={styles.root}>
       {rootFolder?.children?.map(item => (
         <PanelListNode
@@ -17,7 +15,6 @@ const ObjectsPanelList = ({ rootFolder }) => {
         />
       ))}
     </ul>
-    // </div>
   );
 };
 
@@ -32,21 +29,31 @@ const PanelListNode = ({ item }) => {
 
   const hasChildren = !!item?.children?.length;
 
-  return (
-    <li>
-      {item?.isFolder ? (
-        <div
-          className={styles.listItem}
+  if (item?.isFolder) {
+    return (
+      <li className={styles.listNode}>
+        <PanelListItem
           onClick={() => setIsOpen(prev => !prev)}
-        >
-          <span className={styles.listItemIcon}>
-            <FolderIcon />
-          </span>
-          <span className={styles.listItemText}>{item.folder_name}</span>
-        </div>
-      ) : (
-        <div className={styles.listItem}>item</div>
-      )}
+          name={item?.folder_name}
+          icon={<FolderIcon />}
+          isFolder={item.isFolder}
+        />
+        {isOpen && hasChildren && (
+          <ul className={styles.listNodeInnerList}>
+            <ObjectsPanelList rootFolder={item} />
+          </ul>
+        )}
+      </li>
+    );
+  }
+
+  return (
+    <li className={styles.listNode}>
+      <PanelListItem
+        name={item?.name}
+        icon={<OrangeIcon />}
+        isFolder={item.isFolder}
+      />
     </li>
   );
 };

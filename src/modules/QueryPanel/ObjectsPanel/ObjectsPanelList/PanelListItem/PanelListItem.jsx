@@ -1,32 +1,24 @@
-/* eslint-disable no-unused-vars */
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
-import { ReactComponent as FolderIcon } from '../../../../../layout/assets/folder-icon.svg';
 import styles from './PanelListItem.module.scss';
 
-const PanelListItem = ({ item }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const hasChildren = !!item?.children?.length;
-
+const PanelListItem = ({ onClick, name, icon, isFolder }) => {
+  const textStyles = clsx(styles.listItemText, {
+    [styles.folder]: isFolder
+  });
   return (
-    <>
-      {item?.isFolder ? (
-        <div className={styles.listItem}>
-          <span className={styles.listItemIcon}>
-            <FolderIcon />
-          </span>
-          <span className={styles.listItemText}>{item.folder_name}</span>
-        </div>
-      ) : (
-        <div className={styles.listItem}>item</div>
-      )}
-    </>
+    <div className={styles.listItem} onClick={onClick}>
+      <span className={styles.listItemIcon}>{icon}</span>
+      <span className={textStyles}>{name}</span>
+    </div>
   );
 };
 
 export default PanelListItem;
 
 PanelListItem.propTypes = {
-  item: PropTypes.object
+  onClick: PropTypes.func,
+  name: PropTypes.string,
+  icon: PropTypes.node,
+  isFolder: PropTypes.bool
 };

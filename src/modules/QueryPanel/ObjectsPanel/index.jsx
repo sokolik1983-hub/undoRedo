@@ -7,7 +7,6 @@ import styles from './ObjectsPanel.module.scss';
 
 const ObjectsPanel = () => {
   const universes = useSelector(state => state.app?.data?.universes);
-  console.log(universes);
 
   return (
     <div className={styles.root}>
