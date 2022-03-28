@@ -16,15 +16,17 @@ import QueryPanelControls from './QueryPanelControls/QueryPanelControls';
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
-  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(
-    false
-  );
 
   useEffect(() => {
     dispatch(getUniverses());
   }, []);
 
-  const handleCloseModal = () => {
+  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(
+    false
+  );
+  const [semanticLayer, setSemanticLayer] = useState(null);
+
+  const handleClose = () => {
     return dispatch(setQueryPanelModal(false));
   };
 
@@ -36,12 +38,17 @@ const QueryPanel = ({ visible }) => {
     return setSemanticLayerModalOpened(false);
   };
 
+  const onSelectSemanticLayer = value => {
+    setSemanticLayer(value);
+    setSemanticLayerModalOpened(false);
+  };
+
   const modalContent = () => {
     return (
       <div className={styles.root}>
         <div className={styles.content}>
           <div className={styles.leftPanel}>
-            <ObjectsPanel />
+            <ObjectsPanel semanticLayer={semanticLayer} />
             <Button type="button" onClick={handleShowSelector}>
               Select universe
             </Button>
@@ -53,7 +60,7 @@ const QueryPanel = ({ visible }) => {
             <QueryPanelControls
               onRun={() => {}}
               onApply={() => {}}
-              onCancel={handleCloseModal}
+              onCancel={handleClose}
             />
           </div>
         </div>
@@ -61,6 +68,7 @@ const QueryPanel = ({ visible }) => {
           <SelectSemanticLayer
             visible={semanticLayerModalOpened && true}
             onClose={onCloseSemanticModalHandler}
+            onSelectSemanticLayer={onSelectSemanticLayer}
           />
         )}
       </div>
@@ -73,7 +81,7 @@ const QueryPanel = ({ visible }) => {
       content={modalContent()}
       withScroll={false}
       visible={visible}
-      onClose={handleCloseModal}
+      onClose={handleClose}
       titleClassName={modalStyles.title}
       dialogClassName={styles.dialog}
       headerClassName={modalStyles.header}
