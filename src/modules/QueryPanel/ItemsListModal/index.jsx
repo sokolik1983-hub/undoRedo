@@ -8,7 +8,7 @@ import Dropdown from '../../../common/components/Dropdown';
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import TextInput from '../../../common/components/TextInput';
 import { BUTTON } from '../../../common/constants/common';
-import { ReactComponent as BlueIcon } from '../../../layout/assets/queryPanel/blueIcon.svg';
+import { ReactComponent as MeasurementIcon } from '../../../layout/assets/queryPanel/measurement-icon.svg';
 import { ReactComponent as Reload } from '../../../layout/assets/queryPanel/reload.svg';
 import { ReactComponent as Gear } from '../../../layout/assets/queryPanel/gearBold.svg';
 import { ReactComponent as Dots } from '../../../layout/assets/queryPanel/dotsInCorner.svg';
@@ -41,12 +41,9 @@ const items = [
 ];
 
 const ItemsListModal = ({ visible, onClose }) => {
-  
   const [searchValue, setSearchValue] = useState('');
   const [activeItems, setActiveItems] = useState([]);
-  const [filterableFields, setFilterableFields] = useState(
-    data
-  );
+  const [filterableFields, setFilterableFields] = useState(data);
 
   const handleClose = () => {
     return onClose();
@@ -67,12 +64,12 @@ const ItemsListModal = ({ visible, onClose }) => {
     );
   };
 
-  const handleChangeActiveItem = (id) => {
-    if (activeItems.includes(id)) { 
-      const newArr = activeItems.filter(item => item !== id)
-      setActiveItems(newArr)
+  const handleChangeActiveItem = id => {
+    if (activeItems.includes(id)) {
+      const newArr = activeItems.filter(item => item !== id);
+      setActiveItems(newArr);
     } else {
-     setActiveItems([...activeItems, id])
+      setActiveItems([...activeItems, id]);
     }
   };
 
@@ -94,6 +91,7 @@ const ItemsListModal = ({ visible, onClose }) => {
             >
               {items.map(i => (
                 <DropdownItem
+                  key={i.text}
                   item={i}
                   onClick={handleClick}
                   className={styles.text}
@@ -110,12 +108,12 @@ const ItemsListModal = ({ visible, onClose }) => {
             value={searchValue}
             id="1"
             type="text"
-            placeholder='Объект из таблицы'
+            placeholder="Объект из таблицы"
           />
         </div>
         <div>
           <div className={styles.contentBlock}>
-            <BlueIcon />
+            <MeasurementIcon />
             <p className={styles.title}>Банковские проводки за февраль</p>
           </div>
           <DropdownItem
@@ -125,14 +123,20 @@ const ItemsListModal = ({ visible, onClose }) => {
           />
           <ul className={styles.list}>
             {filterableFields.map(item => (
-              <li 
-                key={item.id} 
-                onClick={() => {handleChangeActiveItem(item.id)}}
-                className={activeItems.includes(item.id) ? styles.activeItem : styles.item}
+              <li
+                key={item.id}
+                onClick={() => {
+                  handleChangeActiveItem(item.id);
+                }}
+                className={
+                  activeItems.includes(item.id)
+                    ? styles.activeItem
+                    : styles.item
+                }
               >
                 {item.text}
               </li>
-          ))}
+            ))}
           </ul>
         </div>
         <div className={styles.chooseCountBlock}>
@@ -140,9 +144,27 @@ const ItemsListModal = ({ visible, onClose }) => {
           <p className={styles.count}>{activeItems.length}</p>
         </div>
         <div className={styles.buttonsWrapper}>
-          <Button onClick={handleClick} buttonStyle={BUTTON.BIG_ORANGE} className={styles.button}>Ок</Button>
-          <Button onClick={handleReset} buttonStyle={BUTTON.BIG_GRAY} className={styles.button}>Сброс</Button>
-          <Button onClick={handleClose} buttonStyle={BUTTON.BIG_BLUE} className={styles.button}>Отмена</Button>
+          <Button
+            onClick={handleClick}
+            buttonStyle={BUTTON.BIG_ORANGE}
+            className={styles.button}
+          >
+            Ок
+          </Button>
+          <Button
+            onClick={handleReset}
+            buttonStyle={BUTTON.BIG_GRAY}
+            className={styles.button}
+          >
+            Сброс
+          </Button>
+          <Button
+            onClick={handleClose}
+            buttonStyle={BUTTON.BIG_BLUE}
+            className={styles.button}
+          >
+            Отмена
+          </Button>
         </div>
         <Dots className={styles.dots} />
       </div>
@@ -169,4 +191,4 @@ export default ItemsListModal;
 ItemsListModal.propTypes = {
   onClose: PropTypes.func,
   visible: PropTypes.bool.isRequired
-}
+};
