@@ -91,6 +91,7 @@ const ItemsListModal = ({ visible, onClose }) => {
             >
               {items.map(i => (
                 <DropdownItem
+                  key={i.text}
                   item={i}
                   onClick={handleClick}
                   className={styles.text}

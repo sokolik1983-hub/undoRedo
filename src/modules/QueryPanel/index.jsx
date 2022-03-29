@@ -33,7 +33,7 @@ const QueryPanel = ({ visible }) => {
   };
 
   const handleShowSelector = () => {
-    return setSemanticLayerModalOpened(true);
+    setSemanticLayerModalOpened(true);
   };
 
   // ↓ временно, пока не вольется модалка Свойства подсказки

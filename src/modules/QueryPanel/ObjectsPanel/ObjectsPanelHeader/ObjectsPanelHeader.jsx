@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import IconButton from '../../../../common/components/IconButton';
 import { ReactComponent as Arrow } from '../../../../layout/assets/queryPanel/arrowOk.svg';
 import { ReactComponent as PlusIcon } from '../../../../layout/assets/queryPanel/plus.svg';
 import styles from './ObjectsPanelHeader.module.scss';
@@ -15,7 +16,11 @@ const ObjectsPanelHeader = ({ onToggleClick }) => {
         <p className={styles.dataText}>Данные организации</p>
         <Arrow className={styles.indents} />
       </div>
-      <PlusIcon className={styles.plus} onToggleClick={onToggleClick} />
+      <IconButton
+        className={styles.plusBtn}
+        onClick={onToggleClick}
+        icon={<PlusIcon />}
+      />
     </div>
   );
 };
