@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Object.module.scss';
 import { ReactComponent as BlackCross } from '../../../../layout/assets/closeBlack.svg' 
-import { ReactComponent as WhiteCross } from '../../../../layout/assets/closeWhite.svg'; 
 import { ReactComponent as OrangeIcon } from '../../../../layout/assets/queryPanel/orangeIcon.svg';
 import { ReactComponent as GreenIcon } from '../../../../layout/assets/queryPanel/greenIcon.svg';
 import { ReactComponent as BlueIcon } from '../../../../layout/assets/queryPanel/blueIcon.svg';
@@ -58,8 +57,8 @@ const ObjectItem = ({id, title, type, onDeleteObjItem, onDragStart, onDragNDrop}
       <span>
         {title.length > 16 ? `${title.substring(0, 16)}...` : title}
       </span>
-      <button type='button' onClick={handleDelete}>
-        {isActive ? <WhiteCross /> : <BlackCross />}    
+      <button type='button' onClick={handleDelete} className={isActive ? styles.active : null}>
+        <BlackCross />    
       </button>
     </div>
   );
