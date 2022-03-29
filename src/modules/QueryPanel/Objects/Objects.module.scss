@@ -27,3 +27,12 @@
   margin-left: 12px;
   cursor: pointer;
 }
+
+.objectList {
+  display: grid;
+  overflow-y: auto;
+  overflow-x: hidden;
+  gap: 10px;
+  grid-template-columns: repeat(5, 174px);
+  padding: 33px 130px 60px 43px;
+}

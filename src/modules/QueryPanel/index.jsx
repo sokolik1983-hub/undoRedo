@@ -1,40 +1,45 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types'
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import styles from './QueryPanel.module.scss';
-import Button from '../../common/components/Button';
 import Modal from '../../common/components/Modal';
 import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.module.scss';
-import { setQueryPanelModal } from '../../data/actions/universes';
+import { getUniverses, setQueryPanelModal } from '../../data/actions/universes';
 import SelectSemanticLayer from './SelectSemanticLayer';
+import ObjectsPanel from './ObjectsPanel';
 // ↓ временно, пока не вольется модалка Свойства подсказки
 import ItemsListModal from './ItemsListModal';
-import LeftPanel from './LeftPanel';
 import Objects from './Objects';
-import Results from './Results';
 import Filters from './Filters';
+import Results from './Results';
+import QueryPanelControls from './QueryPanelControls/QueryPanelControls';
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
-  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(false);
   const [semanticLayer, setSemanticLayer] = useState(null);
+  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(
+    false
+  );
+
+  useEffect(() => {
+    dispatch(getUniverses());
+  }, []);
 
   // ↓ временно, пока не вольется модалка Свойства подсказки
   const [semanticListOpened, setSemanticListOpened] = useState(false);
 
-  
   const handleClose = () => {
     return dispatch(setQueryPanelModal(false));
   };
 
   const handleShowSelector = () => {
-    return setSemanticLayerModalOpened(true);
-  }
+    setSemanticLayerModalOpened(true);
+  };
 
   // ↓ временно, пока не вольется модалка Свойства подсказки
   const handleShowList = () => {
     return setSemanticListOpened(true);
-  }
+  };
 
   const onCloseSemanticModalHandler = () => {
     return setSemanticLayerModalOpened(false);
@@ -45,11 +50,7 @@ const QueryPanel = ({ visible }) => {
     return setSemanticListOpened(false);
   };
 
-  const handleClick = () => {
-    console.log('click from button');
-  };
-
-  const onSelectSemanticLayer = (value) => {
+  const onSelectSemanticLayer = value => {
     setSemanticLayer(value);
     setSemanticLayerModalOpened(false);
   };
@@ -59,20 +60,21 @@ const QueryPanel = ({ visible }) => {
       <div className={styles.root}>
         <div className={styles.content}>
           <div className={styles.leftPanel}>
-            <LeftPanel semanticLayer={semanticLayer} onToggleClick={handleShowSelector} />
+            <ObjectsPanel
+              symanticLayer={semanticLayer}
+              onToggleClick={handleShowSelector}
+            />
           </div>
           <div className={styles.rightPanel}>
-            <Objects className={styles.section} title='Объекты отчета' />
-            <Filters className={styles.section} title='Фильтры запроса' />
-            <Results className={styles.section} title='Просмотр данных' />
-            <div className={styles.buttonsWrapper}>
-              {/* eslint-disable-next-line react/jsx-indent */}
-             {/* ↓ временно, пока не вольется модалка Свойства подсказки */}
-              <Button onClick={handleShowList}>Список значений</Button>
-              <Button onClick={handleClick} className={styles.run}>Запустить</Button>
-              <Button onClick={handleClick} className={styles.use}>Применить</Button>
-              <Button onClick={handleClose} className={styles.cancel}>Отмена</Button>
-            </div>
+            <Objects className={styles.section} title="Объекты отчета" />
+            <Filters className={styles.section} title="Фильтры запроса" />
+            <Results className={styles.section} title="Просмотр данных" />
+            <QueryPanelControls
+              onRun={() => {}}
+              onApply={() => {}}
+              onCancel={handleClose}
+              onToggleClick={handleShowList}
+            />
           </div>
         </div>
         {semanticLayerModalOpened && (
@@ -84,10 +86,10 @@ const QueryPanel = ({ visible }) => {
         )}
         {/* ↓ временно, пока не вольется модалка Свойства подсказки */}
         {semanticListOpened && (
-        <ItemsListModal
-          visible={semanticListOpened && true}
-          onClose={onCloseSemanticListHandler}
-        />
+          <ItemsListModal
+            visible={semanticListOpened && true}
+            onClose={onCloseSemanticListHandler}
+          />
         )}
       </div>
     );
@@ -114,4 +116,4 @@ export default QueryPanel;
 
 QueryPanel.propTypes = {
   visible: PropTypes.bool.isRequired
-}
+};

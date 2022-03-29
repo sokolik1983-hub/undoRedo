@@ -52,6 +52,49 @@ export const request = async ({ type = 'request', params, func, dispatch }) => {
   return null;
 };
 
+export const requestSymLayerData = async ({id, dispatch}) => {
+  try {
+    dispatch(setLoadingData(true));
+    const response = await axios({
+      method: 'post',
+      url: `${SERVER_API_URL}request?`,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      withCredentials: true,
+      data: `function=SYMLAYER.READ&format=JSON&extraParam=&params=${JSON.stringify(
+        { symlayer_id: id }
+      )}`,
+    });
+
+    if (response && response.status === 200) {
+      dispatch(setLoadingData(false));
+
+      if (response.data.success) {
+        return response.data;
+      }
+
+      const error = lodash.first(response.data.errors);
+
+      if (error) {
+        const errorText = `${error.errorCode}-${error.errorText}`;
+        throw Error(errorText);
+      }
+    }
+  } catch(err) {
+    dispatch(
+      notificationShown({
+        message: err.message,
+        messageType: 'error',
+      })
+    );
+    dispatch(setLoadingData(false));
+  }
+    
+  return null;
+}
+
+
 export const requestAuth = async ({ params, dispatch }) => {
   try {
     const response = await axios({

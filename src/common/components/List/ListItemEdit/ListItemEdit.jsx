@@ -6,7 +6,6 @@ import styles from './ListItemEdit.module.scss';
 const ListItemEdit = ({ value, onSubmit, onBlur }) => {
   const [newValue, setNewValue] = useState();
   const inputRef = useRef();
-  console.log(inputRef?.current?.value);
 
   useEffect(() => {
     setNewValue(value);
