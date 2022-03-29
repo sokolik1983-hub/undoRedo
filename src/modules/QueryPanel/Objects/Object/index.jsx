@@ -42,6 +42,7 @@ const ObjectItem = ({id, title, type, onDeleteObjItem, onDragStart, onDragNDrop}
     <div 
       className={styles.wrapper} 
       id={`object-${id}`} 
+      title={title}
       draggable
       onDragStart={handleDragStart}
       onDragOver={e => handleDragOver(e)}
