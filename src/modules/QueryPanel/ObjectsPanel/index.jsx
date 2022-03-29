@@ -1,24 +1,31 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import ObjectsPanelHeader from './ObjectsPanelHeader/ObjectsPanelHeader';
 import Divider from '../../../common/components/Divider';
 import ObjectsPanelFilters from './ObjectsPanelFilters/ObjectsPanelFilters';
 import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList';
 import styles from './ObjectsPanel.module.scss';
+import { getSymanticLayerData } from '../../../data/actions/universes';
 
-// eslint-disable-next-line no-unused-vars
-const ObjectsPanel = ({ semanticLayer }) => {
-  // TODO: remove this useSelector, semanticLayer should use as correct data
-  const universes = useSelector(state => state.app?.data?.universes);
+const ObjectsPanel = ({ symanticLayer }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (symanticLayer) dispatch(getSymanticLayerData(symanticLayer.id));
+  }, [symanticLayer]);
+
+  const symLayersData = useSelector(state => state.app?.data?.symLayersData);
+  const structure = symLayersData?.data?.structure[0];
 
   return (
     <div className={styles.root}>
       <ObjectsPanelHeader />
       <Divider color="#0D6CDD" />
       <ObjectsPanelFilters />
-      {/* <div>{semanticLayer?.name}</div> */}
-      {/* TODO: add correct semanticLayer as prop to ObjectsPanelList rootFolder */}
-      <ObjectsPanelList rootFolder={universes} />
+      <div className={styles.panelListContainer}>
+        <ObjectsPanelList rootFolder={structure} />
+      </div>
     </div>
   );
 };
@@ -26,5 +33,5 @@ const ObjectsPanel = ({ semanticLayer }) => {
 export default ObjectsPanel;
 
 ObjectsPanel.propTypes = {
-  semanticLayer: PropTypes.object
+  symanticLayer: PropTypes.object
 };

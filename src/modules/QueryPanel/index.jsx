@@ -1,7 +1,6 @@
-/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styles from './QueryPanel.module.scss';
 import Button from '../../common/components/Button';
 import Modal from '../../common/components/Modal';
@@ -16,15 +15,14 @@ import QueryPanelControls from './QueryPanelControls/QueryPanelControls';
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
+  const [semanticLayer, setSemanticLayer] = useState(null);
+  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(
+    false
+  );
 
   useEffect(() => {
     dispatch(getUniverses());
   }, []);
-
-  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(
-    false
-  );
-  const [semanticLayer, setSemanticLayer] = useState(null);
 
   const handleClose = () => {
     return dispatch(setQueryPanelModal(false));
@@ -48,7 +46,7 @@ const QueryPanel = ({ visible }) => {
       <div className={styles.root}>
         <div className={styles.content}>
           <div className={styles.leftPanel}>
-            <ObjectsPanel semanticLayer={semanticLayer} />
+            <ObjectsPanel symanticLayer={semanticLayer} />
             <Button type="button" onClick={handleShowSelector}>
               Select universe
             </Button>

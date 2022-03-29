@@ -2,17 +2,16 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import PanelListItem from './PanelListItem/PanelListItem';
 import { ReactComponent as FolderIcon } from '../../../../layout/assets/folder-icon.svg';
-import { ReactComponent as OrangeIcon } from '../../../../layout/assets/queryPanel/orangeIcon.svg';
+import { ReactComponent as GaugeIcon } from '../../../../layout/assets/queryPanel/gauge-icon.svg';
+import { ReactComponent as MeasurementIcon } from '../../../../layout/assets/queryPanel/measurement-icon.svg';
+import { ReactComponent as AttributeIcon } from '../../../../layout/assets/queryPanel/attribute-icon.svg';
 import styles from './ObjectsPanelList.module.scss';
 
 const ObjectsPanelList = ({ rootFolder }) => {
   return (
     <ul className={styles.root}>
       {rootFolder?.children?.map(item => (
-        <PanelListNode
-          key={item.isFolder ? `folder_${item.folder_id}` : item.id}
-          item={item}
-        />
+        <PanelListNode key={item.id} item={item} />
       ))}
     </ul>
   );
@@ -29,12 +28,25 @@ const PanelListNode = ({ item }) => {
 
   const hasChildren = !!item?.children?.length;
 
+  const getIcon = id => {
+    switch (id) {
+      case 1:
+        return <GaugeIcon />;
+      case 2:
+        return <MeasurementIcon />;
+      case 3:
+        return <AttributeIcon />;
+      default:
+        return <FolderIcon />;
+    }
+  };
+
   if (item?.isFolder) {
     return (
       <li className={styles.listNode}>
         <PanelListItem
           onClick={() => setIsOpen(prev => !prev)}
-          name={item?.folder_name}
+          name={item?.name}
           icon={<FolderIcon />}
           isFolder={item.isFolder}
         />
@@ -50,8 +62,8 @@ const PanelListNode = ({ item }) => {
   return (
     <li className={styles.listNode}>
       <PanelListItem
-        name={item?.name}
-        icon={<OrangeIcon />}
+        name={item?.field}
+        icon={getIcon(item.objectType_id)}
         isFolder={item.isFolder}
       />
     </li>
