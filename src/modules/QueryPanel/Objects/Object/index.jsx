@@ -6,7 +6,7 @@ import { ReactComponent as OrangeIcon } from '../../../../layout/assets/queryPan
 import { ReactComponent as GreenIcon } from '../../../../layout/assets/queryPanel/greenIcon.svg';
 import { ReactComponent as BlueIcon } from '../../../../layout/assets/queryPanel/blueIcon.svg';
 
-const ObjectItem = ({id, title, type, onDeleteObjItem}) => {
+const ObjectItem = ({id, title, type, onDeleteObjItem, onDragStart, onDragNDrop}) => {
   
   const handleDelete = () => {
     onDeleteObjItem(id);
@@ -25,8 +25,39 @@ const ObjectItem = ({id, title, type, onDeleteObjItem}) => {
     }
   };
 
+  const handleDragStart = () => {
+    onDragStart(id);
+  };
+
+  const handleDragLeave = () => {
+    console.log('leave', title);
+  };
+
+  const handleDragEnd = () => {
+    console.log('end', title);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    console.log('over', title);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    onDragNDrop(id);
+  };
+
   return (
-    <div className={styles.wrapper} id={`object-${id}`}>
+    <div 
+      className={styles.wrapper} 
+      id={`object-${id}`} 
+      draggable
+      onDragStart={handleDragStart}
+      onDragLeave={handleDragLeave}
+      onDragEnd={handleDragEnd}
+      onDragOver={e => handleDragOver(e)}
+      onDrop={e => handleDrop(e)}
+    >
       <div>
         {chooseIcon(type)}
       </div>
@@ -46,5 +77,7 @@ ObjectItem.propTypes = {
   id: PropTypes.number,
   title: PropTypes.string,
   type: PropTypes.string,
-  onDeleteObjItem: PropTypes.func
+  onDeleteObjItem: PropTypes.func,
+  onDragStart: PropTypes.func,
+  onDragNDrop: PropTypes.func
 };
