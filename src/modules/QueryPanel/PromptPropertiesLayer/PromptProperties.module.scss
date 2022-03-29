@@ -90,6 +90,7 @@
   flex-direction: row;
   margin-left: 20px;
   font-size: 14px !important;
+  cursor: pointer;
 
   .text {
     display: flex !important;
@@ -113,6 +114,8 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 10px !important;
+  margin-top: 5px;
+  padding: 0px 5px 5px 15px;
 
   font-size: 14 px !important;
   font-family: 'Roboto';
@@ -128,9 +131,12 @@
 
 .checkBox {
   display: flex;
-  flex-direction: row;
-  padding: 0px 5px 5px 15px;
+  flex-direction: column;
+  margin-bottom: 10px !important;
   margin-top: 5px;
+  padding: 5px 5px 5px 15px;
+  font-size: 14px !important;
+  cursor: pointer;
 }
 
 .byDefaultBlock {
@@ -143,7 +149,7 @@
   background: rgba(0, 0, 0, 0.5);
 
   .text {
-    margin: 7px 0px 8px 15px;
+    margin: 7px 0px 7px 15px;
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
@@ -164,13 +170,13 @@
   }
 }
 
-.defaultCheckBoxButton {
+.defaultCheckBoxBlock {
   display: flex;
   flex-direction: row;
   justify-content: center !important;
   align-items: center !important;
   .button {
-    margin-left: 13px;
+    margin-left: 10px;
   }
   .label {
     font-style: 14px !important;
@@ -190,7 +196,7 @@
   }
   .dataWindow {
     position: absolute;
-    bottom: 76px;
+    bottom: 82px;
     right: 14px;
     z-index: 2000;
     width: 248px !important;
@@ -219,6 +225,12 @@
   }
 }
 
+.radioLabel {
+  font-size: 14px !important;
+  padding: 0px 5px;
+}
+
 .label {
   font-size: 14px !important;
+  padding: 0px 5px 6px;
 }
