@@ -8,7 +8,7 @@ import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList';
 import styles from './ObjectsPanel.module.scss';
 import { getSymanticLayerData } from '../../../data/actions/universes';
 
-const ObjectsPanel = ({ symanticLayer }) => {
+const ObjectsPanel = ({ symanticLayer, onToggleClick }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const ObjectsPanel = ({ symanticLayer }) => {
 
   return (
     <div className={styles.root}>
-      <ObjectsPanelHeader />
+      <ObjectsPanelHeader onToggleClick={onToggleClick} />
       <Divider color="#0D6CDD" />
       <ObjectsPanelFilters />
       <div className={styles.panelListContainer}>
@@ -33,5 +33,6 @@ const ObjectsPanel = ({ symanticLayer }) => {
 export default ObjectsPanel;
 
 ObjectsPanel.propTypes = {
-  symanticLayer: PropTypes.object
+  symanticLayer: PropTypes.object,
+  onToggleClick: PropTypes.func
 };
