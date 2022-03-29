@@ -7,10 +7,9 @@ import { ReactComponent as GreenIcon } from '../../../../layout/assets/queryPane
 import { ReactComponent as BlueIcon } from '../../../../layout/assets/queryPanel/blueIcon.svg';
 
 const ObjectItem = ({id, title, type, onDeleteObjItem, onDragStart, onDragNDrop}) => {
-  
   const handleDelete = () => {
     onDeleteObjItem(id);
-  }
+  };
 
   const chooseIcon = () => {
     switch (type) {

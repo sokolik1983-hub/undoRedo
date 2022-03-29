@@ -13,19 +13,19 @@ const Objects = ({ title }) => {
     title: 'Транспорт 200',
     type: 'green',
     order: 1 
-  }
+  };
   const objItem2 = {
     id: 2,
     title: 'Банковские проводки',
     type: 'orange',
     order: 2
-  }
+  };
   const objItem3 = {
     id: 3,
     title:'Опа 200',
     type: 'blue',
     order: 3
-  }
+  };
 
   const [objArr, setObjArr] = useState(null);
   const [currentObj, setCurrentObj] = useState(null);
@@ -40,7 +40,7 @@ const Objects = ({ title }) => {
 
   const onDragStart = (id) => {
     setCurrentObj(objArr.find(obj => obj.id === id));
-  }
+  };
 
   const onDragNDrop = (id) => {
     const dropObj = objArr.find(obj => obj.id === id);
@@ -50,15 +50,15 @@ const Objects = ({ title }) => {
         return {...obj, order: currentObj.order};
       }
       if (obj.id === currentObj.id) {
-        return {...obj, order: dropObj.order}
+        return {...obj, order: dropObj.order};
       }
       return obj;
-    }))
+    }));
   };
 
   const sortObjects = (a, b) => {
     return a.order > b.order ? 1 : -1;
-  }
+  };
 
   return (
     <div className={styles.wrapper}>
