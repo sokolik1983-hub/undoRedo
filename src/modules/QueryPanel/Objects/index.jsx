@@ -40,19 +40,17 @@ const Objects = ({ title }) => {
 
   const onDragStart = (id) => {
     setCurrentObj(objArr.find(obj => obj.id === id));
-    console.log(currentObj);
   }
 
   const onDragNDrop = (id) => {
     const dropObj = objArr.find(obj => obj.id === id);
-    console.log(dropObj);
     
     setObjArr(objArr.map(obj => {
       if (obj.id === dropObj.id) {
         return {...obj, order: currentObj.order};
       }
       if (obj.id === currentObj.id) {
-        return {...obj, order: dropObj.id}
+        return {...obj, order: dropObj.order}
       }
       return obj;
     }))

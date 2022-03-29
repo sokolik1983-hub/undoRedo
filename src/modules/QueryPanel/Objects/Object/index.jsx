@@ -29,17 +29,8 @@ const ObjectItem = ({id, title, type, onDeleteObjItem, onDragStart, onDragNDrop}
     onDragStart(id);
   };
 
-  const handleDragLeave = () => {
-    console.log('leave', title);
-  };
-
-  const handleDragEnd = () => {
-    console.log('end', title);
-  };
-
   const handleDragOver = (e) => {
     e.preventDefault();
-    console.log('over', title);
   };
 
   const handleDrop = (e) => {
@@ -53,8 +44,6 @@ const ObjectItem = ({id, title, type, onDeleteObjItem, onDragStart, onDragNDrop}
       id={`object-${id}`} 
       draggable
       onDragStart={handleDragStart}
-      onDragLeave={handleDragLeave}
-      onDragEnd={handleDragEnd}
       onDragOver={e => handleDragOver(e)}
       onDrop={e => handleDrop(e)}
     >
