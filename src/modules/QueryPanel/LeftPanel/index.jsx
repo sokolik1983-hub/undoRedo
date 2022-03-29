@@ -9,7 +9,7 @@ import { ReactComponent as OrangeIcon } from '../../../layout/assets/queryPanel/
 import { ReactComponent as GreenIcon } from '../../../layout/assets/queryPanel/greenIcon.svg';
 import { ReactComponent as BlueIcon } from '../../../layout/assets/queryPanel/blueIcon.svg';
 
-const LeftPanel = ({ semanticLayer }) => {
+const LeftPanel = ({ semanticLayer, onToggleClick }) => {
   const handleClick = () => {
     console.log('Данные организации');
   };
@@ -26,7 +26,7 @@ const LeftPanel = ({ semanticLayer }) => {
           </p>
           <Arrow className={styles.indents} />
         </div>
-        <Plus className={styles.plus} />
+        <Plus className={styles.plus} onClick={onToggleClick} />
       </div>
       <Divider color='#0D6CDD' />
       <div className={styles.icons}>
@@ -42,7 +42,8 @@ const LeftPanel = ({ semanticLayer }) => {
 }  
 
 LeftPanel.propTypes = {
-  semanticLayer: PropTypes.object
+  semanticLayer: PropTypes.object,
+  onToggleClick: PropTypes.func
 }
 
 export default LeftPanel;
