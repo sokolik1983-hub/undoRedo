@@ -60,3 +60,9 @@
   @extend .run;
     background: linear-gradient(199.32deg, #1AE3D7 -13.92%, #0945DF 111.71%);
 }
+
+.checkBoxWrapper {
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
