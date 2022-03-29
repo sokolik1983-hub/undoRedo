@@ -5,7 +5,6 @@ import { BUTTON } from '../../../common/constants/common';
 import Button from '../../../common/components/Button';
 import Modal from '../../../common/components/Modal';
 import RadioField from '../../../common/components/formikFields/radioField';
-// import CheckBox from '../../../common/components/CheckBox';
 import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowBold.svg';
 
 import styles from '../QueryPanel.module.scss';
