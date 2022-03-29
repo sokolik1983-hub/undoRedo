@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './Object.module.scss';
 import { ReactComponent as BlackCross} from '../../../../layout/assets/closeBlack.svg' 
-// import { ReactComponent as OrangeIcon } from '../../../layout/assets/queryPanel/orangeIcon.svg';
+import { ReactComponent as OrangeIcon } from '../../../../layout/assets/queryPanel/orangeIcon.svg';
 import { ReactComponent as GreenIcon } from '../../../../layout/assets/queryPanel/greenIcon.svg';
-// import { ReactComponent as BlueIcon } from '../../../layout/assets/queryPanel/blueIcon.svg';
+import { ReactComponent as BlueIcon } from '../../../../layout/assets/queryPanel/blueIcon.svg';
 
 const ObjectItem = ({id, title, type, onDeleteObjItem}) => {
   
@@ -16,6 +16,10 @@ const ObjectItem = ({id, title, type, onDeleteObjItem}) => {
     switch (type) {
       case 'green':
         return <GreenIcon />
+      case 'orange':
+        return <OrangeIcon />
+      case 'blue':
+        return <BlueIcon />
       default:
         return null;
     }

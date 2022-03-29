@@ -10,18 +10,18 @@ import ObjectItem from './Object/index';
 const Objects = ({ title }) => {
   const objItem = {
     id: 1,
-    title: 'Тестировка 200',
+    title: 'Транспорт 200',
     type: 'green' 
   }
   const objItem2 = {
     id: 2,
     title: 'Банковские проводки',
-    type: 'green'
+    type: 'orange'
   }
   const objItem3 = {
     id: 3,
     title:'Опа 200',
-    type: 'green'
+    type: 'blue'
   }
   const [objArr, setObjArr] = useState(null);
 
