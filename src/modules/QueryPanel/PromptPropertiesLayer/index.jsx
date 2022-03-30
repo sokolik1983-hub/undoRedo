@@ -72,7 +72,7 @@ const PromptPropertiesLayer = ({ visible, onClose }) => {
                   name="promptCheckBoxValues"
                   label={item.label}
                   value={item.value}
-                  wrapperClass={styles.checkBoxWrapper}
+                  wrapperClass={modalStyles.checkBoxWrapper}
                 />
               );
             })}

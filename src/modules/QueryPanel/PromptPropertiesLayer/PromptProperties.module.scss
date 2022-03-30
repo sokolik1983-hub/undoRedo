@@ -46,7 +46,7 @@
 
 .promptTextBlock {
   display: flex;
-  flex-direction: column important;
+  flex-direction: row;
   align-items: center;
   justify-content: start;
 
@@ -75,7 +75,7 @@
   display: flex;
   flex-direction: row;
   margin-left: 20px;
-  font-size: 14px !important;
+  font-size: 14px;
   cursor: pointer;
 
   .text {
@@ -107,6 +107,12 @@
   padding: 5px 5px 5px 15px;
   font-size: 14px;
   cursor: pointer;
+}
+
+.checkBoxWrapper {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .byDefaultBlock {
@@ -200,6 +206,5 @@
 }
 
 .label {
-  font-size: 14px !important;
-  padding: 0 5px 6px;
+  padding: 0 28px 6px;
 }
