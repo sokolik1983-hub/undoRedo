@@ -1,7 +1,8 @@
 .dialog {
   max-width: unset !important;
   width: 80% !important;
-  max-height: calc(87vh - 40px) !important;
+  min-height: calc(87vh - 40px);
+  max-height:  calc(87vh - 40px) !important;
   color: #FFFFFF;
 }
 
