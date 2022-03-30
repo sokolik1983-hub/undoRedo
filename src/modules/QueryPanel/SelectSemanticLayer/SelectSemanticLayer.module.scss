@@ -1,8 +1,7 @@
 .dialog {
   max-width: unset !important;
   width: 80% !important;
-  min-height: 70%;
-  padding-top: 8%;
+  max-height: calc(87vh - 40px) !important;
   color: #FFFFFF;
 }
 
@@ -15,6 +14,16 @@
   padding-left: 15px !important;
 }
 
+.header {
+  padding-top: 10px;
+  padding-bottom: 3px;
+}
+
 .navigationActions {
   display: flex;
+}
+
+.modalContent {
+  padding-top: 0px;
+  padding-bottom: 10px !important;
 }
