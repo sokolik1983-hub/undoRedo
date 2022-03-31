@@ -5,7 +5,7 @@ import { SERVER_API_URL } from '../common/constants/config';
 // eslint-disable-next-line import/no-cycle
 import { notificationShown } from './reducers/notifications';
 
-const PENDING_SERVER_TIMER = 2000;
+const PENDING_SERVER_TIMER = 1000;
 
 // это запрос готовности данных
 export const requestReady = async ({ id, dispatch }) => {
@@ -25,7 +25,6 @@ export const requestReady = async ({ id, dispatch }) => {
       }
 
       if (response.data.errors) {
-        console.log('попали в ошибку');
         const { text, advise, reason } = response.data.errors[0];
         dispatch(notificationShown({
           message: text,
@@ -39,6 +38,7 @@ export const requestReady = async ({ id, dispatch }) => {
 };
 
 const requesterTimeout = ({ id, dispatch }) => {
+  let serverResponse;
   const timer = setInterval(async () => {
     const response = await requestReady({
       id,
@@ -47,20 +47,15 @@ const requesterTimeout = ({ id, dispatch }) => {
     if (response?.result === 'true') {
       clearInterval(timer);
       setLoadingData(false);
-      return response;
+      serverResponse = response;
     }
     if (response?.result === 'false') {
       clearInterval(timer);
       setLoadingData(false);
-      const { text, advise, reason } = response.data.errors[0];
-      dispatch(notificationShown({
-        message: text,
-        messageType: 'error',
-        reason,
-        advice: advise }));
     }
     return clearInterval(timer);
   }, PENDING_SERVER_TIMER);
+  return serverResponse; // после вызова функции попадает сразу сюда, не ждет таймер
 }
 
 
