@@ -27,6 +27,8 @@ export const requestReady = async ({ id, dispatch }) => {
       if (response.data.errors) {
         response.data.errors.forEach(item => {
           const { ERR_TEXT, ERR_RECOMMEND, ERR_REASON } = item;
+          // так же с сервера приходит ERR_STATUS: "Warning"
+          // и ERR_CODE
           dispatch(notificationShown({
             message: ERR_TEXT,
             messageType: 'error',
