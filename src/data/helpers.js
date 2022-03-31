@@ -53,6 +53,9 @@ const requesterTimeout = ({ id, dispatch }) => {
       clearInterval(timer);
       setLoadingData(false);
     }
+    if (response?.result === 'failed') {
+      console.log('id запроса устарел');
+    }
     return clearInterval(timer);
   }, PENDING_SERVER_TIMER);
   return serverResponse; // после вызова функции попадает сразу сюда, не ждет таймер
@@ -76,7 +79,7 @@ export const request = async ({ params, code, dispatch }) => {
       }`
     });
     if (response && response.status === 200) {
-      return requesterTimeout({id: response.data, dispatch});
+      return requesterTimeout({id: response.data, token:  dispatch});
     }
   } catch (err) {
     dispatch(notificationShown({
