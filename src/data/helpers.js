@@ -25,12 +25,12 @@ export const requestReady = async ({ id, dispatch }) => {
       }
 
       if (response.data.errors) {
-        const { text, advise, reason } = response.data.errors[0];
+        const { ERR_TEXT, ERR_RECOMMEND, ERR_REASON } = response.data.errors[0];
         dispatch(notificationShown({
-          message: text,
+          message: ERR_TEXT,
           messageType: 'error',
-          reason,
-          advice: advise }));
+          reason: ERR_REASON,
+          advice: ERR_RECOMMEND }));
         dispatch(setLoadingData(false));
       }
     }
@@ -79,7 +79,7 @@ export const request = async ({ params, code, dispatch }) => {
       }`
     });
     if (response && response.status === 200) {
-      return requesterTimeout({id: response.data, token:  dispatch});
+      return requesterTimeout({id: response.data, dispatch});
     }
   } catch (err) {
     dispatch(notificationShown({
