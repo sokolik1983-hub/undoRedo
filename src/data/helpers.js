@@ -25,12 +25,15 @@ export const requestReady = async ({ id, dispatch }) => {
       }
 
       if (response.data.errors) {
-        const { ERR_TEXT, ERR_RECOMMEND, ERR_REASON } = response.data.errors[0];
-        dispatch(notificationShown({
-          message: ERR_TEXT,
-          messageType: 'error',
-          reason: ERR_REASON,
-          advice: ERR_RECOMMEND }));
+        response.data.errors.forEach(item => {
+          const { ERR_TEXT, ERR_RECOMMEND, ERR_REASON } = item;
+          dispatch(notificationShown({
+            message: ERR_TEXT,
+            messageType: 'error',
+            reason: ERR_REASON,
+            advice: ERR_RECOMMEND }));
+        });
+
         dispatch(setLoadingData(false));
       }
     }
