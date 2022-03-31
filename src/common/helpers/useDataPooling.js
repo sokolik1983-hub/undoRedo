@@ -10,7 +10,7 @@ const useDataPooling = ({ id }) => {
   // };
 
   useEffect(() => {
-    const timer = setTimeout(async () => {
+    const timer = setInterval(async () => {
       const response = await requestReady({
         id
       });
@@ -18,7 +18,7 @@ const useDataPooling = ({ id }) => {
         // dispatch(func(response.result));
 
         setLoadingData(false);
-        clearTimeout(timer);
+        clearInterval(timer);
         setResult(response);
       }
     },2000);

@@ -38,16 +38,17 @@ export const requestReady = async ({ id, dispatch }) => {
 
 const requesterTimeout = ({ id, dispatch }) => {
   let serverResponse;
-  const timer = setTimeout(async () => {
+  const timer = setInterval(async () => {
     const response = await requestReady({
       id,
       dispatch
     });
     if (response?.result === 'true') {
       // dispatch(func(response.result));
-      clearTimeout(timer);
+      clearInterval(timer);
       setLoadingData(false);
       serverResponse = response;
+      console.log(serverResponse);
     }
     return null;
   },2000);
