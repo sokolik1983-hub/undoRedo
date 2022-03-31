@@ -31,11 +31,11 @@ const LoginPage = () => {
         <AvatarIcon className={styles.avatar} />
         <Formik
           initialValues={{
-            login: 'test1',
-            password: 'test1'
+            username: 'test',
+            password: 'test'
           }}
           validationSchema={Yup.object().shape({
-            login: Yup.string()
+            username: Yup.string()
               .max(255)
               .required('Login is required'),
             password: Yup.string()
@@ -57,13 +57,13 @@ const LoginPage = () => {
               <TextInput
                 className={styles.textInput}
                 wrapperClassName={styles.inputWrapper}
-                id="login"
+                id="username"
                 type="text"
                 label="Имя пользователя"
-                value={values.login}
+                value={values.username}
                 onBlur={handleBlur}
                 onChange={handleChange}
-                error={touched.login && errors.login}
+                error={touched.username && errors.username}
               />
               <TextInput
                 className={styles.textInput}

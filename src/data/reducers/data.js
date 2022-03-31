@@ -8,6 +8,7 @@ const data = createSlice({
     universes: [],
     universesTree: [],
     dictionaries: [],
+    requestId: null,
   },
   reducers: {
     setConnectors: (state, action) => {
@@ -25,6 +26,9 @@ const data = createSlice({
     setDictionaries: (state, action) => {
       state.dictionaries = action.payload;
     },
+    setRequestId: (state, action) => {
+      state.requestId = action.payload;
+    },
   },
 });
 
@@ -34,6 +38,7 @@ export const {
   setUniversesTree,
   setDictionaries,
   setConnectorsTree,
+  setRequestId,
 } = data.actions;
 
 export default data.reducer;

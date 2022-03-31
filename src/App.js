@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import routes from './routes';
 import { REDIRECT_LINKS } from './common/constants/common';
 import { logout } from './data/reducers/auth';
-import { getDictionaries,getDictionariesReady } from './data/actions/app'
 
 function AuthProvider({ children }) {
   return <>{children}</>;
@@ -29,12 +28,9 @@ function App() {
     }
   }, []);
 
-  const id = useSelector(state => state.app.data.dictionaries);
   return (
     <AuthProvider>
       <div>
-        <button type="submit" onClick={() => dispatch(getDictionaries({login2: 'test', password2: '123'}))}>Отправить запрос</button>
-        <button type="submit" onClick={() => dispatch(getDictionariesReady(id))}>Получить ответ</button>
         {routing}
       </div>
     </AuthProvider>
