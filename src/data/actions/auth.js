@@ -31,10 +31,11 @@ export const loginUser = queryParams => {
         params: queryParams,
         dispatch
       });
-      console.log('response on login: ', response);
       if (response) {
+        console.log('response on login: ', response);
         dispatch(login(response));
       }
+      console.log('response on login2: ', response);
     } catch (err) {
       dispatch(
         notificationShown({ message: err.message, messageType: 'error' })

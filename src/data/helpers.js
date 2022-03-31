@@ -5,6 +5,8 @@ import { SERVER_API_URL } from '../common/constants/config';
 // eslint-disable-next-line import/no-cycle
 import { notificationShown } from './reducers/notifications';
 
+const PENDING_SERVER_TIMER = 2000;
+
 // это запрос готовности данных
 export const requestReady = async ({ id, dispatch }) => {
   const response = await axios({
@@ -37,22 +39,28 @@ export const requestReady = async ({ id, dispatch }) => {
 };
 
 const requesterTimeout = ({ id, dispatch }) => {
-  let serverResponse;
   const timer = setInterval(async () => {
     const response = await requestReady({
       id,
       dispatch
     });
     if (response?.result === 'true') {
-      // dispatch(func(response.result));
       clearInterval(timer);
       setLoadingData(false);
-      serverResponse = response;
-      console.log(serverResponse);
+      return response;
     }
-    return null;
-  },2000);
-  return serverResponse;
+    if (response?.result === 'false') {
+      clearInterval(timer);
+      setLoadingData(false);
+      const { text, advise, reason } = response.data.errors[0];
+      dispatch(notificationShown({
+        message: text,
+        messageType: 'error',
+        reason,
+        advice: advise }));
+    }
+    return clearInterval(timer);
+  }, PENDING_SERVER_TIMER);
 }
 
 
@@ -75,7 +83,6 @@ export const request = async ({ params, code, dispatch }) => {
     if (response && response.status === 200) {
       return requesterTimeout({id: response.data, dispatch});
     }
-
   } catch (err) {
     dispatch(notificationShown({
       message: err.message,
