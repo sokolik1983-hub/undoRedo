@@ -61,6 +61,9 @@ const requesterTimeout = ({ id, dispatch }) => {
     if (response?.result === 'failed') {
       console.log('id запроса устарел');
     }
+    if (response?.result === 'pending') {
+      console.log('данные на сервере еще не готовы');
+    }
     return clearInterval(timer);
   }, PENDING_SERVER_TIMER);
   return serverResponse; // после вызова функции попадает сразу сюда, не ждет таймер
