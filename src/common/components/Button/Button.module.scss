@@ -5,11 +5,6 @@
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   border: none;
-
-  color: #ffffff;
-  font-family: Roboto;
-  font-weight: 700 Bold;
-  line-height: 12px;
 }
 
 .btn:active {
@@ -18,73 +13,28 @@
   color: #eee;
 }
 
-.small {
-  height: 22px;
-  font-size: 0.7rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  white-space: nowrap;
-}
-
-.medium {
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  white-space: nowrap;
+.bigButtonFont {
+  color: #ffffff;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 700;
   font-size: 13px;
   line-height: 15px;
 }
 
-.large {
-  height: 42px;
-  font-size: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  white-space: nowrap;
-}
-
-.danger {
-  background-color: #ff0000;
-}
-.primary {
-  background: linear-gradient(199.32deg, #1ae3d7 -13.92%, #0945df 111.71%);
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5);
-  border-radius: 3px;
+.smallButtonFont {
+  color: #ffffff;
+  font-family: Roboto;
   font-style: normal;
-  font-weight: bold;
-  font-size: 13px;
-  line-height: 15px;
-  color: white;
-  border: none;
-  margin: 0 16px 0 10px;
-  height: 30px;
-}
-.sucess {
-  background: linear-gradient(
-    180deg,
-    #ffefc5 0%,
-    #ffd35a 9.9%,
-    #ff8b2b 69.27%,
-    #e14a13 100%
-  );
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5);
-  border-radius: 3px;
-  font-style: normal;
-  font-weight: bold;
-  color: white;
-  border: none;
-  margin-left: auto;
-  height: 30px;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 12px;
 }
 
 .bigBlue {
   height: 29px;
   background: linear-gradient(199.32deg, #1ae3d7 -13.92%, #0945df 111.71%);
-  font-size: 13px;
-  line-height: 15px;
+  @extend .bigButtonFont;
 }
 
 .bigOrange {
@@ -96,44 +46,45 @@
     #ff8b2b 40.1%,
     #e14a13 100%
   );
-  font-size: 13px;
-  line-height: 15px;
+  @extend .bigButtonFont;
 }
 
 .bigGray {
   height: 29px;
-  font-size: 13px;
-  line-height: 15px;
-  background: linear-gradient(180deg, #b0c5d9 0%, rgba(196, 196, 196, 0) 100%), #011a31;
+  background: linear-gradient(180deg, #b0c5d9 0%, rgba(196, 196, 196, 0) 100%),
+    #011a31;
+  @extend .bigButtonFont;
 }
 
 .brown {
   height: 22px;
-  font-size: 10px;
-  background: linear-gradient(180deg, #B69056 0%, #734E12 100%), #312101;
+  background: linear-gradient(180deg, #b69056 0%, #734e12 100%), #312101;
+  @extend .smallButtonFont;
 }
 
 .blue {
   height: 22px;
-  font-size: 10px;
   background: linear-gradient(199.32deg, #1ae3d7 -13.92%, #0945df 111.71%);
+  @extend .smallButtonFont;
 }
 
 .gray {
   height: 22px;
-  font-size: 10px;
-  background: linear-gradient(180deg, #b0c5d9 0%, rgba(196, 196, 196, 0) 100%), #011a31;
+  background: linear-gradient(180deg, #b0c5d9 0%, rgba(196, 196, 196, 0) 100%),
+    #011a31;
+  @extend .smallButtonFont;
 }
 
 .brownDarker {
   height: 22px;
-  font-size: 10px;
-  background: linear-gradient(180deg, #d9c8b0 0%, rgba(245, 162, 38, 0) 100%), #312101;
+  background: linear-gradient(180deg, #d9c8b0 0%, rgba(245, 162, 38, 0) 100%),
+    #312101;
+  @extend .smallButtonFont;
 }
 
 .red {
   height: 22px;
-  font-size: 10px;
-  background: linear-gradient(180deg, #eebbbb 0%, rgba(48, 0, 0, 0) 100%), #960000;
+  background: linear-gradient(180deg, #eebbbb 0%, rgba(48, 0, 0, 0) 100%),
+    #960000;
+  @extend .smallButtonFont;
 }
- 

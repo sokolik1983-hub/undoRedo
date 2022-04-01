@@ -16,11 +16,6 @@ const PromptPropertiesLayer = ({ visible, onClose }) => {
     return onClose();
   };
 
-  const PromptValuesRadioBTNs = [
-    { value: 'newPrompt', label: 'Новая подсказка' },
-    { value: 'paramTypeRadio', label: 'Параметр юниверса' }
-  ];
-
   const CheckBoxValues = [
     { value: 'listValueBoxt', label: 'Подсказка со списком значений' },
     { value: 'onlyListChoiceBox', label: 'Выбор только из списка' },
@@ -41,18 +36,21 @@ const PromptPropertiesLayer = ({ visible, onClose }) => {
           <div className={modalStyles.parameterTypeBlock}>
             <p className={modalStyles.text}>Тип параметра</p>
             <div className={modalStyles.allRadio}>
-              {PromptValuesRadioBTNs.map(item => {
-                return (
-                  <RadioField
-                    name="PromptValuesRadioBTNs"
-                    key={item.value}
-                    label={item.label}
-                    value={item.value}
-                    labelClass={modalStyles.radioLabel}
-                    {...item}
-                  />
-                );
-              })}
+              <RadioField
+                name="PromptValuesRadioBTNs"
+                key="newPrompt"
+                label="подсказка"
+                value="newPrompt"
+                labelClass={modalStyles.radioLabel}
+                checked
+              />
+              <RadioField
+                name="PromptValuesRadioBTNs"
+                key="paramTypeRadio"
+                label="Параметр юниверса"
+                value="paramTypeRadio"
+                labelClass={modalStyles.radioLabel}
+              />
             </div>
           </div>
 
