@@ -11,7 +11,7 @@ const PENDING_SERVER_TIMER = 1000;
 export const requestReady = async ({ id, dispatch }) => {
   const response = await axios({
       method: 'get',
-      url: `${SERVER_API_URL}?id=${id}&token=null`,
+      url: `${SERVER_API_URL}?id=${id}`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
@@ -73,7 +73,9 @@ const requesterTimeout = ({ id, dispatch }) => {
 // обычный запрос, в ответ на который мы получаем id запроса
 // для получения данных по запросу, надо отправить новый запрос с указанием id
 // для такого повторного запроса есть функция requestReady
-export const request = async ({ params, code, dispatch }) => {
+export const request = async ({ params, code, token, dispatch }) => {
+  // токе мы получим после логина, надо его сюда передавать
+  // но если не залогинены, и токена еще нет, то передать пустой токен
   try {
     dispatch(setLoadingData(true));
     const response = await axios({
@@ -82,7 +84,7 @@ export const request = async ({ params, code, dispatch }) => {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      data: `code=${code}&format=JSON&params=${
+      data: `code=${code}&token=${token || null}&format=JSON&params=${
         params ? JSON.stringify(params) : ''
       }`
     });
