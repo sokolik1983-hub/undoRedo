@@ -179,6 +179,7 @@ const ItemsListModal = ({ visible, onClose }) => {
       onClose={handleClose}
       dialogClassName={styles.dialog}
       bodyClassName={styles.modalBody}
+      modalClassName={styles.modal}
       contentClassName={styles.modalContent}
       headerClassName={styles.headerContent}
       withoutTitle

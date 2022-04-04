@@ -137,7 +137,7 @@ const FilterItem = ({id, title, type, onDeleteObjItem, onDragStart, onDragNDrop}
             <DropdownItem
               item={i}
               onClick={i.action}
-              className={styles.text}
+              className={styles.textBlock}
               iconClassName={styles.icon}
             />
               ))}

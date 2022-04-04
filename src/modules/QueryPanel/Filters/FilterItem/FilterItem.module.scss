@@ -83,7 +83,7 @@
 }
 
 .itemsWrapper {
-  background: linear-gradient(142.94deg, rgba(255, 255, 255, 0.468) 0%, rgba(255, 255, 255, 0.104) 102.09%);
+  background: linear-gradient(142.94deg, rgba(255, 255, 255, 0.468) 0%, rgba(255, 255, 255, 0.104) 102.09%) !important;
   box-shadow: 0px 4px 4px rgba(34, 82, 102, 0.25);
   backdrop-filter: blur(7px);
   border-radius: 4px;
@@ -93,14 +93,14 @@
   z-index: 11;
 }
 
-.text {
+.textBlock {
   display: flex;
   font-weight: 500;
   font-size: 13px;
   line-height: 15px;
   color: #000000;
   margin: 0;
-  padding: 4px 5px 4px 9px;
+  padding: 4px 5px 4px 9px !important;
   white-space: nowrap;
 
   &:hover {
@@ -124,12 +124,12 @@
 
   &:first-child {
     margin-top: 8px;
-    border-radius: initial;
+    border-radius: initial !important;
   }
 
   &:last-child {
     margin-bottom: 9px;
-    border-radius: initial;
+    border-radius: initial !important;
   }
 }
 

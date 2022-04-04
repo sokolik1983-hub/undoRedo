@@ -145,7 +145,7 @@ const PromptPropertiesLayer = ({ visible, onClose }) => {
       titleClassName={modalStyles.title}
       dialogClassName={modalStyles.dialog}
       headerClassName={styles.header}
-      bodyClassName={styles.modalBody}
+      modalClassName={modalStyles.modal}
       contentClassName={styles.modalContent}
     />
   );
