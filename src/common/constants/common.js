@@ -204,6 +204,7 @@ export const SEMANTIC_PAGE_ACTIONS = [
 export const BUTTON = {
   BIG_BLUE: 'BIG_BLUE',
   BIG_ORANGE: 'BIG_ORANGE',
+  BIG_GRAY: 'BIG_GRAY',
   BROWN: 'BROWN',
   BLUE: 'BLUE',
   GRAY: 'GRAY', 

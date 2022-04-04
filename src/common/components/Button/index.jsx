@@ -32,6 +32,7 @@ const Button = ({
     styles.btn,
     { [styles.bigBlue]: buttonStyle === BUTTON.BIG_BLUE },
     { [styles.bigOrange]: buttonStyle === BUTTON.BIG_ORANGE },
+    { [styles.bigGray]: buttonStyle === BUTTON.BIG_GRAY },
     { [styles.brown]: buttonStyle === BUTTON.BROWN },
     { [styles.blue]: buttonStyle === BUTTON.BLUE },
     { [styles.gray]: buttonStyle === BUTTON.GRAY },
