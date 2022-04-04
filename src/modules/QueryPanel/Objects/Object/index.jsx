@@ -54,7 +54,7 @@ const ObjectItem = ({id, title, type, onDeleteObjItem, onDragStart, onDragNDrop}
       <div className={isActive ? styles.active : null}>
         {chooseIcon(type)}
       </div>
-      <span>
+      <span title={title}>
         {title.length > 16 ? `${title.substring(0, 16)}...` : title}
       </span>
       <button type='button' onClick={handleDelete} className={isActive ? styles.active : null}>
