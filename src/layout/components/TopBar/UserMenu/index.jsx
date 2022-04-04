@@ -22,7 +22,7 @@ const UserMenu = () => {
           <AvatarIcon />
         </div>
         <div className={styles.mainButtonRight}>
-          <span>{JSON.parse(userInfo).user_login}</span>
+          <span>{userInfo}</span>
         </div>
       </div>
     );

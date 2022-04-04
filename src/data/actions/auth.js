@@ -1,6 +1,5 @@
 import { request } from '../helpers';
 import { login, logout } from '../reducers/auth';
-import { notificationShown } from '../reducers/notifications';
 
 export const loginUser = queryParams => {
   // return async dispatch => {
@@ -25,23 +24,17 @@ export const loginUser = queryParams => {
   //   }
   // };
   return async dispatch => {
-    try {
-      const response = await request({
-        code: 'CMS.LOGIN',
-        params: queryParams,
-        dispatch
-      });
-      if (response) {
-        console.log('response on login: ', response);
+    const response = await request({
+      code: 'CMS.LOGIN',
+      params: queryParams,
+      dispatch
+    });
+    if (response) {
+      if (response.result === 'true') {
         localStorage.setItem('isAuth', 'true');
-        localStorage.setItem('userInfo', JSON.stringify(response.userInfo));
-        dispatch(login(response));
+        localStorage.setItem('userInfo', queryParams.username);
       }
-      console.log('response on login2: ', response);
-    } catch (err) {
-      dispatch(
-        notificationShown({ message: err.message, messageType: 'error' })
-      );
+      dispatch(login(response));
     }
   };
 };
