@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 
@@ -6,12 +7,13 @@ import Button from '../../../common/components/Button';
 import Modal from '../../../common/components/Modal';
 import RadioField from '../../../common/components/formikFields/radioField';
 import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowBold.svg';
-
+import ItemsListModal from '../ItemsListModal';
 import styles from '../QueryPanel.module.scss';
 import modalStyles from './PromptProperties.module.scss';
 import CheckboxField from '../../../common/components/formikFields/checkboxField';
 
 const PromptPropertiesLayer = ({ visible, onClose }) => {
+  const [semanticListOpened, setSemanticListOpened] = useState(false);
   const closeHandler = () => {
     return onClose();
   };
@@ -27,6 +29,14 @@ const PromptPropertiesLayer = ({ visible, onClose }) => {
     name: '',
     value: '',
     label: ''
+  };
+
+  const onCloseSemanticListHandler = () => {
+    return setSemanticListOpened(false);
+  };
+
+  const handleShowList = () => {
+    return setSemanticListOpened(true);
   };
 
   const modalContent = () => {
@@ -89,7 +99,7 @@ const PromptPropertiesLayer = ({ visible, onClose }) => {
                   labelClass={modalStyles.label}
                 />
               </div>
-              <Button className={modalStyles.button} buttonStyle={BUTTON.BLUE}>
+              <Button className={modalStyles.button} buttonStyle={BUTTON.BLUE} onClick={handleShowList}>
                 Список
               </Button>
             </div>
@@ -115,6 +125,12 @@ const PromptPropertiesLayer = ({ visible, onClose }) => {
               Отмена
             </Button>
           </div>
+          {semanticListOpened && (
+          <ItemsListModal
+            visible={semanticListOpened && true}
+            onClose={onCloseSemanticListHandler}
+          />
+        )}
         </div>
       </Formik>
     );
@@ -123,7 +139,7 @@ const PromptPropertiesLayer = ({ visible, onClose }) => {
     <Modal
       title="Свойства подсказки"
       content={modalContent()}
-      withScroll={false}
+      withScroll
       visible={visible}
       onClose={closeHandler}
       titleClassName={modalStyles.title}

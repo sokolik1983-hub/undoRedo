@@ -13,7 +13,7 @@ import styles from './Dropdown.module.scss';
  */
 
 const Dropdown = props => {
-  const { className, mainButton, children, itemsWrapper, notHideable } = props;
+  const { className, mainButton, wrapper, children, itemsWrapper, notHideable } = props;
   const [isOpened, setIsOpened] = useState(false);
 
   const toggleMenu = () => {
@@ -24,7 +24,7 @@ const Dropdown = props => {
   useClickOutside(clickRef, () => setIsOpened(false));
 
   return (
-    <div className={styles.wrapper} ref={clickRef}>
+    <div className={cn(styles.wrapper, wrapper)} ref={clickRef}>
       <div
         className={cn(styles.mainButton, className)}
         onClick={notHideable ? () => setIsOpened(true) : toggleMenu}
@@ -43,6 +43,7 @@ export default Dropdown;
 Dropdown.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  wrapper: PropTypes.string,
   mainButton: PropTypes.node,
   itemsWrapper: PropTypes.string,
   notHideable: PropTypes.bool
