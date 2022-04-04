@@ -33,6 +33,8 @@ export const loginUser = queryParams => {
       });
       if (response) {
         console.log('response on login: ', response);
+        localStorage.setItem('isAuth', 'true');
+        localStorage.setItem('userInfo', JSON.stringify(response.userInfo));
         dispatch(login(response));
       }
       console.log('response on login2: ', response);

@@ -43,30 +43,33 @@ export const requestReady = async ({ id, dispatch }) => {
 };
 
 const requesterTimeout = ({ id, dispatch }) => {
-  let serverResponse;
-  const timer = setInterval(async () => {
-    const response = await requestReady({
-      id,
-      dispatch
-    });
-    if (response?.result === 'true') {
-      clearInterval(timer);
-      setLoadingData(false);
-      serverResponse = response;
-    }
-    if (response?.result === 'false') {
-      clearInterval(timer);
-      setLoadingData(false);
-    }
-    if (response?.result === 'failed') {
-      console.log('id запроса устарел');
-    }
-    if (response?.result === 'pending') {
-      console.log('данные на сервере еще не готовы');
-    }
-    return clearInterval(timer);
-  }, PENDING_SERVER_TIMER);
-  return serverResponse; // после вызова функции попадает сразу сюда, не ждет таймер
+  return new Promise((resolve, reject) => {
+    const timer = setInterval(async () => {
+      const response = await requestReady({
+        id,
+        dispatch
+      });
+      if (response?.result === 'true') {
+        clearInterval(timer);
+        setLoadingData(false);
+        resolve(response);
+      }
+      if (response?.result === 'false') {
+        clearInterval(timer);
+        setLoadingData(false);
+        reject(response)
+      }
+      if (response?.result === 'failed') {
+        console.log('id запроса устарел');
+        reject(response)
+      }
+      if (response?.result === 'pending') {
+        console.log('данные на сервере еще не готовы');
+        reject(response)
+      }
+      return clearInterval(timer);
+    }, PENDING_SERVER_TIMER);
+  });
 }
 
 
