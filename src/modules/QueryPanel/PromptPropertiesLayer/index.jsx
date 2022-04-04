@@ -39,7 +39,7 @@ const PromptPropertiesLayer = ({ visible, onClose }) => {
               <RadioField
                 name="PromptValuesRadioBTNs"
                 key="newPrompt"
-                label="подсказка"
+                label="Новая подсказка"
                 value="newPrompt"
                 labelClass={modalStyles.radioLabel}
                 checked
