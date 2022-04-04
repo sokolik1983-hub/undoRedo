@@ -12,15 +12,15 @@ import PromptPropertiesLayer from '../PromptPropertiesLayer';
 const Filters = ({ title }) => {
   const [
     promptPropertiesModalOpened,
-    setpromptPropertiesModalOpened
+    setPromptPropertiesModalOpened
   ] = useState(false);
 
   const handleShowPrompt = () => {
-    return setpromptPropertiesModalOpened(true);
+    return setPromptPropertiesModalOpened(true);
   };
 
   const onClosePromptPropertiesModalHandler = () => {
-    return setpromptPropertiesModalOpened(false);
+    return setPromptPropertiesModalOpened(false);
   };
 
   return (
