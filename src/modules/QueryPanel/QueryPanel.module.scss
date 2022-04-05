@@ -5,6 +5,10 @@
   height: 90vh;
 }
 
+.modalBody {
+  overflow-x: visible;
+}
+
 .root {
   display: flex;
   flex-direction: column;

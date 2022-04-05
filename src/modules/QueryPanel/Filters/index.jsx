@@ -82,7 +82,12 @@ const Filters = ({ title }) => {
             <Arrow 
               className={clsx(styles.iconsIndents, styles.rotate)}
             />
-            <Basket className={styles.iconsIndents} onClick={onDeleteFilters} />
+            <div className={styles.basketWrapper}>
+              <Basket className={styles.basket} onClick={onDeleteFilters} />
+              <div className={styles.hide}>
+                <p className={styles.clear}>очистить всё</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
