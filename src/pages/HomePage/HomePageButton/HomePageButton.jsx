@@ -14,7 +14,13 @@ const HomePageButton = ({ title, href, icon, isDocument }) => {
         >
           {icon}
         </div>
-        <div className={styles.buttonText}>{title}</div>
+        <div
+          className={
+            title === 'Приложения' ? styles.buttonText : styles.buttonTextApps
+          }
+        >
+          {title}
+        </div>
       </RouterLink>
     </div>
   );

@@ -8,8 +8,8 @@
 
 .row {
   display: flex;
-  background-color: #fff;
-  height: 88px;
+  // background-color: #fff;
+  height: 140px;
   align-items: flex-end;
 
   padding-left: 145px;
@@ -19,6 +19,7 @@
   width: 200px;
   align-self: center;
   font-weight: 600;
+  margin-bottom: 40px;
 }
 
 .recent_bg {
