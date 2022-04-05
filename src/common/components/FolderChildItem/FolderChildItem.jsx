@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import folderItem from '../../../layout/assets/folder-icon.svg';
+import folderItem from '../../../layout/assets/folderIcon.svg';
 import styles from './FolderChildItem.module.scss';
 
 const FolderChildItem = ({ name, onClick, active }) => {
