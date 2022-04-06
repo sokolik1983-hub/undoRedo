@@ -88,3 +88,11 @@
     #960000;
   @extend .smallButtonFont;
 }
+
+.smallOrange {
+  height: 17px;
+  width: 35px;
+  background: linear-gradient(206.57deg, #FFC700 -15.48%, #DF0909 169.05%);
+  @extend .smallButtonFont;
+  padding: 3px 7px;
+}

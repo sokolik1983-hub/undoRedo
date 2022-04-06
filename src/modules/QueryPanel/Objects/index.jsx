@@ -60,14 +60,33 @@ const Objects = ({ title }) => {
     return a.order > b.order ? 1 : -1;
   };
 
+  const onDeleteObjects = () => {
+    setObjArr(null);
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.top}>
         <div className={styles.title}>{title}</div>
         <div className={styles.icons}>
-          <Filter className={styles.iconsIndents} />
-          <Lists className={styles.iconsIndents} />
-          <Basket className={styles.iconsIndents} />
+          <div className={styles.filterWrapper}>
+            <Filter className={styles.filterIcon} />
+            <div className={styles.hide}>
+              <p className={styles.filter}>фильтр</p>
+            </div>
+          </div>
+          <div className={styles.listsWrapper}>
+            <Lists className={styles.listsIcon} />
+            <div className={styles.hide}>
+              <p className={styles.lists}>списки</p>
+            </div>
+          </div>
+          <div className={styles.basketWrapper}>
+            <Basket className={styles.basket} onClick={onDeleteObjects} />
+            <div className={styles.hide}>
+              <p className={styles.clear}>очистить всё</p>
+            </div>
+          </div>
         </div>
       </div>
       <Divider color='#FFFFFF' />

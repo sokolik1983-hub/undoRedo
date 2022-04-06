@@ -3,10 +3,11 @@
   width: 90% !important;
   color: #FFFFFF;
   height: 90vh;
+  overflow: visible !important;
 }
 
 .modalBody {
-  overflow-x: visible;
+  overflow: visible !important;
 }
 
 .root {

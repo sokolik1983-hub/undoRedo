@@ -5,6 +5,7 @@ import Dropdown from '../../../../common/components/Dropdown';
 import DropdownItem from '../../../../common/components/Dropdown/DropdownItem';
 import TextInput from '../../../../common/components/TextInput';
 import PromptPropertiesLayer from '../../PromptPropertiesLayer';
+import ItemsListModal from '../../ItemsListModal';
 import { ReactComponent as Arrow } from '../../../../layout/assets/queryPanel/arrowThin.svg';
 import { ReactComponent as Gear } from '../../../../layout/assets/queryPanel/gearBold.svg';
 import { ReactComponent as DotsMenu } from '../../../../layout/assets/dotsMenu.svg';
@@ -29,18 +30,19 @@ const options = [
 ];
 
 const icon = (
-  <>
+  <div className={styles.gearWrapper}>
     <Gear fill='black' className={styles.gear} />
     <div className={styles.hide}>
       <p className={styles.prompt}>свойства подсказки</p>
     </div>
-  </>
+  </div>
 );
 
-const FilterItem = ({id, title, type, onDeleteObjItem, onDragStart, onDragNDrop}) => {
-  
-  const [text, setText] = useState('равно');
-  const [value, setValue] = useState('');
+const FilterItem = ({id, title, type, text, value, onDeleteObjItem, onDragStart, onDragNDrop}) => {
+  const [isActive, setIsActive] = useState(false);
+  const [text1, setText] = useState(text);
+  const [value1, setValue] = useState(value);
+  const [semanticListOpened, setSemanticListOpened] = useState(false);
   const [
     promptPropertiesModalOpened,
     setPromptPropertiesModalOpened
@@ -49,13 +51,21 @@ const FilterItem = ({id, title, type, onDeleteObjItem, onDragStart, onDragNDrop}
   const handleShowPrompt = () => {
     return setPromptPropertiesModalOpened(true);
   };
+
+  const onCloseSemanticListHandler = () => {
+    return setSemanticListOpened(false);
+  };
+
+  const handleShowList = () => {
+    return setSemanticListOpened(true);
+  };
   
   const items = [
     { text: 'постоянная', action: () => {} },
-    { text: 'значение из списка', action: () => {} },
+    { text: 'значение из списка', action: () => handleShowList() },
     { text: 'подсказка', icon, action: () => handleShowPrompt() },
-    { text: 'объект данного запроса', action: () => {} },
-    { text: 'результат другого запроса', action: () => {}}
+    { text: 'объект данного запроса', disabled: true, action: () => {} },
+    { text: 'результат другого запроса', disabled: true, action: () => {}}
   ];
 
   const chooseIcon = () => {
@@ -90,21 +100,23 @@ const FilterItem = ({id, title, type, onDeleteObjItem, onDragStart, onDragNDrop}
 
   const onClosePromptPropertiesModalHandler = () => {
     return setPromptPropertiesModalOpened(false);
-  }
+  };
 
   return (
     <div 
-      id={`object-${id}`}
-      className={styles.block} 
+      id={id}
+      className={isActive ? styles.activeBlock : styles.block}
       draggable
       onDragStart={handleDragStart}
       onDragOver={e => handleDragOver(e)}
       onDrop={e => handleDrop(e)}
+      onMouseEnter={() => setIsActive(true)}
+      onMouseLeave={() => setIsActive(false)}
     >
       <div>{chooseIcon(type)}</div>
       <p className={styles.title}>{title}</p>
       <div className={styles.select}>
-        <p className={styles.selectText}>{text}</p>
+        <p className={styles.selectText}>{text1}</p>
         <Dropdown
           wrapper={styles.wrapper}
           mainButton={<Arrow className={styles.arrow} />}
@@ -125,7 +137,7 @@ const FilterItem = ({id, title, type, onDeleteObjItem, onDragStart, onDragNDrop}
         id={id}
         type="text"
         label=''
-        value={value}
+        value={value1}
         onChange={e => setValue(e.target.value)}
       />
       <div className={styles.menu}>
@@ -137,7 +149,7 @@ const FilterItem = ({id, title, type, onDeleteObjItem, onDragStart, onDragNDrop}
             <DropdownItem
               item={i}
               onClick={i.action}
-              className={styles.textBlock}
+              className={i.disabled ? styles.disabledText : styles.textBlock}
               iconClassName={styles.icon}
             />
               ))}
@@ -152,6 +164,12 @@ const FilterItem = ({id, title, type, onDeleteObjItem, onDragStart, onDragNDrop}
         onClose={onClosePromptPropertiesModalHandler}
       />
       )}
+      {semanticListOpened && (
+      <ItemsListModal
+        visible={semanticListOpened && true}
+        onClose={onCloseSemanticListHandler}
+      />
+        )}
     </div>
   );
 };
@@ -162,6 +180,8 @@ FilterItem.propTypes = {
   id: PropTypes.number,
   title: PropTypes.string,
   type: PropTypes.string,
+  text: PropTypes.string,
+  value: PropTypes.string,
   onDeleteObjItem: PropTypes.func,
   onDragStart: PropTypes.func,
   onDragNDrop: PropTypes.func

@@ -9,12 +9,18 @@
   height: 30px;
   width: fit-content;
   max-width: 416px;
-  margin: 4px 0 10px 43px;
+  margin: 4px 0 10px 4px;
   z-index: 10;
 
   &:hover {
     z-index: 11;
   }
+}
+
+.activeBlock {
+  @extend .block;
+
+  outline: 2px solid orange;
 }
 
 .select {
@@ -79,7 +85,10 @@
 
 .input {
   margin-left: 5px;
-  width: 130px;
+  width: 133px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .itemsWrapper {
@@ -91,22 +100,53 @@
   left: 24px;
   top: -9px;
   z-index: 11;
+
+  .textBlock {
+    display: flex;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 15px;
+    color: #000000;
+    margin: 0;
+    padding: 4px 5px 4px 9px;
+    white-space: nowrap;
+  
+    &:hover {
+      color: white;
+      background: linear-gradient(199.32deg, #1ae3d7 -13.92%, #0945df 111.71%);
+    }
+  
+    &:first-child {
+      margin-top: 8px;
+      border-radius: initial;
+    }
+  
+    &:last-child {
+      margin-bottom: 9px;
+      border-radius: initial;
+    }
+  }
+  
+  .disabledText {
+    @extend .textBlock;
+  
+    color: rgba(0, 0, 0, 0.5);
+    cursor: initial;
+  
+    &:hover {
+      color: rgba(0, 0, 0, 0.5);
+      background: none;
+    }
+  }
 }
 
-.textBlock {
-  display: flex;
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 15px;
-  color: #000000;
-  margin: 0;
-  padding: 4px 5px 4px 9px !important;
-  white-space: nowrap;
+.icon {
+  position: absolute;
+  right: 0;
+}
 
-  &:hover {
-    color: white;
-    background: linear-gradient(199.32deg, #1ae3d7 -13.92%, #0945df 111.71%);
-  }
+.gearWrapper {
+  display: flex;
 
   &:hover .gear + .hide {
     
@@ -121,21 +161,6 @@
     top: 12px;
     left: 16px;
   }
-
-  &:first-child {
-    margin-top: 8px;
-    border-radius: initial !important;
-  }
-
-  &:last-child {
-    margin-bottom: 9px;
-    border-radius: initial !important;
-  }
-}
-
-.icon {
-  position: absolute;
-  right: 0;
 }
 
 .hide {
@@ -163,6 +188,7 @@
 }
 
 .menuIcon {
+  height: 16px;
   margin: 4px 10px 0;
 }
 
