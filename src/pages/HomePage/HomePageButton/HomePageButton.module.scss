@@ -1,6 +1,7 @@
 .homePageButton {
   width: 77px;
   height: 102px;
+  margin: auto;
   background: linear-gradient(
     152.97deg,
     rgba(30, 142, 245, 0.29) 0%,
@@ -46,11 +47,10 @@
 .buttonText {
   margin-top: 12px;
   text-overflow: ellipsis;
-  overflow: hidden;
   max-width: 80px;
-  white-space: nowrap;
+  overflow: hidden;
   text-align: center;
-  margin-bottom: 40px;
+  white-space: normal;
 
   font-weight: 400;
   font-size: 11px;
@@ -58,15 +58,10 @@
 }
 
 .buttonTextApps {
-  margin-top: 12px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  max-width: 80px;
+  max-width: none;
   white-space: nowrap;
-  text-align: center;
-  margin-bottom: 40px;
-
   font-weight: 500;
   font-size: 15px;
   line-height: 18px;
+  @extend .buttonText;
 }

@@ -8,30 +8,51 @@
 
 .row {
   display: flex;
-  // background-color: #fff;
-  height: 140px;
+  height: 88px;
   align-items: flex-end;
-
   padding-left: 145px;
+}
+.whiteLine {
+  position: absolute;
+  margin-left: 1135px;
+  top: 310px;
+  background-color: #fff;
+  width: calc(100vw - 1280px);
+  height: 88px;
+  z-index: -1;
+}
+.whiteLineShadow {
+  box-shadow: 0px 12px 27px rgba(12, 74, 167, 0.31);
+}
+
+.whiteLine2 {
+  top: 479px;
+  @extend .whiteLine;
+}
+
+.whiteLine3 {
+  top: 648px;
+  @extend .whiteLine;
 }
 
 .rowTitle {
   width: 200px;
   align-self: center;
   font-weight: 600;
-  margin-bottom: 40px;
+  margin-bottom: 25px;
 }
 
 .recent_bg {
-  background-image: url('../../layout/assets/images/recent.png');
+  background-image: url('../../layout/assets/images/recentWithoutShadow.png');
   background-repeat: no-repeat;
+  margin-top: 15px;
 }
 .favorites_bg {
-  background-image: url('../../layout/assets/images/favorites.png');
+  background-image: url('../../layout/assets/images/favoritesWithoutShadow.png');
   background-repeat: no-repeat;
 }
 .apps_bg {
-  background-image: url('../../layout/assets/images/apps.png');
+  background-image: url('../../layout/assets/images/appsWithoutShadow.png');
   background-repeat: no-repeat;
 }
 

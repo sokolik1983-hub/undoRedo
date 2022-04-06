@@ -42,7 +42,10 @@ function HomePage() {
 
   return (
     <div className={styles.root}>
-      <div className={clsx(styles.row, styles.recent_bg)}>
+      <div
+        className={clsx(styles.row, styles.recent_bg, styles.whiteLineShadow)}
+      >
+        <div className={clsx(styles.whiteLine)} />
         <p className={styles.rowTitle}>Недавние</p>
         <div className={styles.section}>
           {RECENTS.map(item => (
@@ -51,7 +54,14 @@ function HomePage() {
         </div>
       </div>
 
-      <div className={clsx(styles.row, styles.favorites_bg)}>
+      <div
+        className={clsx(
+          styles.row,
+          styles.favorites_bg,
+          styles.whiteLineShadow
+        )}
+      >
+        <div className={clsx(styles.whiteLine2)} />
         <p className={styles.rowTitle}>Избранное</p>
         <div className={styles.section}>
           {FAVORITES.map(item => (
@@ -60,7 +70,8 @@ function HomePage() {
         </div>
       </div>
 
-      <div className={clsx(styles.row, styles.apps_bg)}>
+      <div className={clsx(styles.row, styles.apps_bg, styles.whiteLineShadow)}>
+        <div className={clsx(styles.whiteLine3)} />
         <p className={styles.rowTitle}>Приложения</p>
         <div className={clsx(styles.section, styles.apps)}>
           {navigationMenu &&
@@ -77,12 +88,12 @@ function HomePage() {
       </div>
       {/* удалить, когда перенесем модалку в дизайнер отчета */}
       <div>
-        <Button onClick={() => dispatch(setQueryPanelModal(true))}>Открыть панель запросов</Button>
+        <Button onClick={() => dispatch(setQueryPanelModal(true))}>
+          Открыть панель запросов
+        </Button>
       </div>
       {isQueryPanelModalOpened && (
-        <QueryPanel
-          visible={isQueryPanelModalOpened && true}
-        />
+        <QueryPanel visible={isQueryPanelModalOpened && true} />
       )}
       {/* удалить, когда перенесем модалку в дизайнер отчета */}
       <FloatingButton

@@ -4,6 +4,15 @@ import { Link as RouterLink } from 'react-router-dom';
 import styles from './HomePageButton.module.scss';
 
 const HomePageButton = ({ title, href, icon, isDocument }) => {
+  const appWordsArray = [
+    'коннекторы',
+    'семантика',
+    'аудит',
+    'роли',
+    'пользователи',
+    'документы',
+    'корзина'
+  ];
   return (
     <div className={styles.homePageButtonWrapper}>
       <RouterLink to={href || ''}>
@@ -16,7 +25,9 @@ const HomePageButton = ({ title, href, icon, isDocument }) => {
         </div>
         <div
           className={
-            title === 'Приложения' ? styles.buttonText : styles.buttonTextApps
+            appWordsArray.includes(title)
+              ? styles.buttonTextApps
+              : styles.buttonText
           }
         >
           {title}
