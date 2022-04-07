@@ -86,7 +86,7 @@ const PromptPropertiesLayer = ({ visible, onClose }) => {
                   name="defaultValuesBox"
                   label="Значения по умолчанию"
                   value="defaultValuesBox"
-                  labelClass={modalStyles.defaultCheckBoxlabel}
+                  labelClass={modalStyles.defaultCheckBoxBlock}
                 />
               </div>
               <Button className={modalStyles.button} buttonStyle={BUTTON.BLUE}>
