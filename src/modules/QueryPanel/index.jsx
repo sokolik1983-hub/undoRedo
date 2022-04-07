@@ -17,9 +17,8 @@ import QueryPanelControls from './QueryPanelControls/QueryPanelControls';
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
   const [semanticLayer, setSemanticLayer] = useState(null);
-  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(
-    false
-  );
+  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(false);
+  const [isQueryExecute, setQueryExecute] = useState(false);
 
   useEffect(() => {
     dispatch(getUniverses());
@@ -30,6 +29,13 @@ const QueryPanel = ({ visible }) => {
 
   const handleClose = () => {
     return dispatch(setQueryPanelModal(false));
+  };
+
+  const handleQueryExecute = () => {
+    setQueryExecute(true);
+    setTimeout(() => {
+      setQueryExecute(false);
+    }, 1000);
   };
 
   const handleShowSelector = () => {
@@ -68,9 +74,9 @@ const QueryPanel = ({ visible }) => {
           <div className={styles.rightPanel}>
             <Objects className={styles.section} title="Объекты отчета" />
             <Filters className={styles.section} title="Фильтры запроса" />
-            <Results className={styles.section} title="Просмотр данных" />
+            <Results className={styles.section} title="Просмотр данных" isQueryExecute={isQueryExecute} />
             <QueryPanelControls
-              onRun={() => {}}
+              onRun={handleQueryExecute}
               onApply={() => {}}
               onCancel={handleClose}
               onToggleClick={handleShowList}
