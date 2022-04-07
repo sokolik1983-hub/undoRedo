@@ -55,7 +55,6 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   };
 
   const handleItemClick = (item) => {
-    console.log(item);
     onSelectSemanticLayer(item);
   };
 
