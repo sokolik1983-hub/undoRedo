@@ -28,25 +28,25 @@ const Radio = ({
   const wrapperClasses = clsx(styles.wrapper, wrapperClass);
   const labelClasses = clsx(styles.label, labelClass);
 
-  const handleChange = (event) => onChange(event);
+  const handleChange = event => onChange(event);
 
   const changeCb = !disabled && !checked ? handleChange : () => {};
 
   return (
     <div className={wrapperClasses}>
-      <input
-        id={id}
-        value={value}
-        name={name}
-        type="radio"
-        checked={checked}
-        onChange={changeCb}
-        disabled={disabled}
-        className={styles.input}
-        {...props}
-      />
-      <span className={styles.mark} />
       <label htmlFor={id} className={labelClasses}>
+        <input
+          id={id}
+          value={value}
+          name={name}
+          type="radio"
+          checked={checked}
+          onChange={changeCb}
+          disabled={disabled}
+          className={styles.input}
+          {...props}
+        />
+        <span className={styles.mark} />
         {label}
       </label>
     </div>

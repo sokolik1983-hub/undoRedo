@@ -72,6 +72,7 @@
 .allRadio {
   width: 100%;
   width: fit-content;
+  
   display: flex;
   flex-direction: row;
   margin-left: 20px;
@@ -107,6 +108,9 @@
   padding: 5px 5px 5px 15px;
   font-size: 14px;
   cursor: pointer;
+  .label {
+    font-size: 14px;
+  }
 }
 
 .checkBoxWrapper {
@@ -154,7 +158,7 @@
     margin-left: 7px;
   }
   .label {
-    font-style: 14px;
+    font-style: 19px;
   }
 }
 
@@ -205,6 +209,6 @@
   padding: 0 5px;
 }
 
-.label {
-  padding: 0 28px 6px;
+.defaultCheckBoxlabel {
+  padding: 0 28px 0 5px;
 }
