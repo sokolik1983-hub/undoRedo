@@ -13,8 +13,6 @@ const Results = ({ title, isQueryExecute }) => {
   const [queryResult, setQueryResult] = useState(null);
   const [timerValue, setTimerValue] = useState(null);
 
-  console.log(isLoading);
-
   const symLayerData = useSelector(state => state.app?.data?.symLayersData);
   const queryData = useSelector(state => state.app?.data?.queryData);
   const symLayerDataFromQuery = useSelector(state => state.app?.data?.symanticLayerQueryResult);
@@ -33,7 +31,6 @@ const Results = ({ title, isQueryExecute }) => {
   }, [queryData]);
 
   useEffect(() => {
-    console.log('*');
     if (fetchingDataResult) {
       setQueryResult({...fetchingDataResult});
       clearInterval(timerValue);
