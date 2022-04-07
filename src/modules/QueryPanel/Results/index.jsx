@@ -93,7 +93,7 @@ const Results = ({ title, isQueryExecute }) => {
   );
 };
 
-export default React.memo(Results);
+export default Results;
 
 Results.propTypes = {
   title: PropTypes.string,
