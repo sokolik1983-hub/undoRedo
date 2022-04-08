@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
-import styles from './HomePageButton.module.scss';
+import styles from './homePageButton.module.scss';
 
 const HomePageButton = ({ title, href, icon, isDocument }) => {
   const appWordsArray = [
