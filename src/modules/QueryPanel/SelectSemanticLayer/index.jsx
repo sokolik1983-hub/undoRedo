@@ -40,7 +40,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const [resArr, setResArr] = useState([]);
   const interArr = [];
 
-  const getNameByKey = (array) => {
+  const searchSymLayer = (array) => {
     array = array.children ? array.children : array;
     const isNotFolderRes = array.filter(u => !u.isFolder).filter(u => u.name.toUpperCase().includes(searchValue.toUpperCase()));
     if (isNotFolderRes && isNotFolderRes.length > 0) {
@@ -50,7 +50,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     const isFolderRes = array.filter(u => u.isFolder && u.children);
     if (isFolderRes && isFolderRes.length > 0) {
       isFolderRes.forEach(folder => {
-        return getNameByKey(folder.children);
+        return searchSymLayer(folder.children);
       });
     }
     return null
@@ -59,7 +59,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const onSearch = (e) => {
     e.preventDefault();
     
-    getNameByKey(universes);
+    searchSymLayer(universes);
   };
 
   useEffect(() => {
