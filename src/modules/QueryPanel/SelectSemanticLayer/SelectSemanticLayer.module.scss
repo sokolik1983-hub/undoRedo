@@ -3,13 +3,12 @@
   width: 80% !important;
   min-height: calc(87vh - 40px);
   max-height:  calc(87vh - 40px) !important;
-  color: #FFFFFF;
+  background: linear-gradient(154.55deg, #ffffff 0%, rgba(255, 255, 255, 0.22) 141.45%);
 }
 
 .semanticItem {
   height: 70%;
   span {
-    color: white ;
     font-size: 15px;
   }
   padding-left: 15px !important;
@@ -18,10 +17,46 @@
 .header {
   padding-top: 10px;
   padding-bottom: 3px;
+
+  svg path {
+    fill: black;
+  }
+}
+
+.title {
+  font-size: 24px;
+  line-height: 28px;
+  color: #000;
 }
 
 .navigationActions {
   display: flex;
+}
+
+.disNavigationActions {
+  display: flex;
+
+  button {
+    cursor: default;
+    pointer-events: none;
+    
+    svg path {
+      fill: grey;
+    }
+  }
+}
+
+.search { 
+  margin-left: 10px;
+
+  button {
+    cursor: pointer;
+    pointer-events: all;
+  }
+
+  svg path {
+    fill: url(#paint0_linear_276_1685) !important;
+  }
 }
 
 .modalContent {

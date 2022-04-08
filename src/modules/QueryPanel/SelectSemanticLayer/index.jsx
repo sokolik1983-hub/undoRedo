@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
 import PropTypes from 'prop-types'
-import modalStyles from '../../Symlayers/SemanticLayerModal/SemanticLayerModal.module.scss';
 import styles from '../QueryPanel.module.scss';
 import selectModalStyles from './SelectSemanticLayer.module.scss';
 import Modal from '../../../common/components/Modal';
@@ -12,9 +11,10 @@ import { sortFoldersAndItems } from '../../Symlayers/helper';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import ListItem from '../../../common/components/List/ListItem/ListItem'
 import { ReactComponent as FolderIcon } from '../../../layout/assets/folder-icon.svg';
-import { ReactComponent as UniverseIcon } from '../../../layout/assets/icons/universe-icon.svg';
+import { ReactComponent as UniverseIcon } from '../../../layout/assets/connector-icon.svg';
 import { ReactComponent as ArrowLeftIcon} from '../../../layout/assets/arrow-left.svg';
 import { ReactComponent as ArrowUpIcon} from '../../../layout/assets/arrow-up.svg';
+import Search from '../../../common/components/Search';
 
 const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const dispatch = useDispatch();
@@ -36,10 +36,41 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
 
   const [foldersHistory, setFoldersHistory] = useState([rootFolder]);
   const [currentFolderIndex, setCurrentFolderIndex] = useState(0);
+  const [searchValue, setSearchValue] = useState('');
+  const [resArr, setResArr] = useState([]);
+  const interArr = [];
+
+  const getNameByKey = (array) => {
+    array = array.children ? array.children : array;
+    const isNotFolderRes = array.filter(u => !u.isFolder).filter(u => u.name.toUpperCase().includes(searchValue.toUpperCase()));
+    if (isNotFolderRes && isNotFolderRes.length > 0) {
+      interArr.push(...isNotFolderRes);
+      setResArr(interArr);
+    }
+    const isFolderRes = array.filter(u => u.isFolder && u.children);
+    if (isFolderRes && isFolderRes.length > 0) {
+      isFolderRes.forEach(folder => {
+        return getNameByKey(folder.children);
+      });
+    }
+    return null
+  };
+
+  const onSearch = (e) => {
+    e.preventDefault();
+    
+    getNameByKey(universes);
+  };
 
   useEffect(() => {
     setFoldersHistory([rootFolder]);
   }, [universes]);
+
+  useEffect(() => {
+    if (!searchValue.length) {
+      setResArr([]);
+    }    
+  }, [searchValue])
 
   const onFolderDoubleClick = (folder) => {
     const folderWithSortedChildren = {
@@ -67,19 +98,22 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     setFoldersHistory([rootFolder]);
   };
 
+  const result = resArr.length > 0 ? resArr : foldersHistory[currentFolderIndex]?.children;
 
-  const listItems = foldersHistory[currentFolderIndex]?.children?.map(item => {
+  const listItems = result?.map(item => {
     const { isFolder } = item;
     return (
-      <ListItem
-        key={isFolder ? `folder_${item.folder_id}` : item.id}
-        name={isFolder ? item.folder_name : item.name}
-        icon={isFolder ? <FolderIcon /> : <UniverseIcon />}
-        className={selectModalStyles.semanticItem}
-        onDoubleClick={
-          isFolder ? () => onFolderDoubleClick(item) : () => handleItemClick(item)
-        }
-      />
+      <div>
+        <ListItem
+          key={isFolder ? `folder_${item.folder_id}` : item.id}
+          name={isFolder ? item.folder_name : item.name}
+          icon={isFolder ? <FolderIcon /> : <UniverseIcon />}
+          className={selectModalStyles.semanticItem}
+          onDoubleClick={
+            isFolder ? () => onFolderDoubleClick(item) : () => handleItemClick(item)
+          }
+        />
+      </div>
     )
   });
 
@@ -90,14 +124,20 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const modalContent = () => {
     return (
       <>
-        <div className={selectModalStyles.navigationActions}>
+        <div className={currentFolderIndex ? selectModalStyles.navigationActions : selectModalStyles.disNavigationActions}>
           <IconButton
-            icon={<ArrowLeftIcon style={{fill: 'white'}} />}
-            onClick={moveToPrevFolder}
+            icon={<ArrowLeftIcon />}
+            onClick={currentFolderIndex && moveToPrevFolder}
           />
           <IconButton
-            icon={<ArrowUpIcon style={{fill: 'white'}} />}
-            onClick={moveToRootFolder}
+            icon={<ArrowUpIcon />}
+            onClick={currentFolderIndex && moveToRootFolder}
+          />
+          <Search
+            className={selectModalStyles.search}
+            onSubmit={(e) => onSearch(e)}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
           />
         </div>
         {!lodash.isEmpty(universes) ? (
@@ -115,7 +155,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
       withScroll
       visible={visible}
       onClose={handleClose}
-      titleClassName={modalStyles.title}
+      titleClassName={selectModalStyles.title}
       dialogClassName={selectModalStyles.dialog}
       headerClassName={selectModalStyles.header}
       bodyClassName={styles.modalBody}
