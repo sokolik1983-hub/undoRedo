@@ -11,9 +11,11 @@
   color: #FFFFFF;
 }
 
-.filterWrapper {
+.filtersBlock {
   overflow-y: scroll;
-  height: 100%;
+}
+
+.filterWrapper {
   display: flex;
   padding-left: 21px;
 }
@@ -99,15 +101,15 @@
 }
 
 .conditionBlock {
+  height: auto;
   display: flex;
   align-items: center;
 }
 
 .verticalDivider {
-  height: 100px;
+  height: 100%;
   width: 2px;
   background: #FFFFFF;
   margin-left: 4px;
   margin-right: 8px;
 }
-

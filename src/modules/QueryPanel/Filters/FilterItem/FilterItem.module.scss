@@ -10,11 +10,6 @@
   width: fit-content;
   max-width: 416px;
   margin: 4px 0 10px 4px;
-  z-index: 10;
-
-  &:hover {
-    z-index: 11;
-  }
 }
 
 .activeBlock {
@@ -32,34 +27,29 @@
   height: 22px;
   margin-left: 10px;
   padding: 4px;
+}
 
-  .wrapper {
-    position: initial;
+.optionsWrapper {
+  position: fixed;
+  background: #FFF;
+  box-shadow: 0px 1.5px 1.5px rgba(0, 0, 0, 0.5);
+  border-radius: initial;
+  z-index: 2;
+  margin-top: 3px;
   
-    .optionsWrapper {
-      position: absolute;
-      background: #FFFFFF;
-      box-shadow: 0px 1.5px 1.5px rgba(0, 0, 0, 0.5);
+  .optionsText {
+    font-size: 11px;
+    line-height: 13px;
+    color: #000000;
+    white-space: nowrap;
+    padding: 3px 7px 5px 7px;
+    border-bottom: 1px solid #EEEEEE;
+  
+    &:hover {
+      background: #33568C;
       border-radius: initial;
-      z-index: 11;
-      left: 0;
-      top: 25px;
-    }
-  
-    .optionsText {
-      font-size: 11px;
-      line-height: 13px;
-      color: #000000;
-      white-space: nowrap;
-      padding: 3px 7px 5px 7px;
-      border-bottom: 1px solid #EEEEEE;
-  
-      &:hover {
-        background: #33568C;
-        border-radius: initial;
-        border-bottom: 1px solid transparent;
-        color: #FFFFFF;
-      }
+      border-bottom: 1px solid transparent;
+      color: #FFFFFF;
     }
   }
 }
@@ -97,9 +87,11 @@
   backdrop-filter: blur(7px);
   border-radius: 4px;
   width: 184px;
-  left: 24px;
-  top: -9px;
-  z-index: 11;
+  z-index: 2;
+  position: fixed;
+  cursor: pointer;
+  margin-left: 23px;
+  margin-top: -40px;
 
   .textBlock {
     display: flex;

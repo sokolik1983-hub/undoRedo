@@ -2,60 +2,86 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Divider from '../../../common/components/Divider';
-import Button from '../../../common/components/Button';
 import styles from './Filters.module.scss';
 import FilterItem from './FilterItem';
-import { BUTTON } from '../../../common/constants/common';
+import ConditionBlock from './FilterItem/ConditionBlock/index';
 import { ReactComponent as Group } from '../../../layout/assets/queryPanel/group.svg';
 import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowBold.svg';
 import { ReactComponent as Basket } from '../../../layout/assets/queryPanel/basket.svg';
 
-const array = [{
-  id: 1,
-  title: 'Транспорт 200',
-  type: 'attribute',
-  inputValue: '',
-  optionsText: 'равно',
-  order: 1 
-},{
-  id: 2,
-  title: 'Банковские проводки',
-  type: 'gauge',
-  inputValue: '',
-  optionsText: 'равно',
-  order: 2
-},{
-  id: 3,
-  title:'Измерение 2',
-  type: 'measurement',
-  inputValue: '',
-  optionsText: 'равно',
-  order: 3
-},
-{
+const arr = [{
+  type: 'OR',
   children: [
+    {
+      id: 1,
+      title: 'Транспорт 200',
+      type: 'attribute',
+      inputValue: '',
+      optionsText: 'равно',
+      order: 1,
+    },
     {
       id: 2,
       title: 'Банковские проводки',
       type: 'gauge',
       inputValue: '',
       optionsText: 'равно',
-      order: 2
-    },{
+      order: 2,
+    },
+    {
       id: 3,
-      title:'Измерение 2',
+      title: 'Измерение 2',
       type: 'measurement',
       inputValue: '',
       optionsText: 'равно',
-      order: 3
+      order: 3,
+    },
+    {
+      type: 'AND',
+      children: [
+        {
+          id: 2,
+          title: 'Банковские проводки',
+          type: 'gauge',
+          inputValue: '',
+          optionsText: 'равно',
+          order: 2,
+        }, {
+          id: 3,
+          title: 'Измерение 2',
+          type: 'measurement',
+          inputValue: '',
+          optionsText: 'равно',
+          order: 3,
+        },
+        {
+          type: 'OR',
+          children: [
+            {
+              id: 2,
+              title: 'Банковские проводки',
+              type: 'gauge',
+              inputValue: '',
+              optionsText: 'равно',
+              order: 2,
+            }, {
+              id: 3,
+              title: 'Измерение 2',
+              type: 'measurement',
+              inputValue: '',
+              optionsText: 'равно',
+              order: 3,
+            },
+            
+          ]
+        }
+      ]
     }
   ]
-}
-];
+}];
 
 const Filters = ({ title }) => {
-  const [filtersArr, setFiltersArr] = useState(array);
-  const [currentFilter, setCurrentFilter] = useState(null);
+  const [filtersArr, setFiltersArr] = useState(arr);
 
   const onDeleteFilterItem = (id) => {
     setFiltersArr(filtersArr.filter(item => item.id !== id));
@@ -65,31 +91,70 @@ const Filters = ({ title }) => {
     setFiltersArr(null);
   };
 
-  const onDragStart = (id) => {
-    setCurrentFilter(filtersArr.find(filter => filter.id === id));
-  };
+  // const onDragStart = (id) => {
+  //   setCurrentFilter(filtersArr.find(filter => filter.id === id));
+  // };
 
-  const onDragNDrop = (id) => {
-    const dropObj = filtersArr.find(filter => filter.id === id);
-  
-    setFiltersArr(filtersArr.map(filter => {
-      if (filter.id === dropObj.id) {
-        return {...filter, order: currentFilter.order};
-      }
-      if (filter.id === currentFilter.id) {
-        return {...filter, order: dropObj.order};
-      }
-      return filter;
-      }));
-  };
+  // const onDragNDrop = (id) => {
+  //   const dropObj = filtersArr.find(filter => filter.id === id);
+
+  //   setFiltersArr(filtersArr.map(filter => {
+  //     if (filter.id === dropObj.id) {
+  //       return { ...filter, order: currentFilter.order };
+  //     }
+  //     if (filter.id === currentFilter.id) {
+  //       return { ...filter, order: dropObj.order };
+  //     }
+  //     return filter;
+  //   }));
+  // };
 
   const addFilterGroup = () => {
     console.log('group')
   };
 
-  const sortFilters = (a, b) => {
-    return a.order > b.order ? 1 : -1;
-  };
+  // const sortFilters = (a, b) => {
+  //   return a.order > b.order ? 1 : -1;
+  // };
+
+  const render = (data) => {
+
+      return (
+        <div className={styles.filterWrapper}>
+          {data.map((element) => {
+  
+            return (
+              <>
+                {Boolean(element.type) && <ConditionBlock conditionType={element.type} />}
+                <div className={styles.filterItems}>
+                  {Boolean(element.children?.length) && element.children.map((filter) => {
+  
+                    if (filter.children) {
+                      return render([filter])
+                    }
+  
+                    return (
+                      <FilterItem
+                        key={filter.id}
+                        id={filter.id}
+                        title={filter.title}
+                        type={filter.type}
+                        conditionType={element.conditionType}
+                        text={filter.optionsText}
+                        value={filter.inputValue}
+                        onDeleteFilterItem={onDeleteFilterItem}
+                      //   onDragStart={onDragStart}
+                      //   onDragNDrop={onDragNDrop}
+                      />
+                    )
+                  })}
+                </div>
+              </>
+            )
+          })}
+        </div>
+    )
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -105,7 +170,7 @@ const Filters = ({ title }) => {
               </div>
             </div>
             <Arrow className={clsx(styles.iconsIndents, styles.hide)} />
-            <Arrow 
+            <Arrow
               className={clsx(styles.iconsIndents, styles.rotate, styles.hide)}
             />
             <div className={styles.basketWrapper}>
@@ -117,75 +182,8 @@ const Filters = ({ title }) => {
           </div>
         </div>
       </div>
-      <div className={styles.filterWrapper}>
-        <div className={array.length > 1 ? styles.conditionBlock : styles.hide}>
-          <Button
-            // onClick={buttonName==='AND' ? () => setButtonName('OR') : () => setButtonName('AND')}
-            buttonStyle={BUTTON.SMALL_ORANGE}
-          >
-            {/* {buttonName} */}
-          </Button>
-          <div className={styles.verticalDivider} />
-        </div>
-        <div className={styles.filterItems}>
-          {filtersArr?.sort(sortFilters).map(filter => {
-            if (filter.children) {
-              return (
-                <div>
-                  <div className={array.length > 1 ? styles.conditionBlock : styles.hide}>
-                    <Button
-                      // onClick={buttonName==='AND' ? () => setButtonName('OR') : () => setButtonName('AND')}
-                      buttonStyle={BUTTON.SMALL_ORANGE}
-                    >
-                      {/* {buttonName} */}
-                    </Button>
-                    <div className={styles.verticalDivider} />
-                  </div>
-                  {filter.children?.map((innerFilter) => (
-                    <FilterItem
-                      key={innerFilter.id}
-                      id={innerFilter.id}
-                      title={innerFilter.title} 
-                      type={innerFilter.type}
-                      text={innerFilter.optionsText}
-                      value={innerFilter.inputValue}
-                      onDeleteFilterItem={onDeleteFilterItem}
-                      onDragStart={onDragStart}
-                      onDragNDrop={onDragNDrop}
-                    />
-                  ))}
-                  
-                </div>
-            )}
-
-            return (
-              <FilterItem
-                key={filter.id}
-                id={filter.id}
-                title={filter.title} 
-                type={filter.type}
-                text={filter.optionsText}
-                value={filter.inputValue}
-                onDeleteFilterItem={onDeleteFilterItem}
-                onDragStart={onDragStart}
-                onDragNDrop={onDragNDrop}
-              />
-            )
-          })}
-          {/* {filtersArr?.sort(sortFilters).map(filter => (
-            <FilterItem 
-              key={filter.id}
-              id={filter.id}
-              title={filter.title} 
-              type={filter.type}
-              text={filter.optionsText}
-              value={filter.inputValue}
-              onDeleteFilterItem={onDeleteFilterItem}
-              onDragStart={onDragStart}
-              onDragNDrop={onDragNDrop}
-            />
-        ))} */}
-        </div>
+      <div id="filters-block" className={styles.filtersBlock}>
+        {filtersArr ? render(filtersArr) : <div />}
       </div>
     </div>
   );
