@@ -28,7 +28,7 @@ const ObjectsPanel = ({ symanticLayer, onToggleClick }) => {
   */
   const filteredStructure = structure
     ?.filter(item =>
-      item?.field.toLowerCase().includes(filterName?.toLowerCase())
+      item?.field?.toLowerCase().includes(filterName?.toLowerCase())
     )
     .filter(item => {
       if (!filterId.length) return true;
