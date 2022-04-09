@@ -71,5 +71,5 @@ ObjectsPanelFilters.propTypes = {
   setFilterName: PropTypes.func,
   value: PropTypes.string,
   setFilterId: PropTypes.func,
-  filterId: PropTypes.arrayOf(PropTypes.string),
+  filterId: PropTypes.arrayOf(PropTypes.number),
 };
