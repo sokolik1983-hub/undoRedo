@@ -10,9 +10,9 @@ import { getUniverses } from '../../../data/actions/universes';
 import { sortFoldersAndItems } from '../../Symlayers/helper';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import ListItem from '../../../common/components/List/ListItem/ListItem'
-import { ReactComponent as FolderIcon } from '../../../layout/assets/folder-icon.svg';
-import { ReactComponent as UniverseIcon } from '../../../layout/assets/connector-icon.svg';
-import { ReactComponent as ArrowLeftIcon} from '../../../layout/assets/arrow-left.svg';
+import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
+import { ReactComponent as UniverseIcon } from '../../../layout/assets/icons/universeIcon.svg';
+import { ReactComponent as ArrowLeftIcon} from '../../../layout/assets/arrowLeft.svg';
 import { ReactComponent as ArrowUpIcon} from '../../../layout/assets/arrow-up.svg';
 import Search from '../../../common/components/Search';
 
@@ -41,13 +41,13 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const interArr = [];
 
   const searchSymLayer = (array) => {
-    array = array.children ? array.children : array;
-    const isNotFolderRes = array.filter(u => !u.isFolder).filter(u => u.name.toUpperCase().includes(searchValue.toUpperCase()));
+    const univArray = array.children ? array.children : array;
+    const isNotFolderRes = univArray.filter(univ => !univ.isFolder).filter(univ => univ.name.toUpperCase().includes(searchValue.toUpperCase()));
     if (isNotFolderRes && isNotFolderRes.length > 0) {
       interArr.push(...isNotFolderRes);
       setResArr(interArr);
     }
-    const isFolderRes = array.filter(u => u.isFolder && u.children);
+    const isFolderRes = univArray.filter(univ => univ.isFolder && univ.children);
     if (isFolderRes && isFolderRes.length > 0) {
       isFolderRes.forEach(folder => {
         return searchSymLayer(folder.children);

@@ -11,7 +11,7 @@ import TreeView from '@material-ui/lab/TreeView';
 import lodash from 'lodash';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { ReactComponent as TableIcon } from '../../../layout/assets/icons/table-icon.svg';
+import { ReactComponent as TableIcon } from '../../../layout/assets/icons/tableIcon.svg';
 
 const useTreeItemStyles = makeStyles(theme => ({
   root: {
