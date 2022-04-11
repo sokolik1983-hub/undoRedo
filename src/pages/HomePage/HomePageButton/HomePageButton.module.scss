@@ -41,16 +41,18 @@
 }
 
 .buttonText {
-  margin-top: 12px;
-  text-overflow: ellipsis;
-  max-width: 80px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
+  margin-top: 12px;
+  max-width: 80px;
+  min-height: 26px;
   text-align: center;
-  white-space: normal;
-
   font-weight: 400;
   font-size: 11px;
   line-height: 13px;
+  position: relative;
 }
 
 .buttonTextApps {

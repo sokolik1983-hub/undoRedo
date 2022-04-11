@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
+import { Tooltip } from '@material-ui/core';
 import styles from './homePageButton.module.scss';
 
 const HomePageButton = ({ title, href, icon, isDocument }) => {
@@ -23,15 +24,17 @@ const HomePageButton = ({ title, href, icon, isDocument }) => {
         >
           {icon}
         </div>
-        <div
-          className={
-            appWordsArray.includes(title)
-              ? styles.buttonTextApps
-              : styles.buttonText
-          }
-        >
-          {title}
-        </div>
+        <Tooltip key={title} placement="bottom" title={title} arrow>
+          <div
+            className={
+              appWordsArray.includes(title)
+                ? styles.buttonTextApps
+                : styles.buttonText
+            }
+          >
+            {title}
+          </div>
+        </Tooltip>
       </RouterLink>
     </div>
   );

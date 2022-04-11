@@ -13,7 +13,7 @@ import Button from '../../common/components/Button';
 import { setQueryPanelModal } from '../../data/actions/universes';
 
 const RECENTS = [
-  { id: 1, title: 'Отчет 1' },
+  { id: 1, title: 'Отчет 1 о проделанной работе с мая месяца текущего года' },
   { id: 2, title: 'Отчет 2' },
   { id: 3, title: 'Отчет 3' }
 ];
