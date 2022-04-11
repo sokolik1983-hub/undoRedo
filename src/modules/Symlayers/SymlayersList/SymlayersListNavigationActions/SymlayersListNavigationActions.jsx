@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import IconButton from '../../../../common/components/IconButton';
 import { ReactComponent as ArrowRightIcon } from '../../../../layout/assets/arrow-right.svg';
-import { ReactComponent as ArrowLeftIcon } from '../../../../layout/assets/arrow-left.svg';
+import { ReactComponent as ArrowLeftIcon } from '../../../../layout/assets/arrowLeft.svg';
 import { ReactComponent as ArrowUpIcon } from '../../../../layout/assets/arrow-up.svg';
 import styles from './ConnectorsListNavigationActions.module.scss';
 

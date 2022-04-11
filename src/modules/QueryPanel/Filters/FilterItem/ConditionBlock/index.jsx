@@ -12,11 +12,12 @@ const ConditionBlock = ({conditionType}) => {
   };
 
   return (
-    <div className={styles.filterWrapper}>
+    <div className={styles.conditionBlockWrapper}>
       <div className={styles.conditionBlock}>
         <Button
           onClick={toggleCond}
           buttonStyle={BUTTON.SMALL_ORANGE}
+          className={styles.indents}
         >
           {condition}
         </Button>

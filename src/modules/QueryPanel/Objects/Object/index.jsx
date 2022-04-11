@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Object.module.scss';
 import { ReactComponent as BlackCross } from '../../../../layout/assets/closeBlack.svg' 
-import { ReactComponent as GaugeIcon } from '../../../../layout/assets/queryPanel/gaugeIcon.svg';
-import { ReactComponent as AttributeIcon } from '../../../../layout/assets/queryPanel/attributeIcon.svg';
-import { ReactComponent as MeasurementIcon } from '../../../../layout/assets/queryPanel/measurementIcon.svg';
+import { ReactComponent as OrangeIcon } from '../../../../layout/assets/queryPanel/gaugeicon.svg';
+import { ReactComponent as GreenIcon } from '../../../../layout/assets/queryPanel/attributeIcon.svg';
+import { ReactComponent as BlueIcon } from '../../../../layout/assets/queryPanel/measurementIcon.svg';
 
 const ObjectItem = ({id, title, type, onDeleteObjItem, onDragStart, onDragNDrop}) => {
   const [isActive, setIsActive] = useState(false);
@@ -16,11 +16,11 @@ const ObjectItem = ({id, title, type, onDeleteObjItem, onDragStart, onDragNDrop}
   const chooseIcon = () => {
     switch (type) {
       case 'green':
-        return <AttributeIcon />
+        return <OrangeIcon />
       case 'orange':
-        return <GaugeIcon />
+        return <GreenIcon />
       case 'blue':
-        return <MeasurementIcon />
+        return <BlueIcon />
       default:
         return null;
     }
