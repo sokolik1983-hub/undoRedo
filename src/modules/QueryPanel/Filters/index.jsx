@@ -93,24 +93,25 @@ const Filters = ({ title }) => {
 
   const onDeleteFilterItem = (id) => {
     
-      const filterChildren = item => {
+      // eslint-disable-next-line consistent-return
+      const filteredChildren = item => {
         if (typeof item['children'] !== 'undefined') {
-          item.children = item.children.filter(i => i.id !== id);
-          // eslint-disable-next-line array-callback-return
-          item.children.map(el => {
-            if (el.children) {
-              el.children = el.children.filter(i => i.id !== id);
-              filterChildren(el);
-            }
-          });
+            item.children = item.children.filter(i => i.id !== id);
+            // eslint-disable-next-line array-callback-return
+            item.children.map(el => {
+              if (el.children) {
+                el.children = el.children.filter(i => i.id !== id);
+                filteredChildren(el);
+              }
+            });
+          return item;
         }
-        return item;
       }
 
       const updateFilters = filtersArr.map(item => {
         if (item.children) {
           item.children = item.children.filter(i => i.id !== id);
-          filterChildren(item);
+          filteredChildren(item);
         }
         return item;
       });
@@ -170,7 +171,7 @@ const Filters = ({ title }) => {
 
           return (
             <>
-              {Boolean(element.type) && Boolean(element.children.length > 1) &&
+              {Boolean(element.type) &&
               <ConditionBlock conditionType={element.type} />}
               <div className={styles.filterItems}>
                 {Boolean(element.children?.length) && element.children.map((filter) => {
