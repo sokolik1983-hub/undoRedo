@@ -8,7 +8,7 @@ import Dropdown from '../../../common/components/Dropdown';
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import TextInput from '../../../common/components/TextInput';
 import { BUTTON } from '../../../common/constants/common';
-import { ReactComponent as MeasurementIcon } from '../../../layout/assets/queryPanel/measurement-icon.svg';
+import { ReactComponent as MeasurementIcon } from '../../../layout/assets/queryPanel/measurementIcon.svg';
 import { ReactComponent as Reload } from '../../../layout/assets/queryPanel/reload.svg';
 import { ReactComponent as Gear } from '../../../layout/assets/queryPanel/gearBold.svg';
 import { ReactComponent as Dots } from '../../../layout/assets/queryPanel/dotsInCorner.svg';

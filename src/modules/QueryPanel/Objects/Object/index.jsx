@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Object.module.scss';
 import { ReactComponent as BlackCross } from '../../../../layout/assets/closeBlack.svg' 
-import { ReactComponent as OrangeIcon } from '../../../../layout/assets/queryPanel/gauge-icon.svg';
-import { ReactComponent as GreenIcon } from '../../../../layout/assets/queryPanel/attribute-icon.svg';
-import { ReactComponent as BlueIcon } from '../../../../layout/assets/queryPanel/measurement-icon.svg';
+import { ReactComponent as OrangeIcon } from '../../../../layout/assets/queryPanel/gaugeicon.svg';
+import { ReactComponent as GreenIcon } from '../../../../layout/assets/queryPanel/attributeIcon.svg';
+import { ReactComponent as BlueIcon } from '../../../../layout/assets/queryPanel/measurementIcon.svg';
 
 const ObjectItem = ({id, title, type, onDeleteObjItem, onDragStart, onDragNDrop}) => {
   const [isActive, setIsActive] = useState(false);

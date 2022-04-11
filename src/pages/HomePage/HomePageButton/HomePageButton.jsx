@@ -4,16 +4,14 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Tooltip } from '@material-ui/core';
 import styles from './HomePageButton.module.scss';
 
-const HomePageButton = ({ title, href, icon, isDocument }) => {
-  const appWordsArray = [
-    'коннекторы',
-    'семантика',
-    'аудит',
-    'роли',
-    'пользователи',
-    'документы',
-    'корзина'
-  ];
+const HomePageButton = ({
+  title,
+  href,
+  icon,
+  isDocument,
+  appNameText,
+  hasTooltip
+}) => {
   return (
     <div className={styles.homePageButtonWrapper}>
       <RouterLink to={href || ''}>
@@ -24,17 +22,29 @@ const HomePageButton = ({ title, href, icon, isDocument }) => {
         >
           {icon}
         </div>
-        <Tooltip key={title} placement="bottom" title={title} arrow>
+        {hasTooltip ? (
+          <Tooltip key={title} placement="bottom" title={title} arrow>
+            <div
+              className={
+                appNameText
+                  ? styles.buttonTextApps
+                  : styles.buttonText
+              }
+            >
+              {title}
+            </div>
+          </Tooltip>
+        ) : (
           <div
             className={
-              appWordsArray.includes(title)
+              appNameText
                 ? styles.buttonTextApps
                 : styles.buttonText
             }
           >
             {title}
           </div>
-        </Tooltip>
+        )}
       </RouterLink>
     </div>
   );
@@ -44,7 +54,9 @@ HomePageButton.propTypes = {
   title: PropTypes.string,
   href: PropTypes.string,
   icon: PropTypes.node,
-  isDocument: PropTypes.bool
+  isDocument: PropTypes.bool,
+  appNameText: PropTypes.bool,
+  hasTooltip: PropTypes.bool
 };
 
 export default HomePageButton;

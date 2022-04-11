@@ -6,7 +6,7 @@ import styles from './HomePage.module.scss';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
 import navigationMenu from '../../navigation';
-import { ReactComponent as ExplorerIcon } from '../../layout/assets/icons/button_plus.svg';
+import { ReactComponent as ExplorerIcon } from '../../layout/assets/icons/buttonPlus.svg';
 import FloatingButton from '../../common/components/FloatingButton';
 import QueryPanel from '../../modules/QueryPanel';
 import Button from '../../common/components/Button';
@@ -49,23 +49,24 @@ function HomePage() {
         <p className={styles.rowTitle}>Недавние</p>
         <div className={styles.section}>
           {RECENTS.map(item => (
-            <HomePageButton key={item.id} title={item.title} isDocument />
+            <HomePageButton
+              key={item.id}
+              title={item.title}
+              isDocument
+              hasTooltip
+            />
           ))}
         </div>
       </div>
 
       <div
-        className={clsx(
-          styles.row,
-          styles.favoritesBG,
-          styles.whiteLineShadow
-        )}
+        className={clsx(styles.row, styles.favoritesBG, styles.whiteLineShadow)}
       >
         <div className={clsx(styles.whiteLine2)} />
         <p className={styles.rowTitle}>Избранное</p>
         <div className={styles.section}>
           {FAVORITES.map(item => (
-            <HomePageButton key={item.id} title={item.title} isDocument />
+            <HomePageButton key={item.id} title={item.title} isDocument hasTooltip />
           ))}
         </div>
       </div>
@@ -81,6 +82,7 @@ function HomePage() {
                   title={item.title}
                   href={item.href}
                   icon={item.icon}
+                  appNameText
                 />
               );
             })}
