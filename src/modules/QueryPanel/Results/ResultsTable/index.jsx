@@ -30,9 +30,9 @@ const ResultsTable = ({ headersArr, bodyArr }) => {
         <tbody>
           {bodyArr &&
             bodyArr.map(item => (
-              <tr>
+              <tr key={item.id}>
                 {item.map(i => (
-                  <td>{i}</td>
+                  <td key={i}>{i}</td>
                 ))}
               </tr>
           ))}
