@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import { Tooltip } from '@material-ui/core';
-import styles from './homePageButton.module.scss';
+import styles from './HomePageButton.module.scss';
 
 const HomePageButton = ({ title, href, icon, isDocument }) => {
   const appWordsArray = [
