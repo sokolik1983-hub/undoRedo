@@ -10,7 +10,7 @@ import TextInput from '../../common/components/TextInput';
 import Select from '../../common/components/Select';
 import ConnectorsList from './ConnectorsList/ConnectorsList';
 import FloatingButton from '../../common/components/FloatingButton';
-import { ReactComponent as CreateConnector } from '../../layout/assets/create-connector.svg';
+import { ReactComponent as CreateConnector } from '../../layout/assets/createConnector.svg';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
 import { ReactComponent as GearsIcon } from '../../layout/assets/semanticLayerModal/gears.svg';
@@ -69,7 +69,7 @@ function Connectors() {
   };
 
   // Функция для добавления нового коннектора
-  const addConnetor = () => {
+  const addConnector = () => {
     dispatch(
       saveConnector({
         connect_name: connectName,
@@ -144,37 +144,37 @@ function Connectors() {
             onChange={e => setLogin(e.target.value)}
             id="login"
             label="Логин"
-          ></TextInput>
+          />
           <TextInput
             value={pass}
             onChange={e => setPass(e.target.value)}
             id="password"
             label="Пароль"
-          ></TextInput>
+          />
           <TextInput
             value={connectionStr}
             onChange={e => setConnectionStr(e.target.value)}
             id="connectionStr"
             label="Строка соединения"
-          ></TextInput>
+          />
           <TextInput
             value={port}
             onChange={e => setPort(e.target.value)}
             id="port"
             label="Порт"
-          ></TextInput>
+          />
           <TextInput
             value={nameIP}
             onChange={e => setNameIP(e.target.value)}
             id="nameAPI"
             label="Имя или IP сервера"
-          ></TextInput>
+          />
           <TextInput
             value={baseSIDService}
             onChange={e => setBaseSIDService(e.target.value)}
             id="baseSIDService"
             label="Название Базы, SID, Имя сервиса"
-          ></TextInput>
+          />
         </div>
       )}
     </form>
@@ -183,7 +183,7 @@ function Connectors() {
   // Футер модалки
   const createConnectorModalFooter = (
     <>
-      <Button color="sucess" onClick={addConnetor}>
+      <Button color="sucess" onClick={addConnector}>
         Сохранить
       </Button>
       <Button color="primary" onClick={closeConnectorModalHandler}>
