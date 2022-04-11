@@ -1,5 +1,5 @@
-import { ReactComponent as BinIcon } from '../../../layout/assets/folder-item-bin.svg';
-import { ReactComponent as EditIcon } from '../../../layout/assets/folder-item-edit.svg';
+import { ReactComponent as BinIcon } from '../../../layout/assets/folderItemBin.svg';
+import { ReactComponent as EditIcon } from '../../../layout/assets/folderItemEdit.svg';
 
 export const sortFoldersAndItems = folderChildren => {
   if (!folderChildren) return null;
