@@ -25,8 +25,8 @@ const IconButton = ({
   icon,
   ...props
 }) => {
-  const classes = clsx(styles.iconButton, className, { active }, [
-    styles[size]
+  const classes = clsx(styles.iconButton, className, {[styles.active]: active}, [
+    styles[size],
   ]);
 
   const onClickAction = event => {
