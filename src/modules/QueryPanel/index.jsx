@@ -7,8 +7,6 @@ import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.modu
 import { getUniverses, setQueryPanelModal } from '../../data/actions/universes';
 import SelectSemanticLayer from './SelectSemanticLayer';
 import ObjectsPanel from './ObjectsPanel';
-// ↓ временно, пока не вольется модалка Свойства подсказки
-import ItemsListModal from './ItemsListModal';
 import Objects from './Objects';
 import Filters from './Filters';
 import Results from './Results';
@@ -18,37 +16,30 @@ import DragNDropProvider from './context/DragNDropContex';
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
   const [semanticLayer, setSemanticLayer] = useState(null);
-  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(
-    false
-  );
+  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(false);
+  const [isQueryExecute, setQueryExecute] = useState(false);
 
   useEffect(() => {
     dispatch(getUniverses());
   }, []);
 
-  // ↓ временно, пока не вольется модалка Свойства подсказки
-  const [semanticListOpened, setSemanticListOpened] = useState(false);
-
   const handleClose = () => {
     return dispatch(setQueryPanelModal(false));
+  };
+
+  const handleQueryExecute = () => {
+    setQueryExecute(true);
+    setTimeout(() => {
+      setQueryExecute(false);
+    }, 1000);
   };
 
   const handleShowSelector = () => {
     setSemanticLayerModalOpened(true);
   };
 
-  // ↓ временно, пока не вольется модалка Свойства подсказки
-  const handleShowList = () => {
-    return setSemanticListOpened(true);
-  };
-
   const onCloseSemanticModalHandler = () => {
     return setSemanticLayerModalOpened(false);
-  };
-
-  // ↓ временно, пока не вольется модалка Свойства подсказки
-  const onCloseSemanticListHandler = () => {
-    return setSemanticListOpened(false);
   };
 
   const onSelectSemanticLayer = value => {
@@ -64,18 +55,17 @@ const QueryPanel = ({ visible }) => {
             <div className={styles.leftPanel}>
               <ObjectsPanel
                 symanticLayer={semanticLayer}
-                modalOpenHandler={handleShowSelector}
+                onToggleClick={handleShowSelector}
               />
             </div>
             <div className={styles.rightPanel}>
               <Objects className={styles.section} title="Объекты отчета" />
               <Filters className={styles.section} title="Фильтры запроса" />
-              <Results className={styles.section} title="Просмотр данных" />
+              <Results className={styles.section} title="Просмотр данных" isQueryExecute={isQueryExecute} />
               <QueryPanelControls
-                onRun={() => {}}
+                onRun={handleQueryExecute}
                 onApply={() => {}}
                 onCancel={handleClose}
-                onToggleClick={handleShowList}
               />
             </div>
           </div>
@@ -85,13 +75,6 @@ const QueryPanel = ({ visible }) => {
             visible={semanticLayerModalOpened && true}
             onClose={onCloseSemanticModalHandler}
             onSelectSemanticLayer={onSelectSemanticLayer}
-          />
-        )}
-        {/* ↓ временно, пока не вольется модалка Свойства подсказки */}
-        {semanticListOpened && (
-          <ItemsListModal
-            visible={semanticListOpened && true}
-            onClose={onCloseSemanticListHandler}
           />
         )}
       </div>

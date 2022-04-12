@@ -25,6 +25,7 @@ const Modal = ({
                  footer,
                  onClose,
                  withScroll,
+                 modalClassName,
                  titleClassName,
                  dialogClassName,
                  headerClassName,
@@ -34,7 +35,7 @@ const Modal = ({
   const [isModal, setIsModal] = useState(false);
 
   const modalClasses = clsx(
-    styles.modal,
+    styles.modal, modalClassName,
     { [styles.modalWithScroll]: withScroll }
   );
 
@@ -106,6 +107,7 @@ const Modal = ({
 export default Modal;
 
 Modal.propTypes = {
+  modalClassName: PropTypes.string,
   bodyClassName: PropTypes.string,
   content: PropTypes.node,
   contentClassName: PropTypes.string,
@@ -128,6 +130,7 @@ Modal.defaultProps = {
   withScroll: true,
   onClose: () => {
   },
+  modalClassName: '',
   titleClassName: '',
   dialogClassName: '',
   headerClassName: '',

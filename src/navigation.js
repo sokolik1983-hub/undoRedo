@@ -1,11 +1,11 @@
 import React from 'react';
-import ConnectorsIcon from './layout/assets/ConnectorsIcon';
-import LayersIcon from './layout/assets/LayersIcon';
-import AuditIcon from './layout/assets/AuditIcon';
-import RolesIcon from './layout/assets/RolesIcon';
-import UsersIcon from './layout/assets/UsersIcon';
-import { ReactComponent as BinIcon } from './layout/assets/icons/bin.svg';
-import { ReactComponent as ExplorerIcon } from './layout/assets/icons/explorer.svg';
+import {ReactComponent as ConnectorsIcon} from './layout/assets/connectorsIcon.svg';
+import {ReactComponent as LayersIcon} from './layout/assets/layersIcon.svg';
+import {ReactComponent as AuditIcon} from './layout/assets/auditIcon.svg';
+import {ReactComponent as RolesIcon} from './layout/assets/rolesIcon.svg';
+import {ReactComponent as UsersIcon} from './layout/assets/usersIcon.svg';
+import {ReactComponent as BinIcon} from './layout/assets/icons/bin.svg';
+import {ReactComponent as ExplorerIcon} from './layout/assets/icons/explorer.svg';
 
 const navigationMenu = [
   {

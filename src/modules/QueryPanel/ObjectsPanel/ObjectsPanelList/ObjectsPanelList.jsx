@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import PanelListItem from './PanelListItem/PanelListItem';
+import styles from './ObjectsPanelList.module.scss';
 import { ReactComponent as RootIcon } from '../../../../layout/assets/queryPanel/root-icon.svg';
 import PanelListNode from './PanelListNode/PanelListNode';
-import styles from './ObjectsPanelList.module.scss';
 import { useDragNDrop } from '../../context/DragNDropContex';
 
 const ObjectsPanelList = ({ rootFolder }) => {
