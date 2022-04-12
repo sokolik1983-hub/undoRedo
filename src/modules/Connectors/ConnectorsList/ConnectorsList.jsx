@@ -43,7 +43,6 @@ const ConnectorsList = () => {
       children: sortedConnectorsChildren
     };
   }, [connectors]);
-  console.log(rootFolder);
 
   const [foldersHistory, setFoldersHistory] = useState([rootFolder]);
   const [currentFolderIndex, setCurrentFolderIndex] = useState(0);

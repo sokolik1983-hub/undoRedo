@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -5,10 +6,10 @@ import ObjectsPanelHeader from './ObjectsPanelHeader/ObjectsPanelHeader';
 import Divider from '../../../common/components/Divider';
 import ObjectsPanelFilters from './ObjectsPanelFilters/ObjectsPanelFilters';
 import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList';
-import styles from './ObjectsPanel.module.scss';
 import { getSymanticLayerData } from '../../../data/actions/universes';
+import styles from './ObjectsPanel.module.scss';
 
-const ObjectsPanel = ({ symanticLayer, onToggleClick }) => {
+const ObjectsPanel = ({ symanticLayer, modalOpenHandler }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const ObjectsPanel = ({ symanticLayer, onToggleClick }) => {
 
   return (
     <div className={styles.root}>
-      <ObjectsPanelHeader onToggleClick={onToggleClick} />
+      <ObjectsPanelHeader modalOpenHandler={modalOpenHandler} />
       <Divider color="#0D6CDD" />
       <ObjectsPanelFilters />
       <div className={styles.panelListContainer}>
@@ -34,5 +35,5 @@ export default ObjectsPanel;
 
 ObjectsPanel.propTypes = {
   symanticLayer: PropTypes.object,
-  onToggleClick: PropTypes.func
+  modalOpenHandler: PropTypes.func
 };

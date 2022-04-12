@@ -8,7 +8,7 @@
   font-weight: 500;
   font-size: 20px;
   line-height: 23px;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .top {
@@ -29,10 +29,13 @@
 }
 
 .objectList {
+  height: 100%;
   display: grid;
-  overflow-y: auto;
-  overflow-x: hidden;
+  grid-template-columns: repeat(auto-fit, 174px);
+  align-content: start;
   gap: 10px;
-  grid-template-columns: repeat(5, 174px);
-  padding: 33px 130px 60px 43px;
+  padding: 15px;
+  overflow: auto;
+
+  // background-color: aquamarine;
 }
