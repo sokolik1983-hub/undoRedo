@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import PanelListItem from '../PanelListItem/PanelListItem';
-import { ReactComponent as FolderIcon } from '../../../../../layout/assets/folder-icon.svg';
-import { ReactComponent as FolderOpenIcon } from '../../../../../layout/assets/folder-open-icon.svg';
-import { ReactComponent as GaugeIcon } from '../../../../../layout/assets/queryPanel/gauge-icon.svg';
-import { ReactComponent as MeasurementIcon } from '../../../../../layout/assets/queryPanel/measurement-icon.svg';
-import { ReactComponent as AttributeIcon } from '../../../../../layout/assets/queryPanel/attribute-icon.svg';
+import { ReactComponent as FolderIcon } from '../../../../../layout/assets/folderIcon.svg';
+import { ReactComponent as FolderOpenIcon } from '../../../../../layout/assets/folderOpenIcon.svg';
+import { ReactComponent as GaugeIcon } from '../../../../../layout/assets/queryPanel/gaugeIcon.svg';
+import { ReactComponent as MeasurementIcon } from '../../../../../layout/assets/queryPanel/measurementIcon.svg';
+import { ReactComponent as AttributeIcon } from '../../../../../layout/assets/queryPanel/attributeIcon.svg';
 import styles from './PanelListNode.module.scss';
 import { useDragNDrop } from '../../../context/DragNDropContex';
 
