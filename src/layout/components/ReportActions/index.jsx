@@ -21,7 +21,7 @@ import {
 import ActionsGroup from '../../../common/components/ActionsGroup';
 import styles from './ReportActions.module.scss';
 import { notificationShown } from '../../../data/reducers/notifications';
-import { showQueryPanel } from '../../../data/reducers/ui';
+import { showQueryPanelModal } from '../../../data/reducers/ui';
 import FormulaIcon from '../../../common/components/Icon';
 
 function ReportActions() {
@@ -62,7 +62,7 @@ function ReportActions() {
               id: 'DATA',
               name: 'Change data',
               icon: <EqualizerIcon className={styles.icon} />,
-              action: () => dispatch(showQueryPanel())
+              action: () => dispatch(showQueryPanelModal())
             },
             {
               id: 'REFRESH',
