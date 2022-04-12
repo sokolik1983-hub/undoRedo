@@ -10,8 +10,13 @@ const Results = ({ title }) => {
       <Divider color='#FFFFFF' />
       <div className={styles.top}>
         <div className={styles.title}>{title}</div>
-        <div className={styles.icons}>
-          <Reload className={styles.iconsIndents} />
+        <div className={styles.icon}>
+          <div className={styles.reloadWrapper}>
+            <Reload className={styles.reloadIcon} />
+            <div className={styles.hide}>
+              <p className={styles.reload}>обновить</p>
+            </div>
+          </div>
         </div>
       </div>
       <div className={styles.content} />

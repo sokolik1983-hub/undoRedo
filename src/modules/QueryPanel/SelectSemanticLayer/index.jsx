@@ -13,7 +13,6 @@ import Preloader from '../../../common/components/Preloader/Preloader';
 import ListItem from '../../../common/components/List/ListItem/ListItem'
 import { ReactComponent as FolderIcon } from '../../../layout/assets/folder-icon.svg';
 import { ReactComponent as UniverseIcon } from '../../../layout/assets/icons/universe-icon.svg';
-import { ReactComponent as ArrowRightIcon} from '../../../layout/assets/arrow-right.svg';
 import { ReactComponent as ArrowLeftIcon} from '../../../layout/assets/arrow-left.svg';
 import { ReactComponent as ArrowUpIcon} from '../../../layout/assets/arrow-up.svg';
 
@@ -63,12 +62,6 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     setCurrentFolderIndex(prev => (prev === 0 ? 0 : prev - 1));
   };
 
-  const moveToNextFolder = () => {
-    setCurrentFolderIndex(prev => 
-      prev === foldersHistory.length ? prev : prev + 1  
-    );
-  };
-
   const moveToRootFolder = () => {
     setCurrentFolderIndex(0);
     setFoldersHistory([rootFolder]);
@@ -99,15 +92,11 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
       <>
         <div className={selectModalStyles.navigationActions}>
           <IconButton
-            icon={<ArrowLeftIcon />}
+            icon={<ArrowLeftIcon style={{fill: 'white'}} />}
             onClick={moveToPrevFolder}
           />
           <IconButton
-            icon={<ArrowRightIcon />}
-            onClick={moveToNextFolder}
-          />
-          <IconButton
-            icon={<ArrowUpIcon />}
+            icon={<ArrowUpIcon style={{fill: 'white'}} />}
             onClick={moveToRootFolder}
           />
         </div>
@@ -128,9 +117,9 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
       onClose={handleClose}
       titleClassName={modalStyles.title}
       dialogClassName={selectModalStyles.dialog}
-      headerClassName={modalStyles.header}
+      headerClassName={selectModalStyles.header}
       bodyClassName={styles.modalBody}
-      contentClassName={styles.modalContent}
+      contentClassName={selectModalStyles.modalContent}
     />
   )
 };

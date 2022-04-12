@@ -7,8 +7,6 @@ import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.modu
 import { getUniverses, setQueryPanelModal } from '../../data/actions/universes';
 import SelectSemanticLayer from './SelectSemanticLayer';
 import ObjectsPanel from './ObjectsPanel';
-// ↓ временно, пока не вольется модалка Свойства подсказки
-import ItemsListModal from './ItemsListModal';
 import Objects from './Objects';
 import Filters from './Filters';
 import Results from './Results';
@@ -26,9 +24,6 @@ const QueryPanel = ({ visible }) => {
     dispatch(getUniverses());
   }, []);
 
-  // ↓ временно, пока не вольется модалка Свойства подсказки
-  const [semanticListOpened, setSemanticListOpened] = useState(false);
-
   const handleClose = () => {
     return dispatch(setQueryPanelModal(false));
   };
@@ -37,18 +32,8 @@ const QueryPanel = ({ visible }) => {
     setSemanticLayerModalOpened(true);
   };
 
-  // ↓ временно, пока не вольется модалка Свойства подсказки
-  const handleShowList = () => {
-    return setSemanticListOpened(true);
-  };
-
   const onCloseSemanticModalHandler = () => {
     return setSemanticLayerModalOpened(false);
-  };
-
-  // ↓ временно, пока не вольется модалка Свойства подсказки
-  const onCloseSemanticListHandler = () => {
-    return setSemanticListOpened(false);
   };
 
   const onSelectSemanticLayer = value => {
@@ -75,7 +60,6 @@ const QueryPanel = ({ visible }) => {
                 onRun={() => {}}
                 onApply={() => {}}
                 onCancel={handleClose}
-                onToggleClick={handleShowList}
               />
             </div>
           </div>
@@ -85,13 +69,6 @@ const QueryPanel = ({ visible }) => {
             visible={semanticLayerModalOpened && true}
             onClose={onCloseSemanticModalHandler}
             onSelectSemanticLayer={onSelectSemanticLayer}
-          />
-        )}
-        {/* ↓ временно, пока не вольется модалка Свойства подсказки */}
-        {semanticListOpened && (
-          <ItemsListModal
-            visible={semanticListOpened && true}
-            onClose={onCloseSemanticListHandler}
           />
         )}
       </div>
