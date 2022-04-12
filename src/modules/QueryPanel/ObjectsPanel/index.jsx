@@ -26,6 +26,7 @@ const ObjectsPanel = ({ symanticLayer, modalOpenHandler }) => {
   /**
    * Отфильтрованный по имени и objectType_id массив списка
    */
+  console.log(structure)
   const filteredStructure = structure
     ?.filter(item =>
       item?.field?.toLowerCase().includes(filterName?.toLowerCase())

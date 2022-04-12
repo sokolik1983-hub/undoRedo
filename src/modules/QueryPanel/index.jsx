@@ -55,7 +55,7 @@ const QueryPanel = ({ visible }) => {
             <div className={styles.leftPanel}>
               <ObjectsPanel
                 symanticLayer={semanticLayer}
-                onToggleClick={handleShowSelector}
+                modalOpenHandler={handleShowSelector}
               />
             </div>
             <div className={styles.rightPanel}>
