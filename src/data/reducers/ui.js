@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   CONNECTOR_POPUP, OBJECTS_CONNECTIONS_MODAL,
-  QUERY_PANEL_POPUP,
+  QUERY_PANEL_MODAL, UNIVERSE_MODAL,
   UNIVERSE_POPUP
 } from '../../common/constants/popups';
 
@@ -22,9 +22,6 @@ const ui = createSlice({
     setLoadingData: (state, action) => {
       state.isLoadingData = action.payload;
     },
-    showQueryPanel: state => {
-      state.popupVisible = QUERY_PANEL_POPUP;
-    },
     showConnectorPopup: state => {
       state.popupVisible = CONNECTOR_POPUP;
     },
@@ -33,6 +30,9 @@ const ui = createSlice({
     },
     showObjectsConnectionsModal: state => {
       state.modalVisible = OBJECTS_CONNECTIONS_MODAL;
+    },
+    showQueryPanelModal: state => {
+      state.modalVisible = QUERY_PANEL_MODAL;
     },
     hidePopup: state => {
       state.popupVisible = false;
@@ -50,12 +50,14 @@ const ui = createSlice({
     },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
-    }
+    },
+    showSemanticLayerModal: state => {
+      state.modalVisible = UNIVERSE_MODAL;
+    },
   }
 });
 
 export const {
-  showQueryPanel,
   showConnectorPopup,
   showReportWizard,
   showUniversePopup,
@@ -66,6 +68,8 @@ export const {
   setLoadingData,
   showNav,
   showObjectsConnectionsModal,
+  showQueryPanelModal,
+  showSemanticLayerModal,
   closeModal,
 } = ui.actions;
 

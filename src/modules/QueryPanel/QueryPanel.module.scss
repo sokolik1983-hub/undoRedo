@@ -1,29 +1,73 @@
+.dialog {
+  max-width: unset !important;
+  width: 90% !important;
+  color: #FFFFFF;
+  height: 90vh;
+  overflow: visible !important;
+}
+
+.modalBody {
+  overflow: visible !important;
+}
+
 .root {
   display: flex;
   flex-direction: column;
+  height: 100%;
 
   .content {
-      outline: 1px solid grey;
-      display: flex;
+    display: flex;
+    min-height: 700px;
+    height: 100%;
 
     .leftPanel {
-      width: 30%;
-      outline: 1px solid grey;
-      min-width: 100px;
-      min-height: 50vh;
+      max-width: 310px;
     }
 
     .rightPanel {
-      width: 80%;
-      min-width: 300px;
+      width: 100%;
       display: flex;
       flex-direction: column;
-      outline: 1px solid grey;
-
-      .section {
-      outline: 1px solid grey;
-      width: 100%;
-      }
+      padding: 15px 25px 18px 7px;
     }
   }
+}
+
+.buttonsWrapper {
+  display: flex;
+  margin-top: 16px;
+  margin-left: auto;
+}
+
+.modalContent {
+  padding: 0 !important;
+}
+
+.run {
+  background: linear-gradient(180deg, #FFEFC5 0%, #FFD35A 9.9%, #FF8B2B 40.1%, #E14A13 100%);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 15px;
+  color: #FFFFFF;
+  border: none;
+  margin-left: 10px;
+}
+
+.use {
+  @extend .run;
+    background: linear-gradient(180deg, #8D9FB0 0%, rgba(196, 196, 196, 0) 100%), #011A31; 
+  
+}
+
+.cancel {
+  @extend .run;
+    background: linear-gradient(199.32deg, #1AE3D7 -13.92%, #0945DF 111.71%);
+}
+
+.checkBoxWrapper {
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
 }

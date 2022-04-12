@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import PropTypes from 'prop-types';
-import folder from '../../../layout/assets/folder-icon.svg';
+import folder from '../../../layout/assets/folderIcon.svg';
 import styles from './FolderItem.module.scss';
 
 const FolderItem = ({ name, onDoubleClick }) => {

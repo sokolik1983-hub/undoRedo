@@ -34,6 +34,7 @@ export const PAGE_TITLES = {
   USERS: 'Пользователи',
   CONNECTORS: 'Коннекторы',
   REPORTS: 'Отчеты',
+  QUERY_PANEL: 'Панель запросов',
 };
 
 export const FONT_LIST = [
@@ -197,4 +198,17 @@ export const SEMANTIC_PAGE_ACTIONS = [
     icon: <FindTool />,
     enable: true
   }
+
 ];
+
+export const BUTTON = {
+  BIG_BLUE: 'BIG_BLUE',
+  BIG_ORANGE: 'BIG_ORANGE',
+  BIG_GRAY: 'BIG_GRAY',
+  BROWN: 'BROWN',
+  BLUE: 'BLUE',
+  GRAY: 'GRAY', 
+  BROWN_DARKER: 'BROWN_DARKER',
+  RED: 'RED',
+  SMALL_ORANGE: 'SMALL_ORANGE',
+}

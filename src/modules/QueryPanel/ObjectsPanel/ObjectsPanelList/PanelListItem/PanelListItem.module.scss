@@ -1,0 +1,24 @@
+.listItem {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  & .listItemIcon {
+    margin-right: 10px;
+    padding: 2px 0;
+    height: 23px;
+  }
+
+  & .listItemText {
+    font-size: 12px;
+    line-height: 14px;
+    color: #000000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &.folder {
+      font-weight: 700;
+    }
+  }
+}

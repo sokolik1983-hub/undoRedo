@@ -1,0 +1,191 @@
+.modal {
+  overflow: visible !important;
+}
+
+.dialog {
+  background: linear-gradient(152.97deg, #007089 0%, rgba(0, 88, 137, 0.5) 100%);
+  width: 370px;
+  overflow: visible;
+}
+
+.modalBody {
+  overflow: visible;
+}
+
+.modalContent {
+  padding: 0 0 20px 0;
+}
+
+.topBlock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 63px;
+  padding: 20px 16px 15px 21px;
+}
+
+.heading {
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 28px;
+  color: #FFFFFF;
+}
+
+.icons {
+  display: flex;
+}
+
+.iconsIndents {
+  margin-left: 11px;
+  cursor: pointer;
+}
+
+.menu {
+  cursor: pointer;
+  margin-left: 11px;
+}
+
+.itemsWrapper {
+  background-color: #FFFFFF !important;
+  box-shadow: 0px 4px 4px rgba(34, 82, 102, 0.25);
+  backdrop-filter: blur(7px);
+  width: 207px;
+  left: 52px;
+  top: -7px;
+}
+
+.text {
+  font-weight: 500 !important;
+  font-size: 13px;
+  line-height: 15px;
+  color: #000000;
+  margin: 0;
+  padding: 3px 9px !important;
+  white-space: nowrap;
+
+  &:hover {
+    color: white;
+    background: linear-gradient(199.32deg, #1ae3d7 -13.92%, #0945df 111.71%);
+  }
+
+  &:first-child {
+    margin-top: 8px;
+    border-radius: initial !important;
+  }
+
+  &:last-child {
+    margin-bottom: 9px;
+    border-radius: initial !important;
+  }
+}
+
+.searchBlock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0 16px 0 10px;
+}
+
+.search {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.input {
+  width: 288px;
+}
+
+.contentBlock {
+  display: flex;
+  align-items: center;
+  height: 25px;
+  padding-left: 10px;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.title {
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+  margin: 0;
+  margin-left: 7px;
+}
+
+.list {
+  list-style-type: none;
+  padding: 6px 33px;
+  margin: 0;
+  background: #FFFFFF;
+  min-height: 220px;
+  max-height: 220px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.item {
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 22px;
+  color: #000000;
+  margin-bottom: 1px;
+  cursor: pointer;
+}
+
+.activeItem {
+  @extend .item;
+
+  background: #2B6DD0;
+  border-radius: 3px;
+  color: #FFFFFF;
+  margin: 0 -18px 1px -18px;
+  padding: 0 18px;
+}
+
+.chooseCountBlock {
+  display: flex;
+  align-items: center;
+  height: 25px;
+  padding-left: 15px;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.choose {
+  font-size: 12px;
+  line-height: 22px;
+  text-decoration-line: underline;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.count {
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 22px;
+  color: #FFFFFF;
+  margin: 0;
+  margin-left: 5px;
+}
+
+.buttonsWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.button {
+  width: 77px;
+  margin-left: 12px;
+}
+
+.dots {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+}

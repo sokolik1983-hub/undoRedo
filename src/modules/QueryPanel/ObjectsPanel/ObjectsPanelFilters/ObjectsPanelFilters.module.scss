@@ -1,0 +1,15 @@
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.iconBtn {
+  margin: 7px 5px;
+  width: auto;
+  height: auto;
+}
+
+.filterNameInput:focus-visible {
+  outline: 1px solid #003789BF;
+}

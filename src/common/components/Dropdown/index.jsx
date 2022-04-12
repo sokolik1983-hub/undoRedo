@@ -9,25 +9,25 @@ import styles from './Dropdown.module.scss';
  * @param mainButton - нода содержащая в себе кнопку открытия дропдауна
  * @param children - нода для отрисовки контента внутри дропдауна
  * @param itemsWrapper - класс для стилизации контейнера для айтемов
- * @param notHideable - булево значение, позволяющее не закрывать дропдаун по клику внутри него
  */
 
 const Dropdown = props => {
-  const { className, mainButton, children, itemsWrapper, notHideable } = props;
+  const { className, mainButton, wrapper, children, itemsWrapper, onClick } = props;
   const [isOpened, setIsOpened] = useState(false);
 
-  const toggleMenu = () => {
-    setIsOpened(!isOpened);
+  const toggleMenu = (e) => {
+    setIsOpened(!isOpened)
+    onClick?.(e);
   };
 
   const clickRef = useRef();
   useClickOutside(clickRef, () => setIsOpened(false));
 
   return (
-    <div className={styles.wrapper} ref={clickRef}>
+    <div className={cn(styles.wrapper, wrapper)} ref={clickRef}>
       <div
         className={cn(styles.mainButton, className)}
-        onClick={notHideable ? () => setIsOpened(true) : toggleMenu}
+        onClick={toggleMenu}
       >
         {mainButton}
         <div className={cn(styles.itemsWrapper, itemsWrapper)}>
@@ -43,7 +43,8 @@ export default Dropdown;
 Dropdown.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  wrapper: PropTypes.string,
   mainButton: PropTypes.node,
   itemsWrapper: PropTypes.string,
-  notHideable: PropTypes.bool
+  onClick: PropTypes.func
 };

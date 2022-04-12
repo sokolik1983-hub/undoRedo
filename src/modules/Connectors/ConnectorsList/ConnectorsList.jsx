@@ -16,8 +16,8 @@ import {
   FOLDER_ITEM_DROPDOWN_ACTIONS,
   sortFoldersAndItems
 } from '../helper';
-import { ReactComponent as FolderIcon } from '../../../layout/assets/folder-icon.svg';
-import { ReactComponent as ConnectorIcon } from '../../../layout/assets/connector-icon.svg';
+import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
+import { ReactComponent as ConnectorIcon } from '../../../layout/assets/connectorIcon.svg';
 import {
   BREADCRUMBS_ROOT,
   TABLE_CELL_EMPTY_VALUE
@@ -43,6 +43,7 @@ const ConnectorsList = () => {
       children: sortedConnectorsChildren
     };
   }, [connectors]);
+  console.log(rootFolder);
 
   const [foldersHistory, setFoldersHistory] = useState([rootFolder]);
   const [currentFolderIndex, setCurrentFolderIndex] = useState(0);
