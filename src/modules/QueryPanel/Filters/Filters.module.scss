@@ -17,6 +17,10 @@
 
 .filterWrapper {
   display: flex;
+}
+
+.conditionBlockWrapper {
+  display: flex;
   padding-left: 21px;
 }
 
@@ -104,6 +108,10 @@
   height: auto;
   display: flex;
   align-items: center;
+}
+
+.indents {
+  margin-bottom: 10px;
 }
 
 .verticalDivider {

@@ -15,8 +15,8 @@ import {
   FOLDER_ITEM_DROPDOWN_ACTIONS,
   sortFoldersAndItems
 } from '../helper';
-import { ReactComponent as FolderIcon } from '../../../layout/assets/folder-icon.svg';
-import { ReactComponent as UniverseIcon } from '../../../layout/assets/icons/universe-icon.svg';
+import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
+import { ReactComponent as UniverseIcon } from '../../../layout/assets/icons/universeIcon.svg';
 import {
   BREADCRUMBS_ROOT,
   TABLE_CELL_EMPTY_VALUE

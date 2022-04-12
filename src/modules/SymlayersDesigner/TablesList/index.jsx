@@ -23,14 +23,14 @@ function TablesList({ title, items, type }) {
           {items?.map(item => (
             <TablesListItem
               key={item}
-              item={item}
               name={
                 type === 'links'
                   ? `${item.object1.object} - ${item.object2.object}`
                   : null
               }
               onClick={handleClick}
-              isActive={selected === item.id}
+              isActive={selected === `${item.object1.object}_${item.object2.object}`}
+              id={`${item.object1.object}_${item.object2.object}`}
             />
           ))}
         </div>
