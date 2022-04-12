@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cn from 'clsx';
 import styles from './Dropdown.module.scss';
 
-const DropdownItem = ({ className, onClick, children, item, ...props }) => {
+const DropdownItem = ({ className, onClick, children, iconClassName, item, ...props }) => {
   const { action, text, icon } = item;
 
   const handleClick = () => {
@@ -16,7 +16,7 @@ const DropdownItem = ({ className, onClick, children, item, ...props }) => {
       onClick={handleClick}
       {...props}
     >
-      {icon && <div className={styles.icon}>{icon}</div>}
+      {icon && <div className={cn(styles.icon, iconClassName)}>{icon}</div>}
       {children || text}
     </div>
   );
@@ -29,6 +29,7 @@ DropdownItem.prototype = {};
 DropdownItem.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  iconClassName: PropTypes.string,
   item: PropTypes.objectOf({
     icon: PropTypes.node,
     text: PropTypes.string,

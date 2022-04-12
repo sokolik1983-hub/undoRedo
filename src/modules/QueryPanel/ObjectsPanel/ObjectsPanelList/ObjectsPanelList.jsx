@@ -10,7 +10,7 @@ import styles from './ObjectsPanelList.module.scss';
 const ObjectsPanelList = ({ rootFolder }) => {
   return (
     <ul className={styles.root}>
-      {rootFolder?.children?.map(item => (
+      {rootFolder?.map(item => (
         <PanelListNode key={item.id} item={item} />
       ))}
     </ul>

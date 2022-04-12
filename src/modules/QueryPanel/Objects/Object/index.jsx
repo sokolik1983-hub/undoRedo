@@ -16,9 +16,9 @@ const ObjectItem = ({id, title, type, onDeleteObjItem, onDragStart, onDragNDrop}
   const chooseIcon = () => {
     switch (type) {
       case 'green':
-        return <GreenIcon />
-      case 'orange':
         return <OrangeIcon />
+      case 'orange':
+        return <GreenIcon />
       case 'blue':
         return <BlueIcon />
       default:

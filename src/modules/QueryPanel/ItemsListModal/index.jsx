@@ -86,7 +86,7 @@ const ItemsListModal = ({ visible, onClose }) => {
             <Reload className={styles.iconsIndents} />
             <Dropdown
               className={styles.iconsIndents}
-              mainButton={<Gear />}
+              mainButton={<Gear fill='white' />}
               itemsWrapper={styles.itemsWrapper}
             >
               {items.map(i => (
@@ -179,6 +179,7 @@ const ItemsListModal = ({ visible, onClose }) => {
       onClose={handleClose}
       dialogClassName={styles.dialog}
       bodyClassName={styles.modalBody}
+      modalClassName={styles.modal}
       contentClassName={styles.modalContent}
       headerClassName={styles.headerContent}
       withoutTitle
