@@ -11,6 +11,7 @@ const ObjectsPanelList = ({ rootFolder }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const hasChildren = !!rootFolder?.children?.length;
+  // TODO: перенести фильтры из src/modules/QueryPanel/ObjectsPanel/index.jsx
 
   if (!rootFolder) return null;
 

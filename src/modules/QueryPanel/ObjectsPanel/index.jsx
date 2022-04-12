@@ -28,7 +28,8 @@ const ObjectsPanel = ({ symanticLayer, modalOpenHandler }) => {
   /**
    * Отфильтрованный по имени и objectType_id массив списка
    */
-  const filteredStructure = structure
+
+  const filteredStructure = structure?.children
     ?.filter(item =>
       item?.field?.toLowerCase().includes(filterName?.toLowerCase())
     )
@@ -36,6 +37,7 @@ const ObjectsPanel = ({ symanticLayer, modalOpenHandler }) => {
       if (!filterId.length) return true;
       return filterId.includes(item.objectType_id);
     });
+
 
   return (
     <div className={styles.root}>
