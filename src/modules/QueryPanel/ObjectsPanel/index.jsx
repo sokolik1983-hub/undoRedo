@@ -1,5 +1,4 @@
-/* eslint-disable consistent-return */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import ObjectsPanelHeader from './ObjectsPanelHeader/ObjectsPanelHeader';
@@ -19,13 +18,37 @@ const ObjectsPanel = ({ symanticLayer, modalOpenHandler }) => {
   const symLayersData = useSelector(state => state.app?.data?.symLayersData);
   const structure = symLayersData?.data?.structure[0];
 
+  // TODO: какие-то фильтры
+  /**
+   * Собственный стейт компонента
+   */
+  const [filterName, setFilterName] = useState('');
+  const [filterId, setFilterId] = useState([]);
+
+  /**
+   * Отфильтрованный по имени и objectType_id массив списка
+   */
+  const filteredStructure = structure
+    ?.filter(item =>
+      item?.field?.toLowerCase().includes(filterName?.toLowerCase())
+    )
+    .filter(item => {
+      if (!filterId.length) return true;
+      return filterId.includes(item.objectType_id);
+    });
+
   return (
     <div className={styles.root}>
       <ObjectsPanelHeader modalOpenHandler={modalOpenHandler} />
       <Divider color="#0D6CDD" />
-      <ObjectsPanelFilters />
+      <ObjectsPanelFilters
+        setFilterName={setFilterName}
+        value={filterName}
+        setFilterId={setFilterId}
+        filterId={filterId}
+      />
       <div className={styles.panelListContainer}>
-        <ObjectsPanelList rootFolder={structure} />
+        <ObjectsPanelList rootFolder={filteredStructure} />
       </div>
     </div>
   );

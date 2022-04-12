@@ -37,6 +37,12 @@ const ObjectsPanelList = ({ rootFolder }) => {
   );
 };
 
+// <ul className={styles.root}>
+//   {rootFolder?.map(item => (
+//     <PanelListNode key={item.id} item={item} />
+//   ))}
+// </ul>
+
 export default ObjectsPanelList;
 
 ObjectsPanelList.propTypes = {
