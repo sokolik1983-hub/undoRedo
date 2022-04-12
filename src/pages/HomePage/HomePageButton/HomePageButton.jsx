@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
-import { Tooltip } from '@material-ui/core';
+import Tooltip from '../../../common/components/Tooltip';
 import styles from './HomePageButton.module.scss';
 
 const HomePageButton = ({
@@ -23,7 +23,7 @@ const HomePageButton = ({
           {icon}
         </div>
         {hasTooltip ? (
-          <Tooltip key={title} placement="bottom" title={title} arrow>
+          <Tooltip key={title} position="left" content={title}>
             <div
               className={
                 appNameText
