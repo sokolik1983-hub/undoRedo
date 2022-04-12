@@ -37,11 +37,17 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const [currentFolderIndex, setCurrentFolderIndex] = useState(0);
   const [searchValue, setSearchValue] = useState('');
   const [resArr, setResArr] = useState([]);
+  const [searchExec, setSearchExec] = useState(false);
   const interArr = [];
 
   const searchSymLayer = (array) => {
     const univArray = array.children ? array.children : array;
-    const isNotFolderRes = univArray.filter(univ => !univ.isFolder).filter(univ => univ.name.toUpperCase().includes(searchValue.toUpperCase()));
+    const isNotFolderRes = univArray.filter(univ => {
+      const name = univ.name ? univ.name : univ.folder_name;
+      console.log(name);
+      return name?.toUpperCase().includes(searchValue.toUpperCase())
+    });
+    
     if (isNotFolderRes && isNotFolderRes.length > 0) {
       interArr.push(...isNotFolderRes);
       setResArr(interArr);
@@ -57,7 +63,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
 
   const onSearch = (e) => {
     e.preventDefault();
-    
+    setSearchExec(true); 
     searchSymLayer(universes);
   };
 
@@ -68,6 +74,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   useEffect(() => {
     if (!searchValue.length) {
       setResArr([]);
+      setSearchExec(false);
     }    
   }, [searchValue])
 
@@ -84,6 +91,10 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     setCurrentFolderIndex(prev => prev + 1);
   };
 
+  useEffect(() => {
+    console.log(foldersHistory[currentFolderIndex]);
+  }, [foldersHistory, currentFolderIndex])
+
   const handleItemClick = (item) => {
     onSelectSemanticLayer(item);
   };
@@ -97,7 +108,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     setFoldersHistory([rootFolder]);
   };
 
-  const result = resArr.length > 0 ? resArr : foldersHistory[currentFolderIndex]?.children;
+  const result = searchExec ? resArr : foldersHistory[currentFolderIndex]?.children;
 
   const listItems = result?.map(item => {
     const { isFolder } = item;
