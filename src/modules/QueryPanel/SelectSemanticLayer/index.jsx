@@ -11,7 +11,7 @@ import { sortFoldersAndItems } from '../../Symlayers/helper';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import ListItem from '../../../common/components/List/ListItem/ListItem'
 import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
-import { ReactComponent as UniverseIcon } from '../../../layout/assets/icons/universeIcon.svg';
+import { ReactComponent as UniverseIcon } from '../../../layout/assets/connectorIcon.svg';
 import { ReactComponent as ArrowLeftIcon} from '../../../layout/assets/arrowLeft.svg';
 import { ReactComponent as ArrowUpIcon} from '../../../layout/assets/arrow-up.svg';
 import Search from '../../../common/components/Search';

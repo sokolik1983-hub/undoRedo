@@ -1,6 +1,7 @@
 .dialog {
   max-width: unset !important;
   width: 80% !important;
+  overflow-y: auto !important;
   min-height: calc(87vh - 40px);
   max-height:  calc(87vh - 40px) !important;
   background: linear-gradient(154.55deg, #ffffff 0%, rgba(255, 255, 255, 0.22) 141.45%);

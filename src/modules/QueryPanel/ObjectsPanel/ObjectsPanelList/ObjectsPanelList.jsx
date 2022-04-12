@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import PanelListItem from './PanelListItem/PanelListItem';
 import { ReactComponent as FolderIcon } from '../../../../layout/assets/folderIcon.svg';
-import { ReactComponent as GaugeIcon } from '../../../../layout/assets/queryPanel/gaugeicon.svg';
+import { ReactComponent as GaugeIcon } from '../../../../layout/assets/queryPanel/gaugeIcon.svg';
 import { ReactComponent as MeasurementIcon } from '../../../../layout/assets/queryPanel/measurementIcon.svg';
 import { ReactComponent as AttributeIcon } from '../../../../layout/assets/queryPanel/attributeIcon.svg';
 import styles from './ObjectsPanelList.module.scss';
