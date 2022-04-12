@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
 import PropTypes from 'prop-types'
-import styles from '../QueryPanel.module.scss';
 import selectModalStyles from './SelectSemanticLayer.module.scss';
 import Modal from '../../../common/components/Modal';
 import IconButton from '../../../common/components/IconButton';
@@ -158,7 +157,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
       titleClassName={selectModalStyles.title}
       dialogClassName={selectModalStyles.dialog}
       headerClassName={selectModalStyles.header}
-      bodyClassName={styles.modalBody}
+      bodyClassName={selectModalStyles.modalBody}
       contentClassName={selectModalStyles.modalContent}
     />
   )
