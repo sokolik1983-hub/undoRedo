@@ -42,13 +42,13 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
 
   const searchSymLayer = (array) => {
     const univArray = array.children ? array.children : array;
-    const isNotFolderRes = univArray.filter(univ => {
+    const isRes = univArray.filter(univ => {
       const name = univ.name ? univ.name : univ.folder_name;
       return name?.toUpperCase().includes(searchValue.toUpperCase())
     });
     
-    if (isNotFolderRes && isNotFolderRes.length > 0) {
-      interArr.push(...isNotFolderRes);
+    if (isRes && isRes.length > 0) {
+      interArr.push(...isRes);
       setResArr(interArr);
     }
     const isFolderRes = univArray.filter(univ => univ.isFolder && univ.children);
