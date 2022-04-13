@@ -103,6 +103,14 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     setFoldersHistory([rootFolder]);
   };
 
+  useEffect(() => {
+    setResArr(foldersHistory[currentFolderIndex]?.children);
+    if (!currentFolderIndex && searchExec) {
+      searchSymLayer(universes);
+    }
+  }, [currentFolderIndex])
+
+
   const result = searchExec ? resArr : foldersHistory[currentFolderIndex]?.children;
 
   const listItems = result?.map(item => {
