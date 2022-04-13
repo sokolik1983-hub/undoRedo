@@ -44,7 +44,6 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     const univArray = array.children ? array.children : array;
     const isNotFolderRes = univArray.filter(univ => {
       const name = univ.name ? univ.name : univ.folder_name;
-      console.log(name);
       return name?.toUpperCase().includes(searchValue.toUpperCase())
     });
     
@@ -90,10 +89,6 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     ]);
     setCurrentFolderIndex(prev => prev + 1);
   };
-
-  useEffect(() => {
-    console.log(foldersHistory[currentFolderIndex]);
-  }, [foldersHistory, currentFolderIndex])
 
   const handleItemClick = (item) => {
     onSelectSemanticLayer(item);
