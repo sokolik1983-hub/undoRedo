@@ -63,6 +63,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const onSearch = (e) => {
     e.preventDefault();
     setSearchExec(true); 
+    setCurrentFolderIndex(0);
     searchSymLayer(universes);
   };
 
@@ -74,6 +75,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     if (!searchValue.length) {
       setResArr([]);
       setSearchExec(false);
+      setCurrentFolderIndex(0);
     }    
   }, [searchValue])
 
@@ -108,8 +110,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     if (!currentFolderIndex && searchExec) {
       searchSymLayer(universes);
     }
-  }, [currentFolderIndex])
-
+  }, [currentFolderIndex]);
 
   const result = searchExec ? resArr : foldersHistory[currentFolderIndex]?.children;
 
