@@ -82,6 +82,6 @@ export const FOLDER_DROPDOWN_ACTIONS = [
 
 export const connectorsTableHeader = [
   { name: 'Имя' },
-  { name: 'Тип коннектора' },
+  { name: 'Тип соединения' },
   { name: 'Источник' },
 ];

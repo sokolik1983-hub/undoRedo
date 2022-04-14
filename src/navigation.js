@@ -1,17 +1,17 @@
 import React from 'react';
-import {ReactComponent as ConnectorsIcon} from './layout/assets/connectorsIcon.svg';
-import {ReactComponent as LayersIcon} from './layout/assets/layersIcon.svg';
-import {ReactComponent as AuditIcon} from './layout/assets/auditIcon.svg';
-import {ReactComponent as RolesIcon} from './layout/assets/rolesIcon.svg';
-import {ReactComponent as UsersIcon} from './layout/assets/usersIcon.svg';
-import {ReactComponent as BinIcon} from './layout/assets/icons/bin.svg';
-import {ReactComponent as ExplorerIcon} from './layout/assets/icons/explorer.svg';
+import { ReactComponent as ConnectorsIcon } from './layout/assets/connectorsIcon.svg';
+import { ReactComponent as LayersIcon } from './layout/assets/layersIcon.svg';
+import { ReactComponent as AuditIcon } from './layout/assets/auditIcon.svg';
+import { ReactComponent as RolesIcon } from './layout/assets/rolesIcon.svg';
+import { ReactComponent as UsersIcon } from './layout/assets/usersIcon.svg';
+import { ReactComponent as BinIcon } from './layout/assets/icons/bin.svg';
+import { ReactComponent as ExplorerIcon } from './layout/assets/icons/explorer.svg';
 
 const navigationMenu = [
   {
     href: '/Universe/connectors',
     icon: <ConnectorsIcon />,
-    title: 'коннекторы',
+    title: 'соединения',
     id: 'connectors'
   },
   {

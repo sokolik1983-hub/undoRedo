@@ -81,7 +81,7 @@ function Symlayers() {
   const createConnectorModalContent = (
     <form className={styles.form}>
       <TextInput
-        label='Название коннектора'
+        label='Название соединения'
         value={connectName}
         onChange={e => setConnectName(e.target.value)}
         id='connectorName'
@@ -89,7 +89,7 @@ function Symlayers() {
       <Select
         value={connectType}
         options={typeOptions}
-        defaultValue='Тип коннектора'
+        defaultValue='Тип соединения'
         onSelectItem={setConnectType}
       />
       <Select

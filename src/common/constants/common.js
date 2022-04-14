@@ -32,7 +32,7 @@ export const PAGE_TITLES = {
   SEMANTIC: 'Семантика',
   ROLES: 'Роли',
   USERS: 'Пользователи',
-  CONNECTORS: 'Коннекторы',
+  CONNECTORS: 'Соединения',
   REPORTS: 'Отчеты',
   QUERY_PANEL: 'Панель запросов',
 };
@@ -207,7 +207,7 @@ export const BUTTON = {
   BIG_GRAY: 'BIG_GRAY',
   BROWN: 'BROWN',
   BLUE: 'BLUE',
-  GRAY: 'GRAY', 
+  GRAY: 'GRAY',
   BROWN_DARKER: 'BROWN_DARKER',
   RED: 'RED',
   SMALL_ORANGE: 'SMALL_ORANGE',
