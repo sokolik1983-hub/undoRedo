@@ -12,6 +12,7 @@ import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
 import SemanticLayerModal from './SemanticLayerModal';
 import SymlayersList from './SymlayersList';
+import CreateObjectLayerModal from './CreateObjectLayerModal';
 
 function Symlayers() {
   const dispatch = useDispatch();
@@ -76,6 +77,18 @@ function Symlayers() {
       })
     );
   };
+
+  const [createObjectModalVisibility, setCreateObjectModalVisibility] = useState(false);
+
+  const openCreateObjectModalHandler = ()=> {
+    setCreateObjectModalVisibility(true)
+  }
+
+  const closeCreateObjectModalHandler = ()=> {
+    setCreateObjectModalVisibility(false)
+  }
+
+
 
   // Контент для модалки для добавления коннеткора
   const createConnectorModalContent = (
@@ -168,7 +181,12 @@ function Symlayers() {
         text='Создать юниверс'
         onClick={createConnectorModalHandler}
       />
+      <Button
+        children={'Создать объект'}
+        onClick={openCreateObjectModalHandler}
+      />
       {isVisible && <SemanticLayerModal onClick={closeConnectorModalHandler} />}
+      {createObjectModalVisibility && <CreateObjectLayerModal onClick={closeCreateObjectModalHandler} />}
     </div>
   );
 }

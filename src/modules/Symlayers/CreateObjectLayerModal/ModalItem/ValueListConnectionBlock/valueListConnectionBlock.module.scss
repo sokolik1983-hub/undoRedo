@@ -1,0 +1,61 @@
+.valueListConnectionBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.listConnectionGroup {
+  display: flex;
+  flex-direction: row;
+}
+
+.linkGroup,
+.useInGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.defaultBtn {
+  width: 90px;
+  margin: 3px 40px 40px 5px;
+}
+
+.editBtn {
+  margin-left: 5px;
+}
+
+.showBtn {
+  margin-left: 11px;
+}
+
+.availableGroup {
+  display: flex;
+  flex-direction: row;
+}
+
+.defaultLinkInput {
+  height: 22px;
+  width: 176px;
+  margin-right: 20px;
+}
+
+.linkBtnGroup {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+
+.checkBoxLabel {
+  font-size: 10px;
+}
+
+.checkBoxWrapper {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.selectData {
+  height: 22px;
+  width: 176px;
+  margin: 5px 24px 30px 2px;
+}
