@@ -7,6 +7,7 @@ import { ReactComponent as SearchIcon } from '../../../layout/assets/icons/searc
 import { ReactComponent as AddTableIcon } from '../../../layout/assets/icons/tablesAdd.svg';
 import { ReactComponent as FiltersIcon } from '../../../layout/assets/icons/tablesFilters.svg';
 import { ReactComponent as ViewsIcon } from '../../../layout/assets/icons/viewsShow.svg';
+import CreateObjectLayerModal from '../CreateObjectLayerModal';
 import HierTreeView from './HierTreeView';
 import styles from './Sidebar.module.scss';
 
@@ -26,6 +27,19 @@ function Sidebar({ onSelect, ...props }) {
     setActiveTab(value);
   };
 
+  const [
+    createObjectModalVisibility,
+    setCreateObjectModalVisibility
+  ] = useState(false);
+
+  const openCreateObjectModalHandler = () => {
+    setCreateObjectModalVisibility(true);
+  };
+
+  const closeCreateObjectModalHandler = () => {
+    setCreateObjectModalVisibility(false);
+  };
+
   return (
     <div className={styles.root}>
       <div className={styles.header}>
@@ -41,6 +55,12 @@ function Sidebar({ onSelect, ...props }) {
             onClick={handleSelectTab(1)}
           >
             Объекты
+          </div>
+          <div
+            className={clsx(styles.tab)}
+            onClick={openCreateObjectModalHandler}
+          >
+            Создать
           </div>
         </div>
 
@@ -76,6 +96,9 @@ function Sidebar({ onSelect, ...props }) {
             <></>
           )}
         </div>
+      )}
+      {createObjectModalVisibility && (
+        <CreateObjectLayerModal onClick={closeCreateObjectModalHandler} />
       )}
     </div>
   );

@@ -1,0 +1,27 @@
+.objectDescriptionBlock {
+  display: flex;
+  flex-direction: column;
+  padding: 3px 30px 5px 18px;
+}
+
+.descriptionInput {
+  width: 379px;
+  height: 52px;
+  background-color: #fff;
+  padding: 5px;
+  margin: 5px 0 9px 5px;
+  border: 0;
+  outline: none;
+  overflow-y: scroll;
+  resize: none;
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.label {
+  color: #fff;
+}
