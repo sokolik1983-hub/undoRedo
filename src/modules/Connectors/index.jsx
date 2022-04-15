@@ -96,7 +96,7 @@ function Connectors() {
         <Select
           value={connectType}
           options={typeOptions}
-          defaultValue="Тип коннектора"
+          defaultValue="Тип соединения"
           onSelectItem={setConnectType}
         />
       </div>
@@ -131,7 +131,7 @@ function Connectors() {
         </div>
         <div className={styles.testConnectionWrapper}>
           <div className={styles.gearsIconWrapper}>
-          <GearsIcon />
+            <GearsIcon />
           </div>
           <Button className={styles.testConnectionButton} color="primary">Тест соединения</Button>
         </div>
@@ -197,7 +197,7 @@ function Connectors() {
       <ConnectorsList />
       <FloatingButton
         icon={<CreateConnector />}
-        text="Создать коннектор"
+        text="Создать соединение"
         onClick={createConnectorModalHandler}
       />
       <Modal
