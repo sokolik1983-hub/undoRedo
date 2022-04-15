@@ -33,7 +33,7 @@ export const PAGE_TITLES = {
   ROLES: 'Роли',
   USERS: 'Пользователи',
   CONNECTORS: 'Соединения',
-  REPORTS: 'Отчеты',
+  REPORTS: 'Дизайнер отчетов',
   QUERY_PANEL: 'Панель запросов',
 };
 
