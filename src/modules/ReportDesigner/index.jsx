@@ -19,11 +19,12 @@ import {
 import Block from './Block';
 import styles from './ReportDesigner.module.scss';
 import { generateId, getCurrentReport } from './helpers';
-import SidePanel from '../../common/components/SidePanel';
+// import SidePanel from '../../common/components/SidePanel';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
-import { SIDE_PANEL_TYPES } from '../../common/constants/common';
+// import { SIDE_PANEL_TYPES } from '../../common/constants/common';
 import FormulaEditor from '../../common/components/FormulaEditor';
+import Sidebar from '../SymlayersDesigner/Sidebar';
 
 const BLOCK_TYPES = {
   table: tableObject,
@@ -197,66 +198,74 @@ function ReportDesigner() {
 
   return (
     <div className={styles.root}>
-      {reportDesigner.reportsUi.ui.showFormulaEditor && (
-        <div className={styles.formulaEditor}>
-          <FormulaEditor />
+      <div className={styles.sidebar}>
+        <Sidebar />
+      </div>
+      <div className={styles.content}>
+        {reportDesigner.reportsUi.ui.showFormulaEditor && (
+          <div className={styles.formulaEditor}>
+            <FormulaEditor />
+          </div>
+        )}
+        <div className={styles.tabs}>
+          {reportDesigner.reportsData.present.reports &&
+            reportDesigner.reportsData.present.reports.map((report, idx) => (
+              <div
+                key={report.id}
+                className={clsx(styles.tab, {
+                  [styles.tab_active]:
+                    reportDesigner.reportsData.present.activeReport ===
+                    report.id
+                })}
+                onClick={handleSelectReport(report.id)}
+              >
+                {report.name}
+                {idx > 0 && (
+                  <span
+                    style={{ marginLeft: 10 }}
+                    onClick={handleDeleteReport(report.id)}
+                  >
+                    x
+                  </span>
+                )}
+              </div>
+            ))}
+          <button onClick={handleAddReport} type="button">
+            +
+          </button>
         </div>
-      )}
-      <div className={styles.tabs}>
-        {reportDesigner.reportsData.present.reports &&
-          reportDesigner.reportsData.present.reports.map((report, idx) => (
-            <div
-              key={report.id}
-              className={clsx(styles.tab, {
-                [styles.tab_active]:
-                  reportDesigner.reportsData.present.activeReport === report.id
-              })}
-              onClick={handleSelectReport(report.id)}
-            >
-              {report.name}
-              {idx > 0 && (
-                <span
-                  style={{ marginLeft: 10 }}
-                  onClick={handleDeleteReport(report.id)}
-                >
-                  x
-                </span>
-              )}
-            </div>
-          ))}
-        <button onClick={handleAddReport} type="button">
-          +
-        </button>
-      </div>
-      <div
-        className={clsx(styles.container, styles['container-portrait'])}
-        onMouseMove={handleMouseMove}
-        onClick={handleAddBlock}
-        onDoubleClick={handleDisableSelection}
-      >
-        {currentReport &&
-          currentReport.structure?.map(block => (
-            <Block
-              {...block}
-              key={block.id}
-              structureItem={block}
-              onChangePosition={handleChangePosition}
-              onChangeScales={handleChangeScales}
-              onSelect={handleSelect}
-              isActiveNode={checkIsActiveNode(block.id)}
-            />
-          ))}
-      </div>
 
-      {reportDesigner.reportsUi.ui.showConfigPanel && (
-        <SidePanel
-          navType={SIDE_PANEL_TYPES.BLOCK_MENU}
-          marginRight={reportDesigner.reportsUi.ui.showReportPanel ? 250 : 0}
-        />
-      )}
-      {reportDesigner.reportsUi.ui.showReportPanel && (
-        <SidePanel navType={SIDE_PANEL_TYPES.CONFIG_MENU} />
-      )}
+        <div
+          className={clsx(styles.container, styles['container-portrait'])}
+          onMouseMove={handleMouseMove}
+          onClick={handleAddBlock}
+          onDoubleClick={handleDisableSelection}
+        >
+          {currentReport &&
+            currentReport.structure?.map(block => (
+              <Block
+                {...block}
+                key={block.id}
+                structureItem={block}
+                onChangePosition={handleChangePosition}
+                onChangeScales={handleChangeScales}
+                onSelect={handleSelect}
+                isActiveNode={checkIsActiveNode(block.id)}
+              />
+            ))}
+        </div>
+      </div>
+      {/* <div className="right">
+        {reportDesigner.reportsUi.ui.showConfigPanel && (
+          <SidePanel
+            navType={SIDE_PANEL_TYPES.BLOCK_MENU}
+            marginRight={reportDesigner.reportsUi.ui.showReportPanel ? 250 : 0}
+          />
+        )}
+        {reportDesigner.reportsUi.ui.showReportPanel && (
+          <SidePanel navType={SIDE_PANEL_TYPES.CONFIG_MENU} />
+        )}
+      </div> */}
     </div>
   );
 }

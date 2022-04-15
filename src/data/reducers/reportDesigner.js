@@ -173,7 +173,7 @@ export const tableObject = {
   },
   scales: {
     width: 200,
-    height: 70
+    height: 45
   },
   sorting: [],
   filters: [
@@ -406,7 +406,7 @@ const reportDesignerUI = createSlice({
   initialState: {
     ui: {
       showConfigPanel: false,
-      showReportPanel: true,
+      showReportPanel: false,
       showFormulaEditor: false,
       creatingElement: null,
       selectedColumns: null

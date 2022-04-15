@@ -336,7 +336,7 @@ function DataTable({
           }}
         >
           <TableChartIcon />
-          <span>Drop data</span>
+          <span>Перетащите объекты</span>
         </div>
       )}
       {renderTable()}
