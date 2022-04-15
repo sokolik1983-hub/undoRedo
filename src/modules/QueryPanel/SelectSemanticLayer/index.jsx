@@ -16,6 +16,7 @@ import { ReactComponent as ArrowUpIcon } from '../../../layout/assets/arrow-up.s
 import { ReactComponent as ReloadIcon } from '../../../layout/assets/queryPanel/reload.svg';
 import Search from '../../../common/components/Search';
 import Tooltip from '../../../common/components/NewTooltip/Tooltip';
+import { ICON_POSITION } from '../../../common/components/Search/constant';
 
 const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const dispatch = useDispatch();
@@ -176,6 +177,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
             onSubmit={(e) => onSearch(e, result)}
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
+            iconButtonPosition={ICON_POSITION.RIGHT}
           />
           <Tooltip text='Сбросить' placement='bottom-left'>
             <IconButton
