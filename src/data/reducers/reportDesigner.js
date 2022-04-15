@@ -166,7 +166,7 @@ export const tableObject = {
   title: 'Table 1',
   titlePosition: 'center',
   type: 'table',
-  variant: 'vertical', // horizontal,cross
+  variant: '',
   position: {
     x: 100,
     y: 100
@@ -195,7 +195,7 @@ export const graphObject = {
   legend: 'show',
   legendPosition: 'center',
   type: 'graph',
-  graphType: 'graph',
+  variant: 'graph1',
   styles: {},
   position: {
     x: 100,
@@ -409,7 +409,9 @@ const reportDesignerUI = createSlice({
       showReportPanel: true,
       showFormulaEditor: false,
       creatingElement: null,
-      selectedColumns: null
+      selectedColumns: null,
+      tableType: 'cross',
+      graphType: 'graph1',
     }
   },
   reducers: {
@@ -438,6 +440,12 @@ const reportDesignerUI = createSlice({
       } else {
         state.ui.showConfigPanel = !state.ui.showConfigPanel;
       }
+    },
+    setTableType: (state, action) => {
+      state.ui.tableType = action.payload;
+    },
+    setGraphType: (state, action) => {
+      state.ui.graphType = action.payload;
     }
   }
 });
@@ -453,7 +461,7 @@ export const {
   addSortingField,
   setTableVariant,
   addTableRow,
-  addTableValue
+  addTableValue,
 } = reportDesigner.actions;
 
 export const {
@@ -461,7 +469,9 @@ export const {
   setReportPanelVisible,
   setFormulaEditorVisible,
   setConfigPanelVisible,
-  setSelectedColumns
+  setSelectedColumns,
+  setTableType,
+  setGraphType,
 } = reportDesignerUI.actions;
 
 export default combineReducers({

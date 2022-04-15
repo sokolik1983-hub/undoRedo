@@ -1,41 +1,41 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { REPORT_PAGE_ACTIONS } from '../../../common/constants/common';
+import { useDispatch } from 'react-redux';
+import { REPORT_PAGE_ACTIONS } from '../../../common/constants/reportDesigner/reportDesignerMenuIcons';
 import styles from './ReportActions.module.scss';
 import { handleUndo, handleRedo } 
 from '../../../data/actions/newReportDesigner';
-import { setTableType, setGraphType } from '../../../data/reducers/newReportDesigner';
-import { TABLE_ICONS, GRAPH_ICONS } from '../../../common/constants/reportDesignerIcons';
+import { setTableType, setGraphType, setCreatingElement } from '../../../data/reducers/reportDesigner';
+import { TABLE_ICONS, GRAPH_ICONS } from '../../../common/constants/reportDesigner/reportDesignerIcons';
 import useClickOutside from '../../../common/helpers/useClickOutside';
 
+
 const NewReportActions = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isTableOpen, setIsTableOpen] = useState(false);
   const [isGraphOpen, setIsGraphOpen] = useState(false);
   const dispatch = useDispatch();
-  
-  const tableType = useSelector(state => state.app.newReportDesigner.tableType);
-  const graphType = useSelector(state => state.app.newReportDesigner.graphType);
 
   const handleTableTypeChange = (type) => {
-    setIsOpen(!isOpen);
+    setIsTableOpen(!isTableOpen);
     dispatch(setTableType(type));
+    dispatch(setCreatingElement('table'));
   };
 
   const handleGraphTypeChange = (type) => {
     setIsGraphOpen(!isGraphOpen);
     dispatch(setGraphType(type));
+    dispatch(setCreatingElement('graph'));
   };
 
   const actions = {
     undo: () => dispatch(handleUndo()),
     redo: () => dispatch(handleRedo()),
-    setTable: () => setIsOpen(!isOpen),
-    setGraph: () =>setIsGraphOpen(!isGraphOpen),
+    setTable: () => setIsTableOpen(!isTableOpen),
+    setGraph: () => setIsGraphOpen(!isGraphOpen),
   };
 
   const clickRef = useRef();
-  useClickOutside(clickRef, () => {setIsOpen(false); setIsGraphOpen(false)});
+  useClickOutside(clickRef, () => {setIsTableOpen(false); setIsGraphOpen(false)});
 
   return (
     <div className={styles.actionsContainer}>
@@ -52,7 +52,7 @@ const NewReportActions = () => {
           </>
         );
       })}
-      {isOpen && (
+      {isTableOpen && (
         <div className={styles.tableTypes} ref={clickRef}>
           {TABLE_ICONS.map(i => (
             <div className={styles.iconsWrapper} onClick={()=> handleTableTypeChange(i.type)} key={i.text}>
