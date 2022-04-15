@@ -8,27 +8,11 @@ import styles from './ObjectsPanelFilters.module.scss';
 import TextInput from '../../../../common/components/TextInput';
 
 const ObjectsPanelFilters = ({
-  setFilterName,
   value,
-  setFilterId,
-  filterId
+  setFilterName,
+  filterId,
+  onFiltersSwitch
 }) => {
-
-  /**
-   * Обработчик события добавления фильтра по objectType_id
-   * 
-   * @param id objectType_id, который зашит в каждом элементе и по которуму сортируем список
-  */
-  const onChangeFilterIdHandler = id => {
-    if (!filterId.includes(id)) {
-      setFilterId([...filterId, id]);
-    } else {
-      setFilterId(prevState =>
-        prevState.filter(objectTypeId => objectTypeId !== id)
-      );
-    }
-  };
-
   return (
     <div className={styles.root}>
       <TextInput
@@ -44,19 +28,19 @@ const ObjectsPanelFilters = ({
         icon={<Magnifier />}
       />
       <IconButton
-        onClick={() => onChangeFilterIdHandler(1)}
+        onClick={() => onFiltersSwitch(1)}
         className={styles.iconBtn}
         icon={<GaugeIcon />}
         active={filterId.includes(1)}
       />
       <IconButton
-        onClick={() => onChangeFilterIdHandler(3)}
+        onClick={() => onFiltersSwitch(3)}
         className={styles.iconBtn}
         icon={<AttributeIcon />}
         active={filterId.includes(3)}
       />
       <IconButton
-        onClick={() => onChangeFilterIdHandler(2)}
+        onClick={() => onFiltersSwitch(2)}
         className={styles.iconBtn}
         icon={<MeasurementIcon />}
         active={filterId.includes(2)}
@@ -70,6 +54,6 @@ export default ObjectsPanelFilters;
 ObjectsPanelFilters.propTypes = {
   setFilterName: PropTypes.func,
   value: PropTypes.string,
-  setFilterId: PropTypes.func,
   filterId: PropTypes.arrayOf(PropTypes.number),
+  onFiltersSwitch: PropTypes.func
 };

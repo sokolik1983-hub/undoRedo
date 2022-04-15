@@ -18,10 +18,6 @@ const Objects = ({ title }) => {
     onObjectDrop
   } = useDragNDrop();
 
-  const onDeleteObjects = () => {
-    setObjArr(null);
-  };
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.top}>
@@ -40,7 +36,7 @@ const Objects = ({ title }) => {
             </div>
           </div>
           <div className={styles.basketWrapper}>
-            <Basket className={styles.basket} onClick={onDeleteObjects} />
+            <Basket className={styles.basket} />
             <div className={styles.hide}>
               <p className={styles.clear}>очистить всё</p>
             </div>

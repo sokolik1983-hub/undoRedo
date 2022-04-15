@@ -10,6 +10,15 @@
   height: auto;
 }
 
+.filterNameInput {
+  outline: transparent;
+}
+
+.filterNameInput:hover {
+  outline: 1px solid #003789bf;
+  transition: outline 0.2s;
+}
+
 .filterNameInput:focus-visible {
-  outline: 1px solid #003789BF;
+  outline: 1px solid #003789bf;
 }

@@ -11,7 +11,6 @@ const ObjectsPanelList = ({ rootFolder }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const hasChildren = !!rootFolder?.children?.length;
-  // TODO: перенести фильтры из src/modules/QueryPanel/ObjectsPanel/index.jsx
 
   if (!rootFolder) return null;
 
@@ -37,12 +36,6 @@ const ObjectsPanelList = ({ rootFolder }) => {
     </ul>
   );
 };
-
-// <ul className={styles.root}>
-//   {rootFolder?.map(item => (
-//     <PanelListNode key={item.id} item={item} />
-//   ))}
-// </ul>
 
 export default ObjectsPanelList;
 
