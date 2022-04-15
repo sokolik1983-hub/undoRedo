@@ -8,22 +8,22 @@ import styles from './ObjectsPanelFilters.module.scss';
 import TextInput from '../../../../common/components/TextInput';
 
 const ObjectsPanelFilters = ({
-  value,
-  setFilterName,
+  searchValue,
+  setSearchValue,
   filterId,
   onFiltersSwitch
 }) => {
   return (
     <div className={styles.root}>
       <TextInput
-        value={value}
+        value={searchValue}
         onChange={event => {
-          setFilterName(event.target.value);
+          setSearchValue(event.target.value);
         }}
         className={styles.filterNameInput}
       />
       <IconButton
-        active={value.length}
+        active={searchValue.length}
         className={styles.iconBtn}
         icon={<Magnifier />}
       />
@@ -52,8 +52,8 @@ const ObjectsPanelFilters = ({
 export default ObjectsPanelFilters;
 
 ObjectsPanelFilters.propTypes = {
-  setFilterName: PropTypes.func,
-  value: PropTypes.string,
+  setSearchValue: PropTypes.func,
+  searchValue: PropTypes.string,
   filterId: PropTypes.arrayOf(PropTypes.number),
   onFiltersSwitch: PropTypes.func
 };

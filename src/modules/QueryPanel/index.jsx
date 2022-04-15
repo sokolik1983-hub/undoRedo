@@ -16,7 +16,9 @@ import DragNDropProvider from './context/DragNDropContex';
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
   const [semanticLayer, setSemanticLayer] = useState(null);
-  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(false);
+  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(
+    false
+  );
   const [isQueryExecute, setQueryExecute] = useState(false);
 
   useEffect(() => {
@@ -59,9 +61,13 @@ const QueryPanel = ({ visible }) => {
               />
             </div>
             <div className={styles.rightPanel}>
-              <Objects className={styles.section} title="Объекты отчета" />
+              <Objects className={styles.section} />
               <Filters className={styles.section} title="Фильтры запроса" />
-              <Results className={styles.section} title="Просмотр данных" isQueryExecute={isQueryExecute} />
+              <Results
+                className={styles.section}
+                title="Просмотр данных"
+                isQueryExecute={isQueryExecute}
+              />
               <QueryPanelControls
                 onRun={handleQueryExecute}
                 onApply={() => {}}

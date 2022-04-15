@@ -1,17 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import Divider from '../../../common/components/Divider';
-import styles from './Objects.module.scss';
-import { ReactComponent as Filter } from '../../../layout/assets/queryPanel/filter.svg';
-import { ReactComponent as Lists } from '../../../layout/assets/queryPanel/lists.svg';
-import { ReactComponent as Basket } from '../../../layout/assets/queryPanel/basket.svg';
 import ObjectItem from './Object/index';
 import { useDragNDrop } from '../context/DragNDropContex';
+import ObjectsHeader from './ObjectsHeader/ObjectsHeader';
+import styles from './Objects.module.scss';
 
-const Objects = ({ title }) => {
+const Objects = () => {
   const {
     objectsDesk,
     onDeleteObjectItem,
+    clearObjectsDesk,
     handleDragStart,
     handleDragOver,
     handleDropObject,
@@ -19,30 +16,8 @@ const Objects = ({ title }) => {
   } = useDragNDrop();
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.top}>
-        <div className={styles.title}>{title}</div>
-        <div className={styles.icons}>
-          <div className={styles.filterWrapper}>
-            <Filter className={styles.filterIcon} />
-            <div className={styles.hide}>
-              <p className={styles.filter}>фильтр</p>
-            </div>
-          </div>
-          <div className={styles.listsWrapper}>
-            <Lists className={styles.listsIcon} />
-            <div className={styles.hide}>
-              <p className={styles.lists}>списки</p>
-            </div>
-          </div>
-          <div className={styles.basketWrapper}>
-            <Basket className={styles.basket} />
-            <div className={styles.hide}>
-              <p className={styles.clear}>очистить всё</p>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className={styles.root}>
+      <ObjectsHeader clearObjectsDesk={clearObjectsDesk} />
       <Divider color="#FFFFFF" />
       <div
         className={styles.objectList}
@@ -68,7 +43,3 @@ const Objects = ({ title }) => {
 };
 
 export default Objects;
-
-Objects.propTypes = {
-  title: PropTypes.string
-};

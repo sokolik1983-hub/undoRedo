@@ -31,8 +31,8 @@ const ObjectsPanel = ({ symanticLayer, modalOpenHandler }) => {
       <ObjectsPanelHeader modalOpenHandler={modalOpenHandler} />
       <Divider color="#0D6CDD" />
       <ObjectsPanelFilters
-        value={searchValue}
-        setFilterName={setSearchValue}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
         filterId={filterTypeId}
         onFiltersSwitch={handleFiltersSwitch}
       />

@@ -14,6 +14,8 @@ const DragNDropProvider = ({ children }) => {
     setObjectsDesk(objectsDesk.filter(item => item.id !== id));
   };
 
+  const clearObjectsDesk = () => setObjectsDesk([]);
+
   const handleDragStart = (e, obj) => {
     e.stopPropagation();
     e.dataTransfer.setData('text', JSON.stringify(obj));
@@ -84,6 +86,7 @@ const DragNDropProvider = ({ children }) => {
         objectsDesk,
         filtersDesk,
         onDeleteObjectItem,
+        clearObjectsDesk,
         handleDragStart,
         handleDragOver,
         handleDropObject,
