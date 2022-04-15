@@ -15,6 +15,7 @@ import { ReactComponent as ArrowLeftIcon } from '../../../layout/assets/arrowLef
 import { ReactComponent as ArrowUpIcon } from '../../../layout/assets/arrow-up.svg';
 import { ReactComponent as ReloadIcon } from '../../../layout/assets/queryPanel/reload.svg';
 import Search from '../../../common/components/Search';
+import Tooltip from '../../../common/components/NewTooltip/Tooltip';
 
 const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const dispatch = useDispatch();
@@ -176,11 +177,13 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           />
-          <IconButton
-            className={selectModalStyles.reloadIcon}
-            icon={<ReloadIcon />}
-            onClick={onReload}
-          />
+          <Tooltip text='Сбросить' placement='bottom-left'>
+            <IconButton
+              className={selectModalStyles.reloadIcon}
+              icon={<ReloadIcon />}
+              onClick={onReload}
+            />
+          </Tooltip>
         </div>
         {!lodash.isEmpty(universes) ? (
           listItems?.map(item => item)
