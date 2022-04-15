@@ -38,7 +38,10 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const [searchValue, setSearchValue] = useState('');
   const [resArr, setResArr] = useState([]);
   const [searchExec, setSearchExec] = useState(false);
-  const interArr = [];
+  const [navActive, setNavActive] = useState(false);
+  const [tempArr, setTempArr] = useState([]);
+
+  let interArr = [];
 
   const searchSymLayer = (array) => {
     const univArray = array.children ? array.children : array;
@@ -49,35 +52,41 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     
     if (isRes && isRes.length > 0) {
       interArr.push(...isRes);
+      interArr = sortFoldersAndItems(interArr)
       setResArr(interArr);
+      setTempArr(interArr);
     }
     const isFolderRes = univArray.filter(univ => univ.isFolder && univ.children);
     if (isFolderRes && isFolderRes.length > 0) {
       isFolderRes.forEach(folder => {
-        return searchSymLayer(folder.children);
+        searchSymLayer(folder.children);
       });
     }
-    return null
   };
 
-  const onSearch = (e) => {
+
+  const onSearch = (e, arr) => {
     e.preventDefault();
-    setSearchExec(true); 
     setCurrentFolderIndex(0);
-    searchSymLayer(universes);
+    if (searchValue.length) {
+      setSearchExec(true); 
+      searchSymLayer(arr);
+    } else {
+      setSearchExec(false);
+      setCurrentFolderIndex(0);
+    } 
   };
+
+  useEffect(() => {
+    if (!searchExec) {
+      setResArr([]);
+      setFoldersHistory([rootFolder]);
+    }
+  }, [searchExec]);
 
   useEffect(() => {
     setFoldersHistory([rootFolder]);
   }, [universes]);
-
-  useEffect(() => {
-    if (!searchValue.length) {
-      setResArr([]);
-      setSearchExec(false);
-      setCurrentFolderIndex(0);
-    }    
-  }, [searchValue])
 
   const onFolderDoubleClick = (folder) => {
     const folderWithSortedChildren = {
@@ -105,14 +114,17 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     setFoldersHistory([rootFolder]);
   };
 
+  const result = searchExec ? resArr : foldersHistory[currentFolderIndex]?.children;
+
   useEffect(() => {
-    setResArr(foldersHistory[currentFolderIndex]?.children);
+    setNavActive(!!currentFolderIndex);
+    if (currentFolderIndex && searchExec) {
+      setResArr(foldersHistory[currentFolderIndex]?.children);
+    }
     if (!currentFolderIndex && searchExec) {
-      searchSymLayer(universes);
+      setResArr(tempArr);
     }
   }, [currentFolderIndex]);
-
-  const result = searchExec ? resArr : foldersHistory[currentFolderIndex]?.children;
 
   const listItems = result?.map(item => {
     const { isFolder } = item;
@@ -138,18 +150,18 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const modalContent = () => {
     return (
       <>
-        <div className={currentFolderIndex ? selectModalStyles.navigationActions : selectModalStyles.disNavigationActions}>
+        <div className={navActive ? selectModalStyles.navigationActions : selectModalStyles.disNavigationActions}>
           <IconButton
             icon={<ArrowLeftIcon />}
-            onClick={currentFolderIndex && moveToPrevFolder}
+            onClick={navActive && moveToPrevFolder}
           />
           <IconButton
             icon={<ArrowUpIcon />}
-            onClick={currentFolderIndex && moveToRootFolder}
+            onClick={navActive && moveToRootFolder}
           />
           <Search
             className={selectModalStyles.search}
-            onSubmit={(e) => onSearch(e)}
+            onSubmit={(e) => onSearch(e, result)}
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           />
