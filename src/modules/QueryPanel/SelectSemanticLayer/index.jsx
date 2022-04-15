@@ -11,8 +11,9 @@ import Preloader from '../../../common/components/Preloader/Preloader';
 import ListItem from '../../../common/components/List/ListItem/ListItem'
 import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
 import { ReactComponent as UniverseIcon } from '../../../layout/assets/connectorIcon.svg';
-import { ReactComponent as ArrowLeftIcon} from '../../../layout/assets/arrowLeft.svg';
-import { ReactComponent as ArrowUpIcon} from '../../../layout/assets/arrow-up.svg';
+import { ReactComponent as ArrowLeftIcon } from '../../../layout/assets/arrowLeft.svg';
+import { ReactComponent as ArrowUpIcon } from '../../../layout/assets/arrow-up.svg';
+import { ReactComponent as ReloadIcon } from '../../../layout/assets/queryPanel/reload.svg';
 import Search from '../../../common/components/Search';
 
 const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
@@ -52,7 +53,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     
     if (isRes && isRes.length > 0) {
       interArr.push(...isRes);
-      interArr = sortFoldersAndItems(interArr)
+      interArr = sortFoldersAndItems(interArr);
       setResArr(interArr);
       setTempArr(interArr);
     }
@@ -68,12 +69,13 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const onSearch = (e, arr) => {
     e.preventDefault();
     setCurrentFolderIndex(0);
+    setResArr([]);
+    setTempArr([]);
     if (searchValue.length) {
       setSearchExec(true); 
       searchSymLayer(arr);
     } else {
       setSearchExec(false);
-      setCurrentFolderIndex(0);
     } 
   };
 
@@ -147,6 +149,15 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     return onClose();
   };
 
+  const onReload = () => {
+    setSearchExec(false);
+    setResArr([]);
+    interArr = [];
+    setSearchValue('');
+    setCurrentFolderIndex(0);
+    setFoldersHistory([rootFolder]); 
+  };
+
   const modalContent = () => {
     return (
       <>
@@ -164,6 +175,11 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
             onSubmit={(e) => onSearch(e, result)}
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
+          />
+          <IconButton
+            className={selectModalStyles.reloadIcon}
+            icon={<ReloadIcon />}
+            onClick={onReload}
           />
         </div>
         {!lodash.isEmpty(universes) ? (

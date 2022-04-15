@@ -31,6 +31,12 @@
 
 .navigationActions {
   display: flex;
+
+  .reloadIcon {
+    svg path {
+      fill: black !important;
+    }
+  }
 }
 
 .disNavigationActions {
@@ -45,16 +51,14 @@
       fill: grey;
     }
   }
-}
 
-.rootButton {
-  display: flex;
-  padding-left: 5px;
-  align-items: center;
-
-  button {
-    pointer-events: all;
+  .reloadIcon {
     cursor: pointer;
+    pointer-events: all;
+
+    svg path {
+      fill: black;
+    }
   }
 }
 
@@ -68,7 +72,7 @@
 
   svg path {
     fill: url(#paint0_linear_276_1685) !important;
-  }
+  }  
 }
 
 .modalContent {
