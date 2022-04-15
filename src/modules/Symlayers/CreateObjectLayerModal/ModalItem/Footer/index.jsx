@@ -2,10 +2,7 @@ import React from 'react';
 
 import Button from '../../../../../common/components/Button';
 import { BUTTON } from '../../../../../common/constants/common';
-// import Button from '../../../../../common/components/Button';
-// // import CheckBox from '../../../../../common/components/CheckBox';
-// import CheckboxField from '../../../../../common/components/formikFields/checkboxField';
-// import Select from '../../../../../common/components/Select';
+
 import styles from './Footer.module.scss';
 
 const FooterBlock = () => {
@@ -15,17 +12,13 @@ const FooterBlock = () => {
 
   return (
     <div className={styles.footerBlock}>
-      <Button
-        onClick={handleClick}
-        buttonStyle={BUTTON.BIG_ORANGE}
-        className={styles.showBtn}
-      >
+      <Button onClick={handleClick} buttonStyle={BUTTON.BIG_ORANGE}>
         Сохранить
       </Button>
       <Button
         onClick={handleClick}
         buttonStyle={BUTTON.BIG_BLUE}
-        className={styles.showBtn}
+        className={styles.cancelBtn}
       >
         Отмена
       </Button>

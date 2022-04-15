@@ -7,23 +7,23 @@ import styles from './PropertiesBlock.module.scss';
 
 const PropertiesBlock = () => {
   const selectDateOptions = [
-    { text: 'Символ', value: 'Symbol' },
-    { text: 'Дата', value: 'Data' },
-    { text: 'Номер', value: 'Number' },
-    { text: 'Текст', value: 'Text' }
+    { text: 'Символ', value: 'symbol' },
+    { text: 'Дата', value: 'data' },
+    { text: 'Номер', value: 'number' },
+    { text: 'Текст', value: 'text' }
   ];
 
   const selectTypeOptions = [
-    { text: 'Показатель', value: 'Indicator', icon: <MeasurementIcon /> },
-    { text: 'Измерение', value: 'Measuring' },
-    { text: 'Атрибут', value: 'Attribute' }
+    { text: 'Показатель', value: 'indicator', icon: <MeasurementIcon /> },
+    { text: 'Измерение', value: 'measuring' },
+    { text: 'Атрибут', value: 'attribute' }
   ];
 
   const selectFuncOptions = [
-    { text: 'Нет', value: 'None' },
-    { text: 'Среднее', value: 'Average' },
-    { text: 'Сумма', value: 'Sum' },
-    { text: 'Счётчик', value: 'Counter' }
+    { text: 'Нет', value: 'none' },
+    { text: 'Среднее', value: 'average' },
+    { text: 'Сумма', value: 'sum' },
+    { text: 'Счётчик', value: 'counter' }
   ];
 
   return (
@@ -34,20 +34,19 @@ const PropertiesBlock = () => {
           <Select
             className={styles.selectData}
             options={selectDateOptions}
-            // size={2}
           />
         </div>
       </div>
       <div className={styles.objectType}>
         <p>Тип</p>
         <div className={styles.selectField}>
-          <Select className={styles.selectData} options={selectTypeOptions} />
+          <Select className={styles.selectType} options={selectTypeOptions} />
         </div>
       </div>
       <div className={styles.objectFunction}>
         <p>Функция</p>
         <div className={styles.selectField}>
-          <Select className={styles.selectData} options={selectFuncOptions} />
+          <Select className={styles.selectfunc} options={selectFuncOptions} />
         </div>
       </div>
     </div>

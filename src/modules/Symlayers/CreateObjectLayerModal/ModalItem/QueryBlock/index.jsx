@@ -22,7 +22,7 @@ const QueryBlock = () => {
       <div className={styles.queryParamsGroup}>
         <p>Select</p>
         <div className={styles.selectGroup}>
-          <input
+          <textarea
             id="createObjectSelectInput"
             className={styles.descriptionInput}
           />
@@ -32,7 +32,7 @@ const QueryBlock = () => {
         </div>
         <p>Where</p>
         <div className={styles.whereGroup}>
-          <input
+          <textarea
             id="createObjectWhereInput"
             className={styles.descriptionInput}
           />

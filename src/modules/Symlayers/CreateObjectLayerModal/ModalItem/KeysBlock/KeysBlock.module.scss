@@ -1,0 +1,66 @@
+.keysBlock,
+.manageKeysGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.selectGroup {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
+}
+
+.typeGroup {
+  display: flex;
+  flex-direction: column;
+}
+.selectInputGroup,
+.whereInputGroup {
+  display: flex;
+  flex-direction: column;
+  margin-left: 8px;
+}
+
+.footerGroup {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+
+.keysBtn {
+  margin-left: 11px;
+}
+
+.smalltext {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 144.69%;
+}
+
+.typeSelect {
+  height: 22px;
+  width: 87px;
+  padding-left: 5px;
+  border: none;
+  outline: none;
+}
+
+.selectTextArea {
+  height: 22px;
+  width: 146px;
+  resize: none;
+  border: none;
+  outline: none;
+}
+
+.whereTextArea {
+  @extend .selectTextArea;
+  width: 131px;
+}
+
+.table {
+    height: 98px;
+    width: 380px;
+}

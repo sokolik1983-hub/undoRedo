@@ -7,8 +7,8 @@ const DescriptionBlock = () => {
   return (
     <div className={styles.objectDescriptionBlock}>
       <p>Описание</p>
-      <input
-        id='createObjectDescription'
+      <textarea
+        id="createObjectDescription"
         className={styles.descriptionInput}
       />
     </div>

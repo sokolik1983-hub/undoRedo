@@ -1,19 +1,16 @@
 import React from 'react';
 import ModalItem from '..';
-// import Button from '../../../../../common/components/Button';
-// // import CheckBox from '../../../../../common/components/CheckBox';
-// import CheckboxField from '../../../../../common/components/formikFields/checkboxField';
-// import Select from '../../../../../common/components/Select';
-// import { BUTTON } from '../../../../../common/constants/common';
-// import styles from './valueListConnectionBlock.module.scss';
+import styles from './TechInfoBlock.module.scss';
 
 const TechInfoBlock = () => {
-  //   const handleClick = e => {
-  //     e.preventDefault();
-  //   };
-
   return (
-    <ModalItem title="Технические сведения"> </ModalItem>
+    <ModalItem title="Технические сведения">
+      <textarea id="techInfoInput" className={styles.techInfoInput} />
+      <p>Отображение</p>
+      <input id="displayInput" className={styles.techInfoInput} />
+      <p>Происхождение</p>
+      <input id="originInput" className={styles.techInfoInput} />
+    </ModalItem>
   );
 };
 

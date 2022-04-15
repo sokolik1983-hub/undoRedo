@@ -1,12 +1,6 @@
-.objectDescriptionBlock {
-  display: flex;
-  flex-direction: column;
-  padding: 3px 30px 5px 18px;
-}
-
-.descriptionInput {
+.techInfoInput {
   width: 379px;
-  height: 52px;
+  height: 74px;
   background-color: #fff;
   padding: 5px;
   margin: 5px 0 9px 5px;
@@ -20,8 +14,4 @@
   font-weight: 400;
   font-size: 12px;
   line-height: 14px;
-}
-
-.label {
-  color: #fff;
 }

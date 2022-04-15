@@ -16,7 +16,7 @@
 
 .defaultBtn {
   width: 90px;
-  margin: 3px 40px 40px 5px;
+  margin: 12px 40px 40px 5px;
 }
 
 .editBtn {
@@ -35,7 +35,7 @@
 .defaultLinkInput {
   height: 22px;
   width: 176px;
-  margin-right: 20px;
+  margin-right: 26px;
 }
 
 .linkBtnGroup {
@@ -48,14 +48,26 @@
   font-size: 10px;
 }
 
-.checkBoxWrapper {
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-}
-
 .selectData {
   height: 22px;
   width: 176px;
   margin: 5px 24px 30px 2px;
+  .selectData:hover {
+    background: #33568C;
+  }
+}
+
+.checkBoxGroup1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 123px;
+}
+
+.checkBoxGroup2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 7px;
+  height: 74px;
 }
