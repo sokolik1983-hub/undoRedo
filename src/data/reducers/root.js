@@ -8,6 +8,7 @@ import dataReducer from './data';
 import reportDesignerReducer from './reportDesigner';
 import trashReducer from './trash';
 import schemaDesignerReducer from './schemaDesigner';
+import newReportDesignerReducer from './newReportDesigner';
 
 
 const appReducer = combineReducers({
@@ -18,7 +19,8 @@ const appReducer = combineReducers({
   data: dataReducer,
   reportDesigner: reportDesignerReducer,
   trash: trashReducer,
-  schemaDesigner: schemaDesignerReducer
+  schemaDesigner: schemaDesignerReducer,
+  newReportDesigner: newReportDesignerReducer
 });
 
 const rootReducer = (state, action) => {
