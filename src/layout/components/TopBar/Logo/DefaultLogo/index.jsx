@@ -19,6 +19,8 @@ const DefaultLogo = ({ currentPage }) => {
         return PAGE_TITLES.CONNECTORS;
       case PAGE.SEMANTIC:
         return PAGE_TITLES.SEMANTIC;
+      case PAGE.REPORTS:
+        return PAGE_TITLES.REPORTS;
       default: return null;
     }
   };
@@ -38,11 +40,11 @@ const DefaultLogo = ({ currentPage }) => {
       <div className={styles.logoContainer}>
         <LogoDefault />
         <div className={styles.pageTitle}>
-          { getPageName() }
+          {getPageName()}
         </div>
       </div>
       <div className={styles.pageLogo}>
-        { getPageIcon() }
+        {getPageIcon()}
       </div>
     </div>
   )

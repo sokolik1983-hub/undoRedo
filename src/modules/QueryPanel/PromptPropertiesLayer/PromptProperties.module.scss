@@ -78,10 +78,11 @@
 .allRadio {
   width: 100%;
   width: fit-content;
+
   display: flex;
   flex-direction: row;
   margin-left: 20px;
-  font-size: 14px;
+  margin-right: 20px;
   cursor: pointer;
 
   .text {
@@ -89,6 +90,14 @@
     width: fit-content;
     font-size: 14px;
   }
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  padding: 0 10px;
 }
 
 .allCheckBoxBlock {
@@ -99,11 +108,6 @@
   margin-bottom: 10px;
   margin-top: 5px;
   padding: 0 5px 5px 15px;
-  font-size: 14px;
-
-  .label {
-    font-size: 14px;
-  }
 }
 
 .checkBox {
@@ -111,21 +115,23 @@
   flex-direction: column;
   margin-bottom: 5px 0 10px 0;
   padding: 5px 5px 5px 15px;
-  font-size: 14px;
   cursor: pointer;
+  .label {
+    font-size: 14px;
+  }
 }
-
 .checkBoxWrapper {
   margin-bottom: 10px;
   display: flex;
   align-items: center;
+  font-size: 14px;
 }
 
 .byDefaultBlock {
   color: white;
   display: flex;
   flex-direction: column;
-  align-items: flex-start ;
+  align-items: flex-start;
   justify-content: start;
   width: 557px;
   height: 96px;
@@ -146,9 +152,6 @@
   }
   .defaultCheckBox {
     padding-left: 15px;
-    .CheckBox_label {
-      font-size: 14px;
-    }
   }
 }
 
@@ -157,11 +160,9 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  font-size: 14px;
   .button {
-    margin-left: 7px;
-  }
-  .label {
-    font-style: 14px;
+    margin-left: 12px;
   }
 }
 
@@ -207,11 +208,7 @@
   }
 }
 
-.radioLabel {
+.defaultCheckBoxlabel {
+  padding: 0 28px 0 5px;
   font-size: 14px;
-  padding: 0 5px;
-}
-
-.label {
-  padding: 0 28px 6px;
 }
