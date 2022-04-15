@@ -1,0 +1,51 @@
+.actionWrapper {
+  cursor: pointer;
+  margin-left: 24px;
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+.actionsContainer {
+  display: flex;
+  position: relative;
+  margin-top: 25px;
+}
+
+.tableTypes {
+  display: flex;
+  position: absolute;
+  top: -11px;
+  left: 450px;
+  background: #FFFFFF;
+  box-shadow: 0px 1.5px 1.5px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  padding: 9px 10px 7px;
+}
+
+.graphTypes {
+  @extend .tableTypes;
+
+  left: 500px;
+}
+
+.iconsWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-right: 14px;
+  cursor: pointer;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.iconsText {
+  margin: 0;
+  font-weight: 400;
+  font-size: 7px;
+  line-height: 8px;
+  color: #000000;
+  margin-top: 2px;
+}
