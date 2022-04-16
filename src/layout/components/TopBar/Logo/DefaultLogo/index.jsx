@@ -43,11 +43,11 @@ const DefaultLogo = ({ currentPage }) => {
       <div className={styles.logoContainer}>
         <LogoDefault />
         <div className={styles.pageTitle}>
-          { getPageName() }
+          {getPageName()}
         </div>
       </div>
       <div className={styles.pageLogo}>
-        { getPageIcon() }
+        {getPageIcon()}
       </div>
     </div>
   )

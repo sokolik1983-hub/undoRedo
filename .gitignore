@@ -30,3 +30,4 @@ yarn-error.log*
 /httpRequests/
 .vscode/settings.json
 .env
+.vscode/launch.json
