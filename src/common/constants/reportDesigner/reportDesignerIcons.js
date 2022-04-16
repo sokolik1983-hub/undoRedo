@@ -1,7 +1,7 @@
-import { ReactComponent as Table } from '../../layout/assets/reportPageIcons/table.svg';
-import { ReactComponent as CrossTable } from '../../layout/assets/reportPageIcons/crossTable.svg';
-import { ReactComponent as VerticalTable } from '../../layout/assets/reportPageIcons/verticalTable.svg';
-import { ReactComponent as HorizontalTable } from '../../layout/assets/reportPageIcons/horizontalTable.svg';
+import { ReactComponent as Table } from '../../../layout/assets/reportPageIcons/table.svg';
+import { ReactComponent as CrossTable } from '../../../layout/assets/reportPageIcons/crossTable.svg';
+import { ReactComponent as VerticalTable } from '../../../layout/assets/reportPageIcons/verticalTable.svg';
+import { ReactComponent as HorizontalTable } from '../../../layout/assets/reportPageIcons/horizontalTable.svg';
 
 export const TABLE_ICONS = [
   {

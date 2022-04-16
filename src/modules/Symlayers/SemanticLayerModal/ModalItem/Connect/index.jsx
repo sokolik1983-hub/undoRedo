@@ -11,7 +11,7 @@ import Button from '../../../../../common/components/Button';
  * @param title - строка для заголовка
  */
 
-const Connect = ({title}) => {
+const Connect = ({ title }) => {
 
   const [isActive, setIsActive] = useState(false);
 
@@ -31,10 +31,10 @@ const Connect = ({title}) => {
             <Gears isSpinning={isActive} className={styles.gearsIcon} />
           </div>
         </div>
-        <Select 
-          defaultValue='Коннектор 01 проба'
-          name='name1' 
-          options={[{value: '1', text: 'Коннектор 02 проба'}]} 
+        <Select
+          defaultValue='Соединение 01 проба'
+          name='name1'
+          options={[{ value: '1', text: 'Соединение 02 проба' }]}
         />
         <div className={styles.buttonsWrapper}>
           <Button className={styles.edit}>

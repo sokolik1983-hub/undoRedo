@@ -32,10 +32,21 @@ const BLOCK_TYPES = {
   shape: shapeObject
 };
 
+const getVariant = (type, tableType, graphType) => {
+  const types = ['table', 'graph'];
+
+  if (types.includes(type)) {
+    return type === 'table' ? tableType : graphType;
+  }
+
+  return type;
+}
+
 function ReportDesigner() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const dispatch = useDispatch();
   const reportDesigner = useSelector(state => state.app.reportDesigner);
+  const { tableType, graphType } = reportDesigner.reportsUi.ui;
   const currentReport = getCurrentReport(
     reportDesigner.reportsData.present.reports,
     reportDesigner.reportsData.present.activeReport
@@ -78,12 +89,14 @@ function ReportDesigner() {
   function handleAddBlock(event) {
     event.stopPropagation();
     if (reportDesigner.reportsUi.ui.creatingElement) {
+      const creatingElement = BLOCK_TYPES[reportDesigner.reportsUi.ui.creatingElement];
       const newStructure = [
         ...currentReport.structure,
         {
-          ...BLOCK_TYPES[reportDesigner.reportsUi.ui.creatingElement],
+          ...creatingElement,
           position: mousePosition,
-          id: generateId()
+          id: generateId(),
+          variant: getVariant(creatingElement.type, tableType, graphType)
         }
       ];
 
