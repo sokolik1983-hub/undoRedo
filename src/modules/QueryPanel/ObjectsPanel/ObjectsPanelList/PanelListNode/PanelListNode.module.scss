@@ -1,0 +1,9 @@
+.listNode {
+  list-style: none;
+
+  & .listNodeInnerList {
+    margin-left: 0;
+    padding-left: 23px;
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+  }
+}

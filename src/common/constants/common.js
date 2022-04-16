@@ -19,6 +19,7 @@ import { ReactComponent as DisableRefreshStructure } from '../../layout/assets/s
 
 export const TABLE_CELL_EMPTY_VALUE = '-';
 export const BREADCRUMBS_ROOT = '..'
+export const EMPTY_STRING = '';
 
 export const REDIRECT_LINKS = {
   HOME_PAGE: '/Universe/dashboard',

@@ -1,104 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import Divider from '../../../common/components/Divider';
-import styles from './Objects.module.scss';
-import { ReactComponent as Filter } from '../../../layout/assets/queryPanel/filter.svg';
-import { ReactComponent as Lists } from '../../../layout/assets/queryPanel/lists.svg';
-import { ReactComponent as Basket } from '../../../layout/assets/queryPanel/basket.svg';
 import ObjectItem from './Object/index';
+import { useDragNDrop } from '../context/DragNDropContex';
+import ObjectsHeader from './ObjectsHeader/ObjectsHeader';
+import styles from './Objects.module.scss';
 
-const Objects = ({ title }) => {
-  const objItem = {
-    id: 1,
-    title: 'Транспорт 200',
-    type: 'green',
-    order: 1 
-  };
-  const objItem2 = {
-    id: 2,
-    title: 'Банковские проводки',
-    type: 'orange',
-    order: 2
-  };
-  const objItem3 = {
-    id: 3,
-    title:'Опа 200',
-    type: 'blue',
-    order: 3
-  };
-
-  const [objArr, setObjArr] = useState(null);
-  const [currentObj, setCurrentObj] = useState(null);
-
-  useEffect(() => {
-    setObjArr([objItem, objItem2, objItem3]);
-  }, []);
-
-  const onDeleteObjItem = (id) => {
-    setObjArr(objArr.filter(item => item.id !== id));
-  };
-
-  const onDragStart = (id) => {
-    setCurrentObj(objArr.find(obj => obj.id === id));
-  };
-
-  const onDragNDrop = (id) => {
-    const dropObj = objArr.find(obj => obj.id === id);
-    
-    setObjArr(objArr.map(obj => {
-      if (obj.id === dropObj.id) {
-        return {...obj, order: currentObj.order};
-      }
-      if (obj.id === currentObj.id) {
-        return {...obj, order: dropObj.order};
-      }
-      return obj;
-    }));
-  };
-
-  const sortObjects = (a, b) => {
-    return a.order > b.order ? 1 : -1;
-  };
-
-  const onDeleteObjects = () => {
-    setObjArr(null);
-  };
+const Objects = () => {
+  const {
+    objectsDesk,
+    onDeleteObjectItem,
+    clearObjectsDesk,
+    handleDragStart,
+    handleDragOver,
+    handleDropObject,
+    onObjectDrop
+  } = useDragNDrop();
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.top}>
-        <div className={styles.title}>{title}</div>
-        <div className={styles.icons}>
-          <div className={styles.filterWrapper}>
-            <Filter className={styles.filterIcon} />
-            <div className={styles.hide}>
-              <p className={styles.filter}>фильтр</p>
-            </div>
-          </div>
-          <div className={styles.listsWrapper}>
-            <Lists className={styles.listsIcon} />
-            <div className={styles.hide}>
-              <p className={styles.lists}>списки</p>
-            </div>
-          </div>
-          <div className={styles.basketWrapper}>
-            <Basket className={styles.basket} onClick={onDeleteObjects} />
-            <div className={styles.hide}>
-              <p className={styles.clear}>очистить всё</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <Divider color='#FFFFFF' />
-      <div className={styles.objectList}>
-        {objArr?.sort(sortObjects).map(obj => (
-          <ObjectItem 
-            id={obj.id} 
-            title={obj.title} 
-            type={obj.type} 
-            onDeleteObjItem={onDeleteObjItem} 
-            onDragStart={onDragStart}
-            onDragNDrop={onDragNDrop}
+    <div className={styles.root}>
+      <ObjectsHeader clearObjectsDesk={clearObjectsDesk} />
+      <Divider color="#FFFFFF" />
+      <div
+        className={styles.objectList}
+        onDragOver={handleDragOver}
+        onDrop={handleDropObject}
+      >
+        {objectsDesk?.map(item => (
+          <ObjectItem
+            key={item.id}
+            id={item.id}
+            title={item.field}
+            type={item.objectType_id}
+            onDeleteItem={() => onDeleteObjectItem(item.id)}
+            draggable
+            onDragStart={e => handleDragStart(e, item)}
+            onDragOver={handleDragOver}
+            onDrop={e => onObjectDrop(e, item)}
           />
         ))}
       </div>
@@ -107,7 +43,3 @@ const Objects = ({ title }) => {
 };
 
 export default Objects;
-
-Objects.propTypes = {
-  title: PropTypes.string
-};

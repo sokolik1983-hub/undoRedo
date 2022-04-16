@@ -1,52 +1,43 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import ObjectsPanelHeader from './ObjectsPanelHeader/ObjectsPanelHeader';
 import Divider from '../../../common/components/Divider';
 import ObjectsPanelFilters from './ObjectsPanelFilters/ObjectsPanelFilters';
 import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList';
-import styles from './ObjectsPanel.module.scss';
 import { getSymanticLayerData } from '../../../data/actions/universes';
+import { usePanelListFilters } from './usePanelListFilters';
+import styles from './ObjectsPanel.module.scss';
 
-const ObjectsPanel = ({ symanticLayer, onToggleClick }) => {
+const ObjectsPanel = ({ symanticLayer, modalOpenHandler }) => {
   const dispatch = useDispatch();
-  const symLayersData = useSelector(state => state.app?.data?.symLayersData);
-  const structure = symLayersData?.data?.structure[0]?.children;
 
   useEffect(() => {
-    if (symanticLayer) dispatch(getSymanticLayerData(symanticLayer.id)); 
+    if (symanticLayer) dispatch(getSymanticLayerData(symanticLayer.id));
   }, [symanticLayer]);
 
-  /**
-   * Собственный стейт компонента
-  */
-  const [filterName, setFilterName] = useState('');
-  const [filterId, setFilterId] = useState([]);
+  const symLayersData = useSelector(state => state.app?.data?.symLayersData);
 
-  /**
-   * Отфильтрованный по имени и objectType_id массив списка
-  */
-  const filteredStructure = structure
-    ?.filter(item =>
-      item?.field?.toLowerCase().includes(filterName?.toLowerCase())
-    )
-    .filter(item => {
-      if (!filterId.length) return true;
-      return filterId.includes(item.objectType_id);
-    });
+  const {
+    rootFolder,
+    filterTypeId,
+    handleFiltersSwitch,
+    searchValue,
+    setSearchValue
+  } = usePanelListFilters(symLayersData?.data?.structure[0]);
 
   return (
     <div className={styles.root}>
-      <ObjectsPanelHeader onToggleClick={onToggleClick} />
+      <ObjectsPanelHeader modalOpenHandler={modalOpenHandler} />
       <Divider color="#0D6CDD" />
       <ObjectsPanelFilters
-        setFilterName={setFilterName}
-        value={filterName}
-        setFilterId={setFilterId}
-        filterId={filterId}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+        filterId={filterTypeId}
+        onFiltersSwitch={handleFiltersSwitch}
       />
       <div className={styles.panelListContainer}>
-        <ObjectsPanelList rootFolder={filteredStructure} />
+        {rootFolder && <ObjectsPanelList rootFolder={rootFolder} />}
       </div>
     </div>
   );
@@ -56,5 +47,5 @@ export default ObjectsPanel;
 
 ObjectsPanel.propTypes = {
   symanticLayer: PropTypes.object,
-  onToggleClick: PropTypes.func
+  modalOpenHandler: PropTypes.func
 };
