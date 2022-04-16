@@ -11,11 +11,14 @@ import Objects from './Objects';
 import Filters from './Filters';
 import Results from './Results';
 import QueryPanelControls from './QueryPanelControls/QueryPanelControls';
+import DragNDropProvider from './context/DragNDropContex';
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
   const [semanticLayer, setSemanticLayer] = useState(null);
-  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(false);
+  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(
+    false
+  );
   const [isQueryExecute, setQueryExecute] = useState(false);
 
   useEffect(() => {
@@ -49,24 +52,30 @@ const QueryPanel = ({ visible }) => {
   const modalContent = () => {
     return (
       <div className={styles.root}>
-        <div className={styles.content}>
-          <div className={styles.leftPanel}>
-            <ObjectsPanel
-              symanticLayer={semanticLayer}
-              onToggleClick={handleShowSelector}
-            />
+        <DragNDropProvider>
+          <div className={styles.content}>
+            <div className={styles.leftPanel}>
+              <ObjectsPanel
+                symanticLayer={semanticLayer}
+                modalOpenHandler={handleShowSelector}
+              />
+            </div>
+            <div className={styles.rightPanel}>
+              <Objects className={styles.section} />
+              <Filters className={styles.section} title="Фильтры запроса" />
+              <Results
+                className={styles.section}
+                title="Просмотр данных"
+                isQueryExecute={isQueryExecute}
+              />
+              <QueryPanelControls
+                onRun={handleQueryExecute}
+                onApply={() => {}}
+                onCancel={handleClose}
+              />
+            </div>
           </div>
-          <div className={styles.rightPanel}>
-            <Objects className={styles.section} title="Объекты отчета" />
-            <Filters className={styles.section} title="Фильтры запроса" />
-            <Results className={styles.section} title="Просмотр данных" isQueryExecute={isQueryExecute} />
-            <QueryPanelControls
-              onRun={handleQueryExecute}
-              onApply={() => {}}
-              onCancel={handleClose}
-            />
-          </div>
-        </div>
+        </DragNDropProvider>
         {semanticLayerModalOpened && (
           <SelectSemanticLayer
             visible={semanticLayerModalOpened && true}

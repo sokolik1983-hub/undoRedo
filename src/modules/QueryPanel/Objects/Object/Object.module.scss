@@ -12,15 +12,19 @@
   border: 1px solid #ccc;
   font-size: 12px;
 
-  span {
-    width: 160px;
+  & .title {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  button {
+  & .btn {
     border: none;
     outline: none;
-    background-color: #fff;
+    background-color: transparent;
     cursor: pointer;
+    margin: 0;
   }
 
   div {
@@ -32,29 +36,28 @@
   }
 
   &:hover {
-    background: linear-gradient(206.57deg, #FFC700 -15.48%, #DF0909 169.05%);
+    background: linear-gradient(206.57deg, #ffc700 -15.48%, #df0909 169.05%);
     border-color: rgba(23, 64, 87, 0.7);
     color: #fff;
 
-    button {
+    .btn {
       background-color: inherit;
       z-index: 10;
     }
 
     &::after {
-        content:"";
-        position: absolute;
-        width: 172px;
-        height: 28px;
-        left: -1px;
-        border-radius: 4px; 
-        padding: 1px; 
-        background: linear-gradient(206.57deg, #FFC700 -15.48%, #DF0909 169.05%); 
-        -webkit-mask: 
-          linear-gradient(#fff 0 0) content-box, 
-          linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-          mask-composite: exclude; 
+      content: '';
+      position: absolute;
+      width: 172px;
+      height: 28px;
+      left: -1px;
+      border-radius: 4px;
+      padding: 1px;
+      background: linear-gradient(206.57deg, #ffc700 -15.48%, #df0909 169.05%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
     }
   }
 }
