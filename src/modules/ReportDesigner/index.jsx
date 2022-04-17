@@ -24,30 +24,40 @@ import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
 // import { SIDE_PANEL_TYPES } from '../../common/constants/common';
 import FormulaEditor from '../../common/components/FormulaEditor';
-import Sidebar from '../SymlayersDesigner/Sidebar';
+// import Sidebar from '../SymlayersDesigner/Sidebar';
+import ObjectsPanel from '../QueryPanel/ObjectsPanel';
+import DragNDropProvider from '../QueryPanel/context/DragNDropContext';
+// import { getSymanticLayerData } from '../../data/actions/universes';
 
 const BLOCK_TYPES = {
-  table: tableObject,
+  table_vertical: tableObject,
+  table_cross: tableObject,
+  table_horizontal: tableObject,
   graph: graphObject,
   text: textObject,
   shape: shapeObject
 };
 
-const getVariant = (type, tableType, graphType) => {
-  const types = ['table', 'graph'];
+// const getVariant = (type, tableType, graphType) => {
+//   const types = ['table', 'graph'];
 
-  if (types.includes(type)) {
-    return type === 'table' ? tableType : graphType;
-  }
+//   if (types.includes(type)) {
+//     return type === 'table' ? tableType : graphType;
+//   }
 
-  return type;
-}
+//   return type;
+// };
 
 function ReportDesigner() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [semanticLayer, setSemanticLayer] = useState({
+    id: 165,
+    name: 'Клиентская справка'
+  });
+
   const dispatch = useDispatch();
   const reportDesigner = useSelector(state => state.app.reportDesigner);
-  const { tableType, graphType } = reportDesigner.reportsUi.ui;
+  const { creatingElement } = reportDesigner.reportsUi.ui;
   const currentReport = getCurrentReport(
     reportDesigner.reportsData.present.reports,
     reportDesigner.reportsData.present.activeReport
@@ -90,14 +100,13 @@ function ReportDesigner() {
   function handleAddBlock(event) {
     event.stopPropagation();
     if (reportDesigner.reportsUi.ui.creatingElement) {
-      const creatingElement = BLOCK_TYPES[reportDesigner.reportsUi.ui.creatingElement];
       const newStructure = [
         ...currentReport.structure,
         {
-          ...creatingElement,
+          ...BLOCK_TYPES[reportDesigner.reportsUi.ui.creatingElement],
           position: mousePosition,
           id: generateId(),
-          variant: getVariant(creatingElement.type, tableType, graphType)
+          variant: creatingElement
         }
       ];
 
@@ -209,10 +218,25 @@ function ReportDesigner() {
     }
   }
 
+  const handleShowSelector = () => {
+    setSemanticLayer(true);
+  };
+
+  // useEffect(() => {
+  //   if (semanticLayer) dispatch(getSymanticLayerData(semanticLayer.id));
+  // }, [semanticLayer]);
+  // {id: 165, name: "Клиентская справка"}
+
   return (
     <div className={styles.root}>
       <div className={styles.sidebar}>
-        <Sidebar />
+        <DragNDropProvider>
+          <ObjectsPanel
+            symanticLayer={semanticLayer}
+            onToggleClick={handleShowSelector}
+            showHeader={false}
+          />
+        </DragNDropProvider>
       </div>
       <div className={styles.content}>
         {reportDesigner.reportsUi.ui.showFormulaEditor && (

@@ -11,7 +11,7 @@ import Objects from './Objects';
 import Filters from './Filters';
 import Results from './Results';
 import QueryPanelControls from './QueryPanelControls/QueryPanelControls';
-import DragNDropProvider from './context/DragNDropContex';
+import DragNDropProvider from './context/DragNDropContext';
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();

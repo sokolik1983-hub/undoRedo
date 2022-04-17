@@ -7,7 +7,7 @@ import { ReactComponent as GaugeIcon } from '../../../../../layout/assets/queryP
 import { ReactComponent as MeasurementIcon } from '../../../../../layout/assets/queryPanel/measurementIcon.svg';
 import { ReactComponent as AttributeIcon } from '../../../../../layout/assets/queryPanel/attributeIcon.svg';
 import styles from './PanelListNode.module.scss';
-import { useDragNDrop } from '../../../context/DragNDropContex';
+import { useDragNDrop } from '../../../context/DragNDropContext';
 
 const PanelListNode = ({ item }) => {
   const { handleDragStart } = useDragNDrop();

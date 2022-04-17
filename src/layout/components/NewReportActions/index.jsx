@@ -17,14 +17,14 @@ const NewReportActions = () => {
 
   const handleTableTypeChange = (type) => {
     setIsTableOpen(!isTableOpen);
-    dispatch(setTableType(type));
-    dispatch(setCreatingElement('table'));
+    // dispatch(setTableType(type));
+    dispatch(setCreatingElement(type));
   };
 
   const handleGraphTypeChange = (type) => {
     setIsGraphOpen(!isGraphOpen);
-    dispatch(setGraphType(type));
-    dispatch(setCreatingElement('graph'));
+    // dispatch(setGraphType(type));
+    dispatch(setCreatingElement(type));
   };
 
   const actions = {

@@ -43,10 +43,10 @@ function DataTable({
   function handleDropObject(event) {
     const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
     event.dataTransfer.clearData();
-
+    debugger
     dispatch(
       addTableColumn({
-        column: { ...columnObject, object: { ...selectedEl.object } },
+        column: { ...columnObject, object: { ...selectedEl } },
         id
       })
     );
@@ -167,7 +167,8 @@ function DataTable({
                 })}
                 style={{ ...col.header.styles }}
               >
-                {col.object.name}
+                {/* TODO поменять после апдейта бэка */}
+                {col.object.field} 
               </th>
             ))}
           </tr>
@@ -179,8 +180,9 @@ function DataTable({
               {structureItem?.columns?.map(col => {
                 const fieldIndex = lodash.findIndex(
                   currentReport?.dataset?.fields,
-                  field => field.id === col.object.id
+                  field => Number(field.id) === Number(col.object.id)
                 );
+                debugger
                 return (
                   <td
                     // eslint-disable-next-line react/no-array-index-key
@@ -307,11 +309,11 @@ function DataTable({
 
   function renderTable() {
     switch (structureItem?.variant) {
-      case 'vertical':
+      case 'table_vertical':
         return renderVerticalTable();
-      case 'horizontal':
+      case 'table_horizontal':
         return renderHorizontalTable();
-      case 'cross':
+      case 'table_cross':
         return renderCrossTable();
       default:
         return null;
