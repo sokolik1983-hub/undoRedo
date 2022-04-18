@@ -77,7 +77,7 @@ const AuditFilters = ({ audit, actions, handleSetFilters }) => {
   });
 
   const content = (
-    <div>
+    <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly'}}>
       <DatePicker onDateSelect={setStartDate} name="startDate" />
       <DatePicker onDateSelect={setEndDate} name="endDate" />
     </div>
