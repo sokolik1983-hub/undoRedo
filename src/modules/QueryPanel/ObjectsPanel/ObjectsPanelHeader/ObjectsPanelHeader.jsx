@@ -4,7 +4,7 @@ import { ReactComponent as Arrow } from '../../../../layout/assets/queryPanel/ar
 import { ReactComponent as PlusIcon } from '../../../../layout/assets/queryPanel/plus.svg';
 import styles from './ObjectsPanelHeader.module.scss';
 
-const ObjectsPanelHeader = ({ onToggleClick }) => {
+const ObjectsPanelHeader = ({ modalOpenHandler }) => {
   const handleClick = () => {
     console.log('Данные организации');
   };
@@ -18,7 +18,7 @@ const ObjectsPanelHeader = ({ onToggleClick }) => {
       </div>
       <IconButton
         className={styles.plusBtn}
-        onClick={onToggleClick}
+        onClick={modalOpenHandler}
         icon={<PlusIcon />}
       />
     </div>
@@ -28,5 +28,5 @@ const ObjectsPanelHeader = ({ onToggleClick }) => {
 export default ObjectsPanelHeader;
 
 ObjectsPanelHeader.propTypes = {
-  onToggleClick: PropTypes.func
+  modalOpenHandler: PropTypes.func
 };

@@ -3,11 +3,7 @@
   padding: 0;
 }
 
-.listNode {
-  list-style: none;
-
-  & .listNodeInnerList {
-    margin-left: 0;
-    padding-left: 23px;
-  }
+.innerListNode {
+  margin: 0;
+  padding-left: 23px;
 }

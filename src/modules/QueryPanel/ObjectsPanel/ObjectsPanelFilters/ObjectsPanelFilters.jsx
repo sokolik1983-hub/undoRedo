@@ -8,55 +8,39 @@ import styles from './ObjectsPanelFilters.module.scss';
 import TextInput from '../../../../common/components/TextInput';
 
 const ObjectsPanelFilters = ({
-  setFilterName,
-  value,
-  setFilterId,
-  filterId
+  searchValue,
+  setSearchValue,
+  filterId,
+  onFiltersSwitch
 }) => {
-
-  /**
-   * Обработчик события добавления фильтра по objectType_id
-   * 
-   * @param id objectType_id, который зашит в каждом элементе и по которуму сортируем список
-  */
-  const onChangeFilterIdHandler = id => {
-    if (!filterId.includes(id)) {
-      setFilterId([...filterId, id]);
-    } else {
-      setFilterId(prevState =>
-        prevState.filter(objectTypeId => objectTypeId !== id)
-      );
-    }
-  };
-
   return (
     <div className={styles.root}>
       <TextInput
-        value={value}
+        value={searchValue}
         onChange={event => {
-          setFilterName(event.target.value);
+          setSearchValue(event.target.value);
         }}
         className={styles.filterNameInput}
       />
       <IconButton
-        active={value.length}
+        active={searchValue.length}
         className={styles.iconBtn}
         icon={<Magnifier />}
       />
       <IconButton
-        onClick={() => onChangeFilterIdHandler(1)}
+        onClick={() => onFiltersSwitch(1)}
         className={styles.iconBtn}
         icon={<GaugeIcon />}
         active={filterId.includes(1)}
       />
       <IconButton
-        onClick={() => onChangeFilterIdHandler(3)}
+        onClick={() => onFiltersSwitch(3)}
         className={styles.iconBtn}
         icon={<AttributeIcon />}
         active={filterId.includes(3)}
       />
       <IconButton
-        onClick={() => onChangeFilterIdHandler(2)}
+        onClick={() => onFiltersSwitch(2)}
         className={styles.iconBtn}
         icon={<MeasurementIcon />}
         active={filterId.includes(2)}
@@ -68,8 +52,8 @@ const ObjectsPanelFilters = ({
 export default ObjectsPanelFilters;
 
 ObjectsPanelFilters.propTypes = {
-  setFilterName: PropTypes.func,
-  value: PropTypes.string,
-  setFilterId: PropTypes.func,
+  setSearchValue: PropTypes.func,
+  searchValue: PropTypes.string,
   filterId: PropTypes.arrayOf(PropTypes.number),
+  onFiltersSwitch: PropTypes.func
 };
