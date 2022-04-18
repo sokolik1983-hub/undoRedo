@@ -6,10 +6,10 @@ import Divider from '../../../common/components/Divider';
 import ObjectsPanelFilters from './ObjectsPanelFilters/ObjectsPanelFilters';
 import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList';
 import { getSymanticLayerData } from '../../../data/actions/universes';
-import { usePanelListFilters } from './usePanelListFilters';
+import usePanelListFilters from './usePanelListFilters';
 import styles from './ObjectsPanel.module.scss';
 
-const ObjectsPanel = ({ symanticLayer, modalOpenHandler }) => {
+const ObjectsPanel = ({ symanticLayer, modalOpenHandler, showHeader }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,8 +28,13 @@ const ObjectsPanel = ({ symanticLayer, modalOpenHandler }) => {
 
   return (
     <div className={styles.root}>
-      <ObjectsPanelHeader modalOpenHandler={modalOpenHandler} />
-      <Divider color="#0D6CDD" />
+      {showHeader && (
+        <>
+          <ObjectsPanelHeader modalOpenHandler={modalOpenHandler} />
+          <Divider color="#0D6CDD" />
+        </>
+      )}
+
       <ObjectsPanelFilters
         searchValue={searchValue}
         setSearchValue={setSearchValue}
@@ -47,5 +52,6 @@ export default ObjectsPanel;
 
 ObjectsPanel.propTypes = {
   symanticLayer: PropTypes.object,
-  modalOpenHandler: PropTypes.func
+  modalOpenHandler: PropTypes.func,
+  showHeader: PropTypes.bool
 };

@@ -25,7 +25,7 @@ function StyleFormatter({ onChange, isHeader }) {
   return (
     <div>
       <SectionGroup
-        title="Font"
+        title="Шрифт"
         actions={[
           {
             id: 'font-family',
@@ -60,11 +60,11 @@ function StyleFormatter({ onChange, isHeader }) {
         ]}
       />
       <SectionGroup
-        title="Format"
+        title="Формат"
         actions={[
           {
             id: 'BOLD',
-            name: 'Bold Text',
+            name: 'Жирный',
             icon: <FormatBoldIcon className={styles.icon} />,
             action: () =>
               onChange({
@@ -74,7 +74,7 @@ function StyleFormatter({ onChange, isHeader }) {
           },
           {
             id: 'ITALIC',
-            name: 'Insert graph',
+            name: 'Курсив',
             icon: <FormatItalicIcon className={styles.icon} />,
             action: () =>
               onChange({
@@ -85,7 +85,7 @@ function StyleFormatter({ onChange, isHeader }) {
 
           {
             id: 'BACK_COLOR',
-            name: 'Insert text',
+            name: 'Цвет фона',
             component: (
               <ColorPicker
                 icon={<FormatColorFillIcon className={styles.icon} />}
@@ -101,7 +101,7 @@ function StyleFormatter({ onChange, isHeader }) {
           },
           {
             id: 'FONT_COLOR',
-            name: 'Insert text',
+            name: 'Цвет текста',
             component: (
               <ColorPicker
                 icon={<FormatColorTextIcon className={styles.icon} />}
@@ -117,7 +117,7 @@ function StyleFormatter({ onChange, isHeader }) {
           },
           {
             id: 'CLEAR_STYLE',
-            name: 'Insert text',
+            name: 'Очистить',
             icon: <FormatClearIcon className={styles.icon} />,
             action: () =>
               onChange({
@@ -128,11 +128,11 @@ function StyleFormatter({ onChange, isHeader }) {
         ]}
       />
       <SectionGroup
-        title="Align"
+        title="Выравнивание"
         actions={[
           {
             id: 'LEFT_ALIGN',
-            name: 'Insert text',
+            name: 'По левому краю',
             icon: <FormatAlignLeftIcon className={styles.icon} />,
             action: () =>
               onChange({
@@ -142,7 +142,7 @@ function StyleFormatter({ onChange, isHeader }) {
           },
           {
             id: 'CENTER_ALIGN',
-            name: 'Insert text',
+            name: 'По центру',
             icon: <FormatAlignCenterIcon className={styles.icon} />,
             action: () =>
               onChange({
@@ -152,7 +152,7 @@ function StyleFormatter({ onChange, isHeader }) {
           },
           {
             id: 'JUSTIFY_ALIGN',
-            name: 'Insert text',
+            name: 'По ширине текста',
             icon: <FormatAlignJustifyIcon className={styles.icon} />,
             action: () =>
               onChange({
@@ -162,7 +162,7 @@ function StyleFormatter({ onChange, isHeader }) {
           },
           {
             id: 'RIGHT_ALIGN',
-            name: 'Insert text',
+            name: 'По правому краю',
             icon: <FormatAlignRightIcon className={styles.icon} />,
             action: () =>
               onChange({
@@ -173,7 +173,7 @@ function StyleFormatter({ onChange, isHeader }) {
         ]}
       />
       <SectionGroup
-        title="Paddings"
+        title="Отступы"
         actions={[
           {
             id: 'paddings',
@@ -187,7 +187,7 @@ function StyleFormatter({ onChange, isHeader }) {
         ]}
       />
       <SectionGroup
-        title="Borders"
+        title="Границы"
         actions={[
           {
             id: 'borders',

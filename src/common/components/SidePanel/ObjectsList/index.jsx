@@ -25,7 +25,7 @@ function ObjectsList({ items = [] }) {
               <td style={{ width: 35 }}>
                 <FingerprintIcon />
               </td>
-              <td>{item.name}</td>
+              <td>{item.field}</td>
             </tr>
           ))}
         </tbody>

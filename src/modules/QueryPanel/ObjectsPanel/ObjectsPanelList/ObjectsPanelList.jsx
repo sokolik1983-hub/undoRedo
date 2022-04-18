@@ -1,10 +1,11 @@
+/* eslint-disable no-debugger */
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import PanelListItem from './PanelListItem/PanelListItem';
 import { ReactComponent as RootIcon } from '../../../../layout/assets/queryPanel/root-icon.svg';
 import PanelListNode from './PanelListNode/PanelListNode';
 import styles from './ObjectsPanelList.module.scss';
-import { useDragNDrop } from '../../context/DragNDropContex';
+import { useDragNDrop } from '../../context/DragNDropContext';
 
 const ObjectsPanelList = ({ rootFolder }) => {
   const { handleDragStart } = useDragNDrop();

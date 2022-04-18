@@ -6,22 +6,22 @@ import { ReactComponent as HorizontalTable } from '../../../layout/assets/report
 export const TABLE_ICONS = [
   {
     text: 'Таблица',
-    type: 'cross',
+    type: 'table',
     icon: <Table />,
   },
   {
     text: 'Кросс',
-    type: 'cross',
+    type: 'table_cross',
     icon: <CrossTable />
   },
   {
     text: 'Вертикальная',
-    type: 'vertical',
+    type: 'table_vertical',
     icon: <VerticalTable />
   },
   {
     text: 'Горизонтальная',
-    type: 'horizontal',
+    type: 'table_horizontal',
     icon: <HorizontalTable />
   },
 ];

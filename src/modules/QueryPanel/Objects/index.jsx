@@ -1,6 +1,6 @@
 import Divider from '../../../common/components/Divider';
 import ObjectItem from './Object/index';
-import { useDragNDrop } from '../context/DragNDropContex';
+import { useDragNDrop } from '../context/DragNDropContext';
 import ObjectsHeader from './ObjectsHeader/ObjectsHeader';
 import styles from './Objects.module.scss';
 
