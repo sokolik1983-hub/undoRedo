@@ -43,7 +43,6 @@ function DataTable({
   function handleDropObject(event) {
     const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
     event.dataTransfer.clearData();
-    debugger
     dispatch(
       addTableColumn({
         column: { ...columnObject, object: { ...selectedEl } },
@@ -168,7 +167,7 @@ function DataTable({
                 style={{ ...col.header.styles }}
               >
                 {/* TODO поменять после апдейта бэка */}
-                {col.object.field} 
+                {col.object.field}
               </th>
             ))}
           </tr>
@@ -182,7 +181,6 @@ function DataTable({
                   currentReport?.dataset?.fields,
                   field => Number(field.id) === Number(col.object.id)
                 );
-                debugger
                 return (
                   <td
                     // eslint-disable-next-line react/no-array-index-key
@@ -216,12 +214,12 @@ function DataTable({
               })}
               style={{ ...col.header.styles }}
             >
-              <td>{col.object.name}</td>
+              <td>{col.object.field}</td>
               {getSortedData().map((item, rowIndex) => {
                 // eslint-disable-next-line react/no-array-index-key
                 const fieldIndex = lodash.findIndex(
                   currentReport?.dataset?.fields,
-                  field => field.id === col.object.id
+                  field => Number(field.id) === Number(col.object.id)
                 );
                 return (
                   <td
@@ -277,10 +275,11 @@ function DataTable({
               <tr>
                 <th />
                 {col?.values?.map(val => (
-                  <th key={val} rowSpan={2}>{val}</th>
+                  <th key={val} rowSpan={2}>
+                    {val}
+                  </th>
                 ))}
               </tr>
-                 
             </>
           ))}
         </thead>

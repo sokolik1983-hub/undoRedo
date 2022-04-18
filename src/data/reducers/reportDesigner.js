@@ -21,7 +21,7 @@ export const sortingObject = {
 };
 export const reportObject = {
   id: 0,
-  name: 'Report',
+  name: 'Отчет',
   config: {
     connector: null,
     universe: null,

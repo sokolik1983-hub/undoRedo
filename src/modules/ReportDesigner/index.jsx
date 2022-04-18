@@ -25,9 +25,12 @@ import { PAGE } from '../../common/constants/pages';
 // import { SIDE_PANEL_TYPES } from '../../common/constants/common';
 import FormulaEditor from '../../common/components/FormulaEditor';
 // import Sidebar from '../SymlayersDesigner/Sidebar';
-import ObjectsPanel from '../QueryPanel/ObjectsPanel';
-import DragNDropProvider from '../QueryPanel/context/DragNDropContext';
+// import ObjectsPanel from '../QueryPanel/ObjectsPanel';
+// import DragNDropProvider from '../QueryPanel/context/DragNDropContext';
 // import { getSymanticLayerData } from '../../data/actions/universes';
+import { ReactComponent as CloseIcon } from '../../layout/assets/close.svg';
+import Sidebar from './Sidebar';
+import QueryPanel from '../QueryPanel';
 
 const BLOCK_TYPES = {
   table_vertical: tableObject,
@@ -61,6 +64,9 @@ function ReportDesigner() {
   const currentReport = getCurrentReport(
     reportDesigner.reportsData.present.reports,
     reportDesigner.reportsData.present.activeReport
+  );
+  const isQueryPanelModalOpened = useSelector(
+    state => state.app.ui.modalVisible
   );
 
   function handleKeyUp(event) {
@@ -145,7 +151,7 @@ function ReportDesigner() {
       {
         ...reportObject,
         id: reportDesigner.reportsData.present.reports.length + 1,
-        name: `Report ${reportDesigner.reportsData.present.reports.length + 1}`
+        name: `Отчет ${reportDesigner.reportsData.present.reports.length + 1}`
       }
     ];
     dispatch(
@@ -215,6 +221,7 @@ function ReportDesigner() {
     if (reportDesigner.reportsData.present.activeNodes.length > 0) {
       dispatch(setActiveNodes([]));
       dispatch(setSelectedColumns());
+      dispatch(setConfigPanelVisible(false));
     }
   }
 
@@ -229,7 +236,7 @@ function ReportDesigner() {
 
   return (
     <div className={styles.root}>
-      <div className={styles.sidebar}>
+      {/* <div className={styles.sidebar}>
         <DragNDropProvider>
           <ObjectsPanel
             symanticLayer={semanticLayer}
@@ -237,7 +244,12 @@ function ReportDesigner() {
             showHeader={false}
           />
         </DragNDropProvider>
-      </div>
+      </div> */}
+      <Sidebar
+        semanticLayer={semanticLayer}
+        onToggleClick={handleShowSelector}
+        showHeader={false}
+      />
       <div className={styles.content}>
         {reportDesigner.reportsUi.ui.showFormulaEditor && (
           <div className={styles.formulaEditor}>
@@ -246,27 +258,27 @@ function ReportDesigner() {
         )}
         <div className={styles.tabs}>
           {reportDesigner.reportsData.present.reports &&
-            reportDesigner.reportsData.present.reports.map((report, idx) => (
-              <div
-                key={report.id}
-                className={clsx(styles.tab, {
-                  [styles.tab_active]:
-                    reportDesigner.reportsData.present.activeReport ===
-                    report.id
-                })}
-                onClick={handleSelectReport(report.id)}
-              >
-                {report.name}
-                {idx > 0 && (
-                  <span
-                    style={{ marginLeft: 10 }}
-                    onClick={handleDeleteReport(report.id)}
-                  >
-                    x
-                  </span>
-                )}
-              </div>
-            ))}
+            reportDesigner.reportsData.present.reports.map(report => {
+              const isActive =
+                reportDesigner.reportsData.present.activeReport === report.id;
+              return (
+                <div
+                  key={report.id}
+                  className={clsx(styles.tab, {
+                    [styles.tab_active]: isActive
+                  })}
+                  onClick={handleSelectReport(report.id)}
+                >
+                  {report.name}
+                  {isActive && (
+                    <CloseIcon
+                      onClick={handleDeleteReport(report.id)}
+                      className={styles.closeIcon}
+                    />
+                  )}
+                </div>
+              );
+            })}
           <button onClick={handleAddReport} type="button">
             +
           </button>
@@ -292,6 +304,9 @@ function ReportDesigner() {
             ))}
         </div>
       </div>
+      {isQueryPanelModalOpened && (
+        <QueryPanel visible={isQueryPanelModalOpened && true} />
+      )}
       {/* <div className="right">
         {reportDesigner.reportsUi.ui.showConfigPanel && (
           <SidePanel

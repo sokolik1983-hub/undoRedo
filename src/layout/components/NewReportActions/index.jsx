@@ -8,6 +8,7 @@ from '../../../data/actions/newReportDesigner';
 import { setTableType, setGraphType, setCreatingElement } from '../../../data/reducers/reportDesigner';
 import { TABLE_ICONS, GRAPH_ICONS } from '../../../common/constants/reportDesigner/reportDesignerIcons';
 import useClickOutside from '../../../common/helpers/useClickOutside';
+import { setQueryPanelModal } from '../../../data/actions/universes';
 
 
 const NewReportActions = () => {
@@ -32,6 +33,7 @@ const NewReportActions = () => {
     redo: () => dispatch(handleRedo()),
     setTable: () => setIsTableOpen(!isTableOpen),
     setGraph: () => setIsGraphOpen(!isGraphOpen),
+    showQueryPanel: () => dispatch(setQueryPanelModal(true))
   };
 
   const clickRef = useRef();
