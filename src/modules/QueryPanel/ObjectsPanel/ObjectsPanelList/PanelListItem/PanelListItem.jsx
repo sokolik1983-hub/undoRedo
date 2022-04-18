@@ -2,12 +2,13 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import styles from './PanelListItem.module.scss';
 
-const PanelListItem = ({ onClick, name, icon, isFolder }) => {
+const PanelListItem = ({ onClick, name, icon, isFolder, ...props }) => {
   const textStyles = clsx(styles.listItemText, {
     [styles.folder]: isFolder
   });
+
   return (
-    <div className={styles.listItem} onClick={onClick}>
+    <div {...props} className={styles.listItem} onClick={onClick}>
       <span className={styles.listItemIcon}>{icon}</span>
       <span className={textStyles}>{name}</span>
     </div>
