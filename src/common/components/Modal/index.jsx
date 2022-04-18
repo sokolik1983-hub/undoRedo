@@ -18,31 +18,29 @@ import { ReactComponent as CloseIcon } from '../../../layout/assets/close.svg';
  */
 
 const Modal = ({
-                 withoutTitle,
-                 visible,
-                 title,
-                 content,
-                 footer,
-                 onClose,
-                 withScroll,
-                 modalClassName,
-                 titleClassName,
-                 dialogClassName,
-                 headerClassName,
-                 bodyClassName,
-                 contentClassName
-               }) => {
+  withoutTitle,
+  visible,
+  title,
+  content,
+  footer,
+  onClose,
+  withScroll,
+  modalClassName,
+  titleClassName,
+  dialogClassName,
+  headerClassName,
+  bodyClassName,
+  contentClassName
+}) => {
   const [isModal, setIsModal] = useState(false);
 
-  const modalClasses = clsx(
-    styles.modal, modalClassName,
-    { [styles.modalWithScroll]: withScroll }
-  );
+  const modalClasses = clsx(styles.modal, modalClassName, {
+    [styles.modalWithScroll]: withScroll
+  });
 
-  const modalDialogClasses = clsx(
-    styles.modalDialog, dialogClassName,
-    { [styles.modalDialogWithScroll]: withScroll }
-  );
+  const modalDialogClasses = clsx(styles.modalDialog, dialogClassName, {
+    [styles.modalDialogWithScroll]: withScroll
+  });
 
   const modalBodyClasses = clsx(
     styles.modalBody,
@@ -50,15 +48,9 @@ const Modal = ({
     bodyClassName
   );
 
-  const titleClasses = clsx(
-    styles.modalTitle,
-    titleClassName
-  );
+  const titleClasses = clsx(styles.modalTitle, titleClassName);
 
-  const headerClasses = clsx(
-    styles.modalHeader,
-    headerClassName
-  );
+  const headerClasses = clsx(styles.modalHeader, headerClassName);
 
   useEffect(() => setIsModal(visible), [visible]);
 
@@ -96,7 +88,9 @@ const Modal = ({
           </div>
         )}
         <div className={modalBodyClasses}>
-          <div className={clsx(styles.modalContent, contentClassName)}>{content}</div>
+          <div className={clsx(styles.modalContent, contentClassName)}>
+            {content}
+          </div>
         </div>
         {footer && <div className={styles.modalFooter}>{footer}</div>}
       </div>
@@ -128,11 +122,10 @@ Modal.defaultProps = {
   content: null,
   footer: null,
   withScroll: true,
-  onClose: () => {
-  },
+  onClose: () => {},
   modalClassName: '',
   titleClassName: '',
   dialogClassName: '',
   headerClassName: '',
-  withoutTitle: false,
+  withoutTitle: false
 };

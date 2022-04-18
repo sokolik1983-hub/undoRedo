@@ -112,7 +112,7 @@ function Connectors() {
       <div className={styles.connectionTypeSection}>
         <div className={styles.connectionTypeWrapper}>
           <p className={styles.selectText}>Тип соединения</p>
-          <div style={{ marginBottom: '25px' }}>
+          <div >
             <Select
               fullWidth
               value={connectionType}
@@ -123,11 +123,11 @@ function Connectors() {
               defaultValue="Тип соединения"
             />
           </div>
-          <div className={styles.connectionTypeInputsWrapper}>
+          {/* <div className={styles.connectionTypeInputsWrapper}>
             <TextInput className={styles.connectorsInput} />
             <TextInput className={styles.connectorsInput} />
             <TextInput className={styles.connectorsInput} />
-          </div>
+          </div> */}
         </div>
         <div className={styles.testConnectionWrapper}>
           <div className={styles.gearsIconWrapper}>
@@ -146,30 +146,35 @@ function Connectors() {
             label="Логин"
           />
           <TextInput
+            labelClassName={styles.connectorsLabel}
             value={pass}
             onChange={e => setPass(e.target.value)}
             id="password"
             label="Пароль"
           />
           <TextInput
+            labelClassName={styles.connectorsLabel}
             value={connectionStr}
             onChange={e => setConnectionStr(e.target.value)}
             id="connectionStr"
             label="Строка соединения"
           />
           <TextInput
+            labelClassName={styles.connectorsLabel}
             value={port}
             onChange={e => setPort(e.target.value)}
             id="port"
             label="Порт"
           />
           <TextInput
+            labelClassName={styles.connectorsLabel}
             value={nameIP}
             onChange={e => setNameIP(e.target.value)}
             id="nameAPI"
             label="Имя или IP сервера"
           />
           <TextInput
+            labelClassName={styles.connectorsLabel}
             value={baseSIDService}
             onChange={e => setBaseSIDService(e.target.value)}
             id="baseSIDService"
@@ -182,14 +187,14 @@ function Connectors() {
 
   // Футер модалки
   const createConnectorModalFooter = (
-    <>
+    <div className={styles.actions}>
       <Button color="sucess" onClick={addConnector}>
         Сохранить
       </Button>
       <Button color="primary" onClick={closeConnectorModalHandler}>
         Отмена
       </Button>
-    </>
+    </div>
   );
 
   return (
