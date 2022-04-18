@@ -29,7 +29,7 @@ const PropertiesBlock = () => {
   return (
     <div className={styles.objectPropertiesBlock}>
       <div className="objectData">
-        <p>Данные</p>
+        <p className={styles.title}>Данные</p>
         <div className={styles.selectField}>
           <Select className={styles.selectData} options={selectDateOptions} />
         </div>

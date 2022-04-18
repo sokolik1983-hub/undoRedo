@@ -6,7 +6,7 @@ import styles from './DescriptionBlock.module.scss';
 const DescriptionBlock = () => {
   return (
     <div className={styles.objectDescriptionBlock}>
-      <p>Описание</p>
+      <p className={styles.title}>Описание</p>
       <textarea
         id="createObjectDescription"
         className={styles.descriptionInput}

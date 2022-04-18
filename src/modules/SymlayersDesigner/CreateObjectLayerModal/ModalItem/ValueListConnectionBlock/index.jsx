@@ -56,7 +56,6 @@ const ValueListConnectionBlock = () => {
             id="thisListEditCheckBox"
             name="MeasureLinkConnectionCheckBoxes"
             labelClass={styles.checkBoxLabel}
-            // className="checkBoxWrapper"
             label="Редактировать этот список"
           />
           <CheckboxField
@@ -88,7 +87,7 @@ const ValueListConnectionBlock = () => {
 
       <div className={styles.availableGroup}>
         <div className={styles.availableBox}>
-          <p>Доступен для</p>
+          <p className={styles.availableTitle}>Доступен для</p>
           <Select className={styles.selectData} options={availableForOptions} />
         </div>
         <div className={styles.useInGroup}>

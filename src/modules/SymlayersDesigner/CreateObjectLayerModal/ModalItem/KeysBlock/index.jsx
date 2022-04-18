@@ -14,6 +14,25 @@ const KeysBlock = () => {
 
   const keyTypeOptions = [{ text: 'Основной', value: 'main' }];
 
+  // const keyTableData = [
+  //   {checked : 'true',
+  //   type : 'Основной',
+  //   select : 'Data.Дата + convert(SMALLDATETIME,{fn(CURDATE())}',
+  //   where: 'Data.Дата<>ascii()'},
+  //   {checked : 'false',
+  //   type : 'Внешний',
+  //   select : 'Data.Дата + convert(SMALLDATETIME,{fn(CURDATE())}',
+  //   where: 'Data.Дата<>ascii()'},
+  //   {checked : 'true',
+  //   type : 'Основной',
+  //   select : 'Data.Дата + convert(SMALLDATETIME,{fn(CURDATE())}',
+  //   where: 'Data.Дата<>ascii()'},
+  //   {checked : 'false',
+  //   type : 'Внешний',
+  //   select : 'Data.Дата + convert(SMALLDATETIME,{fn(CURDATE())}',
+  //   where: 'Data.Дата<>ascii()'},
+  // ]
+
   return (
     <ModalItem title="Ключи">
       <div className={styles.keysBlock}>
@@ -35,14 +54,14 @@ const KeysBlock = () => {
           </div>
         </div>     
         <div className={styles.manageKeysGroup}>
-          <p> Добавить/изменить ключ</p>
+          <p className={styles.keysTitle}> Добавить/изменить ключ</p>
           <div className={styles.selectGroup}>
             <div className={styles.typeGroup}>
-              <p className={styles.smalltext}>тип</p>
+              <p className={styles.smallText}>тип</p>
               <Select options={keyTypeOptions} className={styles.typeSelect} />
             </div>
             <div className={styles.selectInputGroup}>
-              <p className={styles.smalltext}>Select</p>
+              <p className={styles.smallText}>Select</p>
               <div className={styles.selectDiv}>
                 <input
                   id="keysBlockSelectInput"
@@ -52,7 +71,7 @@ const KeysBlock = () => {
               </div>
             </div>
             <div className={styles.whereInputGroup}>
-              <p className={styles.smalltext}>Where</p>
+              <p className={styles.smallText}>Where</p>
               <div className={styles.whereDiv}>
                 <input
                   id="keysBlockWhereInput"

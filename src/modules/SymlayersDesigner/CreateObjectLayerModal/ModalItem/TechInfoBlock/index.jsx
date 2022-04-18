@@ -6,9 +6,9 @@ const TechInfoBlock = () => {
   return (
     <ModalItem title="Технические сведения">
       <textarea id="techInfoInput" className={styles.techInfoInput} />
-      <p>Отображение</p>
+      <p className={styles.title}>Отображение</p>
       <textarea id="displayInput" className={styles.techInfoInput} />
-      <p>Происхождение</p>
+      <p className={styles.title}>Происхождение</p>
       <textarea id="originInput" className={styles.techInfoInput} />
     </ModalItem>
   );
