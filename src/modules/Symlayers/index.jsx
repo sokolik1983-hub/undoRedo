@@ -12,7 +12,6 @@ import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
 import SemanticLayerModal from './SemanticLayerModal';
 import SymlayersList from './SymlayersList';
-import CreateObjectLayerModal from './CreateObjectLayerModal';
 
 function Symlayers() {
   const dispatch = useDispatch();

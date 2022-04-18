@@ -47,20 +47,60 @@
   outline: none;
 }
 
-.selectTextArea {
+.selectDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   height: 22px;
   width: 146px;
+  background-color: white;
+}
+
+.whereDiv {
+  @extend .selectDiv;
+  width: 131px;
+}
+
+.pencilIcon {
+  margin: 3px 4px;
+}
+
+.keysBlockSelectWhereInput {
+  width: 85%;
+  height: 100%;
   resize: none;
   border: none;
   outline: none;
 }
 
-.whereTextArea {
-  @extend .selectTextArea;
-  width: 131px;
+.tableGroup {
+  height: 98px;
+  width: 380px;
+  background-color: white;
+  overflow-y: scroll;
 }
 
-.table {
-    height: 98px;
-    width: 380px;
+.keysTableTitle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  margin: 5px;
+}
+
+.tableTitle {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #949494;
+  padding-top: 0;
+}
+
+.tableTitleDivider {
+  width: 12px;
+  height: 1px;
+  background-color: #919191;
+  transform: rotate(90deg);
 }
