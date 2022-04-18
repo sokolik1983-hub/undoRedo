@@ -194,7 +194,7 @@ function ReportDesigner() {
         item => item.id !== structureItem.id
       );
       dispatch(setActiveNodes(filteredNodes));
-      dispatch(setConfigPanelVisible(true));
+      dispatch(setConfigPanelVisible(false));
     } else {
       let newActiveNodes = [structureItem];
       if (addItem) {

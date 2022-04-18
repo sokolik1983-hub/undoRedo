@@ -26,12 +26,12 @@ const navigationMenu = [
     title: 'аудит',
     id: 'audit'
   },
-  {
-    href: '/Universe/reports',
-    icon: <RolesIcon />,
-    title: 'дизайнер',
-    id: 'reports'
-  },
+  // {
+  //   href: '/Universe/reports',
+  //   icon: <RolesIcon />,
+  //   title: 'дизайнер',
+  //   id: 'reports'
+  // },
   {
     href: '/Universe/roles',
     icon: <RolesIcon />,

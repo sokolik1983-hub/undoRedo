@@ -30,8 +30,9 @@
 
 .sidePanelVisible {
   transition: left ease-in-out 250ms;
-  left: 320px;
+  left: 315px;
   visibility: visible;
+  color: #fff;
 }
 
 .container {

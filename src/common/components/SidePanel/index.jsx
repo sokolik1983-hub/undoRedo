@@ -22,6 +22,7 @@ import {
   addTableValue,
   columnObject,
   setActiveNodes,
+  setConfigPanelVisible,
   setStructure,
   setTableStyle,
   setTableVariant,
@@ -153,6 +154,7 @@ export default function SidePanel({ navType }) {
       )
     );
     dispatch(setActiveNodes([]));
+    dispatch(setConfigPanelVisible(false));
   }
 
   const handleRemoveColumn = columnId => event => {
@@ -264,7 +266,7 @@ export default function SidePanel({ navType }) {
     );
   }
 
-  const handleSetVariant = variant => () => {
+  const handleSetVariant = variant => {
     dispatch(setTableVariant(variant));
   };
 
@@ -389,7 +391,7 @@ export default function SidePanel({ navType }) {
                       {val.object.field}
 
                       <CloseIcon
-                        onClick={handleRemoveColumn(val.object.id)}
+                        onClick={handleRemoveValue(val.object.id)}
                         className={styles.closeIcon}
                       />
                     </p>

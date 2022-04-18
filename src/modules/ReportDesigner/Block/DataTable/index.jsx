@@ -104,13 +104,13 @@ function DataTable({
     return {
       columns: [
         {
-          name: columnDimension.object.name,
+          name: columnDimension.object.field,
           values: lodash.keys(lodash.groupBy(result, columnDimension.object.id))
         }
       ],
       rows: [
         {
-          name: rowDimension.object.name,
+          name: rowDimension.object.field,
           values: lodash.keys(lodash.groupBy(result, rowDimension.object.id))
         }
       ]
