@@ -117,4 +117,8 @@ export const REPORT_PAGE_ACTIONS = [
     icon: <Eight />,
     enable: true
   },
+  {
+    icon: <Dots />,
+    enable: true
+  }
 ];
