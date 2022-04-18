@@ -31,20 +31,17 @@ const PropertiesBlock = () => {
       <div className="objectData">
         <p>Данные</p>
         <div className={styles.selectField}>
-          <Select
-            className={styles.selectData}
-            options={selectDateOptions}
-          />
+          <Select className={styles.selectData} options={selectDateOptions} />
         </div>
       </div>
       <div className={styles.objectType}>
-        <p>Тип</p>
+        <p className={styles.title}>Тип</p>
         <div className={styles.selectField}>
           <Select className={styles.selectType} options={selectTypeOptions} />
         </div>
       </div>
       <div className={styles.objectFunction}>
-        <p>Функция</p>
+        <p className={styles.title}>Функция</p>
         <div className={styles.selectField}>
           <Select className={styles.selectfunc} options={selectFuncOptions} />
         </div>

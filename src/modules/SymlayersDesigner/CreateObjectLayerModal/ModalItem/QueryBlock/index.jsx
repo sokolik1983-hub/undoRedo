@@ -20,7 +20,7 @@ const QueryBlock = () => {
   return (
     <div className={styles.objectQueryBlock}>
       <div className={styles.queryParamsGroup}>
-        <p>Select</p>
+        <p className={styles.title}>Select</p>
         <div className={styles.selectGroup}>
           <textarea
             id="createObjectSelectInput"
@@ -30,7 +30,7 @@ const QueryBlock = () => {
             Редактировать
           </Button>
         </div>
-        <p>Where</p>
+        <p className={styles.title}>Where</p>
         <div className={styles.whereGroup}>
           <textarea
             id="createObjectWhereInput"

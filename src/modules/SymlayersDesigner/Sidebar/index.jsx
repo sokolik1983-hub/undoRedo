@@ -3,11 +3,11 @@
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import CreateObjectLayerModal from '../CreateObjectLayerModal/index';
 import { ReactComponent as SearchIcon } from '../../../layout/assets/icons/search.svg';
 import { ReactComponent as AddTableIcon } from '../../../layout/assets/icons/tablesAdd.svg';
 import { ReactComponent as FiltersIcon } from '../../../layout/assets/icons/tablesFilters.svg';
 import { ReactComponent as ViewsIcon } from '../../../layout/assets/icons/viewsShow.svg';
-import CreateObjectLayerModal from '../CreateObjectLayerModal';
 import HierTreeView from './HierTreeView';
 import styles from './Sidebar.module.scss';
 
@@ -57,7 +57,7 @@ function Sidebar({ onSelect, ...props }) {
             Объекты
           </div>
           <div
-            className={clsx(styles.tab)}
+            style={{ cursor: 'pointer' }}
             onClick={openCreateObjectModalHandler}
           >
             Создать
