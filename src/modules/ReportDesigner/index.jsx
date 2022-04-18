@@ -19,37 +19,54 @@ import {
 import Block from './Block';
 import styles from './ReportDesigner.module.scss';
 import { generateId, getCurrentReport } from './helpers';
-import SidePanel from '../../common/components/SidePanel';
+// import SidePanel from '../../common/components/SidePanel';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
-import { SIDE_PANEL_TYPES } from '../../common/constants/common';
+// import { SIDE_PANEL_TYPES } from '../../common/constants/common';
 import FormulaEditor from '../../common/components/FormulaEditor';
+// import Sidebar from '../SymlayersDesigner/Sidebar';
+// import ObjectsPanel from '../QueryPanel/ObjectsPanel';
+// import DragNDropProvider from '../QueryPanel/context/DragNDropContext';
+// import { getSymanticLayerData } from '../../data/actions/universes';
+import { ReactComponent as CloseIcon } from '../../layout/assets/close.svg';
+import Sidebar from './Sidebar';
+import QueryPanel from '../QueryPanel';
 
 const BLOCK_TYPES = {
-  table: tableObject,
+  table_vertical: tableObject,
+  table_cross: tableObject,
+  table_horizontal: tableObject,
   graph: graphObject,
   text: textObject,
   shape: shapeObject
 };
 
-const getVariant = (type, tableType, graphType) => {
-  const types = ['table', 'graph'];
+// const getVariant = (type, tableType, graphType) => {
+//   const types = ['table', 'graph'];
 
-  if (types.includes(type)) {
-    return type === 'table' ? tableType : graphType;
-  }
+//   if (types.includes(type)) {
+//     return type === 'table' ? tableType : graphType;
+//   }
 
-  return type;
-}
+//   return type;
+// };
 
 function ReportDesigner() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [semanticLayer, setSemanticLayer] = useState({
+    id: 165,
+    name: 'Клиентская справка'
+  });
+
   const dispatch = useDispatch();
   const reportDesigner = useSelector(state => state.app.reportDesigner);
-  const { tableType, graphType } = reportDesigner.reportsUi.ui;
+  const { creatingElement } = reportDesigner.reportsUi.ui;
   const currentReport = getCurrentReport(
     reportDesigner.reportsData.present.reports,
     reportDesigner.reportsData.present.activeReport
+  );
+  const isQueryPanelModalOpened = useSelector(
+    state => state.app.ui.modalVisible
   );
 
   function handleKeyUp(event) {
@@ -89,14 +106,13 @@ function ReportDesigner() {
   function handleAddBlock(event) {
     event.stopPropagation();
     if (reportDesigner.reportsUi.ui.creatingElement) {
-      const creatingElement = BLOCK_TYPES[reportDesigner.reportsUi.ui.creatingElement];
       const newStructure = [
         ...currentReport.structure,
         {
-          ...creatingElement,
+          ...BLOCK_TYPES[reportDesigner.reportsUi.ui.creatingElement],
           position: mousePosition,
           id: generateId(),
-          variant: getVariant(creatingElement.type, tableType, graphType)
+          variant: creatingElement
         }
       ];
 
@@ -135,7 +151,7 @@ function ReportDesigner() {
       {
         ...reportObject,
         id: reportDesigner.reportsData.present.reports.length + 1,
-        name: `Report ${reportDesigner.reportsData.present.reports.length + 1}`
+        name: `Отчет ${reportDesigner.reportsData.present.reports.length + 1}`
       }
     ];
     dispatch(
@@ -205,71 +221,103 @@ function ReportDesigner() {
     if (reportDesigner.reportsData.present.activeNodes.length > 0) {
       dispatch(setActiveNodes([]));
       dispatch(setSelectedColumns());
+      dispatch(setConfigPanelVisible(false));
     }
   }
 
+  const handleShowSelector = () => {
+    setSemanticLayer(true);
+  };
+
+  // useEffect(() => {
+  //   if (semanticLayer) dispatch(getSymanticLayerData(semanticLayer.id));
+  // }, [semanticLayer]);
+  // {id: 165, name: "Клиентская справка"}
+
   return (
     <div className={styles.root}>
-      {reportDesigner.reportsUi.ui.showFormulaEditor && (
-        <div className={styles.formulaEditor}>
-          <FormulaEditor />
-        </div>
-      )}
-      <div className={styles.tabs}>
-        {reportDesigner.reportsData.present.reports &&
-          reportDesigner.reportsData.present.reports.map((report, idx) => (
-            <div
-              key={report.id}
-              className={clsx(styles.tab, {
-                [styles.tab_active]:
-                  reportDesigner.reportsData.present.activeReport === report.id
-              })}
-              onClick={handleSelectReport(report.id)}
-            >
-              {report.name}
-              {idx > 0 && (
-                <span
-                  style={{ marginLeft: 10 }}
-                  onClick={handleDeleteReport(report.id)}
+      {/* <div className={styles.sidebar}>
+        <DragNDropProvider>
+          <ObjectsPanel
+            symanticLayer={semanticLayer}
+            onToggleClick={handleShowSelector}
+            showHeader={false}
+          />
+        </DragNDropProvider>
+      </div> */}
+      <Sidebar
+        semanticLayer={semanticLayer}
+        onToggleClick={handleShowSelector}
+        showHeader={false}
+      />
+      <div className={styles.content}>
+        {reportDesigner.reportsUi.ui.showFormulaEditor && (
+          <div className={styles.formulaEditor}>
+            <FormulaEditor />
+          </div>
+        )}
+        <div className={styles.tabs}>
+          {reportDesigner.reportsData.present.reports &&
+            reportDesigner.reportsData.present.reports.map(report => {
+              const isActive =
+                reportDesigner.reportsData.present.activeReport === report.id;
+              return (
+                <div
+                  key={report.id}
+                  className={clsx(styles.tab, {
+                    [styles.tab_active]: isActive
+                  })}
+                  onClick={handleSelectReport(report.id)}
                 >
-                  x
-                </span>
-              )}
-            </div>
-          ))}
-        <button onClick={handleAddReport} type="button">
-          +
-        </button>
-      </div>
-      <div
-        className={clsx(styles.container, styles['container-portrait'])}
-        onMouseMove={handleMouseMove}
-        onClick={handleAddBlock}
-        onDoubleClick={handleDisableSelection}
-      >
-        {currentReport &&
-          currentReport.structure?.map(block => (
-            <Block
-              {...block}
-              key={block.id}
-              structureItem={block}
-              onChangePosition={handleChangePosition}
-              onChangeScales={handleChangeScales}
-              onSelect={handleSelect}
-              isActiveNode={checkIsActiveNode(block.id)}
-            />
-          ))}
-      </div>
+                  {report.name}
+                  {isActive && (
+                    <CloseIcon
+                      onClick={handleDeleteReport(report.id)}
+                      className={styles.closeIcon}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          <button onClick={handleAddReport} type="button">
+            +
+          </button>
+        </div>
 
-      {reportDesigner.reportsUi.ui.showConfigPanel && (
-        <SidePanel
-          navType={SIDE_PANEL_TYPES.BLOCK_MENU}
-          marginRight={reportDesigner.reportsUi.ui.showReportPanel ? 250 : 0}
-        />
+        <div
+          className={clsx(styles.container, styles['container-portrait'])}
+          onMouseMove={handleMouseMove}
+          onClick={handleAddBlock}
+          onDoubleClick={handleDisableSelection}
+        >
+          {currentReport &&
+            currentReport.structure?.map(block => (
+              <Block
+                {...block}
+                key={block.id}
+                structureItem={block}
+                onChangePosition={handleChangePosition}
+                onChangeScales={handleChangeScales}
+                onSelect={handleSelect}
+                isActiveNode={checkIsActiveNode(block.id)}
+              />
+            ))}
+        </div>
+      </div>
+      {isQueryPanelModalOpened && (
+        <QueryPanel visible={isQueryPanelModalOpened && true} />
       )}
-      {reportDesigner.reportsUi.ui.showReportPanel && (
-        <SidePanel navType={SIDE_PANEL_TYPES.CONFIG_MENU} />
-      )}
+      {/* <div className="right">
+        {reportDesigner.reportsUi.ui.showConfigPanel && (
+          <SidePanel
+            navType={SIDE_PANEL_TYPES.BLOCK_MENU}
+            marginRight={reportDesigner.reportsUi.ui.showReportPanel ? 250 : 0}
+          />
+        )}
+        {reportDesigner.reportsUi.ui.showReportPanel && (
+          <SidePanel navType={SIDE_PANEL_TYPES.CONFIG_MENU} />
+        )}
+      </div> */}
     </div>
   );
 }

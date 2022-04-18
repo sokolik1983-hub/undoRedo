@@ -44,8 +44,8 @@ export const REPORT_PAGE_ACTIONS = [
     enable: true
   },
   {
-    // action: '',
-    title: '1',
+    action: 'showQueryPanel',
+    title: 'Панель запросов',
     icon: <One />,
     enable: true
   },
