@@ -11,6 +11,7 @@ import styles from './CheckBox.module.scss';
  * @param onChange - функция выполняющаяся при нажатии на чекбокс
  * @param className - класс для стилизации чекбокса
  * @param value - значние чекбокса
+ * @param bgColor - цвет фона
  */
 
 const CheckBox = ({
@@ -23,6 +24,7 @@ const CheckBox = ({
   labelClass,
   value,
   checked,
+  bgColor,
   ...props
 }) => {
   const [isChecked, setIsChecked] = useState(false);
@@ -50,7 +52,10 @@ const CheckBox = ({
           className={styles.input}
           {...props}
         />
-        <span className={styles.mark} />
+        <span
+          className={styles.mark}
+          style={{ 'background-color': `${bgColor}` ? `${bgColor}` : 'white' }}
+        />
       </span>
       <label htmlFor={id} className={labelClasses}>
         {label}
@@ -70,6 +75,7 @@ CheckBox.propTypes = {
   labelClass: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.string,
+  bgColor: PropTypes.string,
   checked: PropTypes.bool
 };
 
@@ -82,5 +88,6 @@ CheckBox.defaultProps = {
   value: '',
   checked: false,
   disabled: false,
+  bgColor: '',
   onChange: () => {}
 };

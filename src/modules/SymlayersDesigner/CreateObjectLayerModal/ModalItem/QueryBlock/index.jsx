@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import TextInput from '../../../../../common/components/TextInput';
 import Button from '../../../../../common/components/Button';
 import Gears from '../../../../../common/components/Gears';
 import { BUTTON } from '../../../../../common/constants/common';

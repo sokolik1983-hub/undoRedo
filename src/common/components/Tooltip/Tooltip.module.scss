@@ -36,6 +36,17 @@
   left: 50%;
 }
 
+.bottomLeft {
+  top: 80%;
+  left: 10%;
+}
+
+.bottomRight {
+  top: 80%;
+  transform: translateX(-80%);
+  left: 50%;
+}
+
 .right {
   left: 100%;
   transform: translateY(-50%);
