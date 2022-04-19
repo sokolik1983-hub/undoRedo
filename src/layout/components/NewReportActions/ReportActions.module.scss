@@ -7,6 +7,12 @@
   }
 }
 
+.divider {
+  @extend .actionWrapper;
+  
+  cursor: initial;
+}
+
 .actionsContainer {
   display: flex;
   position: relative;
@@ -27,6 +33,7 @@
 .graphTypes {
   @extend .tableTypes;
 
+  align-items: baseline;
   left: 500px;
 }
 
@@ -58,15 +65,17 @@
 
 .input {
   margin-left: 15px;
-  width: 24px;
+  min-width: 43px;
+  max-width: 43px;
   height: 24px;
   border: 1px solid #ff8b2b;
-  margin-bottom: 5px;
+  margin-bottom: 3px;
 }
 
 .inpitValue {
-  padding-top: 2px;
-  padding-left: 4px;
+  text-align: center;
+  padding-top: 3px;
+  padding-left: 3px;
 }
 
 .firstPage {

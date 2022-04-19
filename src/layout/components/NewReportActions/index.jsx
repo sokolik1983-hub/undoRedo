@@ -21,7 +21,6 @@ const NewReportActions = () => {
   const [isGraphOpen, setIsGraphOpen] = useState(false);
   const dispatch = useDispatch();
   const [curPage, setCurPage] = useState(1);
-  console.log(curPage);
 
   const handleTableTypeChange = (type) => {
     setIsTableOpen(!isTableOpen);
@@ -33,6 +32,15 @@ const NewReportActions = () => {
     setIsGraphOpen(!isGraphOpen);
     // dispatch(setGraphType(type));
     dispatch(setCreatingElement(type));
+  };
+
+  const handlePageChange = (e) => {
+    setCurPage(Number(e.target.value.replace(/\D/g, '')));
+  };
+
+  const validateCurPage = (page) => {
+    // eslint-disable-next-line no-nested-ternary
+    return page === 0 ? '' : pages - page < 0 ? pages : page;
   };
 
   const actions = {
@@ -52,7 +60,9 @@ const NewReportActions = () => {
         return (
           <>
             <div
-              className={styles.actionWrapper}
+              className={
+                item.type === 'divider' ? styles.divider : styles.actionWrapper
+              }
               title={item.title || ''}
               onClick={() => actions[item.action] ? actions[item.action]() : null}
             >
@@ -70,7 +80,7 @@ const NewReportActions = () => {
           <ArrowIcon />
         </div>
         <div className={styles.input}>
-          <TextInput value={curPage} className={styles.inpitValue} id='23' />
+          <TextInput value={validateCurPage(curPage)} onChange={handlePageChange} className={styles.inpitValue} id='23' />
         </div>
         <div className={styles.indents} onClick={() => curPage < pages ? setCurPage(curPage+1) : curPage}>
           <ArrowIcon className={styles.rotate} />
