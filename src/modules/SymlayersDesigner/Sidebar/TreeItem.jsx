@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import { ReactComponent as TableIcon } from '../../../layout/assets/icons/tableIcon.svg';
 import {ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
@@ -6,11 +6,11 @@ import styles from './Sidebar.module.scss';
 
 const TreeItem = ({name, isTable, item, onSelect}) => {
   const [isActive, setActive] = useState(false);
+  const [event, setEvent] = useState({});
 
-  const handleSelect = (value) => {
-    console.log(value)
-    onSelect(value);
-  }
+  useEffect(() => {
+    if (!isTable && isActive) onSelect(item, event);
+  }, [isActive])
 
   return (
     <>
@@ -24,7 +24,13 @@ const TreeItem = ({name, isTable, item, onSelect}) => {
         </div>
       )
         : (
-          <div className={isActive ? styles.actItem : styles.item} onDoubleClick={(e) => {handleSelect(e); setActive(!isActive)}}>
+          <div
+            className={isActive ? styles.actItem : styles.item}
+            onDoubleClick={(e) => {
+            setActive(!isActive);
+            setEvent(e);
+          }}
+          >
             <span>{item.object_name}</span>
           </div>
         )}

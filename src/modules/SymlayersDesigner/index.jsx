@@ -25,8 +25,9 @@ function SymlayersDesigner() {
   const links = useSelector(state => state.app.schemaDesigner.links);
   const contexts = useSelector(state => state.app.schemaDesigner.contexts);
 
-  const handleSelectTable = selected => event => {
-    if (event.target.checked) {
+  const handleSelectTable = (selected, event) => {
+    console.log(selected, event)
+    if (event) {
       setChecked([...checked, selected]);
     } else {
       // setShowDeleteConfirmation(selected);
