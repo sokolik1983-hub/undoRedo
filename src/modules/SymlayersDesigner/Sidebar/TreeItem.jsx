@@ -19,7 +19,7 @@ const TreeItem = ({name, isTable, item, onSelect}) => {
   return (
     <>
       {isTable ? (
-        <Tooltip text={name} placement='bottom-left'>
+        <Tooltip text={name} className={name.length < 36 && styles.tooltip} placement='bottom-left'>
           <div
             className={isActive ? styles.actTableItem : styles.tableItem}
             onClick={() => {
@@ -36,7 +36,7 @@ const TreeItem = ({name, isTable, item, onSelect}) => {
         </Tooltip>
       )
         : (
-          <Tooltip text={item.object_name} placement='bottom-left'>
+          <Tooltip text={item.object_name} className={item.object_name.length < 29 && styles.tooltip} placement='bottom-left'>
             <button
               className={isActive ? styles.actItem : styles.item}
               type='button'
