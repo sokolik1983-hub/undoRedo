@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import TreeItem from './TreeItem';
+import style from './Sidebar.module.scss';
 
 const TreeBranch = ({treeData, idx, name, onSelect}) => {
   const [isActive, setActive] = useState(false);
@@ -10,9 +11,11 @@ const TreeBranch = ({treeData, idx, name, onSelect}) => {
       <div onClick={() => setActive(!isActive)}>
         <TreeItem id={idx} name={name} isTable />
       </div>
-      {isActive && treeData[name].map(item => (
-        <TreeItem id={idx} name={name} item={item} onSelect={onSelect} />
-      ))}
+      <div className={isActive ? style.actListItems : style.disListItems}>
+        {treeData[name].map(item => (
+          <TreeItem id={idx} name={name} item={item} onSelect={onSelect} />
+        ))}
+      </div>
     </div>
   )
 }

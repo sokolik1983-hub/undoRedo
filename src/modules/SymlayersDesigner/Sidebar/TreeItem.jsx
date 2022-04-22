@@ -1,38 +1,56 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import { ReactComponent as TableIcon } from '../../../layout/assets/icons/tableIcon.svg';
-import {ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
+import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
 import styles from './Sidebar.module.scss';
 
 const TreeItem = ({name, isTable, item, onSelect}) => {
   const [isActive, setActive] = useState(false);
-  const [event, setEvent] = useState({});
+  const [isFolderOpen, setFolderOpen] = useState(false);  const [event, setEvent] = useState({});
 
   useEffect(() => {
     if (!isTable && isActive) onSelect(item, event);
+    if (isTable && isActive) {
+      setTimeout(() => setActive(false), 240);
+    }
   }, [isActive])
 
   return (
     <>
       {isTable ? (
-        <div className={isActive ? styles.actTableItem : styles.tableItem} onClick={() => setActive(!isActive)}>
+        <div
+          className={isActive ? styles.actTableItem : styles.tableItem}
+          onClick={() => {
+          setActive(!isActive);
+          setFolderOpen(!isFolderOpen);
+        }}
+        >
           <div className={styles.icons}>
-            {!isActive && <FolderIcon className={styles.folderIcon} />}
+            {!isFolderOpen && <FolderIcon className={styles.folderIcon} />}
             <TableIcon />
           </div>
           <span>{name}</span>
         </div>
       )
         : (
-          <div
+          <button
             className={isActive ? styles.actItem : styles.item}
+            type='button'
             onDoubleClick={(e) => {
+            e.preventDefault();
             setActive(!isActive);
             setEvent(e);
           }}
+            draggable
+            onDragStart={(e) => {
+              e.dataTransfer.setData("item", JSON.stringify(item));
+            }}
+            onDragEnd={() => {
+              if (!isActive) setActive(true)
+            }}
           >
             <span>{item.object_name}</span>
-          </div>
+          </button>
         )}
     </>
   )

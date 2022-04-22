@@ -7,6 +7,8 @@ import { ReactComponent as SearchIcon } from '../../../layout/assets/icons/searc
 import { ReactComponent as AddTableIcon } from '../../../layout/assets/icons/tablesAdd.svg';
 import { ReactComponent as FiltersIcon } from '../../../layout/assets/icons/tablesFilters.svg';
 import { ReactComponent as ViewsIcon } from '../../../layout/assets/icons/viewsShow.svg';
+import { ReactComponent as SaveIcon } from '../../../layout/assets/icons/tableSave.svg';
+import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
 import HierTreeView from './HierTreeView';
 import styles from './Sidebar.module.scss';
 
@@ -35,24 +37,30 @@ function Sidebar({ onSelect, ...props }) {
             onClick={handleSelectTab(0)}
           >
             Таблицы
+            {activeTab === 0 && <span>дизайнер схемы данных</span>} 
           </div>
+          {activeTab === 0 && <SaveIcon />}
           <div
             className={clsx(styles.tab, activeTab === 1 && styles.activeTab)}
             onClick={handleSelectTab(1)}
           >
             Объекты
+            {activeTab === 1 && <span>дизайнер семантического слоя</span>} 
           </div>
+          {activeTab === 1 && <SaveIcon />}
         </div>
 
         <div className={styles.actions}>
-          <div onClick={handleCollapse}>-</div>
+          <div onClick={handleCollapse}>
+            <hr className={styles.divider} />
+          </div>
         </div>
       </div>
       {!collapsed && (
         <div className={styles.content}>
           {activeTab === 0 ? (
             <>
-              {/* <div className={styles.tableActions}>
+              <div className={styles.tableActions}>
                 <div>
                   <AddTableIcon />
                 </div>
@@ -67,7 +75,11 @@ function Sidebar({ onSelect, ...props }) {
                     <FiltersIcon />
                   </div>
                 </div>
-              </div> */}
+              </div>
+              <div className={styles.owner}>
+                <FolderIcon />
+                <span>Owner</span>
+              </div>
               <div className={styles.contentData}>
                 <HierTreeView data={connectorObjects} onSelect={onSelect} />
               </div>
