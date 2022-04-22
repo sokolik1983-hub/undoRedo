@@ -68,6 +68,7 @@ function ReportDesigner() {
   const isQueryPanelModalOpened = useSelector(
     state => state.app.ui.modalVisible
   );
+  const zoom = useSelector(state => state.app.reportDesigner.reportsUi.ui?.zoom);
 
   function handleKeyUp(event) {
     // event.stopPropagation();
@@ -283,8 +284,8 @@ function ReportDesigner() {
             +
           </button>
         </div>
-
         <div
+          style={{zoom: `${zoom}`}}
           className={clsx(styles.container, styles['container-portrait'])}
           onMouseMove={handleMouseMove}
           onClick={handleAddBlock}

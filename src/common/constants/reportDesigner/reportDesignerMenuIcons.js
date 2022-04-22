@@ -4,11 +4,11 @@ import { ReactComponent as Redo } from '../../../layout/assets/reportDesigner/re
 import { ReactComponent as QueryPanelIcon } from '../../../layout/assets/reportDesigner/reportPageIcons/queryPanelIcon.svg';
 import { ReactComponent as UpdateIcon } from '../../../layout/assets/reportDesigner/reportPageIcons/updateIcon.svg';
 import { ReactComponent as Dots } from '../../../layout/assets/reportDesigner/reportPageIcons/reportDots.svg';
-import { ReactComponent as ChangeSourceIcon } from '../../../layout/assets/reportDesigner/reportPageIcons/сhangeSourceIcon.svg';
-import { ReactComponent as ClearDataIcon } from '../../../layout/assets/reportDesigner/reportPageIcons/сlearDataIcon.svg';
-import { ReactComponent as AddSection } from '../../../layout/assets/reportDesigner/reportPageIcons/addSection.svg';
-import { ReactComponent as AddGap } from '../../../layout/assets/reportDesigner/reportPageIcons/addGap.svg';
-import { ReactComponent as Seven } from '../../../layout/assets/reportDesigner/reportPageIcons/7.svg';
+// import { ReactComponent as ChangeSourceIcon } from '../../../layout/assets/reportDesigner/reportPageIcons/сhangeSourceIcon.svg';
+// import { ReactComponent as ClearDataIcon } from '../../../layout/assets/reportDesigner/reportPageIcons/сlearDataIcon.svg';
+import { ReactComponent as Formula } from '../../../layout/assets/reportDesigner/reportPageIcons/formula.svg';
+import { ReactComponent as Filters } from '../../../layout/assets/reportDesigner/reportPageIcons/filters.svg';
+import { ReactComponent as Zoom } from '../../../layout/assets/reportDesigner/reportPageIcons/scale.svg';
 import { ReactComponent as Eight } from '../../../layout/assets/reportDesigner/reportPageIcons/8.svg';
 import { ReactComponent as AddTableIcon } from '../../../layout/assets/reportDesigner/reportPageIcons/table.svg';
 import { ReactComponent as AddGraphIcon } from '../../../layout/assets/reportDesigner/reportPageIcons/graph.svg';
@@ -57,18 +57,17 @@ export const REPORT_PAGE_ACTIONS = [
     icon: <UpdateIcon />,
     enable: true
   },
-  {
-    // action: '',
-    title: 'изменить источник [Ctrl+K]',
-    icon: <ChangeSourceIcon />,
-    enable: true
-  },
-  {
-    // action: '',
-    title: 'очистить данные [Ctrl+E]',
-    icon: <ClearDataIcon />,
-    enable: true
-  },
+  //   // action: '',
+  //   title: 'изменить источник [Ctrl+K]',
+  //   icon: <ChangeSourceIcon />,
+  //   enable: true
+  // },
+  // {
+  //   // action: '',
+  //   title: 'очистить данные [Ctrl+E]',
+  //   icon: <ClearDataIcon />,
+  //   enable: true
+  // },
   { 
     type: 'divider',
     icon: <Dots />,
@@ -92,16 +91,21 @@ export const REPORT_PAGE_ACTIONS = [
     icon: <AddTextIcon />,
     enable: true
   },
-  {
-    action: '',
-    title: 'добавить раздел [Ctrl+M]',
-    icon: <AddSection />,
+  { 
+    type: 'divider',
+    icon: <Dots />,
     enable: true
   },
   {
     action: '',
-    title: 'добавить разрыв [Ctrl+B]',
-    icon: <AddGap />,
+    title: '',
+    icon: <Formula />,
+    enable: true
+  },
+  {
+    action: '',
+    title: '',
+    icon: <Filters />,
     enable: true
   },
   {
@@ -110,9 +114,9 @@ export const REPORT_PAGE_ACTIONS = [
     enable: true
   },
   {
-    action: '',
-    title: '7',
-    icon: <Seven />,
+    action: 'zoom',
+    title: 'масштаб',
+    icon: <Zoom />,
     enable: true
   },
   {

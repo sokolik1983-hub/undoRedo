@@ -12,13 +12,15 @@ import useClickOutside from '../../../common/helpers/useClickOutside';
 import { setQueryPanelModal } from '../../../data/actions/universes';
 import { ReactComponent as NavIcon } from '../../assets/reportDesigner/nav.svg';
 import { ReactComponent as ArrowIcon } from '../../assets/reportDesigner/arrow.svg';
+import ZoomSlider from './ZoomSlider';
 
-const pages = 27;
+const pages = 27; 
 
 
 const NewReportActions = () => {
   const [isTableOpen, setIsTableOpen] = useState(false);
   const [isGraphOpen, setIsGraphOpen] = useState(false);
+  const [isZoomBlockOpen, setIsZoomBlockOpen] = useState(false);
   const dispatch = useDispatch();
   const [curPage, setCurPage] = useState(1);
 
@@ -40,19 +42,20 @@ const NewReportActions = () => {
 
   const validateCurPage = (page) => {
     // eslint-disable-next-line no-nested-ternary
-    return page === 0 ? '' : pages - page < 0 ? pages : page;
+    return page === 0 ? '' : pages - page < 0 ? setCurPage(pages) : page;
   };
 
   const actions = {
     undo: () => dispatch(handleUndo()),
     redo: () => dispatch(handleRedo()),
+    zoom: () => setIsZoomBlockOpen(!isZoomBlockOpen),
     setTable: () => setIsTableOpen(!isTableOpen),
     setGraph: () => setIsGraphOpen(!isGraphOpen),
     showQueryPanel: () => dispatch(setQueryPanelModal(true))
   };
 
   const clickRef = useRef();
-  useClickOutside(clickRef, () => {setIsTableOpen(false); setIsGraphOpen(false)});
+  useClickOutside(clickRef, () => {setIsTableOpen(false); setIsGraphOpen(false); setIsZoomBlockOpen(false)});
 
   return (
     <div className={styles.actionsContainer}>
@@ -90,6 +93,7 @@ const NewReportActions = () => {
           <p className={styles.lastPageText}>{pages}</p>
         </div>
       </div>
+      
       {isTableOpen && (
         <div className={styles.tableTypes} ref={clickRef}>
           {TABLE_ICONS.map(i => (
@@ -112,6 +116,11 @@ const NewReportActions = () => {
               </p>
             </div>
           ))}
+        </div>
+      )}
+      {isZoomBlockOpen && (
+        <div className={styles.zoomSlider} ref={clickRef}>
+          <ZoomSlider />
         </div>
       )}
     </div>
