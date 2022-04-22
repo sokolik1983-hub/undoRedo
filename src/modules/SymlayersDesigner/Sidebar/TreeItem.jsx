@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
+import Tooltip from "../../../common/components/NewTooltip/Tooltip";
 import { ReactComponent as TableIcon } from '../../../layout/assets/icons/tableIcon.svg';
 import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
 import styles from './Sidebar.module.scss';
@@ -18,39 +19,43 @@ const TreeItem = ({name, isTable, item, onSelect}) => {
   return (
     <>
       {isTable ? (
-        <div
-          className={isActive ? styles.actTableItem : styles.tableItem}
-          onClick={() => {
+        <Tooltip text={name} placement='bottom-left'>
+          <div
+            className={isActive ? styles.actTableItem : styles.tableItem}
+            onClick={() => {
           setActive(!isActive);
           setFolderOpen(!isFolderOpen);
         }}
-        >
-          <div className={styles.icons}>
-            {!isFolderOpen && <FolderIcon className={styles.folderIcon} />}
-            <TableIcon />
+          >
+            <div className={styles.icons}>
+              {!isFolderOpen && <FolderIcon className={styles.folderIcon} />}
+              <TableIcon />
+            </div>
+            <span>{name}</span>
           </div>
-          <span>{name}</span>
-        </div>
+        </Tooltip>
       )
         : (
-          <button
-            className={isActive ? styles.actItem : styles.item}
-            type='button'
-            onDoubleClick={(e) => {
+          <Tooltip text={item.object_name} placement='bottom-left'>
+            <button
+              className={isActive ? styles.actItem : styles.item}
+              type='button'
+              onDoubleClick={(e) => {
             e.preventDefault();
             setActive(!isActive);
             setEvent(e);
           }}
-            draggable
-            onDragStart={(e) => {
+              draggable
+              onDragStart={(e) => {
               e.dataTransfer.setData("item", JSON.stringify(item));
             }}
-            onDragEnd={() => {
+              onDragEnd={() => {
               if (!isActive) setActive(true)
             }}
-          >
-            <span>{item.object_name}</span>
-          </button>
+            >
+              <span>{item.object_name}</span>
+            </button>
+          </Tooltip>
         )}
     </>
   )
