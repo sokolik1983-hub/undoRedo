@@ -83,7 +83,6 @@ const KeysBlock = () => {
       <div className={styles.keysBlock}>
         <div className={styles.dropDownBlock}>
           <div className={styles.DDField}>
-            {/* <Select className={styles.selectData} options={selectDateOptions} /> */}
             <div className={styles.DDData}>
               <div className={styles.selectedIconText}>
                 <span className={styles.defaultIcon}>{selectedIcon}</span>

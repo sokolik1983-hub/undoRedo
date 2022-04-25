@@ -17,8 +17,42 @@ import FooterBlock from './ModalItem/Footer';
 import { setCreateObjectModal } from '../../../data/actions/universes';
 
 const createObjectModalValues = {
-  name: ''
+  name: '',
+
+  objectDataType: '',
+  objectType: '',
+  objectFunction: '',
+
+  objectDescription: '',
+
+  selectQueryield: '',
+  whereQueryield: '',
+
+  defaultLinkInput: '',
+  thisListEditCheckBox: false,
+  refreshBeforeUsageCheckBox: false,
+  showHierarchyCheckBox: false,
+  exportByUniverseCheckBox: false,
+  searchDelegetionCheckBox: false,
+  usagePermission: '',
+  useInResultsCheckBox: false,
+  useInConditionsCheckBox: false,
+  useInSortingsCheckBox: false,
+
+  keysDataType: '',
+  keysType: '',
+  keysSelectInput: '',
+  keysWhereInput: '',
+
+  techInfoInput: '',
+  displayInput: '',
+  originInput: ''
 };
+
+const ids = [
+  {techInfoInput : "techInfoInput"} ,
+  {displayInput : "displayInput"} ,
+]
 
 const CreateObjectLayerModal = ({ visible }) => {
   const dispatch = useDispatch();
@@ -30,26 +64,41 @@ const CreateObjectLayerModal = ({ visible }) => {
   const content = (
     <Formik
       initialValues={createObjectModalValues}
-      onSubmit={data => {
-       window.location.pathname = '/Universe/symlayers/create';
+      onSubmit={(data, event) => {
+        handleClose();
         console.log(data);
+        event.preventDefault();
+        window.location.pathname = '/Universe/symlayers/create';
       }}
     >
       {({ values, handleChange, handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <TextFieldItem
             title="Имя"
-            name="name"
             className={styles.name}
+            name="name"
             onChange={handleChange}
             value={values.name}
           />
-          <PropertiesBlock />
-          <DescriptionBlock />
+          <PropertiesBlock
+            name="objectProperties"
+            value={values.objectDataType}
+            onChange={handleChange}
+          />
+          <DescriptionBlock
+            name="objectDescription"
+            value={values.objectDescription}
+            onChange={handleChange}
+          />
           <QueryBlock />
           <ValueListConnectionBlock />
           <KeysBlock />
-          <TechInfoBlock />
+          <TechInfoBlock
+            id={ids}
+            name="techInfoInput"
+            onChange={handleChange}
+            value={values}
+          />
           <FooterBlock onClose={handleClose} />
         </form>
       )}

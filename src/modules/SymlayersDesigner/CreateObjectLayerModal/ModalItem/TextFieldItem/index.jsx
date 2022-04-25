@@ -1,10 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import ModalItem from "..";
+import ModalItem from '..';
 import styles from './TextFieldItem.module.scss';
 
-const TextFieldItem = ({title, id, name, className, onChange, value, isTextarea}) => {
+const TextFieldItem = ({
+  title,
+  id,
+  name,
+  className,
+  onChange,
+  value,
+  isTextarea
+}) => {
   const idProp = id || name;
   const inputProps = {
     id: idProp,
@@ -12,16 +20,15 @@ const TextFieldItem = ({title, id, name, className, onChange, value, isTextarea}
     className: clsx(styles.input, className),
     onChange,
     value
-  }
+  };
 
   return (
     <ModalItem title={title}>
-      {isTextarea ? <textarea {...inputProps} /> : (
-        <input 
-          {...inputProps}
-          type='text'
-        />
-)}
+      {isTextarea ? (
+        <textarea {...inputProps} />
+      ) : (
+        <input {...inputProps} type="text" />
+      )}
     </ModalItem>
   );
 };
@@ -35,7 +42,7 @@ TextFieldItem.propTypes = {
   onChange: PropTypes.func,
   value: PropTypes.string,
   name: PropTypes.string,
-  isTextarea: PropTypes.bool,
+  isTextarea: PropTypes.bool
 };
 
 TextFieldItem.defaultProps = {

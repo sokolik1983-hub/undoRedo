@@ -1,8 +1,4 @@
 import { React, useState } from 'react';
-// import PropTypes from 'prop-types';
-// import clsx from 'clsx';
-// import { ReactComponent as MeasurementIcon } from '../../../../../layout/assets/queryPanel/measurementIcon.svg';
-// import Select from '../../../../../common/components/Select';
 import Dropdown from '../../../../../common/components/Dropdown';
 import DropdownItem from '../../../../../common/components/Dropdown/DropdownItem';
 import { ReactComponent as Arrow } from '../../../../../layout/assets/queryPanel/arrowThin.svg';
@@ -112,6 +108,7 @@ const PropertiesBlock = () => {
                     icon={item.icon}
                     key={item.value}
                     item={item}
+                    // {...inputProps}
                     onClick={() => {
                       setSelectedDataIcon(item.icon);
                       setSelectedDataText(item.text);

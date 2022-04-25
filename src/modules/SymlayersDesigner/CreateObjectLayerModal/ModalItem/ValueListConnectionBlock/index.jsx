@@ -54,30 +54,35 @@ const ValueListConnectionBlock = () => {
         <div className={styles.checkBoxGroup1}>
           <CheckboxField
             id="thisListEditCheckBox"
+            value="thisListEditCheckBox"
             name="MeasureLinkConnectionCheckBoxes"
             labelClass={styles.checkBoxLabel}
             label="Редактировать этот список"
           />
           <CheckboxField
             id="refreshBeforeUsageCheckBox"
+            value="refreshBeforeUsageCheckBox"
             name="MeasureLinkConnectionCheckBoxes"
             labelClass={styles.checkBoxLabel}
             label="Обновить перед использованием"
           />
           <CheckboxField
             id="showHierarchyCheckBox"
+            value="showHierarchyCheckBox"
             name="MeasureLinkConnectionCheckBoxes"
             labelClass={styles.checkBoxLabel}
             label="Показ иерархии"
           />
           <CheckboxField
             id="exportByUniverseCheckBox"
+            value="exportByUniverseCheckBox"
             name="MeasureLinkConnectionCheckBoxes"
             labelClass={styles.checkBoxLabel}
             label="Экспортс юниверсом"
           />
           <CheckboxField
             id="searchDelegetionCheckBox"
+            value="searchDelegetionCheckBox"
             name="MeasureLinkConnectionCheckBoxes"
             labelClass={styles.checkBoxLabel}
             label="Делегировать поиск"
@@ -95,18 +100,21 @@ const ValueListConnectionBlock = () => {
           <div className={styles.checkBoxGroup2}>
             <CheckboxField
               id="useInResultsCheckBox"
+              value="useInResultsCheckBox"
               name="useInCheckBoxes"
               labelClass={styles.checkBoxLabel}
               label="Результатах"
             />
             <CheckboxField
               id="useInConditionsCheckBox"
+              value="useInConditionsCheckBox"
               name="useInCheckBoxes"
               labelClass={styles.checkBoxLabel}
               label="Условиях"
             />
             <CheckboxField
               id="useInSortingsCheckBox"
+              value="useInSortingsCheckBox"
               name="useInCheckBoxes"
               labelClass={styles.checkBoxLabel}
               label="Сортировках"

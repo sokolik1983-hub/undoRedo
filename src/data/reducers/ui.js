@@ -59,7 +59,7 @@ const ui = createSlice({
       state.modalCreateObjectVisible = CREATE_OBJECT_MODAL;
     },
     closeCreateObjectModal: state => {
-      state.modalCreateObjectVisible = {};
+      state.modalCreateObjectVisible = false;
     },
   }
 });

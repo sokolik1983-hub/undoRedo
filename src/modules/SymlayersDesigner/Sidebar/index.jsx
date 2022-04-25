@@ -30,18 +30,6 @@ function Sidebar({ onSelect, ...props }) {
     setActiveTab(value);
   };
 
-  // const [
-  //   createObjectModalVisibility,
-  //   setCreateObjectModalVisibility
-  // ] = useState(false);
-
-  // const openCreateObjectModalHandler = () => {
-  //   setCreateObjectModalVisibility(true);
-  // };
-
-  // const closeCreateObjectModalHandler = () => {
-  //   setCreateObjectModalVisibility(false);
-  // };
   /* удалить когда перенесем кнопку открытия Создать  */
   const isCreateObjectModalOpened = useSelector(
     state => state.app.ui.modalCreateObjectVisible
