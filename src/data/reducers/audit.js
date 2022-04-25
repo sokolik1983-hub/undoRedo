@@ -6,11 +6,9 @@ const audit = createSlice({
   initialState: {
     events: [],
     columns: [
-      { id: 'id', name: 'ИД', show: true, order: 1 },
-      { id: 'message', name: 'Событие', show: true, order: 2 },
-      { id: 'struct_name', name: 'Имя объекта', show: true, order: 3 },
-      { id: 'user_name', name: 'Пользователь', show: true, order: 4 },
-      { id: 'audit_time', name: 'Дата и время', show: true, order: 5 }
+      { id: 'message', name: 'Имя', show: true, order: 1 },
+      { id: 'struct_name', name: 'Тип файла', show: true, order: 2 },
+      { id: 'audit_time', name: 'Дата и время', show: true, order: 3 }
     ],
     search: {},
     filters: {
@@ -19,7 +17,7 @@ const audit = createSlice({
       ),
     },
     ui: {
-      showFilterPanel: false
+      showFilterPanel: true
     },
   },
 

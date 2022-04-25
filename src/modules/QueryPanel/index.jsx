@@ -70,6 +70,7 @@ const QueryPanel = ({ visible }) => {
               <ObjectsPanel
                 symanticLayer={semanticLayer}
                 modalOpenHandler={handleShowSelector}
+                showHeader
               />
             </div>
             <div className={styles.rightPanel}>
@@ -82,7 +83,11 @@ const QueryPanel = ({ visible }) => {
               />
               <QueryPanelControls
                 onRun={handleQueryExecute}
+<<<<<<< HEAD
                 onApply={() => { }}
+=======
+                onApply={handleClose} // todo применить функционал переноса в отчет
+>>>>>>> reporting_designer
                 onCancel={handleClose}
               />
             </div>
