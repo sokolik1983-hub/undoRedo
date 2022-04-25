@@ -4,7 +4,7 @@ import Button from '../../../../../common/components/Button';
 import styles from '../../Filters.module.scss';
 import { BUTTON } from '../../../../../common/constants/common';
 
-const ConditionBlock = ({conditionType}) => {
+const ConditionBlock = ({ conditionType }) => {
   const [condition, setCondition] = useState(conditionType);
 
   const toggleCond = () => {
