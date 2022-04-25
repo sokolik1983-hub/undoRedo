@@ -11,12 +11,8 @@ import Objects from './Objects';
 import Filters from './Filters';
 import Results from './Results';
 import QueryPanelControls from './QueryPanelControls/QueryPanelControls';
-<<<<<<< HEAD
 import DragNDropProvider from './context/DragNDropContext';
-=======
-import DragNDropProvider from './context/DragNDropContex';
 import ModalConfirm from '../../common/components/Modal/ModalConfirm';
->>>>>>> master
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
@@ -70,7 +66,6 @@ const QueryPanel = ({ visible }) => {
               <ObjectsPanel
                 symanticLayer={semanticLayer}
                 modalOpenHandler={handleShowSelector}
-                showHeader
               />
             </div>
             <div className={styles.rightPanel}>
@@ -83,11 +78,7 @@ const QueryPanel = ({ visible }) => {
               />
               <QueryPanelControls
                 onRun={handleQueryExecute}
-<<<<<<< HEAD
                 onApply={() => { }}
-=======
-                onApply={handleClose} // todo применить функционал переноса в отчет
->>>>>>> reporting_designer
                 onCancel={handleClose}
               />
             </div>
