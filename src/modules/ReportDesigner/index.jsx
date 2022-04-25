@@ -38,7 +38,7 @@ const BLOCK_TYPES = {
   table_horizontal: tableObject,
   graph: graphObject,
   text: textObject,
-  shape: shapeObject
+  shape: shapeObject 
 };
 
 // const getVariant = (type, tableType, graphType) => {

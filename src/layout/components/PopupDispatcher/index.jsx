@@ -30,7 +30,7 @@ function PopupDispatcher() {
     }
   }
 
-  function renderTitle() {
+  function renderTitle() { 
     switch (popupVisible) {
       case QUERY_PANEL_POPUP:
         return <div>Query panel</div>;

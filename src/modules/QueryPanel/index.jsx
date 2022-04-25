@@ -34,7 +34,7 @@ const QueryPanel = ({ visible }) => {
 
   const handleQueryExecute = () => {
     setQueryExecute(true);
-    setTimeout(() => {
+    setTimeout(() => { 
       setQueryExecute(false);
     }, 1000);
   };
@@ -79,7 +79,7 @@ const QueryPanel = ({ visible }) => {
               />
               <QueryPanelControls
                 onRun={handleQueryExecute}
-                onApply={handleClose} // todo применить функционал переноса в отчет
+                onApply={() => { }}
                 onCancel={handleClose}
               />
             </div>
