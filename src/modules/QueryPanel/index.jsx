@@ -11,7 +11,12 @@ import Objects from './Objects';
 import Filters from './Filters';
 import Results from './Results';
 import QueryPanelControls from './QueryPanelControls/QueryPanelControls';
+<<<<<<< HEAD
 import DragNDropProvider from './context/DragNDropContext';
+=======
+import DragNDropProvider from './context/DragNDropContex';
+import ModalConfirm from '../../common/components/Modal/ModalConfirm';
+>>>>>>> master
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
@@ -20,13 +25,15 @@ const QueryPanel = ({ visible }) => {
     false
   );
   const [isQueryExecute, setQueryExecute] = useState(false);
+  const [isChanged, setIsChanged] = useState(false);
+  const [isConfirmModalOpened, setIsConfirmModalOpened] = useState(false);
 
   useEffect(() => {
     dispatch(getUniverses());
   }, []);
 
   const handleClose = () => {
-    return dispatch(setQueryPanelModal(false));
+    return isChanged ? setIsConfirmModalOpened(true) : dispatch(setQueryPanelModal(false));
   };
 
   const handleQueryExecute = () => {
@@ -47,7 +54,12 @@ const QueryPanel = ({ visible }) => {
   const onSelectSemanticLayer = value => {
     setSemanticLayer(value);
     setSemanticLayerModalOpened(false);
+    setIsChanged(true);
   };
+
+  const onClose = () => {
+    dispatch(setQueryPanelModal(false));
+  }
 
   const modalContent = () => {
     return (
@@ -70,7 +82,7 @@ const QueryPanel = ({ visible }) => {
               />
               <QueryPanelControls
                 onRun={handleQueryExecute}
-                onApply={() => {}}
+                onApply={() => { }}
                 onCancel={handleClose}
               />
             </div>
@@ -83,6 +95,7 @@ const QueryPanel = ({ visible }) => {
             onSelectSemanticLayer={onSelectSemanticLayer}
           />
         )}
+        {isConfirmModalOpened && <ModalConfirm onReturn={() => setIsConfirmModalOpened(false)} onClose={() => onClose()} />}
       </div>
     );
   };
