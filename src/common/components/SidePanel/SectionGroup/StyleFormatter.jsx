@@ -31,6 +31,7 @@ function StyleFormatter({ onChange, isHeader }) {
             id: 'font-family',
             component: (
               <Select
+                className={styles.select}
                 name="fontfamily"
                 options={transformOptions(FONT_LIST)}
                 onSelectItem={fontFamily =>
@@ -47,6 +48,7 @@ function StyleFormatter({ onChange, isHeader }) {
             component: (
               <Select
                 name="fsize"
+                className={styles.select}
                 options={transformOptions(FONT_SIZE)}
                 onSelectItem={fontSize =>
                   onChange({

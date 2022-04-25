@@ -29,7 +29,7 @@ import FormulaEditor from '../../common/components/FormulaEditor';
 // import DragNDropProvider from '../QueryPanel/context/DragNDropContext';
 // import { getSymanticLayerData } from '../../data/actions/universes';
 import { ReactComponent as CloseIcon } from '../../layout/assets/close.svg';
-import Sidebar from './Sidebar';
+import ReportSidebar from './ReportSidebar'; 
 import QueryPanel from '../QueryPanel';
 
 const BLOCK_TYPES = {
@@ -195,7 +195,7 @@ function ReportDesigner() {
         item => item.id !== structureItem.id
       );
       dispatch(setActiveNodes(filteredNodes));
-      dispatch(setConfigPanelVisible(true));
+      dispatch(setConfigPanelVisible(false));
     } else {
       let newActiveNodes = [structureItem];
       if (addItem) {
@@ -246,7 +246,7 @@ function ReportDesigner() {
           />
         </DragNDropProvider>
       </div> */}
-      <Sidebar
+      <ReportSidebar
         semanticLayer={semanticLayer}
         onToggleClick={handleShowSelector}
         showHeader={false}

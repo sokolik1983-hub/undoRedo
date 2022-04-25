@@ -126,11 +126,11 @@ const PromptPropertiesLayer = ({ visible, onClose }) => {
             </Button>
           </div>
           {semanticListOpened && (
-          <ItemsListModal
-            visible={semanticListOpened && true}
-            onClose={onCloseSemanticListHandler}
-          />
-        )}
+            <ItemsListModal
+              visible={semanticListOpened && true}
+              onClose={onCloseSemanticListHandler}
+            />
+          )}
         </div>
       </Formik>
     );

@@ -37,6 +37,9 @@ const data = createSlice({
     },
     setQueryResult: (state, action) => {
       state.queryResult = action.payload
+    },
+    setListReports: (state, action) => {
+      state.listReports = action.payload
     }
   }
 });
@@ -50,7 +53,8 @@ export const {
   setSymanticLayerData,
   setQueryData,
   setSymanticLayerQueryResult,
-  setQueryResult
+  setQueryResult,
+  setListReports
 } = data.actions;
 
 export default data.reducer;

@@ -12,6 +12,7 @@ import Filters from './Filters';
 import Results from './Results';
 import QueryPanelControls from './QueryPanelControls/QueryPanelControls';
 import DragNDropProvider from './context/DragNDropContext';
+import ModalConfirm from '../../common/components/Modal/ModalConfirm';
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
@@ -20,13 +21,15 @@ const QueryPanel = ({ visible }) => {
     false
   );
   const [isQueryExecute, setQueryExecute] = useState(false);
+  const [isChanged, setIsChanged] = useState(false);
+  const [isConfirmModalOpened, setIsConfirmModalOpened] = useState(false);
 
   useEffect(() => {
     dispatch(getUniverses());
   }, []);
 
   const handleClose = () => {
-    return dispatch(setQueryPanelModal(false));
+    return isChanged ? setIsConfirmModalOpened(true) : dispatch(setQueryPanelModal(false));
   };
 
   const handleQueryExecute = () => {
@@ -47,7 +50,12 @@ const QueryPanel = ({ visible }) => {
   const onSelectSemanticLayer = value => {
     setSemanticLayer(value);
     setSemanticLayerModalOpened(false);
+    setIsChanged(true);
   };
+
+  const onClose = () => {
+    dispatch(setQueryPanelModal(false));
+  }
 
   const modalContent = () => {
     return (
@@ -58,6 +66,7 @@ const QueryPanel = ({ visible }) => {
               <ObjectsPanel
                 symanticLayer={semanticLayer}
                 modalOpenHandler={handleShowSelector}
+                showHeader
               />
             </div>
             <div className={styles.rightPanel}>
@@ -70,7 +79,7 @@ const QueryPanel = ({ visible }) => {
               />
               <QueryPanelControls
                 onRun={handleQueryExecute}
-                onApply={() => {}}
+                onApply={handleClose} // todo применить функционал переноса в отчет
                 onCancel={handleClose}
               />
             </div>
@@ -83,6 +92,7 @@ const QueryPanel = ({ visible }) => {
             onSelectSemanticLayer={onSelectSemanticLayer}
           />
         )}
+        {isConfirmModalOpened && <ModalConfirm onReturn={() => setIsConfirmModalOpened(false)} onClose={() => onClose()} />}
       </div>
     );
   };

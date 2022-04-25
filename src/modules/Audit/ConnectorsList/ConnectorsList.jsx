@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import { useMemo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import lodash from 'lodash';
 import ListNavBar from '../../../common/components/ListNavBar/ListNavBar';
 import List from '../../../common/components/List/List';
@@ -10,7 +11,7 @@ import ListItemEdit from '../../../common/components/List/ListItemEdit/ListItemE
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import ListTableRowWithDropdown from '../../../common/components/List/ListTableView/ListTableRowWithDropdown/ListTableRowWithDropdown';
 import {
-  connectorsTableHeader,
+  /*   connectorsTableHeader, */
   FOLDER_DROPDOWN_ACTIONS,
   FOLDER_ITEM_DROPDOWN_ACTIONS,
   sortFoldersAndItems
@@ -26,7 +27,7 @@ import Tooltip from '../../../common/components/NewTooltip/Tooltip';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import { getAuditEvents } from '../../../data/actions/audit';
 
-const ConnectorsList = () => {
+const ConnectorsList = ({ audit, auditHeaders }) => {
   const dispatch = useDispatch();
   const connectors = useSelector(state => state.app.audit);
 
@@ -149,7 +150,7 @@ const ConnectorsList = () => {
       </Tooltip>
     ));
   const listItems = foldersHistory[currentFolderIndex]?.events;
-  const listItemsWithDropdown = listItems?.map(item => {
+  const listItemsWithDropdown = audit?.map(item => {
     const { isFolder } = item;
     return (
       <>
@@ -193,7 +194,7 @@ const ConnectorsList = () => {
     );
   });
 
-  const tableHeader = connectorsTableHeader.map(i => <th>{i.name}</th>);
+  const tableHeader = auditHeaders?.map(i => <th>{i.name}</th>);
   const tableRows = listItems?.map(item => {
     const { isFolder } = item;
     return (
@@ -265,6 +266,11 @@ const ConnectorsList = () => {
       )}
     </div>
   );
+};
+
+ConnectorsList.propTypes = {
+  audit: PropTypes.array,
+  auditHeaders: PropTypes.array
 };
 
 export default ConnectorsList;

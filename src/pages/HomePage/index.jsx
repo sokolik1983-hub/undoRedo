@@ -5,7 +5,7 @@ import HomePageButton from './HomePageButton/HomePageButton';
 import styles from './HomePage.module.scss';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
-import navigationMenu from '../../navigation';
+import navigationMenu from '../../navigation';  
 import { ReactComponent as ExplorerIcon } from '../../layout/assets/icons/buttonPlus.svg';
 import FloatingButton from '../../common/components/FloatingButton';
 // import QueryPanel from '../../modules/QueryPanel';
