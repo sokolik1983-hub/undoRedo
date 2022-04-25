@@ -2,7 +2,110 @@
 .manageKeysGroup {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
+
+//DropDown Starts
+.dropDownBlock {
+  position: absolute;
+  top: -26px;
+  left: 60px;
+  width: fit-content;
+}
+.DDField {
+  padding: 5px 0 0 5px;
+  width: 110px;
+}
+
+.DDData {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 22px;
+  width: 110px;
+  background-color: #ffffff;
+}
+
+.selectedIconText {
+  display: flex;
+  flex-direction: row;
+}
+
+.defaultIcon {
+  margin: 9px 7px 5px 4px;
+}
+
+.defaulTypetIcon {
+  margin: 9px 7px 5px 4px;
+}
+
+.arrow {
+  margin: 0 4px;
+  z-index: 10;
+}
+
+.dropDownText {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: #000000;
+  padding-left: 1px;
+  cursor: pointer;
+  border-radius: none;
+}
+
+.dropDownDataBlock {
+  position: absolute;
+  top: 105%;
+  left: -4.25%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  width: 110px;
+  height: 22px;
+  margin-left: 10px;
+  cursor: pointer;
+  box-shadow: 0px 1.5px 1.5px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.dropDownText {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: #000000;
+  padding-left: 1px;
+  cursor: pointer;
+  border-radius: none;
+}
+
+.dropDownItem {
+  @extend .dropDownText;
+  background: #ffffff;
+  width: 110px;
+  height: 22px;
+  padding: 4px;
+  border-bottom: 1px solid #eeeeee;
+
+  &:hover {
+    background: #33568c;
+    border-bottom: 1px solid transparent;
+    color: #ffffff;
+    border-radius: 0;
+  }
+}
+.dropDownItem:last-child,
+.dropDownItem:first-child {
+  border-radius: 0;
+}
+//DropDown Ends
 
 .selectGroup {
   display: flex;
@@ -87,8 +190,9 @@
 .tableGroup {
   height: 98px;
   width: 380px;
+  margin-top: 12px;
   background-color: white;
-  overflow-y: scroll;
+  overflow: hidden;
 }
 
 .keysTableTitle {
@@ -97,6 +201,12 @@
   align-items: center;
   justify-content: start;
   margin: 5px;
+}
+
+.keyTableBlock {
+  width: 380px;
+  height: 76px;
+  overflow-y: scroll;
 }
 
 .tableTitle {

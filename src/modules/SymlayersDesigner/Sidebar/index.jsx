@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import clsx from 'clsx';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CreateObjectLayerModal from '../CreateObjectLayerModal/index';
 import { ReactComponent as SearchIcon } from '../../../layout/assets/icons/search.svg';
 import { ReactComponent as AddTableIcon } from '../../../layout/assets/icons/tablesAdd.svg';
@@ -10,8 +10,11 @@ import { ReactComponent as FiltersIcon } from '../../../layout/assets/icons/tabl
 import { ReactComponent as ViewsIcon } from '../../../layout/assets/icons/viewsShow.svg';
 import HierTreeView from './HierTreeView';
 import styles from './Sidebar.module.scss';
+import { setCreateObjectModal } from '../../../data/actions/universes';
 
 function Sidebar({ onSelect, ...props }) {
+  const dispatch = useDispatch();
+
   const [collapsed, setCollapsed] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
 
@@ -27,18 +30,23 @@ function Sidebar({ onSelect, ...props }) {
     setActiveTab(value);
   };
 
-  const [
-    createObjectModalVisibility,
-    setCreateObjectModalVisibility
-  ] = useState(false);
+  // const [
+  //   createObjectModalVisibility,
+  //   setCreateObjectModalVisibility
+  // ] = useState(false);
 
-  const openCreateObjectModalHandler = () => {
-    setCreateObjectModalVisibility(true);
-  };
+  // const openCreateObjectModalHandler = () => {
+  //   setCreateObjectModalVisibility(true);
+  // };
 
-  const closeCreateObjectModalHandler = () => {
-    setCreateObjectModalVisibility(false);
-  };
+  // const closeCreateObjectModalHandler = () => {
+  //   setCreateObjectModalVisibility(false);
+  // };
+  /* удалить когда перенесем кнопку открытия Создать  */
+  const isCreateObjectModalOpened = useSelector(
+    state => state.app.ui.modalCreateObjectVisible
+  );
+  /* удалить когда перенесем кнопку открытия Создать  */
 
   return (
     <div className={styles.root}>
@@ -58,7 +66,7 @@ function Sidebar({ onSelect, ...props }) {
           </div>
           <div
             style={{ cursor: 'pointer' }}
-            onClick={openCreateObjectModalHandler}
+            onClick={() => dispatch(setCreateObjectModal(true))}
           >
             Создать
           </div>
@@ -97,8 +105,8 @@ function Sidebar({ onSelect, ...props }) {
           )}
         </div>
       )}
-      {createObjectModalVisibility && (
-        <CreateObjectLayerModal onClick={closeCreateObjectModalHandler} />
+      {isCreateObjectModalOpened && (
+        <CreateObjectLayerModal visible={isCreateObjectModalOpened && true} />
       )}
     </div>
   );

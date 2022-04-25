@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   CONNECTOR_POPUP, OBJECTS_CONNECTIONS_MODAL,
   QUERY_PANEL_MODAL, UNIVERSE_MODAL,
-  UNIVERSE_POPUP
+  UNIVERSE_POPUP, CREATE_OBJECT_MODAL
 } from '../../common/constants/popups';
 
 const ui = createSlice({
@@ -13,7 +13,8 @@ const ui = createSlice({
     popupData: {},
     currentPage: '',
     isLoadingData: false,
-    isNavShowing: false
+    isNavShowing: false,
+    modalCreateObjectVisible: false,
   },
   reducers: {
     showNav: (state, action) => {
@@ -54,6 +55,12 @@ const ui = createSlice({
     showSemanticLayerModal: state => {
       state.modalVisible = UNIVERSE_MODAL;
     },
+    showCreateObjectModal: state => {
+      state.modalCreateObjectVisible = CREATE_OBJECT_MODAL;
+    },
+    closeCreateObjectModal: state => {
+      state.modalCreateObjectVisible = {};
+    },
   }
 });
 
@@ -71,6 +78,8 @@ export const {
   showQueryPanelModal,
   showSemanticLayerModal,
   closeModal,
+  showCreateObjectModal,
+  closeCreateObjectModal,
 } = ui.actions;
 
 export default ui.reducer;

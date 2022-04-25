@@ -1,22 +1,35 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
+// import { useDispatch } from 'react-redux';
 import Button from '../../../../../common/components/Button';
 import { BUTTON } from '../../../../../common/constants/common';
+// import { setCreateObjectModal } from '../../../../../data/actions/universes';
 
 import styles from './Footer.module.scss';
 
-const FooterBlock = () => {
-  const handleClick = e => {
-    e.preventDefault();
-  };
+const FooterBlock = ({ onClose , onSubmit}) => {
+  // const dispatch = useDispatch();
+
+  // const handleClick = e => {
+  //   e.preventDefault();
+  // };
+
+  // const onCloseModal = () => {
+  //   onClose();
+  // }
+
+  // const onCloseModal = () => {
+  //   dispatch(setCreateObjectModal(false));
+  //   onClose();
+  // };
 
   return (
     <div className={styles.footerBlock}>
-      <Button onClick={handleClick} buttonStyle={BUTTON.BIG_ORANGE}>
+      <Button onClick={onSubmit} buttonStyle={BUTTON.BIG_ORANGE}>
         Сохранить
       </Button>
       <Button
-        onClick={handleClick}
+        onClick={onClose}
         buttonStyle={BUTTON.BIG_BLUE}
         className={styles.cancelBtn}
       >
@@ -27,3 +40,8 @@ const FooterBlock = () => {
 };
 
 export default FooterBlock;
+
+FooterBlock.propTypes = {
+  onClose: PropTypes.func,
+  onSubmit: PropTypes.func
+};
