@@ -12,7 +12,6 @@ import { ReactComponent as ActUnknownItemIcon } from '../../../layout/assets/ico
 
 const TreeTableField = ({ field }) => {
   const [isActive, setActive] = useState(false); 
-  console.log(field.type)
 
   const selectIcon = (type) => {
     switch (type) {
