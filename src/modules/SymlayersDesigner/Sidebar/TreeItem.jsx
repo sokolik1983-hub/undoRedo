@@ -48,7 +48,7 @@ const TreeItem = ({name, isSchema, table, onSelect}) => {
         </Tooltip>
       )
         : (
-          <Tooltip text={table.object_name} className={table.object_name.length < 29 && styles.tooltip} placement='bottom-left'>
+          <Tooltip text={table.object_name} className={table.object_name.length < 26 && styles.tooltip} placement='bottom-left'>
             <div className={isActive ? styles.actItem : styles.item}>
               <button
                 type='button'
