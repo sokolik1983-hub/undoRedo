@@ -1,60 +1,84 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
+import { useSelector } from "react-redux";
 import Tooltip from "../../../common/components/NewTooltip/Tooltip";
-import { ReactComponent as TableIcon } from '../../../layout/assets/icons/tableIcon.svg';
+import { ReactComponent as TableIcon } from '../../../layout/assets/icons/viewsShow.svg';
 import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
+import { ReactComponent as OpenFolderIcon } from '../../../layout/assets/openFolderIcon.svg';
 import styles from './Sidebar.module.scss';
+import { getTableIdFromParams } from "../../../data/helpers";
+import TreeTableField from "./TreeTableField";
 
-const TreeItem = ({name, isTable, item, onSelect}) => {
+const TreeItem = ({name, isSchema, table, onSelect}) => {
   const [isActive, setActive] = useState(false);
-  const [isFolderOpen, setFolderOpen] = useState(false);  const [event, setEvent] = useState({});
+  const [isFolderOpen, setFolderOpen] = useState(false);  
+  const [event, setEvent] = useState({});
+
+  const selectedTables = useSelector(
+    state => state.app.schemaDesigner.selectedTables
+  );
+
+  const selectedTableColumns = selectedTables[getTableIdFromParams({ ...table, connect_id: 4 })]
 
   useEffect(() => {
-    if (!isTable && isActive) onSelect(item, event);
-    if (isTable && isActive) {
+    if (!isSchema && isActive) {
+      onSelect(table, event);
+    };
+    if (isSchema && isActive) {
       setTimeout(() => setActive(false), 240);
     }
   }, [isActive])
 
   return (
     <>
-      {isTable ? (
+      {isSchema ? (
         <Tooltip text={name} className={name.length < 36 && styles.tooltip} placement='bottom-left'>
           <div
             className={isActive ? styles.actTableItem : styles.tableItem}
             onClick={() => {
-          setActive(!isActive);
-          setFolderOpen(!isFolderOpen);
-        }}
+              setActive(!isActive);
+              setFolderOpen(!isFolderOpen);
+            }}
           >
-            <div className={styles.icons}>
-              {!isFolderOpen && <FolderIcon className={styles.folderIcon} />}
-              <TableIcon />
+            <div>
+              {isFolderOpen ? <OpenFolderIcon /> : <FolderIcon className={styles.folderIcon} />}
             </div>
             <span>{name}</span>
           </div>
         </Tooltip>
       )
         : (
-          <Tooltip text={item.object_name} className={item.object_name.length < 29 && styles.tooltip} placement='bottom-left'>
-            <button
-              className={isActive ? styles.actItem : styles.item}
-              type='button'
-              onDoubleClick={(e) => {
-            e.preventDefault();
-            setActive(!isActive);
-            setEvent(e);
-          }}
-              draggable
-              onDragStart={(e) => {
-              e.dataTransfer.setData("item", JSON.stringify(item));
-            }}
-              onDragEnd={() => {
-              if (!isActive) setActive(true)
-            }}
-            >
-              <span>{item.object_name}</span>
-            </button>
+          <Tooltip text={table.object_name} className={table.object_name.length < 29 && styles.tooltip} placement='bottom-left'>
+            <div className={isActive ? styles.actItem : styles.item}>
+              <button
+                type='button'
+                onDoubleClick={(e) => {
+                  e.preventDefault();
+                  setActive(!isActive);
+                  setEvent(e);
+                }}
+                draggable
+                onDragStart={(e) => {
+                  e.dataTransfer.setData("item", JSON.stringify(table));
+                }}
+                onDragEnd={() => {
+                  if (!isActive) setActive(true)
+                }}
+              >
+                <div className={styles.icons}>
+                  {!isActive && <FolderIcon className={styles.folderIcon} />}
+                  <TableIcon className={isActive && styles.iconActive} />
+                </div>
+                <span>{table.object_name}</span>
+              </button>
+              {isActive && (
+                <div className={styles.tableFields}>
+                  {selectedTableColumns?.map(col => (
+                    <TreeTableField field={col} />
+                  ))}
+                </div>
+              )}
+            </div>
           </Tooltip>
         )}
     </>
@@ -63,8 +87,8 @@ const TreeItem = ({name, isTable, item, onSelect}) => {
 
 TreeItem.propTypes = {
   name: PropTypes.string,
-  isTable: PropTypes.bool,
-  item: PropTypes.object,
+  isSchema: PropTypes.bool,
+  table: PropTypes.object,
   onSelect: PropTypes.func
 }
 

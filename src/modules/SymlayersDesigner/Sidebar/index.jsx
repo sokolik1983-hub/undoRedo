@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -8,17 +7,19 @@ import { ReactComponent as AddTableIcon } from '../../../layout/assets/icons/tab
 import { ReactComponent as FiltersIcon } from '../../../layout/assets/icons/tablesFilters.svg';
 import { ReactComponent as ViewsIcon } from '../../../layout/assets/icons/viewsShow.svg';
 import { ReactComponent as SaveIcon } from '../../../layout/assets/icons/tableSave.svg';
-import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
+import { ReactComponent as OwnerIcon } from '../../../layout/assets/icons/ownerIcon.svg';
 import HierTreeView from './HierTreeView';
 import styles from './Sidebar.module.scss';
 
-function Sidebar({ onSelect, ...props }) {
+function Sidebar({ onSelect }) {
   const [collapsed, setCollapsed] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
 
   const connectorObjects = useSelector(
     state => state.app.schemaDesigner.connectorObjects
   );
+
+  console.log(connectorObjects)
 
   const handleCollapse = () => {
     setCollapsed(prev => !prev);
@@ -77,7 +78,7 @@ function Sidebar({ onSelect, ...props }) {
                 </div>
               </div>
               <div className={styles.owner}>
-                <FolderIcon />
+                <OwnerIcon />
                 <span>Owner</span>
               </div>
               <div className={styles.contentData}>

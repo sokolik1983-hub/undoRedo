@@ -7,13 +7,13 @@ const TreeBranch = ({treeData, idx, name, onSelect}) => {
   const [isActive, setActive] = useState(false);
 
   return (
-    <div name={name}>
+    <div>
       <div onClick={() => setActive(!isActive)}>
-        <TreeItem id={idx} name={name} isTable />
+        <TreeItem id={idx} name={name} isSchema />
       </div>
       <div className={isActive ? style.actListItems : style.disListItems}>
         {treeData[name].map(item => (
-          <TreeItem id={idx} name={name} item={item} onSelect={onSelect} />
+          <TreeItem id={idx} name={name} table={item} onSelect={onSelect} />
         ))}
       </div>
     </div>
