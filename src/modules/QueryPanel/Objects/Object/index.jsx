@@ -1,12 +1,10 @@
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Object.module.scss';
-import { ReactComponent as BlackCross } from '../../../../layout/assets/closeBlack.svg' 
-import { ReactComponent as GaugeIcon } from '../../../../layout/assets/queryPanel/gaugeIcon.svg';
-import { ReactComponent as AttributeIcon } from '../../../../layout/assets/queryPanel/attributeIcon.svg';
-import { ReactComponent as MeasurementIcon } from '../../../../layout/assets/queryPanel/measurementIcon.svg';
+import { ReactComponent as BlackCross } from '../../../../layout/assets/closeBlack.svg';
 import IconButton from '../../../../common/components/IconButton';
+import { getIconByItemType } from '../../queryPanelHelper';
 
 const ObjectItem = ({ title, type, onDeleteItem, ...props }) => {
   const [isActive, setIsActive] = useState(false);
@@ -15,19 +13,6 @@ const ObjectItem = ({ title, type, onDeleteItem, ...props }) => {
     [styles.active]: isActive
   });
 
-  const getIcon = objectTypeId => {
-    switch (objectTypeId) {
-      case 1:
-        return <GaugeIcon />;
-      case 2:
-        return <MeasurementIcon />;
-      case 3:
-        return <AttributeIcon />;
-      default:
-        return null;
-    }
-  };
-
   return (
     <div
       {...props}
@@ -35,7 +20,9 @@ const ObjectItem = ({ title, type, onDeleteItem, ...props }) => {
       onMouseEnter={() => setIsActive(true)}
       onMouseLeave={() => setIsActive(false)}
     >
-      <div className={isActive ? styles.active : null}>{getIcon(type)}</div>
+      <div className={isActive ? styles.active : null}>
+        {getIconByItemType(type)}
+      </div>
       <span className={styles.title}>{title}</span>
       <IconButton
         className={buttonStyles}
@@ -50,6 +37,6 @@ export default ObjectItem;
 
 ObjectItem.propTypes = {
   title: PropTypes.string,
-  type: PropTypes.string,
+  type: PropTypes.number,
   onDeleteItem: PropTypes.func
 };

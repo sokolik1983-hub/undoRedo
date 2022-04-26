@@ -62,7 +62,7 @@ const QueryPanel = ({ visible }) => {
             </div>
             <div className={styles.rightPanel}>
               <Objects className={styles.section} />
-              <Filters className={styles.section} title="Фильтры запроса" />
+              <Filters className={styles.section} />
               <Results
                 className={styles.section}
                 title="Просмотр данных"

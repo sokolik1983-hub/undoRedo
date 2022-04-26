@@ -1,4 +1,7 @@
-/* eslint-disable import/prefer-default-export */
+import { ReactComponent as GaugeIcon } from '../../layout/assets/queryPanel/gaugeIcon.svg';
+import { ReactComponent as MeasurementIcon } from '../../layout/assets/queryPanel/measurementIcon.svg';
+import { ReactComponent as AttributeIcon } from '../../layout/assets/queryPanel/attributeIcon.svg';
+
 export const flat = arr => {
   let result = [];
 
@@ -11,4 +14,17 @@ export const flat = arr => {
   }
 
   return result;
+};
+
+export const getIconByItemType = objectTypeId => {
+  switch (objectTypeId) {
+    case 1:
+      return <GaugeIcon />;
+    case 2:
+      return <MeasurementIcon />;
+    case 3:
+      return <AttributeIcon />;
+    default:
+      return null;
+  }
 };
