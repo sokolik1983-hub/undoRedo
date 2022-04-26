@@ -19,8 +19,6 @@ function Sidebar({ onSelect }) {
     state => state.app.schemaDesigner.connectorObjects
   );
 
-  console.log(connectorObjects)
-
   const handleCollapse = () => {
     setCollapsed(prev => !prev);
   };
