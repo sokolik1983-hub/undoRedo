@@ -6,7 +6,7 @@ import { ReactComponent as SymbolIcon } from '../../../../../layout/assets/icons
 import { ReactComponent as DateIcon } from '../../../../../layout/assets/icons/dateIcon.svg';
 import { ReactComponent as TextIcon } from '../../../../../layout/assets/icons/textIcon.svg';
 import { ReactComponent as NumberIcon } from '../../../../../layout/assets/icons/numberIcon.svg';
-import { ReactComponent as GaugeIcon } from '../../../../../layout/assets/queryPanel/gaugeIcon.svg';
+import { ReactComponent as GaugeIcon } from '../../../../../layout/assets/queryPanel/gauge_icon.svg';
 import { ReactComponent as MeasureIcon } from '../../../../../layout/assets/queryPanel/measurementIcon.svg';
 import { ReactComponent as AttributeIcon } from '../../../../../layout/assets/queryPanel/attributeIcon.svg';
 import { ReactComponent as NullIcon } from '../../../../../layout/assets/icons/nullIcon.svg';
@@ -85,6 +85,24 @@ const PropertiesBlock = () => {
     setIsOpenFunc(!isOpenFunc);
   };
 
+  const setSelectedDataFields = item => {
+    setSelectedDataIcon(item.icon);
+    setSelectedDataText(item.text);
+    setIsOpenData(false);
+  };
+
+  const setSelectedTypeFields = item => {
+    setSelectedTypeIcon(item.icon);
+    setSelectedTypeText(item.text);
+    setIsOpenType(false);
+  };
+
+  const setSelectedFuncFields = item => {
+    setSelectedFuncIcon(item.icon);
+    setSelectedFuncText(item.text);
+    setIsOpenFunc(false);
+  };
+
   return (
     <div className={styles.objectPropertiesBlock}>
       <div className={styles.objectData}>
@@ -108,12 +126,7 @@ const PropertiesBlock = () => {
                     icon={item.icon}
                     key={item.value}
                     item={item}
-                    // {...inputProps}
-                    onClick={() => {
-                      setSelectedDataIcon(item.icon);
-                      setSelectedDataText(item.text);
-                      setIsOpenData(false);
-                    }}
+                    onClick={() => setSelectedDataFields(item)}
                     className={styles.dropDownItem}
                   />
                 ))}
@@ -142,11 +155,7 @@ const PropertiesBlock = () => {
                   icon={item.icon}
                   key={item.value}
                   item={item}
-                  onClick={() => {
-                    setSelectedTypeIcon(item.icon);
-                    setSelectedTypeText(item.text);
-                    setIsOpenType(false);
-                  }}
+                  onClick={() => setSelectedTypeFields(item)}
                   className={styles.dropDownItem}
                 />
               ))}
@@ -174,11 +183,7 @@ const PropertiesBlock = () => {
                   icon={item.icon}
                   key={item.value}
                   item={item}
-                  onClick={() => {
-                    setSelectedFuncIcon(item.icon);
-                    setSelectedFuncText(item.text);
-                    setIsOpenFunc(false);
-                  }}
+                  onClick={() => setSelectedFuncFields(item)}
                   className={styles.dropDownFuncItem}
                 />
               ))}

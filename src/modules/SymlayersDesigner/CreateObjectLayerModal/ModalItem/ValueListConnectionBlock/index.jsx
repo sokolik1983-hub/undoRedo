@@ -4,15 +4,22 @@ import Button from '../../../../../common/components/Button';
 import CheckboxField from '../../../../../common/components/formikFields/checkboxField';
 import Select from '../../../../../common/components/Select';
 import { BUTTON } from '../../../../../common/constants/common';
+import {
+  PUBLIC,
+  CONTROLLED,
+  RESTRICTED,
+  CONFIDENTIAL,
+  PRIVATE
+} from './valueListConstants';
 import styles from './valueListConnectionBlock.module.scss';
 
 const ValueListConnectionBlock = () => {
   const availableForOptions = [
-    { text: 'Public', value: 'Public' },
-    { text: 'Controlled', value: 'Controlled' },
-    { text: 'Restricted', value: 'Restricted' },
-    { text: 'Confidential', value: 'Confidential' },
-    { text: 'Private', value: 'Private' }
+    { text: PUBLIC, value: PUBLIC },
+    { text: CONTROLLED, value: CONTROLLED },
+    { text: RESTRICTED, value: RESTRICTED },
+    { text: CONFIDENTIAL, value: CONFIDENTIAL },
+    { text: PRIVATE, value: PRIVATE }
   ];
 
   const handleClick = e => {

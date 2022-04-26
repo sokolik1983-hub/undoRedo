@@ -24,7 +24,7 @@ const CheckBox = ({
   labelClass,
   value,
   checked,
-  bgColor,
+  blueBGColor,
   ...props
 }) => {
   const [isChecked, setIsChecked] = useState(false);
@@ -52,10 +52,7 @@ const CheckBox = ({
           className={styles.input}
           {...props}
         />
-        <span
-          className={styles.mark}
-          style={{ 'background-color': `${bgColor}` ? `${bgColor}` : 'white' }}
-        />
+        <span className={blueBGColor ? styles.blueBGColor : styles.mark} />
       </span>
       <label htmlFor={id} className={labelClasses}>
         {label}
@@ -75,7 +72,7 @@ CheckBox.propTypes = {
   labelClass: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.string,
-  bgColor: PropTypes.string,
+  blueBGColor: PropTypes.string,
   checked: PropTypes.bool
 };
 
@@ -88,6 +85,6 @@ CheckBox.defaultProps = {
   value: '',
   checked: false,
   disabled: false,
-  bgColor: '',
+  blueBGColor: '',
   onChange: () => {}
 };

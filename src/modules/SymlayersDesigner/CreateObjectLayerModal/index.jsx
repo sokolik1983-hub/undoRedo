@@ -15,44 +15,61 @@ import KeysBlock from './ModalItem/KeysBlock';
 import TechInfoBlock from './ModalItem/TechInfoBlock';
 import FooterBlock from './ModalItem/Footer';
 import { setCreateObjectModal } from '../../../data/actions/universes';
+import { CREATE_OBJECT_MODAL_VALUES } from './createObjectModalConstants';
+
+const {
+  NAME,
+  OBJECT_DATA_TYPE,
+  OBJECT_TYPE,
+  OBJECT_FUNCTION,
+  OBJECT_DESCRIPTION,
+  SELECT_QUERY_FIELD,
+  WHERE_QUERY_FIELD,
+  DEFAULT_LINK_INPUT,
+  THIS_LIST_EDIT_CHECKBOX,
+  REFRESH_BEFORE_USAGE_CHECKBOX,
+  SHOW_HIERARCHY_CHECKBOX,
+  EXPORT_BY_UNIVERSE_CHECKBOX,
+  SEARCH_DELEGETION_CHECKBOX,
+  USAGE_PERMISSION,
+  USE_IN_RESULTS_CHECKBOX,
+  USE_IN_CONDITIONS_CHECKBOX,
+  USE_IN_SORTINGS_CHECKBOX,
+  KEYS_DATA_TYPE,
+  KEYS_TYPE,
+  KEYS_SELECT_INPUT,
+  KEYS_WHERE_INPUT,
+  TECH_INFO_INPUT,
+  DISPLAY_INPUT,
+  ORIGIN_INPUT
+} = CREATE_OBJECT_MODAL_VALUES;
 
 const createObjectModalValues = {
-  name: '',
-
-  objectDataType: '',
-  objectType: '',
-  objectFunction: '',
-
-  objectDescription: '',
-
-  selectQueryield: '',
-  whereQueryield: '',
-
-  defaultLinkInput: '',
-  thisListEditCheckBox: false,
-  refreshBeforeUsageCheckBox: false,
-  showHierarchyCheckBox: false,
-  exportByUniverseCheckBox: false,
-  searchDelegetionCheckBox: false,
-  usagePermission: '',
-  useInResultsCheckBox: false,
-  useInConditionsCheckBox: false,
-  useInSortingsCheckBox: false,
-
-  keysDataType: '',
-  keysType: '',
-  keysSelectInput: '',
-  keysWhereInput: '',
-
-  techInfoInput: '',
-  displayInput: '',
-  originInput: ''
+  [NAME]: '',
+  [OBJECT_DATA_TYPE]: '',
+  [OBJECT_TYPE]: '',
+  [OBJECT_FUNCTION]: '',
+  [OBJECT_DESCRIPTION]: '',
+  [SELECT_QUERY_FIELD]: '',
+  [WHERE_QUERY_FIELD]: '',
+  [DEFAULT_LINK_INPUT]: '',
+  [THIS_LIST_EDIT_CHECKBOX]: false,
+  [REFRESH_BEFORE_USAGE_CHECKBOX]: false,
+  [SHOW_HIERARCHY_CHECKBOX]: false,
+  [EXPORT_BY_UNIVERSE_CHECKBOX]: false,
+  [SEARCH_DELEGETION_CHECKBOX]: false,
+  [USAGE_PERMISSION]: '',
+  [USE_IN_RESULTS_CHECKBOX]: false,
+  [USE_IN_CONDITIONS_CHECKBOX]: false,
+  [USE_IN_SORTINGS_CHECKBOX]: false,
+  [KEYS_DATA_TYPE]: '',
+  [KEYS_TYPE]: '',
+  [KEYS_SELECT_INPUT]: '',
+  [KEYS_WHERE_INPUT]: '',
+  [TECH_INFO_INPUT]: '',
+  [DISPLAY_INPUT]: '',
+  [ORIGIN_INPUT]: ''
 };
-
-const ids = [
-  {techInfoInput : "techInfoInput"} ,
-  {displayInput : "displayInput"} ,
-]
 
 const CreateObjectLayerModal = ({ visible }) => {
   const dispatch = useDispatch();
@@ -76,25 +93,24 @@ const CreateObjectLayerModal = ({ visible }) => {
           <TextFieldItem
             title="Имя"
             className={styles.name}
-            name="name"
+            id='name'
+            name='name'
             onChange={handleChange}
-            value={values.name}
           />
           <PropertiesBlock
             name="objectProperties"
-            value={values.objectDataType}
+            value={values.OBJECT_DATA_TYPE}
             onChange={handleChange}
           />
           <DescriptionBlock
             name="objectDescription"
-            value={values.objectDescription}
+            value={values.OBJECT_DESCRIPTION}
             onChange={handleChange}
           />
           <QueryBlock />
           <ValueListConnectionBlock />
           <KeysBlock />
           <TechInfoBlock
-            id={ids}
             name="techInfoInput"
             onChange={handleChange}
             value={values}

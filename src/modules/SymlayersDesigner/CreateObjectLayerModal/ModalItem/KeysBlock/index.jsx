@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import { React, useState } from 'react';
 import ModalItem from '..';
 import Button from '../../../../../common/components/Button';
 import Select from '../../../../../common/components/Select';
@@ -22,36 +22,46 @@ const KeysBlock = () => {
 
   const keyTypeOptions = [{ text: 'Основной', value: 'main' }];
 
+  const SELECT_DATA = 'Data.Дата + convert(SMALLDATETIME,{fn(CURDATE())}';
+  const WHERE_DATA =
+    'Data.Дата<>ascii() fgsdfgsdfgsfdg sfgsdfgsdfgsdf dfsgsdfg';
+
   const keyTableData = [
     {
       type: 'Основной fdgsdfgsfdgsfdgsdfg',
-      select: 'Data.Дата + convert(SMALLDATETIME,{fn(CURDATE())}',
-      where: 'Data.Дата<>ascii() fgsdfgsdfgsfdg sfgsdfgsdfgsdf dfsgsdfg'
+      select: SELECT_DATA,
+      where: WHERE_DATA,
+      id: 0
     },
     {
       type: 'Внешний',
-      select: 'Data.Дата + convert(BIGDATETIME,{fn(CURDATE())}',
-      where: 'Data.Дата<>ascii()'
+      select: SELECT_DATA,
+      where: WHERE_DATA,
+      id: 1
     },
     {
       type: 'Основной',
-      select: 'Data.Дата + convert(AVGDATETIME,{fn(CURDATE())}',
-      where: 'Data.Дата<>ascii()'
+      select: SELECT_DATA,
+      where: WHERE_DATA,
+      id: 2
     },
     {
       type: 'Внешний',
-      select: 'Data.Дата + convert(SMALLDATETIME,{fn(CURDATE())}',
-      where: 'Data.Дата<>ascii()'
+      select: SELECT_DATA,
+      where: WHERE_DATA,
+      id: 3
     },
     {
       type: 'Основной',
-      select: 'Data.Дата + convert(AVGDATETIME,{fn(CURDATE())}',
-      where: 'Data.Дата<>ascii()'
+      select: SELECT_DATA,
+      where: WHERE_DATA,
+      id: 4
     },
     {
       type: 'Основной',
-      select: 'Data.Дата + convert(AVGDATETIME,{fn(CURDATE())}',
-      where: 'Data.Дата<>ascii()'
+      select: SELECT_DATA,
+      where: WHERE_DATA,
+      id: 5
     }
   ];
 
@@ -78,6 +88,12 @@ const KeysBlock = () => {
     setIsOpenData(!isOpenData);
   };
 
+  const setSelectedFields = item => {
+    setSelectedDataIcon(item.icon);
+    setSelectedDataText(item.text);
+    setIsOpenData(false);
+  };
+
   return (
     <ModalItem title="Ключи">
       <div className={styles.keysBlock}>
@@ -101,12 +117,10 @@ const KeysBlock = () => {
                     <DropdownItem
                       icon={item.icon}
                       key={item.value}
+                      id={item.value}
                       item={item}
-                      onClick={() => {
-                        setSelectedDataIcon(item.icon);
-                        setSelectedDataText(item.text);
-                        setIsOpenData(false);
-                      }}
+                      value={item.value}
+                      onClick={() => setSelectedFields(item)}
                       className={styles.dropDownItem}
                     />
                   ))}
@@ -117,17 +131,11 @@ const KeysBlock = () => {
         </div>
         <div className={styles.tableGroup}>
           <div className={styles.keysTableTitle}>
-            <p className={styles.tableTitle} style={{ 'margin-right': '2px' }}>
-              on/off
-            </p>
+            <p className={styles.tableTitleMR2}>on/off</p>
             <div className={styles.tableTitleDivider} />
-            <p className={styles.tableTitle} style={{ 'margin-right': '33px' }}>
-              тип
-            </p>
+            <p className={styles.tableTitleMR33}>тип</p>
             <div className={styles.tableTitleDivider} />
-            <p className={styles.tableTitle} style={{ 'margin-right': '95px' }}>
-              select
-            </p>
+            <p className={styles.tableTitleMR95}>select</p>
             <div className={styles.tableTitleDivider} />
             <p className={styles.tableTitle}>where</p>
           </div>
@@ -136,10 +144,11 @@ const KeysBlock = () => {
               <div className={styles.keyTable}>
                 <div className={styles.checkBoxDiv}>
                   <CheckboxField
-                    value={`${item.index} + ${item.value}`}
-                    id={`${item.index} + ${item.value}`}
+                    value={item.value}
+                    key={item.id}
+                    id={item.id}
                     name="keyTableCheckBox"
-                    bgColor="#6F8EBC"
+                    blueBGColor="true"
                   />
                 </div>
                 <Tooltip

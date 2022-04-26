@@ -8,7 +8,7 @@
   display: inline-block;
   cursor: pointer;
   padding-left: 7px;
-  color: #FFFFFF;
+  color: #ffffff;
   font-weight: 400;
 }
 
@@ -27,7 +27,6 @@
 }
 
 .mark {
-  // background-color: #FFFFFF;
   display: inline-block;
   width: 10px;
   height: 10px;
@@ -37,6 +36,7 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  background-color: #ffffff;
 
   &:after {
     content: '';
@@ -49,6 +49,11 @@
     background-size: cover;
     opacity: 0;
   }
+}
+
+.blueBGColor {
+  @extend .mark;
+  background-color: #6f8ebc;
 }
 
 .input:checked + .mark:after {
