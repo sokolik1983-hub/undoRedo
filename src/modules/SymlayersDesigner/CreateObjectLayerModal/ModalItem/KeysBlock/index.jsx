@@ -66,10 +66,10 @@ const KeysBlock = () => {
   ];
 
   const selectDataOptions = [
-    { icon: <SymbolIcon />, text: 'Символ', value: 'symbol' },
-    { icon: <DateIcon />, text: 'Дата', value: 'data' },
-    { icon: <TextIcon />, text: 'Номер', value: 'number' },
-    { icon: <NumberIcon />, text: 'Текст', value: 'text' }
+    { icon: <SymbolIcon />, id: 0, text: 'Символ', value: 'symbol' },
+    { icon: <DateIcon />, id: 1, text: 'Дата', value: 'data' },
+    { icon: <TextIcon />, id: 2, text: 'Номер', value: 'number' },
+    { icon: <NumberIcon />, id: 3, text: 'Текст', value: 'text' }
   ];
 
   const [isOpenData, setIsOpenData] = useState(false);
@@ -116,7 +116,7 @@ const KeysBlock = () => {
                   {selectDataOptions.map(item => (
                     <DropdownItem
                       icon={item.icon}
-                      key={item.value}
+                      key={`${item.value} + ${item.id}`}
                       id={item.value}
                       item={item}
                       value={item.value}
@@ -144,29 +144,29 @@ const KeysBlock = () => {
               <div className={styles.keyTable}>
                 <div className={styles.checkBoxDiv}>
                   <CheckboxField
-                    value={item.value}
-                    key={item.id}
-                    id={item.id}
+                    value='false'
+                    key="keyTableCheckBox"
+                    id="keyTableCheckBox"
                     name="keyTableCheckBox"
                     blueBGColor="true"
                   />
                 </div>
                 <Tooltip
-                  key={item.type}
+                  key={`${item.type} + ${item.id}`}
                   position="bottomLeft"
                   content={item.type}
                 >
                   <div className={styles.tableType}>{item.type}</div>
                 </Tooltip>
                 <Tooltip
-                  key={item.select}
+                  key={`${item.select} + ${item.id}`}
                   position="bottom"
                   content={item.select}
                 >
                   <div className={styles.tableSelect}>{item.select}</div>
                 </Tooltip>
                 <Tooltip
-                  key={item.where}
+                  key={`${item.where} + ${item.id}`}
                   position="bottomRight"
                   content={item.where}
                 >
