@@ -1,7 +1,3 @@
-/* eslint-disable prefer-const */
-/* eslint-disable no-fallthrough */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-unused-expressions */
 /* eslint-disable no-use-before-define */
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -12,7 +8,7 @@ import { ReactComponent as Plus } from '../../../assets/reportDesigner/plus.svg'
 import { setZoom } from '../../../../data/reducers/reportDesigner';
 
 const MAX_ZOOM = 2;
-const MIN_ZOOM = 0.5;
+const MIN_ZOOM = 0.1;
 
 const ZoomSlider = () => {
   const zoom = useSelector(state => state.app.reportDesigner.reportsUi.ui?.zoom);
@@ -21,29 +17,34 @@ const ZoomSlider = () => {
   const slider = useRef({ x: 0, y: 0 });
   const thumb = useRef({ x: 0, y: 0 });
   const sliderRef = useRef(null);
-  let [zoomValue, setZoomValue] = useState(100);
+  const [zoomValue, setZoomValue] = useState(zoom * 100);
   const [thumbLeft, setThumbLeft] = useState(0);
 
   const handleZoomPlus = () => {
     const newZoom = +(zoom + 0.1).toFixed(2);
     const calculatedZoom = newZoom <= MAX_ZOOM ? newZoom : MAX_ZOOM;
     dispatch(setZoom(calculatedZoom));
-    setZoomValue((calculatedZoom * 100).toFixed());
-  }
+    setZoomValue(Number((calculatedZoom * 100).toFixed()));
+    setThumbLeft(zoomValue);
+  };
+
   const handleZoomMinus = () => {
     const newZoom = +(zoom - 0.1).toFixed(2);
     const calculatedZoom = newZoom >= MIN_ZOOM ? newZoom : MIN_ZOOM;
     dispatch(setZoom(calculatedZoom));
-    setZoomValue((calculatedZoom * 100).toFixed());
-  }
+    setZoomValue(Number((calculatedZoom * 100).toFixed()));
+    setThumbLeft(zoomValue - 10);
+  };
 
   useEffect(() => {
-    if (thumb.current && slider.current) {
-      const sliderWidth = slider?.current.getBoundingClientRect().width;
-      const thumbWidth = thumb?.current.getBoundingClientRect().width;
+    // if (thumb.current && slider.current) {
+    //   const sliderWidth = slider?.current.getBoundingClientRect().width;
+    //   const thumbWidth = thumb?.current.getBoundingClientRect().width;
 
-      setThumbLeft(sliderWidth / 2 - thumbWidth)
-    }
+    //   setThumbLeft(sliderWidth / 2 - thumbWidth - 10);
+    // }
+    setZoomValue(zoomValue)
+    setThumbLeft(zoomValue)
   }, [slider, thumb]);
 
   const handleMouseDown = event => {
@@ -56,39 +57,41 @@ const ZoomSlider = () => {
 
     // eslint-disable-next-line no-shadow
     function onMouseMove(event) {
+      setThumbLeft(zoomValue)
       let newLeft = event.clientX - shiftX - slider?.current.getBoundingClientRect().left;
-      // const sliderWidth = slider?.current.getBoundingClientRect().width;
       const thumbWidth = thumb?.current.getBoundingClientRect().width;
+      setThumbLeft(newLeft);
 
       if (newLeft < 0) {
         newLeft = 0;
-      }
+      ;}
+
       const rightEdge = slider.current.offsetWidth - thumb.current.offsetWidth - thumbWidth;
 
       if (newLeft > rightEdge) {
         newLeft = rightEdge;
-      }
-
-      // if (newLeft < (sliderWidth / 2 - thumbWidth)) {
-      //   const newZoomValue = ;
-      // } else {
-
-      // }
+      };
       
-      // if (sliderRef.current) {
-      //   const sliderWidth = sliderRef.current.getBoundingClientRect().width;
-      //   const newZoomValue = (sliderWidth - thumbWidth) / 100 - newLeft;
+      if (sliderRef.current) {
+        const sliderWidth = sliderRef.current.getBoundingClientRect().width;
+        const thumbCoords = Math.abs((sliderWidth - thumbWidth) / 100 - newLeft);
+        let newZoomValue = (thumbCoords.toFixed() / 10).toFixed() * 10;
+
+        if (newZoomValue < 10) {
+          newZoomValue = 10;
+        };
         
-      //   setZoomValue(newZoomValue.toFixed());
-      // }
+        setZoomValue(newZoomValue);
+        dispatch(setZoom(Number((newZoomValue / 100).toFixed(2))));
+      };
 
       setThumbLeft(newLeft);
-    }
+    };
 
     function onMouseUp() {
       document.removeEventListener('mouseup', onMouseUp);
       document.removeEventListener('mousemove', onMouseMove);
-    }
+    };
 
   };
 
