@@ -3,7 +3,8 @@ import { getTableIdFromParams, request } from '../helpers';
 import { notificationShown } from '../reducers/notifications';
 import {
   setConnectorObjects,
-  setSelectedTables
+  setSelectedTables,
+  setConnectorData,
 } from '../reducers/schemaDesigner';
 
 export const getConnectorObjectsList = queryParams => {
@@ -57,7 +58,7 @@ export const getObjectData = queryParams => {
         dispatch
       });
       if (response?.success) {
-        dispatch(setConnectorObjects(response.result));
+        dispatch(setConnectorData(response.result));
       }
     } catch (err) {
       dispatch(
