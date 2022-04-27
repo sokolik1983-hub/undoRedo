@@ -67,7 +67,7 @@ const ShemaEditorBlock = ({
   const onCloseInput = () => {
     setIsActive(!isActive);
     setSearchValue('');
-    setFilterableFields([])
+    setFilterableFields(selectedTableColumns)
   }
 
   return (
