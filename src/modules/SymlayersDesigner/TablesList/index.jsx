@@ -17,11 +17,11 @@ function TablesList({ title, items, type, onSelect }) {
     setSelected(id);
     dispatch(setObjectsConnectionsModal(true));
   };
+
   return (
     <div className={styles.root}>
       <div className={styles.header}>
         <div className={styles.title}>{title}</div>
-
         <div className={styles.actions}>
           <div>+</div>
         </div>

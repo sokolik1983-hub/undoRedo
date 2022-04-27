@@ -65,7 +65,7 @@ const ConnectionTable = ({tableName, tables, onSelectColumn, onSelectTable, tabl
       <Select
         name='tableSelect'
         options={enabledTables || []}
-        defaultValue={defaultValue}
+        defaultValue={(currentLeftTable || currentRightTable) || defaultValue}
         onSelectItem={e => getTableData(e)}
       />
       <span className={styles.columnTitle}>Столбцы</span>

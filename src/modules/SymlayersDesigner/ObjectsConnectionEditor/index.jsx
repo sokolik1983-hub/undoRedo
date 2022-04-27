@@ -102,13 +102,6 @@ const ObjectsConnectionEditor = ({ visible, currentObjLink }) => {
     setExpression(expr);
   };
 
-  const memoCurrentObjLink = useMemo(() => {
-    if (currentObjLink) {
-      return currentObjLink;
-    }
-    return null;
-  }, [currentObjLink]);
-
   const getTableSelected = () => {
     return {
       leftTable,
@@ -128,16 +121,16 @@ const ObjectsConnectionEditor = ({ visible, currentObjLink }) => {
             onSelectColumn={setSelectedColumns}
             onSelectTable={handleSelectTable}
             tableSelected={getTableSelected()}
-            currentLeftTable={memoCurrentObjLink?.object1.object}
+            currentLeftTable={currentObjLink?.object1.object}
           />
-          <ConnectionType onSelectExpression={setSelectedExpression} currentExpression={memoCurrentObjLink?.condition} />
+          <ConnectionType onSelectExpression={setSelectedExpression} currentExpression={currentObjLink?.condition} />
           <ConnectionTable
             tableName={TABLES_NAME_FOR_CONNECT.TABLE_B}
             tables={convertedData}
             onSelectColumn={setSelectedColumns}
             onSelectTable={handleSelectTable}
             tableSelected={getTableSelected()}
-            currentRightTable={memoCurrentObjLink?.object2.object}
+            currentRightTable={currentObjLink?.object2.object}
           />
         </div>
         <FormulaBlock
