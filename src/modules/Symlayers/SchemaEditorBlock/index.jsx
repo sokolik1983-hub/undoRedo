@@ -54,7 +54,7 @@ const ShemaEditorBlock = ({
   };
 
   const handleSearch = e => {
-    const value = e.target.value.toLowerCase();
+    const value = e.target.value.toLowerCase(); 
 
     setSearchValue(value);
     setFilterableFields(
@@ -120,10 +120,9 @@ const ShemaEditorBlock = ({
             className={styles.search}
           />
 
-          {filterableFields.map(item => (
+          {filterableFields.map((item, index) => (
             // eslint-disable-next-line react/no-array-index-key
-            <li className={styles.item} key={item.field + item.type}>
-              {item.type}
+            <li className={styles.item} key={item.field + item.type + index}>
               {item.field}
             </li>
           ))}
