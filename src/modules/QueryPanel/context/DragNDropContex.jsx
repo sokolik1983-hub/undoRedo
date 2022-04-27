@@ -11,63 +11,16 @@ const NODE_CONDITION = {
   OR: 'ИЛИ'
 };
 
-const object1 = {
-  children: [
-    {
-      fieldItem: { field: 'EGR_ID', objectType_id: 1 },
-      id: 1650375287168,
-      inputValue: '',
-      itemCondition: 'равно',
-      type: 'filter-item'
-    },
-    {
-      fieldItem: { field: 'EGR_ID___', objectType_id: 3 },
-      id: 165037528716812,
-      inputValue: '',
-      itemCondition: 'равно',
-      type: 'filter-item'
-    },
-    {
-      children: [
-        {
-          fieldItem: { field: 'Ggasglj', objectType_id: 1 },
-          id: 1650375364064,
-          inputValue: '',
-          itemCondition: 'равно',
-          type: 'filter-item'
-        },
-        {
-          fieldItem: { field: 'xbnvxcbmvcbxcv', objectType_id: 2 },
-          id: 1650375365329,
-          inputValue: '',
-          itemCondition: 'равно',
-          type: 'filter-item'
-        }
-      ],
-      condition: NODE_CONDITION.AND,
-      id: 0.5044166520148683,
-      type: 'filter-node'
-    }
-  ],
-  condition: NODE_CONDITION.OR,
-  id: 0.176986324654405,
-  type: 'filter-node'
-};
-
 const DragNDropContext = createContext();
 export const useDragNDrop = () => useContext(DragNDropContext);
 
 const DragNDropProvider = ({ children }) => {
   const [objectsDesk, setObjectsDesk] = useState([]);
-  const [filtersDesk, setFiltersDesk] = useState(object1);
+  const [filtersDesk, setFiltersDesk] = useState(null);
+  const [focused, setFocused] = useState(null);
   const parentSection = useRef(null);
-  const focused = useRef(null);
 
-  const onDeleteObjectItem = id =>
-    setObjectsDesk(objectsDesk.filter(item => item.id !== id));
-
-  const clearObjectsDesk = () => setObjectsDesk([]);
-
+  // ======================== общие для всех ========================
   const handleDragStart = (e, obj, parent) => {
     e.stopPropagation();
     parentSection.current = parent;
@@ -78,7 +31,23 @@ const DragNDropProvider = ({ children }) => {
     e.preventDefault();
   };
 
-  const handleDropObject = e => {
+  const createNode = () => ({
+    id: Math.random(),
+    type: 'filter-node',
+    condition: NODE_CONDITION.OR,
+    children: []
+  });
+
+  const createItem = item => ({
+    id: Date.now(),
+    type: 'filter-item',
+    inputValue: EMPTY_STRING,
+    itemCondition: 'равно',
+    fieldItem: item
+  });
+
+  // ========================= Objects DnD  =========================
+  const handleDropOnObjectArea = e => {
     e.preventDefault();
 
     if (parentSection.current === DRAG_PARENT_SECTION.FILTERS) return;
@@ -98,11 +67,13 @@ const DragNDropProvider = ({ children }) => {
     }
   };
 
-  const onObjectDrop = (e, object) => {
+  const handleDropOnObjectItem = (e, object) => {
     e.stopPropagation();
     e.preventDefault();
 
     const dropped = JSON.parse(e.dataTransfer.getData('text'));
+
+    if (parentSection.current === DRAG_PARENT_SECTION.FILTERS) return;
 
     const { isFolder } = dropped;
 
@@ -128,7 +99,7 @@ const DragNDropProvider = ({ children }) => {
     }
   };
 
-  const handleDropFilter = e => {
+  const handleDropOnFiltersArea = e => {
     e.preventDefault();
 
     const dropped = JSON.parse(e.dataTransfer.getData('text'));
@@ -140,44 +111,23 @@ const DragNDropProvider = ({ children }) => {
     )
       return;
 
+    const item = createItem(dropped);
+
     if (!filtersDesk) {
-      setFiltersDesk({
-        id: Math.random(),
-        type: 'filter-item',
-        condition: EMPTY_STRING,
-        children: [
-          {
-            id: new Date().valueOf(),
-            type: 'filter-item',
-            inputValue: EMPTY_STRING,
-            itemCondition: 'равно',
-            fieldItem: dropped
-          }
-        ]
-      });
+      setFiltersDesk(item);
     } else {
-      setFiltersDesk({
-        ...filtersDesk,
-        type: 'filter-node',
-        condition: NODE_CONDITION.OR,
-        children: [
-          ...filtersDesk.children,
-          {
-            id: new Date().valueOf(),
-            type: 'filter-item',
-            inputValue: EMPTY_STRING,
-            itemCondition: 'равно',
-            fieldItem: dropped
-          }
-        ]
-      });
+      const node = createNode();
+      const items = filtersDesk.children ? filtersDesk.children : [filtersDesk];
+      node.children = [...items, item];
+
+      setFiltersDesk(node);
     }
   };
 
   const getParent = (obj, id) => {
     /*
-      TODO: предложить решение с моментальным выходом из цикла, когда
-      нужные родитель и индекс найдены или другое лучшее решение.
+      TODO: предложить решение с моментальным выходом из цикла в случае
+      когда нужные родитель и индекс найдены или другое лучшее решение.
     */
     let result = null;
     let idx = null;
@@ -199,19 +149,22 @@ const DragNDropProvider = ({ children }) => {
     return [result, idx];
   };
 
-  const handleDropFiltersItem = (e, target) => {
+  // ======================== Objects actions ========================
+  const onDeleteObjectItem = id =>
+    setObjectsDesk(objectsDesk.filter(item => item.id !== id));
+
+  const clearObjectsDesk = () => setObjectsDesk([]);
+
+  // ========================== Filters DnD ==========================
+  const handleDropOnFiltersItem = (e, target) => {
     e.preventDefault();
     e.stopPropagation();
 
     let dropped = JSON.parse(e.dataTransfer.getData('text'));
+    if (dropped.isFolder) return;
+
     if (parentSection.current !== DRAG_PARENT_SECTION.FILTERS) {
-      dropped = {
-        id: new Date().valueOf(),
-        type: 'filter-item',
-        inputValue: EMPTY_STRING,
-        itemCondition: 'равно',
-        fieldItem: dropped
-      };
+      dropped = createItem(dropped);
     }
 
     /* если дроп на самого себя ничего не делаем */
@@ -226,12 +179,8 @@ const DragNDropProvider = ({ children }) => {
 
     /* если дроп айтема на айтем */
     if (target.type === 'filter-item' && dropped.type === 'filter-item') {
-      const node = {
-        id: Math.random(),
-        type: 'filter-node',
-        condition: NODE_CONDITION.OR,
-        children: [dropped, target]
-      };
+      const node = createNode();
+      node.children = [dropped, target];
 
       targetParent.children[targetIndex] = node;
 
@@ -300,18 +249,14 @@ const DragNDropProvider = ({ children }) => {
     e.preventDefault();
     e.stopPropagation();
 
-    const filtersDeskClone = JSON.parse(JSON.stringify(filtersDesk));
-
     let dropped = JSON.parse(e.dataTransfer.getData('text'));
+    if (dropped.isFolder) return;
+
     if (parentSection.current !== DRAG_PARENT_SECTION.FILTERS) {
-      dropped = {
-        id: new Date().valueOf(),
-        type: 'filter-item',
-        inputValue: EMPTY_STRING,
-        itemCondition: 'равно',
-        fieldItem: dropped
-      };
+      dropped = createItem(dropped);
     }
+
+    const filtersDeskClone = JSON.parse(JSON.stringify(filtersDesk));
 
     if (parentSection.current === DRAG_PARENT_SECTION.FILTERS) {
       const [droppedParent] = getParent(filtersDeskClone, dropped.id);
@@ -327,6 +272,7 @@ const DragNDropProvider = ({ children }) => {
     setFiltersDesk(filtersDeskClone);
   };
 
+  // =========================== Tree DnD ===========================
   const handleTreeDrop = e => {
     e.preventDefault();
     e.stopPropagation();
@@ -350,45 +296,70 @@ const DragNDropProvider = ({ children }) => {
     if (parentSection.current === DRAG_PARENT_SECTION.OBJECTS) {
       onDeleteObjectItem(dropped.id);
     }
+
+    if (focused && dropped.id === focused.id) setFocused(null);
   };
 
+  // ======================== Filters actions ========================
   const deleteFiltersDeskItem = id => {
+    if (filtersDesk.type === 'filter-item') {
+      setFiltersDesk(null);
+      setFocused(null);
+      return;
+    }
+
     const filtersDeskClone = JSON.parse(JSON.stringify(filtersDesk));
     const [droppedParent] = getParent(filtersDeskClone, id);
     droppedParent.children = droppedParent.children.filter(i => i.id !== id);
+
+    if (focused.id === id) setFocused(null);
+
     setFiltersDesk(filtersDeskClone);
   };
 
-  const setFocused = item => {
-    focused.current = item;
-  };
-
   const addNode = () => {
-    if (!focused.current) return;
-
-    const node = {
-      id: Math.random(),
-      type: 'filter-node',
-      condition: NODE_CONDITION.OR,
-      children: []
-    };
+    if (!focused && !filtersDesk) {
+      const parent = createNode();
+      const node = createNode();
+      parent.children = [node];
+      setFiltersDesk(parent);
+      setFocused(node);
+      return;
+    }
 
     const filtersDeskClone = JSON.parse(JSON.stringify(filtersDesk));
-    const [parent] = getParent(filtersDeskClone, focused.current.id);
 
-    if (focused.current.type === 'filter-node') {
-      const focusedNode = parent.children.find(
-        i => i.id === focused.current.id
-      );
+    if (filtersDesk.type === 'filter-item') {
+      const parent = createNode();
+      const node = createNode();
+      parent.children = [filtersDeskClone, node];
+      setFiltersDesk(parent);
+      setFocused(node);
+      return;
+    }
+
+    if (!focused && filtersDesk.type === 'filter-node') {
+      const node = createNode();
+      filtersDeskClone.children = [...filtersDeskClone.children, node];
+      setFiltersDesk(filtersDeskClone);
+      setFocused(node);
+      return;
+    }
+
+    const node = createNode();
+    const [parent] = getParent(filtersDeskClone, focused.id);
+
+    if (focused.type === 'filter-node') {
+      const focusedNode = parent.children.find(i => i.id === focused.id);
       focusedNode.children.push(node);
     }
 
-    if (focused.current.type === 'filter-item') {
+    if (focused.type === 'filter-item') {
       parent.children.push(node);
     }
 
     setFiltersDesk(filtersDeskClone);
-    focused.current = node;
+    setFocused(node);
   };
 
   const handleMoveUp = () => {
@@ -417,7 +388,10 @@ const DragNDropProvider = ({ children }) => {
     setFiltersDesk(filtersDeskClone);
   };
 
-  const onClearFilters = () => setFiltersDesk(null);
+  const onClearFilters = () => {
+    setFiltersDesk(null);
+    setFocused(null);
+  };
 
   return (
     <DragNDropContext.Provider
@@ -428,14 +402,15 @@ const DragNDropProvider = ({ children }) => {
         clearObjectsDesk,
         handleDragStart,
         handleDragOver,
-        handleDropObject,
-        onObjectDrop,
-        handleDropFilter,
-        handleDropFiltersItem,
+        handleDropOnObjectArea,
+        handleDropOnObjectItem,
+        handleDropOnFiltersArea,
+        handleDropOnFiltersItem,
         handleDropOnFiltersNodeItemsBlock,
         handleTreeDrop,
         onClearFilters,
         deleteFiltersDeskItem,
+        focused,
         setFocused,
         addNode,
         handleMoveUp,

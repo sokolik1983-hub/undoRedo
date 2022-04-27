@@ -9,26 +9,28 @@ import IconButton from '../../../../common/components/IconButton';
 import { getIconByItemType } from '../../queryPanelHelper';
 import { EMPTY_STRING } from '../../../../common/constants/common';
 import styles from './FiltersDeskItem.module.scss';
+import { useDragNDrop } from '../../context/DragNDropContex';
 
 const FiltersDeskItem = ({
+  id,
   title,
   type,
   onItemClick,
   onDeleteItem,
   ...props
 }) => {
+  const { focused } = useDragNDrop();
   const [isActive, setIsActive] = useState(false);
   const [inputValue, setInputValue] = useState(EMPTY_STRING);
 
   const root = clsx(styles.root, {
-    [styles.active]: isActive
+    [styles.active]: isActive,
+    [styles.selected]: focused?.id === id
   });
 
   return (
     <div
       {...props}
-      role="button"
-      tabIndex="0"
       className={root}
       onClick={onItemClick}
       onMouseEnter={() => setIsActive(true)}
@@ -53,7 +55,10 @@ const FiltersDeskItem = ({
       <IconButton
         className={styles.closeBtn}
         icon={<CloseIcon className={styles.closeBtnIcon} />}
-        onClick={onDeleteItem}
+        onClick={e => {
+          e.stopPropagation();
+          onDeleteItem();
+        }}
       />
     </div>
   );
@@ -62,6 +67,7 @@ const FiltersDeskItem = ({
 export default FiltersDeskItem;
 
 FiltersDeskItem.propTypes = {
+  id: PropTypes.number,
   title: PropTypes.string,
   type: PropTypes.number,
   onItemClick: PropTypes.func,

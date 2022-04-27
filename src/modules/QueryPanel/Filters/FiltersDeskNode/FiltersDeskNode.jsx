@@ -17,20 +17,25 @@ const FiltersDeskNode = ({
   onDragStart,
   onConditionBlockDrop,
   onItemsBlockDrop,
-  onConditionBlockClick
+  onConditionBlockClick,
+  id
 }) => {
   const {
     handleDragStart,
     handleDragOver,
-    handleDropFiltersItem,
+    handleDropOnFiltersItem,
     handleDropOnFiltersNodeItemsBlock,
     deleteFiltersDeskItem,
-    setFocused,
-    current
+    focused,
+    setFocused
   } = useDragNDrop();
 
   const [conditionBlockActive, setConditionBlockActive] = useState(false);
   const [itemsBlockActive, setItemsBlockActive] = useState(false);
+
+  const root = clsx(styles.root, {
+    [styles.selected]: focused?.id === id
+  });
 
   const conditionBlock = clsx(styles.conditionBlock, {
     [styles.dndActive]: conditionBlockActive
@@ -43,8 +48,8 @@ const FiltersDeskNode = ({
   const render = item =>
     item.type === 'filter-item' ? (
       <FiltersDeskItem
-        ref={current}
         key={item.id}
+        id={item.id}
         type={item.fieldItem.objectType_id}
         title={item.fieldItem.field}
         onItemClick={() => setFocused(item)}
@@ -52,17 +57,18 @@ const FiltersDeskNode = ({
         draggable
         onDragStart={e => handleDragStart(e, item, DRAG_PARENT_SECTION.FILTERS)}
         onDragOver={handleDragOver}
-        onDrop={e => handleDropFiltersItem(e, item)}
+        onDrop={e => handleDropOnFiltersItem(e, item)}
       />
     ) : (
       <FiltersDeskNode
         key={item.id}
+        id={item.id}
         items={item.children}
         condition={item.condition}
         onConditionBlockClick={() => setFocused(item)}
         draggable
         onDragStart={e => handleDragStart(e, item, DRAG_PARENT_SECTION.FILTERS)}
-        onConditionBlockDrop={e => handleDropFiltersItem(e, item)}
+        onConditionBlockDrop={e => handleDropOnFiltersItem(e, item)}
         onItemsBlockDrop={e => {
           handleDropOnFiltersNodeItemsBlock(e, item);
           setItemsBlockActive(false);
@@ -71,11 +77,7 @@ const FiltersDeskNode = ({
     );
 
   return (
-    <div
-      className={styles.root}
-      draggable={draggable}
-      onDragStart={onDragStart}
-    >
+    <div className={root} draggable={draggable} onDragStart={onDragStart}>
       <div
         className={conditionBlock}
         onClick={onConditionBlockClick}
@@ -114,5 +116,6 @@ FiltersDeskNode.propTypes = {
   onDragStart: PropTypes.func,
   onConditionBlockDrop: PropTypes.func,
   onItemsBlockDrop: PropTypes.func,
-  onConditionBlockClick: PropTypes.func
+  onConditionBlockClick: PropTypes.func,
+  id: PropTypes.number
 };

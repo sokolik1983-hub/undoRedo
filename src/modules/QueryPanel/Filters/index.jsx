@@ -12,7 +12,9 @@ const Filters = () => {
     filtersDesk,
     handleDragStart,
     handleDragOver,
-    handleDropFilter
+    handleDropOnFiltersArea,
+    deleteFiltersDeskItem,
+    setFocused
   } = useDragNDrop();
 
   const renderFiltersDesk = () => {
@@ -26,8 +28,10 @@ const Filters = () => {
 
     return filtersDesk.type === 'filter-node' ? (
       <FiltersDeskNode
+        id={filtersDesk.id}
         items={filtersDesk.children}
         condition={filtersDesk.condition}
+        onConditionBlockClick={() => setFocused(filtersDesk)}
         draggable
         onDragStart={e =>
           handleDragStart(e, filtersDesk, DRAG_PARENT_SECTION.FILTERS)
@@ -36,8 +40,15 @@ const Filters = () => {
       />
     ) : (
       <FiltersDeskItem
-        type={filtersDesk.children[0].fieldItem.objectType_id}
+        id={filtersDesk.id}
+        title={filtersDesk.fieldItem.field}
+        type={filtersDesk.fieldItem.objectType_id}
+        onItemClick={() => setFocused(filtersDesk)}
+        onDeleteItem={() => deleteFiltersDeskItem(filtersDesk.id)}
         draggable
+        onDragStart={e =>
+          handleDragStart(e, filtersDesk, DRAG_PARENT_SECTION.FILTERS)
+        }
         onDragOver={handleDragOver}
       />
     );
@@ -51,7 +62,7 @@ const Filters = () => {
         id="filters-block"
         className={styles.filtersBlock}
         onDragOver={handleDragOver}
-        onDrop={handleDropFilter}
+        onDrop={handleDropOnFiltersArea}
       >
         {renderFiltersDesk()}
       </div>

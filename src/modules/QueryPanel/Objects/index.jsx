@@ -13,8 +13,8 @@ const Objects = () => {
     clearObjectsDesk,
     handleDragStart,
     handleDragOver,
-    handleDropObject,
-    onObjectDrop
+    handleDropOnObjectArea,
+    handleDropOnObjectItem
   } = useDragNDrop();
 
   return (
@@ -24,7 +24,7 @@ const Objects = () => {
       <div
         className={styles.objectList}
         onDragOver={handleDragOver}
-        onDrop={handleDropObject}
+        onDrop={handleDropOnObjectArea}
       >
         {objectsDesk?.map(item => (
           <ObjectItem
@@ -38,7 +38,7 @@ const Objects = () => {
               handleDragStart(e, item, DRAG_PARENT_SECTION.OBJECTS)
             }
             onDragOver={handleDragOver}
-            onDrop={e => onObjectDrop(e, item)}
+            onDrop={e => handleDropOnObjectItem(e, item)}
           />
         ))}
       </div>

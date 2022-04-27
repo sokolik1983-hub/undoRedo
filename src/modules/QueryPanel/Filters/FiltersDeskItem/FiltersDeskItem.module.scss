@@ -9,10 +9,10 @@
   height: 30px;
   width: fit-content;
   max-width: 416px;
+}
 
-  &:focus {
-    outline: 3px solid rgb(19, 45, 63);
-  }
+.selected {
+  outline: 3px solid rgba(19, 45, 63, 0.7);
 }
 
 .active {

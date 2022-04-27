@@ -1,10 +1,12 @@
 .root {
   display: flex;
   align-items: stretch;
+}
 
-  &:focus {
-    border: 3px solid rgb(19, 45, 63);
-  }
+.selected {
+  border: 3px solid rgba(19, 45, 63, 0.7);
+  border-radius: 5px;
+  padding: 5px;
 }
 
 .conditionBlock {
@@ -25,5 +27,5 @@
 
 .dndActive {
   background-color: rgba(127, 223, 255, 0.3);
-  border-radius: 5px;
+  box-shadow: 0px 0px 5px 5px rgba(127, 223, 255, 0.3);
 }
