@@ -113,10 +113,11 @@ const KeysBlock = () => {
 
               {isOpenData && (
                 <div className={styles.dropDownDataBlock}>
-                  {selectDataOptions.map(item => (
+                  {selectDataOptions.map((item, index) => (
                     <DropdownItem
                       icon={item.icon}
-                      key={`${item.value} + ${item.id}`}
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={`${item.value} + ${item.id}+ ${index}`}
                       id={item.value}
                       item={item}
                       value={item.value}
@@ -140,11 +141,11 @@ const KeysBlock = () => {
             <p className={styles.tableTitle}>where</p>
           </div>
           <div className={styles.keyTableBlock}>
-            {keyTableData.map(item => (
+            {keyTableData.map((item, index) => (
               <div className={styles.keyTable}>
                 <div className={styles.checkBoxDiv}>
                   <CheckboxField
-                    value='false'
+                    value="false"
                     key="keyTableCheckBox"
                     id="keyTableCheckBox"
                     name="keyTableCheckBox"
@@ -152,21 +153,24 @@ const KeysBlock = () => {
                   />
                 </div>
                 <Tooltip
-                  key={`${item.type} + ${item.id}`}
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={`${item.type} + ${item.id} + ${index}`}
                   position="bottomLeft"
                   content={item.type}
                 >
                   <div className={styles.tableType}>{item.type}</div>
                 </Tooltip>
                 <Tooltip
-                  key={`${item.select} + ${item.id}`}
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={`${item.select} + ${item.id}+ ${index}`}
                   position="bottom"
                   content={item.select}
                 >
                   <div className={styles.tableSelect}>{item.select}</div>
                 </Tooltip>
                 <Tooltip
-                  key={`${item.where} + ${item.id}`}
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={`${item.where} + ${item.id}+ ${index}`}
                   position="bottomRight"
                   content={item.where}
                 >
