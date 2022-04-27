@@ -1,7 +1,6 @@
-/* eslint-disable */
 import React from 'react';
-import styles from './SchemaTables.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
+import styles from './SchemaTables.module.scss';
 import Modal from '../../../common/components/Modal';
 import { setTablePreviewModal } from '../../../data/actions/universes';
 import Preloader from '../../../common/components/Preloader/Preloader';
@@ -18,29 +17,31 @@ const TablePreview = () => {
   const modalContent = () => {
     return (
       (tableData
-          ? <table>
-              <thead>
+        ? (
+          <table>
+            <thead>
               <tr>
                 {tableData &&
-                  tableData.fields &&
-                  tableData.fields.map(item => (
-                    <th>{item.name}</th>
-                  ))}
-              </tr>
-              </thead>
-              <tbody>
-              {tableData &&
-                tableData.data &&
-                tableData.data.map(item => (
-                  <tr>
-                    {item.map(dataItem => (
-                      <td>{dataItem}</td>
-                    ))}
-                  </tr>
+                tableData.fields &&
+                tableData.fields.map(item => (
+                  <th>{item.name}</th>
                 ))}
-              </tbody>
-            </table>
-          : <Preloader />
+              </tr>
+            </thead>
+            <tbody>
+              {tableData &&
+              tableData.data &&
+              tableData.data.map(item => (
+                <tr>
+                  {item.map(dataItem => (
+                    <td>{dataItem}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          )
+        : <Preloader />
       )
 
     );
