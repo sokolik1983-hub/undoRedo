@@ -54,15 +54,20 @@ const ShemaEditorBlock = ({
   };
 
   const handleSearch = e => {
-    const value = e.target.value.toLowerCase(); 
+    const {value} = e.target; 
 
     setSearchValue(value);
     setFilterableFields(
       selectedTableColumns?.filter(i => {
-        return i.field.toLowerCase().includes(value);
+        return i.field.toLowerCase().includes(value.toLowerCase());
       })
     );
   };
+
+  const onCloseInput = () => {
+    setIsActive(!isActive);
+    setSearchValue('');
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -108,7 +113,7 @@ const ShemaEditorBlock = ({
           />
           <CloseInput
             className={styles.icon}
-            onClick={() => setIsActive(!isActive)}
+            onClick={onCloseInput}
           />
         </div>
       </div>
