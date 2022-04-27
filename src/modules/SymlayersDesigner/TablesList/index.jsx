@@ -15,8 +15,6 @@ function TablesList({ title, items, type, onSelect }) {
 
   const handleClick = id => {
     setSelected(id);
-    // console.log(items);
-    // console.log(selected);
     dispatch(setObjectsConnectionsModal(true));
   };
   return (
