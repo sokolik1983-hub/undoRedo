@@ -13,7 +13,7 @@ const values = [
   {value: '>', text: '>', name: 'MORE_THAN'},
 ];
 
-const ConnectionType = ({ onSelectExpression }) => {
+const ConnectionType = ({ onSelectExpression, currentExpression }) => {
   const [left, setLeft] = useState(false);
   const [right, setRight] = useState(false);
 
@@ -42,8 +42,8 @@ const ConnectionType = ({ onSelectExpression }) => {
         <Select
           className={styles.connectionSelect}
           options={values}
-          onSelectItem={onSelectExpression}
-          // defaultValue={values[0].value}
+          onSelectItem={currentExpression ? onSelectExpression(currentExpression) : onSelectExpression}
+          defaultValue={currentExpression || '='}
         />
         <div onClick={() => handleRightSideClick()}>
           <ConnectionImages side='right' connectSeveral={right} />
@@ -56,5 +56,6 @@ const ConnectionType = ({ onSelectExpression }) => {
 export default ConnectionType;
 
 ConnectionType.propTypes = {
-  onSelectExpression: PropTypes.func // возвращает выбранный оператор
+  onSelectExpression: PropTypes.func, // возвращает выбранный оператор
+  currentExpression: PropTypes.string
 }

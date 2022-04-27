@@ -20,11 +20,11 @@ import {
 import { createExpression } from './functions';
 import { setLinks } from '../../../data/reducers/schemaDesigner';
 
-const ObjectsConnectionEditor = ({ visible }) => {
+const ObjectsConnectionEditor = ({ visible, currentObjLink }) => {
   const dispatch = useDispatch();
   const [sqlEditorOpened, setSqlEditorOpened] = useState(false); // показывает модалку с редактированиемм SQL
-  const [leftTable, setLeftTable] = useState(null); // name левой таблицы
-  const [rightTable, setRightTable] = useState(null); // name правой таблицы
+  const [leftTable, setLeftTable] = useState(currentObjLink?.object1.object); // name левой таблицы
+  const [rightTable, setRightTable] = useState(currentObjLink?.object2.object); // name правой таблицы
   const [expression, setExpression] = useState('='); // value выбранного оператора
   const [resultExpression, setResultExpression] = useState(null);
   const [leftSelected, setLeftSelected] = useState([]);
@@ -33,6 +33,7 @@ const ObjectsConnectionEditor = ({ visible }) => {
   const selectedTables = useSelector(
     state => state.app.schemaDesigner.selectedTables
   );
+
   const convertedData = useMemo(() => {
     return Object.keys(selectedTables).map(table => ({
       id: table,
@@ -101,6 +102,13 @@ const ObjectsConnectionEditor = ({ visible }) => {
     setExpression(expr);
   };
 
+  const memoCurrentObjLink = useMemo(() => {
+    if (currentObjLink) {
+      return currentObjLink;
+    }
+    return null;
+  }, [currentObjLink]);
+
   const getTableSelected = () => {
     return {
       leftTable,
@@ -120,14 +128,16 @@ const ObjectsConnectionEditor = ({ visible }) => {
             onSelectColumn={setSelectedColumns}
             onSelectTable={handleSelectTable}
             tableSelected={getTableSelected()}
+            currentLeftTable={memoCurrentObjLink?.object1.object}
           />
-          <ConnectionType onSelectExpression={setSelectedExpression} />
+          <ConnectionType onSelectExpression={setSelectedExpression} currentExpression={memoCurrentObjLink?.condition} />
           <ConnectionTable
             tableName={TABLES_NAME_FOR_CONNECT.TABLE_B}
             tables={convertedData}
             onSelectColumn={setSelectedColumns}
             onSelectTable={handleSelectTable}
             tableSelected={getTableSelected()}
+            currentRightTable={memoCurrentObjLink?.object2.object}
           />
         </div>
         <FormulaBlock
@@ -177,5 +187,6 @@ const ObjectsConnectionEditor = ({ visible }) => {
 export default ObjectsConnectionEditor;
 
 ObjectsConnectionEditor.propTypes = {
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
+  currentObjLink: PropTypes.object
 };

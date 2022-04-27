@@ -12,6 +12,8 @@ import { getConnectorObjectsList } from '../../data/actions/schemaDesigner';
 function SymlayersDesigner() {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState([]);
+  const [currentLink, setCurrentLink] = useState(null);
+  const [currentObjLink, setCurrentObjLink] = useState(null);
 
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.SEMANTIC));
@@ -24,6 +26,19 @@ function SymlayersDesigner() {
   const schemaDesignerUi = useSelector(state => state.app.schemaDesigner.ui);
   const links = useSelector(state => state.app.schemaDesigner.links);
   const contexts = useSelector(state => state.app.schemaDesigner.contexts);
+
+  const handleSetLink = (link) => {
+    setCurrentLink(link);
+  };
+
+  useEffect(() => {
+    const link1 = currentLink?.split('&')[0];
+    const link2 = currentLink?.split('&')[1];
+    const result = links.filter(link => {
+      return (link.object1.object === link1 && link.object2.object === link2);
+    });
+    setCurrentObjLink(...result);
+  }, [currentLink]);
 
   const handleSelectTable = selected => event => {
     if (event.target.checked) {
@@ -43,7 +58,7 @@ function SymlayersDesigner() {
         <div className={styles.schema}>
           <div className={styles.header}>
             {schemaDesignerUi.showLinks && (
-              <TablesList title="Связи" items={links} type="links" />
+              <TablesList title="Связи" items={links} onSelect={handleSetLink} type="links" />
             )}
             {schemaDesignerUi.showContexts && (
               <TablesList title="Контексты" items={contexts} type="contexts" />
@@ -58,6 +73,7 @@ function SymlayersDesigner() {
       {isObjectsConnectionsModalOpened && (
         <ObjectsConnectionEditor
           visible={isObjectsConnectionsModalOpened && true}
+          currentObjLink={currentObjLink}
         />
       )}
     </div>

@@ -1,13 +1,23 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setObjectsConnectionsModal } from '../../../data/actions/universes';
 import styles from './TablesList.module.scss';
 import TablesListItem from './TablesListItem';
 
-function TablesList({ title, items, type }) {
+function TablesList({ title, items, type, onSelect }) {
   const [selected, setSelected] = useState(0);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (selected) onSelect(selected);
+  }, [selected])
 
   const handleClick = id => {
     setSelected(id);
+    // console.log(items);
+    // console.log(selected);
+    dispatch(setObjectsConnectionsModal(true));
   };
   return (
     <div className={styles.root}>
@@ -28,9 +38,8 @@ function TablesList({ title, items, type }) {
                   ? `${item.object1.object} - ${item.object2.object}`
                   : null
               }
-              onClick={handleClick}
-              isActive={selected === `${item.object1.object}_${item.object2.object}`}
-              id={`${item.object1.object}_${item.object2.object}`}
+              onDoubleClick={handleClick}
+              id={`${item.object1.object}&${item.object2.object}`}
             />
           ))}
         </div>

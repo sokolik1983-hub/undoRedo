@@ -5,7 +5,7 @@ import styles from '../ObjectsConnectionsEditor.module.scss';
 import CheckBox from '../../../../common/components/CheckBox';
 import { TABLES_NAME_FOR_CONNECT } from '../../../../common/constants/universes';
 
-const ConnectionTable = ({tableName, tables, onSelectColumn, onSelectTable, tableSelected }) => {
+const ConnectionTable = ({tableName, tables, onSelectColumn, onSelectTable, tableSelected, currentLeftTable, currentRightTable}) => {
   const [selectedTable, setSelectedTable] = useState(null);
   const [selectedColumn, setSelectedColumn] = useState(null);
   const [defaultValue, setDefaultValue] = useState('Выберите таблицу');
@@ -31,6 +31,15 @@ const ConnectionTable = ({tableName, tables, onSelectColumn, onSelectTable, tabl
     });
     setSelectedTable(table[0]);
   }
+
+  useEffect(() => {
+    if (currentLeftTable) {
+      getTableData(currentLeftTable);
+    };
+    if (currentRightTable) {
+      getTableData(currentRightTable);
+    }
+  }, [currentLeftTable, currentRightTable]);
 
   useEffect(() => {
     onSelectColumn(selectedColumn, tableName);
@@ -81,5 +90,7 @@ ConnectionTable.propTypes = {
   onSelectColumn: PropTypes.func,
   onSelectTable: PropTypes.func,
   tableName: PropTypes.string,
-  tables: PropTypes.array
+  tables: PropTypes.array,
+  currentLeftTable: PropTypes.string,
+  currentRightTable: PropTypes.string
 }
