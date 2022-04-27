@@ -25,6 +25,7 @@ import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock';
 // import { useApplicationActions } from 'src/data/appProvider';
 import { SymanticLayerContext } from './context';
 import TablePreview from "./TablePreview";
+import { setTablePreviewModal } from '../../../data/actions/universes';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -177,7 +178,6 @@ const TableComponent = ({
 
   const [tableData, setTableData] = useState(null);
   const [isLoadingData, setIsLoadingData] = useState(true);
-  const [showPopup, setShowPopup] = useState(false);
   // const { getObjectFields, getObjectData } = useApplicationActions();
   const [tableSize, setTableSize] = useState({ width: 400, height: 100 });
 
@@ -241,8 +241,8 @@ const TableComponent = ({
   useEffect(forceUpdate, [expanded, onFilter, columnFilter, forceUpdate]);
 
   const handlePopupShow = () => {
-    setShowPopup(true);
-    dispatch(getObjectData({ ...tableItem, connect_id, max_rows: 100 }))
+    dispatch(setTablePreviewModal(true));
+    dispatch(getObjectData({ ...tableItem, connect_id }))
     //   .then(
     //   response => {
     //     if (response && response.success) {
@@ -251,10 +251,6 @@ const TableComponent = ({
     //     }
     //   }
     // );
-  };
-
-  const handlePopupClose = () => {
-    setShowPopup(false);
   };
 
   // const handleEditPopupShow = item => () => {
@@ -649,9 +645,6 @@ const TableComponent = ({
             )}
           </div>
         </div> */}
-        {showPopup && (
-          <TablePreview isLoading={isLoading} />
-        )}
         {/* {showSynPopup && (
           <Dialog
             open={showSynPopup}
