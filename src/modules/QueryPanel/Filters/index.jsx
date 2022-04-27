@@ -13,6 +13,8 @@ const Filters = () => {
     handleDragStart,
     handleDragOver,
     handleDropOnFiltersArea,
+    handleDropOnFiltersItem,
+    handleDropOnFiltersNodeItemsBlock,
     deleteFiltersDeskItem,
     setFocused
   } = useDragNDrop();
@@ -37,6 +39,10 @@ const Filters = () => {
           handleDragStart(e, filtersDesk, DRAG_PARENT_SECTION.FILTERS)
         }
         onDragOver={handleDragOver}
+        onConditionBlockDrop={e => handleDropOnFiltersItem(e, filtersDesk)}
+        onItemsBlockDrop={e =>
+          handleDropOnFiltersNodeItemsBlock(e, filtersDesk)
+        }
       />
     ) : (
       <FiltersDeskItem
@@ -49,7 +55,6 @@ const Filters = () => {
         onDragStart={e =>
           handleDragStart(e, filtersDesk, DRAG_PARENT_SECTION.FILTERS)
         }
-        onDragOver={handleDragOver}
       />
     );
   };

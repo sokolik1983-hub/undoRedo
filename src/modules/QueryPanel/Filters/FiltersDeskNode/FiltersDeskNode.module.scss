@@ -19,7 +19,7 @@
 
 .itemsBlock {
   border-left: 1px solid white;
-
+  min-width: 100px;
   display: grid;
   grid-gap: 10px;
   padding-left: 8px;

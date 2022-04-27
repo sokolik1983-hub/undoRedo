@@ -201,33 +201,37 @@ const DragNDropProvider = ({ children }) => {
       setFiltersDesk(filtersDeskClone);
     }
 
-    /* если дроп айтема на ноду или наоборот и оба находятся в одном родителе - меняем их местами */
+    /* если дроп айтема на ноду или наоборот и оба находятся в одном 
+    родителе - меняем их местами */
     if (
       (target.type === 'filter-node' || dropped.type === 'filter-node') &&
       targetParent === droppedParent
     ) {
-      const arr = targetParent.children;
+      // если нода корневая то айтем добавляем в конец
+      if (target.id === filtersDesk.id) {
+        filtersDeskClone.children.push(dropped);
+      } else {
+        const arr = targetParent.children;
 
-      [arr[droppedIndex], arr[targetIndex]] = [
-        arr[targetIndex],
-        arr[droppedIndex]
-      ];
+        [arr[droppedIndex], arr[targetIndex]] = [
+          arr[targetIndex],
+          arr[droppedIndex]
+        ];
+      }
 
       setFiltersDesk(filtersDeskClone);
     }
 
-    /* если дроп айтема на ноду или наоборот и они находятся в разных родителях */
+    /* если дроп айтема на ноду или наоборот, они находятся в разных
+      родителях
+    */
     if (
       (target.type === 'filter-node' || dropped.type === 'filter-node') &&
       targetParent !== droppedParent
     ) {
-      targetParent.children = [
-        ...targetParent.children.slice(0, targetIndex),
-        dropped,
-        ...targetParent.children.slice(targetIndex)
-      ];
-
-      /* проверяем если дроп айтема на айтем идет внутри фильтров а не извне */
+      /* если дроп идет внутри фильтров а не извне - фильтруем родителя 
+        от которого идет дроп
+      */
       if (parentSection.current === DRAG_PARENT_SECTION.FILTERS) {
         droppedParent.children = droppedParent.children.filter(
           i => i.id !== dropped.id
@@ -239,6 +243,17 @@ const DragNDropProvider = ({ children }) => {
             i => i.id !== droppedParent.id
           );
         }
+      }
+
+      // если нода корневая то айтем добавляем в конец
+      if (target.id === filtersDesk.id) {
+        filtersDeskClone.children.push(dropped);
+      } else {
+        targetParent.children = [
+          ...targetParent.children.slice(0, targetIndex),
+          dropped,
+          ...targetParent.children.slice(targetIndex)
+        ];
       }
 
       setFiltersDesk(filtersDeskClone);
@@ -265,9 +280,17 @@ const DragNDropProvider = ({ children }) => {
       );
     }
 
-    const [targetParent, targetIndex] = getParent(filtersDeskClone, target.id);
-    const targetClone = targetParent.children[targetIndex];
-    targetClone.children = [dropped, ...targetClone.children];
+    // если дроп идет на корневую ноду
+    if (filtersDesk.id === target.id) {
+      filtersDeskClone.children.push(dropped);
+    } else {
+      const [targetParent, targetIndex] = getParent(
+        filtersDeskClone,
+        target.id
+      );
+      const targetClone = targetParent.children[targetIndex];
+      targetClone.children = [dropped, ...targetClone.children];
+    }
 
     setFiltersDesk(filtersDeskClone);
   };
@@ -312,7 +335,7 @@ const DragNDropProvider = ({ children }) => {
     const [droppedParent] = getParent(filtersDeskClone, id);
     droppedParent.children = droppedParent.children.filter(i => i.id !== id);
 
-    if (focused.id === id) setFocused(null);
+    if (focused?.id === id) setFocused(null);
 
     setFiltersDesk(filtersDeskClone);
   };

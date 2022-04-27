@@ -45,6 +45,26 @@ const FiltersDeskNode = ({
     [styles.dndActive]: itemsBlockActive
   });
 
+  const handleDragEnterOnConditionBlock = e => {
+    e.stopPropagation();
+    setConditionBlockActive(true);
+  };
+
+  const handleDragEnterOnItemsBlock = e => {
+    e.stopPropagation();
+    setItemsBlockActive(true);
+  };
+
+  const handeDropOnConditionBlock = e => {
+    onConditionBlockDrop(e);
+    setConditionBlockActive(false);
+  };
+
+  const handleDropOnItemsBlock = e => {
+    onItemsBlockDrop(e);
+    setItemsBlockActive(false);
+  };
+
   const render = item =>
     item.type === 'filter-item' ? (
       <FiltersDeskItem
@@ -69,10 +89,7 @@ const FiltersDeskNode = ({
         draggable
         onDragStart={e => handleDragStart(e, item, DRAG_PARENT_SECTION.FILTERS)}
         onConditionBlockDrop={e => handleDropOnFiltersItem(e, item)}
-        onItemsBlockDrop={e => {
-          handleDropOnFiltersNodeItemsBlock(e, item);
-          setItemsBlockActive(false);
-        }}
+        onItemsBlockDrop={e => handleDropOnFiltersNodeItemsBlock(e, item)}
       />
     );
 
@@ -81,12 +98,9 @@ const FiltersDeskNode = ({
       <div
         className={conditionBlock}
         onClick={onConditionBlockClick}
-        onDragEnter={() => setConditionBlockActive(true)}
+        onDragEnter={handleDragEnterOnConditionBlock}
         onDragLeave={() => setConditionBlockActive(false)}
-        onDrop={e => {
-          onConditionBlockDrop(e);
-          setConditionBlockActive(false);
-        }}
+        onDrop={handeDropOnConditionBlock}
       >
         <Button buttonStyle={BUTTON.SMALL_ORANGE} onClick={() => {}}>
           {condition}
@@ -94,12 +108,10 @@ const FiltersDeskNode = ({
       </div>
       <div
         className={itemsBlock}
-        onDragEnter={() => setItemsBlockActive(true)}
+        onDragEnter={handleDragEnterOnItemsBlock}
         onDragLeave={() => setItemsBlockActive(false)}
-        onDrop={e => {
-          onItemsBlockDrop(e);
-          setItemsBlockActive(false);
-        }}
+        onDragEnd={() => setItemsBlockActive(false)}
+        onDrop={handleDropOnItemsBlock}
       >
         {items.map(item => render(item))}
       </div>
