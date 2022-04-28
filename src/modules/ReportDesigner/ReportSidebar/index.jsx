@@ -55,6 +55,29 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
     setActiveTab(value);
   };
 
+  const handleChangeEditBlockClass = () => {
+    if (activeTab === 0 && collapsed) {
+      return styles.editBlockCollapsed
+    }
+    if (activeTab === 0) {
+      return styles.editBlock
+    } 
+    if (collapsed) {
+      return styles.editBlockActiveCollapsed
+    } 
+    return styles.editBlockActive
+  };
+
+  const handleChangeViewBlockClass = () => {
+    if (activeTab === 1) {
+      return styles.viewBlock
+    }
+    if (collapsed) {
+      return styles.viewBlockActiveCollapsed
+    }
+    return styles.viewBlockActive
+  };
+
   useEffect(() => {
     if (semanticLayer) dispatch(getSymanticLayerData(semanticLayer.id));
   }, [semanticLayer]);
@@ -63,8 +86,8 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
     <>
       <div className={styles.root}>
         <div className={styles.tabs}>
-          <div 
-            className={activeTab === 0 ? styles.viewBlockActive : styles.viewBlock}
+          <div
+            className={handleChangeViewBlockClass()}
             onClick={handleSelectTab(0)}
           >
             {activeTab === 1 ? <p className={styles.viewText}>Режим просмотра</p> :
@@ -83,7 +106,7 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
             )}
           </div>
           <div
-            className={activeTab === 1 ? styles.editBlockActive : styles.editBlock}
+            className={handleChangeEditBlockClass()}
             onClick={handleSelectTab(1)}
           >
             {activeTab === 0 ? <p className={styles.editText}>Режим редактирования</p> :
@@ -103,7 +126,11 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
           </div>
         </div>
         {!collapsed && (
-        <div className={styles.content} style={{background: activeTab === 0 ? 'linear-gradient(163.79deg, rgba(0, 55, 137, 0.75) 6.45%, rgba(0, 55, 137, 0.375) 100%)' : 'white'}}>
+        <div
+          className={styles.content}
+          style={{background: activeTab === 0 ?
+         'linear-gradient(163.79deg, rgba(0, 55, 137, 0.75) 6.45%, rgba(0, 55, 137, 0.375) 100%)' : 'white'}}
+        >
           {activeTab === 1 ? (
             <>
               <div className={styles.contentData}>
@@ -113,6 +140,7 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
                       symanticLayer={semanticLayer}
                       onToggleClick={handleShowSelector}
                       showHeader={false}
+                      report
                     />
                   </DragNDropProvider>
                 </div>
@@ -134,7 +162,6 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
         </div>
         )}
       </div>
-        
     </>
   );
 };
