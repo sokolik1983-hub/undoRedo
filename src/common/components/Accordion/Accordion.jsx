@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { ReactComponent as Arrow } from '../../../layout/assets/semanticLayerModal/arrow.svg'
 import styles from './Accordion.module.scss';
+import Divider from '../Divider'
 
 /**
  * @param title - строка для заголовка
@@ -25,6 +26,7 @@ const Accordion = ({ title, noPadding, children, indents }) => {
           <Arrow className={isActive ? styles.arrowActive : ''} />
         </div>
       </div>
+      <Divider color='#FFFFFF' style={{padding: '0 5px;'}} />
       {isActive && <div className={contentClasses}>{children}</div>}
     </div>
   );

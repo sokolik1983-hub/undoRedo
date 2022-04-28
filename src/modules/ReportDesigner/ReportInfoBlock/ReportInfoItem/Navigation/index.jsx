@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReportInfoItem from '..';
 import styles from './Navigation.module.scss';
-import Divider from '../../../../../common/components/Divider';
 
 /**
  * @param title - строка для заголовка
@@ -39,7 +38,6 @@ const Navigation = ({ title }) => {
   return (
     <ReportInfoItem title={title}>
       <div className={styles.wrapper}>
-        <Divider color="#FFFFFF" />
         <ul className={styles.list}>
           {someData.map((item) => (
             <li key={item.id} className={styles.text}>

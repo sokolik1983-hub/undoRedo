@@ -28,7 +28,6 @@ const Properties = ({ title }) => {
   return (
     <ReportInfoItem title={title}>
       <div className={styles.wrapper}>
-        <Divider color='#FFFFFF' />
         <div className={styles.textWrapper}>
           <div className={styles.textContainer}>
             <p className={styles.textBold}>Название:&nbsp;</p>
