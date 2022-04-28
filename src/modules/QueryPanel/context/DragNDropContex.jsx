@@ -386,10 +386,11 @@ const DragNDropProvider = ({ children }) => {
   };
 
   const handleMoveUp = () => {
-    if (!focused.current) return;
+    if (!focused || focused.id === filtersDesk.id) return;
 
     const filtersDeskClone = JSON.parse(JSON.stringify(filtersDesk));
-    const [parent, idx] = getParent(filtersDeskClone, focused.current.id);
+    console.log(filtersDeskClone);
+    const [parent, idx] = getParent(filtersDeskClone, focused.id);
 
     const arr = parent.children;
     const prevIdx = idx === 0 ? arr.length - 1 : idx - 1;
@@ -399,10 +400,10 @@ const DragNDropProvider = ({ children }) => {
   };
 
   const handleMoveDown = () => {
-    if (!focused.current) return;
+    if (!focused || focused.id === filtersDesk.id) return;
 
     const filtersDeskClone = JSON.parse(JSON.stringify(filtersDesk));
-    const [parent, idx] = getParent(filtersDeskClone, focused.current.id);
+    const [parent, idx] = getParent(filtersDeskClone, focused.id);
 
     const arr = parent.children;
     const nextIdx = idx === arr.length - 1 ? 0 : idx + 1;
