@@ -10,6 +10,8 @@ import { ReactComponent as DotsMenu } from '../../../layout/assets/dotsMenu.svg'
 import { ReactComponent as CloseInput } from '../../../layout/assets/schemaEditorBlock/closeInput.svg';
 import { ReactComponent as MagnifierWhite } from '../../../layout/assets/schemaEditorBlock/magnifierWhite.svg';
 import styles from './SchemaEditorBlock.module.scss';
+import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowOk.svg';
+import Tooltip from '../../../common/components/Tooltip';
 
 // const data = [
 //   { text: 'Колонка', id: '1' },
@@ -40,6 +42,7 @@ const ShemaEditorBlock = ({
   );
   const [searchValue, setSearchValue] = useState('');
   const [isActive, setIsActive] = useState(false);
+  const [isOpened, setIsOpened] = useState(true);
 
   useEffect(() => {
     setFilterableFields(selectedTableColumns);
@@ -75,10 +78,17 @@ const ShemaEditorBlock = ({
               if (event.button !== 0) return;
               onTableDragStart(event);
             }}
+            onDoubleClick={() => setIsOpened(prev => !prev)}
           >
             {selectedTableName}
           </h1>
           <div className={styles.iconsContainer}>
+            <Tooltip content={isOpened ? 'Свернуть таблицу' : 'Развернуть таблицу'} position='bottom'>
+              <Arrow
+                onClick={() => setIsOpened(prev => !prev)}
+                className={isOpened ? styles.arrowBtnOpened : styles.arrowBtnClosed}
+              />
+            </Tooltip>
             <MagnifierWhite
               onClick={() => setIsActive(!isActive)}
               className={styles.magnifier}
@@ -112,10 +122,11 @@ const ShemaEditorBlock = ({
           />
         </div>
       </div>
+      {isOpened && (
       <div className={contentClasses}>
         <ul className={styles.list}>
           <DropdownItem
-            item=""
+            item=''
             onClick={handleClick}
             className={styles.search}
           />
@@ -129,6 +140,7 @@ const ShemaEditorBlock = ({
           ))}
         </ul>
       </div>
+)}
     </div>
   );
 };
