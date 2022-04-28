@@ -10,15 +10,16 @@ import styles from './Accordion.module.scss';
  * @param children - нода для отрисовки контента
  */
 
-const Accordion = ({ title, noPadding, children }) => {
+const Accordion = ({ title, noPadding, children, indents }) => {
   const [isActive, setIsActive] = useState(false);
-  const contentClasses = clsx(styles.content, {
+  const contentClasses = clsx(styles.content, indents, {
     [styles.contentNoPadding]: noPadding
-  })
+  });
+  const titleClasses = clsx(styles.title, indents);
 
   return (
     <div className={styles.item}>
-      <div className={styles.title} onClick={() => setIsActive(!isActive)}>
+      <div className={titleClasses} onClick={() => setIsActive(!isActive)}>
         <div>{title}</div>
         <div>
           <Arrow className={isActive ? styles.arrowActive : ''} />
@@ -35,10 +36,12 @@ Accordion.propTypes = {
   title: PropTypes.string,
   noPadding: PropTypes.bool,
   children: PropTypes.node,
+  indents: PropTypes.string
 };
 
 Accordion.defaultProps = {
   title: '',
   noPadding: false,
+  indents: '',
   children: null
 };
