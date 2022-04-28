@@ -4,6 +4,7 @@ import styles from './SchemaTables.module.scss';
 import Modal from '../../../common/components/Modal';
 import { setTablePreviewModal } from '../../../data/actions/universes';
 import Preloader from '../../../common/components/Preloader/Preloader';
+import { clearTablePreview } from '../../../data/actions/schemaDesigner';
 
 
 const TablePreview = () => {
@@ -12,13 +13,14 @@ const TablePreview = () => {
   const title = 'Просмотр данных таблицы';
   const onClose = () => {
     dispatch(setTablePreviewModal(false));
+    dispatch(clearTablePreview());
   };
 
   const modalContent = () => {
     return (
       (tableData
         ? (
-          <table>
+          <table className={styles.tablePreviewTable}>
             <thead>
               <tr>
                 {tableData &&
