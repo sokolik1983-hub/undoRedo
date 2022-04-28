@@ -29,13 +29,15 @@ const items = [
   { text: 'Изменить вид' },
   { text: 'Определение ключей' },
   { text: 'Определение числа элементов' },
-  { text: 'Определение числа строк' }
+  { text: 'Определение числа строк' },
+  { text: 'Предпросмотр таблицы', value: 'tablePreview' }
 ];
 
 const ShemaEditorBlock = ({
   onTableDragStart,
   selectedTableName,
-  selectedTableColumns = []
+  selectedTableColumns = [],
+  onTablePreviewClick,
 }) => {
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
@@ -52,8 +54,11 @@ const ShemaEditorBlock = ({
     [styles.contentWithSearch]: isActive
   });
 
-  const handleClick = () => {
-    console.log('click from ShemaEditorBlock');
+  const handleClick = (item) => {
+    if (item.value === 'tablePreview') {
+      return onTablePreviewClick();
+    }
+    return console.log(item.text);
   };
 
   const handleSearch = e => {
@@ -101,7 +106,7 @@ const ShemaEditorBlock = ({
               {items.map(i => (
                 <DropdownItem
                   item={i}
-                  onClick={handleClick}
+                  onClick={() => handleClick(i)}
                   className={styles.text}
                 />
               ))}
