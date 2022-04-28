@@ -1,4 +1,8 @@
 import { React, useState } from 'react';
+// import PropTypes from 'prop-types';
+// import { useField } from 'formik';
+// import { Field } from 'formik';
+
 import Dropdown from '../../../../../common/components/Dropdown';
 import DropdownItem from '../../../../../common/components/Dropdown/DropdownItem';
 import { ReactComponent as Arrow } from '../../../../../layout/assets/queryPanel/arrowThin.svg';
@@ -17,6 +21,14 @@ import { ReactComponent as CounterIcon } from '../../../../../layout/assets/icon
 import styles from './PropertiesBlock.module.scss';
 
 const PropertiesBlock = () => {
+  // const inputProps = {
+  //   name,
+  //   onChange,
+  //   value
+  // };
+
+  // console.log('name-->', name, onChange, value);
+
   const selectDataOptions = [
     { icon: <SymbolIcon />, text: 'Символ', value: 'symbol' },
     { icon: <DateIcon />, text: 'Дата', value: 'data' },
@@ -116,9 +128,7 @@ const PropertiesBlock = () => {
             <Dropdown
               onClick={openDataPortal}
               mainButton={<Arrow className={styles.arrow} />}
-            >
-              <></>
-            </Dropdown>
+            />
             {isOpenData && (
               <div className={styles.dropDownDataBlock}>
                 {selectDataOptions.map(item => (
@@ -145,9 +155,7 @@ const PropertiesBlock = () => {
           <Dropdown
             onClick={openTypePortal}
             mainButton={<Arrow className={styles.arrow} />}
-          >
-            <></>
-          </Dropdown>
+          />
           {isOpenType && (
             <div className={styles.dropDownTypeBlock}>
               {selectTypeOptions.map(item => (
@@ -157,6 +165,9 @@ const PropertiesBlock = () => {
                   item={item}
                   onClick={() => setSelectedTypeFields(item)}
                   className={styles.dropDownItem}
+                  // name={item.value}
+                  // onChange
+                  // value={item.value}
                 />
               ))}
             </div>
@@ -173,9 +184,7 @@ const PropertiesBlock = () => {
           <Dropdown
             onClick={openFuncPortal}
             mainButton={<Arrow className={styles.arrow} />}
-          >
-            <></>
-          </Dropdown>
+          />
           {isOpenFunc && (
             <div className={styles.dropDownFunctionBlock}>
               {selectFuncOptions.map(item => (
@@ -196,3 +205,15 @@ const PropertiesBlock = () => {
 };
 
 export default PropertiesBlock;
+
+// PropertiesBlock.propTypes = {
+//   onChange: PropTypes.func,
+//   value: PropTypes.string,
+//   name: PropTypes.string
+// };
+
+// PropertiesBlock.defaultProps = {
+//   onChange: Function.prototype,
+//   value: '',
+//   name: ''
+// };

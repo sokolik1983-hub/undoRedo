@@ -107,9 +107,7 @@ const KeysBlock = () => {
               <Dropdown
                 onClick={openDataPortal}
                 mainButton={<Arrow className={styles.arrow} />}
-              >
-                <></>
-              </Dropdown>
+              />
 
               {isOpenData && (
                 <div className={styles.dropDownDataBlock}>
