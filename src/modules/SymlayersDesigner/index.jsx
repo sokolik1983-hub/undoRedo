@@ -25,8 +25,8 @@ function SymlayersDesigner() {
   const links = useSelector(state => state.app.schemaDesigner.links);
   const contexts = useSelector(state => state.app.schemaDesigner.contexts);
 
-  const handleSelectTable = selected => event => {
-    if (event.target.checked) {
+  const handleSelectTable = (selected, event) => {
+    if (event) {
       setChecked([...checked, selected]);
     } else {
       // setShowDeleteConfirmation(selected);
@@ -49,7 +49,7 @@ function SymlayersDesigner() {
               <TablesList title="Контексты" items={contexts} type="contexts" />
             )}
           </div>
-          <div className={styles.tables}>
+          <div className={styles.tables} onDrop={(e) => {handleSelectTable(JSON.parse(e.dataTransfer.getData("item")), e)}} onDragOver={(e) => {e.preventDefault()}}>
             <SchemaTables tables={checked} />
           </div>
         </div>
