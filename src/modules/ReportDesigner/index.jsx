@@ -285,24 +285,25 @@ function ReportDesigner() {
           </button>
         </div>
         <div
-          style={{zoom: `${zoom}`}}
           className={clsx(styles.container, styles['container-portrait'])}
           onMouseMove={handleMouseMove}
           onClick={handleAddBlock}
           onDoubleClick={handleDisableSelection}
         >
-          {currentReport &&
-            currentReport.structure?.map(block => (
-              <Block
-                {...block}
-                key={block.id}
-                structureItem={block}
-                onChangePosition={handleChangePosition}
-                onChangeScales={handleChangeScales}
-                onSelect={handleSelect}
-                isActiveNode={checkIsActiveNode(block.id)}
-              />
-            ))}
+          <div style={{zoom: `${zoom}`}}>
+            {currentReport &&
+              currentReport.structure?.map(block => (
+                <Block
+                  {...block}
+                  key={block.id}
+                  structureItem={block}
+                  onChangePosition={handleChangePosition}
+                  onChangeScales={handleChangeScales}
+                  onSelect={handleSelect}
+                  isActiveNode={checkIsActiveNode(block.id)}
+                />
+              ))}
+          </div>
         </div>
       </div>
       {isQueryPanelModalOpened && (
