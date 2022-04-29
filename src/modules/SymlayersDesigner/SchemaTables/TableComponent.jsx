@@ -24,6 +24,8 @@ import { getTableIdFromParams } from '../../../data/helpers';
 import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock';
 // import { useApplicationActions } from 'src/data/appProvider';
 import { SymanticLayerContext } from './context';
+import TablePreview from "./TablePreview";
+import { setTablePreviewModal } from '../../../data/actions/universes';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -121,7 +123,7 @@ const TableComponent = ({
 
   const {
     tableItem,
-    connect_id,
+    // connect_id,
     expanded,
     position,
     filter: columnFilter,
@@ -139,6 +141,10 @@ const TableComponent = ({
 
   const selectedTables = useSelector(
     state => state.app.schemaDesigner.selectedTables
+  );
+
+  const connect_id = useSelector(
+    state => state.app.schemaDesigner.connectorId
   );
 
   const selectedTableColumns =
@@ -172,7 +178,6 @@ const TableComponent = ({
 
   const [tableData, setTableData] = useState(null);
   const [isLoadingData, setIsLoadingData] = useState(true);
-  const [showPopup, setShowPopup] = useState(false);
   // const { getObjectFields, getObjectData } = useApplicationActions();
   const [tableSize, setTableSize] = useState({ width: 400, height: 100 });
 
@@ -188,14 +193,14 @@ const TableComponent = ({
     } else {
       setIsLoading(true);
       // dispatch(getObjectData({ ...tableItem, connect_id: 4 }))
-
+      //
       // .then(response => {
       //   if (response && response.success) {
       //     setColumns(response.result);
       //     tableItem.columns = response.result;
       //     setIsLoading(false);
       //   }
-      // }));
+      // });
     }
   }, []);
 
@@ -236,8 +241,9 @@ const TableComponent = ({
   useEffect(forceUpdate, [expanded, onFilter, columnFilter, forceUpdate]);
 
   const handlePopupShow = () => {
-    setShowPopup(true);
-    // getObjectData({ ...tableItem, connect_id, max_rows: 100 }).then(
+    dispatch(setTablePreviewModal(true));
+    dispatch(getObjectData({ ...tableItem, connect_id }))
+    //   .then(
     //   response => {
     //     if (response && response.success) {
     //       setTableData(response.result);
@@ -245,10 +251,6 @@ const TableComponent = ({
     //     }
     //   }
     // );
-  };
-
-  const handlePopupClose = () => {
-    setShowPopup(false);
   };
 
   // const handleEditPopupShow = item => () => {
@@ -384,6 +386,7 @@ const TableComponent = ({
           onTableDragStart={onTableDragStart}
           selectedTableColumns={selectedTableColumns}
           selectedTableName={tableItem.object_name}
+          onTablePreviewClick={handlePopupShow}
         />
         {/* <div
           className={`${classes.tableItem} unselectable`}
@@ -641,49 +644,8 @@ const TableComponent = ({
               </Table>
             )}
           </div>
-        </div>
-        {showPopup && (
-          <Dialog
-            open={showPopup}
-            onClose={handlePopupClose}
-            fullWidth
-            maxWidth="lg"
-            onWheel={ev => {
-              ev.persist();
-              ev.preventDefault();
-              ev.stopPropagation();
-            }}
-          >
-            <DialogTitle>Table data view</DialogTitle>
-            <DialogContent>
-              {isLoadingData ? (
-                <LinearProgress />
-              ) : (
-                <Table size="small">
-                  <TableHead className={classes.tableHead}>
-                    {tableData &&
-                      tableData.fields &&
-                      tableData.fields.map(item => (
-                        <TableCell>{item.name}</TableCell>
-                      ))}
-                  </TableHead>
-                  <TableBody>
-                    {tableData &&
-                      tableData.data &&
-                      tableData.data.map(item => (
-                        <TableRow>
-                          {item.map(dataItem => (
-                            <TableCell>{dataItem}</TableCell>
-                          ))}
-                        </TableRow>
-                      ))}
-                  </TableBody>
-                </Table>
-              )}
-            </DialogContent>
-          </Dialog>
-        )}
-        {showSynPopup && (
+        </div> */}
+        {/* {showSynPopup && (
           <Dialog
             open={showSynPopup}
             onClose={() => setShowSynPopup(false)}
