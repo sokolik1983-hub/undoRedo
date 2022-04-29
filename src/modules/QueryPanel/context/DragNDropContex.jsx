@@ -392,7 +392,6 @@ const DragNDropProvider = ({ children }) => {
     if (!focused || focused.id === filtersDesk.id) return;
 
     const filtersDeskClone = JSON.parse(JSON.stringify(filtersDesk));
-    console.log(filtersDeskClone);
     const [parent, idx] = getParent(filtersDeskClone, focused.id);
 
     const arr = parent.children;
