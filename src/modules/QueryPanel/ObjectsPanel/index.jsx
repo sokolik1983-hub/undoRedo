@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import ObjectsPanelHeader from './ObjectsPanelHeader/ObjectsPanelHeader';
 import Divider from '../../../common/components/Divider';
+import usePanelListFilters from './usePanelListFilters';
 import ObjectsPanelFilters from './ObjectsPanelFilters/ObjectsPanelFilters';
 import ReportObjectsPanelFilters from './ReportObjectsPanelFilters';
-import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList';
+import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList'; 
 import { getSymanticLayerData } from '../../../data/actions/universes';
-import usePanelListFilters from './usePanelListFilters';
+import { useDragNDrop } from '../context/DragNDropContext'; 
 import styles from './ObjectsPanel.module.scss';
 
 const ObjectsPanel = ({ symanticLayer, modalOpenHandler, showHeader, report }) => {
@@ -31,7 +32,9 @@ const ObjectsPanel = ({ symanticLayer, modalOpenHandler, showHeader, report }) =
     handleFiltersSwitch,
     searchValue,
     setSearchValue
-  } = usePanelListFilters(symLayersData?.data?.structure[0]);
+  } = usePanelListFilters(symLayersData?.data?.structure[0]); 
+
+  const { handleDragOver, handleTreeDrop } = useDragNDrop();
 
   return (
     <div className={rootClasses}>
@@ -54,7 +57,11 @@ const ObjectsPanel = ({ symanticLayer, modalOpenHandler, showHeader, report }) =
             onFiltersSwitch={handleFiltersSwitch}
           />
             )}
-      <div className={styles.panelListContainer}>
+      <div
+        className={styles.panelListContainer}
+        onDragOver={handleDragOver}
+        onDrop={handleTreeDrop}
+      >
         {rootFolder && <ObjectsPanelList rootFolder={rootFolder} />}
       </div>
     </div>

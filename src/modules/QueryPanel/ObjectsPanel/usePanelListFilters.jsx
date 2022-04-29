@@ -55,11 +55,11 @@ const usePanelListFilters = rootFolder => {
     let filteredChildren = rootFolder?.children;
 
     if (filterTypeId.length) {
-      filteredChildren = filteredChildren.reduce(filterByType, []);
+      filteredChildren = filteredChildren?.reduce(filterByType, []);
     }
 
     if (debouncedSearchValue && debouncedSearchValue.length >= 2) {
-      filteredChildren = filteredChildren.reduce(filterBySearchValue, []);
+      filteredChildren = filteredChildren?.reduce(filterBySearchValue, []);
     }
 
     setFilteredData({
@@ -77,4 +77,4 @@ const usePanelListFilters = rootFolder => {
   };
 };
 
-export default usePanelListFilters;
+export default usePanelListFilters; 
