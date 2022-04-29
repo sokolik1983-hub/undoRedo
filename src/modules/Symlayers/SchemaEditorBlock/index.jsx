@@ -10,6 +10,8 @@ import { ReactComponent as DotsMenu } from '../../../layout/assets/dotsMenu.svg'
 import { ReactComponent as CloseInput } from '../../../layout/assets/schemaEditorBlock/closeInput.svg';
 import { ReactComponent as MagnifierWhite } from '../../../layout/assets/schemaEditorBlock/magnifierWhite.svg';
 import styles from './SchemaEditorBlock.module.scss';
+import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowOk.svg';
+import Tooltip from '../../../common/components/Tooltip';
 
 // const data = [
 //   { text: 'Колонка', id: '1' },
@@ -27,19 +29,22 @@ const items = [
   { text: 'Изменить вид' },
   { text: 'Определение ключей' },
   { text: 'Определение числа элементов' },
-  { text: 'Определение числа строк' }
+  { text: 'Определение числа строк' },
+  { text: 'Предпросмотр таблицы', value: 'tablePreview' }
 ];
 
 const ShemaEditorBlock = ({
   onTableDragStart,
   selectedTableName,
-  selectedTableColumns = []
+  selectedTableColumns = [],
+  onTablePreviewClick,
 }) => {
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
   );
   const [searchValue, setSearchValue] = useState('');
   const [isActive, setIsActive] = useState(false);
+  const [isOpened, setIsOpened] = useState(true);
 
   useEffect(() => {
     setFilterableFields(selectedTableColumns);
@@ -49,20 +54,29 @@ const ShemaEditorBlock = ({
     [styles.contentWithSearch]: isActive
   });
 
-  const handleClick = () => {
-    console.log('click from ShemaEditorBlock');
+  const handleClick = (item) => {
+    if (item.value === 'tablePreview') {
+      return onTablePreviewClick();
+    }
+    return console.log(item.text);
   };
 
   const handleSearch = e => {
-    const value = e.target.value.toLowerCase();
+    const {value} = e.target; 
 
     setSearchValue(value);
     setFilterableFields(
       selectedTableColumns?.filter(i => {
-        return i.field.toLowerCase().includes(value);
+        return i.field.toLowerCase().includes(value.toLowerCase());
       })
     );
   };
+
+  const onCloseInput = () => {
+    setIsActive(!isActive);
+    setSearchValue('');
+    setFilterableFields(selectedTableColumns)
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -75,10 +89,17 @@ const ShemaEditorBlock = ({
               if (event.button !== 0) return;
               onTableDragStart(event);
             }}
+            onDoubleClick={() => setIsOpened(prev => !prev)}
           >
             {selectedTableName}
           </h1>
           <div className={styles.iconsContainer}>
+            <Tooltip content={isOpened ? 'Свернуть таблицу' : 'Развернуть таблицу'} position='bottom'>
+              <Arrow
+                onClick={() => setIsOpened(prev => !prev)}
+                className={isOpened ? styles.arrowBtnOpened : styles.arrowBtnClosed}
+              />
+            </Tooltip>
             <MagnifierWhite
               onClick={() => setIsActive(!isActive)}
               className={styles.magnifier}
@@ -91,7 +112,7 @@ const ShemaEditorBlock = ({
               {items.map(i => (
                 <DropdownItem
                   item={i}
-                  onClick={handleClick}
+                  onClick={() => handleClick(i)}
                   className={styles.text}
                 />
               ))}
@@ -108,27 +129,28 @@ const ShemaEditorBlock = ({
           />
           <CloseInput
             className={styles.icon}
-            onClick={() => setIsActive(!isActive)}
+            onClick={onCloseInput}
           />
         </div>
       </div>
+      {isOpened && (
       <div className={contentClasses}>
         <ul className={styles.list}>
           <DropdownItem
-            item=""
+            item=''
             onClick={handleClick}
             className={styles.search}
           />
 
-          {filterableFields.map(item => (
+          {filterableFields.map((item, index) => (
             // eslint-disable-next-line react/no-array-index-key
-            <li className={styles.item} key={item.field + item.type}>
-              {item.type}
+            <li className={styles.item} key={item.field + item.type + index}>
               {item.field}
             </li>
           ))}
         </ul>
       </div>
+)}
     </div>
   );
 };

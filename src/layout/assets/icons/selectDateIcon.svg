@@ -1,0 +1,19 @@
+<svg width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect y="3" width="3" height="15" transform="rotate(-90 0 3)" fill="white"/>
+<rect y="4" width="1" height="1" fill="white"/>
+<rect y="6" width="1" height="1" fill="white"/>
+<rect y="8" width="1" height="1" fill="white"/>
+<rect y="10" width="1" height="1" fill="white"/>
+<rect x="2" y="4" width="1" height="1" fill="white"/>
+<rect x="2" y="6" width="1" height="1" fill="white"/>
+<rect x="2" y="8" width="1" height="1" fill="white"/>
+<rect x="2" y="10" width="1" height="1" fill="white"/>
+<rect x="4" y="4" width="1" height="1" fill="white"/>
+<rect x="4" y="6" width="1" height="1" fill="white"/>
+<rect x="4" y="8" width="1" height="1" fill="white"/>
+<rect x="4" y="10" width="1" height="1" fill="white"/>
+<rect x="6" y="4" width="1" height="1" fill="white"/>
+<rect x="6" y="6" width="1" height="1" fill="white"/>
+<rect x="6" y="8" width="1" height="1" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M15 3L15 11L8 11L8 3H9V4L10 4L10.0307 3H11V4L12 4V3H13V4H14L14 3H15ZM12.167 9.98682V5H12.061L10 5.73486V6.51074L11.1826 6.13477V9.98682H12.167Z" fill="white"/>
+</svg>
