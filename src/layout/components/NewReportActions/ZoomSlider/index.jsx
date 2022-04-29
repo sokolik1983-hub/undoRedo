@@ -7,9 +7,6 @@ import { ReactComponent as Minus } from '../../../assets/reportDesigner/minus.sv
 import { ReactComponent as Plus } from '../../../assets/reportDesigner/plus.svg';
 import { setZoom } from '../../../../data/reducers/reportDesigner';
 
-const MAX_ZOOM = 2;
-const MIN_ZOOM = 0.1;
-
 const ZoomSlider = () => {
   const zoom = useSelector(state => state.app.reportDesigner.reportsUi.ui?.zoom);
 
@@ -20,29 +17,7 @@ const ZoomSlider = () => {
   const [zoomValue, setZoomValue] = useState(zoom * 100);
   const [thumbLeft, setThumbLeft] = useState(0);
 
-  const handleZoomPlus = () => {
-    const newZoom = +(zoom + 0.1).toFixed(2);
-    const calculatedZoom = newZoom <= MAX_ZOOM ? newZoom : MAX_ZOOM;
-    dispatch(setZoom(calculatedZoom));
-    setZoomValue(Number((calculatedZoom * 100).toFixed()));
-    setThumbLeft(zoomValue);
-  };
-
-  const handleZoomMinus = () => {
-    const newZoom = +(zoom - 0.1).toFixed(2);
-    const calculatedZoom = newZoom >= MIN_ZOOM ? newZoom : MIN_ZOOM;
-    dispatch(setZoom(calculatedZoom));
-    setZoomValue(Number((calculatedZoom * 100).toFixed()));
-    setThumbLeft(zoomValue - 10);
-  };
-
   useEffect(() => {
-    // if (thumb.current && slider.current) {
-    //   const sliderWidth = slider?.current.getBoundingClientRect().width;
-    //   const thumbWidth = thumb?.current.getBoundingClientRect().width;
-
-    //   setThumbLeft(sliderWidth / 2 - thumbWidth - 10);
-    // }
     setZoomValue(zoomValue)
     setThumbLeft(zoomValue)
   }, [slider, thumb]);
@@ -57,7 +32,7 @@ const ZoomSlider = () => {
 
     // eslint-disable-next-line no-shadow
     function onMouseMove(event) {
-      setThumbLeft(zoomValue)
+      setThumbLeft(zoomValue.toFixed())
       let newLeft = event.clientX - shiftX - slider?.current.getBoundingClientRect().left;
       const thumbWidth = thumb?.current.getBoundingClientRect().width;
       setThumbLeft(newLeft);
@@ -97,7 +72,7 @@ const ZoomSlider = () => {
 
   return (
     <div className={styles.wrapper} ref={slider}>
-      <div onClick={handleZoomMinus} className={styles.iconWrapper}>
+      <div className={styles.iconWrapper}>
         <Minus />
       </div>
       <div
@@ -113,7 +88,7 @@ const ZoomSlider = () => {
           </sub>
         </div>
       </div>
-      <div onClick={handleZoomPlus} className={styles.iconWrapper}>
+      <div className={styles.iconWrapper}>
         <Plus />
       </div>
     </div>
