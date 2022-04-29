@@ -14,7 +14,9 @@ export default function ReportInfotem({title, noPadding, children}) {
       <Accordion 
         title={title}
         noPadding={noPadding}
-        indents={styles.content}
+        indents={styles.indents}
+        titleClassName={styles.content}
+        withDivider
       >
         {children}
       </Accordion>

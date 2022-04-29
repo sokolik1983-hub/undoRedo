@@ -9,14 +9,16 @@ import Divider from '../Divider'
  * @param title - строка для заголовка
  * @param noPadding - отсутствие нижнего отступа у элемента
  * @param children - нода для отрисовки контента
+ * @param indents - вариант отступов
+ * @param withDivider - булево, добавляет разделительную полосу
  */
 
-const Accordion = ({ title, noPadding, children, indents }) => {
+const Accordion = ({ title, noPadding, children, indents, titleClassName, withDivider }) => {
   const [isActive, setIsActive] = useState(false);
   const contentClasses = clsx(styles.content, indents, {
     [styles.contentNoPadding]: noPadding
   });
-  const titleClasses = clsx(styles.title, indents);
+  const titleClasses = clsx(styles.title, titleClassName);
 
   return (
     <div className={styles.item}>
@@ -26,9 +28,11 @@ const Accordion = ({ title, noPadding, children, indents }) => {
           <Arrow stroke='white' fill='none' className={isActive ? styles.arrowActive : ''} />
         </div>
       </div>
+      {withDivider && (
       <div className={styles.divider}>
         <Divider color='#FFFFFF' />
       </div>
+      )}
       {isActive && <div className={contentClasses}>{children}</div>}
     </div>
   );
@@ -40,12 +44,16 @@ Accordion.propTypes = {
   title: PropTypes.string,
   noPadding: PropTypes.bool,
   children: PropTypes.node,
-  indents: PropTypes.string
+  indents: PropTypes.string,
+  titleClassName:  PropTypes.string,
+  withDivider: PropTypes.bool
 };
 
 Accordion.defaultProps = {
   title: '',
   noPadding: false,
   indents: '',
-  children: null
+  titleClassName: '',
+  children: null,
+  withDivider: false
 };
