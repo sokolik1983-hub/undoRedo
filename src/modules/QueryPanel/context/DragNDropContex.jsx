@@ -361,7 +361,10 @@ const DragNDropProvider = ({ children }) => {
       return;
     }
 
-    if (!focused && filtersDesk.type === 'filter-node') {
+    if (
+      (!focused || focused === filtersDesk) &&
+      filtersDesk.type === 'filter-node'
+    ) {
       const node = createNode();
       filtersDeskClone.children = [...filtersDeskClone.children, node];
       setFiltersDesk(filtersDeskClone);
