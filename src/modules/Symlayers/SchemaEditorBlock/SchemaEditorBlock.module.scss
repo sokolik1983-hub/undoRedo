@@ -1,10 +1,10 @@
 .wrapper {
   background: linear-gradient(
-    152.97deg,
-    rgba(0, 55, 137, 0.75) 0%,
-    rgba(0, 55, 137, 0.375) 100%
+                  152.97deg,
+                  rgba(0, 55, 137, 0.75) 0%,
+                  rgba(0, 55, 137, 0.375) 100%
   );
-  box-shadow: 0px 7px 17px rgba(34, 82, 102, 0.75);
+  box-shadow: 0 7px 17px rgba(34, 82, 102, 0.75);
   backdrop-filter: blur(10px);
   border-radius: 10px;
   min-width: 210px;
@@ -35,7 +35,7 @@
 }
 
 .buttonIndents {
-  padding: 0px 7px 0 10px;
+  padding: 0 7px 0 10px;
 }
 
 .content {
@@ -71,11 +71,11 @@
 
 .itemsWrapper {
   background: linear-gradient(
-    142.94deg,
-    rgba(255, 255, 255, 0.468) 0%,
-    rgba(255, 255, 255, 0.104) 102.09%
+                  142.94deg,
+                  rgba(255, 255, 255, 0.468) 0%,
+                  rgba(255, 255, 255, 0.104) 102.09%
   );
-  box-shadow: 0px 4px 4px rgba(34, 82, 102, 0.25);
+  box-shadow: 0 4px 4px rgba(34, 82, 102, 0.25);
   backdrop-filter: blur(7px);
   border-radius: 7.5px;
   width: 207px;
@@ -121,7 +121,7 @@
 
 .inputWrapper {
   position: relative;
-  margin: 5px 0px;
+  margin: 5px 0;
 }
 
 .input {
@@ -147,4 +147,16 @@
 
 .magnifier {
   cursor: pointer;
+}
+
+.arrowBtnOpened, .arrowBtnClosed {
+  margin: 0 3px;
+
+  & path {
+    stroke: #FFFFFF;
+  }
+}
+
+.arrowBtnOpened {
+  transform: rotate(180deg);
 }
