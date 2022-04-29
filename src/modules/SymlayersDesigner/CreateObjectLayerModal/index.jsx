@@ -21,30 +21,29 @@ import styles from './CreateObjectLayerModal.module.scss';
 const createObjectModalValues = {
   [CREATE_OBJECT_MODAL_VALUES.NAME]: '',
   [CREATE_OBJECT_MODAL_VALUES.OBJECT_DATA_TYPE]: '',
-  // [CREATE_OBJECT_MODAL_VALUES.OBJECT_TYPE]: '',
-  // [CREATE_OBJECT_MODAL_VALUES.OBJECT_FUNCTION]: '',
+  [CREATE_OBJECT_MODAL_VALUES.OBJECT_TYPE]: '',
+  [CREATE_OBJECT_MODAL_VALUES.OBJECT_FUNCTION]: '',
   [CREATE_OBJECT_MODAL_VALUES.OBJECT_DESCRIPTION]: '',
-  // [CREATE_OBJECT_MODAL_VALUES.SELECT_QUERY_FIELD]: '',
-  // [CREATE_OBJECT_MODAL_VALUES.WHERE_QUERY_FIELD]: '',
-  // [CREATE_OBJECT_MODAL_VALUES.DEFAULT_LINK_INPUT]: '',
-  // [CREATE_OBJECT_MODAL_VALUES.THIS_LIST_EDIT_CHECKBOX]: false,
-  // [CREATE_OBJECT_MODAL_VALUES.REFRESH_BEFORE_USAGE_CHECKBOX]: false,
-  // [CREATE_OBJECT_MODAL_VALUES.SHOW_HIERARCHY_CHECKBOX]: false,
-  // [CREATE_OBJECT_MODAL_VALUES.EXPORT_BY_UNIVERSE_CHECKBOX]: false,
-  // [CREATE_OBJECT_MODAL_VALUES.SEARCH_DELEGETION_CHECKBOX]: false,
-  // [CREATE_OBJECT_MODAL_VALUES.USAGE_PERMISSION]: '',
-  // [CREATE_OBJECT_MODAL_VALUES.USE_IN_RESULTS_CHECKBOX]: false,
-  // [CREATE_OBJECT_MODAL_VALUES.USE_IN_CONDITIONS_CHECKBOX]: false,
-  // [CREATE_OBJECT_MODAL_VALUES.USE_IN_SORTINGS_CHECKBOX]: false,
-  // [CREATE_OBJECT_MODAL_VALUES.KEYS_DATA_TYPE]: '',
-  // [CREATE_OBJECT_MODAL_VALUES.KEYS_TYPE]: '',
-  // [CREATE_OBJECT_MODAL_VALUES.KEYS_SELECT_INPUT]: '',
-  // [CREATE_OBJECT_MODAL_VALUES.KEYS_WHERE_INPUT]: '',
+  [CREATE_OBJECT_MODAL_VALUES.SELECT_QUERY_FIELD]: '',
+  [CREATE_OBJECT_MODAL_VALUES.WHERE_QUERY_FIELD]: '',
+  [CREATE_OBJECT_MODAL_VALUES.DEFAULT_LINK_INPUT]: '',
+  [CREATE_OBJECT_MODAL_VALUES.THIS_LIST_EDIT_CHECKBOX]: false,
+  [CREATE_OBJECT_MODAL_VALUES.REFRESH_BEFORE_USAGE_CHECKBOX]: false,
+  [CREATE_OBJECT_MODAL_VALUES.SHOW_HIERARCHY_CHECKBOX]: false,
+  [CREATE_OBJECT_MODAL_VALUES.EXPORT_BY_UNIVERSE_CHECKBOX]: false,
+  [CREATE_OBJECT_MODAL_VALUES.SEARCH_DELEGETION_CHECKBOX]: false,
+  [CREATE_OBJECT_MODAL_VALUES.USAGE_PERMISSION]: '444',
+  [CREATE_OBJECT_MODAL_VALUES.USE_IN_RESULTS_CHECKBOX]: false,
+  [CREATE_OBJECT_MODAL_VALUES.USE_IN_CONDITIONS_CHECKBOX]: false,
+  [CREATE_OBJECT_MODAL_VALUES.USE_IN_SORTINGS_CHECKBOX]: false,
+  [CREATE_OBJECT_MODAL_VALUES.KEYS_DATA_TYPE]: '',
+  [CREATE_OBJECT_MODAL_VALUES.KEYS_TYPE]: '',
+  [CREATE_OBJECT_MODAL_VALUES.KEYS_SELECT_INPUT]: '',
+  [CREATE_OBJECT_MODAL_VALUES.KEYS_WHERE_INPUT]: '',
   [CREATE_OBJECT_MODAL_VALUES.TECH_INFO_INPUT]: '',
   [CREATE_OBJECT_MODAL_VALUES.DISPLAY_INPUT]: '',
-  [CREATE_OBJECT_MODAL_VALUES.ORIGIN_INPUT]: '',
+  [CREATE_OBJECT_MODAL_VALUES.ORIGIN_INPUT]: ''
 };
-
 
 const CreateObjectLayerModal = ({ visible }) => {
   const dispatch = useDispatch();
@@ -53,10 +52,20 @@ const CreateObjectLayerModal = ({ visible }) => {
     return dispatch(setCreateObjectModal(false));
   };
 
+  const checkBoxValues = [
+    [CREATE_OBJECT_MODAL_VALUES.THIS_LIST_EDIT_CHECKBOX],
+    [CREATE_OBJECT_MODAL_VALUES.REFRESH_BEFORE_USAGE_CHECKBOX],
+    [CREATE_OBJECT_MODAL_VALUES.SHOW_HIERARCHY_CHECKBOX],
+    [CREATE_OBJECT_MODAL_VALUES.EXPORT_BY_UNIVERSE_CHECKBOX],
+    [CREATE_OBJECT_MODAL_VALUES.SEARCH_DELEGETION_CHECKBOX],
+    [CREATE_OBJECT_MODAL_VALUES.USE_IN_RESULTS_CHECKBOX],
+    [CREATE_OBJECT_MODAL_VALUES.USE_IN_CONDITIONS_CHECKBOX],
+    [CREATE_OBJECT_MODAL_VALUES.USE_IN_SORTINGS_CHECKBOX]
+  ];
+
   const content = (
     <Formik
       initialValues={createObjectModalValues}
-      // initialValues={{ [NAME]: '', [OBJECT_DATA_TYPE]: '234' }}
       onSubmit={(values, event) => {
         handleClose();
         console.log(values);
@@ -75,8 +84,16 @@ const CreateObjectLayerModal = ({ visible }) => {
             onChange={handleChange}
           />
           <PropertiesBlock
-            name="objectProperties"
-            value={values[CREATE_OBJECT_MODAL_VALUES.OBJECT_DATA_TYPE]}
+            name={[
+              [CREATE_OBJECT_MODAL_VALUES.OBJECT_DATA_TYPE],
+              [CREATE_OBJECT_MODAL_VALUES.OBJECT_TYPE],
+              [CREATE_OBJECT_MODAL_VALUES.OBJECT_FUNCTION]
+            ]}
+            value={[
+              [CREATE_OBJECT_MODAL_VALUES.OBJECT_DATA_TYPE],
+              [CREATE_OBJECT_MODAL_VALUES.OBJECT_TYPE],
+              [CREATE_OBJECT_MODAL_VALUES.OBJECT_FUNCTION]
+            ]}
             onChange={handleChange}
           />
           <DescriptionBlock
@@ -84,23 +101,51 @@ const CreateObjectLayerModal = ({ visible }) => {
             value={values[CREATE_OBJECT_MODAL_VALUES.OBJECT_DESCRIPTION]}
             onChange={handleChange}
           />
-          <QueryBlock />
-          <ValueListConnectionBlock />
-          <KeysBlock />
-          <TechInfoBlock
-            // id={[
-            //   [CREATE_OBJECT_MODAL_VALUES.TECH_INFO_INPUT],
-            //   [CREATE_OBJECT_MODAL_VALUES.DISPLAY_INPUT]
+          <QueryBlock
+            name={[
+              [CREATE_OBJECT_MODAL_VALUES.SELECT_QUERY_FIELD],
+              [CREATE_OBJECT_MODAL_VALUES.WHERE_QUERY_FIELD]
+            ]}
+            value={[
+              values[CREATE_OBJECT_MODAL_VALUES.SELECT_QUERY_FIELD],
+              values[CREATE_OBJECT_MODAL_VALUES.WHERE_QUERY_FIELD]
+            ]}
+            onChange={handleChange}
+          />
+          <ValueListConnectionBlock
+            checkBoxNames={checkBoxValues}
+            name={[
+              [CREATE_OBJECT_MODAL_VALUES.DEFAULT_LINK_INPUT],
+              [CREATE_OBJECT_MODAL_VALUES.USAGE_PERMISSION]
+            ]}
+            value={values[CREATE_OBJECT_MODAL_VALUES.DEFAULT_LINK_INPUT]}
+            onChange={handleChange}
+          />
+          <KeysBlock
+            name={[
+              [CREATE_OBJECT_MODAL_VALUES.KEYS_DATA_TYPE],
+              [CREATE_OBJECT_MODAL_VALUES.KEYS_SELECT_INPUT],
+              [CREATE_OBJECT_MODAL_VALUES.KEYS_WHERE_INPUT],
+              [CREATE_OBJECT_MODAL_VALUES.KEYS_TYPE]
+            ]}
+            // value={[
+            //   [CREATE_OBJECT_MODAL_VALUES.KEYS_DATA_TYPE],
+            //   [CREATE_OBJECT_MODAL_VALUES.KEYS_SELECT_INPUT],
+            //   [CREATE_OBJECT_MODAL_VALUES.KEYS_WHERE_INPUT],
+            //   [CREATE_OBJECT_MODAL_VALUES.KEYS_TYPE]
             // ]}
+            onChange={handleChange}
+          />
+          <TechInfoBlock
             name={[
               [CREATE_OBJECT_MODAL_VALUES.TECH_INFO_INPUT],
               [CREATE_OBJECT_MODAL_VALUES.DISPLAY_INPUT],
-              [CREATE_OBJECT_MODAL_VALUES.ORIGIN_INPUT],
+              [CREATE_OBJECT_MODAL_VALUES.ORIGIN_INPUT]
             ]}
             value={[
               values[CREATE_OBJECT_MODAL_VALUES.TECH_INFO_INPUT],
               values[CREATE_OBJECT_MODAL_VALUES.DISPLAY_INPUT],
-              values[CREATE_OBJECT_MODAL_VALUES.ORIGIN_INPUT],
+              values[CREATE_OBJECT_MODAL_VALUES.ORIGIN_INPUT]
             ]}
             onChange={handleChange}
           />

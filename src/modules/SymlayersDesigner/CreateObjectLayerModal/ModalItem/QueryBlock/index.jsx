@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import Button from '../../../../../common/components/Button';
 import Gears from '../../../../../common/components/Gears';
 import { BUTTON } from '../../../../../common/constants/common';
 
 import styles from './QueryBlock.module.scss';
 
-const QueryBlock = () => {
+const QueryBlock = ({ onChange, value, name }) => {
   const [isActive, setIsActive] = useState(false);
 
   const onClickAction = e => {
@@ -16,13 +17,17 @@ const QueryBlock = () => {
   const handleClick = e => {
     e.preventDefault();
   };
+
   return (
     <div className={styles.objectQueryBlock}>
       <div className={styles.queryParamsGroup}>
         <p className={styles.title}>Select</p>
         <div className={styles.selectGroup}>
           <textarea
-            id="createObjectSelectInput"
+            id={name[0]}
+            name={name[0]}
+            value={value[0]}
+            onChange={onChange}
             className={styles.descriptionInput}
           />
           <Button buttonStyle={BUTTON.BROWN} onClick={handleClick}>
@@ -32,7 +37,10 @@ const QueryBlock = () => {
         <p className={styles.title}>Where</p>
         <div className={styles.whereGroup}>
           <textarea
-            id="createObjectWhereInput"
+            id={name[1]}
+            name={name[1]}
+            value={value[1]}
+            onChange={onChange}
             className={styles.descriptionInput}
           />
           <Button buttonStyle={BUTTON.BROWN} onClick={handleClick}>
@@ -61,3 +69,9 @@ const QueryBlock = () => {
 };
 
 export default QueryBlock;
+
+QueryBlock.propTypes = {
+  onChange: PropTypes.func,
+  name: PropTypes.string,
+  value: PropTypes.string
+};

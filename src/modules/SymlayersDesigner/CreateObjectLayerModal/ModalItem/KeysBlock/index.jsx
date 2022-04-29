@@ -1,21 +1,25 @@
 import { React, useState } from 'react';
+import { useFormikContext } from 'formik';
+import PropTypes from 'prop-types';
 import ModalItem from '..';
+import { BUTTON } from '../../../../../common/constants/common';
 import Button from '../../../../../common/components/Button';
 import Select from '../../../../../common/components/Select';
-import { BUTTON } from '../../../../../common/constants/common';
-import styles from './KeysBlock.module.scss';
-import { ReactComponent as PencilIcon } from '../../../../../layout/assets/pencilIcon.svg';
 import Tooltip from '../../../../../common/components/Tooltip';
 import CheckboxField from '../../../../../common/components/formikFields/checkboxField';
 import Dropdown from '../../../../../common/components/Dropdown';
 import DropdownItem from '../../../../../common/components/Dropdown/DropdownItem';
+import { ReactComponent as PencilIcon } from '../../../../../layout/assets/pencilIcon.svg';
 import { ReactComponent as Arrow } from '../../../../../layout/assets/queryPanel/arrowThin.svg';
 import { ReactComponent as SymbolIcon } from '../../../../../layout/assets/icons/symbolIcon.svg';
 import { ReactComponent as DateIcon } from '../../../../../layout/assets/icons/dateIcon.svg';
 import { ReactComponent as TextIcon } from '../../../../../layout/assets/icons/textIcon.svg';
 import { ReactComponent as NumberIcon } from '../../../../../layout/assets/icons/numberIcon.svg';
+import styles from './KeysBlock.module.scss';
 
-const KeysBlock = () => {
+const KeysBlock = ({ onChange, name }) => {
+  const formikProps = useFormikContext();
+
   const handleClick = e => {
     e.preventDefault();
   };
@@ -92,6 +96,7 @@ const KeysBlock = () => {
     setSelectedDataIcon(item.icon);
     setSelectedDataText(item.text);
     setIsOpenData(false);
+    formikProps.setFieldValue(name[0], item.value);
   };
 
   return (
@@ -189,7 +194,9 @@ const KeysBlock = () => {
               <p className={styles.smallText}>Select</p>
               <div className={styles.selectDiv}>
                 <input
-                  id="keysBlockSelectInput"
+                  id={name[1]}
+                  name={name[1]}
+                  onChange={onChange}
                   className={styles.keysBlockSelectWhereInput}
                 />
                 <PencilIcon className={styles.pencilIcon} />
@@ -199,7 +206,9 @@ const KeysBlock = () => {
               <p className={styles.smallText}>Where</p>
               <div className={styles.whereDiv}>
                 <input
-                  id="keysBlockWhereInput"
+                  id={name[2]}
+                  name={name[2]}
+                  onChange={onChange}
                   className={styles.keysBlockSelectWhereInput}
                 />
                 <PencilIcon className={styles.pencilIcon} />
@@ -236,3 +245,9 @@ const KeysBlock = () => {
 };
 
 export default KeysBlock;
+
+KeysBlock.propTypes = {
+  onChange: PropTypes.func,
+  name: PropTypes.string,
+  // value: PropTypes.string
+};

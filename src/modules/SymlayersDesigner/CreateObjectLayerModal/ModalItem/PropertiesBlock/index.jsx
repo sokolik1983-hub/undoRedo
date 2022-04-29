@@ -1,7 +1,6 @@
 import { React, useState } from 'react';
-// import PropTypes from 'prop-types';
-// import { useField } from 'formik';
-// import { Field } from 'formik';
+import PropTypes from 'prop-types';
+import { useFormikContext } from 'formik';
 
 import Dropdown from '../../../../../common/components/Dropdown';
 import DropdownItem from '../../../../../common/components/Dropdown/DropdownItem';
@@ -20,14 +19,8 @@ import { ReactComponent as CounterIcon } from '../../../../../layout/assets/icon
 
 import styles from './PropertiesBlock.module.scss';
 
-const PropertiesBlock = () => {
-  // const inputProps = {
-  //   name,
-  //   onChange,
-  //   value
-  // };
-
-  // console.log('name-->', name, onChange, value);
+const PropertiesBlock = ({ name }) => {
+  const formikProps = useFormikContext();
 
   const selectDataOptions = [
     { icon: <SymbolIcon />, text: 'Символ', value: 'symbol' },
@@ -101,18 +94,21 @@ const PropertiesBlock = () => {
     setSelectedDataIcon(item.icon);
     setSelectedDataText(item.text);
     setIsOpenData(false);
+    formikProps.setFieldValue(name[0], item.text);
   };
 
   const setSelectedTypeFields = item => {
     setSelectedTypeIcon(item.icon);
     setSelectedTypeText(item.text);
     setIsOpenType(false);
+    formikProps.setFieldValue(name[1], item.text);
   };
 
   const setSelectedFuncFields = item => {
     setSelectedFuncIcon(item.icon);
     setSelectedFuncText(item.text);
     setIsOpenFunc(false);
+    formikProps.setFieldValue(name[2], item.text);
   };
 
   return (
@@ -133,11 +129,11 @@ const PropertiesBlock = () => {
               <div className={styles.dropDownDataBlock}>
                 {selectDataOptions.map(item => (
                   <DropdownItem
+                    item={item}
                     icon={item.icon}
                     key={item.value}
-                    item={item}
-                    onClick={() => setSelectedDataFields(item)}
                     className={styles.dropDownItem}
+                    onClick={() => setSelectedDataFields(item)}
                   />
                 ))}
               </div>
@@ -165,9 +161,6 @@ const PropertiesBlock = () => {
                   item={item}
                   onClick={() => setSelectedTypeFields(item)}
                   className={styles.dropDownItem}
-                  // name={item.value}
-                  // onChange
-                  // value={item.value}
                 />
               ))}
             </div>
@@ -206,14 +199,6 @@ const PropertiesBlock = () => {
 
 export default PropertiesBlock;
 
-// PropertiesBlock.propTypes = {
-//   onChange: PropTypes.func,
-//   value: PropTypes.string,
-//   name: PropTypes.string
-// };
-
-// PropertiesBlock.defaultProps = {
-//   onChange: Function.prototype,
-//   value: '',
-//   name: ''
-// };
+PropertiesBlock.propTypes = {
+  name: PropTypes.string
+};
