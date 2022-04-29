@@ -1,241 +1,78 @@
-/* eslint-disable no-unused-expressions */
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
+/* eslint-disable react/jsx-curly-newline */
 import Divider from '../../../common/components/Divider';
+import FiltersHeader from './FiltersHeader/FiltersHeader';
+import { useDragNDrop } from '../context/DragNDropContext';
+import FiltersDeskItem from './FiltersDeskItem/FiltersDeskItem';
+import FiltersDeskNode from './FiltersDeskNode/FiltersDeskNode';
+import { DRAG_PARENT_SECTION } from '../../../common/constants/common';
 import styles from './Filters.module.scss';
-import FilterItem from './FilterItem';
-import ConditionBlock from './FilterItem/ConditionBlock/index';
-import { ReactComponent as Group } from '../../../layout/assets/queryPanel/group.svg';
-import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowBold.svg';
-import { ReactComponent as Basket } from '../../../layout/assets/queryPanel/basket.svg';
 
-const arr = [{
-  type: 'OR',
-  children: [
-    {
-      id: 1,
-      title: 'Транспорт 200',
-      type: 'attribute',
-      inputValue: '',
-      optionsText: 'равно',
-    },
-    {
-      id: 2,
-      title: 'Банковские проводки',
-      type: 'gauge',
-      inputValue: '',
-      optionsText: 'равно',
-    },
-    {
-      id: 3,
-      title: 'Измерение 2',
-      type: 'measurement',
-      inputValue: '',
-      optionsText: 'равно',
-    },
-    {
-      type: 'AND',
-      children: [
-        {
-          id: 4,
-          title: 'Квартал',
-          type: 'gauge',
-          inputValue: '',
-          optionsText: 'равно',
-        }, {
-          id: 5,
-          title: 'Измерение 3',
-          type: 'measurement',
-          inputValue: '',
-          optionsText: 'равно',
-        },
-        {
-          type: 'OR',
-          children: [
-            {
-              id: 6,
-              title: 'Год',
-              type: 'gauge',
-              inputValue: '',
-              optionsText: 'равно',
-            }, {
-              id: 7,
-              title: 'Измерение 4',
-              type: 'measurement',
-              inputValue: '',
-              optionsText: 'равно',
-            },
-          ]
+const Filters = () => {
+  const {
+    filtersDesk,
+    handleDragStart,
+    handleDragOver,
+    handleDropOnFiltersArea,
+    handleDropOnFiltersItem,
+    handleDropOnFiltersNodeItemsBlock,
+    deleteFiltersDeskItem,
+    setFocused
+  } = useDragNDrop();
+
+  const renderFiltersDesk = () => {
+    if (!filtersDesk)
+      return (
+        <div>
+          Для фильтрации отчета выберите предъопределенные фильтры или объекты
+          на панели и перетащите их сюда
+        </div>
+      );
+
+    return filtersDesk.type === 'filter-node' ? (
+      <FiltersDeskNode
+        id={filtersDesk.id}
+        items={filtersDesk.children}
+        condition={filtersDesk.condition}
+        onConditionBlockClick={() => setFocused(filtersDesk)}
+        draggable
+        onDragStart={e =>
+          handleDragStart(e, filtersDesk, DRAG_PARENT_SECTION.FILTERS)
         }
-      ]
-    }
-  ]
-}];
-
-const findItemByType = (children) => {
-  for (let i = 0; i < children?.length; i++) {
-    const item = children[i];
-    if (item.children) {
-      children.splice(i, 1);
-      return [item, children];
-    }
-  }
-
-  return [undefined, children];
-};
-
-
-
-const Filters = ({ title }) => {
-  const [filtersArr, setFiltersArr] = useState(arr);
-  const [level, setLevel] = useState(1);
-
-  const onDeleteFilterItem = (id) => {
-    
-      // eslint-disable-next-line consistent-return
-      const filteredChildren = item => {
-        if (typeof item['children'] !== 'undefined') {
-            item.children = item.children.filter(i => i.id !== id);
-            // eslint-disable-next-line array-callback-return
-            item.children.map(el => {
-              if (el.children) {
-                el.children = el.children.filter(i => i.id !== id);
-                filteredChildren(el);
-              }
-            });
-          return item;
+        onDragOver={handleDragOver}
+        onConditionBlockDrop={e => handleDropOnFiltersItem(e, filtersDesk)}
+        onItemsBlockDrop={e =>
+          handleDropOnFiltersNodeItemsBlock(e, filtersDesk)
         }
-      }
-
-      const updateFilters = filtersArr.map(item => {
-        if (item.children) {
-          item.children = item.children.filter(i => i.id !== id);
-          filteredChildren(item);
+      />
+    ) : (
+      <FiltersDeskItem
+        id={filtersDesk.id}
+        title={filtersDesk.fieldItem.field}
+        type={filtersDesk.fieldItem.objectType_id}
+        onItemClick={() => setFocused(filtersDesk)}
+        onDeleteItem={() => deleteFiltersDeskItem(filtersDesk.id)}
+        draggable
+        onDragStart={e =>
+          handleDragStart(e, filtersDesk, DRAG_PARENT_SECTION.FILTERS)
         }
-        return item;
-      });
-  
-      setFiltersArr(updateFilters);
+      />
+    );
   };
-
-  const onDeleteFilters = () => {
-    setFiltersArr(null);
-  };
-
-  const handleGroupClick = () => {
-    setLevel(level);
-
-    if (level === 0 && (filtersArr.length === 0 || (filtersArr.length === 1 && !filtersArr[0].type))) {
-      return;
-    }
-  
-    function createGroup(array, curLvl) {
-
-      const [item, modifiedArr] = findItemByType(array);
-      
-      
-      if (item && item?.children?.length && curLvl < level) {
-        return [
-          ...modifiedArr,
-          {
-            ...item,
-            children: [
-              ...item.children,
-              createGroup(item.children, level + 1)
-            ]
-          }
-        ]
-      }
-
-      const group = {
-        type: 'AND',
-        children: []
-      };
-
-      return level > 0 ? group : [group]
-    }
-
-    setFiltersArr(createGroup(filtersArr, 0));
-  };
-
-  const render = (data) => {
-
-    if(!data.length) {
-      return null;
-    }
-
-    return (
-      <div className={styles.filterWrapper}>
-        {data?.map((element) => {
-
-          return (
-            <>
-              {Boolean(element.type) &&
-              <ConditionBlock conditionType={element.type} />}
-              <div className={styles.filterItems}>
-                {Boolean(element.children?.length) && element.children.map((filter) => {
-
-                  if (filter.children) {
-                    return render([filter])
-                  }
-
-                  return (
-                    <FilterItem
-                      key={filter.id}
-                      id={filter.id}
-                      title={filter.title}
-                      type={filter.type}
-                      conditionType={element.conditionType}
-                      text={filter.optionsText}
-                      value={filter.inputValue}
-                      onDeleteFilterItem={onDeleteFilterItem}
-                    />
-                  )
-                })}
-              </div>
-            </>
-          )
-        })}
-      </div>
-    )
-  }
 
   return (
     <div className={styles.wrapper}>
       <Divider color="#FFFFFF" />
-      <div className={styles.content}>
-        <div className={styles.top}>
-          <div className={styles.title}>{title}</div>
-          <div className={styles.icons}>
-            <div className={styles.groupWrapper}>
-              <Group className={styles.groupIcon} onClick={handleGroupClick} />
-              <div className={styles.hide}>
-                <p className={styles.group}>группа</p>
-              </div>
-            </div>
-            <Arrow className={clsx(styles.iconsIndents, styles.hide)} />
-            <Arrow
-              className={clsx(styles.iconsIndents, styles.rotate, styles.hide)}
-            />
-            <div className={styles.basketWrapper}>
-              <Basket className={styles.basket} onClick={onDeleteFilters} />
-              <div className={styles.hide}>
-                <p className={styles.clear}>очистить всё</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="filters-block" className={styles.filtersBlock}>
-        {filtersArr ? render(filtersArr) : <div />}
+      <FiltersHeader />
+      <div
+        id="filters-block"
+        className={styles.filtersBlock}
+        onDragOver={handleDragOver}
+        onDrop={handleDropOnFiltersArea}
+      >
+        {renderFiltersDesk()}
       </div>
     </div>
   );
 };
 
 export default Filters;
-
-Filters.propTypes = {
-  title: PropTypes.string
-};

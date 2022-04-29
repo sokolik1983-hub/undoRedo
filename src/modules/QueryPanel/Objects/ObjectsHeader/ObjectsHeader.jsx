@@ -11,25 +11,25 @@ const ObjectsHeader = ({ clearObjectsDesk }) => {
     <div className={styles.root}>
       <div className={styles.title}>Объекты отчета</div>
       <div className={styles.btnGroup}>
-        <Tooltip text="Фильтр" space={5}>
+        <Tooltip text="Фильтр" space={15}>
           <IconButton
             className={styles.iconBtn}
             icon={<Filter />}
             onClick={() => {}}
           />
         </Tooltip>
-        <Tooltip text="Списки" space={5}>
+        <Tooltip text="Списки" space={15}>
           <IconButton
             className={styles.iconBtn}
             icon={<Lists />}
             onClick={() => {}}
           />
         </Tooltip>
-        <Tooltip text="очистить всё" space={5}>
+        <Tooltip text="очистить всё" space={15}>
           <IconButton
             className={styles.iconBtn}
             icon={<Basket />}
-            onClick={() => clearObjectsDesk()}
+            onClick={clearObjectsDesk}
           />
         </Tooltip>
       </div>
