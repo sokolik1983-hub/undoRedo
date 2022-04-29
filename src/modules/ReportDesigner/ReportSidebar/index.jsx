@@ -157,10 +157,8 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
               </div>
             </>
           ) : (
-            <>
-              <ReportInfoBlock />
-            </>
-        )}
+            <ReportInfoBlock />
+          )}
         </div>
         )}
       </div>
