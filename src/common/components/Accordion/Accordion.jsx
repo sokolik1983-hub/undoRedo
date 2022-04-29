@@ -23,10 +23,12 @@ const Accordion = ({ title, noPadding, children, indents }) => {
       <div className={titleClasses} onClick={() => setIsActive(!isActive)}>
         <div>{title}</div>
         <div>
-          <Arrow className={isActive ? styles.arrowActive : ''} />
+          <Arrow stroke='white' fill='none' className={isActive ? styles.arrowActive : ''} />
         </div>
       </div>
-      <Divider color='#FFFFFF' style={{padding: '0 5px;'}} />
+      <div className={styles.divider}>
+        <Divider color='#FFFFFF' />
+      </div>
       {isActive && <div className={contentClasses}>{children}</div>}
     </div>
   );

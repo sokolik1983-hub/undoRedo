@@ -1,11 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import ReportInfoItem from '..';
 import styles from './Navigation.module.scss';
-
-/**
- * @param title - строка для заголовка
- */
 
  const someData = [
     { name: 'Время работы магазина',
@@ -34,28 +28,18 @@ import styles from './Navigation.module.scss';
     }
   ];
 
-const Navigation = ({ title }) => {
+const Navigation = () => {
   return (
-    <ReportInfoItem title={title}>
-      <div className={styles.wrapper}>
-        <ul className={styles.list}>
-          {someData.map((item) => (
-            <li key={item.id} className={styles.text}>
-              {item.name}
-            </li>
-        ))}
-        </ul>
-      </div>
-    </ReportInfoItem>
+    <div className={styles.wrapper}>
+      <ul className={styles.list}>
+        {someData.map((item) => (
+          <li key={item.id} className={styles.text}>
+            {item.name}
+          </li>
+      ))}
+      </ul>
+    </div>
   );
 };
 
 export default Navigation;
-
-Navigation.propTypes = {
-  title: PropTypes.string
-};
-
-Navigation.defaultProps = {
-  title: ''
-};

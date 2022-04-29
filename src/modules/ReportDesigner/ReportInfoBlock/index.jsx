@@ -17,22 +17,23 @@ const semLayerValues = {
 const ReportInfoBlock = () => {
 
   return (
-    <Formik
-      initialValues={semLayerValues}
-      onSubmit={data => {
-        window.location.pathname = '/Universe/symlayers/create';
+    <>
+      <Navigation />
+      <Formik
+        initialValues={semLayerValues}
+        onSubmit={data => {
         console.log(data);
       }}
-    >
-      {({ handleSubmit }) => (
-        <form onSubmit={handleSubmit}>
-          <Navigation title="Навигация" />
-          {/* <Control title="Управление" onChange={handleChange} /> */}
-          <Properties title="Свойства" />
-          <Comments title="Комментарии" />
-        </form>
+      >
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Properties title="Свойства" />
+            
+          </form>
       )}
-    </Formik>
+      </Formik>
+      <Comments title="Комментарии" />
+    </>
   );
 };
 
