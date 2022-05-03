@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import selectModalStyles from './SelectSemanticLayer.module.scss';
 import Modal from '../../../common/components/Modal';
 import IconButton from '../../../common/components/IconButton';
 import { getUniverses } from '../../../data/actions/universes';
 import { sortFoldersAndItems } from '../../Symlayers/helper';
 import Preloader from '../../../common/components/Preloader/Preloader';
-import ListItem from '../../../common/components/List/ListItem/ListItem'
+import ListItem from '../../../common/components/List/ListItem/ListItem';
 import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
 import { ReactComponent as UniverseIcon } from '../../../layout/assets/connectorIcon.svg';
 import { ReactComponent as ArrowLeftIcon } from '../../../layout/assets/arrowLeft.svg';
@@ -46,20 +46,22 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
 
   let interArr = [];
 
-  const searchSymLayer = (array) => {
+  const searchSymLayer = array => {
     const univArray = array.children ? array.children : array;
     const isRes = univArray.filter(univ => {
       const name = univ.name ? univ.name : univ.folder_name;
-      return name?.toUpperCase().includes(searchValue.toUpperCase())
+      return name?.toUpperCase().includes(searchValue.toUpperCase());
     });
-    
+
     if (isRes && isRes.length > 0) {
       interArr.push(...isRes);
       interArr = sortFoldersAndItems(interArr);
       setResArr(interArr);
       setTempArr(interArr);
     }
-    const isFolderRes = univArray.filter(univ => univ.isFolder && univ.children);
+    const isFolderRes = univArray.filter(
+      univ => univ.isFolder && univ.children
+    );
     if (isFolderRes && isFolderRes.length > 0) {
       isFolderRes.forEach(folder => {
         searchSymLayer(folder.children);
@@ -67,18 +69,17 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     }
   };
 
-
   const onSearch = (e, arr) => {
     e.preventDefault();
     setCurrentFolderIndex(0);
     setResArr([]);
     setTempArr([]);
     if (searchValue.length) {
-      setSearchExec(true); 
+      setSearchExec(true);
       searchSymLayer(arr);
     } else {
       setSearchExec(false);
-    } 
+    }
   };
 
   useEffect(() => {
@@ -92,7 +93,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     setFoldersHistory([rootFolder]);
   }, [universes]);
 
-  const onFolderDoubleClick = (folder) => {
+  const onFolderDoubleClick = folder => {
     const folderWithSortedChildren = {
       ...folder,
       children: sortFoldersAndItems(folder.children)
@@ -105,7 +106,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     setCurrentFolderIndex(prev => prev + 1);
   };
 
-  const handleItemClick = (item) => {
+  const handleItemClick = item => {
     onSelectSemanticLayer(item);
   };
 
@@ -118,7 +119,9 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     setFoldersHistory([rootFolder]);
   };
 
-  const result = searchExec ? resArr : foldersHistory[currentFolderIndex]?.children;
+  const result = searchExec
+    ? resArr
+    : foldersHistory[currentFolderIndex]?.children;
 
   useEffect(() => {
     setNavActive(!!currentFolderIndex);
@@ -140,11 +143,13 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
           icon={isFolder ? <FolderIcon /> : <UniverseIcon />}
           className={selectModalStyles.semanticItem}
           onDoubleClick={
-            isFolder ? () => onFolderDoubleClick(item) : () => handleItemClick(item)
+            isFolder
+              ? () => onFolderDoubleClick(item)
+              : () => handleItemClick(item)
           }
         />
       </div>
-    )
+    );
   });
 
   const handleClose = () => {
@@ -157,13 +162,19 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     interArr = [];
     setSearchValue('');
     setCurrentFolderIndex(0);
-    setFoldersHistory([rootFolder]); 
+    setFoldersHistory([rootFolder]);
   };
 
   const modalContent = () => {
     return (
       <>
-        <div className={navActive ? selectModalStyles.navigationActions : selectModalStyles.disNavigationActions}>
+        <div
+          className={
+            navActive
+              ? selectModalStyles.navigationActions
+              : selectModalStyles.disNavigationActions
+          }
+        >
           <IconButton
             icon={<ArrowLeftIcon />}
             onClick={navActive && moveToPrevFolder}
@@ -174,12 +185,12 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
           />
           <Search
             className={selectModalStyles.search}
-            onSubmit={(e) => onSearch(e, result)}
+            onSubmit={e => onSearch(e, result)}
             value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
+            onChange={e => setSearchValue(e.target.value)}
             iconButtonPosition={ICON_POSITION.RIGHT}
           />
-          <Tooltip text='Сбросить' placement='bottom-left'>
+          <Tooltip text="Сбросить" placement="bottom-left">
             <IconButton
               className={selectModalStyles.reloadIcon}
               icon={<ReloadIcon />}
@@ -194,7 +205,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
         )}
       </>
     );
-  }
+  };
   return (
     <Modal
       title="Выбрать семантический слой"
@@ -208,7 +219,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
       bodyClassName={selectModalStyles.modalBody}
       contentClassName={selectModalStyles.modalContent}
     />
-  )
+  );
 };
 
 export default SelectSemanticLayer;
@@ -217,4 +228,4 @@ SelectSemanticLayer.propTypes = {
   onClose: PropTypes.func,
   visible: PropTypes.bool.isRequired,
   onSelectSemanticLayer: PropTypes.func
-}
+};

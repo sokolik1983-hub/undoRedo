@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-// import { useState } from 'react';
 
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +10,7 @@ import styles from './ReportSidebar.module.scss';
 import { SIDE_PANEL_TYPES } from '../../../common/constants/common';
 import { getSymanticLayerData } from '../../../data/actions/universes';
 import { ReactComponent as Arrow } from '../../../layout/assets/semanticLayerModal/arrow.svg';
+import ReportInfoBlock from '../ReportInfoBlock';
 
 const items = [
   {
@@ -157,8 +157,8 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
               </div>
             </>
           ) : (
-            <></>
-        )}
+            <ReportInfoBlock />
+          )}
         </div>
         )}
       </div>
