@@ -598,7 +598,8 @@ const reportDesignerUI = createSlice({
       creatingElement: null,
       selectedColumns: null,
       tableType: 'cross',
-      graphType: 'graph1'
+      graphType: 'graph1',
+      zoom: 1
     }
   },
   reducers: {
@@ -633,6 +634,9 @@ const reportDesignerUI = createSlice({
     },
     setGraphType: (state, action) => {
       state.ui.graphType = action.payload;
+    },
+    setZoom: (state, action) => {
+      state.ui.zoom = action.payload;
     }
   }
 });
@@ -658,7 +662,8 @@ export const {
   setConfigPanelVisible,
   setSelectedColumns,
   setTableType,
-  setGraphType
+  setGraphType,
+  setZoom
 } = reportDesignerUI.actions;
 
 export default combineReducers({

@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import styles from './QueryPanel.module.scss';
-import Modal from '../../common/components/Modal';
 import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.module.scss';
+import Modal from '../../common/components/Modal';
 import { getUniverses, setQueryPanelModal } from '../../data/actions/universes';
 import SelectSemanticLayer from './SelectSemanticLayer';
 import ObjectsPanel from './ObjectsPanel';
@@ -29,12 +29,14 @@ const QueryPanel = ({ visible }) => {
   }, []);
 
   const handleClose = () => {
-    return isChanged ? setIsConfirmModalOpened(true) : dispatch(setQueryPanelModal(false));
+    return isChanged
+      ? setIsConfirmModalOpened(true)
+      : dispatch(setQueryPanelModal(false));
   };
 
   const handleQueryExecute = () => {
     setQueryExecute(true);
-    setTimeout(() => {
+    setTimeout(() => { 
       setQueryExecute(false);
     }, 1000);
   };
@@ -55,7 +57,7 @@ const QueryPanel = ({ visible }) => {
 
   const onClose = () => {
     dispatch(setQueryPanelModal(false));
-  }
+  };
 
   const modalContent = () => {
     return (
@@ -71,7 +73,7 @@ const QueryPanel = ({ visible }) => {
             </div>
             <div className={styles.rightPanel}>
               <Objects className={styles.section} />
-              <Filters className={styles.section} title="Фильтры запроса" />
+              <Filters className={styles.section} />
               <Results
                 className={styles.section}
                 title="Просмотр данных"
@@ -92,7 +94,12 @@ const QueryPanel = ({ visible }) => {
             onSelectSemanticLayer={onSelectSemanticLayer}
           />
         )}
-        {isConfirmModalOpened && <ModalConfirm onReturn={() => setIsConfirmModalOpened(false)} onClose={() => onClose()} />}
+        {isConfirmModalOpened && (
+          <ModalConfirm
+            onReturn={() => setIsConfirmModalOpened(false)}
+            onClose={() => onClose()}
+          />
+        )}
       </div>
     );
   };

@@ -13,10 +13,6 @@ function TablesList({ title, items, type }) {
     <div className={styles.root}>
       <div className={styles.header}>
         <div className={styles.title}>{title}</div>
-
-        <div className={styles.actions}>
-          <div>+</div>
-        </div>
       </div>
       <div className={styles.content}>
         <div className={styles.list}>

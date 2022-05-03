@@ -214,3 +214,9 @@ export const BUTTON = {
   RED: 'RED',
   SMALL_ORANGE: 'SMALL_ORANGE',
 }
+
+export const DRAG_PARENT_SECTION = {
+  TREE: 'TREE',
+  OBJECTS: 'OBJECTS',
+  FILTERS: 'FILTERS'
+}

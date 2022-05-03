@@ -31,8 +31,8 @@ const LoginPage = () => {
         <AvatarIcon className={styles.avatar} />
         <Formik
           initialValues={{
-            login: 'test1',
-            password: 'test1'
+            login: 'admin',
+            password: 'admin'
           }}
           validationSchema={Yup.object().shape({
             login: Yup.string()

@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import IconButton from '../../../../common/components/IconButton';
 import { ReactComponent as Magnifier } from '../../../../layout/assets/magnifier.svg';
-import { ReactComponent as GaugeIcon } from '../../../../layout/assets/queryPanel/gaugeIcon.svg';
+import { ReactComponent as GaugeIcon } from '../../../../layout/assets/queryPanel/gauge_icon.svg';
 import { ReactComponent as MeasurementIcon } from '../../../../layout/assets/queryPanel/measurementIcon.svg';
 import { ReactComponent as AttributeIcon } from '../../../../layout/assets/queryPanel/attributeIcon.svg';
-import styles from './ObjectsPanelFilters.module.scss';
 import TextInput from '../../../../common/components/TextInput';
+import styles from './ObjectsPanelFilters.module.scss';
 
 const ObjectsPanelFilters = ({
   searchValue,
@@ -23,9 +23,9 @@ const ObjectsPanelFilters = ({
         className={styles.filterNameInput}
       />
       <IconButton
-        active={searchValue.length}
         className={styles.iconBtn}
         icon={<Magnifier />}
+        active={Boolean(searchValue.length)}
       />
       <IconButton
         onClick={() => onFiltersSwitch(1)}

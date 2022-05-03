@@ -271,7 +271,6 @@ export default function SidePanel({ navType }) {
   };
 
   function renderBlockPanelContent() {
-    console.log(currentNode, 'currentNode');
     switch (activePage) {
       case 1:
         return (
@@ -289,24 +288,7 @@ export default function SidePanel({ navType }) {
                   </div>
                 ))}
               </div>
-
-              {/* <button type="button" onClick={handleSetVariant('table_cross')}>
-                кросс-таблицу
-              </button>
-              <button
-                type="button"
-                onClick={handleSetVariant('table_vertical')}
-              >
-                вертикальную
-              </button>
-              <button
-                type="button"
-                onClick={handleSetVariant('table_horizontal')}
-              >
-                горизонтальную
-              </button> */}
             </div>
-
             <div
               onDrop={handleDropObjectColumn}
               onDragOver={allowDrop}

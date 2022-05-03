@@ -8,6 +8,8 @@ import TablesList from './TablesList';
 import SchemaTables from './SchemaTables';
 import ObjectsConnectionEditor from './ObjectsConnectionEditor';
 import { getConnectorObjectsList } from '../../data/actions/schemaDesigner';
+import { OBJECTS_CONNECTIONS_MODAL, TABLE_PREVIEW_MODAL } from '../../common/constants/popups';
+import TablePreview from './SchemaTables/TablePreview';
 
 function SymlayersDesigner() {
   const dispatch = useDispatch();
@@ -19,14 +21,15 @@ function SymlayersDesigner() {
   }, []);
 
   const isObjectsConnectionsModalOpened = useSelector(
-    state => state.app.ui.modalVisible
+    state => state.app.ui.modalVisible === OBJECTS_CONNECTIONS_MODAL
   );
   const schemaDesignerUi = useSelector(state => state.app.schemaDesigner.ui);
   const links = useSelector(state => state.app.schemaDesigner.links);
   const contexts = useSelector(state => state.app.schemaDesigner.contexts);
+  const isTablePreviewModalOpened = useSelector(state => state.app.ui.modalVisible === TABLE_PREVIEW_MODAL)
 
-  const handleSelectTable = selected => event => {
-    if (event.target.checked) {
+  const handleSelectTable = (selected, event) => {
+    if (event) {
       setChecked([...checked, selected]);
     } else {
       // setShowDeleteConfirmation(selected);
@@ -49,7 +52,7 @@ function SymlayersDesigner() {
               <TablesList title="Контексты" items={contexts} type="contexts" />
             )}
           </div>
-          <div className={styles.tables}>
+          <div className={styles.tables} onDrop={(e) => {handleSelectTable(JSON.parse(e.dataTransfer.getData("item")), e)}} onDragOver={(e) => {e.preventDefault()}}>
             <SchemaTables tables={checked} />
           </div>
         </div>
@@ -60,6 +63,7 @@ function SymlayersDesigner() {
           visible={isObjectsConnectionsModalOpened && true}
         />
       )}
+      {isTablePreviewModalOpened && <TablePreview />}
     </div>
   );
 }

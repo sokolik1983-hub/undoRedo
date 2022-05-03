@@ -29,7 +29,7 @@ import FormulaEditor from '../../common/components/FormulaEditor';
 // import DragNDropProvider from '../QueryPanel/context/DragNDropContext';
 // import { getSymanticLayerData } from '../../data/actions/universes';
 import { ReactComponent as CloseIcon } from '../../layout/assets/close.svg';
-import ReportSidebar from './ReportSidebar';
+import ReportSidebar from './ReportSidebar'; 
 import QueryPanel from '../QueryPanel';
 
 const BLOCK_TYPES = {
@@ -38,7 +38,7 @@ const BLOCK_TYPES = {
   table_horizontal: tableObject,
   graph: graphObject,
   text: textObject,
-  shape: shapeObject
+  shape: shapeObject 
 };
 
 // const getVariant = (type, tableType, graphType) => {
@@ -68,6 +68,7 @@ function ReportDesigner() {
   const isQueryPanelModalOpened = useSelector(
     state => state.app.ui.modalVisible
   );
+  const zoom = useSelector(state => state.app.reportDesigner.reportsUi.ui?.zoom);
 
   function handleKeyUp(event) {
     // event.stopPropagation();
@@ -283,25 +284,26 @@ function ReportDesigner() {
             +
           </button>
         </div>
-
         <div
           className={clsx(styles.container, styles['container-portrait'])}
           onMouseMove={handleMouseMove}
           onClick={handleAddBlock}
           onDoubleClick={handleDisableSelection}
         >
-          {currentReport &&
-            currentReport.structure?.map(block => (
-              <Block
-                {...block}
-                key={block.id}
-                structureItem={block}
-                onChangePosition={handleChangePosition}
-                onChangeScales={handleChangeScales}
-                onSelect={handleSelect}
-                isActiveNode={checkIsActiveNode(block.id)}
-              />
-            ))}
+          <div style={{zoom: `${zoom}`}}>
+            {currentReport &&
+              currentReport.structure?.map(block => (
+                <Block
+                  {...block}
+                  key={block.id}
+                  structureItem={block}
+                  onChangePosition={handleChangePosition}
+                  onChangeScales={handleChangeScales}
+                  onSelect={handleSelect}
+                  isActiveNode={checkIsActiveNode(block.id)}
+                />
+              ))}
+          </div>
         </div>
       </div>
       {isQueryPanelModalOpened && (
