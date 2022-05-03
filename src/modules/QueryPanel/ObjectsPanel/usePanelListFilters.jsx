@@ -77,4 +77,4 @@ const usePanelListFilters = rootFolder => {
   };
 };
 
-export default usePanelListFilters;
+export default usePanelListFilters; 

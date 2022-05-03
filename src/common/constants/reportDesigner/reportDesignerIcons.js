@@ -1,7 +1,15 @@
-import { ReactComponent as Table } from '../../../layout/assets/reportPageIcons/table.svg';
-import { ReactComponent as CrossTable } from '../../../layout/assets/reportPageIcons/crossTable.svg';
-import { ReactComponent as VerticalTable } from '../../../layout/assets/reportPageIcons/verticalTable.svg';
-import { ReactComponent as HorizontalTable } from '../../../layout/assets/reportPageIcons/horizontalTable.svg';
+import { ReactComponent as Table } from '../../../layout/assets/reportDesigner/reportPageIcons/table.svg';
+import { ReactComponent as CrossTable } from '../../../layout/assets/reportDesigner/reportPageIcons/crossTable.svg';
+import { ReactComponent as VerticalTable } from '../../../layout/assets/reportDesigner/reportPageIcons/verticalTable.svg';
+import { ReactComponent as HorizontalTable } from '../../../layout/assets/reportDesigner/reportPageIcons/horizontalTable.svg';
+
+import { ReactComponent as Compare } from '../../../layout/assets/reportDesigner/reportPageIcons/compare.svg';
+import { ReactComponent as Trend } from '../../../layout/assets/reportDesigner/reportPageIcons/trend.svg';
+import { ReactComponent as Proportion } from '../../../layout/assets/reportDesigner/reportPageIcons/proportion.svg';
+import { ReactComponent as Distribution } from '../../../layout/assets/reportDesigner/reportPageIcons/distribution.svg';
+import { ReactComponent as Correlation } from '../../../layout/assets/reportDesigner/reportPageIcons/correlation.svg';
+import { ReactComponent as Geography } from '../../../layout/assets/reportDesigner/reportPageIcons/geography.svg';
+import { ReactComponent as Indicator } from '../../../layout/assets/reportDesigner/reportPageIcons/indicator.svg';
 
 export const TABLE_ICONS = [
   {
@@ -28,37 +36,37 @@ export const TABLE_ICONS = [
 
 export const GRAPH_ICONS = [
   {
-    text: 'График1',
-    type: 'graph1',
-    icon: <Table />,
+    text: 'Сравнения',
+    type: 'compare',
+    icon: <Compare />,
   },
   {
-    text: 'График2',
-    type: 'graph2',
-    icon: <CrossTable />
+    text: 'Тренд',
+    type: 'trend',
+    icon: <Trend />
   },
   {
-    text: 'График3',
-    type: 'graph3',
-    icon: <VerticalTable />
+    text: 'Пропорция',
+    type: 'proportion',
+    icon: <Proportion />
   },
   {
-    text: 'График4',
-    type: 'graph4',
-    icon: <HorizontalTable />
+    text: 'Распределение',
+    type: 'distribution',
+    icon: <Distribution />
   },{
-    text: 'График5',
-    type: 'graph5',
-    icon: <CrossTable />
+    text: 'Корреляция',
+    type: 'correlation',
+    icon: <Correlation />
   },
   {
-    text: 'График6',
-    type: 'graph6',
-    icon: <VerticalTable />
+    text: 'География',
+    type: 'geography',
+    icon: <Geography />
   },
   {
-    text: 'График7',
-    type: 'graph7',
-    icon: <HorizontalTable />
+    text: 'Индикатор',
+    type: 'indicator',
+    icon: <Indicator />
   },
 ];

@@ -36,7 +36,7 @@ const QueryPanel = ({ visible }) => {
 
   const handleQueryExecute = () => {
     setQueryExecute(true);
-    setTimeout(() => {
+    setTimeout(() => { 
       setQueryExecute(false);
     }, 1000);
   };
@@ -68,6 +68,7 @@ const QueryPanel = ({ visible }) => {
               <ObjectsPanel
                 symanticLayer={semanticLayer}
                 modalOpenHandler={handleShowSelector}
+                showHeader
               />
             </div>
             <div className={styles.rightPanel}>

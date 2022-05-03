@@ -1,9 +1,33 @@
 .actionWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 43px;
+  height: 43px;
   cursor: pointer;
-  margin-left: 24px;
+  margin-left: 6px;
 
   &:first-child {
     margin-left: 0;
+  }
+
+  &:active {
+    background: #9FC4CC;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 3px;
+  }
+}
+
+.divider {
+  @extend .actionWrapper;
+  width: 25px;
+  
+  cursor: initial;
+
+  &:active {
+    background: initial;
+    box-shadow: initial;
+    border-radius: initial;
   }
 }
 
@@ -16,8 +40,8 @@
 .tableTypes {
   display: flex;
   position: absolute;
-  top: -11px;
-  left: 450px;
+  top: -2px;
+  left: 340px;;
   background: #FFFFFF;
   box-shadow: 0px 1.5px 1.5px rgba(0, 0, 0, 0.5);
   border-radius: 3px;
@@ -27,7 +51,14 @@
 .graphTypes {
   @extend .tableTypes;
 
-  left: 500px;
+  align-items: baseline;
+  left: 390px;
+}
+
+.zoomSlider {
+  position: absolute;
+  top: 0px;
+  left: 650px;
 }
 
 .iconsWrapper {
@@ -47,5 +78,70 @@
   font-size: 7px;
   line-height: 8px;
   color: #000000;
+  margin-top: 2px;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  margin-left: 14px;
+  margin-top: 7px;
+}
+
+.input {
+  margin-left: 15px;
+  min-width: 43px;
+  max-width: 43px;
+  height: 24px;
+  border: 1px solid #ff8b2b;
+  margin-bottom: 3px;
+}
+
+.inpitValue {
+  text-align: center;
+  padding-top: 3px;
+  padding-left: 3px;
+}
+
+.firstPage {
+  position: relative;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 9px;
+  line-height: 11px;
+  color: #000000;
+}
+
+.firstPageText {
+  position: absolute;
+  margin: 0;
+  top: -8px;
+  left: -6px;
+}
+
+.lastPage {
+  position: relative;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 9px;
+  line-height: 11px;
+  color: #000000;
+  margin-left: 15px;
+}
+
+.lastPageText {
+  position: absolute;
+  margin: 0;
+  top: -6px;
+  left: 14px;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+.indents {
+  cursor: pointer;
+  margin-left: 15px;
   margin-top: 2px;
 }
