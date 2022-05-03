@@ -23,7 +23,6 @@ const CheckBox = ({
   labelClass,
   value,
   checked,
-  fakeChecked = false,
   ...props
 }) => {
   const [isChecked, setIsChecked] = useState(false);
@@ -45,7 +44,7 @@ const CheckBox = ({
           value={value}
           name={name}
           type="checkbox"
-          checked={fakeChecked || isChecked}
+          checked={isChecked}
           onChange={handleChange}
           disabled={disabled}
           className={styles.input}
@@ -53,11 +52,7 @@ const CheckBox = ({
         />
         <span className={styles.mark} />
       </span>
-      <label
-        htmlFor={id}
-        className={labelClasses}
-        style={{ marginLeft: '10px' }}
-      >
+      <label htmlFor={id} className={labelClasses}>
         {label}
       </label>
     </label>
@@ -75,8 +70,7 @@ CheckBox.propTypes = {
   labelClass: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.string,
-  checked: PropTypes.bool,
-  fakeChecked: PropTypes.bool
+  checked: PropTypes.bool
 };
 
 CheckBox.defaultProps = {
