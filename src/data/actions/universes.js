@@ -41,7 +41,7 @@ export const getSymanticLayerData = id => {
     }
   }
 }
-
+ 
 export const saveConnector = queryParams => {
   return async dispatch => {
     try {

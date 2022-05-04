@@ -18,7 +18,7 @@ import styles from './valueListConnectionBlock.module.scss';
 const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames }) => {
   // const formikProps = useFormikContext();
 
-  const availableForOptions = [
+  const options = [
     { text: PUBLIC, value: PUBLIC },
     { text: CONTROLLED, value: CONTROLLED },
     { text: RESTRICTED, value: RESTRICTED },
@@ -26,6 +26,7 @@ const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames }) => {
     { text: PRIVATE, value: PRIVATE }
   ];
 
+   console.log(options[0].value,name[1] )
   // const availableForOptions = [
   //   { value: PUBLIC,  text: PUBLIC },
   //   { value: PUBLIC,  text: PUBLIC },
@@ -131,10 +132,9 @@ const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames }) => {
         <div className={styles.availableBox}>
           <p className={styles.availableTitle}>Доступен для</p>
           <Select
-            // id={name[1]}
+            options={[{ value: '1', text: 'Соединение 02 проба' }]}
             name={name[1]}
-            defaultValue={availableForOptions[0].value}
-            options={availableForOptions}
+            defaultValue={options[2]?.value}
             // options={[{ value: '1', text: 'Соединение 02 проба' }]}
             className={styles.selectData}
           />
