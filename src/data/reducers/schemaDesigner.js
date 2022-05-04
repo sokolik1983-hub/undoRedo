@@ -59,6 +59,7 @@ const schemaDesigner = createSlice({
       };
     },
     setLinks: (state, action) => {
+      console.log(action.payload);
       state.links = [...state.links, action.payload];
     },
     setContexts: (state, action) => {

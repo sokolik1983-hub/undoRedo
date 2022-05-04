@@ -12,7 +12,6 @@ import { getConnectorObjectsList } from '../../data/actions/schemaDesigner';
 function SymlayersDesigner() {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState([]);
-  const [currentLink, setCurrentLink] = useState(null);
   const [currentObjLink, setCurrentObjLink] = useState(null);
 
   useEffect(() => {
@@ -23,29 +22,39 @@ function SymlayersDesigner() {
   const isObjectsConnectionsModalOpened = useSelector(
     state => state.app.ui.modalVisible
   );
+
+  const modalData = useSelector(
+    state => state.app.ui.modalData 
+  );
+
+  useEffect(() => {
+    if (!modalData) {
+      setCurrentObjLink(null);
+    }
+  }, [modalData]);
+
   const schemaDesignerUi = useSelector(state => state.app.schemaDesigner.ui);
   const links = useSelector(state => state.app.schemaDesigner.links);
   const contexts = useSelector(state => state.app.schemaDesigner.contexts);
 
   const handleSetLink = (link) => {
-    setCurrentLink(link);
-  };
-
-  useEffect(() => {
-    const link1 = currentLink?.split('&')[0];
-    const link2 = currentLink?.split('&')[1];
-    const result = links.filter(link => {
-      return (link.object1.object === link1 && link.object2.object === link2);
+    console.log(links);
+    const link1 = link?.split('&')[0];
+    const link2 = link?.split('&')[1];
+    const result = links.filter(l => {
+      return (l.object1.object === link1 && l.object2.object === link2);
     });
     setCurrentObjLink(...result);
-  }, [currentLink]);
+  };
+
+  const handleSetCurrentObjLink = (obj) => {
+    setCurrentObjLink(obj);
+  }; 
 
   const handleSelectTable = selected => event => {
     if (event.target.checked) {
       setChecked([...checked, selected]);
     } else {
-      // setShowDeleteConfirmation(selected);
-      // handleDeleteTable(selected);
       setChecked(
         checked.filter(item => item.object_name !== selected.object_name)
       );
@@ -74,6 +83,7 @@ function SymlayersDesigner() {
         <ObjectsConnectionEditor
           visible={isObjectsConnectionsModalOpened && true}
           currentObjLink={currentObjLink}
+          handleSetCurrentObjLink={handleSetCurrentObjLink}
         />
       )}
     </div>

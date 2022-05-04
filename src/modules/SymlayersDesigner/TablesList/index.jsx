@@ -1,21 +1,16 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { setObjectsConnectionsModal } from '../../../data/actions/universes';
 import styles from './TablesList.module.scss';
 import TablesListItem from './TablesListItem';
 
 function TablesList({ title, items, type, onSelect }) {
-  const [selected, setSelected] = useState(0);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (selected) onSelect(selected);
-  }, [selected])
-
   const handleClick = id => {
-    setSelected(id);
-    dispatch(setObjectsConnectionsModal(true));
+    onSelect(id);
+    dispatch(setObjectsConnectionsModal(true, id));
   };
 
   return (
