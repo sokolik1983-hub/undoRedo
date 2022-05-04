@@ -6,7 +6,7 @@ import { BUTTON } from '../../../common/constants/common';
 import Button from '../../../common/components/Button';
 import Modal from '../../../common/components/Modal';
 import RadioField from '../../../common/components/formikFields/radioField';
-import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowBold.svg';
+import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowBoldDown.svg';
 import ItemsListModal from '../ItemsListModal';
 import styles from '../QueryPanel.module.scss';
 import modalStyles from './PromptProperties.module.scss';
@@ -99,7 +99,11 @@ const PromptPropertiesLayer = ({ visible, onClose }) => {
                   labelClass={modalStyles.defaultCheckBoxBlock}
                 />
               </div>
-              <Button className={modalStyles.button} buttonStyle={BUTTON.BLUE} onClick={handleShowList}>
+              <Button
+                className={modalStyles.button}
+                buttonStyle={BUTTON.BLUE}
+                onClick={handleShowList}
+              >
                 Список
               </Button>
             </div>

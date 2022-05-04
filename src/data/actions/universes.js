@@ -2,7 +2,7 @@
 import { request, requestSymLayerData } from '../helpers';
 import { setQueryData, setSymanticLayerData, setUniverses, setSymanticLayerQueryResult, setQueryResult, setListReports } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
-import { showObjectsConnectionsModal, closeModal, showQueryPanelModal, showSemanticLayerModal } from '../reducers/ui';
+import { showObjectsConnectionsModal, closeModal, showQueryPanelModal, showSemanticLayerModal, showTablePreviewModal } from '../reducers/ui';
 
 export const getUniverses = queryParams => {
   return async dispatch => {
@@ -158,6 +158,10 @@ export const setObjectsConnectionsModal = (open, link) => {
 export const setQueryPanelModal = (open) => {
   return dispatch => dispatch(open ? showQueryPanelModal() : closeModal());
 };
+
+export const setTablePreviewModal = (open) => {
+  return dispatch => dispatch(open ? showTablePreviewModal() : closeModal())
+}
 
 export const setSemanticLayerModal = (open) => {
   return dispatch => dispatch(open ? showSemanticLayerModal() : closeModal());

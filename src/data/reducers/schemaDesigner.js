@@ -49,6 +49,9 @@ const schemaDesigner = createSlice({
     setConnectorObjects: (state, action) => {
       state.connectorObjects = action.payload;
     },
+    setConnectorData: (state, action) => {
+      state.connectorData = action.payload;
+    },
     setSelectedTables: (state, action) => {
       state.selectedTables = { ...state.selectedTables, ...action.payload };
     },
@@ -64,6 +67,9 @@ const schemaDesigner = createSlice({
     },
     setContexts: (state, action) => {
       state.contexts = [...state.contexts, ...action.payload];
+    },
+    unsetTablePreviewData: (state) => {
+      state.connectorData = null;
     }
   }
 });
@@ -73,10 +79,12 @@ export const {
   setIsShowingContexts,
   setIsShowingLinks,
   setConnectorObjects,
+  setConnectorData,
   setSelectedTables,
   setSelectedTablesData,
   setLinks,
-  setContexts
+  setContexts,
+  unsetTablePreviewData,
 } = schemaDesigner.actions;
 
 export default schemaDesigner.reducer;

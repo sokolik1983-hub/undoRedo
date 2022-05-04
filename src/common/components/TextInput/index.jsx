@@ -69,7 +69,7 @@ const TextInput = forwardRef(
 export default TextInput;
 
 TextInput.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   className: PropTypes.string,
   wrapperClassName: PropTypes.string,
   label: PropTypes.string,
