@@ -40,8 +40,6 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
     state => state.app.schemaDesigner.selectedTables
   );
 
-  // const currentObjLink = {};
-
   const convertedData = useMemo(() => {
     return Object.keys(selectedTables).map(table => ({
       id: table,
@@ -49,12 +47,6 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
       columns: selectedTables[table]
     }));
   }, [selectedTables]);
-
-  console.log(currentObjLink);
-
-  useEffect(() => {
-    console.log(leftSelected, rightSelected);
-  }, [leftSelected, rightSelected])
 
   useEffect(() => {
     setResultExpression(
@@ -68,26 +60,11 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
     );
   }, [rightSelected, leftSelected, condition]);
 
-  // useEffect(() => {
-  //   console.log(currentObjLink);
-  // }, [currentObjLink])
-
   const closeHandler = () => {
     return dispatch(setObjectsConnectionsModal(false));
   };  
-  
-  // const handleSetLink = (link) => {
-  //   // const link1 = link?.split('&')[0];
-  //   // const link2 = link?.split('&')[1];
-  //   const result = links.filter(l => {
-  //     return (l.id === link);
-  //   });
-  //   setCurrentObjLink(...result);
-  // };
 
-  // console.log(currentObjLink?.condition)
   const saveHandler = () => {
-    // console.log(currentObjLink.condition)
     dispatch(
       setLinks({
         id,
@@ -140,8 +117,6 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
       rightTable
     };
   };
-
-  // const importedTables = [TABLE1_EXAMPLE, TABLE2_EXAMPLE, TABLE3_EXAMPLE];
 
   const changeConnectionModalContent = () => {
     return (

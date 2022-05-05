@@ -33,10 +33,6 @@ const ConnectionTable = ({tableName, tables, onSelectColumn, onSelectTable, tabl
   };
 
   useEffect(() => {
-    console.log(props.currentLeftColumns, props.currentRightColumns)
-  }, [props])
-
-  useEffect(() => {
     if (props.currentLeftTable) {
       getTableData(props.currentLeftTable);
     }
