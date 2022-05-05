@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cn from 'clsx';
@@ -21,18 +20,27 @@ import {
 import { createExpression } from './functions';
 import { setLinks } from '../../../data/reducers/schemaDesigner';
 
-const ObjectsConnectionEditor = ({ visible, currentObjLink, handleSetCurrentObjLink }) => {
+const ObjectsConnectionEditor = ({ id, visible }) => {
   const dispatch = useDispatch();
   const [sqlEditorOpened, setSqlEditorOpened] = useState(false); // показывает модалку с редактированиемм SQL
   const [leftTable, setLeftTable] = useState(null); // name левой таблицы
   const [rightTable, setRightTable] = useState(null); // name правой таблицы
-  const [resultExpression, setResultExpression] = useState(null);
   const [leftSelected, setLeftSelected] = useState([]);
   const [rightSelected, setRightSelected] = useState([]);
 
+  const currentObjLink = useSelector(
+    state => state.app.ui.modalData 
+  );
+
+  const [resultExpression, setResultExpression] = useState(currentObjLink ? currentObjLink.expression : null);
+  const [condition, setCondition] = useState(currentObjLink ? currentObjLink.condition : '=');
+
+  console.log(currentObjLink);
   const selectedTables = useSelector(
     state => state.app.schemaDesigner.selectedTables
   );
+
+  // const currentObjLink = {};
 
   const convertedData = useMemo(() => {
     return Object.keys(selectedTables).map(table => ({
@@ -42,56 +50,61 @@ const ObjectsConnectionEditor = ({ visible, currentObjLink, handleSetCurrentObjL
     }));
   }, [selectedTables]);
 
+  console.log(currentObjLink);
+
+  useEffect(() => {
+    console.log(leftSelected, rightSelected);
+  }, [leftSelected, rightSelected])
+
   useEffect(() => {
     setResultExpression(
       createExpression(
         leftSelected,
         rightSelected,
-        currentObjLink?.condition,
+        condition, 
         leftTable,
         rightTable
       )
     );
-  }, [rightSelected, leftSelected, currentObjLink]);
+  }, [rightSelected, leftSelected, condition]);
 
   // useEffect(() => {
-  //   if (resultExpression) {
-  //     handleSetCurrentObjLink({...currentObjLink, expression: resultExpression})
-  //   }
-  // }, [resultExpression]);
-
-  useEffect(() => {
-    console.log(currentObjLink);
-  }, [currentObjLink])
-
-  // useEffect(() => {
-  //   console.log(currentObjLink)
-  //   if (currentObjLink) {
-  //     handleSetCurrentObjLink({...currentObjLink, condition: expression});
-  //   }
-  // }, [expression])
+  //   console.log(currentObjLink);
+  // }, [currentObjLink])
 
   const closeHandler = () => {
     return dispatch(setObjectsConnectionsModal(false));
-  };
+  };  
+  
+  // const handleSetLink = (link) => {
+  //   // const link1 = link?.split('&')[0];
+  //   // const link2 = link?.split('&')[1];
+  //   const result = links.filter(l => {
+  //     return (l.id === link);
+  //   });
+  //   setCurrentObjLink(...result);
+  // };
 
-  console.log(currentObjLink?.condition)
+  // console.log(currentObjLink?.condition)
   const saveHandler = () => {
     // console.log(currentObjLink.condition)
     dispatch(
       setLinks({
-        condition: currentObjLink?.condition,
+        id,
+        condition,
         expression: resultExpression,
         object1: {
           cardinality: 'one',
           fields: [{ field: 'prospect_id', type: 'Number' }],
           object: leftTable,
+          selectedColumns: leftSelected,
           outerJoin: null
         },
         object2: {
           cardinality: 'many',
           fields: [{ field: 'egr_id', type: 'Number' }],
           object: rightTable,
+          selectedColumns: rightSelected,
           outerJoin: null
         }
       })
@@ -117,8 +130,8 @@ const ObjectsConnectionEditor = ({ visible, currentObjLink, handleSetCurrentObjL
     }
   };
 
-  const setSelectedExpression = expr => {
-    handleSetCurrentObjLink({...currentObjLink, condition: expr});
+  const setSelectedCondition = expr => {
+    setCondition(expr);
   };
 
   const getTableSelected = () => {
@@ -139,24 +152,26 @@ const ObjectsConnectionEditor = ({ visible, currentObjLink, handleSetCurrentObjL
             tables={convertedData}
             onSelectColumn={setSelectedColumns}
             onSelectTable={handleSelectTable}
-            tableSelected={getTableSelected()}
-            currentLeftTable={currentObjLink?.object1?.object}
+            tableSelected={getTableSelected}
+            currentLeftTable={currentObjLink?.object1.object}
+            currentLeftColumns={currentObjLink?.object1.selectedColumns}
           />
-          <ConnectionType onSelectExpression={setSelectedExpression} currentExpression={currentObjLink?.condition} />
+          <ConnectionType onSelectExpression={setSelectedCondition} currentExpression={currentObjLink?.condition} />
           <ConnectionTable
             tableName={TABLES_NAME_FOR_CONNECT.TABLE_B}
             tables={convertedData}
             onSelectColumn={setSelectedColumns}
             onSelectTable={handleSelectTable}
-            tableSelected={getTableSelected()}
-            currentRightTable={currentObjLink?.object2?.object}
+            tableSelected={getTableSelected}
+            currentLeftTable={currentObjLink?.object2.object}
+            currentRightColumns={currentObjLink?.object2.selectedColumns}
           />
         </div>
         <FormulaBlock
           editButtonEnabled
           handleOpenSqlEditor={() => setSqlEditorOpened(true)}
           showTitle
-          text={resultExpression}
+          text={resultExpression || currentObjLink?.expression}
         />
         <div className={cn(modalStyles.buttonsWrapper, styles.buttonsWrapper)}>
           <Button
@@ -173,7 +188,7 @@ const ObjectsConnectionEditor = ({ visible, currentObjLink, handleSetCurrentObjL
           <SqlEditor
             visible={sqlEditorOpened && true}
             handleCloseClick={() => setSqlEditorOpened(false)}
-            expression={resultExpression}
+            expression={resultExpression || currentObjLink?.expression}
           />
         )}
       </div>
@@ -199,7 +214,6 @@ const ObjectsConnectionEditor = ({ visible, currentObjLink, handleSetCurrentObjL
 export default ObjectsConnectionEditor;
 
 ObjectsConnectionEditor.propTypes = {
+  id: PropTypes.number,
   visible: PropTypes.bool,
-  currentObjLink: PropTypes.object,
-  handleSetCurrentObjLink: PropTypes.func
 };

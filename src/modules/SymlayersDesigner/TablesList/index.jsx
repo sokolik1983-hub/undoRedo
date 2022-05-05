@@ -1,16 +1,21 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setObjectsConnectionsModal } from '../../../data/actions/universes';
 import styles from './TablesList.module.scss';
 import TablesListItem from './TablesListItem';
 
-function TablesList({ title, items, type, onSelect }) {
+function TablesList({ title, items, type }) {
   const dispatch = useDispatch();
+  // const [currentLink, setCurrentLink] = useState({});
+
+  const links = useSelector(state => state.app.schemaDesigner.links);
 
   const handleClick = id => {
-    onSelect(id);
-    dispatch(setObjectsConnectionsModal(true, id));
+    const result = links.filter(l => {
+      return (l.id === id);
+    });
+    dispatch(setObjectsConnectionsModal(true, ...result));
   };
 
   return (
@@ -20,7 +25,7 @@ function TablesList({ title, items, type, onSelect }) {
       </div>
       <div className={styles.content}>
         <div className={styles.list}>
-          {items?.map(item => (
+          {items?.map((item, i) => (
             <TablesListItem
               key={item}
               name={
@@ -29,7 +34,7 @@ function TablesList({ title, items, type, onSelect }) {
                   : null
               }
               onDoubleClick={handleClick}
-              id={`${item.object1.object}&${item.object2.object}`}
+              id={i}
             />
           ))}
         </div>

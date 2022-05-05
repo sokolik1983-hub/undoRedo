@@ -5,12 +5,12 @@ import styles from '../ObjectsConnectionsEditor.module.scss';
 import CheckBox from '../../../../common/components/CheckBox';
 import { TABLES_NAME_FOR_CONNECT } from '../../../../common/constants/universes';
 
-const ConnectionTable = ({tableName, tables, onSelectColumn, onSelectTable, tableSelected, currentLeftTable, currentRightTable}) => {
+const ConnectionTable = ({tableName, tables, onSelectColumn, onSelectTable, tableSelected, ...props}) => {
   const [selectedTable, setSelectedTable] = useState(null);
   const [selectedColumn, setSelectedColumn] = useState(null);
   const [defaultValue, setDefaultValue] = useState('Выберите таблицу');
   const [enabledTables, setEnabledTables] = useState(null);
-
+  
   // убирает возможность выбора таблицы, если она уже выбрана для использования
   useEffect(() => {
     setEnabledTables(tables.map(item => {return {value: item.id.toString(), text: item.name}}).filter(item => {
@@ -22,7 +22,7 @@ const ConnectionTable = ({tableName, tables, onSelectColumn, onSelectTable, tabl
       }
       return item;
     }));
-  }, [tableSelected])
+  }, [tableSelected]);
 
   // возвращает выбранную таблицу
   const getTableData = value => {
@@ -30,16 +30,20 @@ const ConnectionTable = ({tableName, tables, onSelectColumn, onSelectTable, tabl
       return item.id.toString() === value
     });
     setSelectedTable(table[0]);
-  }
+  };
 
   useEffect(() => {
-    if (currentLeftTable) {
-      getTableData(currentLeftTable);
-    };
-    if (currentRightTable) {
-      getTableData(currentRightTable);
+    console.log(props.currentLeftColumns, props.currentRightColumns)
+  }, [props])
+
+  useEffect(() => {
+    if (props.currentLeftTable) {
+      getTableData(props.currentLeftTable);
     }
-  }, [currentLeftTable, currentRightTable]);
+    if (props.currentRightTable) {
+      getTableData(props.currentRightTable);
+    }
+  }, [props.currentLeftTable, props.currentRightTable]);
 
   useEffect(() => {
     onSelectColumn(selectedColumn, tableName);
@@ -65,7 +69,7 @@ const ConnectionTable = ({tableName, tables, onSelectColumn, onSelectTable, tabl
       <Select
         name='tableSelect'
         options={enabledTables || []}
-        defaultValue={(currentLeftTable || currentRightTable) || defaultValue}
+        defaultValue={(props.currentLeftTable || props.currentRightTable) || defaultValue}
         onSelectItem={e => getTableData(e)}
       />
       <span className={styles.columnTitle}>Столбцы</span>
@@ -92,5 +96,7 @@ ConnectionTable.propTypes = {
   tableName: PropTypes.string,
   tables: PropTypes.array,
   currentLeftTable: PropTypes.string,
-  currentRightTable: PropTypes.string
+  currentRightTable: PropTypes.string,
+  currentLeftColumns: PropTypes.string,
+  currentRightColumns: PropTypes.string,
 }

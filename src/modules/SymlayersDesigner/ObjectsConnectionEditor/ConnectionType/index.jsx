@@ -16,7 +16,7 @@ const values = [
 const ConnectionType = ({ onSelectExpression, currentExpression }) => {
   const [left, setLeft] = useState(false);
   const [right, setRight] = useState(false);
-  console.log(currentExpression);
+  // console.log(currentExpression);
 
   // меняет значение 1 к N слева
   const handleLeftSideClick = () => {
