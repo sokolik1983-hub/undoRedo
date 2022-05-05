@@ -14,7 +14,6 @@ import TablePreview from './SchemaTables/TablePreview';
 function SymlayersDesigner() {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState([]);
-  // const [currentObjLink, setCurrentObjLink] = useState(null);
 
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.SEMANTIC));
@@ -25,33 +24,10 @@ function SymlayersDesigner() {
     state => state.app.ui.modalVisible === OBJECTS_CONNECTIONS_MODAL
   );
 
-  // const modalData = useSelector(
-  //   state => state.app.ui.modalData 
-  // );
-
-  // useEffect(() => {
-  //   if (!modalData) {
-  //     setCurrentObjLink(null);
-  //   }
-  // }, [modalData]);
-
   const schemaDesignerUi = useSelector(state => state.app.schemaDesigner.ui);
   const links = useSelector(state => state.app.schemaDesigner.links);
   const contexts = useSelector(state => state.app.schemaDesigner.contexts);
   const isTablePreviewModalOpened = useSelector(state => state.app.ui.modalVisible === TABLE_PREVIEW_MODAL)
-
-  // const handleSetLink = (link) => {
-  //   // const link1 = link?.split('&')[0];
-  //   // const link2 = link?.split('&')[1];
-  //   const result = links.filter(l => {
-  //     return (l.id === link);
-  //   });
-  //   setCurrentObjLink(...result);
-  // };
-
-  // const handleSetCurrentObjLink = (obj) => {
-  //   setCurrentObjLink(obj);
-  // }; 
 
   const handleSelectTable = (selected, event) => {
     if (event) {

@@ -7,7 +7,6 @@ import TablesListItem from './TablesListItem';
 
 function TablesList({ title, items, type }) {
   const dispatch = useDispatch();
-  // const [currentLink, setCurrentLink] = useState({});
 
   const links = useSelector(state => state.app.schemaDesigner.links);
 
