@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { useFormikContext } from 'formik';
+import { Field } from 'formik';
 import ModalItem from '..';
 import Button from '../../../../../common/components/Button';
 import CheckboxField from '../../../../../common/components/formikFields/checkboxField';
-import Select from '../../../../../common/components/Select';
 import { BUTTON } from '../../../../../common/constants/common';
 import {
   PUBLIC,
@@ -16,40 +15,17 @@ import {
 import styles from './valueListConnectionBlock.module.scss';
 
 const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames }) => {
-  // const formikProps = useFormikContext();
-
   const options = [
-    { text: PUBLIC, value: PUBLIC },
-    { text: CONTROLLED, value: CONTROLLED },
-    { text: RESTRICTED, value: RESTRICTED },
-    { text: CONFIDENTIAL, value: CONFIDENTIAL },
-    { text: PRIVATE, value: PRIVATE }
+    { value: PUBLIC, text: PUBLIC },
+    { value: CONTROLLED, text: CONTROLLED },
+    { value: RESTRICTED, text: RESTRICTED },
+    { value: CONFIDENTIAL, text: CONFIDENTIAL },
+    { value: PRIVATE, text: PRIVATE }
   ];
-
-   console.log(options[0].value,name[1] )
-  // const availableForOptions = [
-  //   { value: PUBLIC,  text: PUBLIC },
-  //   { value: PUBLIC,  text: PUBLIC },
-  //   { value: PUBLIC,  text: PUBLIC },
-  // ];
 
   const handleClick = e => {
     e.preventDefault();
   };
-
-
-
-  // const availableForSelectHandler = (selVal) => {
-  //   console.log('22222222222222222');
-    console.log(value);
-  //   // console.log(selectedItem);
-  //   // const selected = document.getElementById('availableForSelect');
-  //   // console.log(
-  //   //   '---------->>>',
-  //   //   selected.value
-  //   // );
-  //   // formikProps.setFieldValue(name[1]);
-  // };
 
   return (
     <ModalItem
@@ -62,7 +38,7 @@ const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames }) => {
             className={styles.defaultLinkInput}
             id={name[0]}
             name={name[0]}
-            value={value}
+            value={value[0]}
             onChange={onChange}
           />
           <Button
@@ -131,13 +107,13 @@ const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames }) => {
       <div className={styles.availableGroup}>
         <div className={styles.availableBox}>
           <p className={styles.availableTitle}>Доступен для</p>
-          <Select
-            options={[{ value: '1', text: 'Соединение 02 проба' }]}
-            name={name[1]}
-            defaultValue={options[2]?.value}
-            // options={[{ value: '1', text: 'Соединение 02 проба' }]}
-            className={styles.selectData}
-          />
+          <Field as="select" name={name[1]} className={styles.selectData}>
+            <option value={options[0].value}>{options[0].text}</option>
+            <option value={options[1].value}>{options[1].text}</option>
+            <option value={options[2].value}>{options[2].text}</option>
+            <option value={options[3].value}>{options[3].text}</option>
+            <option value={options[4].value}>{options[4].text}</option>
+          </Field>
         </div>
         <div className={styles.useInGroup}>
           <p>Использовать в</p>
@@ -174,7 +150,7 @@ export default ValueListConnectionBlock;
 
 ValueListConnectionBlock.propTypes = {
   onChange: PropTypes.func,
-  name: PropTypes.array,
+  name: PropTypes.any,
   value: PropTypes.string,
   checkBoxNames: PropTypes.any
 };

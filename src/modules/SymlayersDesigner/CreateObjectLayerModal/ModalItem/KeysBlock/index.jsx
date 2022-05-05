@@ -1,10 +1,9 @@
 import { React, useState } from 'react';
-import { useFormikContext } from 'formik';
+import { Field, useFormikContext } from 'formik';
 import PropTypes from 'prop-types';
 import ModalItem from '..';
 import { BUTTON } from '../../../../../common/constants/common';
 import Button from '../../../../../common/components/Button';
-import Select from '../../../../../common/components/Select';
 import Tooltip from '../../../../../common/components/Tooltip';
 import CheckboxField from '../../../../../common/components/formikFields/checkboxField';
 import Dropdown from '../../../../../common/components/Dropdown';
@@ -24,7 +23,10 @@ const KeysBlock = ({ onChange, name }) => {
     e.preventDefault();
   };
 
-  const keyTypeOptions = [{ text: 'Основной', value: 'main' }];
+  const keyTypeOptions = [
+    { value: 'main', text: 'Основной' },
+    { value: 'secondary', text: 'Второстепенный' }
+  ];
 
   const SELECT_DATA = 'Data.Дата + convert(SMALLDATETIME,{fn(CURDATE())}';
   const WHERE_DATA =
@@ -188,7 +190,14 @@ const KeysBlock = ({ onChange, name }) => {
           <div className={styles.selectGroup}>
             <div className={styles.typeGroup}>
               <p className={styles.smallText}>тип</p>
-              <Select options={keyTypeOptions} className={styles.typeSelect} />
+              <Field as="select" name={name[3]} className={styles.typeSelect}>
+                <option value={keyTypeOptions[0].value}>
+                  {keyTypeOptions[0].text}
+                </option>
+                <option value={keyTypeOptions[1].value}>
+                  {keyTypeOptions[1].text}
+                </option>
+              </Field>
             </div>
             <div className={styles.selectInputGroup}>
               <p className={styles.smallText}>Select</p>
@@ -248,6 +257,5 @@ export default KeysBlock;
 
 KeysBlock.propTypes = {
   onChange: PropTypes.func,
-  name: PropTypes.string,
-  // value: PropTypes.string
+  name: PropTypes.string
 };

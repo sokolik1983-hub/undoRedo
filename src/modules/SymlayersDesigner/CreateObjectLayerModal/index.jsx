@@ -118,7 +118,10 @@ const CreateObjectLayerModal = ({ visible }) => {
               [CREATE_OBJECT_MODAL_VALUES.DEFAULT_LINK_INPUT],
               [CREATE_OBJECT_MODAL_VALUES.USAGE_PERMISSION]
             ]}
-            value={values[CREATE_OBJECT_MODAL_VALUES.DEFAULT_LINK_INPUT]}
+            value={[
+              values[CREATE_OBJECT_MODAL_VALUES.DEFAULT_LINK_INPUT],
+              values[CREATE_OBJECT_MODAL_VALUES.USAGE_PERMISSION],
+            ]}
             onChange={handleChange}
           />
           <KeysBlock
