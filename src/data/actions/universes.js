@@ -2,7 +2,7 @@
 import { request, requestSymLayerData } from '../helpers';
 import { setQueryData, setSymanticLayerData, setUniverses, setSymanticLayerQueryResult, setQueryResult, setListReports } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
-import { showObjectsConnectionsModal, closeModal, showQueryPanelModal, showSemanticLayerModal, showCreateObjectModal, closeCreateObjectModal } from '../reducers/ui';
+import { showObjectsConnectionsModal, closeModal, showQueryPanelModal, showSemanticLayerModal, showTablePreviewModal, showCreateObjectModal, closeCreateObjectModal } from '../reducers/ui';
 
 export const getUniverses = queryParams => {
   return async dispatch => {
@@ -41,7 +41,7 @@ export const getSymanticLayerData = id => {
     }
   }
 }
- 
+
 export const saveConnector = queryParams => {
   return async dispatch => {
     try {
@@ -126,7 +126,7 @@ export const getListReports = queryParams => {
       }
     } catch (err) {
       dispatch(
-        notificationShown({ message: err.message, messageType: 'error'})
+        notificationShown({ message: err.message, messageType: 'error' })
       );
     }
   };
@@ -158,6 +158,10 @@ export const setObjectsConnectionsModal = (open) => {
 export const setQueryPanelModal = (open) => {
   return dispatch => dispatch(open ? showQueryPanelModal() : closeModal());
 };
+
+export const setTablePreviewModal = (open) => {
+  return dispatch => dispatch(open ? showTablePreviewModal() : closeModal())
+}
 
 export const setSemanticLayerModal = (open) => {
   return dispatch => dispatch(open ? showSemanticLayerModal() : closeModal());

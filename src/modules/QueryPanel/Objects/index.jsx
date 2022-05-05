@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-curly-newline */
 import Divider from '../../../common/components/Divider';
 import ObjectItem from './Object/index';
 import { useDragNDrop } from '../context/DragNDropContex';
 import ObjectsHeader from './ObjectsHeader/ObjectsHeader';
 import styles from './Objects.module.scss';
+import { DRAG_PARENT_SECTION } from '../../../common/constants/common';
 
 const Objects = () => {
   const {
@@ -11,8 +13,8 @@ const Objects = () => {
     clearObjectsDesk,
     handleDragStart,
     handleDragOver,
-    handleDropObject,
-    onObjectDrop
+    handleDropOnObjectArea,
+    handleDropOnObjectItem
   } = useDragNDrop();
 
   return (
@@ -22,7 +24,7 @@ const Objects = () => {
       <div
         className={styles.objectList}
         onDragOver={handleDragOver}
-        onDrop={handleDropObject}
+        onDrop={handleDropOnObjectArea}
       >
         {objectsDesk?.map(item => (
           <ObjectItem
@@ -32,9 +34,11 @@ const Objects = () => {
             type={item.objectType_id}
             onDeleteItem={() => onDeleteObjectItem(item.id)}
             draggable
-            onDragStart={e => handleDragStart(e, item)}
+            onDragStart={e =>
+              handleDragStart(e, item, DRAG_PARENT_SECTION.OBJECTS)
+            }
             onDragOver={handleDragOver}
-            onDrop={e => onObjectDrop(e, item)}
+            onDrop={e => handleDropOnObjectItem(e, item)}
           />
         ))}
       </div>

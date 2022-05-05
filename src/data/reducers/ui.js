@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   CONNECTOR_POPUP, OBJECTS_CONNECTIONS_MODAL,
   QUERY_PANEL_MODAL, UNIVERSE_MODAL,
-  UNIVERSE_POPUP, CREATE_OBJECT_MODAL
+  UNIVERSE_POPUP, CREATE_OBJECT_MODAL, TABLE_PREVIEW_MODAL,
 } from '../../common/constants/popups';
 
 const ui = createSlice({
@@ -61,6 +61,9 @@ const ui = createSlice({
     closeCreateObjectModal: state => {
       state.modalCreateObjectVisible = false;
     },
+    showTablePreviewModal: state => {
+      state.modalVisible = TABLE_PREVIEW_MODAL;
+    }
   }
 });
 
@@ -76,6 +79,7 @@ export const {
   showNav,
   showObjectsConnectionsModal,
   showQueryPanelModal,
+  showTablePreviewModal,
   showSemanticLayerModal,
   closeModal,
   showCreateObjectModal,

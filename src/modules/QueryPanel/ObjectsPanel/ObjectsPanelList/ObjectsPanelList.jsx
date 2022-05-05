@@ -3,8 +3,8 @@ import { useState } from 'react';
 import PanelListItem from './PanelListItem/PanelListItem';
 import { ReactComponent as RootIcon } from '../../../../layout/assets/queryPanel/root-icon.svg';
 import PanelListNode from './PanelListNode/PanelListNode';
-import styles from './ObjectsPanelList.module.scss';
 import { useDragNDrop } from '../../context/DragNDropContex';
+import styles from './ObjectsPanelList.module.scss';
 
 const ObjectsPanelList = ({ rootFolder }) => {
   const { handleDragStart } = useDragNDrop();
