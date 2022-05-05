@@ -14,7 +14,7 @@ import styles from './Sidebar.module.scss';
 import { setCreateObjectModal } from '../../../data/actions/universes';
 
 
-function Sidebar({ onSelect, ...props}) {
+function Sidebar({ onSelect }) {
   const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
