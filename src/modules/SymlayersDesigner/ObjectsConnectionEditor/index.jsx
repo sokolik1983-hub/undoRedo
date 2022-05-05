@@ -35,7 +35,6 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
   const [resultExpression, setResultExpression] = useState(currentObjLink ? currentObjLink.expression : null);
   const [condition, setCondition] = useState(currentObjLink ? currentObjLink.condition : '=');
 
-  console.log(currentObjLink);
   const selectedTables = useSelector(
     state => state.app.schemaDesigner.selectedTables
   );
