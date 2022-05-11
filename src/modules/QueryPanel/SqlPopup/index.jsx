@@ -16,7 +16,7 @@ const SqlPopup = ({ onClose }) => {
         Тест
       </Button>
       <Button className={styles.exit} onClick={onClickAction}>
-        Выйти
+        Закрыть
       </Button>
     </div>
   )
