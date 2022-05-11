@@ -11,7 +11,7 @@ const FormulaBlock = ({editButtonEnabled, handleOpenSqlEditor, showTitle, text})
     setIsSpinning(true);
     setTimeout(() => setIsSpinning(false), 3000);
   };
-
+  
   return (
     <div className={styles.formulaWrapper}>
       {showTitle && <span className={styles.expressionTitle}>Выражение</span> }

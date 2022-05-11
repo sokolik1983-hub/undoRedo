@@ -74,7 +74,20 @@ const ConnectionTable = ({tableName, tables, onSelectColumn, onSelectTable, tabl
         multiple
         onChange={e => handleColumnSelect(e)}
       >
-        {selectedTable && selectedTable.columns.map(item => (<option value={item.field} key={item.field + item.type}>{item.field}</option>))}
+        {selectedTable && selectedTable.columns.map(item => {
+          let res = null;
+          if (props.currentLeftColumns) {
+            res = props.currentLeftColumns.filter(col => col === item.field);
+          } 
+          if (props.currentRightColumns) {
+            res = props.currentRightColumns.filter(col => col === item.field);
+          }
+          if (res && res.length) {
+            return <option selected value={item.field} key={item.field + item.type}>{item.field}</option>
+          } 
+          return <option value={item.field} key={item.field + item.type}>{item.field}</option>
+          
+        })}
       </select>
       <div className={styles.outsideConnectCheckbox}>
         <CheckBox wrapperClass={styles.checkBoxWrapper} label='Внешнее объединение' id={`outsideConnectionEnable+${tableName}`} />

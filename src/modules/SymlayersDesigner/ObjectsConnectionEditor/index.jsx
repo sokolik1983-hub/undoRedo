@@ -18,7 +18,7 @@ import {
   TABLES_NAME_FOR_CONNECT
 } from '../../../common/constants/universes';
 import { createExpression } from './functions';
-import { setLinks } from '../../../data/reducers/schemaDesigner';
+import { setLinks, setLink } from '../../../data/reducers/schemaDesigner';
 
 const ObjectsConnectionEditor = ({ id, visible }) => {
   const dispatch = useDispatch();
@@ -39,6 +39,10 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
     state => state.app.schemaDesigner.selectedTables
   );
 
+  useEffect(() => {
+    console.log(resultExpression)
+  }, [resultExpression])
+
   const convertedData = useMemo(() => {
     return Object.keys(selectedTables).map(table => ({
       id: table,
@@ -50,11 +54,11 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
   useEffect(() => {
     setResultExpression(
       createExpression(
-        leftSelected,
-        rightSelected,
+        leftSelected || currentObjLink.object1.selectedColumns,
+        rightSelected || currentObjLink.object2.selectedColumns,
         condition, 
-        leftTable,
-        rightTable
+        leftTable || currentObjLink.object1.object,
+        rightTable || currentObjLink.object2.object
       )
     );
   }, [rightSelected, leftSelected, condition]);
@@ -64,27 +68,51 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
   };  
 
   const saveHandler = () => {
-    dispatch(
-      setLinks({
-        id,
-        condition,
-        expression: resultExpression,
-        object1: {
-          cardinality: 'one',
-          fields: [{ field: 'prospect_id', type: 'Number' }],
-          object: leftTable,
-          selectedColumns: leftSelected,
-          outerJoin: null
-        },
-        object2: {
-          cardinality: 'many',
-          fields: [{ field: 'egr_id', type: 'Number' }],
-          object: rightTable,
-          selectedColumns: rightSelected,
-          outerJoin: null
-        }
-      })
-    );
+    if (!currentObjLink) {
+      dispatch(
+        setLinks({
+          id,
+          condition,
+          expression: resultExpression,
+          object1: {
+            cardinality: 'one',
+            fields: [{ field: 'prospect_id', type: 'Number' }],
+            object: leftTable,
+            selectedColumns: leftSelected,
+            outerJoin: null
+          },
+          object2: {
+            cardinality: 'many',
+            fields: [{ field: 'egr_id', type: 'Number' }],
+            object: rightTable,
+            selectedColumns: rightSelected,
+            outerJoin: null
+          }
+        })
+      );
+    } else {
+      dispatch(
+        setLink({
+            id: currentObjLink.id,
+            condition,
+            expression: resultExpression,
+            object1: {
+              cardinality: 'one',
+              fields: [{ field: 'prospect_id', type: 'Number' }],
+              object: leftTable,
+              selectedColumns: leftSelected || currentObjLink.object1.selectedColumns,
+              outerJoin: null
+            },
+            object2: {
+              cardinality: 'many',
+              fields: [{ field: 'egr_id', type: 'Number' }],
+              object: rightTable,
+              selectedColumns: rightSelected || currentObjLink.object2.selectedColumns,
+              outerJoin: null
+            }
+        })
+      )
+    }
     closeHandler();
   };
 
@@ -145,7 +173,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
           editButtonEnabled
           handleOpenSqlEditor={() => setSqlEditorOpened(true)}
           showTitle
-          text={resultExpression || currentObjLink?.expression}
+          text={resultExpression}
         />
         <div className={cn(modalStyles.buttonsWrapper, styles.buttonsWrapper)}>
           <Button
