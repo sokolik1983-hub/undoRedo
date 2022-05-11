@@ -4,7 +4,6 @@ import { Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 
 import Modal from '../../../common/components/Modal';
-
 import TextFieldItem from './ModalItem/TextFieldItem';
 import PropertiesBlock from './ModalItem/PropertiesBlock';
 import DescriptionBlock from './ModalItem/DescriptionBlock';

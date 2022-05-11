@@ -7,7 +7,7 @@ import Accordion from '../../../../common/components/Accordion/Accordion';
  * @param noPadding - отсутствие нижнего отступа у элемента
  * @param children - - нода для отрисовки контента внутри аккордеона
  */
-export default function ModalItem({title, noPadding, children}) {
+export default function ModalItem({ title, noPadding, children }) {
   return (
     <div>
       <Accordion title={title} noPadding={noPadding}>
@@ -15,7 +15,7 @@ export default function ModalItem({title, noPadding, children}) {
       </Accordion>
     </div>
   );
-};
+}
 
 ModalItem.propTypes = {
   children: PropTypes.node,

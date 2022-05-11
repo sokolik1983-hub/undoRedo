@@ -48,7 +48,6 @@ const QueryBlock = ({ onChange, value, name }) => {
           </Button>
         </div>
       </div>
-
       <div className={styles.testGroup}>
         <div className={styles.dividerGroup}>
           <div className={styles.divider} />
