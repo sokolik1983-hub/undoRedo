@@ -81,22 +81,22 @@ function Symlayers() {
   const createConnectorModalContent = (
     <form className={styles.form}>
       <TextInput
-        label="Название соединения"
+        label='Название соединения'
         value={connectName}
         onChange={e => setConnectName(e.target.value)}
-        id="connectorName"
+        id='connectorName'
       />
       <Select
         value={connectType}
         options={typeOptions}
-        defaultValue="Тип соединения"
+        defaultValue='Тип соединения'
         onSelectItem={setConnectType}
       />
       <Select
         value={connectSource}
         onSelectItem={setConnectSource}
         options={sourceOptions?.filter(item => item.value === connectType)} // Фильтурем для получения подходящих options в завимисомти от типо коннектора
-        defaultValue="Источник"
+        defaultValue='Источник'
       />
       <Select
         value={connectionType}
@@ -105,45 +105,45 @@ function Symlayers() {
           // Фильтруем для получения подходящих options на основе источника
           item => item.value === connectSource
         )}
-        defaultValue="Тип соединения"
+        defaultValue='Тип соединения'
       />
       {+connectionType === 2 && ( //В зависимости от выбранного типа соединения дорисовываем поля ввода
         <>
           <TextInput
             value={login}
             onChange={e => setLogin(e.target.value)}
-            id="login"
-            label="Логин"
+            id='login'
+            label='Логин'
           />
           <TextInput
             value={pass}
             onChange={e => setPass(e.target.value)}
-            id="password"
-            label="Пароль"
+            id='password'
+            label='Пароль'
           />
           <TextInput
             value={connectionStr}
             onChange={e => setConnectionStr(e.target.value)}
-            id="connectionStr"
-            label="Строка соединения"
+            id='connectionStr'
+            label='Строка соединения'
           />
           <TextInput
             value={port}
             onChange={e => setPort(e.target.value)}
-            id="port"
-            label="Порт"
+            id='port'
+            label='Порт'
           />
           <TextInput
             value={nameIP}
             onChange={e => setNameIP(e.target.value)}
-            id="nameAPI"
-            label="Имя или IP сервера"
+            id='nameAPI'
+            label='Имя или IP сервера'
           />
           <TextInput
             value={baseSIDService}
             onChange={e => setBaseSIDService(e.target.value)}
-            id="baseSIDService"
-            label="Название Базы, SID, Имя сервиса"
+            id='baseSIDService'
+            label='Название Базы, SID, Имя сервиса'
           />
         </>
       )}
@@ -165,9 +165,10 @@ function Symlayers() {
 
       <FloatingButton
         icon={<CreateConnector />}
-        text="Создать юниверс"
+        text='Создать юниверс'
         onClick={createConnectorModalHandler}
       />
+      {isVisible && <SemanticLayerModal onClick={closeConnectorModalHandler} />}
     </div>
   );
 }
