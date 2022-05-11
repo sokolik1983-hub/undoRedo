@@ -39,10 +39,6 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
     state => state.app.schemaDesigner.selectedTables
   );
 
-  useEffect(() => {
-    console.log(resultExpression)
-  }, [resultExpression])
-
   const convertedData = useMemo(() => {
     return Object.keys(selectedTables).map(table => ({
       id: table,
