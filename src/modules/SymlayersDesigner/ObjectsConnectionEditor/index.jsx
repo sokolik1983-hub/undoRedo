@@ -50,11 +50,11 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
   useEffect(() => {
     setResultExpression(
       createExpression(
-        leftSelected || currentObjLink.object1.selectedColumns,
-        rightSelected || currentObjLink.object2.selectedColumns,
+        leftSelected || currentObjLink?.object1.selectedColumns,
+        rightSelected || currentObjLink?.object2.selectedColumns,
         condition, 
-        leftTable || currentObjLink.object1.object,
-        rightTable || currentObjLink.object2.object
+        leftTable || currentObjLink?.object1.object,
+        rightTable || currentObjLink?.object2.object
       )
     );
   }, [rightSelected, leftSelected, condition]);
