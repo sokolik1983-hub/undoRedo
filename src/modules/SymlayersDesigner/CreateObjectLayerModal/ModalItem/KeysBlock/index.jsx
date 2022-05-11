@@ -146,36 +146,36 @@ const KeysBlock = ({ onChange, name }) => {
             <p className={styles.tableTitle}>where</p>
           </div>
           <div className={styles.keyTableBlock}>
-            {keyTableData.map((item, index) => (
-              <div className={styles.keyTable}>
+            {keyTableData.map(item => (
+              <div
+                className={styles.keyTable}
+                key={`keyTable + ${item.type} + ${item.id}`}
+              >
                 <div className={styles.checkBoxDiv}>
                   <CheckboxField
                     value="false"
-                    key="keyTableCheckBox"
-                    id="keyTableCheckBox"
+                    key={`keyTableCheckBox + ${item.type} + ${item.id}`}
+                    id={`keyTableCheckBox + ${item.type} + ${item.id}`}
                     name="keyTableCheckBox"
                     blueBGColor="true"
                   />
                 </div>
                 <Tooltip
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={`${item.type} + ${item.id} + ${index}`}
+                  key={`${item.type} + ${item.id}`}
                   position="bottomLeft"
                   content={item.type}
                 >
                   <div className={styles.tableType}>{item.type}</div>
                 </Tooltip>
                 <Tooltip
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={`${item.select} + ${item.id}+ ${index}`}
+                  key={`${item.select} + ${item.id}`}
                   position="bottom"
                   content={item.select}
                 >
                   <div className={styles.tableSelect}>{item.select}</div>
                 </Tooltip>
                 <Tooltip
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={`${item.where} + ${item.id}+ ${index}`}
+                  key={`${item.where} + ${item.id}`}
                   position="bottomRight"
                   content={item.where}
                 >
@@ -257,5 +257,5 @@ export default KeysBlock;
 
 KeysBlock.propTypes = {
   onChange: PropTypes.func,
-  name: PropTypes.string
+  name: PropTypes.array
 };

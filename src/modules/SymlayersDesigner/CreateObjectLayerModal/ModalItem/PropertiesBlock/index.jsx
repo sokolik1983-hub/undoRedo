@@ -200,5 +200,5 @@ const PropertiesBlock = ({ name }) => {
 export default PropertiesBlock;
 
 PropertiesBlock.propTypes = {
-  name: PropTypes.string
+  name: PropTypes.array
 };

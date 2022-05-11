@@ -7,6 +7,7 @@ import ObjectsPanelFilters from './ObjectsPanelFilters/ObjectsPanelFilters';
 import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList';
 import { getSymanticLayerData } from '../../../data/actions/universes';
 import { usePanelListFilters } from './usePanelListFilters';
+import { useDragNDrop } from '../context/DragNDropContex';
 import styles from './ObjectsPanel.module.scss';
 
 const ObjectsPanel = ({ symanticLayer, modalOpenHandler }) => {
@@ -26,6 +27,8 @@ const ObjectsPanel = ({ symanticLayer, modalOpenHandler }) => {
     setSearchValue
   } = usePanelListFilters(symLayersData?.data?.structure[0]);
 
+  const { handleDragOver, handleTreeDrop } = useDragNDrop();
+
   return (
     <div className={styles.root}>
       <ObjectsPanelHeader modalOpenHandler={modalOpenHandler} />
@@ -36,7 +39,11 @@ const ObjectsPanel = ({ symanticLayer, modalOpenHandler }) => {
         filterId={filterTypeId}
         onFiltersSwitch={handleFiltersSwitch}
       />
-      <div className={styles.panelListContainer}>
+      <div
+        className={styles.panelListContainer}
+        onDragOver={handleDragOver}
+        onDrop={handleTreeDrop}
+      >
         {rootFolder && <ObjectsPanelList rootFolder={rootFolder} />}
       </div>
     </div>
