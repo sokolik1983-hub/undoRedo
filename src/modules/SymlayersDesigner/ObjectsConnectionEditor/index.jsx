@@ -126,7 +126,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
             tables={convertedData}
             onSelectColumn={setSelectedColumns}
             onSelectTable={handleSelectTable}
-            tableSelected={getTableSelected}
+            tableSelected={getTableSelected()}
             currentLeftTable={currentObjLink?.object1.object}
             currentLeftColumns={currentObjLink?.object1.selectedColumns}
           />
@@ -136,7 +136,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
             tables={convertedData}
             onSelectColumn={setSelectedColumns}
             onSelectTable={handleSelectTable}
-            tableSelected={getTableSelected}
+            tableSelected={getTableSelected()}
             currentLeftTable={currentObjLink?.object2.object}
             currentRightColumns={currentObjLink?.object2.selectedColumns}
           />
