@@ -6,6 +6,7 @@ import Modal from '../../common/components/Modal';
 import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.module.scss';
 import { getUniverses, setQueryPanelModal } from '../../data/actions/universes';
 import SelectSemanticLayer from './SelectSemanticLayer';
+import SqlPopup from './SqlPopup';
 import ObjectsPanel from './ObjectsPanel';
 import Objects from './Objects';
 import Filters from './Filters';
@@ -23,6 +24,7 @@ const QueryPanel = ({ visible }) => {
   const [isQueryExecute, setQueryExecute] = useState(false);
   const [isChanged, setIsChanged] = useState(false);
   const [isConfirmModalOpened, setIsConfirmModalOpened] = useState(false);
+  const [isSqlPopupOpened, setSqlPopupOpened] = useState(false);
 
   useEffect(() => {
     dispatch(getUniverses());
@@ -39,6 +41,10 @@ const QueryPanel = ({ visible }) => {
     setTimeout(() => {
       setQueryExecute(false);
     }, 1000);
+  };
+
+  const handleShowSqlPopup = () => {
+    setSqlPopupOpened(!isSqlPopupOpened);
   };
 
   const handleShowSelector = () => {
@@ -80,6 +86,7 @@ const QueryPanel = ({ visible }) => {
               />
               <QueryPanelControls
                 onRun={handleQueryExecute}
+                onSql={handleShowSqlPopup}
                 onApply={() => {}}
                 onCancel={handleClose}
               />
@@ -97,6 +104,11 @@ const QueryPanel = ({ visible }) => {
           <ModalConfirm
             onReturn={() => setIsConfirmModalOpened(false)}
             onClose={() => onClose()}
+          />
+        )}
+        {isSqlPopupOpened && (
+          <SqlPopup 
+            onClose={handleShowSqlPopup}
           />
         )}
       </div>
