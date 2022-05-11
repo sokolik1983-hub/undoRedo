@@ -18,7 +18,7 @@ const navigationMenu = [
   {
     href: '/Universe/symlayers',
     icon: <LayersIcon />,
-    title: 'слои',
+    title: 'семантика',
     id: 'symlayers'
   },
   {

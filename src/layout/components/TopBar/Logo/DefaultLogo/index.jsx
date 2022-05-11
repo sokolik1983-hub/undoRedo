@@ -19,6 +19,8 @@ const DefaultLogo = ({ currentPage }) => {
         return PAGE_TITLES.CONNECTORS;
       case PAGE.SEMANTIC:
         return PAGE_TITLES.SEMANTIC;
+      case PAGE.SEMANTIC_LIST:
+        return PAGE_TITLES.SEMANTIC;
       case PAGE.REPORTS:
         return PAGE_TITLES.REPORTS;
       default: return null;
@@ -28,6 +30,8 @@ const DefaultLogo = ({ currentPage }) => {
   const getPageIcon = () => {
     switch (currentPage) {
       case PAGE.SEMANTIC:
+        return <SemanticLogo />;
+      case PAGE.SEMANTIC_LIST:
         return <SemanticLogo />;
       case PAGE.CONNECTORS:
         return <ConnectorsLogo />;
