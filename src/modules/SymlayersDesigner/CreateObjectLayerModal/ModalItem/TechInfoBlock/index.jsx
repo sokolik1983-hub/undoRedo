@@ -37,6 +37,6 @@ export default TechInfoBlock;
 
 TechInfoBlock.propTypes = {
   onChange: PropTypes.func,
-  name: PropTypes.string,
-  value: PropTypes.string
+  name: PropTypes.array,
+  value: PropTypes.array
 };

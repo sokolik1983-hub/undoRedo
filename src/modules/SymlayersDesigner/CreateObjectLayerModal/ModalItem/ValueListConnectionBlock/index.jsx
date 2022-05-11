@@ -150,7 +150,7 @@ export default ValueListConnectionBlock;
 
 ValueListConnectionBlock.propTypes = {
   onChange: PropTypes.func,
-  name: PropTypes.any,
-  value: PropTypes.string,
+  name: PropTypes.array,
+  value: PropTypes.array,
   checkBoxNames: PropTypes.any
 };
