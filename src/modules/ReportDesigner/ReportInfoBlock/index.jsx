@@ -1,26 +1,21 @@
 import React from 'react';
 import { Formik } from 'formik';
-// import styles from './ReportInfoBlock.module.scss';
+import styles from './ReportInfoBlock.module.scss';
 import Navigation from './ReportInfoItem/Navigation';
 import Properties from './ReportInfoItem/Properties';
 import Comments from './ReportInfoItem/Comments';
 
-const semLayerValues = {
-  name: '',
-  description: '',
-  SQLRequest: [],
-  SQLMultipleRoads: [],
-  CartesianWork: '',
-  control: []
+const values = {
+  properties: ''
 };
 
 const ReportInfoBlock = () => {
 
   return (
-    <>
+    <div className={styles.block}>
       <Navigation />
       <Formik
-        initialValues={semLayerValues}
+        initialValues={values}
         onSubmit={data => {
         console.log(data);
       }}
@@ -32,8 +27,10 @@ const ReportInfoBlock = () => {
           </form>
       )}
       </Formik>
-      <Comments title="Комментарии" />
-    </>
+      <div className={styles.comments}>
+        <Comments title="Комментарии" />
+      </div>
+    </div>
   );
 };
 
