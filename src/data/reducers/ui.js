@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   CONNECTOR_POPUP, OBJECTS_CONNECTIONS_MODAL,
   QUERY_PANEL_MODAL, TABLE_PREVIEW_MODAL, UNIVERSE_MODAL,
-  UNIVERSE_POPUP
+  UNIVERSE_POPUP, CONFIRM_MODAL
 } from '../../common/constants/popups';
 
 const ui = createSlice({
@@ -56,7 +56,14 @@ const ui = createSlice({
     },
     showTablePreviewModal: state => {
       state.modalVisible = TABLE_PREVIEW_MODAL;
-    }
+    },
+    showConfirmModal: state => {
+      state.confirmModalVisible = CONFIRM_MODAL;
+    },
+    closeConfirmModal: state => {
+      state.confirmModalVisible = false;
+    },
+
   }
 });
 
@@ -75,6 +82,8 @@ export const {
   showTablePreviewModal,
   showSemanticLayerModal,
   closeModal,
+  showConfirmModal,
+  closeConfirmModal,
 } = ui.actions;
 
 export default ui.reducer;
