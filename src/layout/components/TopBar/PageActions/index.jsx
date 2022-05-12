@@ -8,6 +8,8 @@ const PageActions = () => {
   switch (currentPage) {
     case PAGE.SEMANTIC:
       return <SemanticActions />;
+    case PAGE.SEMANTIC_LIST:
+      return <SemanticActions />;
     case PAGE.REPORT_DESIGNER:
       return <ReportActions />;
     default:
