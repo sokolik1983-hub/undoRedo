@@ -1,0 +1,136 @@
+.objectPropertiesBlock {
+  display: flex;
+  flex-direction: row;
+  padding: 3px 30px 5px 18px;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  color: #ffffff;
+  margin: 0;
+}
+
+.dropDownText {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: #000000;
+  padding-left: 1px;
+  cursor: pointer;
+  border-radius: none;
+}
+
+.defaultIcon {
+  margin: 6px 7px 5px 4px;
+}
+
+.defaulTypetIcon,
+.defaultFuncIcon {
+  margin: 9px 7px 5px 4px;
+}
+
+.arrow {
+  margin: 0 4px;
+  left: -10px;
+  z-index: 10;
+}
+
+.dropDownDataBlock {
+  position: absolute;
+  top: 24px;
+  left: -10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  width: 111px;
+  height: 22px;
+  margin-left: 10px;
+  cursor: pointer;
+  box-shadow: 0px 1.5px 1.5px rgba(0, 0, 0, 0.5);
+}
+
+.dropDownTypeBlock {
+  @extend .dropDownDataBlock;
+  top: 24px;
+  left: -10px;
+}
+
+.dropDownFunctionBlock {
+  @extend .dropDownDataBlock;
+  top: 24px;
+  left: -10px;
+}
+
+.dropDownItem {
+  @extend .dropDownText;
+  background: #ffffff;
+  width: 111px;
+  height: 22px;
+  padding: 4px;
+  border-bottom: 1px solid #eeeeee;
+
+  &:hover {
+    background: #33568c;
+    border-bottom: 1px solid transparent;
+    color: #ffffff;
+    border-radius: 0;
+  }
+}
+
+.dropDownFuncItem {
+  @extend .dropDownItem;
+  width: 137px;
+  position: relative;
+  left: 13px;
+}
+
+.dropDownItem:last-child,
+.dropDownItem:first-child {
+  border-radius: 0;
+}
+
+.select {
+  margin-left: 10px;
+}
+.selectField {
+  padding: 5px 0 0 5px;
+}
+
+.selectData,
+.selectType,
+.selectFunc {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 22px;
+  width: 111px;
+  background-color: #ffffff;
+}
+
+.selectedIconText {
+  display: flex;
+  flex-direction: row;
+}
+
+.selectType,
+.selectFunc {
+  margin: 5px 0 0 5px;
+}
+.selectFunc {
+  height: 22px;
+  width: 137px;
+}
+
+.objectType {
+  padding-left: 5px;
+}
+
+.objectFunction {
+  padding-left: 5px;
+}

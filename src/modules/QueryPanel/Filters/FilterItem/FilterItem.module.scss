@@ -4,7 +4,7 @@
   align-items: center;
   color: #000;
   padding: 7px 10px 7px 6px;
-  background: #DDDDDD;
+  background: #dddddd;
   border-radius: 4px;
   height: 30px;
   width: fit-content;
@@ -22,7 +22,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  background: #FFFFFF;
+  background: #ffffff;
   width: auto;
   height: 22px;
   margin-left: 10px;
@@ -70,7 +70,7 @@
   color: #000000;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;  
+  text-overflow: ellipsis;
 }
 
 .input {
@@ -82,7 +82,11 @@
 }
 
 .itemsWrapper {
-  background: linear-gradient(142.94deg, rgba(255, 255, 255, 0.468) 0%, rgba(255, 255, 255, 0.104) 102.09%) !important;
+  background: linear-gradient(
+    142.94deg,
+    rgba(255, 255, 255, 0.468) 0%,
+    rgba(255, 255, 255, 0.104) 102.09%
+  ) !important;
   box-shadow: 0px 4px 4px rgba(34, 82, 102, 0.25);
   backdrop-filter: blur(7px);
   border-radius: 4px;
@@ -102,29 +106,29 @@
     margin: 0;
     padding: 4px 5px 4px 9px;
     white-space: nowrap;
-  
+
     &:hover {
       color: white;
       background: linear-gradient(199.32deg, #1ae3d7 -13.92%, #0945df 111.71%);
     }
-  
+
     &:first-child {
       margin-top: 8px;
       border-radius: initial;
     }
-  
+
     &:last-child {
       margin-bottom: 9px;
       border-radius: initial;
     }
   }
-  
+
   .disabledText {
     @extend .textBlock;
-  
+
     color: rgba(0, 0, 0, 0.5);
     cursor: initial;
-  
+
     &:hover {
       color: rgba(0, 0, 0, 0.5);
       background: none;
@@ -141,7 +145,6 @@
   display: flex;
 
   &:hover .gear + .hide {
-    
     display: flex;
     align-items: center;
     width: auto;

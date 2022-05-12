@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 import clsx from 'clsx';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import CreateObjectLayerModal from '../CreateObjectLayerModal/index';
 import { ReactComponent as SearchIcon } from '../../../layout/assets/icons/search.svg';
 import { ReactComponent as AddTableIcon } from '../../../layout/assets/icons/tablesAdd.svg';
 import { ReactComponent as FiltersIcon } from '../../../layout/assets/icons/tablesFilters.svg';
@@ -10,8 +11,11 @@ import { ReactComponent as SaveIcon } from '../../../layout/assets/icons/tableSa
 import { ReactComponent as OwnerIcon } from '../../../layout/assets/icons/ownerIcon.svg';
 import HierTreeView from './HierTreeView';
 import styles from './Sidebar.module.scss';
+import { setCreateObjectModal } from '../../../data/actions/universes';
+
 
 function Sidebar({ onSelect }) {
+  const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
 
@@ -26,6 +30,12 @@ function Sidebar({ onSelect }) {
   const handleSelectTab = value => () => {
     setActiveTab(value);
   };
+
+  /* удалить когда перенесем кнопку открытия Создать  */
+  const isCreateObjectModalOpened = useSelector(
+    state => state.app.ui.modalCreateObjectVisible
+  );
+  /* удалить когда перенесем кнопку открытия Создать  */
 
   return (
     <div className={styles.root}>
@@ -45,6 +55,12 @@ function Sidebar({ onSelect }) {
           >
             Объекты
             {activeTab === 1 && <span>дизайнер семантического слоя</span>} 
+          </div>
+          <div
+            style={{ cursor: 'pointer' }}
+            onClick={() => dispatch(setCreateObjectModal(true))}
+          >
+            Создать
           </div>
           {activeTab === 1 && <SaveIcon />}
         </div>
@@ -87,6 +103,9 @@ function Sidebar({ onSelect }) {
             <></>
           )}
         </div>
+      )}
+      {isCreateObjectModalOpened && (
+        <CreateObjectLayerModal visible={isCreateObjectModalOpened && true} />
       )}
     </div>
   );

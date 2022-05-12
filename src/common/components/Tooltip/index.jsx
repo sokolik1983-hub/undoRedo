@@ -45,7 +45,14 @@ export default Tooltip;
 Tooltip.propTypes = {
   children: PropTypes.node.isRequired,
   content: PropTypes.string,
-  position: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+  position: PropTypes.oneOf([
+    'top',
+    'right',
+    'bottom',
+    'left',
+    'bottomLeft',
+    'bottomRight'
+  ]),
   style: PropTypes.objectOf(PropTypes.string)
 };
 

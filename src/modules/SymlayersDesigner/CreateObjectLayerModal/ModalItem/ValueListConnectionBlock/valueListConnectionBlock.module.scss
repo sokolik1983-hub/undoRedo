@@ -1,0 +1,89 @@
+.valueListConnectionBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.listConnectionGroup {
+  display: flex;
+  flex-direction: row;
+}
+
+.linkGroup,
+.useInGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.defaultBtn {
+  width: 90px;
+  margin: 12px 40px 40px 5px;
+}
+
+.editBtn {
+  margin-left: 5px;
+}
+
+.showBtn {
+  margin-left: 11px;
+}
+
+.availableGroup {
+  display: flex;
+  flex-direction: row;
+}
+
+.defaultLinkInput {
+  height: 22px;
+  width: 176px;
+  margin-right: 26px;
+  resize: none;
+  border: none;
+  outline: none;
+}
+
+.linkBtnGroup {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+
+.checkBoxLabel {
+  font-size: 10px;
+}
+
+.selectData {
+  height: 22px;
+  width: 176px;
+  margin: 5px 24px 30px 2px;
+  .selectData:hover {
+    background: #33568c;
+  }
+}
+
+.checkBoxGroup1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 123px;
+}
+
+.checkBoxGroup2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 7px;
+  height: 74px;
+}
+
+.availableTitle {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  color: #ffffff;
+  margin: 13px 0 0 0;
+}
+
+.arrow {
+  margin-left: 4px;
+  z-index: 10;
+}
