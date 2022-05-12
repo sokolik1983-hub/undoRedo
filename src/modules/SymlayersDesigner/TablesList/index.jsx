@@ -1,14 +1,22 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setObjectsConnectionsModal } from '../../../data/actions/universes';
 import styles from './TablesList.module.scss';
 import TablesListItem from './TablesListItem';
 
 function TablesList({ title, items, type }) {
-  const [selected, setSelected] = useState(0);
+  const dispatch = useDispatch();
+
+  const links = useSelector(state => state.app.schemaDesigner.links);
 
   const handleClick = id => {
-    setSelected(id);
+    const result = links.filter(l => {
+      return (l.id === id);
+    });
+    dispatch(setObjectsConnectionsModal(true, ...result));
   };
+
   return (
     <div className={styles.root}>
       <div className={styles.header}>
@@ -16,7 +24,7 @@ function TablesList({ title, items, type }) {
       </div>
       <div className={styles.content}>
         <div className={styles.list}>
-          {items?.map(item => (
+          {items?.map((item, i) => (
             <TablesListItem
               key={item}
               name={
@@ -24,9 +32,8 @@ function TablesList({ title, items, type }) {
                   ? `${item.object1.object} - ${item.object2.object}`
                   : null
               }
-              onClick={handleClick}
-              isActive={selected === `${item.object1.object}_${item.object2.object}`}
-              id={`${item.object1.object}_${item.object2.object}`}
+              onDoubleClick={handleClick}
+              id={i}
             />
           ))}
         </div>

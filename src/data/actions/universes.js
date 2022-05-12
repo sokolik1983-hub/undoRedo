@@ -151,8 +151,8 @@ export const getResultFromQuery = queryParams => {
   };
 };
 
-export const setObjectsConnectionsModal = (open) => {
-  return dispatch => dispatch(open ? showObjectsConnectionsModal() : closeModal());
+export const setObjectsConnectionsModal = (open, link) => {
+  return dispatch => dispatch(open ? showObjectsConnectionsModal(link) : closeModal());
 };
 
 export const setQueryPanelModal = (open) => {

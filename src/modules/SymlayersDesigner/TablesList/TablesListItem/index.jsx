@@ -1,20 +1,22 @@
 /* eslint-disable react/prop-types */
 import clsx from 'clsx';
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './TablesListItem.module.scss';
 
 
-function TablesListItem({ isActive, id, name, onClick }) {
+function TablesListItem({ id, name, onDoubleClick }) {
+  const [isActive, setActive] = useState(false);
+
   const handleClick = () => {
-    if (onClick) {
-      onClick(id);
-    }
+    onDoubleClick(id);
+    setActive(true);
+    setTimeout(() => setActive(false), 1000);
   };
 
   return (
     <div
       className={clsx(styles.root, isActive && styles.active)}
-      onClick={handleClick}
+      onDoubleClick={handleClick}
     >
       {name}
     </div>

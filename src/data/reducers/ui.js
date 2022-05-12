@@ -28,7 +28,8 @@ const ui = createSlice({
     showUniversePopup: state => {
       state.popupVisible = UNIVERSE_POPUP;
     },
-    showObjectsConnectionsModal: state => {
+    showObjectsConnectionsModal: (state, action) => {
+      state.modalData = action?.payload;
       state.modalVisible = OBJECTS_CONNECTIONS_MODAL;
     },
     showQueryPanelModal: state => {
