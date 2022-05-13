@@ -112,6 +112,7 @@ const QueryPanel = ({ visible }) => {
         )}
         {confirmModalOpened && (
           <ModalConfirm
+            style={{'top': 1}}
             onReturn={() => dispatch(setConfirmModal(false))}
             onClose={() => onClose()}
           />

@@ -13,7 +13,8 @@ const ui = createSlice({
     popupData: {},
     currentPage: '',
     isLoadingData: false,
-    isNavShowing: false
+    isNavShowing: false,
+    confirmModalVisible: false,
   },
   reducers: {
     showNav: (state, action) => {
