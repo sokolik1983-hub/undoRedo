@@ -12,49 +12,49 @@ const navigationMenu = [
   {
     href: '/Universe/connectors',
     icon: <ConnectorsIcon />,
-    title: 'Соединения',
+    title: 'соединения',
     id: 'connectors'
   },
   {
     href: '/Universe/symlayers',
     icon: <LayersIcon />,
-    title: 'Семантика',
+    title: 'семантика',
     id: 'symlayers'
   },
   {
     href: '/Universe/audit',
     icon: <AuditIcon />,
-    title: 'Аудит',
+    title: 'аудит',
     id: 'audit'
   },
   {
     href: '/Universe/reports',
     icon: <DesighIcon />,
-    title: 'Дизайнер',
+    title: 'дизайнер',
     id: 'reports'
   },
   {
     href: '/Universe/roles',
     icon: <RolesIcon />,
-    title: 'Роли',
+    title: 'роли',
     id: 'roles'
   },
   {
     href: '/Universe/users',
     icon: <UsersIcon />,
-    title: 'Пользователи',
+    title: 'пользователи',
     id: 'users'
   },
   {
     href: '/Universe/explorer',
     icon: <ExplorerIcon />,
-    title: 'Документы',
+    title: 'документы',
     id: 'explorer'
   },
   {
     href: '/Universe/trash',
     icon: <BinIcon />,
-    title: 'Корзина',
+    title: 'корзина',
     id: 'recycle'
   }
 ];
