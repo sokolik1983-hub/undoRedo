@@ -1,4 +1,7 @@
+/* eslint-disable no-nested-ternary */
 import { useDispatch } from 'react-redux';
+import React from "react";
+import { useLocation } from "react-router-dom";
 import { SEMANTIC_PAGE_ACTIONS } from '../../../../common/constants/common';
 import styles from './PageActions.module.scss';
 import { setObjectsConnectionsModal } from '../../../../data/actions/universes';
@@ -25,9 +28,22 @@ const SemanticActions = () => {
         return null;
     }
   };
+
+  const location = useLocation();
+
+  const filterIcons = (arr) => { 
+    if (!location.pathname.endsWith('create')) {
+      return arr.map(item => item.action !== 'commonSearch' ? {...item, enable: false} : item)
+                .filter(item => item.type !== 'divider')
+    };
+    return arr;
+  };
+
+  const newArr = filterIcons(SEMANTIC_PAGE_ACTIONS);
+
   return (
     <div className={styles.actionsContainer}>
-      {SEMANTIC_PAGE_ACTIONS.map(item => {
+      {newArr.map(item => {
         return (
           <div
             className={
@@ -35,7 +51,7 @@ const SemanticActions = () => {
             }
             title={item.title || ''}
             onClick={() => item.enable && getAction(item.action)}
-          >
+          > 
             {item.enable ? item.icon : item.disIcon}
             <span className={item.enable ? null : styles.deactivated}>
               {item.text || ''}
