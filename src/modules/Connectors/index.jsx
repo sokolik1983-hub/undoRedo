@@ -13,7 +13,8 @@ import FloatingButton from '../../common/components/FloatingButton';
 import { ReactComponent as CreateConnector } from '../../layout/assets/createConnector.svg';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
-import { ReactComponent as GearsIcon } from '../../layout/assets/semanticLayerModal/gears.svg';
+import Gears from '../../common/components/Gears';
+import { BUTTON } from '../../common/constants/common';
 
 function Connectors() {
   const dispatch = useDispatch();
@@ -39,7 +40,14 @@ function Connectors() {
   const [port, setPort] = useState(''); // Порт
   const [nameIP, setNameIP] = useState(''); // Имя или IP сервера
   const [baseSIDService, setBaseSIDService] = useState(''); // Название Базы, SID, Имя сериса
-
+  const [testConnectionInputString, setTestConnectionInputString] = useState(
+    ''
+  );
+  const [testConnectionInputLogin, setTestConnectionInputLogin] = useState('');
+  const [
+    testConnectionInputPassword,
+    setTestConnectionInputPassword
+  ] = useState('');
   // Видима/невидима модалка добавления коннектора
   const [isVisible, setIsVisible] = useState(false);
 
@@ -58,6 +66,13 @@ function Connectors() {
     text: item.name,
     value: String(item.source_id)
   }));
+
+  const [isActive, setIsActive] = useState(false);
+
+  const onClickAction = e => {
+    e.preventDefault();
+    setIsActive(!isActive);
+  };
 
   // Хэнделры для открытия/закрытия модалки
   const createConnectorModalHandler = () => {
@@ -89,6 +104,8 @@ function Connectors() {
           onChange={e => setConnectName(e.target.value)}
           id="connectorName"
           labelClassName={styles.connectorsLabel}
+          className={styles.selectInput}
+          placeholder="Имя соединения"
         />
       </div>
       <div className={styles.connectionWrapper}>
@@ -96,17 +113,19 @@ function Connectors() {
         <Select
           value={connectType}
           options={typeOptions}
-          defaultValue="Тип соединения"
+          defaultValue="База данных"
           onSelectItem={setConnectType}
+          className={styles.selectInput}
         />
       </div>
       <div className={styles.connectionWrapper}>
         <p className={styles.selectText}>Источник</p>
         <Select
+          className={styles.selectInput}
           value={connectSource}
           onSelectItem={setConnectSource}
           options={sourceOptions?.filter(item => item.value === connectType)} // Фильтурем для получения подходящих options в завимисомти от типо коннектора
-          defaultValue="Источник"
+          defaultValue="Postgre"
         />
       </div>
       <div className={styles.connectionTypeSection}>
@@ -114,26 +133,56 @@ function Connectors() {
           <p className={styles.selectText}>Тип соединения</p>
           <div style={{ marginBottom: '25px' }}>
             <Select
-              fullWidth
               value={connectionType}
               onSelectItem={setConnectionType}
               options={connectionOptions?.filter(
                 item => item.value === connectSource
               )}
-              defaultValue="Тип соединения"
+              defaultValue="Connect_string"
+              className={styles.selectTypeConnection}
             />
           </div>
           <div className={styles.connectionTypeInputsWrapper}>
-            <TextInput className={styles.connectorsInput} />
-            <TextInput className={styles.connectorsInput} />
-            <TextInput className={styles.connectorsInput} />
+            <TextInput
+              id="testConnectionInputString"
+              placeholder="Строка соединения"
+              value={testConnectionInputString}
+              className={styles.connectorsInput}
+              onChange={e => {
+                setTestConnectionInputString(e.target.value);
+              }}
+            />
+            <TextInput
+              id="testConnectionInputLogin"
+              placeholder="Логин"
+              value={testConnectionInputLogin}
+              className={styles.connectorsInput}
+              onChange={e => {
+                setTestConnectionInputLogin(e.target.value);
+              }}
+            />
+            <TextInput
+              id="testConnectionInputPassword"
+              placeholder="Пароль"
+              value={testConnectionInputPassword}
+              className={styles.connectorsInput}
+              onChange={e => {
+                setTestConnectionInputPassword(e.target.value);
+              }}
+            />
           </div>
         </div>
         <div className={styles.testConnectionWrapper}>
           <div className={styles.gearsIconWrapper}>
-            <GearsIcon />
+            <Gears isSpinning={isActive} />
           </div>
-          <Button className={styles.testConnectionButton} color="primary">Тест соединения</Button>
+          <Button
+            className={styles.testConnectionButton}
+            buttonStyle={BUTTON.BLUE}
+            onClick={onClickAction}
+          >
+            Тест соединения
+          </Button>
         </div>
       </div>
       {+connectionType === 2 && ( //В зависимости от выбранного типа соединения дорисовываем поля ввода
@@ -182,14 +231,18 @@ function Connectors() {
 
   // Футер модалки
   const createConnectorModalFooter = (
-    <>
-      <Button color="sucess" onClick={addConnector}>
+    <div className={styles.footerButtonsGroup}>
+      <Button buttonStyle={BUTTON.BIG_ORANGE} onClick={addConnector}>
         Сохранить
       </Button>
-      <Button color="primary" onClick={closeConnectorModalHandler}>
+      <Button
+        buttonStyle={BUTTON.BIG_BLUE}
+        onClick={closeConnectorModalHandler}
+        className={styles.cancelButton}
+      >
         Отмена
       </Button>
-    </>
+    </div>
   );
 
   return (
@@ -201,6 +254,7 @@ function Connectors() {
         onClick={createConnectorModalHandler}
       />
       <Modal
+        className={styles.modalContent}
         visible={isVisible}
         onClose={closeConnectorModalHandler}
         title="Новое соединение"
