@@ -1,6 +1,7 @@
 import { requestAuth } from '../helpers';
 import { login, logout } from '../reducers/auth';
 import { notificationShown } from '../reducers/notifications';
+import { getDictionaries } from './app';
 
 export const loginUser = queryParams => {
   return async dispatch => {
@@ -14,6 +15,7 @@ export const loginUser = queryParams => {
           localStorage.setItem('isAuth', 'true');
           localStorage.setItem('userInfo', JSON.stringify(response.userInfo));
           dispatch(login(response.userInfo));
+          dispatch(getDictionaries())
         } else {
           throw Error(response.errorText);
         }
