@@ -49,25 +49,28 @@ const requesterTimeout = ({ id, dispatch }) => {
         id,
         dispatch
       });
-      if (response?.result === 'true') {
+      if (response?.result === 'true' || response?.result === 'false') {
         clearInterval(timer);
         setLoadingData(false);
         resolve(response);
+        return clearInterval(timer);
       }
-      if (response?.result === 'false') {
-        clearInterval(timer);
-        setLoadingData(false);
-        reject(response)
-      }
+      // if (response?.result === 'false') {
+      //   clearInterval(timer);
+      //   setLoadingData(false);
+      //   reject(response)
+      //   return clearInterval(timer);
+      // }
       if (response?.result === 'failed') {
         console.log('id запроса устарел');
         reject(response)
+        return clearInterval(timer);
       }
       if (response?.result === 'pending') {
         console.log('данные на сервере еще не готовы');
         reject(response)
       }
-      return clearInterval(timer);
+      return null;
     }, PENDING_SERVER_TIMER);
   });
 }
@@ -87,7 +90,7 @@ export const request = async ({ params, code, token, dispatch }) => {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      data: `code=${code}&token=${token || null}&format=JSON&params=${
+      data: `code=${code}&token=${encodeURI(token) || null}&format=JSON&params=${
         params ? JSON.stringify(params) : ''
       }`
     });

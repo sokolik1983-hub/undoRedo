@@ -55,3 +55,42 @@
 .apps {
   gap: 24px;
 }
+
+// удалить когда запросы на главной буду не нужны
+
+.newServerContainer {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid blue;
+  width: 80%;
+  padding: 24px;
+  border-radius: 8px;
+}
+
+.requestWrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 644px;
+}
+
+.requestWrapper span, .requestWrapper input {
+  margin: 8px 0;
+}
+
+.newServerResponse {
+  border: 1px solid blue;
+  padding: 12px;
+  border-radius: 0 0 8px 8px;
+}
+
+.newServerManual {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid green;
+  border-radius: 8px;
+  margin: 12px;
+  padding: 12px;
+  width: 80%;
+}

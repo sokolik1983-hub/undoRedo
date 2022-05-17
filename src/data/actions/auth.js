@@ -1,5 +1,5 @@
 import { request } from '../helpers';
-import { login, logout } from '../reducers/auth';
+import { login, logout, serverResponse } from '../reducers/auth';
 
 export const loginUser = queryParams => {
   // return async dispatch => {
@@ -23,6 +23,7 @@ export const loginUser = queryParams => {
   //     );
   //   }
   // };
+  console.log(queryParams);
   return async dispatch => {
     const response = await request({
       code: 'CMS.LOGIN',
@@ -33,6 +34,7 @@ export const loginUser = queryParams => {
       if (response.result === 'true') {
         localStorage.setItem('isAuth', 'true');
         localStorage.setItem('userInfo', queryParams.username);
+        localStorage.setItem('token', response.token)
       }
       dispatch(login(response));
     }
@@ -43,6 +45,25 @@ export const logoutUser = () => {
   return async dispatch => {
     localStorage.removeItem('userInfo');
     localStorage.removeItem('isAuth');
+    localStorage.removeItem('token');
     dispatch(logout());
   };
 };
+
+export const testNewFunc = queryParams => {
+  const token = localStorage.getItem('token');
+  console.log(queryParams.token);
+  return async dispatch => {
+    const response = await request({
+      code: queryParams.code,
+      params: queryParams.params,
+      token,
+      dispatch
+    });
+    if (response) {
+      if (response.result === 'true') {
+        dispatch(serverResponse(response))
+      }
+    }
+  };
+}
