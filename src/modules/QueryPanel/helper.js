@@ -53,7 +53,6 @@ export const getCondition = (condition) => {
     }
 
     const resultString = {};
-    console.log(condition)
 
     condition.forEach(item => {
       if (item?.type === 'filter-node') {
@@ -85,7 +84,6 @@ export const getCondition = (condition) => {
       }
     });
 
-    console.log(resultString, 'resultString');
     return resultString;
   };
 

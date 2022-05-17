@@ -29,7 +29,6 @@ const Results = ({ title, isQueryExecute, onQueryTextCreate, onObjFilEdit }) => 
   }, [objectsDesk, filtersDesk]);
 
   useEffect(() => {
-    console.log(queryData?.data);
     onQueryTextCreate(queryData?.data);
     if (queryData) {
       dispatch(semanticLayerDataQuery({
