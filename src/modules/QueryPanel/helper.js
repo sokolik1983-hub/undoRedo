@@ -99,16 +99,3 @@ export const getCondition = (condition) => {
     return resultString;
   };
 
-  export const isAnyEmptyFilter = (filters) => {
-    let error = ''
-    console.log(filters)
-    if (Object.keys(filters).length !== 0) {
-      filters.data.forEach(item => {
-        if (item.value?.trim() === '') {
-          error = 'Пустые фильтры';
-        }
-      })
-    }
-    return error;
-  }
-
