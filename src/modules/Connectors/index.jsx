@@ -113,7 +113,7 @@ function Connectors() {
         <Select
           value={connectType}
           options={typeOptions}
-          defaultValue="База данных"
+          defaultValue="Тип соединения"
           onSelectItem={setConnectType}
           className={styles.selectInput}
         />
@@ -125,21 +125,20 @@ function Connectors() {
           value={connectSource}
           onSelectItem={setConnectSource}
           options={sourceOptions?.filter(item => item.value === connectType)} // Фильтурем для получения подходящих options в завимисомти от типо коннектора
-          defaultValue="Postgre"
+          defaultValue="Источник"
         />
       </div>
       <div className={styles.connectionTypeSection}>
         <div className={styles.connectionTypeWrapper}>
           <p className={styles.selectText}>Тип соединения</p>
-          <div style={{ marginBottom: '25px' }}>
+          <div>
             <Select
               value={connectionType}
               onSelectItem={setConnectionType}
               options={connectionOptions?.filter(
                 item => item.value === connectSource
               )}
-              defaultValue="Connect_string"
-              className={styles.selectTypeConnection}
+              defaultValue="Тип соединения"
             />
           </div>
           <div className={styles.connectionTypeInputsWrapper}>
@@ -195,30 +194,35 @@ function Connectors() {
             label="Логин"
           />
           <TextInput
+            labelClassName={styles.connectorsLabel}
             value={pass}
             onChange={e => setPass(e.target.value)}
             id="password"
             label="Пароль"
           />
           <TextInput
+            labelClassName={styles.connectorsLabel}
             value={connectionStr}
             onChange={e => setConnectionStr(e.target.value)}
             id="connectionStr"
             label="Строка соединения"
           />
           <TextInput
+            labelClassName={styles.connectorsLabel}
             value={port}
             onChange={e => setPort(e.target.value)}
             id="port"
             label="Порт"
           />
           <TextInput
+            labelClassName={styles.connectorsLabel}
             value={nameIP}
             onChange={e => setNameIP(e.target.value)}
             id="nameAPI"
             label="Имя или IP сервера"
           />
           <TextInput
+            labelClassName={styles.connectorsLabel}
             value={baseSIDService}
             onChange={e => setBaseSIDService(e.target.value)}
             id="baseSIDService"

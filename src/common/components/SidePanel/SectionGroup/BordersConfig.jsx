@@ -9,7 +9,7 @@ function BordersConfig({ onChange, isHeader }) {
           <td />
           <td>
             <input
-              placeholder="top"
+              placeholder="Верх"
               style={{ width: 30 }}
               onChange={event => {
                 onChange({
@@ -26,7 +26,7 @@ function BordersConfig({ onChange, isHeader }) {
         <tr>
           <td>
             <input
-              placeholder="left"
+              placeholder="Лев"
               style={{ width: 30 }}
               onChange={event => {
                 onChange({
@@ -41,7 +41,7 @@ function BordersConfig({ onChange, isHeader }) {
           <td />
           <td>
             <input
-              placeholder="right"
+              placeholder="Прав"
               style={{ width: 30 }}
               onChange={event => {
                 onChange({
@@ -58,7 +58,7 @@ function BordersConfig({ onChange, isHeader }) {
           <td />
           <td>
             <input
-              placeholder="bottom"
+              placeholder="Низ"
               style={{ width: 30 }}
               onChange={event => {
                 onChange({
