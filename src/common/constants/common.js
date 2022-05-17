@@ -31,10 +31,11 @@ export const PAGE_TITLES = {
   AUDIT: 'Аудит',
   TRASH: 'Корзина',
   SEMANTIC: 'Семантика',
+  REPORT_DESIGNER: 'Дизайнер отчетов',
   ROLES: 'Роли',
   USERS: 'Пользователи',
-  CONNECTORS: 'Соединения',
-  REPORTS: 'Дизайнер отчетов',
+  CONNECTORS: 'Коннекторы',
+  REPORTS: 'Отчеты',
   QUERY_PANEL: 'Панель запросов',
 };
 
@@ -208,7 +209,7 @@ export const BUTTON = {
   BIG_GRAY: 'BIG_GRAY',
   BROWN: 'BROWN',
   BLUE: 'BLUE',
-  GRAY: 'GRAY',
+  GRAY: 'GRAY', 
   BROWN_DARKER: 'BROWN_DARKER',
   RED: 'RED',
   SMALL_ORANGE: 'SMALL_ORANGE',

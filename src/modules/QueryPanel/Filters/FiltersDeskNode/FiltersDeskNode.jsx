@@ -6,7 +6,7 @@ import {
   BUTTON,
   DRAG_PARENT_SECTION
 } from '../../../../common/constants/common';
-import { useDragNDrop } from '../../context/DragNDropContex';
+import { useDragNDrop } from '../../context/DragNDropContext';
 import FiltersDeskItem from '../FiltersDeskItem/FiltersDeskItem';
 import styles from './FiltersDeskNode.module.scss';
 

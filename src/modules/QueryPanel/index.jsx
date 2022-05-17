@@ -97,7 +97,7 @@ const QueryPanel = ({ visible }) => {
               <QueryPanelControls
                 onRun={handleQueryExecute}
                 onSql={handleShowSqlPopup}
-                onApply={() => {}}
+                onApply={handleClose} // todo применить функционал переноса в отчет
                 onCancel={handleClose}
               />
             </div>

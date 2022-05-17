@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { EMPTY_STRING } from '../../../common/constants/common';
 import { useDebounce } from '../../../common/hooks/useDebounce';
 
-export const usePanelListFilters = rootFolder => {
+const usePanelListFilters = rootFolder => {
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
   const [filterTypeId, setFilterTypeId] = useState([]);
   const [filteredData, setFilteredData] = useState();
@@ -76,3 +76,5 @@ export const usePanelListFilters = rootFolder => {
     setSearchValue
   };
 };
+
+export default usePanelListFilters; 

@@ -1,7 +1,7 @@
 .root {
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  // padding: 10px;
 }
 
 .title {
@@ -20,4 +20,12 @@
       outline: 1px solid #fff;
     }
   }
+}
+
+.select {
+  padding: 8px;
+  height: auto;
+  width: auto;
+  padding-right: 25px;
+  max-width: 100px;
 }

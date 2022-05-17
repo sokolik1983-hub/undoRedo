@@ -22,6 +22,7 @@ import {
   addTableValue,
   columnObject,
   setActiveNodes,
+  setConfigPanelVisible,
   setStructure,
   setTableStyle,
   setTableVariant,
@@ -30,28 +31,30 @@ import {
 import ObjectsList from './ObjectsList';
 import { getCurrentReport } from '../../../modules/ReportDesigner/helpers';
 import SortingField from './SortingField';
+import { ReactComponent as CloseIcon } from '../../../layout/assets/close.svg';
+import { TABLE_ICONS } from '../../constants/reportDesigner/reportDesignerIcons';
 
 const NAV_MENU_REPORT = [
-  { id: 1, title: 'Data', icon: <ExtensionIcon /> },
-  { id: 2, title: 'Structure', icon: <AccountTreeIcon /> },
-  { id: 3, title: 'Comments', icon: <ForumIcon /> },
-  { id: 4, title: 'Export', icon: <InfoIcon /> }
+  { id: 1, title: 'Данные', icon: <ExtensionIcon /> },
+  { id: 2, title: 'Структура', icon: <AccountTreeIcon /> },
+  { id: 3, title: 'Комментарии', icon: <ForumIcon /> },
+  { id: 4, title: 'Экспорт', icon: <InfoIcon /> }
 ];
 
 const NAV_MENU_BLOCK = [
-  { id: 1, title: 'Data', icon: <TuneIcon /> },
+  { id: 1, title: 'Данные', icon: <TuneIcon /> },
   // { id: 2, title: 'Filters', icon: <FilterListIcon /> },
-  { id: 3, title: 'Sorting', icon: <SortIcon /> },
-  { id: 4, title: 'Format', icon: <BrushIcon /> }
+  { id: 3, title: 'Сортировка', icon: <SortIcon /> },
+  { id: 4, title: 'Форматирование', icon: <BrushIcon /> }
 ];
 
 const NAV_MENU_TABLE = [
-  { id: 1, title: 'Header', icon: <>Header</> },
-  { id: 2, title: 'Cells', icon: <>Cells</> }
+  { id: 1, title: 'Заголовок', icon: <>Заголовок</> },
+  { id: 2, title: 'Ячейки', icon: <>Ячейки</> }
 ];
 
 // eslint-disable-next-line react/prop-types
-export default function SidePanel({ marginRight, navType }) {
+export default function SidePanel({ navType }) {
   const [activePage, setActivePage] = useState(1);
   const [activeSubMenu, setActiveSubMenu] = useState(1);
   const reportDesigner = useSelector(state => state.app.reportDesigner);
@@ -89,16 +92,16 @@ export default function SidePanel({ marginRight, navType }) {
       case 2:
         return (
           <div>
-            <p>Structure</p>
+            <p>Структура</p>
             {currentReport?.structure?.map(item => (
               <p>{item.title || item.type}</p>
             ))}
           </div>
         );
       case 3:
-        return <div>Comments</div>;
+        return <div>Комментарии</div>;
       case 4:
-        return <div>Info</div>;
+        return <div>Информация</div>;
 
       default:
         return null;
@@ -151,6 +154,7 @@ export default function SidePanel({ marginRight, navType }) {
       )
     );
     dispatch(setActiveNodes([]));
+    dispatch(setConfigPanelVisible(false));
   }
 
   const handleRemoveColumn = columnId => event => {
@@ -229,10 +233,10 @@ export default function SidePanel({ marginRight, navType }) {
     const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
     event.dataTransfer.clearData();
     refreshFieldsStore(selectedEl);
-
+    debugger;
     dispatch(
       addTableColumn({
-        column: { ...columnObject, object: { ...selectedEl.object } },
+        column: { ...columnObject, object: { ...selectedEl } },
         id: currentNode?.id
       })
     );
@@ -244,7 +248,7 @@ export default function SidePanel({ marginRight, navType }) {
 
     dispatch(
       addTableRow({
-        row: { ...columnObject, object: { ...selectedEl.object } },
+        row: { ...columnObject, object: { ...selectedEl } },
         id: currentNode?.id
       })
     );
@@ -256,13 +260,13 @@ export default function SidePanel({ marginRight, navType }) {
     refreshFieldsStore(selectedEl);
     dispatch(
       addTableValue({
-        value: { ...columnObject, object: { ...selectedEl.object } },
+        value: { ...columnObject, object: { ...selectedEl } },
         id: currentNode?.id
       })
     );
   }
 
-  const handleSetVariant = variant => () => {
+  const handleSetVariant = variant => {
     dispatch(setTableVariant(variant));
   };
 
@@ -272,26 +276,28 @@ export default function SidePanel({ marginRight, navType }) {
         return (
           <div>
             <div>
-              <p>Transform into:</p>
-              <button type="button" onClick={handleSetVariant('cross')}>
-                cross
-              </button>
-              <button type="button" onClick={handleSetVariant('vertical')}>
-                vertical
-              </button>
-              <button type="button" onClick={handleSetVariant('horizontal')}>
-                horizontal
-              </button>
+              <p>Преобразовать в</p>
+              <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                {TABLE_ICONS.slice(1, 4).map(i => (
+                  <div
+                    className={styles.icon}
+                    onClick={() => handleSetVariant(i.type)}
+                    key={i.text}
+                  >
+                    {i.icon}
+                  </div>
+                ))}
+              </div>
             </div>
-
             <div
               onDrop={handleDropObjectColumn}
               onDragOver={allowDrop}
               style={{ minHeight: 100, minWidth: 100 }}
             >
-              <p>Columns</p>
+              <p>Колонки</p>
               {currentNode?.columns?.map(column => (
                 <p
+                  className={styles.objectItem}
                   key={column.object.id}
                   draggable
                   onDragStart={event => {
@@ -304,27 +310,27 @@ export default function SidePanel({ marginRight, navType }) {
                     );
                   }}
                 >
-                  {column.object.name}
-                  <button
-                    type="button"
+                  {/* TODO change to name after backemd */}
+                  {column.object.field}
+                  <CloseIcon
                     onClick={handleRemoveColumn(column.object.id)}
-                  >
-                    remove column
-                  </button>
+                    className={styles.closeIcon}
+                  />
                 </p>
               ))}
             </div>
 
-            {currentNode?.variant === 'cross' && (
+            {currentNode?.variant === 'table_cross' && (
               <>
                 <div
                   onDrop={handleDropObjectRow}
                   onDragOver={allowDrop}
                   style={{ minHeight: 100, minWidth: 100 }}
                 >
-                  <p>Rows</p>
+                  <p>Строки</p>
                   {currentNode?.rows?.map(row => (
                     <p
+                      className={styles.objectItem}
                       key={row.object.id}
                       draggable
                       onDragStart={event => {
@@ -334,13 +340,12 @@ export default function SidePanel({ marginRight, navType }) {
                         );
                       }}
                     >
-                      {row.object.name}
-                      <button
-                        type="button"
-                        onClick={handleRemoveRow(row.object.id)}
-                      >
-                        remove row
-                      </button>
+                      {row.object.field}
+
+                      <CloseIcon
+                        onClick={handleRemoveColumn(row.object.id)}
+                        className={styles.closeIcon}
+                      />
                     </p>
                   ))}
                 </div>
@@ -349,9 +354,10 @@ export default function SidePanel({ marginRight, navType }) {
                   onDragOver={allowDrop}
                   style={{ minHeight: 100, minWidth: 100 }}
                 >
-                  <p>Values</p>
+                  <p>Значения</p>
                   {currentNode?.values?.map(val => (
                     <p
+                      className={styles.objectItem}
                       key={val.object.id}
                       draggable
                       onDragStart={event => {
@@ -364,13 +370,12 @@ export default function SidePanel({ marginRight, navType }) {
                         );
                       }}
                     >
-                      {val.object.name}
-                      <button
-                        type="button"
+                      {val.object.field}
+
+                      <CloseIcon
                         onClick={handleRemoveValue(val.object.id)}
-                      >
-                        remove val
-                      </button>
+                        className={styles.closeIcon}
+                      />
                     </p>
                   ))}
                 </div>
@@ -378,7 +383,7 @@ export default function SidePanel({ marginRight, navType }) {
             )}
 
             <button type="button" onClick={handleRemoveNode}>
-              remove node
+              Удалить элемент
             </button>
           </div>
         );
@@ -392,9 +397,9 @@ export default function SidePanel({ marginRight, navType }) {
       case 3:
         return (
           <div>
-            <p>Soring</p>
+            <p>Сортировка</p>
             <button type="button" onClick={handleAddSorting}>
-              add sorting
+              Добавить сортировку
             </button>
             {currentNode?.sorting?.map(item => (
               <SortingField
@@ -402,7 +407,7 @@ export default function SidePanel({ marginRight, navType }) {
                 onRemove={handleRemoveSortingField}
                 options={currentNode?.columns?.map(column => ({
                   value: column.object.id,
-                  text: column.object.name
+                  text: column.object.field // todo change to name after back
                 }))}
                 item={item}
               />
@@ -447,16 +452,16 @@ export default function SidePanel({ marginRight, navType }) {
   return (
     <div
       className={styles.root}
-      style={{
-        right: marginRight
-      }}
+      // style={{
+      //   right: marginRight
+      // }}
     >
       <NavigationMenu
         menu={getNavMenu()}
         onClick={setActivePage}
         activePage={activePage}
       />
-      {getNavMenuActions()}
+      <div className={styles.content}>{getNavMenuActions()}</div>
     </div>
   );
 }
