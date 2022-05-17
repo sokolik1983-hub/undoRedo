@@ -1,23 +1,32 @@
-import React from "react";
+// eslint-disable-next-line no-unused-vars
+import React, { useEffect } from "react";
 import PropTypes from 'prop-types';
 import Modal from "../../../common/components/Modal";
 import Button from "../../../common/components/Button";
 import styles from './SqlPopup.module.scss';
 
-const SqlPopup = ({ onClose }) => {
+const SqlPopup = ({ onClose, queryText }) => {
 
-  const onClickAction = () => {
-    onClose();
+  const formatText = (query) => {
+    return (
+      <span>{query}</span>
+    )
   }
+
 
   const content = ( 
     <div className={styles.sql}>
-      <Button className={styles.test}>
-        Тест
-      </Button>
-      <Button className={styles.exit} onClick={onClickAction}>
-        Закрыть
-      </Button>
+      <div className={styles.queryField}>
+        {formatText(queryText)}
+      </div>
+      <div className={styles.buttons}>
+        <Button className={styles.test}>
+          Тест
+        </Button>
+        <Button className={styles.exit} onClick={onClose}>
+          Закрыть
+        </Button>
+      </div>
     </div>
   )
   return (
@@ -28,9 +37,9 @@ const SqlPopup = ({ onClose }) => {
         content={content}
         withScroll={false}
         titleClassName={styles.title}
-        dialogClassName={styles.dialog}
+        dialogClassName={styles.sql}
         headerClassName={styles.header}
-        onClose={onClickAction}
+        onClose={onClose}
       />
     </div>
   );
@@ -39,5 +48,6 @@ const SqlPopup = ({ onClose }) => {
 export default SqlPopup;
 
 SqlPopup.propTypes = {
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  queryText: PropTypes.string
 }

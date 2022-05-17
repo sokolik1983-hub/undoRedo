@@ -25,6 +25,7 @@ const QueryPanel = ({ visible }) => {
   const [isChanged, setIsChanged] = useState(false);
   const [isConfirmModalOpened, setIsConfirmModalOpened] = useState(false);
   const [isSqlPopupOpened, setSqlPopupOpened] = useState(false);
+  const [queryText, setQueryText] = useState('');
 
   useEffect(() => {
     dispatch(getUniverses());
@@ -61,6 +62,10 @@ const QueryPanel = ({ visible }) => {
     setIsChanged(true);
   };
 
+  const handleQueryText = (text) => {
+    setQueryText(text);
+  };
+
   const onClose = () => {
     dispatch(setQueryPanelModal(false));
   };
@@ -83,6 +88,7 @@ const QueryPanel = ({ visible }) => {
                 className={styles.section}
                 title="Просмотр данных"
                 isQueryExecute={isQueryExecute}
+                onQueryTextCreate={handleQueryText}
               />
               <QueryPanelControls
                 onRun={handleQueryExecute}
@@ -109,6 +115,7 @@ const QueryPanel = ({ visible }) => {
         {isSqlPopupOpened && (
           <SqlPopup 
             onClose={handleShowSqlPopup}
+            queryText={queryText}
           />
         )}
       </div>

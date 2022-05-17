@@ -1,7 +1,19 @@
 .sql {
-  display: flex;
-  justify-content: end;
-  padding-right: 15px;
+  max-width: 500px;
+  .queryField {
+    background-color: white;
+    border-radius: 1%;
+    color: black;
+    margin: 0px 15px;
+    padding: 5px 5px;
+    margin-bottom: 30px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: end;
+    padding-right: 15px;
+  }
 }
 
 .test {

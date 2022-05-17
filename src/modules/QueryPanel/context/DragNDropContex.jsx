@@ -161,6 +161,7 @@ const DragNDropProvider = ({ children }) => {
     e.stopPropagation();
 
     let dropped = JSON.parse(e.dataTransfer.getData('text'));
+    console.log(dropped)
     if (dropped.isFolder) return;
 
     if (parentSection.current !== DRAG_PARENT_SECTION.FILTERS) {
@@ -414,6 +415,21 @@ const DragNDropProvider = ({ children }) => {
     setFiltersDesk(filtersDeskClone);
   };
 
+  const handleEditFiltersItem = (id, input, condition) => {
+    console.log(condition)
+    const filtersDeskClone = JSON.parse(JSON.stringify(filtersDesk));
+    if (filtersDesk.type === 'filter-node') {
+      const [parent, idx] = getParent(filtersDeskClone, id);
+      parent.children[idx].inputValue = input;
+      parent.children[idx].itemCondition = condition;
+    } else if (filtersDesk.type === 'filter-item') {
+      filtersDeskClone.inputValue = input;
+      filtersDeskClone.itemCondition = condition;
+    }
+    
+    setFiltersDesk(filtersDeskClone);
+  };
+
   const onClearFilters = () => {
     setFiltersDesk(null);
     setFocused(null);
@@ -432,6 +448,7 @@ const DragNDropProvider = ({ children }) => {
         handleDropOnObjectItem,
         handleDropOnFiltersArea,
         handleDropOnFiltersItem,
+        handleEditFiltersItem,
         handleDropOnFiltersNodeItemsBlock,
         handleTreeDrop,
         onClearFilters,

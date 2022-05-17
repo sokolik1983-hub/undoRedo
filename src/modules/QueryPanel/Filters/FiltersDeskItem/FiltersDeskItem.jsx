@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReactComponent as CloseIcon } from '../../../../layout/assets/close.svg';
 import TextInput from '../../../../common/components/TextInput';
 import DropdownMenuWithPortal from '../FilterItem/DropdownMenuWithPortal';
@@ -17,16 +17,30 @@ const FiltersDeskItem = ({
   type,
   onItemClick,
   onDeleteItem,
+  onEditItem,
   ...props
 }) => {
   const { focused } = useDragNDrop();
   const [isActive, setIsActive] = useState(false);
   const [inputValue, setInputValue] = useState(EMPTY_STRING);
+  const [selectedCond, setSelectedCond] = useState('равно');
 
   const root = clsx(styles.root, {
     [styles.active]: isActive,
     [styles.selected]: focused?.id === id
   });
+
+  const onEdit = e => {
+    setInputValue(e.target.value);
+  };
+
+  const handleEditCondition = cond => {
+    setSelectedCond(cond);
+  }
+
+  useEffect(() => {
+    onEditItem(id, inputValue, selectedCond);
+  }, [inputValue, selectedCond]);
 
   return (
     <div
@@ -40,14 +54,14 @@ const FiltersDeskItem = ({
     >
       <div className={styles.icon}>{getIconByItemType(type)}</div>
       <p className={styles.title}>{title}</p>
-      <DropdownWithPortal text="равно" />
+      <DropdownWithPortal text="равно" onCondChange={handleEditCondition} />
       <TextInput
         className={styles.input}
         placeholder="введите постоянную"
         type="text"
         label={EMPTY_STRING}
         value={inputValue}
-        onChange={e => setInputValue(e.target.value)}
+        onChange={e => onEdit(e)}
       />
       <div className={styles.menu}>
         <DropdownMenuWithPortal />
@@ -71,5 +85,6 @@ FiltersDeskItem.propTypes = {
   title: PropTypes.string,
   type: PropTypes.number,
   onItemClick: PropTypes.func,
-  onDeleteItem: PropTypes.func
+  onDeleteItem: PropTypes.func,
+  onEditItem: PropTypes.func
 };
