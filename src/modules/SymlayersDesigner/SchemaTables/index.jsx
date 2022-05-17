@@ -180,11 +180,11 @@ const Provided = props => {
         zIndex: 15
       }}
     >
-      <Tooltip title="поиск по семантическому слою">
-        <IconButton onClick={() => toggleSearchPopup()}>
-          <SearchIcon />
-        </IconButton>
-      </Tooltip>
+      {/* <Tooltip title="поиск по семантическому слою"> */}
+      {/*   <IconButton onClick={() => toggleSearchPopup()}> */}
+      {/*     <SearchIcon /> */}
+      {/*   </IconButton> */}
+      {/* </Tooltip> */}
       <Tooltip title={`${showMinimap ? 'скрыть' : 'показать'} миникарту`}>
         <IconButton onClick={() => SET_SHOW_MINIMAP(!showMinimap)}>
           <MapIcon />
