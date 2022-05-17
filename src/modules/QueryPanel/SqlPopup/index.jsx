@@ -1,23 +1,14 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from 'prop-types';
 import Modal from "../../../common/components/Modal";
 import Button from "../../../common/components/Button";
 import styles from './SqlPopup.module.scss';
 
 const SqlPopup = ({ onClose, queryText }) => {
-
-  const formatText = (query) => {
-    return (
-      <span>{query}</span>
-    )
-  }
-
-
   const content = ( 
     <div className={styles.sql}>
       <div className={styles.queryField}>
-        {formatText(queryText)}
+        {queryText}
       </div>
       <div className={styles.buttons}>
         <Button className={styles.test}>
@@ -49,5 +40,5 @@ export default SqlPopup;
 
 SqlPopup.propTypes = {
   onClose: PropTypes.func,
-  queryText: PropTypes.string
+  queryText: PropTypes.string,
 }

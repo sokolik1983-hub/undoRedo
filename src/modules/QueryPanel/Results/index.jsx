@@ -5,10 +5,11 @@ import Divider from '../../../common/components/Divider';
 import styles from './Results.module.scss';
 import { ReactComponent as Reload } from '../../../layout/assets/queryPanel/reload.svg';
 import { createQuery, getResultFromQuery, semanticLayerDataQuery } from '../../../data/actions/universes';
+import { getCondition } from '../helper';
 import ResultsTable from './ResultsTable';
 import { useDragNDrop } from '../context/DragNDropContex';
 
-const Results = ({ title, isQueryExecute, onQueryTextCreate }) => {
+const Results = ({ title, isQueryExecute, onQueryTextCreate, onObjFilEdit }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [queryResult, setQueryResult] = useState(null);
@@ -22,100 +23,10 @@ const Results = ({ title, isQueryExecute, onQueryTextCreate }) => {
   const { objectsDesk, filtersDesk } = useDragNDrop();
 
   useEffect(() => {
-    console.log(filtersDesk)
-  }, [filtersDesk]);
-
-  const conditionSwitcher = (cond) => {
-    console.log('\n', cond,'\n', 'соответствие образцу', '\n', cond === 'соответствие образцу')
-    switch (cond) {
-      case 'ИЛИ' :
-        return 'OR';
-      case 'И' :
-        return 'AND';
-      case 'равно' :
-        return 'EQUAL';
-      case 'меньше чем':
-        return 'LESS_THAN';
-      case 'меньше чем или равно':
-        return 'LESS_THAN_EQUAL';
-      case 'более чем':
-        return 'MORE_THAN';
-      case 'более чем или равно':
-        return 'MORE_THAN_EQUAL';
-      case 'в списке':
-        return 'IN';
-      case 'не в списке':
-        return 'NOT_IN';
-      case 'между':
-        return 'BETWEEN';
-      case 'соответсвие образцу':
-        return 'LIKE';
-      default :
-        return null;
+    if (objectsDesk) {
+      onObjFilEdit(objectsDesk, filtersDesk);
     }
-  }
-
-  const getCondition = (condition) => {
-    function getChildren(item) {
-      return {
-        children: {
-          prefix: conditionSwitcher(item.condition),
-          data: item.children.map(child => {
-            if (child && child.fieldItem) {
-              return {
-                field:
-                  `${child.fieldItem.parent_folder}.${child.fieldItem.field}`,
-                value: child.inputValue,
-                cond_type: conditionSwitcher(child.itemCondition)
-              };
-            }
-
-            if (child && child.children) {
-              return getChildren(child);
-            }
-
-            return null;
-          })
-        }
-      };
-    }
-
-    const resultString = {};
-    console.log(condition)
-
-    condition.forEach(item => {
-      if (item?.type === 'filter-node') {
-        resultString.prefix = conditionSwitcher(item.condition);
-        resultString.data = item.children.map(child => {
-          if (child && child.fieldItem) {
-            return {
-              field:
-                `${child.fieldItem.parent_folder}.${child.fieldItem.field}`,
-              value: child.inputValue,
-              cond_type: conditionSwitcher(child.itemCondition)
-            };
-          }
-
-          if (child && child.children) {
-            return getChildren(child);
-          }
-
-          return null;
-        });
-      }
-      else if (item.type === 'filter-item') {
-        resultString.prefix = 'AND';
-        resultString.data = [{
-          field:  `${item.fieldItem.parent_folder}.${item.fieldItem.field}`,
-          value: item.inputValue,
-          cond_type: conditionSwitcher(item.itemCondition)
-        }]
-      }
-    });
-
-    console.log(resultString, 'resultString');
-    return resultString;
-  };
+  }, [objectsDesk, filtersDesk]);
 
   useEffect(() => {
     console.log(queryData?.data);
@@ -155,7 +66,7 @@ const Results = ({ title, isQueryExecute, onQueryTextCreate }) => {
     dispatch(createQuery({
       symlayer_id: symLayerData.symlayer_id,
       data: objectsDesk.map(item => `${item.parent_folder}.${item.field}`),
-      conditions: getCondition([filtersDesk]) 
+      conditions: filtersDesk ? getCondition([filtersDesk]) : {} 
     }));
   };
   
@@ -199,5 +110,6 @@ export default Results;
 Results.propTypes = {
   title: PropTypes.string,
   isQueryExecute: PropTypes.bool,
-  onQueryTextCreate: PropTypes.func
+  onQueryTextCreate: PropTypes.func,
+  onObjFilEdit: PropTypes.func
 };

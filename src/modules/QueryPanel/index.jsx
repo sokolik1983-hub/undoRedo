@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './QueryPanel.module.scss';
 import Modal from '../../common/components/Modal';
 import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.module.scss';
-import { getUniverses, setQueryPanelModal } from '../../data/actions/universes';
+import { createQuery, getUniverses, setQueryPanelModal } from '../../data/actions/universes';
 import SelectSemanticLayer from './SelectSemanticLayer';
 import SqlPopup from './SqlPopup';
 import ObjectsPanel from './ObjectsPanel';
@@ -14,6 +14,7 @@ import Results from './Results';
 import QueryPanelControls from './QueryPanelControls/QueryPanelControls';
 import DragNDropProvider from './context/DragNDropContex';
 import ModalConfirm from '../../common/components/Modal/ModalConfirm';
+import { getCondition } from './helper';
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
@@ -26,6 +27,10 @@ const QueryPanel = ({ visible }) => {
   const [isConfirmModalOpened, setIsConfirmModalOpened] = useState(false);
   const [isSqlPopupOpened, setSqlPopupOpened] = useState(false);
   const [queryText, setQueryText] = useState('');
+  const [objects, setObjects] = useState([]);
+  const [filters, setFilters] = useState([]);
+
+  const symLayerData = useSelector(state => state.app?.data?.symLayersData);
 
   useEffect(() => {
     dispatch(getUniverses());
@@ -36,6 +41,11 @@ const QueryPanel = ({ visible }) => {
       ? setIsConfirmModalOpened(true)
       : dispatch(setQueryPanelModal(false));
   };
+
+  const handleObjFilEdit = (objs, fils) => {
+    setObjects(objs);
+    setFilters(fils);
+  }
 
   const handleQueryExecute = () => {
     setQueryExecute(true);
@@ -70,6 +80,24 @@ const QueryPanel = ({ visible }) => {
     dispatch(setQueryPanelModal(false));
   };
 
+  const createQueryText = () => {
+    if (objects) {
+      dispatch(createQuery({
+        symlayer_id: symLayerData.symlayer_id,
+        data: objects.map(item => `${item.parent_folder}.${item.field}`),
+        conditions: filters ? getCondition([filters]) : {} 
+      }));
+    }
+  }
+
+  useEffect(() => {
+    if (isSqlPopupOpened) {
+      createQueryText();
+    } else {
+      setQueryText('');
+    }
+  }, [isSqlPopupOpened])
+
   const modalContent = () => {
     return (
       <div className={styles.root}>
@@ -89,6 +117,7 @@ const QueryPanel = ({ visible }) => {
                 title="Просмотр данных"
                 isQueryExecute={isQueryExecute}
                 onQueryTextCreate={handleQueryText}
+                onObjFilEdit={handleObjFilEdit}
               />
               <QueryPanelControls
                 onRun={handleQueryExecute}

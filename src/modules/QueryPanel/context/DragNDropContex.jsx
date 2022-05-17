@@ -161,7 +161,6 @@ const DragNDropProvider = ({ children }) => {
     e.stopPropagation();
 
     let dropped = JSON.parse(e.dataTransfer.getData('text'));
-    console.log(dropped)
     if (dropped.isFolder) return;
 
     if (parentSection.current !== DRAG_PARENT_SECTION.FILTERS) {
@@ -416,7 +415,6 @@ const DragNDropProvider = ({ children }) => {
   };
 
   const handleEditFiltersItem = (id, input, condition) => {
-    console.log(condition)
     const filtersDeskClone = JSON.parse(JSON.stringify(filtersDesk));
     if (filtersDesk.type === 'filter-node') {
       const [parent, idx] = getParent(filtersDeskClone, id);
