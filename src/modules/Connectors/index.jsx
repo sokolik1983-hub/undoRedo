@@ -13,7 +13,7 @@ import FloatingButton from '../../common/components/FloatingButton';
 import { ReactComponent as CreateConnector } from '../../layout/assets/createConnector.svg';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
-import { ReactComponent as GearsIcon } from '../../layout/assets/semanticLayerModal/gears.svg';
+import Gears from '../../common/components/Gears';
 import { BUTTON } from '../../common/constants/common';
 
 function Connectors() {

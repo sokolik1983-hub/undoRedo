@@ -233,7 +233,6 @@ export default function SidePanel({ navType }) {
     const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
     event.dataTransfer.clearData();
     refreshFieldsStore(selectedEl);
-    debugger;
     dispatch(
       addTableColumn({
         column: { ...columnObject, object: { ...selectedEl } },

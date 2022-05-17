@@ -2,7 +2,7 @@ import { Button } from '@material-ui/core';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PopupContainer from '../../../common/components/PopupContainer';
-import { QUERY_PANEL_POPUP } from '../../../common/constants/popups'; 
+import { QUERY_PANEL_POPUP } from '../../../common/constants/popups';
 
 import { hidePopup } from '../../../data/reducers/ui';
 import QueryPanel from '../../../modules/QueryPanel';
@@ -30,7 +30,7 @@ function PopupDispatcher() {
     }
   }
 
-  function renderTitle() { 
+  function renderTitle() {
     switch (popupVisible) {
       case QUERY_PANEL_POPUP:
         return <div>Query panel</div>;

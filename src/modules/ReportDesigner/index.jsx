@@ -29,7 +29,7 @@ import FormulaEditor from '../../common/components/FormulaEditor';
 // import DragNDropProvider from '../QueryPanel/context/DragNDropContext';
 // import { getSymanticLayerData } from '../../data/actions/universes';
 import { ReactComponent as CloseIcon } from '../../layout/assets/close.svg';
-import ReportSidebar from './ReportSidebar'; 
+import ReportSidebar from './ReportSidebar';
 import QueryPanel from '../QueryPanel';
 
 const BLOCK_TYPES = {
@@ -38,7 +38,7 @@ const BLOCK_TYPES = {
   table_horizontal: tableObject,
   graph: graphObject,
   text: textObject,
-  shape: shapeObject 
+  shape: shapeObject
 };
 
 // const getVariant = (type, tableType, graphType) => {
