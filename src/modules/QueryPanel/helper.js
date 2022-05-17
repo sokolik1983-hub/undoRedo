@@ -28,11 +28,16 @@ export const conditionSwitcher = (cond) => {
 }
 
 export const getCondition = (condition) => {
+    let isEmptyValue = false;
+    
     function getChildren(item) {
       return {
         children: {
           prefix: conditionSwitcher(item.condition),
           data: item.children.map(child => {
+            if (child.inputValue.trim() === '') {
+              isEmptyValue = true;
+            } 
             if (child && child.fieldItem) {
               return {
                 field:
@@ -52,13 +57,16 @@ export const getCondition = (condition) => {
       };
     }
 
-    const resultString = {};
+    let resultString = {};
 
     condition.forEach(item => {
       if (item?.type === 'filter-node') {
         resultString.prefix = conditionSwitcher(item.condition);
         resultString.data = item.children.map(child => {
           if (child && child.fieldItem) {
+            if (child.inputValue.trim() === '') {
+              isEmptyValue = true;
+            } 
             return {
               field:
                 `${child.fieldItem.parent_folder}.${child.fieldItem.field}`,
@@ -76,6 +84,9 @@ export const getCondition = (condition) => {
       }
       else if (item.type === 'filter-item') {
         resultString.prefix = 'AND';
+        if (item.inputValue.trim() === '') {
+          isEmptyValue = true;
+        }
         resultString.data = [{
           field:  `${item.fieldItem.parent_folder}.${item.fieldItem.field}`,
           value: item.inputValue,
@@ -83,7 +94,21 @@ export const getCondition = (condition) => {
         }]
       }
     });
-
+    
+    resultString = isEmptyValue ? 'Empty Value' : resultString;
     return resultString;
   };
+
+  export const isAnyEmptyFilter = (filters) => {
+    let error = ''
+    console.log(filters)
+    if (Object.keys(filters).length !== 0) {
+      filters.data.forEach(item => {
+        if (item.value?.trim() === '') {
+          error = 'Пустые фильтры';
+        }
+      })
+    }
+    return error;
+  }
 

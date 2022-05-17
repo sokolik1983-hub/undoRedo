@@ -14,6 +14,7 @@ const Results = ({ title, isQueryExecute, onQueryTextCreate, onObjFilEdit }) => 
   const [isLoading, setIsLoading] = useState(false);
   const [queryResult, setQueryResult] = useState(null);
   const [timerValue, setTimerValue] = useState(null);
+  const [errorText, setError] = useState('');
 
   const symLayerData = useSelector(state => state.app?.data?.symLayersData);
   const queryData = useSelector(state => state.app?.data?.queryData);
@@ -62,11 +63,18 @@ const Results = ({ title, isQueryExecute, onQueryTextCreate, onObjFilEdit }) => 
   }, [symLayerDataFromQuery]);
 
   const handleExecute = () => {
-    dispatch(createQuery({
-      symlayer_id: symLayerData.symlayer_id,
-      data: objectsDesk.map(item => `${item.parent_folder}.${item.field}`),
-      conditions: filtersDesk ? getCondition([filtersDesk]) : {} 
-    }));
+    const resultConditions = filtersDesk ? getCondition([filtersDesk]) : {};
+
+    if (resultConditions === 'Empty Value') {
+      setError('Пустой фильтр');
+    } else {
+      setError('');
+      dispatch(createQuery({
+        symlayer_id: symLayerData.symlayer_id,
+        data: objectsDesk.map(item => `${item.parent_folder}.${item.field}`),
+        conditions: resultConditions 
+      }));
+    }
   };
   
   useEffect(() => {
@@ -100,6 +108,9 @@ const Results = ({ title, isQueryExecute, onQueryTextCreate, onObjFilEdit }) => 
           />
         )}
       </div>
+      <span style={{color: 'red'}}>
+        {errorText}
+      </span>
     </div>
   );
 };

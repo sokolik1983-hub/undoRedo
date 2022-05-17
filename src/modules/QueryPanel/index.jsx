@@ -29,6 +29,7 @@ const QueryPanel = ({ visible }) => {
   const [queryText, setQueryText] = useState('');
   const [objects, setObjects] = useState([]);
   const [filters, setFilters] = useState([]);
+  const [errorText, setError] = useState('');
 
   const symLayerData = useSelector(state => state.app?.data?.symLayersData);
 
@@ -91,7 +92,11 @@ const QueryPanel = ({ visible }) => {
   }
 
   useEffect(() => {
-    if (isSqlPopupOpened) {
+    const resultConditions = filters ? getCondition([filters]) : {};
+    if (resultConditions === 'Empty Value') {
+      setError('Пустые фильтры');
+    } else if (isSqlPopupOpened) {
+      setError('');
       createQueryText();
     } else {
       setQueryText('');
@@ -119,6 +124,7 @@ const QueryPanel = ({ visible }) => {
                 onQueryTextCreate={handleQueryText}
                 onObjFilEdit={handleObjFilEdit}
               />
+              <span style={{color: 'red'}}>{errorText}</span>
               <QueryPanelControls
                 onRun={handleQueryExecute}
                 onSql={handleShowSqlPopup}
@@ -141,7 +147,7 @@ const QueryPanel = ({ visible }) => {
             onClose={() => onClose()}
           />
         )}
-        {isSqlPopupOpened && (
+        {isSqlPopupOpened && !errorText.length && (
           <SqlPopup 
             onClose={handleShowSqlPopup}
             queryText={queryText}
