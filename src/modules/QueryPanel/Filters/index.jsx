@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-curly-newline */
 import Divider from '../../../common/components/Divider';
 import FiltersHeader from './FiltersHeader/FiltersHeader';
-import { useDragNDrop } from '../context/DragNDropContex';
+import { useDragNDrop } from '../context/DragNDropContext';
 import FiltersDeskItem from './FiltersDeskItem/FiltersDeskItem';
 import FiltersDeskNode from './FiltersDeskNode/FiltersDeskNode';
 import { DRAG_PARENT_SECTION } from '../../../common/constants/common';

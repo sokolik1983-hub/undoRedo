@@ -144,7 +144,10 @@ const DragNDropProvider = ({ children }) => {
         if (arr[i].type === 'filter-node') find(arr[i]);
       }
     };
-    find(obj);
+
+    if (!result || !idx) {
+      find(obj)
+    };
 
     return [result, idx];
   };

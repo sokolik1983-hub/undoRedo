@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useRoutes, useNavigate } from 'react-router-dom';
 import './App.css';
 import PropTypes from 'prop-types';
@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import routes from './routes';
 import { REDIRECT_LINKS } from './common/constants/common';
 import { logout } from './data/reducers/auth';
-import { getDictionaries } from './data/actions/app'
 
 function AuthProvider({ children }) {
   return <>{children}</>;
@@ -27,7 +26,6 @@ function App() {
       dispatch(logout());
       navigate(REDIRECT_LINKS.LOGIN_PAGE, { replace: false });
     }
-    dispatch(getDictionaries())
   }, []);
 
   return <AuthProvider>{routing}</AuthProvider>;

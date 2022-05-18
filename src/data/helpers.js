@@ -5,6 +5,8 @@ import { setLoadingData } from './reducers/ui';
 import { SERVER_API_URL } from '../common/constants/config';
 // eslint-disable-next-line import/no-cycle
 import { notificationShown } from './reducers/notifications';
+// eslint-disable-next-line import/no-cycle
+import { logoutUser } from './actions/auth';
 
 export const request = async ({ type = 'request', params, func, dispatch }) => {
   try {
@@ -16,9 +18,8 @@ export const request = async ({ type = 'request', params, func, dispatch }) => {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       withCredentials: true,
-      data: `function=${func}&format=JSON&extraParam=&params=${
-        params ? JSON.stringify(params) : ''
-      }`
+      data: `function=${func}&format=JSON&extraParam=&params=${params ? JSON.stringify(params) : ''
+        }`
     });
 
     if (response && response.status === 200) {
@@ -38,21 +39,24 @@ export const request = async ({ type = 'request', params, func, dispatch }) => {
 
     throw Error(response.errorText);
   } catch (err) {
-    dispatch(
-      notificationShown({
-        message: err.message,
-        messageType: 'error',
-        reason: 'Возможно не прошли авторизацию',
-        advice: 'Нажать кнопку выход и авторизоваться'
-      })
-    );
+    // TODO: delete commented code, if no problems will happen
+    // dispatch(
+    //   notificationShown({
+    //     message: err.message,
+    //     messageType: 'error',
+    //     reason: 'Возможно не прошли авторизацию',
+    //     advice: 'Нажать кнопку выход и авторизоваться'
+    //   })
+    // );
+    dispatch(logoutUser());
+    window.location.replace('/login');
     dispatch(setLoadingData(false));
   }
 
   return null;
 };
 
-export const requestSymLayerData = async ({id, dispatch}) => {
+export const requestSymLayerData = async ({ id, dispatch }) => {
   try {
     dispatch(setLoadingData(true));
     const response = await axios({
@@ -81,7 +85,7 @@ export const requestSymLayerData = async ({id, dispatch}) => {
         throw Error(errorText);
       }
     }
-  } catch(err) {
+  } catch (err) {
     dispatch(
       notificationShown({
         message: err.message,
@@ -90,7 +94,7 @@ export const requestSymLayerData = async ({id, dispatch}) => {
     );
     dispatch(setLoadingData(false));
   }
-    
+
   return null;
 }
 
