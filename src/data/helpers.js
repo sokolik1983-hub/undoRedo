@@ -55,16 +55,10 @@ const requesterTimeout = ({ id, dispatch }) => {
         resolve(response);
         return clearInterval(timer);
       }
-      // if (response?.result === 'false') {
-      //   clearInterval(timer);
-      //   setLoadingData(false);
-      //   reject(response)
-      //   return clearInterval(timer);
-      // }
       if (response?.result === 'failed') {
         console.log('id запроса устарел');
-        reject(response)
-        return clearInterval(timer);
+        clearInterval(timer)
+        return reject(response);
       }
       if (response?.result === 'pending') {
         console.log('данные на сервере еще не готовы');
