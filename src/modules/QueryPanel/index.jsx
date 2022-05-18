@@ -1,18 +1,25 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './QueryPanel.module.scss';
 import Modal from '../../common/components/Modal';
 import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.module.scss';
-import { getUniverses, setQueryPanelModal } from '../../data/actions/universes';
+import {
+  getUniverses,
+  setConfirmModal,
+  setQueryPanelModal
+} from '../../data/actions/universes';
 import SelectSemanticLayer from './SelectSemanticLayer';
+import SqlPopup from './SqlPopup';
 import ObjectsPanel from './ObjectsPanel';
 import Objects from './Objects';
 import Filters from './Filters';
 import Results from './Results';
 import QueryPanelControls from './QueryPanelControls/QueryPanelControls';
-import DragNDropProvider from './context/DragNDropContex';
+import DragNDropProvider from './context/DragNDropContext';
+
 import ModalConfirm from '../../common/components/Modal/ModalConfirm';
+import { setSymanticLayerData } from '../../data/reducers/data';
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
@@ -22,7 +29,11 @@ const QueryPanel = ({ visible }) => {
   );
   const [isQueryExecute, setQueryExecute] = useState(false);
   const [isChanged, setIsChanged] = useState(false);
-  const [isConfirmModalOpened, setIsConfirmModalOpened] = useState(false);
+  const [isSqlPopupOpened, setSqlPopupOpened] = useState(false);
+
+  const confirmModalOpened = useSelector(
+    state => state.app.ui.confirmModalVisible
+  );
 
   useEffect(() => {
     dispatch(getUniverses());
@@ -30,7 +41,7 @@ const QueryPanel = ({ visible }) => {
 
   const handleClose = () => {
     return isChanged
-      ? setIsConfirmModalOpened(true)
+      ? dispatch(setConfirmModal(true))
       : dispatch(setQueryPanelModal(false));
   };
 
@@ -39,6 +50,10 @@ const QueryPanel = ({ visible }) => {
     setTimeout(() => {
       setQueryExecute(false);
     }, 1000);
+  };
+
+  const handleShowSqlPopup = () => {
+    setSqlPopupOpened(!isSqlPopupOpened);
   };
 
   const handleShowSelector = () => {
@@ -57,6 +72,8 @@ const QueryPanel = ({ visible }) => {
 
   const onClose = () => {
     dispatch(setQueryPanelModal(false));
+    dispatch(setConfirmModal(false));
+    dispatch(setSymanticLayerData(null));
   };
 
   const modalContent = () => {
@@ -80,7 +97,8 @@ const QueryPanel = ({ visible }) => {
               />
               <QueryPanelControls
                 onRun={handleQueryExecute}
-                onApply={() => {}}
+                onSql={handleShowSqlPopup}
+                onApply={handleClose} // todo применить функционал переноса в отчет
                 onCancel={handleClose}
               />
             </div>
@@ -93,12 +111,14 @@ const QueryPanel = ({ visible }) => {
             onSelectSemanticLayer={onSelectSemanticLayer}
           />
         )}
-        {isConfirmModalOpened && (
+        {confirmModalOpened && (
           <ModalConfirm
-            onReturn={() => setIsConfirmModalOpened(false)}
+            style={{'top': 1}}
+            onReturn={() => dispatch(setConfirmModal(false))}
             onClose={() => onClose()}
           />
         )}
+        {isSqlPopupOpened && <SqlPopup onClose={handleShowSqlPopup} />}
       </div>
     );
   };

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import styles from './SortingField.module.scss';
 import Select from '../../Select';
+import { ReactComponent as CloseIcon } from '../../../../layout/assets/close.svg';
 
 function SortingField({ options, onChange, onRemove, item }) {
   const [field, setField] = useState(options[0].value);
@@ -24,18 +26,21 @@ function SortingField({ options, onChange, onRemove, item }) {
   }
 
   return (
-    <div>
-      <Select options={options} onSelectItem={handleChangeField} />
+    <div className={styles.root}>
+      <Select
+        options={options}
+        onSelectItem={handleChangeField}
+        className={styles.select}
+      />
       <Select
         options={[
           { value: 'ASC', text: 'ASC' },
           { value: 'DESC', text: 'DESC' }
         ]}
         onSelectItem={handleChangeSorting}
+        className={styles.select}
       />
-      <button type="button" onClick={handleRemoveField}>
-        remove
-      </button>
+      <CloseIcon onClick={handleRemoveField} className={styles.closeIcon} />
     </div>
   );
 }

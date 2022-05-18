@@ -1,0 +1,199 @@
+.root {
+  position: absolute;
+  flex: none;
+  width: 300px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 745px;
+  box-shadow: 0px 7px 17px rgba(34, 82, 102, 0.75);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.contentData {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 60px);
+}
+
+.tabs {
+  display: flex;
+  height: 42px;
+}
+
+.arrow {
+  margin-left: auto;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+.editBlock {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  background: #FFFFFF;
+  width: 40%;
+  margin-left: 3px;
+  padding: 9px 10px 9px 13px;
+}
+
+.viewBlock {
+  @extend .editBlock;
+
+  background: linear-gradient(163.79deg, rgba(0, 55, 137, 0.75) 6.45%, rgba(0, 55, 137, 0.375) 100%);
+  margin-left: 0;
+  border-radius: 7px;
+  height: 53px;
+}
+
+.editBlockCollapsed {
+  @extend .editBlock;
+
+  height: 53px;
+  padding: 9px 10px 9px 13px;
+  border-radius: 7px;
+}
+
+.editBlockActive {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  align-items: center;
+  padding: 9px 20px 9px 13px;
+  background: white;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  margin-left: 3px;
+  width: 60%;
+}
+
+.editBlockActiveCollapsed {
+  @extend .editBlockActive;
+
+  height: fit-content;
+  padding: 9px 10px 9px 13px;
+  border-radius: 7px;
+}
+
+.viewBlockActive {
+  @extend .editBlockActive;
+
+  background: rgba(0, 55, 137, 0.75);
+  padding: 9px 10px 5px 13px;
+  margin-left: 0;
+}
+
+
+.viewBlockActiveCollapsed {
+  @extend .viewBlockActive;
+
+  height: fit-content;
+  padding: 9px 10px 9px 13px;
+  border-radius: 7px;
+}
+
+.editText {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 10px;
+  color: #000000;
+  margin: 0;;
+}
+
+.editActiveText {
+  margin: 0;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #000000;
+}
+
+.editableItem {
+  margin: 0;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 23px;
+  color: #000000;
+}
+
+.viewText {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 10px;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.viewActiveText {
+  margin: 0;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #FFFFFF;
+}
+
+.viewItem {
+  margin: 0;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 23px;
+  color: #FFFFFF;
+}
+
+.tableActions {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 4px 0px;
+}
+
+.tableFilters {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.objects {
+  height: 100%;
+  z-index: 11;
+  position: absolute;
+}
+
+.sidePanel {
+  height: 645px;
+  width: 240px;
+  position: absolute;
+  left: 0px;
+  top: 0;
+  z-index: 10;
+  visibility: hidden;
+  background: linear-gradient(
+    152.97deg,
+    rgba(0, 55, 137, 0.75) 0%,
+    rgba(0, 55, 137, 0.375) 100%
+  );
+  box-shadow: 0px 7px 17px rgba(34, 82, 102, 0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+}
+
+.sidePanelVisible {
+  transition: left ease-in-out 250ms;
+  left: 300px;
+  visibility: visible;
+}

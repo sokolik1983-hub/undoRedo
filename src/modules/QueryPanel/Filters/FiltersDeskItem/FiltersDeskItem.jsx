@@ -10,7 +10,7 @@ import IconButton from '../../../../common/components/IconButton';
 import { getIconByItemType } from '../../queryPanelHelper';
 import { EMPTY_STRING } from '../../../../common/constants/common';
 import styles from './FiltersDeskItem.module.scss';
-import { useDragNDrop } from '../../context/DragNDropContex';
+import { useDragNDrop } from '../../context/DragNDropContext';
 import DotsMenu from './DotsMenu/DotsMenu';
 
 const FiltersDeskItem = ({

@@ -10,9 +10,9 @@ function Roles() {
     dispatch(setCurrentPage(PAGE.ROLES));
   }, []);
   return (
-    <>
-      <div className={styles.root}>Roles Content</div>
-    </>
+    <div className={styles.root}>
+      <h1> Данный модуль находится в стадии разработки </h1>
+    </div>
   );
 }
 

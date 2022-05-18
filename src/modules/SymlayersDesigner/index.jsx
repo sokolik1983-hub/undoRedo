@@ -23,6 +23,7 @@ function SymlayersDesigner() {
   const isObjectsConnectionsModalOpened = useSelector(
     state => state.app.ui.modalVisible === OBJECTS_CONNECTIONS_MODAL
   );
+
   const schemaDesignerUi = useSelector(state => state.app.schemaDesigner.ui);
   const links = useSelector(state => state.app.schemaDesigner.links);
   const contexts = useSelector(state => state.app.schemaDesigner.contexts);
@@ -32,8 +33,6 @@ function SymlayersDesigner() {
     if (event) {
       setChecked([...checked, selected]);
     } else {
-      // setShowDeleteConfirmation(selected);
-      // handleDeleteTable(selected);
       setChecked(
         checked.filter(item => item.object_name !== selected.object_name)
       );
@@ -60,6 +59,7 @@ function SymlayersDesigner() {
       </div>
       {isObjectsConnectionsModalOpened && (
         <ObjectsConnectionEditor
+          id={links.length}
           visible={isObjectsConnectionsModalOpened && true}
         />
       )}

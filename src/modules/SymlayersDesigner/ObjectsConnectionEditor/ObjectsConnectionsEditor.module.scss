@@ -99,10 +99,6 @@
   padding-bottom: 10px;
 }
 
-.formulaWrapper {
-
-}
-
 .formulaLeftSide {
   display: flex;
   flex-direction: column;
@@ -204,10 +200,6 @@
   color: #FFFFFF;
 }
 
-.sqlBottomContent {
-
-}
-
 .sqlFunctionDescription {
   padding-left: 26px;
   font-weight: 400;
@@ -255,4 +247,12 @@
 
 .checkBoxWrapper {
   align-items: center;
+}
+
+option:after {
+  content: ' '
+}
+
+.optRed:after {
+  background-color: #c00;
 }

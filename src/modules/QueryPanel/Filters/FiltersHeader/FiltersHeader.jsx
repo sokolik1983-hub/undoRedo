@@ -3,7 +3,7 @@ import { ReactComponent as Group } from '../../../../layout/assets/queryPanel/gr
 import { ReactComponent as ArrowDown } from '../../../../layout/assets/queryPanel/arrowBoldDown.svg';
 import { ReactComponent as ArrowUp } from '../../../../layout/assets/queryPanel/arrowBoldUp.svg';
 import { ReactComponent as Basket } from '../../../../layout/assets/queryPanel/basket.svg';
-import { useDragNDrop } from '../../context/DragNDropContex';
+import { useDragNDrop } from '../../context/DragNDropContext';
 import Tooltip from '../../../../common/components/Tooltip';
 import styles from './FiltersHeader.module.scss';
 

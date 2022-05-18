@@ -2,7 +2,7 @@
 import { request, requestSymLayerData } from '../helpers';
 import { setQueryData, setSymanticLayerData, setUniverses, setSymanticLayerQueryResult, setQueryResult, setListReports } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
-import { showObjectsConnectionsModal, closeModal, showQueryPanelModal, showSemanticLayerModal, showTablePreviewModal } from '../reducers/ui';
+import { showObjectsConnectionsModal, closeModal, showQueryPanelModal, showSemanticLayerModal, showTablePreviewModal, showCreateObjectModal, closeCreateObjectModal, showConfirmModal, closeConfirmModal } from '../reducers/ui';
 
 export const getUniverses = queryParams => {
   return async dispatch => {
@@ -23,7 +23,7 @@ export const getUniverses = queryParams => {
   };
 };
 
-export const  getSymanticLayerData = id => {
+export const getSymanticLayerData = id => {
   return async dispatch => {
     try {
       const response = await requestSymLayerData({
@@ -80,7 +80,7 @@ export const createQuery = queryParams => {
       const response = await request({
         func: 'QUERY.CREATE',
         params: queryParams,
-        dispatch      
+        dispatch
       });
 
       if (response?.success) {
@@ -100,7 +100,7 @@ export const semanticLayerDataQuery = queryParams => {
       const response = await request({
         func: 'CONNECT.START_SQL',
         params: queryParams,
-        dispatch      
+        dispatch
       });
       if (response?.success) {
         dispatch(setSymanticLayerQueryResult(response.result));
@@ -126,7 +126,7 @@ export const getListReports = queryParams => {
       }
     } catch (err) {
       dispatch(
-        notificationShown({ message: err.message, messageType: 'error'})
+        notificationShown({ message: err.message, messageType: 'error' })
       );
     }
   };
@@ -138,7 +138,7 @@ export const getResultFromQuery = queryParams => {
       const response = await request({
         func: 'CONNECT.GET_RESULT_SQL',
         params: queryParams,
-        dispatch      
+        dispatch
       });
       if (response?.success) {
         dispatch(setQueryResult(response.result));
@@ -151,8 +151,8 @@ export const getResultFromQuery = queryParams => {
   };
 };
 
-export const setObjectsConnectionsModal = (open) => {
-  return dispatch => dispatch(open ? showObjectsConnectionsModal() : closeModal());
+export const setObjectsConnectionsModal = (open, link) => {
+  return dispatch => dispatch(open ? showObjectsConnectionsModal(link) : closeModal());
 };
 
 export const setQueryPanelModal = (open) => {
@@ -167,3 +167,10 @@ export const setSemanticLayerModal = (open) => {
   return dispatch => dispatch(open ? showSemanticLayerModal() : closeModal());
 };
 
+export const setConfirmModal = (open) => {
+  return dispatch => dispatch(open ? showConfirmModal() : closeConfirmModal());
+};
+
+export const setCreateObjectModal = (open) => {
+  return dispatch => dispatch(open ? showCreateObjectModal() : closeCreateObjectModal());
+};

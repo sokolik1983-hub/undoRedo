@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import clsx from 'clsx';
 import HomePageButton from './HomePageButton/HomePageButton';
 import styles from './HomePage.module.scss';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
-import navigationMenu from '../../navigation';
+import navigationMenu from '../../navigation';  
 import { ReactComponent as ExplorerIcon } from '../../layout/assets/icons/buttonPlus.svg';
 import FloatingButton from '../../common/components/FloatingButton';
-import QueryPanel from '../../modules/QueryPanel';
-import Button from '../../common/components/Button';
-import { setQueryPanelModal } from '../../data/actions/universes';
+// import QueryPanel from '../../modules/QueryPanel';
+// import Button from '../../common/components/Button';
+// import { setQueryPanelModal } from '../../data/actions/universes';
 
 const RECENTS = [
   { id: 1, title: 'Отчет 1 о проделанной работе с мая месяца текущего года' },
@@ -27,9 +27,9 @@ function HomePage() {
   const dispatch = useDispatch();
 
   /* удалить, когда перенесем модалку в дизайнер отчета */
-  const isQueryPanelModalOpened = useSelector(
-    state => state.app.ui.modalVisible
-  );
+  // const isQueryPanelModalOpened = useSelector(
+  //   state => state.app.ui.modalVisible
+  // );
   /* удалить, когда перенесем модалку в дизайнер отчета */
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function HomePage() {
   }, []);
 
   const handleClick = () => {
-    console.log('click create');
+    window.location.pathname = '/Universe/report/create/1';
   };
 
   return (
@@ -95,14 +95,14 @@ function HomePage() {
         </div>
       </div>
       {/* удалить, когда перенесем модалку в дизайнер отчета */}
-      <div>
+      {/* <div>
         <Button onClick={() => dispatch(setQueryPanelModal(true))}>
           Открыть панель запросов
         </Button>
-      </div>
-      {isQueryPanelModalOpened && (
+      </div> */}
+      {/* {isQueryPanelModalOpened && (
         <QueryPanel visible={isQueryPanelModalOpened && true} />
-      )}
+      )} */}
       {/* удалить, когда перенесем модалку в дизайнер отчета */}
       <FloatingButton
         icon={<ExplorerIcon />}

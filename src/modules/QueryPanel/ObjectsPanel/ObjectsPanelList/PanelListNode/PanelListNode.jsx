@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import PanelListItem from '../PanelListItem/PanelListItem';
 import { ReactComponent as FolderIcon } from '../../../../../layout/assets/folderIcon.svg';
 import { ReactComponent as FolderOpenIcon } from '../../../../../layout/assets/folderOpenIcon.svg';
-import { useDragNDrop } from '../../../context/DragNDropContex';
+import { useDragNDrop } from '../../../context/DragNDropContext';
 import { getIconByItemType } from '../../../queryPanelHelper';
 import { DRAG_PARENT_SECTION } from '../../../../../common/constants/common';
 import styles from './PanelListNode.module.scss';

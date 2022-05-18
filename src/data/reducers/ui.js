@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   CONNECTOR_POPUP, OBJECTS_CONNECTIONS_MODAL,
-  QUERY_PANEL_MODAL, TABLE_PREVIEW_MODAL, UNIVERSE_MODAL,
-  UNIVERSE_POPUP
+  QUERY_PANEL_MODAL, UNIVERSE_MODAL,
+  UNIVERSE_POPUP, CREATE_OBJECT_MODAL, TABLE_PREVIEW_MODAL, CONFIRM_MODAL
 } from '../../common/constants/popups';
 
 const ui = createSlice({
@@ -13,7 +13,9 @@ const ui = createSlice({
     popupData: {},
     currentPage: '',
     isLoadingData: false,
-    isNavShowing: false
+    isNavShowing: false,
+    modalCreateObjectVisible: false,
+    confirmModalVisible: false,
   },
   reducers: {
     showNav: (state, action) => {
@@ -28,7 +30,8 @@ const ui = createSlice({
     showUniversePopup: state => {
       state.popupVisible = UNIVERSE_POPUP;
     },
-    showObjectsConnectionsModal: state => {
+    showObjectsConnectionsModal: (state, action) => {
+      state.modalData = action?.payload;
       state.modalVisible = OBJECTS_CONNECTIONS_MODAL;
     },
     showQueryPanelModal: state => {
@@ -54,9 +57,22 @@ const ui = createSlice({
     showSemanticLayerModal: state => {
       state.modalVisible = UNIVERSE_MODAL;
     },
+    showCreateObjectModal: state => {
+      state.modalCreateObjectVisible = CREATE_OBJECT_MODAL;
+    },
+    closeCreateObjectModal: state => {
+      state.modalCreateObjectVisible = false;
+    },
     showTablePreviewModal: state => {
       state.modalVisible = TABLE_PREVIEW_MODAL;
-    }
+    },
+    showConfirmModal: state => {
+      state.confirmModalVisible = CONFIRM_MODAL;
+    },
+    closeConfirmModal: state => {
+      state.confirmModalVisible = false;
+    },
+
   }
 });
 
@@ -75,6 +91,10 @@ export const {
   showTablePreviewModal,
   showSemanticLayerModal,
   closeModal,
+  showCreateObjectModal,
+  closeCreateObjectModal,
+  showConfirmModal,
+  closeConfirmModal,
 } = ui.actions;
 
 export default ui.reducer;
