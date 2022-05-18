@@ -7,7 +7,7 @@ import { ReactComponent as Reload } from '../../../layout/assets/queryPanel/relo
 import { createQuery, getResultFromQuery, semanticLayerDataQuery } from '../../../data/actions/universes';
 import { getCondition } from '../helper';
 import ResultsTable from './ResultsTable';
-import { useDragNDrop } from '../context/DragNDropContex';
+import { useDragNDrop } from '../context/DragNDropContext';
 
 const Results = ({ title, isQueryExecute, onQueryTextCreate, onObjFilEdit }) => {
   const dispatch = useDispatch();
