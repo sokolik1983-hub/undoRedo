@@ -11,7 +11,7 @@ import useClickOutside from '../../../../../common/helpers/useClickOutside';
 
 const icon = (
   <div className={styles.gearWrapper}>
-    <Gear fill='black' className={styles.gear} />
+    <Gear fill="black" className={styles.gear} />
     <div className={styles.hide}>
       <p className={styles.prompt}>свойства подсказки</p>
     </div>
@@ -51,21 +51,22 @@ const DropdownMenuWithPortal = () => {
 
   useEffect(() => {
     calculateCoords();
-  }, [isOpen])
+  }, [isOpen]);
 
   useEffect(() => {
     const container = '#filters-block';
     const close = () => setIsOpen(false);
-    
+
     document.querySelector(container).addEventListener('scroll', close);
 
-    return () => document.querySelector(container)?.removeEventListener('scroll', close);
+    return () =>
+      document.querySelector(container)?.removeEventListener('scroll', close);
   }, []);
-  
+
   const handleShowPrompt = () => {
     return setPromptPropertiesModalOpened(true);
   };
-  
+
   const onClosePromptPropertiesModalHandler = () => {
     return setPromptPropertiesModalOpened(false);
   };
@@ -80,21 +81,46 @@ const DropdownMenuWithPortal = () => {
 
   const items = [
     { text: 'постоянная', action: () => setIsOpen(!isOpen) },
-    { text: 'значение из списка', action: () => { handleShowList(); setIsOpen(!isOpen) }},
-    { text: 'подсказка', icon, action: () => { handleShowPrompt(); setIsOpen(!isOpen) }},
-    { text: 'объект данного запроса', disabled: true, action: () => setIsOpen(!isOpen) },
-    { text: 'результат другого запроса', disabled: true, action: () => setIsOpen(!isOpen)}
+    {
+      text: 'значение из списка',
+      action: () => {
+        handleShowList();
+        setIsOpen(!isOpen);
+      }
+    },
+    {
+      text: 'подсказка',
+      icon,
+      action: () => {
+        handleShowPrompt();
+        setIsOpen(!isOpen);
+      }
+    },
+    {
+      text: 'объект данного запроса',
+      disabled: true,
+      action: () => setIsOpen(!isOpen)
+    },
+    {
+      text: 'результат другого запроса',
+      disabled: true,
+      action: () => setIsOpen(!isOpen)
+    }
   ];
 
   return (
     <div ref={selectRef}>
       <Dropdown
-        mainButton={<DotsMenu fill='#000000' className={styles.menuIcon} />}
+        mainButton={<DotsMenu fill="#000000" className={styles.menuIcon} />}
         onClick={openPortal}
       />
       {isOpen && (
         <NewPortal>
-          <div style={{...coords}} className={styles.itemsWrapper} ref={clickRef}>
+          <div
+            style={{ ...coords }}
+            className={styles.itemsWrapper}
+            ref={clickRef}
+          >
             {items.map(i => (
               <DropdownItem
                 item={i}
@@ -106,7 +132,7 @@ const DropdownMenuWithPortal = () => {
           </div>
         </NewPortal>
       )}
-        
+
       {promptPropertiesModalOpened && (
         <PromptPropertiesLayer
           visible={promptPropertiesModalOpened && true}
@@ -120,8 +146,7 @@ const DropdownMenuWithPortal = () => {
           onClose={onCloseSemanticListHandler}
         />
       )}
-      
-    </div>   
+    </div>
   );
 };
 

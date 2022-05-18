@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { useState } from 'react';
@@ -10,6 +11,7 @@ import { getIconByItemType } from '../../queryPanelHelper';
 import { EMPTY_STRING } from '../../../../common/constants/common';
 import styles from './FiltersDeskItem.module.scss';
 import { useDragNDrop } from '../../context/DragNDropContex';
+import DotsMenu from './DotsMenu/DotsMenu';
 
 const FiltersDeskItem = ({
   id,
@@ -49,9 +51,11 @@ const FiltersDeskItem = ({
         value={inputValue}
         onChange={e => setInputValue(e.target.value)}
       />
-      <div className={styles.menu}>
+      {/* TODO: remove DropdownMenuWithPortal and inner components  */}
+      {/* <div className={styles.menu}>
         <DropdownMenuWithPortal />
-      </div>
+      </div> */}
+      <DotsMenu />
       <IconButton
         className={styles.closeBtn}
         icon={<CloseIcon className={styles.closeBtnIcon} />}

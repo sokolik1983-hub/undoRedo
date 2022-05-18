@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-shadow */
@@ -12,6 +13,7 @@ import { ReactComponent as MagnifierWhite } from '../../../layout/assets/schemaE
 import styles from './SchemaEditorBlock.module.scss';
 import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowOk.svg';
 import Tooltip from '../../../common/components/Tooltip';
+import IconButton from '../../../common/components/IconButton';
 
 // const data = [
 //   { text: 'Колонка', id: '1' },
@@ -37,7 +39,7 @@ const ShemaEditorBlock = ({
   onTableDragStart,
   selectedTableName,
   selectedTableColumns = [],
-  onTablePreviewClick,
+  onTablePreviewClick
 }) => {
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
@@ -54,7 +56,7 @@ const ShemaEditorBlock = ({
     [styles.contentWithSearch]: isActive
   });
 
-  const handleClick = (item) => {
+  const handleClick = item => {
     if (item.value === 'tablePreview') {
       return onTablePreviewClick();
     }
@@ -62,7 +64,7 @@ const ShemaEditorBlock = ({
   };
 
   const handleSearch = e => {
-    const {value} = e.target; 
+    const { value } = e.target;
 
     setSearchValue(value);
     setFilterableFields(
@@ -75,8 +77,20 @@ const ShemaEditorBlock = ({
   const onCloseInput = () => {
     setIsActive(!isActive);
     setSearchValue('');
-    setFilterableFields(selectedTableColumns)
-  }
+    setFilterableFields(selectedTableColumns);
+  };
+
+  const menu = () => (
+    <div className={styles.itemsWrapper}>
+      {items.map(i => (
+        <DropdownItem
+          item={i}
+          onClick={() => handleClick(i)}
+          className={styles.text}
+        />
+      ))}
+    </div>
+  );
 
   return (
     <div className={styles.wrapper}>
@@ -94,28 +108,30 @@ const ShemaEditorBlock = ({
             {selectedTableName}
           </h1>
           <div className={styles.iconsContainer}>
-            <Tooltip content={isOpened ? 'Свернуть таблицу' : 'Развернуть таблицу'} position='bottom'>
+            <Tooltip
+              placement="bottom"
+              overlay={
+                <div>
+                  {isOpened ? 'Свернуть таблицу' : 'Развернуть таблицу'}
+                </div>
+              }
+            >
               <Arrow
                 onClick={() => setIsOpened(prev => !prev)}
-                className={isOpened ? styles.arrowBtnOpened : styles.arrowBtnClosed}
+                className={
+                  isOpened ? styles.arrowBtnOpened : styles.arrowBtnClosed
+                }
               />
             </Tooltip>
             <MagnifierWhite
               onClick={() => setIsActive(!isActive)}
               className={styles.magnifier}
             />
-            <Dropdown
-              className={styles.buttonIndents}
-              mainButton={<DotsMenu className={styles.menu} />}
-              itemsWrapper={styles.itemsWrapper}
-            >
-              {items.map(i => (
-                <DropdownItem
-                  item={i}
-                  onClick={() => handleClick(i)}
-                  className={styles.text}
-                />
-              ))}
+            <Dropdown trigger={['click']} overlay={menu}>
+              <IconButton
+                className={styles.dottedBtn}
+                icon={<DotsMenu className={styles.menu} />}
+              />
             </Dropdown>
           </div>
         </div>
@@ -127,30 +143,27 @@ const ShemaEditorBlock = ({
             id="1"
             type="text"
           />
-          <CloseInput
-            className={styles.icon}
-            onClick={onCloseInput}
-          />
+          <CloseInput className={styles.icon} onClick={onCloseInput} />
         </div>
       </div>
       {isOpened && (
-      <div className={contentClasses}>
-        <ul className={styles.list}>
-          <DropdownItem
-            item=''
-            onClick={handleClick}
-            className={styles.search}
-          />
+        <div className={contentClasses}>
+          <ul className={styles.list}>
+            <DropdownItem
+              item=""
+              onClick={handleClick}
+              className={styles.search}
+            />
 
-          {filterableFields.map((item, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <li className={styles.item} key={item.field + item.type + index}>
-              {item.field}
-            </li>
-          ))}
-        </ul>
-      </div>
-)}
+            {filterableFields.map((item, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <li className={styles.item} key={item.field + item.type + index}>
+                {item.field}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
