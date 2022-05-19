@@ -13,17 +13,6 @@ import styles from './SchemaEditorBlock.module.scss';
 import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowOk.svg';
 import Tooltip from '../../../common/components/Tooltip';
 
-// const data = [
-//   { text: 'Колонка', id: '1' },
-//   { text: 'Колонка 1', id: '2' },
-//   { text: 'Колонка 2', id: '3' },
-//   { text: 'Колонка 3', id: '4' },
-//   { text: 'Колонка 4', id: '5' },
-//   { text: 'Колонка 5', id: '6' },
-//   { text: 'Колонка 6', id: '7' },
-//   { text: 'Колонка 7', id: '8' }
-// ];
-
 const items = [
   { text: 'Псевдоним' },
   { text: 'Изменить вид' },
@@ -33,7 +22,7 @@ const items = [
   { text: 'Предпросмотр таблицы', value: 'tablePreview' }
 ];
 
-const ShemaEditorBlock = ({
+const SchemaEditorBlock = ({
   onTableDragStart,
   selectedTableName,
   selectedTableColumns = [],
@@ -111,6 +100,7 @@ const ShemaEditorBlock = ({
             >
               {items.map(i => (
                 <DropdownItem
+                  key={Math.random()*100}
                   item={i}
                   onClick={() => handleClick(i)}
                   className={styles.text}
@@ -144,7 +134,7 @@ const ShemaEditorBlock = ({
 
           {filterableFields.map((item, index) => (
             // eslint-disable-next-line react/no-array-index-key
-            <li className={styles.item} key={item.field + item.type + index}>
+            <li className={item.colored ? styles.itemHighlited : styles.item} key={item.field + item.type + index}>
               {item.field}
             </li>
           ))}
@@ -155,4 +145,4 @@ const ShemaEditorBlock = ({
   );
 };
 
-export default ShemaEditorBlock;
+export default SchemaEditorBlock;

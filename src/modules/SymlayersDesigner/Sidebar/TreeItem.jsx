@@ -49,7 +49,7 @@ const TreeItem = ({name, isSchema, table, onSelect}) => {
       )
         : (
           <div className={isActive ? styles.actItem : styles.item}>
-            <Tooltip text={table.object_name} className={table.object_name.length < 26 && styles.tooltip} placement='bottom-left'>
+            <Tooltip text={table.object_name} className={table.object_name?.length < 26 && styles.tooltip} placement='bottom-left'>
               <button
                 type='button'
                 onDoubleClick={(e) => {
@@ -75,7 +75,7 @@ const TreeItem = ({name, isSchema, table, onSelect}) => {
             {isActive && (
             <div className={styles.tableFields}>
               {selectedTableColumns?.map(col => (
-                <TreeTableField field={col} />
+                <TreeTableField field={col} key={Math.random()*100} />
                   ))}
             </div>
               )}

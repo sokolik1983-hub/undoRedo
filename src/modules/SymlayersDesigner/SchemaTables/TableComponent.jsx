@@ -20,6 +20,7 @@ import {
   getObjectData,
   getObjectFields
 } from '../../../data/actions/schemaDesigner';
+import { setDataList, clearDataList, setShowDataList } from '../../../data/reducers/schemaDesigner';
 import { getTableIdFromParams } from '../../../data/helpers';
 import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock';
 // import { useApplicationActions } from 'src/data/appProvider';
@@ -138,9 +139,8 @@ const TableComponent = ({
   const [isLoading, setIsLoading] = useState(false);
   const contentScrollContainer = useRef();
   const dispatch = useDispatch();
-
-  const selectedTables = useSelector(
-    state => state.app.schemaDesigner.selectedTables
+  const { selectedTables, coloredValue, showDataList } = useSelector(
+    state => state.app.schemaDesigner
   );
 
   const connect_id = useSelector(
@@ -148,8 +148,49 @@ const TableComponent = ({
   );
 
   const selectedTableColumns =
-    selectedTables[getTableIdFromParams({ ...tableItem, connect_id: 4 })];
+    selectedTables[getTableIdFromParams({ ...tableItem, connect_id: 4 })]?.map((item) => {
+      return ({
+        ...item,
+        colored: false,
+      })
+    });
 
+  const searchMatches = (item) => {
+    return item?.field.toLowerCase()?.includes(coloredValue.toLowerCase())
+  }
+
+  const mappedSelectedTable = selectedTableColumns?.map((column) => {
+    if (coloredValue?.length > 1) {
+      if (searchMatches(column)) {
+        column.colored = true;
+      }
+    }
+    return column
+  })
+
+  // eslint-disable-next-line consistent-return
+  const getList = (obj) => {
+    const tableNames = Object.keys(obj);
+    if (tableNames.length) {
+      const list = [];
+      tableNames.forEach(i => {
+        const choosenItems = obj[i].reduce((acc, item) => 
+                searchMatches(item) && coloredValue ? [...acc, item.field ] : acc, []);
+               
+        if (choosenItems.length) {
+          list.push({name: i, line: choosenItems })
+        }
+      })
+      return list;
+    }
+  };
+
+  if (showDataList) {
+    dispatch(clearDataList());
+    dispatch(setDataList(getList(selectedTables)));
+    dispatch(setShowDataList());
+  };
+  
   useEffect(() => {
     dispatch(getObjectFields({ ...tableItem, connect_id: 4 }));
 
@@ -276,7 +317,6 @@ const TableComponent = ({
 
   const onTableDragStart = useCallback(
     event => {
-      console.log('dragging start');
       event.stopPropagation();
       const delta = posToCoord(event).dif(ActualPosition);
       const dragCallback = ({ state, commit }, { postition }) => {
@@ -384,7 +424,7 @@ const TableComponent = ({
       >
         <SchemaEditorBlock
           onTableDragStart={onTableDragStart}
-          selectedTableColumns={selectedTableColumns}
+          selectedTableColumns={mappedSelectedTable}
           selectedTableName={tableItem.object_name}
           onTablePreviewClick={handlePopupShow}
         />
