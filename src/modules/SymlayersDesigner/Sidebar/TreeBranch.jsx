@@ -12,8 +12,8 @@ const TreeBranch = ({treeData, idx, name, onSelect}) => {
         <TreeItem id={idx} name={name} isSchema />
       </div>
       <div className={isActive ? style.actListItems : style.disListItems}>
-        {treeData[name].map(item => (
-          <TreeItem id={idx} name={name} table={item} onSelect={onSelect} />
+        {treeData[name].map((item) => (
+          <TreeItem id={idx} key={item.object_name} name={name} table={item} onSelect={onSelect} />
         ))}
       </div>
     </div>

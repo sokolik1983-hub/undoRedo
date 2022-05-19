@@ -3,21 +3,22 @@ import PropTypes from 'prop-types';
 import Modal from "../../../common/components/Modal";
 import Button from "../../../common/components/Button";
 import styles from './SqlPopup.module.scss';
+import Preloader from "../../../common/components/Preloader/Preloader";
 
-const SqlPopup = ({ onClose }) => {
-
-  const onClickAction = () => {
-    onClose();
-  }
-
+const SqlPopup = ({ onClose, queryText }) => {
   const content = ( 
     <div className={styles.sql}>
-      <Button className={styles.test}>
-        Тест
-      </Button>
-      <Button className={styles.exit} onClick={onClickAction}>
-        Закрыть
-      </Button>
+      <div className={styles.queryField}>
+        {queryText?.length ? queryText : <Preloader />}
+      </div>
+      <div className={styles.buttons}>
+        <Button className={styles.test}>
+          Тест
+        </Button>
+        <Button className={styles.exit} onClick={onClose}>
+          Закрыть
+        </Button>
+      </div>
     </div>
   )
   return (
@@ -30,7 +31,7 @@ const SqlPopup = ({ onClose }) => {
         titleClassName={styles.title}
         dialogClassName={styles.dialog}
         headerClassName={styles.header}
-        onClose={onClickAction}
+        onClose={onClose}
       />
     </div>
   );
@@ -39,5 +40,6 @@ const SqlPopup = ({ onClose }) => {
 export default SqlPopup;
 
 SqlPopup.propTypes = {
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  queryText: PropTypes.string,
 }

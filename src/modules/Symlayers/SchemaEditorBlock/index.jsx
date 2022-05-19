@@ -35,9 +35,17 @@ const SchemaEditorBlock = ({
   const [searchValue, setSearchValue] = useState('');
   const [isActive, setIsActive] = useState(false);
   const [isOpened, setIsOpened] = useState(true);
+  const [isLoaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    setFilterableFields(selectedTableColumns);
+    if (isLoaded)
+      setFilterableFields(selectedTableColumns);
+  }, [isLoaded])
+
+  useEffect(() => {
+    if (selectedTableColumns.length) {
+      setLoaded(true)
+    }
   }, [selectedTableColumns]);
 
   const contentClasses = clsx(styles.content, {
@@ -101,8 +109,8 @@ const SchemaEditorBlock = ({
             >
               {items.map(i => (
                 <DropdownItem
-                  key={Math.random()*100}
                   item={i}
+                  key={i}
                   onClick={() => handleClick(i)}
                   className={styles.text}
                 />
