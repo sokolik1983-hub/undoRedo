@@ -5,6 +5,7 @@ import styles from './QueryPanel.module.scss';
 import Modal from '../../common/components/Modal';
 import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.module.scss';
 import {
+  createQuery,
   getUniverses,
   setConfirmModal,
   setQueryPanelModal
@@ -19,6 +20,7 @@ import QueryPanelControls from './QueryPanelControls/QueryPanelControls';
 import DragNDropProvider from './context/DragNDropContext';
 
 import ModalConfirm from '../../common/components/Modal/ModalConfirm';
+import { getCondition } from './helper';
 import { setSymanticLayerData } from '../../data/reducers/data';
 
 const QueryPanel = ({ visible }) => {
@@ -30,6 +32,12 @@ const QueryPanel = ({ visible }) => {
   const [isQueryExecute, setQueryExecute] = useState(false);
   const [isChanged, setIsChanged] = useState(false);
   const [isSqlPopupOpened, setSqlPopupOpened] = useState(false);
+  const [queryText, setQueryText] = useState('');
+  const [objects, setObjects] = useState([]);
+  const [filters, setFilters] = useState([]);
+  const [errorText, setError] = useState('');
+
+  const symLayerData = useSelector(state => state.app?.data?.symLayersData);
 
   const confirmModalOpened = useSelector(
     state => state.app.ui.confirmModalVisible
@@ -44,6 +52,11 @@ const QueryPanel = ({ visible }) => {
       ? dispatch(setConfirmModal(true))
       : dispatch(setQueryPanelModal(false));
   };
+
+  const handleObjFilEdit = (objs, fils) => {
+    setObjects(objs);
+    setFilters(fils);
+  }
 
   const handleQueryExecute = () => {
     setQueryExecute(true);
@@ -70,11 +83,37 @@ const QueryPanel = ({ visible }) => {
     setIsChanged(true);
   };
 
+  const handleQueryText = (text) => {
+    setQueryText(text);
+  };
+
   const onClose = () => {
     dispatch(setQueryPanelModal(false));
     dispatch(setConfirmModal(false));
     dispatch(setSymanticLayerData(null));
   };
+
+  const createQueryText = () => {
+    if (objects) {
+      dispatch(createQuery({
+        symlayer_id: symLayerData.symlayer_id,
+        data: objects.map(item => `${item.parent_folder}.${item.field}`),
+        conditions: filters ? getCondition([filters]) : {} 
+      }));
+    }
+  }
+
+  useEffect(() => {
+    const resultConditions = filters ? getCondition([filters]) : {};
+    if (resultConditions === 'Empty Value') {
+      setError('Пустые фильтры');
+    } else if (isSqlPopupOpened) {
+      setError('');
+      createQueryText();
+    } else {
+      setQueryText('');
+    }
+  }, [isSqlPopupOpened])
 
   const modalContent = () => {
     return (
@@ -94,7 +133,10 @@ const QueryPanel = ({ visible }) => {
                 className={styles.section}
                 title="Просмотр данных"
                 isQueryExecute={isQueryExecute}
+                onQueryTextCreate={handleQueryText}
+                onObjFilEdit={handleObjFilEdit}
               />
+              <span style={{color: 'red'}}>{errorText}</span>
               <QueryPanelControls
                 onRun={handleQueryExecute}
                 onSql={handleShowSqlPopup}
@@ -118,7 +160,12 @@ const QueryPanel = ({ visible }) => {
             onClose={() => onClose()}
           />
         )}
-        {isSqlPopupOpened && <SqlPopup onClose={handleShowSqlPopup} />}
+        {isSqlPopupOpened && !errorText.length && (
+          <SqlPopup 
+            onClose={handleShowSqlPopup}
+            queryText={queryText}
+          />
+        )}
       </div>
     );
   };
