@@ -25,16 +25,18 @@ function TablesList({ title, items, type }) {
       <div className={styles.content}>
         <div className={styles.list}>
           {items?.map((item, i) => (
-            <TablesListItem
-              key={item}
-              name={
+            <div className={styles.item}>
+              <TablesListItem
+                key={item}
+                name={
                 type === 'links'
                   ? `${item.object1.object} - ${item.object2.object}`
                   : null
               }
-              onDoubleClick={handleClick}
-              id={i}
-            />
+                onDoubleClick={handleClick}
+                id={i}
+              />
+            </div>
           ))}
         </div>
       </div>
