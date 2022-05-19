@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from "react-redux";
 import { setLinks } from '../../../../data/reducers/schemaDesigner';
+import { ReactComponent as WarnIcon } from '../../../../layout/assets/warningIcon.svg';
 import Button from "../../../../common/components/Button";
 import Modal from "../../../../common/components/Modal";
 import styles from './DeleteItemModal.module.scss';
@@ -27,6 +28,17 @@ const DeleteItemModal = ({ onClose, linkId }) => {
   </div>
 	)
 
+	const warnTitle = (
+		(
+  <div className={styles.title}>
+    <WarnIcon />
+    <span>
+      Внимание
+    </span>
+  </div>
+		)
+	)
+
 	const buttonsFooter = (
   <div className={styles.footer}>
     <Button buttonStyle='BIG_ORANGE' onClick={deleteLink}> Удалить </Button>
@@ -39,7 +51,7 @@ const DeleteItemModal = ({ onClose, linkId }) => {
     className={styles.root}
     visible
     onClose={onClose}
-    title="Удаление связи"
+    title={warnTitle}
     content={confirmContent}
     footer={buttonsFooter}
 		/>
