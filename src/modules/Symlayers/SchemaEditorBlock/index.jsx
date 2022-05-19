@@ -27,6 +27,7 @@ const SchemaEditorBlock = ({
   selectedTableName,
   selectedTableColumns = [],
   onTablePreviewClick,
+  isHighlight
 }) => {
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
@@ -134,7 +135,7 @@ const SchemaEditorBlock = ({
 
           {filterableFields.map((item, index) => (
             // eslint-disable-next-line react/no-array-index-key
-            <li className={item.colored ? styles.itemHighlited : styles.item} key={item.field + item.type + index}>
+            <li className={item.colored && isHighlight ? styles.itemHighlited : styles.item} key={item.field + item.type + index}>
               {item.field}
             </li>
           ))}

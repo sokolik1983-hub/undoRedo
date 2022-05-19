@@ -51,7 +51,7 @@ function Sidebar({ onSelect }) {
     setTables(selectedTables)
   }, [selectedTables]);
 
-  const handleShowDAtaList = (event) => {
+  const handleShowDataList = (event) => {
     if(event.key === 'Enter') {
       event.preventDefault();
       dispatch(setShowDataList());
@@ -139,7 +139,7 @@ function Sidebar({ onSelect }) {
               <div className={styles.search}>
                 <TextInput
                   className={styles.searchInput}
-                  onKeyPress={handleShowDAtaList}
+                  onKeyPress={handleShowDataList}
                   value={coloredValue}
                   onChange={(event) => dispatch(setColoredValue(event.target.value))}
                 />

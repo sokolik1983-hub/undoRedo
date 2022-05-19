@@ -131,42 +131,40 @@ const TableComponent = ({
     ...props
   } = getTableProps(tableId);
 
+  const { selectedTables, coloredValue, showDataList } = useSelector(
+    state => state.app.schemaDesigner
+  );
+
   // const refs = useMemo(() => tableRefs[tableId], [tableRefs, tableId]);
   const [synName, setSynName] = useState('');
   const [showSynPopup, setShowSynPopup] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [columns, setColumns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isHighlighted, setIsHighlighted] = useState(false);
+  const [colorValue, setColorValue] = useState('');
   const contentScrollContainer = useRef();
   const dispatch = useDispatch();
-  const { selectedTables, coloredValue, showDataList } = useSelector(
-    state => state.app.schemaDesigner
-  );
 
   const connect_id = useSelector(
     state => state.app.schemaDesigner.connectorId
   );
 
-  const selectedTableColumns =
-    selectedTables[getTableIdFromParams({ ...tableItem, connect_id: 4 })]?.map((item) => {
-      return ({
-        ...item,
-        colored: false,
-      })
-    });
-
   const searchMatches = (item) => {
     return item?.field.toLowerCase()?.includes(coloredValue.toLowerCase())
   }
 
-  const mappedSelectedTable = selectedTableColumns?.map((column) => {
-    if (coloredValue?.length > 1) {
-      if (searchMatches(column)) {
-        column.colored = true;
-      }
-    }
-    return column
-  })
+  const searchStaticMatches = (item) => {
+    return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase())
+  }
+
+  const selectedTableColumns =
+    selectedTables[getTableIdFromParams({ ...tableItem, connect_id: 4 })]?.map((item) => {
+      return ({
+        ...item,
+        colored: colorValue && searchStaticMatches(item),
+      })
+    });
 
   // eslint-disable-next-line consistent-return
   const getList = (obj) => {
@@ -176,7 +174,7 @@ const TableComponent = ({
       tableNames.forEach(i => {
         const choosenItems = obj[i].reduce((acc, item) => 
                 searchMatches(item) && coloredValue ? [...acc, item.field ] : acc, []);
-               
+        
         if (choosenItems.length) {
           list.push({name: i, line: choosenItems })
         }
@@ -185,11 +183,19 @@ const TableComponent = ({
     }
   };
 
-  if (showDataList) {
-    dispatch(clearDataList());
-    dispatch(setDataList(getList(selectedTables)));
-    dispatch(setShowDataList());
-  };
+  useEffect(() => {
+    if (showDataList) {
+      setColorValue(coloredValue);
+    }
+  }, [showDataList])
+
+  useEffect(() => {
+    if (showDataList) {
+      setIsHighlighted(true);
+      dispatch(setDataList(getList(selectedTables)));
+      dispatch(setShowDataList());
+    };
+  }, [showDataList]);
   
   useEffect(() => {
     dispatch(getObjectFields({ ...tableItem, connect_id: 4 }));
@@ -423,8 +429,9 @@ const TableComponent = ({
         }}
       >
         <SchemaEditorBlock
+          isHighlight={isHighlighted}
           onTableDragStart={onTableDragStart}
-          selectedTableColumns={mappedSelectedTable}
+          selectedTableColumns={selectedTableColumns}
           selectedTableName={tableItem.object_name}
           onTablePreviewClick={handlePopupShow}
         />

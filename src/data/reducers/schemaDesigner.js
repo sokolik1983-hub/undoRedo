@@ -85,7 +85,7 @@ const schemaDesigner = createSlice({
       state.coloredValue = action.payload
     },
     setDataList: (state, action) => {
-      state.dataList = [ ...state.dataList, ...action.payload ];
+      state.dataList = action.payload;
     },
     clearDataList: (state) => {
       state.dataList = []
