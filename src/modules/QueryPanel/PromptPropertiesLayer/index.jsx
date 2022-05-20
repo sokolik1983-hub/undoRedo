@@ -76,6 +76,7 @@ const PromptPropertiesLayer = ({ visible, onClose }) => {
             {CheckBoxValues.map(item => {
               return (
                 <CheckboxField
+                  key={item.value}
                   id={item.value}
                   name="promptCheckBoxValues"
                   label={item.label}
