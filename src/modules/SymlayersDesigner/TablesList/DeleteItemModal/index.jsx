@@ -41,7 +41,7 @@ const DeleteItemModal = ({ onClose, linkId }) => {
 
 	const buttonsFooter = (
   <div className={styles.footer}>
-    <Button buttonStyle='BIG_ORANGE' onClick={deleteLink}> Удалить </Button>
+    <Button buttonStyle='BIG_ORANGE' onClick={deleteLink}> Удалить связь </Button>
     <Button buttonStyle='BIG_BLUE' onClick={onClose}> Отмена </Button>
   </div>
 	)

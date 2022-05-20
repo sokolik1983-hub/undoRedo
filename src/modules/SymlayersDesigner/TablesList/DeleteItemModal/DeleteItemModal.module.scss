@@ -1,7 +1,7 @@
 .message {
   color: white;
-  font-size: 20px;
-  padding-left: 15px;
+  font-size: 14px;
+  padding-left: 18px;
 }
 
 .footer {
@@ -12,6 +12,7 @@
 }
 
 .title {
+  display: flex;
   span {
     margin-left: 9px;
     font-weight: bold;
