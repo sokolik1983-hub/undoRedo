@@ -5,17 +5,23 @@ import { ReactComponent as Magnifier } from '../../../layout/assets/magnifier.sv
 import IconButton from '../IconButton';
 import styles from './Search.module.scss';
 import { ICON_POSITION } from './constant';
-import Tooltip from '../NewTooltip/Tooltip';
+import Tooltip from '../Tooltip';
 
-const Search = ({ className, onSubmit, value, onChange, iconButtonPosition }) => {
+const Search = ({
+  className,
+  onSubmit,
+  value,
+  onChange,
+  iconButtonPosition
+}) => {
   const classes = clsx(styles.searchForm, className);
 
   const getIconButton = () => {
     return (
-      <Tooltip text='Поиск' placement='bottom-left'>
+      <Tooltip placement="topLeft" overlay={<div>Поиск</div>}>
         <IconButton className={styles.btn} icon={<Magnifier />} type="submit" />
       </Tooltip>
-    )
+    );
   };
 
   return (
@@ -39,10 +45,10 @@ Search.propTypes = {
   onSubmit: PropTypes.func,
   value: PropTypes.string,
   onChange: PropTypes.func,
-  iconButtonPosition: PropTypes.string,
+  iconButtonPosition: PropTypes.string
 };
 
 Search.defaultProps = {
   className: '',
-  iconButtonPosition: ICON_POSITION.LEFT,
+  iconButtonPosition: ICON_POSITION.LEFT
 };
