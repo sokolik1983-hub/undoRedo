@@ -14,6 +14,7 @@ const Filters = () => {
     handleDragOver,
     handleDropOnFiltersArea,
     handleDropOnFiltersItem,
+    handleEditFiltersItem,
     handleDropOnFiltersNodeItemsBlock,
     deleteFiltersDeskItem,
     setFocused
@@ -51,6 +52,7 @@ const Filters = () => {
         type={filtersDesk.fieldItem.objectType_id}
         onItemClick={() => setFocused(filtersDesk)}
         onDeleteItem={() => deleteFiltersDeskItem(filtersDesk.id)}
+        onEditItem={handleEditFiltersItem}
         draggable
         onDragStart={e =>
           handleDragStart(e, filtersDesk, DRAG_PARENT_SECTION.FILTERS)

@@ -1,7 +1,27 @@
+.dialog {
+  width: 80%;
+  max-width: none;
+  height: 80%;
+}
+
 .sql {
-  display: flex;
-  justify-content: end;
-  padding-right: 15px;
+  max-width: none;
+  height: 100%;
+  .queryField {
+    background-color: white;
+    border-radius: 5px;
+    color: black;
+    margin: 0px 15px;
+    height: 90%;
+    padding: 5px 5px;
+    margin-bottom: 30px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: end;
+    padding-right: 15px;
+  }
 }
 
 .test {

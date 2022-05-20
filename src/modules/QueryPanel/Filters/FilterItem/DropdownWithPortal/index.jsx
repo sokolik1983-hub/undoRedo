@@ -19,10 +19,11 @@ const options = [
   { text: 'меньше чем', value: 'lessThan' },
   { text: 'меньше чем или равно', value: 'lessThanOrEqual'},
   { text: 'оба', value: 'both'},
-  { text: 'исключая', value: 'exept' }
+  { text: 'исключая', value: 'exept' },
+  { text: 'соответсвие образцу', value: 'like' }
 ];
 
-const DropdownWithPortal = ({ text }) => {
+const DropdownWithPortal = ({ text, onCondChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedText, setSelectedText] = useState(text);
   const [coords, setCoords] = useState({});
@@ -52,6 +53,10 @@ const DropdownWithPortal = ({ text }) => {
   useEffect(() => {
     calculateCoords();
   }, [isOpen])
+
+  useEffect(() => {
+    onCondChange(selectedText);
+  }, [selectedText])
 
   useEffect(() => {
     const container = '#filters-block';
@@ -92,5 +97,6 @@ const DropdownWithPortal = ({ text }) => {
 export default DropdownWithPortal;
 
 DropdownWithPortal.propTypes = {
-  text: PropTypes.string
+  text: PropTypes.string,
+  onCondChange: PropTypes.func
 }
