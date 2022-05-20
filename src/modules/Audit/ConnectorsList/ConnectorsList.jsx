@@ -9,7 +9,7 @@ import Dropdown from '../../../common/components/Dropdown';
 import ListItem from '../../../common/components/List/ListItem/ListItem';
 import ListItemEdit from '../../../common/components/List/ListItemEdit/ListItemEdit';
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
-import ListTableRowWithDropdown from '../../../common/components/List/ListTableView/ListTableRowWithDropdown/ListTableRowWithDropdown';
+import ListTableRow from '../../../common/components/List/ListTableView/ListTableRow/ListTableRow';
 import {
   /*   connectorsTableHeader, */
   FOLDER_DROPDOWN_ACTIONS,
@@ -204,7 +204,7 @@ const ConnectorsList = ({ audit, auditHeaders }) => {
         text={isFolder ? item.folder_name : item.message}
         space={5}
       >
-        <ListTableRowWithDropdown
+        <ListTableRow
           onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
           cells={
             <>
@@ -234,7 +234,7 @@ const ConnectorsList = ({ audit, auditHeaders }) => {
           {isFolder
             ? getFolderDropdownItems(`folder_${item.folder_id}`)
             : getUniverseDropdownItems(item.id)}
-        </ListTableRowWithDropdown>
+        </ListTableRow>
       </Tooltip>
     );
   });

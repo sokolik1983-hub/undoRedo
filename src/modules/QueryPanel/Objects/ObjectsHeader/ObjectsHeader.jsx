@@ -3,7 +3,7 @@ import { ReactComponent as Filter } from '../../../../layout/assets/queryPanel/f
 import { ReactComponent as Lists } from '../../../../layout/assets/queryPanel/lists.svg';
 import { ReactComponent as Basket } from '../../../../layout/assets/queryPanel/basket.svg';
 import IconButton from '../../../../common/components/IconButton';
-import Tooltip from '../../../../common/components/NewTooltip/Tooltip';
+import Tooltip from '../../../../common/components/Tooltip';
 import styles from './ObjectsHeader.module.scss';
 
 const ObjectsHeader = ({ clearObjectsDesk }) => {
@@ -11,21 +11,21 @@ const ObjectsHeader = ({ clearObjectsDesk }) => {
     <div className={styles.root}>
       <div className={styles.title}>Объекты отчета</div>
       <div className={styles.btnGroup}>
-        <Tooltip text="Фильтр" space={15}>
+        <Tooltip placement="topLeft" overlay={<div>Фильтр</div>}>
           <IconButton
             className={styles.iconBtn}
             icon={<Filter />}
             onClick={() => {}}
           />
         </Tooltip>
-        <Tooltip text="Списки" space={15}>
+        <Tooltip placement="topLeft" overlay={<div>Списки</div>}>
           <IconButton
             className={styles.iconBtn}
             icon={<Lists />}
             onClick={() => {}}
           />
         </Tooltip>
-        <Tooltip text="очистить всё" space={15}>
+        <Tooltip placement="topLeft" overlay={<div>очистить всё</div>}>
           <IconButton
             className={styles.iconBtn}
             icon={<Basket />}

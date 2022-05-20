@@ -1,10 +1,10 @@
-import Tooltip from '../../../../common/components/NewTooltip/Tooltip';
 import IconButton from '../../../../common/components/IconButton';
 import { ReactComponent as Group } from '../../../../layout/assets/queryPanel/group.svg';
 import { ReactComponent as ArrowDown } from '../../../../layout/assets/queryPanel/arrowBoldDown.svg';
 import { ReactComponent as ArrowUp } from '../../../../layout/assets/queryPanel/arrowBoldUp.svg';
 import { ReactComponent as Basket } from '../../../../layout/assets/queryPanel/basket.svg';
 import { useDragNDrop } from '../../context/DragNDropContext';
+import Tooltip from '../../../../common/components/Tooltip';
 import styles from './FiltersHeader.module.scss';
 
 const FiltersHeader = () => {
@@ -19,21 +19,21 @@ const FiltersHeader = () => {
     <div className={styles.root}>
       <div className={styles.title}>Фильтры запроса</div>
       <div className={styles.btnGroup}>
-        <Tooltip text="Создать новую группу" space={15}>
+        <Tooltip placement="topLeft" overlay={<div>Создать новую группу</div>}>
           <IconButton
             className={styles.iconBtn}
             icon={<Group />}
             onClick={addNode}
           />
         </Tooltip>
-        <Tooltip text="Переместить вверх" space={15}>
+        <Tooltip placement="topLeft" overlay={<div>Переместить вверх</div>}>
           <IconButton
             className={styles.iconBtn}
             icon={<ArrowUp />}
             onClick={handleMoveUp}
           />
         </Tooltip>
-        <Tooltip text="Переместить вниз" space={15}>
+        <Tooltip placement="topLeft" overlay={<div>Переместить вниз</div>}>
           <IconButton
             tabIndex="-1"
             className={styles.iconBtn}
@@ -41,7 +41,7 @@ const FiltersHeader = () => {
             onClick={handleMoveDown}
           />
         </Tooltip>
-        <Tooltip text="Очистить всё" space={15}>
+        <Tooltip placement="topLeft" overlay={<div>Очистить всё</div>}>
           <IconButton
             className={styles.iconBtn}
             icon={<Basket />}

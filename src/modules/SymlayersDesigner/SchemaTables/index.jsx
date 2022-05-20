@@ -31,7 +31,7 @@ import useStyles from './style';
 
 import Table from './TableComponent';
 import SymanticLink from './Link';
-// import Minimap from './Minimap';
+import Minimap from './Minimap';
 // import SearchDialog from './SearchDialog';
 import Vector from './vector';
 
@@ -352,18 +352,18 @@ const Provided = props => {
         <RNDZone>{renderContent()}</RNDZone>
       </div>
 
-      {/* {showMinimap && (
+      {showMinimap && (
         <Minimap
           size={minimapSize}
           position={minimapPosition}
           setSize={setMinmapSize}
           setPosition={setMinimapPosition}
-          saveUserData={saveUserData}
-          symanticLayerUserData={userData.symanticLayer}
+          // saveUserData={saveUserData}
+          // symanticLayerUserData={userData.symanticLayer}
         >
           {renderContent({ isShadow: true })}
         </Minimap>
-      )} */}
+      )}
     </React.Fragment>
   );
 };
