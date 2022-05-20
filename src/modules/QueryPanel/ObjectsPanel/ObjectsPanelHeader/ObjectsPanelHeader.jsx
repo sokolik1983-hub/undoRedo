@@ -1,13 +1,15 @@
+/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import IconButton from '../../../../common/components/IconButton';
-// import { ReactComponent as Arrow } from '../../../../layout/assets/queryPanel/arrowOk.svg';
+import Select from '../../../../common/components/NewSelect/Select';
+import { ReactComponent as Arrow } from '../../../../layout/assets/queryPanel/arrowOk.svg';
 import { ReactComponent as PlusIcon } from '../../../../layout/assets/queryPanel/plus.svg';
 import styles from './ObjectsPanelHeader.module.scss';
 
 const ObjectsPanelHeader = ({ modalOpenHandler }) => {
-  // const handleClick = () => {
-  //   console.log('Данные организации');
-  // };
+  const handleClick = () => {
+    console.log('Данные организации');
+  };
 
   return (
     <div className={styles.header}>
@@ -16,6 +18,7 @@ const ObjectsPanelHeader = ({ modalOpenHandler }) => {
         <p className={styles.dataText}>Данные организации</p>
         <Arrow className={styles.indents} />
       </div> */}
+      <Select />
       <IconButton
         className={styles.plusBtn}
         onClick={modalOpenHandler}

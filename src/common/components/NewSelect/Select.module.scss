@@ -1,0 +1,28 @@
+.select {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  border: 1px solid #D7D7D7;
+  background: #FFFFFF;
+  cursor: pointer;
+
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 15px;
+  color: #000000;
+
+  & .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    width: 10px;
+    height: auto;
+  }
+}
+
+.overlay {
+  border: 1px solid #D7D7D7;
+  background: #FFFFFF;
+  box-shadow: 0px 1.5px 1.5px rgba(0, 0, 0, 0.5);
+}

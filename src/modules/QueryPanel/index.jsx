@@ -85,6 +85,7 @@ const QueryPanel = ({ visible }) => {
               <ObjectsPanel
                 symanticLayer={semanticLayer}
                 modalOpenHandler={handleShowSelector}
+                showHeader
               />
             </div>
             <div className={styles.rightPanel}>
@@ -113,7 +114,7 @@ const QueryPanel = ({ visible }) => {
         )}
         {confirmModalOpened && (
           <ModalConfirm
-            style={{'top': 1}}
+            style={{ top: 1 }}
             onReturn={() => dispatch(setConfirmModal(false))}
             onClose={() => onClose()}
           />
