@@ -5,27 +5,38 @@ import Divider from '../../../common/components/Divider';
 import styles from './Results.module.scss';
 import { ReactComponent as Reload } from '../../../layout/assets/queryPanel/reload.svg';
 import { createQuery, getResultFromQuery, semanticLayerDataQuery } from '../../../data/actions/universes';
+import { getCondition } from '../helper';
 import ResultsTable from './ResultsTable';
+import { useDragNDrop } from '../context/DragNDropContext';
 
-const Results = ({ title, isQueryExecute }) => {
+const Results = ({ title, isQueryExecute, onQueryTextCreate, onObjFilEdit }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [queryResult, setQueryResult] = useState(null);
   const [timerValue, setTimerValue] = useState(null);
+  const [errorText, setError] = useState('');
 
   const symLayerData = useSelector(state => state.app?.data?.symLayersData);
   const queryData = useSelector(state => state.app?.data?.queryData);
   const symLayerDataFromQuery = useSelector(state => state.app?.data?.symanticLayerQueryResult);
   const fetchingDataResult = useSelector(state => state.app?.data?.queryResult);
-  const structure = symLayerData?.data?.structure[0];
+
+  const { objectsDesk, filtersDesk } = useDragNDrop();
 
   useEffect(() => {
+    if (objectsDesk) {
+      onObjFilEdit(objectsDesk, filtersDesk);
+    }
+  }, [objectsDesk, filtersDesk]);
+
+  useEffect(() => {
+    onQueryTextCreate(queryData?.data);
     if (queryData) {
       dispatch(semanticLayerDataQuery({
         connect_id: symLayerData.data.connector_id,
         sql: queryData.data,
         max_rows: 25,
-        fields: structure.children?.filter(item => item.select)?.slice(0,2)
+        fields: objectsDesk
       }))
     }
   }, [queryData]);
@@ -33,14 +44,10 @@ const Results = ({ title, isQueryExecute }) => {
   useEffect(() => {
     if (fetchingDataResult) {
       setQueryResult({...fetchingDataResult});
-      clearInterval(timerValue);
-      setTimerValue(null);
-      setIsLoading(false);
-    } else if(fetchingDataResult?.errors?.length > 0) {
-      clearInterval(timerValue);
-      setTimerValue(null);
-      setIsLoading(false);
-    }
+    } 
+    clearInterval(timerValue);
+    setTimerValue(null);
+    setIsLoading(false);
   }, [fetchingDataResult]);
 
   const startFetchingData = (id) => {
@@ -56,11 +63,18 @@ const Results = ({ title, isQueryExecute }) => {
   }, [symLayerDataFromQuery]);
 
   const handleExecute = () => {
-    dispatch(createQuery({
-      symlayer_id: symLayerData.symlayer_id,
-      data: structure.children?.filter(item => item.select)?.slice(0,2).map(item => `${item.parent_folder}.${item.field}`),
-      conditions: {}
-    }));
+    const resultConditions = filtersDesk ? getCondition([filtersDesk]) : {};
+
+    if (resultConditions === 'Empty Value') {
+      setError('Пустой фильтр');
+    } else {
+      setError('');
+      dispatch(createQuery({
+        symlayer_id: symLayerData.symlayer_id,
+        data: objectsDesk.map(item => `${item.parent_folder}.${item.field}`),
+        conditions: resultConditions 
+      }));
+    }
   };
   
   useEffect(() => {
@@ -94,6 +108,9 @@ const Results = ({ title, isQueryExecute }) => {
           />
         )}
       </div>
+      <span style={{color: 'red'}}>
+        {errorText}
+      </span>
     </div>
   );
 };
@@ -102,5 +119,7 @@ export default Results;
 
 Results.propTypes = {
   title: PropTypes.string,
-  isQueryExecute: PropTypes.bool
+  isQueryExecute: PropTypes.bool,
+  onQueryTextCreate: PropTypes.func,
+  onObjFilEdit: PropTypes.func
 };

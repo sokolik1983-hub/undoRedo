@@ -417,6 +417,20 @@ const DragNDropProvider = ({ children }) => {
     setFiltersDesk(filtersDeskClone);
   };
 
+  const handleEditFiltersItem = (id, input, condition) => {
+    const filtersDeskClone = JSON.parse(JSON.stringify(filtersDesk));
+    if (filtersDesk.type === 'filter-node') {
+      const [parent, idx] = getParent(filtersDeskClone, id);
+      parent.children[idx].inputValue = input;
+      parent.children[idx].itemCondition = condition;
+    } else if (filtersDesk.type === 'filter-item') {
+      filtersDeskClone.inputValue = input;
+      filtersDeskClone.itemCondition = condition;
+    }
+    
+    setFiltersDesk(filtersDeskClone);
+  };
+
   const onClearFilters = () => {
     setFiltersDesk(null);
     setFocused(null);
@@ -435,6 +449,7 @@ const DragNDropProvider = ({ children }) => {
         handleDropOnObjectItem,
         handleDropOnFiltersArea,
         handleDropOnFiltersItem,
+        handleEditFiltersItem,
         handleDropOnFiltersNodeItemsBlock,
         handleTreeDrop,
         onClearFilters,
