@@ -370,11 +370,13 @@ const TableComponent = ({
       <foreignObject
         x={0}
         y={0}
-        width="460px"
-        height="550px"
+        width="1px"
+        height="1px"
+        id={`obj${  tableItem.object_name}`}
         // width={(tableSize && `${tableSize.width + 2}px`) || '360px'}
         // height={tableSize && `${tableSize.height + 2}px`}
         style={{
+          overflow: 'visible',
           outline: focusedTableHere
             ? `2px solid ${
                 focusHere && focusedItem.type === 'table' ? 'orange' : 'yellow'
@@ -388,7 +390,8 @@ const TableComponent = ({
           selectedTableName={tableItem.object_name}
           onTablePreviewClick={handlePopupShow}
         />
-        {/* <div
+      </foreignObject>
+      {/* <div
           className={`${classes.tableItem} unselectable`}
           style={{ margin: 0, display: 'flex', flexDirection: 'column' }}
           ref={tableRef}
@@ -645,7 +648,7 @@ const TableComponent = ({
             )}
           </div>
         </div> */}
-        {/* {showSynPopup && (
+      {/* {showSynPopup && (
           <Dialog
             open={showSynPopup}
             onClose={() => setShowSynPopup(false)}
@@ -708,7 +711,6 @@ const TableComponent = ({
             </DialogActions>
           </Dialog>
         )} */}
-      </foreignObject>
     </g>
   );
 };

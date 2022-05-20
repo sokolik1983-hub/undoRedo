@@ -24,9 +24,12 @@ export default ({ children = [], ...props }) => {
   const [anchor, setAnchor] = useState(null);
 
   const onBackgroundMounseDown = event => {
-    if (event.button !== 0) return;
-    const coord = posToCoord(event);
-    setAnchor(coord);
+    // console.log(event.target, event.currentTarget);
+    if (event.target.tagName === 'rect') {
+      if (event.button !== 0) return;
+        const coord = posToCoord(event);
+        setAnchor(coord);
+    }
   };
 
   const onBackgroundMounseUp = event => {
