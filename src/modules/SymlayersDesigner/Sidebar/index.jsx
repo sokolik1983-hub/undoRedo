@@ -3,7 +3,6 @@
 import clsx from 'clsx';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import CreateObjectLayerModal from '../CreateObjectLayerModal/index';
 import { ReactComponent as SearchIcon } from '../../../layout/assets/icons/search.svg';
 import { ReactComponent as AddTableIcon } from '../../../layout/assets/icons/tablesAdd.svg';
 import { ReactComponent as FiltersIcon } from '../../../layout/assets/icons/tablesFilters.svg';
@@ -16,7 +15,6 @@ import TextInput from '../../../common/components/TextInput';
 import { ReactComponent as Magnifier } from '../../../layout/assets/magnifier.svg';
 import HierTreeView from './HierTreeView';
 import styles from './Sidebar.module.scss';
-import { setCreateObjectModal } from '../../../data/actions/universes';
 
 
 function Sidebar({ onSelect }) {
@@ -59,11 +57,7 @@ function Sidebar({ onSelect }) {
     };
   };
 
-  /* удалить когда перенесем кнопку открытия Создать  */
-  const isCreateObjectModalOpened = useSelector(
-    state => state.app.ui.modalCreateObjectVisible
-  );
-  /* удалить когда перенесем кнопку открытия Создать  */
+  
 
   return (
     <div className={styles.root}>
@@ -91,12 +85,6 @@ function Sidebar({ onSelect }) {
             onClick={handleSelectTab(2)}
           >
             Поиск
-          </div>
-          <div
-            style={{ cursor: 'pointer' }}
-            onClick={() => dispatch(setCreateObjectModal(true))}
-          >
-            Создать
           </div>
         </div>
 
@@ -168,9 +156,6 @@ function Sidebar({ onSelect }) {
             </div>
           )}
         </div>
-      )}
-      {isCreateObjectModalOpened && (
-        <CreateObjectLayerModal visible={isCreateObjectModalOpened && true} />
       )}
     </div>
   );

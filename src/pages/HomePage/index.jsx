@@ -66,7 +66,12 @@ function HomePage() {
         <p className={styles.rowTitle}>Избранное</p>
         <div className={styles.section}>
           {FAVORITES.map(item => (
-            <HomePageButton key={item.id} title={item.title} isDocument hasTooltip />
+            <HomePageButton
+              key={item.id}
+              title={item.title}
+              isDocument
+              hasTooltip
+            />
           ))}
         </div>
       </div>
@@ -79,6 +84,7 @@ function HomePage() {
             navigationMenu.map(item => {
               return (
                 <HomePageButton
+                  key={item.id}
                   title={item.title}
                   href={item.href}
                   icon={item.icon}

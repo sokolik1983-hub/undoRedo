@@ -34,7 +34,7 @@ const newPlacement = position => ({
   }
 });
 
-const getPoint = (elem, tooltip, placement, space) => {
+export const getPoint = (elem, tooltip, placement, space) => {
   let point = { x: 0, y: 0 };
   const { top, bottom, left, right } = elem.getBoundingClientRect();
   const boundaries = {

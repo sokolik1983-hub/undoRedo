@@ -23,12 +23,10 @@ const HomePageButton = ({
           {icon}
         </div>
         {hasTooltip ? (
-          <Tooltip key={title} position="left" content={title}>
+          <Tooltip placement="left" overlay={<div>{title}</div>}>
             <div
               className={
-                appNameText
-                  ? styles.buttonTextApps
-                  : styles.buttonText
+                appNameText ? styles.buttonTextApps : styles.buttonText
               }
             >
               {title}
@@ -36,11 +34,7 @@ const HomePageButton = ({
           </Tooltip>
         ) : (
           <div
-            className={
-              appNameText
-                ? styles.buttonTextApps
-                : styles.buttonText
-            }
+            className={appNameText ? styles.buttonTextApps : styles.buttonText}
           >
             {title}
           </div>

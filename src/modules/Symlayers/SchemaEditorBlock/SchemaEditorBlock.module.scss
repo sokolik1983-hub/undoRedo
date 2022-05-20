@@ -85,16 +85,14 @@
 
 .itemsWrapper {
   background: linear-gradient(
-                  142.94deg,
-                  rgba(255, 255, 255, 0.468) 0%,
-                  rgba(255, 255, 255, 0.104) 102.09%
+    142.94deg,
+    rgba(255, 255, 255, 0.468) 0%,
+    rgba(255, 255, 255, 0.104) 102.09%
   );
   box-shadow: 0 4px 4px rgba(34, 82, 102, 0.25);
   backdrop-filter: blur(7px);
   border-radius: 7.5px;
   width: 207px;
-  left: 34px;
-  top: -7px;
 }
 
 .text {
@@ -173,4 +171,8 @@
 
 .arrowBtnOpened {
   transform: rotate(180deg);
+}
+
+.dottedBtn {
+  margin: 0;
 }
