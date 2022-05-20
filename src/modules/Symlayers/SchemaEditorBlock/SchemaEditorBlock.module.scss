@@ -100,8 +100,18 @@
 .iconsContainer {
   display: flex;
   align-items: center;
-}
 
+  button {
+    margin-left: 13px;
+    svg {
+      margin-left: 0px;
+    }
+  }
+
+  svg {
+    margin-left: 9px;
+  }
+}
 .search {
   margin: 0 -25px;
 
@@ -154,5 +164,5 @@
 
 .dottedBtn {
   margin: 0px 6px;
-  width: 2px;
+  width: fit-content;
 } 
