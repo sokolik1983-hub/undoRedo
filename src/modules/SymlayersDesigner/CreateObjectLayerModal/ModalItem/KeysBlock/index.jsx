@@ -78,7 +78,6 @@ const KeysBlock = ({ onChange, name }) => {
     { icon: <NumberIcon />, id: 3, text: 'Текст', value: 'text' }
   ];
 
-  const [isOpenData, setIsOpenData] = useState(false);
   const [selectedDataText, setSelectedDataText] = useState(
     selectDataOptions[0].text
   );
@@ -86,53 +85,44 @@ const KeysBlock = ({ onChange, name }) => {
     selectDataOptions[0].icon
   );
 
-  const openDataPortal = () => {
-    if (isOpenData) {
-      setIsOpenData(!isOpenData);
-      return;
-    }
-    setIsOpenData(!isOpenData);
-  };
-
   const setSelectedFields = item => {
     setSelectedDataIcon(item.icon);
     setSelectedDataText(item.text);
-    setIsOpenData(false);
     formikProps.setFieldValue(name[0], item.value);
   };
+
+  const dataOptions = () => (
+    <div className={styles.dropDownDataBlock}>
+      {selectDataOptions.map((item, index) => (
+        <DropdownItem
+          icon={item.icon}
+          // eslint-disable-next-line react/no-array-index-key
+          key={`${item.value} + ${item.id}+ ${index}`}
+          id={item.value}
+          item={item}
+          value={item.value}
+          onClick={() => setSelectedFields(item)}
+          className={styles.dropDownItem}
+        />
+      ))}
+    </div>
+  );
 
   return (
     <ModalItem title="Ключи">
       <div className={styles.keysBlock}>
         <div className={styles.dropDownBlock}>
           <div className={styles.DDField}>
-            <div className={styles.DDData}>
-              <div className={styles.selectedIconText}>
-                <span className={styles.defaultIcon}>{selectedIcon}</span>
-                <p className={styles.dropDownText}>{selectedDataText}</p>
-              </div>
-              <Dropdown
-                onClick={openDataPortal}
-                mainButton={<Arrow className={styles.arrow} />}
-              />
-
-              {isOpenData && (
-                <div className={styles.dropDownDataBlock}>
-                  {selectDataOptions.map((item, index) => (
-                    <DropdownItem
-                      icon={item.icon}
-                      // eslint-disable-next-line react/no-array-index-key
-                      key={`${item.value} + ${item.id}+ ${index}`}
-                      id={item.value}
-                      item={item}
-                      value={item.value}
-                      onClick={() => setSelectedFields(item)}
-                      className={styles.dropDownItem}
-                    />
-                  ))}
+            {/* TODO: заменить элементы с дропдауном на кастомные селекты когда будут готовы */}
+            <Dropdown trigger="click" overlay={dataOptions()}>
+              <div className={styles.DDData}>
+                <div className={styles.selectedIconText}>
+                  <span className={styles.defaultIcon}>{selectedIcon}</span>
+                  <p className={styles.dropDownText}>{selectedDataText}</p>
                 </div>
-              )}
-            </div>
+                <Arrow className={styles.arrow} />
+              </div>
+            </Dropdown>
           </div>
         </div>
         <div className={styles.tableGroup}>
@@ -160,25 +150,13 @@ const KeysBlock = ({ onChange, name }) => {
                     blueBGColor="true"
                   />
                 </div>
-                <Tooltip
-                  key={`${item.type} + ${item.id}`}
-                  position="bottomLeft"
-                  content={item.type}
-                >
+                <Tooltip placement="bottom" overlay={item.type}>
                   <div className={styles.tableType}>{item.type}</div>
                 </Tooltip>
-                <Tooltip
-                  key={`${item.select} + ${item.id}`}
-                  position="bottom"
-                  content={item.select}
-                >
+                <Tooltip placement="bottom" overlay={item.select}>
                   <div className={styles.tableSelect}>{item.select}</div>
                 </Tooltip>
-                <Tooltip
-                  key={`${item.where} + ${item.id}`}
-                  position="bottomRight"
-                  content={item.where}
-                >
+                <Tooltip placement="bottom" overlay={item.where}>
                   <div className={styles.tableWhere}>{item.where}</div>
                 </Tooltip>
               </div>
