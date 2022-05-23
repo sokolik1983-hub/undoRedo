@@ -205,30 +205,59 @@
     }
   }
 
-  .tableFields {
-    margin-top: 3px;
-    color: #000;
-    font-size: 12px;
+}
 
-    svg {
-      margin-right: 5px;
-    }
-    
-    .tableField {
-      padding-top: 5px;
-      padding-bottom: 4px;
-      padding-left: 55px;
-    }
+.tableFields {
+  margin-top: 3px;
+  color: #000;
+  font-size: 12px;
 
-    .actTableField {
-      padding-top: 5px;
-      padding-bottom: 4px;
-      padding-left: 55px;
-      border-radius: 3px;
-      color: white;
-      background-color: #2B6DD0;
-    }
+  svg {
+    margin-right: 5px;
   }
+  
+  .tableField {
+    padding-top: 5px;
+    padding-bottom: 4px;
+    padding-left: 55px;
+  }
+
+  .actTableField {
+    padding-top: 5px;
+    padding-bottom: 4px;
+    padding-left: 55px;
+    border-radius: 3px;
+    color: white;
+    background-color: #2B6DD0;
+  }
+}
+
+.objectsData {
+ @extend .tableFields;  
+
+ .objectLayer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;  
+  border: none;
+  outline: none;
+  background-color: inherit;
+  width: 100%;
+  padding: 2px 0px;
+  padding-left: 33px;
+ }
+
+ .actObjectLayer {
+  @extend .objectLayer;
+  border-radius: 3px;
+  color: white;
+  background-color: #2B6DD0;
+  
+  svg path {
+    fill: white;
+  }
+ }
+  
 }
 
 .icons {

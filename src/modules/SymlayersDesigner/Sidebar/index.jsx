@@ -12,6 +12,7 @@ import { ReactComponent as OwnerIcon } from '../../../layout/assets/icons/ownerI
 import HierTreeView from './HierTreeView';
 import styles from './Sidebar.module.scss';
 import { setCreateObjectModal } from '../../../data/actions/universes';
+import ObjectLayer from './ObjectLayer';
 
 
 function Sidebar({ onSelect }) {
@@ -141,7 +142,11 @@ function Sidebar({ onSelect }) {
                 <span>Owner</span>
               </div>
               <div className={styles.contentData}>
-                <HierTreeView data={connectorObjects} onSelect={onSelect} />
+                <div className={styles.objectsData}>
+                  {objectsLayers.map(object => (
+                    <ObjectLayer field={object} />
+                  ))}
+                </div>
               </div>
             </div>
           )}
