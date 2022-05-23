@@ -20,9 +20,9 @@ import {
   TABLE_CELL_EMPTY_VALUE
 } from '../../../common/constants/common';
 import styles from './SymlayersList.module.scss';
-import Tooltip from '../../../common/components/NewTooltip/Tooltip';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import { getUniverses } from '../../../data/actions/universes';
+import Tooltip from '../../../common/components/Tooltip';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();

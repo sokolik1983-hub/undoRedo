@@ -3,15 +3,32 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { ReactComponent as CloseIcon } from '../../../../layout/assets/close.svg';
+import { ReactComponent as Arrow } from '../../../../layout/assets/queryPanel/arrowThin.svg';
 import TextInput from '../../../../common/components/TextInput';
-import DropdownMenuWithPortal from '../FilterItem/DropdownMenuWithPortal';
-import DropdownWithPortal from '../FilterItem/DropdownWithPortal';
 import IconButton from '../../../../common/components/IconButton';
 import { getIconByItemType } from '../../queryPanelHelper';
 import { EMPTY_STRING } from '../../../../common/constants/common';
 import styles from './FiltersDeskItem.module.scss';
 import { useDragNDrop } from '../../context/DragNDropContext';
 import DotsMenu from './DotsMenu/DotsMenu';
+import DropdownItem from '../../../../common/components/Dropdown/DropdownItem';
+import Dropdown from '../../../../common/components/Dropdown';
+
+const options = [
+  { text: 'не равно', value: 'notEqual' },
+  { text: 'равно', value: 'equal' },
+  { text: 'в списке', value: 'inList' },
+  { text: 'не в списке', value: 'notInList' },
+  { text: 'между', value: 'between' },
+  { text: 'вне', value: 'outside' },
+  { text: 'более чем', value: 'moreThan' },
+  { text: 'более чем или равно', value: 'moreThanOrEqual' },
+  { text: 'меньше чем', value: 'lessThan' },
+  { text: 'меньше чем или равно', value: 'lessThanOrEqual' },
+  { text: 'оба', value: 'both' },
+  { text: 'исключая', value: 'exept' },
+  { text: 'соответсвие образцу', value: 'like' }
+];
 
 const FiltersDeskItem = ({
   id,
@@ -26,6 +43,7 @@ const FiltersDeskItem = ({
   const [isActive, setIsActive] = useState(false);
   const [inputValue, setInputValue] = useState(EMPTY_STRING);
   const [selectedCond, setSelectedCond] = useState('равно');
+  const [selectedText, setSelectedText] = useState('равно');
 
   const root = clsx(styles.root, {
     [styles.active]: isActive,
@@ -38,11 +56,24 @@ const FiltersDeskItem = ({
 
   const handleEditCondition = cond => {
     setSelectedCond(cond);
-  }
+  };
 
   useEffect(() => {
     onEditItem(id, inputValue, selectedCond);
   }, [inputValue, selectedCond]);
+
+  const menu = () => (
+    <div className={styles.optionsWrapper}>
+      {options.map(i => (
+        <DropdownItem
+          key={i.value}
+          item={i}
+          className={styles.optionsText}
+          onClick={() => {}}
+        />
+      ))}
+    </div>
+  );
 
   return (
     <div
@@ -56,7 +87,13 @@ const FiltersDeskItem = ({
     >
       <div className={styles.icon}>{getIconByItemType(type)}</div>
       <p className={styles.title}>{title}</p>
-      <DropdownWithPortal text="равно" onCondChange={handleEditCondition} />
+      {/* TODO: replace dropdown with custom select when ready */}
+      <Dropdown trigger={['click']} overlay={menu()}>
+        <div className={styles.select}>
+          <p className={styles.selectText}>{selectedText}</p>
+          <Arrow className={styles.arrow} />
+        </div>
+      </Dropdown>
       <TextInput
         className={styles.input}
         placeholder="введите постоянную"
@@ -65,10 +102,6 @@ const FiltersDeskItem = ({
         value={inputValue}
         onChange={e => onEdit(e)}
       />
-      {/* TODO: remove DropdownMenuWithPortal and inner components  */}
-      {/* <div className={styles.menu}>
-        <DropdownMenuWithPortal />
-      </div> */}
       <DotsMenu />
       <IconButton
         className={styles.closeBtn}

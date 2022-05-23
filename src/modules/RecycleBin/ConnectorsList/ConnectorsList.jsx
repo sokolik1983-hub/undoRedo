@@ -20,9 +20,9 @@ import {
   TABLE_CELL_EMPTY_VALUE
 } from '../../../common/constants/common';
 import styles from './ConnectorsList.module.scss';
-import Tooltip from '../../../common/components/NewTooltip/Tooltip';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import { getTrashEvents } from '../../../data/actions/trash';
+import Tooltip from '../../../common/components/Tooltip';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();

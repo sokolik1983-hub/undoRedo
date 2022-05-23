@@ -20,7 +20,6 @@ import {
   BREADCRUMBS_ROOT,
   TABLE_CELL_EMPTY_VALUE
 } from '../../common/constants/common';
-import Tooltip from '../../common/components/NewTooltip/Tooltip';
 import Preloader from '../../common/components/Preloader/Preloader';
 import { PAGE } from '../../common/constants/pages';
 import { setCurrentPage } from '../../data/reducers/ui';
@@ -28,6 +27,7 @@ import FloatingButton from '../../common/components/FloatingButton';
 import { ReactComponent as CreateConnector } from '../../layout/assets/createConnector.svg';
 import styles from './Reports.module.scss';
 import { getListReports } from '../../data/actions/universes';
+import Tooltip from '../../common/components/Tooltip';
 
 const Reports = () => {
   const dispatch = useDispatch();
