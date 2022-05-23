@@ -1,17 +1,25 @@
 /* eslint-disable no-nested-ternary */
-import { useDispatch } from 'react-redux';
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import React from "react";
+import { useLocation } from "react-router-dom";
 import { SEMANTIC_PAGE_ACTIONS } from '../../../../common/constants/common';
 import styles from './PageActions.module.scss';
-import { setObjectsConnectionsModal } from '../../../../data/actions/universes';
+import CreateObjectLayerModal from '../../../../modules/SymlayersDesigner/CreateObjectLayerModal/index';
+import { setObjectsConnectionsModal, setCreateObjectModal } from '../../../../data/actions/universes';
 import {
   setIsShowingContexts,
   setIsShowingLinks
 } from '../../../../data/reducers/schemaDesigner';
+// import TextInput from '../../../../common/components/TextInput';
 
 const SemanticActions = () => {
   const dispatch = useDispatch();
+
+  // const coloredValue = useSelector(
+  //   state => state.app.schemaDesigner.coloredValue
+  // );
+
+  // const [isFilter, setIsFilter] = useState(false);
 
   const getAction = action => {
     switch (action) {
@@ -23,7 +31,8 @@ const SemanticActions = () => {
         return dispatch(setIsShowingContexts());
       case 'connectionsPanel':
         return dispatch(setIsShowingLinks());
-
+      case 'commonSearch':
+        return null
       default:
         return null;
     }
@@ -44,6 +53,12 @@ const SemanticActions = () => {
 
   const newArr = filterIcons(SEMANTIC_PAGE_ACTIONS);
 
+  /* удалить когда перенесем кнопку открытия Создать  */
+  const isCreateObjectModalOpened = useSelector(
+    state => state.app.ui.modalCreateObjectVisible
+  );
+  /* удалить когда перенесем кнопку открытия Создать  */
+
   return (
     <div className={styles.actionsContainer}>
       {newArr.map(item => {
@@ -63,8 +78,20 @@ const SemanticActions = () => {
           </div>
         );
       })}
+      <button 
+        type='button' 
+        style={{marginLeft: '20px'}}
+        onClick={() => dispatch(setCreateObjectModal(true))}
+      >
+        создать
+      </button>
+      {isCreateObjectModalOpened && (
+        <CreateObjectLayerModal visible={isCreateObjectModalOpened && true} />
+      )}
+      {/* {isFilter && <TextInput value={coloredValue} onChange={(event) => dispatch(setColoredValue(event.target.value))} className={styles.filterInput} />} */}
     </div>
   );
 };
 
 export default SemanticActions;
+

@@ -28,6 +28,8 @@ const schemaDesigner = createSlice({
     connectorObjects: [],
     selectedTables: [],
     selectedTablesData: [],
+    showDataList: false,
+    dataList: [],
     links: [],
     contexts: [],
     objectsLayerList: [],
@@ -35,7 +37,8 @@ const schemaDesigner = createSlice({
       showLinks: false,
       showContexts: false,
       isLoading: false
-    }
+    },
+    coloredValue: ''
   },
   reducers: {
     setIsLoading: (state, action) => {
@@ -62,8 +65,11 @@ const schemaDesigner = createSlice({
         ...action.payload
       };
     },
-    setLinks: (state, action) => {
+    addLink: (state, action) => {
       state.links = [...state.links, action.payload];
+    },
+    setLinks: (state, action) => {
+      state.links = action.payload;
     },
     setLink: (state, action) => {
       state.links = state.links.map(link => {
@@ -81,6 +87,18 @@ const schemaDesigner = createSlice({
     },
     unsetTablePreviewData: (state) => {
       state.connectorData = null;
+    },
+    setColoredValue: (state, action) => {
+      state.coloredValue = action.payload
+    },
+    setDataList: (state, action) => {
+      state.dataList = action.payload;
+    },
+    clearDataList: (state) => {
+      state.dataList = []
+    },
+    setShowDataList: state => {
+      state.showDataList = !state.showDataList;
     }
   }
 });
@@ -93,11 +111,16 @@ export const {
   setConnectorData,
   setSelectedTables,
   setSelectedTablesData,
+  addLink,
   setLinks,
   setLink,
   setObjectsLayerList,
   setContexts,
   unsetTablePreviewData,
+  setColoredValue,
+  setDataList,
+  clearDataList,
+  setShowDataList
 } = schemaDesigner.actions;
 
 export default schemaDesigner.reducer;

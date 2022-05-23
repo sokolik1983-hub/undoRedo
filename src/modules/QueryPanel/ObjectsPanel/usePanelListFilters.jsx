@@ -25,9 +25,9 @@ const usePanelListFilters = rootFolder => {
     if (item.isFolder) {
       const folder = {
         ...item,
-        children: item.children.reduce(filterByType, [])
+        children: item?.children?.reduce(filterByType, [])
       };
-      if (folder.children.length) result.push(folder);
+      if (folder?.children?.length) result.push(folder);
     } else if (filterTypeId.includes(item.objectType_id)) {
       result.push(item);
     }
