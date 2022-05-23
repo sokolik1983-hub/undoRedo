@@ -379,6 +379,7 @@ const TableComponent = ({
       setShowSynPopup(false);
       setSynName('');
     } else {
+      // eslint-disable-next-line no-alert
       alert('Имя синонима введено некорректно!');
     }
   }

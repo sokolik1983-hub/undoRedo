@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 export default function Vector(v){
     this.set(v)
 }
