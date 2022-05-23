@@ -41,10 +41,6 @@ function Sidebar({ onSelect }) {
     state => state.app.schemaDesigner.objectsLayerList
   );
 
-    useEffect(() => {
-      console.log(objectsLayers)
-    }, [objectsLayers]);
-
   const handleCollapse = () => {
     setCollapsed(prev => !prev);
   };
