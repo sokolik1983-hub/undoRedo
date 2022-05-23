@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-shadow */
@@ -117,11 +116,7 @@ const ShemaEditorBlock = ({
           <div className={styles.iconsContainer}>
             <Tooltip
               placement="bottom"
-              overlay={
-                <div>
-                  {isOpened ? 'Свернуть таблицу' : 'Развернуть таблицу'}
-                </div>
-              }
+              overlay={isOpened ? 'Свернуть таблицу' : 'Развернуть таблицу'}
             >
               <Arrow
                 onClick={() => setIsOpened(prev => !prev)}
@@ -134,11 +129,14 @@ const ShemaEditorBlock = ({
               onClick={() => setIsActive(!isActive)}
               className={styles.magnifier}
             />
-            <Dropdown trigger={['click']} overlay={menu}>
-              <IconButton
-                className={styles.dottedBtn}
-                icon={<DotsMenu className={styles.menu} />}
-              />
+            <Dropdown
+              trigger={['click']}
+              overlay={menu()}
+              align={{
+                offset: [45, -50]
+              }}
+            >
+              <IconButton className={styles.dottedBtn} icon={<DotsMenu />} />
             </Dropdown>
           </div>
         </div>
