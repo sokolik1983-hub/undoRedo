@@ -11,21 +11,21 @@ const ObjectsHeader = ({ clearObjectsDesk }) => {
     <div className={styles.root}>
       <div className={styles.title}>Объекты отчета</div>
       <div className={styles.btnGroup}>
-        <Tooltip placement="topLeft" overlay={<div>Фильтр</div>}>
+        <Tooltip placement="topLeft" overlay="Фильтр">
           <IconButton
             className={styles.iconBtn}
             icon={<Filter />}
             onClick={() => {}}
           />
         </Tooltip>
-        <Tooltip placement="topLeft" overlay={<div>Списки</div>}>
+        <Tooltip placement="topLeft" overlay="Списки">
           <IconButton
             className={styles.iconBtn}
             icon={<Lists />}
             onClick={() => {}}
           />
         </Tooltip>
-        <Tooltip placement="topLeft" overlay={<div>очистить всё</div>}>
+        <Tooltip placement="topLeft" overlay="Очистить всё">
           <IconButton
             className={styles.iconBtn}
             icon={<Basket />}
