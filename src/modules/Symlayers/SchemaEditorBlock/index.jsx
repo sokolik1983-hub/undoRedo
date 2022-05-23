@@ -84,15 +84,17 @@ const SchemaEditorBlock = ({
   return (
     <div className={styles.wrapper}>
       <div>
-        <div className={styles.header}>
-          <h1
-            className={styles.heading}
-            onMouseDown={event => {
+        <div
+          className={styles.header}
+          onMouseDown={event => {
               event.stopPropagation();
               if (event.button !== 0) return;
               onTableDragStart(event);
             }}
-            onDoubleClick={() => setIsOpened(prev => !prev)}
+          onDoubleClick={() => setIsOpened(prev => !prev)}
+        >
+          <h1
+            className={styles.heading}
           >
             {selectedTableName}
           </h1>
