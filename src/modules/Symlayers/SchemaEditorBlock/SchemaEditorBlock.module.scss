@@ -4,12 +4,13 @@
                   rgba(0, 55, 137, 0.75) 0%,
                   rgba(0, 55, 137, 0.375) 100%
   );
-  box-shadow: 0 7px 17px rgba(34, 82, 102, 0.75);
+  box-shadow: 0 2px 4px rgba(34, 82, 102, 0.75);
   backdrop-filter: blur(10px);
   border-radius: 10px;
   min-width: 210px;
   max-width: 210px;
   user-select: none;
+  padding-bottom: 1px;
 }
 
 .header {
@@ -28,6 +29,14 @@
   max-width: 130px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.menu {
+  cursor: pointer;
+}
+
+.buttonIndents {
+  padding: 0 6px;
 }
 
 .content {
@@ -61,6 +70,19 @@
   }
 }
 
+.itemHighlited {
+  font-size: 12px;
+  line-height: 14px;
+  color: #ffffff;
+  margin: 0 -16px;
+  padding: 3px 16px;
+  background: #cc8e35;
+  &:hover {
+    transition: 0.3s ease-in-out;
+    background: rgba(196, 196, 196, 0.25);
+  }
+}
+
 .itemsWrapper {
   background: linear-gradient(
     142.94deg,
@@ -70,7 +92,6 @@
   box-shadow: 0 4px 4px rgba(34, 82, 102, 0.25);
   backdrop-filter: blur(7px);
   border-radius: 7.5px;
-  width: 207px;
 }
 
 .text {
@@ -79,7 +100,7 @@
   line-height: 15px;
   color: #000000;
   margin: 0;
-  padding: 4px 5px 4px 9px;
+  padding: 5px 10px 5px 10px;
   white-space: nowrap;
 
   &:hover {
@@ -100,6 +121,7 @@
 .iconsContainer {
   display: flex;
   align-items: center;
+}
 
   button {
     margin-left: 13px;
@@ -111,7 +133,6 @@
   svg {
     margin-left: 9px;
   }
-}
 .search {
   margin: 0 -25px;
 
@@ -151,7 +172,7 @@
 }
 
 .arrowBtnOpened, .arrowBtnClosed {
-  margin: 0 3px;
+  margin: 0 5px 0 3px;
 
   & path {
     stroke: #FFFFFF;
@@ -163,6 +184,5 @@
 }
 
 .dottedBtn {
-  margin: 0px 6px;
-  width: fit-content;
-} 
+  margin: 0 -5px;
+}

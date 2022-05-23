@@ -42,39 +42,18 @@ const PropertiesBlock = ({ name }) => {
     { icon: <CounterIcon />, text: 'Счётчик', value: 'counter' }
   ];
 
-  const [isOpenData, setIsOpenData] = useState(false);
   const [selectedDataText, setSelectedDataText] = useState(
     selectDataOptions[0].text
   );
   const [selectedIcon, setSelectedDataIcon] = useState(
     selectDataOptions[0].icon
   );
-
-  const openDataPortal = () => {
-    if (isOpenData) {
-      setIsOpenData(!isOpenData);
-      return;
-    }
-    setIsOpenData(!isOpenData);
-  };
-
-  const [isOpenType, setIsOpenType] = useState(false);
   const [selectedTypeText, setSelectedTypeText] = useState(
     selectTypeOptions[0].text
   );
   const [selectedTypeIcon, setSelectedTypeIcon] = useState(
     selectTypeOptions[0].icon
   );
-
-  const openTypePortal = () => {
-    if (isOpenType) {
-      setIsOpenType(!isOpenType);
-      return;
-    }
-    setIsOpenType(!isOpenType);
-  };
-
-  const [isOpenFunc, setIsOpenFunc] = useState(false);
   const [selectedFuncText, setSelectedFuncText] = useState(
     selectFuncOptions[0].text
   );
@@ -82,116 +61,106 @@ const PropertiesBlock = ({ name }) => {
     selectFuncOptions[0].icon
   );
 
-  const openFuncPortal = () => {
-    if (isOpenFunc) {
-      setIsOpenFunc(!isOpenFunc);
-      return;
-    }
-    setIsOpenFunc(!isOpenFunc);
-  };
-
   const setSelectedDataFields = item => {
     setSelectedDataIcon(item.icon);
     setSelectedDataText(item.text);
-    setIsOpenData(false);
     formikProps.setFieldValue(name[0], item.text);
   };
 
   const setSelectedTypeFields = item => {
     setSelectedTypeIcon(item.icon);
     setSelectedTypeText(item.text);
-    setIsOpenType(false);
     formikProps.setFieldValue(name[1], item.text);
   };
 
   const setSelectedFuncFields = item => {
     setSelectedFuncIcon(item.icon);
     setSelectedFuncText(item.text);
-    setIsOpenFunc(false);
     formikProps.setFieldValue(name[2], item.text);
   };
 
+  const dataOptionsMenu = () => (
+    <div className={styles.dropDownDataBlock}>
+      {selectDataOptions.map(item => (
+        <DropdownItem
+          key={item.value}
+          item={item}
+          icon={item.icon}
+          className={styles.dropDownItem}
+          onClick={() => setSelectedDataFields(item)}
+        />
+      ))}
+    </div>
+  );
+
+  const typeOptionsMenu = () => (
+    <div className={styles.dropDownDataBlock}>
+      {selectTypeOptions.map(item => (
+        <DropdownItem
+          icon={item.icon}
+          key={item.value}
+          item={item}
+          onClick={() => setSelectedTypeFields(item)}
+          className={styles.dropDownItem}
+        />
+      ))}
+    </div>
+  );
+
+  const funcOptionsMenu = () => (
+    <div className={styles.dropDownDataBlock}>
+      {selectFuncOptions.map(item => (
+        <DropdownItem
+          icon={item.icon}
+          key={item.value}
+          item={item}
+          onClick={() => setSelectedFuncFields(item)}
+          className={styles.dropDownItem}
+        />
+      ))}
+    </div>
+  );
+
   return (
+    // TODO: заменить элементы с дропдауном на кастомные селекты когда будут готовы
     <div className={styles.objectPropertiesBlock}>
       <div className={styles.objectData}>
         <p className={styles.title}>Данные</p>
         <div className={styles.selectField}>
-          <div className={styles.selectData}>
-            <div className={styles.selectedIconText}>
-              <span className={styles.defaultIcon}>{selectedIcon}</span>
-              <p className={styles.dropDownText}>{selectedDataText}</p>
-            </div>
-            <Dropdown
-              onClick={openDataPortal}
-              mainButton={<Arrow className={styles.arrow} />}
-            />
-            {isOpenData && (
-              <div className={styles.dropDownDataBlock}>
-                {selectDataOptions.map(item => (
-                  <DropdownItem
-                    item={item}
-                    icon={item.icon}
-                    key={item.value}
-                    className={styles.dropDownItem}
-                    onClick={() => setSelectedDataFields(item)}
-                  />
-                ))}
+          <Dropdown trigger="click" overlay={dataOptionsMenu()}>
+            <div className={styles.selectData}>
+              <div className={styles.selectedIconText}>
+                <span className={styles.defaultIcon}>{selectedIcon}</span>
+                <p className={styles.dropDownText}>{selectedDataText}</p>
               </div>
-            )}
-          </div>
+              <Arrow className={styles.arrow} />
+            </div>
+          </Dropdown>
         </div>
       </div>
       <div className={styles.objectType}>
         <p className={styles.title}>Тип</p>
-        <div className={styles.selectType}>
-          <div className={styles.selectedIconText}>
-            <span className={styles.defaulTypetIcon}>{selectedTypeIcon}</span>
-            <p className={styles.dropDownText}>{selectedTypeText}</p>
-          </div>
-          <Dropdown
-            onClick={openTypePortal}
-            mainButton={<Arrow className={styles.arrow} />}
-          />
-          {isOpenType && (
-            <div className={styles.dropDownTypeBlock}>
-              {selectTypeOptions.map(item => (
-                <DropdownItem
-                  icon={item.icon}
-                  key={item.value}
-                  item={item}
-                  onClick={() => setSelectedTypeFields(item)}
-                  className={styles.dropDownItem}
-                />
-              ))}
+        <Dropdown trigger="click" overlay={typeOptionsMenu()}>
+          <div className={styles.selectType}>
+            <div className={styles.selectedIconText}>
+              <span className={styles.defaulTypetIcon}>{selectedTypeIcon}</span>
+              <p className={styles.dropDownText}>{selectedTypeText}</p>
             </div>
-          )}
-        </div>
+            <Arrow className={styles.arrow} />
+          </div>
+        </Dropdown>
       </div>
       <div className={styles.objectFunction}>
         <p className={styles.title}>Функция</p>
-        <div className={styles.selectFunc}>
-          <div className={styles.selectedIconText}>
-            <span className={styles.defaultFuncIcon}>{selectedFuncIcon}</span>
-            <p className={styles.dropDownText}>{selectedFuncText}</p>
-          </div>
-          <Dropdown
-            onClick={openFuncPortal}
-            mainButton={<Arrow className={styles.arrow} />}
-          />
-          {isOpenFunc && (
-            <div className={styles.dropDownFunctionBlock}>
-              {selectFuncOptions.map(item => (
-                <DropdownItem
-                  icon={item.icon}
-                  key={item.value}
-                  item={item}
-                  onClick={() => setSelectedFuncFields(item)}
-                  className={styles.dropDownFuncItem}
-                />
-              ))}
+        <Dropdown trigger="click" overlay={funcOptionsMenu()}>
+          <div className={styles.selectFunc}>
+            <div className={styles.selectedIconText}>
+              <span className={styles.defaultFuncIcon}>{selectedFuncIcon}</span>
+              <p className={styles.dropDownText}>{selectedFuncText}</p>
             </div>
-          )}
-        </div>
+            <Arrow className={styles.arrow} />
+          </div>
+        </Dropdown>
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ const Search = ({
 
   const getIconButton = () => {
     return (
-      <Tooltip placement="topLeft" overlay={<div>Поиск</div>}>
+      <Tooltip placement="topLeft" overlay="Поиск">
         <IconButton className={styles.btn} icon={<Magnifier />} type="submit" />
       </Tooltip>
     );

@@ -189,7 +189,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
             onChange={e => setSearchValue(e.target.value)}
             iconButtonPosition={ICON_POSITION.RIGHT}
           />
-          <Tooltip placement="bottomLeft" overlay={<div>Сбросить</div>}>
+          <Tooltip placement="bottomLeft" overlay="Сбросить">
             <IconButton
               className={selectModalStyles.reloadIcon}
               icon={<ReloadIcon />}

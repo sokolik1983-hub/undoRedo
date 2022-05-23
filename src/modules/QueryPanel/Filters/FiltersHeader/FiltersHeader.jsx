@@ -19,21 +19,21 @@ const FiltersHeader = () => {
     <div className={styles.root}>
       <div className={styles.title}>Фильтры запроса</div>
       <div className={styles.btnGroup}>
-        <Tooltip placement="topLeft" overlay={<div>Создать новую группу</div>}>
+        <Tooltip placement="topLeft" overlay="Создать новую группу">
           <IconButton
             className={styles.iconBtn}
             icon={<Group />}
             onClick={addNode}
           />
         </Tooltip>
-        <Tooltip placement="topLeft" overlay={<div>Переместить вверх</div>}>
+        <Tooltip placement="topLeft" overlay="Переместить вверх">
           <IconButton
             className={styles.iconBtn}
             icon={<ArrowUp />}
             onClick={handleMoveUp}
           />
         </Tooltip>
-        <Tooltip placement="topLeft" overlay={<div>Переместить вниз</div>}>
+        <Tooltip placement="topLeft" overlay="Переместить вниз">
           <IconButton
             tabIndex="-1"
             className={styles.iconBtn}
@@ -41,7 +41,7 @@ const FiltersHeader = () => {
             onClick={handleMoveDown}
           />
         </Tooltip>
-        <Tooltip placement="topLeft" overlay={<div>Очистить всё</div>}>
+        <Tooltip placement="topLeft" overlay="Очистить всё">
           <IconButton
             className={styles.iconBtn}
             icon={<Basket />}

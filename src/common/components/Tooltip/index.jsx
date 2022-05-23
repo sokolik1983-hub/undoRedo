@@ -9,11 +9,11 @@ import styles from './Tooltip.module.scss';
  */
 
 const Tooltip = ({ children, placement, className, ...props }) => {
-  const overlay = clsx(styles.overlay, className);
+  const overlayClassName = clsx(styles.overlay, className);
 
   return (
     <RcTooltip
-      overlayClassName={overlay}
+      overlayClassName={overlayClassName}
       destroyTooltipOnHide
       placement={placement}
       mouseEnterDelay={0}

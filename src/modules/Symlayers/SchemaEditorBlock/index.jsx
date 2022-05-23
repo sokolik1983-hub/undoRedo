@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-shadow */
@@ -15,17 +14,6 @@ import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrow
 import Tooltip from '../../../common/components/Tooltip';
 import IconButton from '../../../common/components/IconButton';
 
-// const data = [
-//   { text: 'Колонка', id: '1' },
-//   { text: 'Колонка 1', id: '2' },
-//   { text: 'Колонка 2', id: '3' },
-//   { text: 'Колонка 3', id: '4' },
-//   { text: 'Колонка 4', id: '5' },
-//   { text: 'Колонка 5', id: '6' },
-//   { text: 'Колонка 6', id: '7' },
-//   { text: 'Колонка 7', id: '8' }
-// ];
-
 const items = [
   { text: 'Псевдоним' },
   { text: 'Изменить вид' },
@@ -35,11 +23,12 @@ const items = [
   { text: 'Предпросмотр таблицы', value: 'tablePreview' }
 ];
 
-const ShemaEditorBlock = ({
+const SchemaEditorBlock = ({
   onTableDragStart,
   selectedTableName,
   selectedTableColumns = [],
-  onTablePreviewClick
+  onTablePreviewClick,
+  isHighlight
 }) => {
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
@@ -47,16 +36,9 @@ const ShemaEditorBlock = ({
   const [searchValue, setSearchValue] = useState('');
   const [isActive, setIsActive] = useState(false);
   const [isOpened, setIsOpened] = useState(true);
-  const [isLoaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    if (isLoaded) setFilterableFields(selectedTableColumns);
-  }, [isLoaded]);
-
-  useEffect(() => {
-    if (selectedTableColumns.length) {
-      setLoaded(true);
-    }
+    setFilterableFields(selectedTableColumns);
   }, [selectedTableColumns]);
 
   const contentClasses = clsx(styles.content, {
@@ -119,11 +101,7 @@ const ShemaEditorBlock = ({
           <div className={styles.iconsContainer}>
             <Tooltip
               placement="bottom"
-              overlay={
-                <div>
-                  {isOpened ? 'Свернуть таблицу' : 'Развернуть таблицу'}
-                </div>
-              }
+              overlay={isOpened ? 'Свернуть таблицу' : 'Развернуть таблицу'}
             >
               <Arrow
                 onClick={() => setIsOpened(prev => !prev)}
@@ -136,11 +114,14 @@ const ShemaEditorBlock = ({
               onClick={() => setIsActive(!isActive)}
               className={styles.magnifier}
             />
-            <Dropdown trigger={['click']} overlay={menu}>
-              <IconButton
-                className={styles.dottedBtn}
-                icon={<DotsMenu className={styles.menu} />}
-              />
+            <Dropdown
+              trigger={['click']}
+              overlay={menu()}
+              align={{
+                offset: [45, -50]
+              }}
+            >
+              <IconButton size='small' className={styles.dottedBtn} icon={<DotsMenu />} />
             </Dropdown>
           </div>
         </div>
@@ -165,16 +146,16 @@ const ShemaEditorBlock = ({
             />
 
             {filterableFields.map((item, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <li className={styles.item} key={item.field + item.type + index}>
+            // eslint-disable-next-line react/no-array-index-key
+              <li className={item.colored && isHighlight ? styles.itemHighlited : styles.item} key={item.field + item.type + index}>
                 {item.field}
               </li>
-            ))}
+          ))}
           </ul>
         </div>
-      )}
+)}
     </div>
   );
 };
 
-export default ShemaEditorBlock;
+export default SchemaEditorBlock;
