@@ -22,7 +22,7 @@ const DotsMenu = () => {
     {
       text: 'подсказка',
       icon: (
-        <Tooltip placement="topLeft" overlay={<div>Свойства подсказки</div>}>
+        <Tooltip placement="topLeft" overlay="Свойства подсказки">
           <Gear fill="black" className={styles.gear} />
         </Tooltip>
       ),

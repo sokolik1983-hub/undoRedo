@@ -70,7 +70,6 @@
   box-shadow: 0 4px 4px rgba(34, 82, 102, 0.25);
   backdrop-filter: blur(7px);
   border-radius: 7.5px;
-  width: 207px;
 }
 
 .text {
@@ -79,7 +78,7 @@
   line-height: 15px;
   color: #000000;
   margin: 0;
-  padding: 4px 5px 4px 9px;
+  padding: 5px 10px 5px 10px;
   white-space: nowrap;
 
   &:hover {

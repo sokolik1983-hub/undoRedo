@@ -81,8 +81,8 @@ const ListTableRow = ({
               </div>
             )}
           </td>
-          <td>{connectType}</td>
-          <td>{symlayerCount}</td>
+          {connectType && <td>{connectType}</td>}
+          {symlayerCount && <td>{symlayerCount}</td>}
         </tr>
       </Tooltip>
     </Dropdown>

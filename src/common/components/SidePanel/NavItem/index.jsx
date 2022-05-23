@@ -15,7 +15,7 @@ function NavItem({ id, onClick, active, title, icon }) {
 
   return (
     <div className={itemClass} onClick={handleClick}>
-      <Tooltip placement="top" overlay={<div>{title}</div>}>
+      <Tooltip placement="top" overlay={title}>
         {icon}
       </Tooltip>
     </div>

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CreateObjectLayerModal from '../CreateObjectLayerModal/index';
 import { ReactComponent as SearchIcon } from '../../../layout/assets/icons/search.svg';
@@ -23,6 +23,14 @@ function Sidebar({ onSelect }) {
     state => state.app.schemaDesigner.connectorObjects
   );
 
+  const objectsLayers = useSelector(
+    state => state.app.schemaDesigner.objectsLayerList
+  );
+
+    useEffect(() => {
+      console.log(objectsLayers)
+    }, [objectsLayers]);
+
   const handleCollapse = () => {
     setCollapsed(prev => !prev);
   };
@@ -32,8 +40,7 @@ function Sidebar({ onSelect }) {
   };
 
   const handleObjectDrop = (e, fieldName) => {
-    console.log(e, fieldName);
-    dispatch(setCreateObjectModal(true));
+    dispatch(setCreateObjectModal(e, fieldName));
   };
 
   /* удалить когда перенесем кнопку открытия Создать  */
@@ -113,7 +120,29 @@ function Sidebar({ onSelect }) {
               }}
               onDragOver={e => e.preventDefault()}
             >
-              dffd
+              <div className={styles.tableActions}>
+                <div>
+                  <AddTableIcon />
+                </div>
+                <div className={styles.tableFilters}>
+                  <div>
+                    <SearchIcon />
+                  </div>
+                  <div>
+                    <ViewsIcon />
+                  </div>
+                  <div>
+                    <FiltersIcon />
+                  </div>
+                </div>
+              </div>
+              <div className={styles.owner}>
+                <OwnerIcon />
+                <span>Owner</span>
+              </div>
+              <div className={styles.contentData}>
+                <HierTreeView data={connectorObjects} onSelect={onSelect} />
+              </div>
             </div>
           )}
         </div>
