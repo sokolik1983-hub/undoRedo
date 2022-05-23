@@ -30,10 +30,7 @@ const ConnectionType = ({ onSelectExpression, currentExpression }) => {
   return (
     <div className={styles.connectionsWrapper}>
       <div className={styles.iconWrapper}>
-        <Tooltip
-          placement="topLeft"
-          overlay={<div>обнаружить кардинальность</div>}
-        >
+        <Tooltip placement="topLeft" overlay="Обнаружить кардинальность">
           <DefineConnectionIcon />
         </Tooltip>
       </div>

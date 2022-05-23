@@ -40,11 +40,14 @@ const SemanticActions = () => {
 
   const location = useLocation();
 
-  const filterIcons = (arr) => { 
+  const filterIcons = arr => {
     if (!location.pathname.endsWith('create')) {
-      return arr.map(item => item.action !== 'commonSearch' ? {...item, enable: false} : item)
-                .filter(item => item.type !== 'divider')
-    };
+      return arr
+        .map(item =>
+          item.action !== 'commonSearch' ? { ...item, enable: false } : item
+        )
+        .filter(item => item.type !== 'divider');
+    }
     return arr;
   };
 
@@ -61,12 +64,13 @@ const SemanticActions = () => {
       {newArr.map(item => {
         return (
           <div
+            key={item.title}
             className={
               item.type === 'divider' ? styles.divider : styles.actionWrapper
             }
             title={item.title || ''}
             onClick={() => item.enable && getAction(item.action)}
-          > 
+          >
             {item.enable ? item.icon : item.disIcon}
             <span className={item.enable ? null : styles.deactivated}>
               {item.text || ''}
