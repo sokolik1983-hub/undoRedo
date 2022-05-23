@@ -125,10 +125,6 @@ const DragNDropProvider = ({ children }) => {
   };
 
   const getParent = (obj, id) => {
-    /*
-      TODO: предложить решение с моментальным выходом из цикла в случае
-      когда нужные родитель и индекс найдены или другое лучшее решение.
-    */
     let result = null;
     let idx = null;
 
@@ -145,6 +141,7 @@ const DragNDropProvider = ({ children }) => {
       }
     };
 
+    
     if (!result || !idx) {
       find(obj)
     };

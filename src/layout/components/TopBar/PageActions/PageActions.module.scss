@@ -27,8 +27,13 @@
   justify-content: flex-start;
   flex-wrap: nowrap;
   margin-top: 12px;
+  align-items: center;
 }
 
 .deactivated {
   color: #fff;
+}
+
+.filterInput {
+  margin-left: 10px;
 }
