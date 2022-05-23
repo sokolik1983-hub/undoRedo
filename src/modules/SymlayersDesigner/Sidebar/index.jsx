@@ -31,6 +31,11 @@ function Sidebar({ onSelect }) {
     setActiveTab(value);
   };
 
+  const handleObjectDrop = (e, fieldName) => {
+    console.log(e, fieldName);
+    dispatch(setCreateObjectModal(true));
+  };
+
   /* удалить когда перенесем кнопку открытия Создать  */
   const isCreateObjectModalOpened = useSelector(
     state => state.app.ui.modalCreateObjectVisible
@@ -100,7 +105,16 @@ function Sidebar({ onSelect }) {
               </div>
             </>
           ) : (
-            <></>
+            <div
+              className={styles.contentObj}
+              onDrop={e => {
+              if(e.dataTransfer.getData('field')) 
+                handleObjectDrop(JSON.parse(e.dataTransfer.getData('field')), e)
+              }}
+              onDragOver={e => e.preventDefault()}
+            >
+              dffd
+            </div>
           )}
         </div>
       )}

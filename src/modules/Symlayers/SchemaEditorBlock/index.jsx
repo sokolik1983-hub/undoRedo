@@ -39,7 +39,8 @@ const ShemaEditorBlock = ({
   onTableDragStart,
   selectedTableName,
   selectedTableColumns = [],
-  onTablePreviewClick
+  onTablePreviewClick,
+  onFieldDragStart
 }) => {
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
@@ -164,7 +165,7 @@ const ShemaEditorBlock = ({
 
             {filterableFields.map((item, index) => (
               // eslint-disable-next-line react/no-array-index-key
-              <li className={styles.item} key={item.field + item.type + index}>
+              <li className={styles.item} key={item.field + item.type + index} draggable onDragStart={e => onFieldDragStart(e, item.field)}>
                 {item.field}
               </li>
             ))}

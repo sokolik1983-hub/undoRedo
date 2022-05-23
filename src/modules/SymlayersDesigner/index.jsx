@@ -51,7 +51,14 @@ function SymlayersDesigner() {
               <TablesList title="Контексты" items={contexts} type="contexts" />
             )}
           </div>
-          <div className={styles.tables} onDrop={(e) => {handleSelectTable(JSON.parse(e.dataTransfer.getData("item")), e)}} onDragOver={(e) => {e.preventDefault()}}>
+          <div
+            className={styles.tables}
+            onDrop={e => {
+            if(e.dataTransfer.getData("item")) 
+              handleSelectTable(JSON.parse(e.dataTransfer.getData("item")), e)
+          }}
+            onDragOver={(e) => {e.preventDefault()}}
+          >
             <SchemaTables tables={checked} />
           </div>
         </div>
