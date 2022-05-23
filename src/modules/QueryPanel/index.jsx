@@ -106,11 +106,7 @@ const QueryPanel = ({ visible }) => {
             onClose={() => onClose()}
           />
         )}
-        {isSqlPopupOpened && (
-          <SqlPopup 
-            onClose={handleShowSqlPopup}
-          />
-        )}
+        {isSqlPopupOpened && <SqlPopup onClose={handleShowSqlPopup} />}
       </div>
     );
   };

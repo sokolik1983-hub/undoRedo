@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-shadow */
 import clsx from 'clsx';
+import ReactDOM from 'react-dom';
 import React, { useEffect, useState } from 'react';
 import Dropdown from '../../../common/components/Dropdown';
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
@@ -12,6 +13,7 @@ import { ReactComponent as MagnifierWhite } from '../../../layout/assets/schemaE
 import styles from './SchemaEditorBlock.module.scss';
 import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowOk.svg';
 import Tooltip from '../../../common/components/Tooltip';
+import ModalConfirmDeletion from '../../../common/components/Modal/ModalConfirmDeletion';
 
 // const data = [
 //   { text: 'Колонка', id: '1' },
@@ -30,14 +32,19 @@ const items = [
   { text: 'Определение ключей' },
   { text: 'Определение числа элементов' },
   { text: 'Определение числа строк' },
-  { text: 'Предпросмотр таблицы', value: 'tablePreview' }
+  { text: 'Предпросмотр таблицы', value: 'tablePreview' },
+  { text: 'Удалить таблицу', value: 'deleteTable' }
 ];
+
+const modalWarningText =
+  'Будет удалена таблица и все связи с этой таблицей, включая объекты. Вы уверены?';
 
 const ShemaEditorBlock = ({
   onTableDragStart,
   selectedTableName,
   selectedTableColumns = [],
   onTablePreviewClick,
+  onCloseSchemaEditorBlock
 }) => {
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
@@ -45,6 +52,7 @@ const ShemaEditorBlock = ({
   const [searchValue, setSearchValue] = useState('');
   const [isActive, setIsActive] = useState(false);
   const [isOpened, setIsOpened] = useState(true);
+  const [isDeleteWarningModalOpened, setDeleteWarningModalOpened] = useState(false);
 
   useEffect(() => {
     setFilterableFields(selectedTableColumns);
@@ -54,15 +62,18 @@ const ShemaEditorBlock = ({
     [styles.contentWithSearch]: isActive
   });
 
-  const handleClick = (item) => {
+  const handleClick = item => {
     if (item.value === 'tablePreview') {
       return onTablePreviewClick();
+    }
+    if (item.value === 'deleteTable') {
+      return setDeleteWarningModalOpened(true);
     }
     return console.log(item.text);
   };
 
   const handleSearch = e => {
-    const {value} = e.target; 
+    const { value } = e.target;
 
     setSearchValue(value);
     setFilterableFields(
@@ -75,8 +86,8 @@ const ShemaEditorBlock = ({
   const onCloseInput = () => {
     setIsActive(!isActive);
     setSearchValue('');
-    setFilterableFields(selectedTableColumns)
-  }
+    setFilterableFields(selectedTableColumns);
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -94,10 +105,15 @@ const ShemaEditorBlock = ({
             {selectedTableName}
           </h1>
           <div className={styles.iconsContainer}>
-            <Tooltip content={isOpened ? 'Свернуть таблицу' : 'Развернуть таблицу'} position='bottom'>
+            <Tooltip
+              content={isOpened ? 'Свернуть таблицу' : 'Развернуть таблицу'}
+              position="bottom"
+            >
               <Arrow
                 onClick={() => setIsOpened(prev => !prev)}
-                className={isOpened ? styles.arrowBtnOpened : styles.arrowBtnClosed}
+                className={
+                  isOpened ? styles.arrowBtnOpened : styles.arrowBtnClosed
+                }
               />
             </Tooltip>
             <MagnifierWhite
@@ -127,30 +143,37 @@ const ShemaEditorBlock = ({
             id="1"
             type="text"
           />
-          <CloseInput
-            className={styles.icon}
-            onClick={onCloseInput}
-          />
+          <CloseInput className={styles.icon} onClick={onCloseInput} />
         </div>
       </div>
       {isOpened && (
-      <div className={contentClasses}>
-        <ul className={styles.list}>
-          <DropdownItem
-            item=''
-            onClick={handleClick}
-            className={styles.search}
-          />
+        <div className={contentClasses}>
+          <ul className={styles.list}>
+            <DropdownItem
+              item=""
+              onClick={handleClick}
+              className={styles.search}
+            />
 
-          {filterableFields.map((item, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <li className={styles.item} key={item.field + item.type + index}>
-              {item.field}
-            </li>
-          ))}
-        </ul>
-      </div>
-)}
+            {filterableFields.map((item, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <li className={styles.item} key={item.field + item.type + index}>
+                {item.field}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {isDeleteWarningModalOpened &&
+        ReactDOM.createPortal(
+          <ModalConfirmDeletion
+            warnText={modalWarningText}
+            setDeleteWarningModalOpened={setDeleteWarningModalOpened}
+            selectedTableName={selectedTableName}
+            onCloseSchemaEditorBlock={onCloseSchemaEditorBlock}
+          />,
+          document.body
+        )}
     </div>
   );
 };

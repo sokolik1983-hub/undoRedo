@@ -55,6 +55,9 @@ const schemaDesigner = createSlice({
     setSelectedTables: (state, action) => {
       state.selectedTables = { ...state.selectedTables, ...action.payload };
     },
+    unsetSelectedTables: (state) => {
+      state.selectedTables = [] // нужно заменить filter
+    },
     setSelectedTablesData: (state, action) => {
       state.selectedTablesData = {
         ...state.selectedTablesData,
@@ -67,7 +70,7 @@ const schemaDesigner = createSlice({
     setLink: (state, action) => {
       state.links = state.links.map(link => {
         if (link.id === action?.payload.id) {
-          link = action?.payload; 
+          link = action?.payload;
         }
         return link;
       });
@@ -77,7 +80,7 @@ const schemaDesigner = createSlice({
     },
     unsetTablePreviewData: (state) => {
       state.connectorData = null;
-    }
+    },
   }
 });
 
@@ -93,6 +96,7 @@ export const {
   setLink,
   setContexts,
   unsetTablePreviewData,
+  unsetSelectedTables,
 } = schemaDesigner.actions;
 
 export default schemaDesigner.reducer;

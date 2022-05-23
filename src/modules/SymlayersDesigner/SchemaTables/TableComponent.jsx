@@ -24,7 +24,7 @@ import { getTableIdFromParams } from '../../../data/helpers';
 import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock';
 // import { useApplicationActions } from 'src/data/appProvider';
 import { SymanticLayerContext } from './context';
-import TablePreview from "./TablePreview";
+import TablePreview from './TablePreview';
 import { setTablePreviewModal } from '../../../data/actions/universes';
 
 const useStyles = makeStyles(theme => ({
@@ -143,9 +143,7 @@ const TableComponent = ({
     state => state.app.schemaDesigner.selectedTables
   );
 
-  const connect_id = useSelector(
-    state => state.app.schemaDesigner.connectorId
-  );
+  const connect_id = useSelector(state => state.app.schemaDesigner.connectorId);
 
   const selectedTableColumns =
     selectedTables[getTableIdFromParams({ ...tableItem, connect_id: 4 })];
@@ -242,7 +240,7 @@ const TableComponent = ({
 
   const handlePopupShow = () => {
     dispatch(setTablePreviewModal(true));
-    dispatch(getObjectData({ ...tableItem, connect_id }))
+    dispatch(getObjectData({ ...tableItem, connect_id }));
     //   .then(
     //   response => {
     //     if (response && response.success) {
@@ -361,6 +359,8 @@ const TableComponent = ({
     }
   }, [focusedItem]);
 
+  const [isActiveSchemaEditorBlock, setActiveSchemaEditorBlock] = useState(true);
+
   return (
     <g
       style={{
@@ -382,12 +382,15 @@ const TableComponent = ({
             : undefined
         }}
       >
-        <SchemaEditorBlock
-          onTableDragStart={onTableDragStart}
-          selectedTableColumns={selectedTableColumns}
-          selectedTableName={tableItem.object_name}
-          onTablePreviewClick={handlePopupShow}
-        />
+        {isActiveSchemaEditorBlock && (
+          <SchemaEditorBlock
+            onTableDragStart={onTableDragStart}
+            selectedTableColumns={selectedTableColumns}
+            selectedTableName={tableItem.object_name}
+            onTablePreviewClick={handlePopupShow}
+            onCloseSchemaEditorBlock={setActiveSchemaEditorBlock}
+          />
+        )}
         {/* <div
           className={`${classes.tableItem} unselectable`}
           style={{ margin: 0, display: 'flex', flexDirection: 'column' }}
