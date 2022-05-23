@@ -1,15 +1,13 @@
-/* eslint-disable react/jsx-wrap-multilines */
-import { useMemo, useEffect, useState } from 'react';
+import { useMemo, useEffect, useState, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
 import { getConnectors } from '../../../data/actions/connectors';
 import ListNavBar from '../../../common/components/ListNavBar/ListNavBar';
 import List from '../../../common/components/List/List';
-import Dropdown from '../../../common/components/Dropdown';
 import ListItem from '../../../common/components/List/ListItem/ListItem';
 import ListItemEdit from '../../../common/components/List/ListItemEdit/ListItemEdit';
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
-import ListTableRowWithDropdown from '../../../common/components/List/ListTableView/ListTableRowWithDropdown/ListTableRowWithDropdown';
+import ListTableRow from '../../../common/components/List/ListTableView/ListTableRow/ListTableRow';
 import {
   connectorsTableHeader,
   FOLDER_DROPDOWN_ACTIONS,
@@ -23,8 +21,8 @@ import {
   TABLE_CELL_EMPTY_VALUE
 } from '../../../common/constants/common';
 import styles from './ConnectorsList.module.scss';
-import Tooltip from '../../../common/components/NewTooltip/Tooltip';
 import Preloader from '../../../common/components/Preloader/Preloader';
+import Tooltip from '../../../common/components/Tooltip';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
@@ -127,115 +125,98 @@ const ConnectorsList = () => {
     }
   };
 
-  const getUniverseDropdownItems = id =>
-    FOLDER_ITEM_DROPDOWN_ACTIONS.map(item => (
-      <Tooltip key={item.action} text={item.title} space={5}>
-        <DropdownItem
-          className={styles.dropdownItem}
-          onClick={action => handleItemClick(id, action)}
-          item={item}
-        />
-      </Tooltip>
-    ));
+  const getUniverseDropdownItems = id => (
+    <div className={styles.itemsWrapper}>
+      {FOLDER_ITEM_DROPDOWN_ACTIONS.map(item => (
+        <Tooltip
+          key={item.title}
+          overlay={<div className={styles.tooltip}>{item.title}</div>}
+          trigger={['hover']}
+        >
+          <DropdownItem
+            className={styles.dropdownItem}
+            onClick={action => handleItemClick(id, action)}
+            item={item}
+          />
+        </Tooltip>
+      ))}
+    </div>
+  );
 
-  const getFolderDropdownItems = id =>
-    FOLDER_DROPDOWN_ACTIONS.map(item => (
-      <Tooltip key={item.action} text={item.title} space={5}>
-        <DropdownItem
-          className={styles.dropdownItem}
-          onClick={action => handleItemClick(id, action)}
-          item={item}
-        />
-      </Tooltip>
-    ));
+  const getFolderDropdownItems = id => (
+    <div className={styles.itemsWrapper}>
+      {FOLDER_DROPDOWN_ACTIONS.map(item => (
+        <Tooltip
+          key={item.title}
+          overlay={<div className={styles.tooltip}>{item.title}</div>}
+          trigger={['hover']}
+        >
+          <DropdownItem
+            className={styles.dropdownItem}
+            item={item}
+            onClick={action => handleItemClick(id, action)}
+          />
+        </Tooltip>
+      ))}
+    </div>
+  );
 
   const listItems = foldersHistory[currentFolderIndex]?.children;
   const listItemsWithDropdown = listItems?.map(item => {
     const { isFolder } = item;
+
+    const currentId = isFolder ? `folder_${item.folder_id}` : item.id;
+
+    const menu = isFolder
+      ? getFolderDropdownItems(`folder_${item.folder_id}`)
+      : getUniverseDropdownItems(item.id);
+
     return (
-      <>
-        {editListItemId ===
-        (isFolder ? `folder_${item.folder_id}` : item.id) ? (
+      <Fragment key={isFolder ? `folder_${item.folder_id}` : item.id}>
+        {editListItemId === currentId ? (
           <ListItemEdit
-            key={isFolder ? `folder_${item.folder_id}` : item.id}
             value={item.folder_name || item.connect_name}
             // TODO: implement submit function
             // onSubmit={onItemEditSubmit}
             onBlur={() => setEditListItemId(null)}
           />
         ) : (
-          <Dropdown
-            key={isFolder ? `folder_${item.folder_id}` : item.id}
-            className={styles.dropdownColumn}
-            itemsWrapper={styles.itemsWrapper}
-            mainButton={
-              <Tooltip
-                placement="bottom-left"
-                text={isFolder ? item.folder_name : item.connect_name}
-                space={5}
-              >
-                <ListItem
-                  className={styles.folderItemsColumnView}
-                  name={isFolder ? item.folder_name : item.connect_name}
-                  onDoubleClick={
-                    isFolder ? () => onFolderDoubleClick(item) : null
-                  }
-                  icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
-                />
-              </Tooltip>
-            }
-          >
-            {isFolder
-              ? getFolderDropdownItems(`folder_${item.folder_id}`)
-              : getUniverseDropdownItems(item.id)}
-          </Dropdown>
+          <ListItem
+            className={styles.folderItemsColumnView}
+            name={isFolder ? item.folder_name : item.connect_name}
+            onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
+            icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
+            menu={menu}
+          />
         )}
-      </>
+      </Fragment>
     );
   });
 
-  const tableHeader = connectorsTableHeader.map(i => <th>{i.name}</th>);
+  const tableHeader = connectorsTableHeader.map(i => (
+    <th key={i.name}>{i.name}</th>
+  ));
   const tableRows = listItems?.map(item => {
     const { isFolder } = item;
+
+    const currentId = isFolder ? `folder_${item.folder_id}` : item.id;
+
+    const menu = isFolder
+      ? getFolderDropdownItems(`folder_${item.folder_id}`)
+      : getUniverseDropdownItems(item.id);
+
     return (
-      <Tooltip
-        key={isFolder ? `folder_${item.folder_id}` : item.id}
-        placement="bottom-left"
-        text={isFolder ? item.folder_name : item.connect_name}
-        space={5}
-      >
-        <ListTableRowWithDropdown
-          onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
-          cells={
-            <>
-              <td>
-                {editListItemId ===
-                (isFolder ? `folder_${item.folder_id}` : item.id) ? (
-                  <ListItemEdit
-                    key={isFolder ? `folder_${item.folder_id}` : item.id}
-                    value={item.folder_name || item.connect_name}
-                    // TODO: implement submit function
-                    // onSubmit={}
-                    onBlur={() => setEditListItemId(null)}
-                  />
-                ) : (
-                  <ListItem
-                    className={styles.folderItems}
-                    name={isFolder ? item.folder_name : item.connect_name}
-                    icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
-                  />
-                )}
-              </td>
-              <td>{item.connect_type_name || TABLE_CELL_EMPTY_VALUE}</td>
-              <td>{item.symlayer_count || TABLE_CELL_EMPTY_VALUE}</td>
-            </>
-          }
-        >
-          {isFolder
-            ? getFolderDropdownItems(`folder_${item.folder_id}`)
-            : getUniverseDropdownItems(item.id)}
-        </ListTableRowWithDropdown>
-      </Tooltip>
+      <ListTableRow
+        key={currentId}
+        onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
+        isEditMode={editListItemId === currentId}
+        onEditEnd={() => setEditListItemId(null)}
+        icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
+        name={isFolder ? item.folder_name : item.connect_name}
+        menu={menu}
+        connectType={item.connect_type_name || TABLE_CELL_EMPTY_VALUE}
+        symlayerCount={item.symlayer_count || TABLE_CELL_EMPTY_VALUE}
+      />
     );
   });
 

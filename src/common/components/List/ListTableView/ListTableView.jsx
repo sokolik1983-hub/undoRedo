@@ -6,7 +6,7 @@ const ListTableView = ({ tableHeader, tableRows }) => {
     <div className={styles.tableWrapper}>
       <table className={styles.listTable}>
         <colgroup>
-          {tableHeader.map(i => (
+          {tableHeader?.map(i => (
             <col key={i.props.children} span="1" />
           ))}
         </colgroup>

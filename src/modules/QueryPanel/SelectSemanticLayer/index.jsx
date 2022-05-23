@@ -15,8 +15,8 @@ import { ReactComponent as ArrowLeftIcon } from '../../../layout/assets/arrowLef
 import { ReactComponent as ArrowUpIcon } from '../../../layout/assets/arrow-up.svg';
 import { ReactComponent as ReloadIcon } from '../../../layout/assets/queryPanel/reload.svg';
 import Search from '../../../common/components/Search';
-import Tooltip from '../../../common/components/NewTooltip/Tooltip';
 import { ICON_POSITION } from '../../../common/components/Search/constant';
+import Tooltip from '../../../common/components/Tooltip';
 
 const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const dispatch = useDispatch();
@@ -136,9 +136,8 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const listItems = result?.map(item => {
     const { isFolder } = item;
     return (
-      <div>
+      <div key={isFolder ? `folder_${item.folder_id}` : item.id}>
         <ListItem
-          key={isFolder ? `folder_${item.folder_id}` : item.id}
           name={isFolder ? item.folder_name : item.name}
           icon={isFolder ? <FolderIcon /> : <UniverseIcon />}
           className={selectModalStyles.semanticItem}
@@ -190,7 +189,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
             onChange={e => setSearchValue(e.target.value)}
             iconButtonPosition={ICON_POSITION.RIGHT}
           />
-          <Tooltip text="Сбросить" placement="bottom-left">
+          <Tooltip placement="bottomLeft" overlay="Сбросить">
             <IconButton
               className={selectModalStyles.reloadIcon}
               icon={<ReloadIcon />}

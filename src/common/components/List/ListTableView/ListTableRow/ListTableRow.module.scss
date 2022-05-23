@@ -1,0 +1,47 @@
+.tableRow {
+  cursor: pointer;
+  position: relative;
+
+  &.active {
+    background-color: #2b6dd0;
+    color: #ffffff;
+    transition: all 0.2s;
+  }
+
+  &.active td > * {
+    color: #ffffff;
+  }
+}
+
+.content {
+  padding: 5px 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-self: center;
+  grid-gap: 6px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+
+  & .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  & .name {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.tooltip {
+  font-size: 12px;
+  max-width: 300px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}

@@ -1,5 +1,5 @@
 .root {
-  position: absolute;
+  // position: absolute;
   background: linear-gradient(
     152.97deg,
     #ffffff 0%,
@@ -23,7 +23,7 @@
     position: absolute;
     width: 14px;
     border-top: 2px solid #000;
-    bottom: -1px;
+    bottom: 2px;
     right: 3px;
   }
 }
@@ -56,6 +56,13 @@
   height: calc(100% - 60px);
 }
 
+.searchContentData {
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+}
+
 .header {
   display: flex;
   width: 100%;
@@ -72,7 +79,7 @@
   align-items: center;
 
   svg {
-    margin-right: 15.25px;
+    margin-right: 10px;
   }
 }
 
@@ -84,20 +91,24 @@
   cursor: pointer;
   font-size: 20px;
   font-weight: 500;
-  margin-right: 5.5px;
+  margin-right: 8px;
   height: 27px;
-  width: 105px;
 
   span {
+    position: absolute;
     color: grey;
     font-size: 7px;
     font-weight: 400;
+    white-space: nowrap;
+    top: 24px;
+    left: 0;
   }
 }
 
 .activeTab {
   color: black;
   font-weight: 600;
+  position: relative;
 }
 
 .tableActions {
@@ -239,6 +250,77 @@
   }
 }
 
+.listWrapper {
+  overflow: hidden;
+  overflow-y: scroll;
+  height: 666px;
+}
+
+.listItemWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.listItemName {
+  margin-top: 3px;
+  margin-left: 5px;
+  color: #000;
+  font-size: 12px;
+  font-weight: 600;
+  max-width: 240px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.listItemFieldWrapper {
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+}
+  
+.listItemField {
+  cursor: pointer;
+  padding-top: 5px;
+  padding-bottom: 4px;
+  margin-left: 5px;
+  color: #000;
+  font-size: 12px;
+  font-weight: normal;
+}
+
 .tooltip {
   visibility: hidden;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  margin-top: 3px;
+}
+
+.searchInput {
+  outline: 1px solid #C4C4C4;
+  transition: outline 0.2s;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  width: 245px;
+  height: 17px;
+  margin-left: 2px;
+}
+
+.searchInput:focus-visible {
+  outline: 1px solid #003789bf;
+}
+
+.magnifier {
+  margin-left: 6px;
+  margin-bottom: 5px;
+  cursor: pointer;
 }

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { EMPTY_STRING } from '../../../common/constants/common';
 import { useDebounce } from '../../../common/hooks/useDebounce';
 
-export const usePanelListFilters = rootFolder => {
+const usePanelListFilters = rootFolder => {
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
   const [filterTypeId, setFilterTypeId] = useState([]);
   const [filteredData, setFilteredData] = useState();
@@ -25,9 +25,9 @@ export const usePanelListFilters = rootFolder => {
     if (item.isFolder) {
       const folder = {
         ...item,
-        children: item.children.reduce(filterByType, [])
+        children: item?.children?.reduce(filterByType, [])
       };
-      if (folder.children.length) result.push(folder);
+      if (folder?.children?.length) result.push(folder);
     } else if (filterTypeId.includes(item.objectType_id)) {
       result.push(item);
     }
@@ -76,3 +76,5 @@ export const usePanelListFilters = rootFolder => {
     setSearchValue
   };
 };
+
+export default usePanelListFilters; 

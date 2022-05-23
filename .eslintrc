@@ -33,6 +33,7 @@
     "operator-linebreak": "off",
     "arrow-parens": 0,
     "dot-notation": "off",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "no-debugger": "off"
   }
 }

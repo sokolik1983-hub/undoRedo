@@ -31,3 +31,9 @@
     text-overflow: ellipsis;
   }
 }
+
+.tooltip {
+  max-width: 250px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}

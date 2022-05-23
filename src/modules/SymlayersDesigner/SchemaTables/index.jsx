@@ -31,7 +31,7 @@ import useStyles from './style';
 
 import Table from './TableComponent';
 import SymanticLink from './Link';
-// import Minimap from './Minimap';
+import Minimap from './Minimap';
 // import SearchDialog from './SearchDialog';
 import Vector from './vector';
 
@@ -180,11 +180,11 @@ const Provided = props => {
         zIndex: 15
       }}
     >
-      <Tooltip title="поиск по семантическому слою">
-        <IconButton onClick={() => toggleSearchPopup()}>
-          <SearchIcon />
-        </IconButton>
-      </Tooltip>
+      {/* <Tooltip title="поиск по семантическому слою"> */}
+      {/*   <IconButton onClick={() => toggleSearchPopup()}> */}
+      {/*     <SearchIcon /> */}
+      {/*   </IconButton> */}
+      {/* </Tooltip> */}
       <Tooltip title={`${showMinimap ? 'скрыть' : 'показать'} миникарту`}>
         <IconButton onClick={() => SET_SHOW_MINIMAP(!showMinimap)}>
           <MapIcon />
@@ -317,6 +317,7 @@ const Provided = props => {
         })}
 
         {Object.keys(tables)?.map((tableId, index) => {
+        
           return (
             <Table
               tableId={tableId}
@@ -352,18 +353,18 @@ const Provided = props => {
         <RNDZone>{renderContent()}</RNDZone>
       </div>
 
-      {/* {showMinimap && (
+      {showMinimap && (
         <Minimap
           size={minimapSize}
           position={minimapPosition}
           setSize={setMinmapSize}
           setPosition={setMinimapPosition}
-          saveUserData={saveUserData}
-          symanticLayerUserData={userData.symanticLayer}
+          // saveUserData={saveUserData}
+          // symanticLayerUserData={userData.symanticLayer}
         >
           {renderContent({ isShadow: true })}
         </Minimap>
-      )} */}
+      )}
     </React.Fragment>
   );
 };

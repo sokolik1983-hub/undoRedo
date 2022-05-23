@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-curly-newline */
 import Divider from '../../../common/components/Divider';
 import FiltersHeader from './FiltersHeader/FiltersHeader';
-import { useDragNDrop } from '../context/DragNDropContex';
+import { useDragNDrop } from '../context/DragNDropContext';
 import FiltersDeskItem from './FiltersDeskItem/FiltersDeskItem';
 import FiltersDeskNode from './FiltersDeskNode/FiltersDeskNode';
 import { DRAG_PARENT_SECTION } from '../../../common/constants/common';
@@ -14,6 +14,7 @@ const Filters = () => {
     handleDragOver,
     handleDropOnFiltersArea,
     handleDropOnFiltersItem,
+    handleEditFiltersItem,
     handleDropOnFiltersNodeItemsBlock,
     deleteFiltersDeskItem,
     setFocused
@@ -23,8 +24,8 @@ const Filters = () => {
     if (!filtersDesk)
       return (
         <div>
-          Для фильтрации отчета выберите предъопределенные фильтры или объекты
-          на панели и перетащите их сюда
+          Для фильтрации отчета выберите предопределенные фильтры или объекты на
+          панели и перетащите их сюда
         </div>
       );
 
@@ -51,6 +52,7 @@ const Filters = () => {
         type={filtersDesk.fieldItem.objectType_id}
         onItemClick={() => setFocused(filtersDesk)}
         onDeleteItem={() => deleteFiltersDeskItem(filtersDesk.id)}
+        onEditItem={handleEditFiltersItem}
         draggable
         onDragStart={e =>
           handleDragStart(e, filtersDesk, DRAG_PARENT_SECTION.FILTERS)

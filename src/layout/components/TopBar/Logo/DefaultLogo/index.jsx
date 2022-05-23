@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { ReactComponent as LogoDefault } from '../../../../assets/defaultLogo.svg';
 import { ReactComponent as SemanticLogo } from '../../../../assets/semanticLogo.svg';
 import { ReactComponent as ConnectorsLogo } from '../../../../assets/connectorsLogo.svg';
+import { ReactComponent as DesignerLogo } from '../../../../assets/designerLogo.svg';
 import styles from '../Logo.module.scss';
 import { PAGE } from '../../../../../common/constants/pages';
 import { PAGE_TITLES } from '../../../../../common/constants/common';
@@ -21,8 +22,8 @@ const DefaultLogo = ({ currentPage }) => {
         return PAGE_TITLES.SEMANTIC;
       case PAGE.SEMANTIC_LIST:
         return PAGE_TITLES.SEMANTIC;
-      case PAGE.REPORTS:
-        return PAGE_TITLES.REPORTS;
+      case PAGE.REPORT_DESIGNER:
+        return PAGE_TITLES.REPORT_DESIGNER
       default: return null;
     }
   };
@@ -35,6 +36,8 @@ const DefaultLogo = ({ currentPage }) => {
         return <SemanticLogo />;
       case PAGE.CONNECTORS:
         return <ConnectorsLogo />;
+      case PAGE.REPORT_DESIGNER:
+        return <DesignerLogo />;
       default: return null;
     }
   };
