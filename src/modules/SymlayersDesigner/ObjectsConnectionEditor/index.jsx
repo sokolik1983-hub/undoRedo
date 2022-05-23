@@ -18,7 +18,7 @@ import {
   TABLES_NAME_FOR_CONNECT
 } from '../../../common/constants/universes';
 import { createExpression } from './functions';
-import { setLinks, setLink } from '../../../data/reducers/schemaDesigner';
+import { addLink, setLink } from '../../../data/reducers/schemaDesigner';
 
 const ObjectsConnectionEditor = ({ id, visible }) => {
   const dispatch = useDispatch();
@@ -66,7 +66,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
   const saveHandler = () => {
     if (!currentObjLink) {
       dispatch(
-        setLinks({
+        addLink({
           id,
           condition,
           expression: resultExpression,

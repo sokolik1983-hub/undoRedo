@@ -1,13 +1,20 @@
 .root {
+  display: flex;
   font-size: 14px;
   padding: 2px 4px;
   border-radius: 4px;
+  width: 100%;
 
   &:hover {
     background-color: #2b6dd082;
     color: #fff;
     cursor: pointer;
   }
+
+  button {
+    margin-left: 20px;
+  }
+
 }
 
 .active {

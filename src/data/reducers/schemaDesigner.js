@@ -64,8 +64,11 @@ const schemaDesigner = createSlice({
         ...action.payload
       };
     },
-    setLinks: (state, action) => {
+    addLink: (state, action) => {
       state.links = [...state.links, action.payload];
+    },
+    setLinks: (state, action) => {
+      state.links = action.payload;
     },
     setLink: (state, action) => {
       state.links = state.links.map(link => {
@@ -104,6 +107,7 @@ export const {
   setConnectorData,
   setSelectedTables,
   setSelectedTablesData,
+  addLink,
   setLinks,
   setLink,
   setContexts,
