@@ -336,7 +336,6 @@ const TableComponent = ({
         const value = { ...position, deltaPosition: res };
         commit('SET_TABLE_POSITION', { tableId, value });
       };
-
       startDrag({ event, dragCallback, extra: { delta } });
     },
     [posToCoord, startDrag]
@@ -447,7 +446,7 @@ const TableComponent = ({
             onTableDragStart={onTableDragStart}
             selectedTableColumns={selectedTableColumns}
             selectedTableName={tableItem.object_name}
-            selectedTableFullName={`${tableItem.schema}_${tableItem.object_name}_${tableItem.object_type_id}_4`}
+            selectedTableFullName={`${tableItem.schema}_${tableItem.object_name}_${tableItem.object_type_id}_${connect_id}`}
             onTablePreviewClick={handlePopupShow}
             onCloseSchemaEditorBlock={setActiveSchemaEditorBlock}
           />

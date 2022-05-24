@@ -11,7 +11,7 @@ const ModalConfirmDeletion = ({
   warnText,
   setDeleteWarningModalOpened, // закрытие модалки подтверждения удаления
   onCloseSchemaEditorBlock, // закрытие родительской модалки ShemaEditorBlock
-  selectedTableFullName // полное название открытой таблицы включая название папки и хардкод в конце _4
+  selectedTableFullName // полное название открытой таблицы включая название папки и connector_id
 }) => {
   const dispatch = useDispatch();
 
@@ -20,7 +20,6 @@ const ModalConfirmDeletion = ({
   );
 
   const filterDeletedTable = tableName => {
-    console.log('tableName', tableName);
     return Object.fromEntries(
       Object.entries(selectedTables).filter(([key]) => key !== tableName)
     );

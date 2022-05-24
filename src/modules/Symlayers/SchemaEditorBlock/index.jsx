@@ -36,7 +36,7 @@ const SchemaEditorBlock = ({
   onTablePreviewClick,
   onCloseSchemaEditorBlock,
   isHighlight,
-  selectedTableFullName
+  selectedTableFullName,
 }) => {
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
