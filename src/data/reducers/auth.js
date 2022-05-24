@@ -36,13 +36,10 @@ const auth = createSlice({
       const { isAuth, userInfo } = getAuthState();
       state.isAuth = isAuth;
       state.userInfo = userInfo;
-    },
-    serverResponse: (state, action) => {
-      state.serverResponse = action.payload;
     }
   }
 });
 
-export const { login, logout, refresh, getAuth, serverResponse } = auth.actions;
+export const { login, logout, refresh, getAuth } = auth.actions;
 
 export default auth.reducer;

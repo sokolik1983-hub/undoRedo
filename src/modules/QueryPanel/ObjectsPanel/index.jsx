@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import ObjectsPanelHeader from './ObjectsPanelHeader/ObjectsPanelHeader';
@@ -7,17 +6,17 @@ import Divider from '../../../common/components/Divider';
 import usePanelListFilters from './usePanelListFilters';
 import ObjectsPanelFilters from './ObjectsPanelFilters/ObjectsPanelFilters';
 import ReportObjectsPanelFilters from './ReportObjectsPanelFilters';
-import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList'; 
-import { getSymanticLayerData } from '../../../data/actions/universes';
-import { useDragNDrop } from '../context/DragNDropContext'; 
+import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList';
+// import { getSymanticLayerData } from '../../../data/actions/universes';
+import { useDragNDrop } from '../context/DragNDropContext';
 import styles from './ObjectsPanel.module.scss';
 
-const ObjectsPanel = ({ symanticLayer, modalOpenHandler, showHeader, report }) => {
-  const dispatch = useDispatch();
+const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (symanticLayer) dispatch(getSymanticLayerData(symanticLayer.id));
-  }, [symanticLayer]);
+  // useEffect(() => {
+  //   if (symanticLayer) dispatch(getSymanticLayerData(symanticLayer.id));
+  // }, [symanticLayer]);
 
   const symLayersData = useSelector(state => state.app?.data?.symLayersData);
 
@@ -32,7 +31,7 @@ const ObjectsPanel = ({ symanticLayer, modalOpenHandler, showHeader, report }) =
     handleFiltersSwitch,
     searchValue,
     setSearchValue
-  } = usePanelListFilters(symLayersData?.data?.structure[0]); 
+  } = usePanelListFilters(symLayersData?.data?.structure[0]);
 
   const { handleDragOver, handleTreeDrop } = useDragNDrop();
 
@@ -68,10 +67,9 @@ const ObjectsPanel = ({ symanticLayer, modalOpenHandler, showHeader, report }) =
   );
 };
 
-export default ObjectsPanel; 
+export default ObjectsPanel;
 
 ObjectsPanel.propTypes = {
-  symanticLayer: PropTypes.object,
   modalOpenHandler: PropTypes.func,
   showHeader: PropTypes.bool,
   report: PropTypes.bool,

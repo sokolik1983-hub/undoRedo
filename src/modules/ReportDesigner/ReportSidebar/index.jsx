@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
 
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 import DragNDropProvider from '../../QueryPanel/context/DragNDropContext';
 import ObjectsPanel from '../../QueryPanel/ObjectsPanel';
 import SidePanel from '../../../common/components/SidePanel';
 import styles from './ReportSidebar.module.scss';
 import { SIDE_PANEL_TYPES } from '../../../common/constants/common';
-import { getSymanticLayerData } from '../../../data/actions/universes';
+// import { getSymanticLayerData } from '../../../data/actions/universes';
 import { ReactComponent as Arrow } from '../../../layout/assets/semanticLayerModal/arrow.svg';
 import ReportInfoBlock from '../ReportInfoBlock';
 
@@ -40,7 +40,7 @@ const items = [
 ];
 
 const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const reportDesigner = useSelector(state => state.app.reportDesigner);
   const isShowingPanel = reportDesigner.reportsUi.ui.showConfigPanel;
 
@@ -61,10 +61,10 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
     }
     if (activeTab === 0) {
       return styles.editBlock
-    } 
+    }
     if (collapsed) {
       return styles.editBlockActiveCollapsed
-    } 
+    }
     return styles.editBlockActive
   };
 
@@ -78,9 +78,9 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
     return styles.viewBlockActive
   };
 
-  useEffect(() => {
-    if (semanticLayer) dispatch(getSymanticLayerData(semanticLayer.id));
-  }, [semanticLayer]);
+  // useEffect(() => {
+  //   if (semanticLayer) dispatch(getSymanticLayerData(semanticLayer.id));
+  // }, [semanticLayer]);
 
   return (
     <>

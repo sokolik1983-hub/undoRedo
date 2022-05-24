@@ -1,5 +1,5 @@
 import { request } from '../helpers';
-import { login, logout, serverResponse } from '../reducers/auth';
+import { login, logout } from '../reducers/auth';
 
 export const loginUser = queryParams => {
   // return async dispatch => {

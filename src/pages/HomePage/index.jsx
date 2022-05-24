@@ -8,8 +8,6 @@ import { PAGE } from '../../common/constants/pages';
 import navigationMenu from '../../navigation';
 import { ReactComponent as ExplorerIcon } from '../../layout/assets/icons/buttonPlus.svg';
 import FloatingButton from '../../common/components/FloatingButton';
-import option from '../../common/components/Select/Option';
-import { testNewFunc } from '../../data/actions/auth';
 
 const RECENTS = [
   { id: 1, title: 'Отчет 1 о проделанной работе с мая месяца текущего года' },
