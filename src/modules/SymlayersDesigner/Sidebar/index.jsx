@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
 import clsx from 'clsx';
@@ -15,6 +16,8 @@ import TextInput from '../../../common/components/TextInput';
 import { ReactComponent as Magnifier } from '../../../layout/assets/magnifier.svg';
 import HierTreeView from './HierTreeView';
 import styles from './Sidebar.module.scss';
+import { setCreateObjectModal } from '../../../data/actions/universes';
+import ObjectLayer from './ObjectLayer';
 
 
 function Sidebar({ onSelect }) {
@@ -34,12 +37,20 @@ function Sidebar({ onSelect }) {
     state => state.app.schemaDesigner.connectorObjects
   );
 
+  const objectsLayers = useSelector(
+    state => state.app.schemaDesigner.objectsLayerList
+  );
+
   const handleCollapse = () => {
     setCollapsed(prev => !prev);
   };
 
   const handleSelectTab = value => () => {
     setActiveTab(value);
+  };
+
+  const handleObjectDrop = (e, fieldName) => {
+    dispatch(setCreateObjectModal(e, fieldName));
   };
 
   useEffect(() => {
@@ -122,7 +133,45 @@ function Sidebar({ onSelect }) {
                 <HierTreeView data={connectorObjects} onSelect={onSelect} />
               </div>
             </>
-          ) : activeTab === 1 ? ( <></>) : (
+           
+          ) : activeTab === 1 ? (
+            <div
+              className={styles.contentObj}
+              onDrop={e => {
+              if(e.dataTransfer.getData('field')) 
+                handleObjectDrop(JSON.parse(e.dataTransfer.getData('field')), e)
+              }}
+              onDragOver={e => e.preventDefault()}
+            >
+              <div className={styles.tableActions}>
+                <div>
+                  <AddTableIcon />
+                </div>
+                <div className={styles.tableFilters}>
+                  <div>
+                    <SearchIcon />
+                  </div>
+                  <div>
+                    <ViewsIcon />
+                  </div>
+                  <div>
+                    <FiltersIcon />
+                  </div>
+                </div>
+              </div>
+              <div className={styles.owner}>
+                <OwnerIcon />
+                <span>Owner</span>
+              </div>
+              <div className={styles.contentData}>
+                <div className={styles.objectsData}>
+                  {objectsLayers.map(object => (
+                    <ObjectLayer field={object} />
+                  ))} 
+                </div>
+              </div>
+            </div>
+          ) : (
             <div className={styles.wrapper}>
               <div className={styles.search}>
                 <TextInput

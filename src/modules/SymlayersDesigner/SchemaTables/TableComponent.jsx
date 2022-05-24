@@ -336,6 +336,10 @@ const TableComponent = ({
     [posToCoord, startDrag]
   );
 
+  const onFieldDragStart = (event, field) => {
+    event.dataTransfer.setData('field', JSON.stringify(field));
+  }
+
   const tryLinkEnd = ({ item, event }) => {
     addLink({ table: tableItem, field: item });
     initLink({});
@@ -437,6 +441,7 @@ const TableComponent = ({
           selectedTableColumns={selectedTableColumns}
           selectedTableName={tableItem.object_name}
           onTablePreviewClick={handlePopupShow}
+          onFieldDragStart={onFieldDragStart}
         />
       </foreignObject>
       {/* <div
