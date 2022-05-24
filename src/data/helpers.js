@@ -7,6 +7,7 @@ import { notificationShown } from './reducers/notifications';
 // eslint-disable-next-line import/no-cycle
 
 const PENDING_SERVER_TIMER = 1000;
+const ATTEMPTS = 5;
 
 // это запрос готовности данных
 export const requestReady = async ({ id, dispatch }) => {
@@ -50,12 +51,13 @@ export const requestReady = async ({ id, dispatch }) => {
 
 const requesterTimeout = ({ id, dispatch }) => {
   return new Promise((resolve, reject) => {
+    let tryCount = 0;
     const timer = setInterval(async () => {
+      tryCount++;
       const response = await requestReady({
         id,
         dispatch
       });
-      console.log(response);
       if (response?.result === 'true' || response?.result === 'false') {
         setLoadingData(false);
         resolve(response);
@@ -67,6 +69,11 @@ const requesterTimeout = ({ id, dispatch }) => {
         return reject(response);
       }
       if (response?.result === 'pending') {
+        if (tryCount >= ATTEMPTS) {
+          console.log('исчерпаны попытки, выход из запроса');
+          clearInterval(timer)
+          return reject(response);
+        }
         console.log('данные на сервере еще не готовы');
         reject(response)
       }
