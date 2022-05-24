@@ -20,7 +20,11 @@ import {
   getObjectData,
   getObjectFields
 } from '../../../data/actions/schemaDesigner';
-import { setDataList, clearDataList, setShowDataList } from '../../../data/reducers/schemaDesigner';
+import {
+  setDataList,
+  clearDataList,
+  setShowDataList
+} from '../../../data/reducers/schemaDesigner';
 import { getTableIdFromParams } from '../../../data/helpers';
 import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock';
 // import { useApplicationActions } from 'src/data/appProvider';
@@ -146,39 +150,41 @@ const TableComponent = ({
   const contentScrollContainer = useRef();
   const dispatch = useDispatch();
 
-  const connect_id = useSelector(
-    state => state.app.schemaDesigner.connectorId
-  );
+  const connect_id = useSelector(state => state.app.schemaDesigner.connectorId);
 
-  const searchMatches = (item) => {
-    return item?.field.toLowerCase()?.includes(coloredValue.toLowerCase())
-  }
+  const searchMatches = item => {
+    return item?.field.toLowerCase()?.includes(coloredValue.toLowerCase());
+  };
 
-  const searchStaticMatches = (item) => {
-    return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase())
-  }
+  const searchStaticMatches = item => {
+    return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase());
+  };
 
-  const selectedTableColumns =
-    selectedTables[getTableIdFromParams({ ...tableItem, connect_id: 4 })]?.map((item) => {
-      return ({
-        ...item,
-        colored: colorValue && searchStaticMatches(item),
-      })
-    });
+  const selectedTableColumns = selectedTables[
+    getTableIdFromParams({ ...tableItem, connect_id: 4 })
+  ]?.map(item => {
+    return {
+      ...item,
+      colored: colorValue && searchStaticMatches(item)
+    };
+  });
 
   // eslint-disable-next-line consistent-return
-  const getList = (obj) => {
+  const getList = obj => {
     const tableNames = Object.keys(obj);
     if (tableNames.length) {
       const list = [];
       tableNames.forEach(i => {
-        const choosenItems = obj[i].reduce((acc, item) => 
-                searchMatches(item) && coloredValue ? [...acc, item.field ] : acc, []);
-        
+        const choosenItems = obj[i].reduce(
+          (acc, item) =>
+            searchMatches(item) && coloredValue ? [...acc, item.field] : acc,
+          []
+        );
+
         if (choosenItems.length) {
-          list.push({name: i, line: choosenItems })
+          list.push({ name: i, line: choosenItems });
         }
-      })
+      });
       return list;
     }
   };
@@ -187,16 +193,16 @@ const TableComponent = ({
     if (showDataList) {
       setColorValue(coloredValue);
     }
-  }, [showDataList])
+  }, [showDataList]);
 
   useEffect(() => {
     if (showDataList) {
       setIsHighlighted(true);
       dispatch(setDataList(getList(selectedTables)));
       dispatch(setShowDataList());
-    };
+    }
   }, [showDataList]);
-  
+
   useEffect(() => {
     dispatch(getObjectFields({ ...tableItem, connect_id: 4 }));
 
@@ -379,6 +385,7 @@ const TableComponent = ({
       setShowSynPopup(false);
       setSynName('');
     } else {
+      // eslint-disable-next-line no-alert
       alert('Имя синонима введено некорректно!');
     }
   }
@@ -407,7 +414,9 @@ const TableComponent = ({
     }
   }, [focusedItem]);
 
-  const [isActiveSchemaEditorBlock, setActiveSchemaEditorBlock] = useState(true);
+  const [isActiveSchemaEditorBlock, setActiveSchemaEditorBlock] = useState(
+    true
+  );
 
   return (
     <g
@@ -418,11 +427,13 @@ const TableComponent = ({
       <foreignObject
         x={0}
         y={0}
-        width="460px"
-        height="550px"
+        width="1px"
+        height="1px"
+        id={`obj${tableItem.object_name}`}
         // width={(tableSize && `${tableSize.width + 2}px`) || '360px'}
         // height={tableSize && `${tableSize.height + 2}px`}
         style={{
+          overflow: 'visible',
           outline: focusedTableHere
             ? `2px solid ${
                 focusHere && focusedItem.type === 'table' ? 'orange' : 'yellow'
@@ -436,11 +447,21 @@ const TableComponent = ({
             onTableDragStart={onTableDragStart}
             selectedTableColumns={selectedTableColumns}
             selectedTableName={tableItem.object_name}
+            selectedTableFullName={`${tableItem.schema}_${tableItem.object_name}_${tableItem.object_type_id}_4`}
             onTablePreviewClick={handlePopupShow}
             onCloseSchemaEditorBlock={setActiveSchemaEditorBlock}
           />
         )}
-        {/* <div
+      </foreignObject>
+      {/* <div
+        <SchemaEditorBlock
+          isHighlight={isHighlighted}
+          onTableDragStart={onTableDragStart}
+          selectedTableColumns={selectedTableColumns}
+          selectedTableName={tableItem.object_name}
+          onTablePreviewClick={handlePopupShow}
+        />
+      {/* <div
           className={`${classes.tableItem} unselectable`}
           style={{ margin: 0, display: 'flex', flexDirection: 'column' }}
           ref={tableRef}
@@ -697,7 +718,7 @@ const TableComponent = ({
             )}
           </div>
         </div> */}
-        {/* {showSynPopup && (
+      {/* {showSynPopup && (
           <Dialog
             open={showSynPopup}
             onClose={() => setShowSynPopup(false)}
@@ -760,7 +781,6 @@ const TableComponent = ({
             </DialogActions>
           </Dialog>
         )} */}
-      </foreignObject>
     </g>
   );
 };

@@ -6,11 +6,18 @@
   margin-top: 20px;
 }
 
-.sidebar {
-}
-
 .content {
   padding-left: 320px;
+}
+
+.containerOutline {
+  position: absolute;
+  top: 138px;
+  // border-top: 1px solid lightgray;
+  // border-left: 1px solid lightgray;
+  right: 12px;
+  left: 306px;
+  bottom: 5px;
 }
 
 .container {
@@ -20,15 +27,15 @@
   overflow: hidden;
   position: relative;
 
-  &-portrait {
-    width: 1240px;
-    height: 1754px;
-  }
+  // &-portrait {
+  //   width: 1240px;
+  //   height: 1754px;
+  // }
 
-  &-landscape {
-    width: 1754px;
-    height: 1240px;
-  }
+  // &-landscape {
+  //   width: 1754px;
+  //   height: 1240px;
+  // }
 }
 
 .tabs {

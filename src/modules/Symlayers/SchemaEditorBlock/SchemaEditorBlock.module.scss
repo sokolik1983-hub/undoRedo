@@ -17,7 +17,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 7px 7px 5px 15px;
+  padding: 2px 7px 0px 15px;
 }
 
 .heading {
@@ -123,6 +123,16 @@
   align-items: center;
 }
 
+  button {
+    margin-left: 13px;
+    svg {
+      margin-left: 0px;
+    }
+  }
+
+  svg {
+    margin-left: 9px;
+  }
 .search {
   margin: 0 -25px;
 

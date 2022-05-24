@@ -35,7 +35,8 @@ const SchemaEditorBlock = ({
   selectedTableColumns = [],
   onTablePreviewClick,
   onCloseSchemaEditorBlock,
-  isHighlight
+  isHighlight,
+  selectedTableFullName
 }) => {
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
@@ -97,15 +98,17 @@ const SchemaEditorBlock = ({
   return (
     <div className={styles.wrapper}>
       <div>
-        <div className={styles.header}>
-          <h1
-            className={styles.heading}
-            onMouseDown={event => {
+        <div
+          className={styles.header}
+          onMouseDown={event => {
               event.stopPropagation();
               if (event.button !== 0) return;
               onTableDragStart(event);
             }}
-            onDoubleClick={() => setIsOpened(prev => !prev)}
+          onDoubleClick={() => setIsOpened(prev => !prev)}
+        >
+          <h1
+            className={styles.heading}
           >
             {selectedTableName}
           </h1>
@@ -182,7 +185,7 @@ const SchemaEditorBlock = ({
           <ModalConfirmDeletion
             warnText={modalWarningText}
             setDeleteWarningModalOpened={setDeleteWarningModalOpened}
-            selectedTableName={selectedTableName}
+            selectedTableFullName={selectedTableFullName}
             onCloseSchemaEditorBlock={onCloseSchemaEditorBlock}
           />,
           document.body

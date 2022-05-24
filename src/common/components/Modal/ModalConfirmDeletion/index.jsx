@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { unsetSelectedTables } from '../../../../data/reducers/schemaDesigner';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../Button';
 import { ReactComponent as WarnIcon } from '../../../../layout/assets/warnIcon.svg';
 import { BUTTON } from '../../../constants/common';
+import { filterSelectedTables } from '../../../../data/actions/schemaDesigner';
 import styles from './ModalConfirmDeletion.module.scss';
 
 const ModalConfirmDeletion = ({
@@ -11,14 +11,25 @@ const ModalConfirmDeletion = ({
   warnText,
   setDeleteWarningModalOpened, // закрытие модалки подтверждения удаления
   onCloseSchemaEditorBlock, // закрытие родительской модалки ShemaEditorBlock
-  selectedTableName // название открытой таблицы
+  selectedTableFullName // полное название открытой таблицы включая название папки и хардкод в конце _4
 }) => {
   const dispatch = useDispatch();
 
-  const deleteTable = () => {
+  const selectedTables = useSelector(
+    state => state.app.schemaDesigner.selectedTables
+  );
+
+  const filterDeletedTable = tableName => {
+    console.log('tableName', tableName);
+    return Object.fromEntries(
+      Object.entries(selectedTables).filter(([key]) => key !== tableName)
+    );
+  };
+
+  const deleteTable = tableToDelete => {
     setDeleteWarningModalOpened(false);
     onCloseSchemaEditorBlock(false);
-    dispatch(unsetSelectedTables(selectedTableName));
+    dispatch(filterSelectedTables(filterDeletedTable(tableToDelete)));
   };
   return (
     <div className={styles.backgroundBlurLayer}>
@@ -35,7 +46,7 @@ const ModalConfirmDeletion = ({
           <Button
             buttonStyle={BUTTON.BIG_ORANGE}
             className={styles.modalConfirmWrapperConfirmButton}
-            onClick={deleteTable}
+            onClick={deleteTable(selectedTableFullName)}
           >
             Подтвердить
           </Button>
@@ -57,6 +68,6 @@ ModalConfirmDeletion.propTypes = {
   setDeleteWarningModalOpened: PropTypes.func,
   onCloseSchemaEditorBlock: PropTypes.func,
   warnTitle: PropTypes.string,
-  selectedTableName: PropTypes.string,
+  selectedTableFullName: PropTypes.string,
   warnText: PropTypes.string
 };

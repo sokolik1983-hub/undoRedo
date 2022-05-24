@@ -58,8 +58,8 @@ const schemaDesigner = createSlice({
     setSelectedTables: (state, action) => {
       state.selectedTables = { ...state.selectedTables, ...action.payload };
     },
-    unsetSelectedTables: (state) => {
-      state.selectedTables = [] // нужно заменить filter
+    setSelectedTablesFiltered: (state, action) => {
+      state.selectedTables = action.payload
     },
     setSelectedTablesData: (state, action) => {
       state.selectedTablesData = {
@@ -115,7 +115,7 @@ export const {
   setLink,
   setContexts,
   unsetTablePreviewData,
-  unsetSelectedTables,
+  setSelectedTablesFiltered,
   setColoredValue,
   setDataList,
   clearDataList,

@@ -284,13 +284,14 @@ function ReportDesigner() {
             +
           </button>
         </div>
-        <div
-          className={clsx(styles.container, styles['container-portrait'])}
-          onMouseMove={handleMouseMove}
-          onClick={handleAddBlock}
-          onDoubleClick={handleDisableSelection}
-        >
-          <div style={{zoom: `${zoom}`}}>
+        <div className={styles.containerOutline}>
+          <div
+            style={{zoom: `${zoom}`}}
+            className={clsx(styles.container, styles['container-portrait'])}
+            onMouseMove={handleMouseMove}
+            onClick={handleAddBlock}
+            onDoubleClick={handleDisableSelection}
+          >
             {currentReport &&
               currentReport.structure?.map(block => (
                 <Block
@@ -302,7 +303,7 @@ function ReportDesigner() {
                   onSelect={handleSelect}
                   isActiveNode={checkIsActiveNode(block.id)}
                 />
-              ))}
+            ))}
           </div>
         </div>
       </div>
