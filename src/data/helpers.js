@@ -20,11 +20,16 @@ export const requestReady = async ({ id, dispatch }) => {
     // разница в том, что response.data.result будет отсутствовать в ошибке
     // вместо этого мы получим response.data.errors
     if (response && response.status === 200) {
-      if (response.data.result === 'true') {
+      // добавить все условия
+      if (
+        response.data.result === 'true' ||
+        response.data.result === 'pending' ||
+        response.data.result === 'failed'
+      ) {
         return response.data;
       }
 
-      if (response.data.errors) {
+      if (response.data.result === 'false' && response.data.errors) {
         response.data.errors.forEach(item => {
           const { ERR_TEXT, ERR_RECOMMEND, ERR_REASON } = item;
           // так же с сервера приходит ERR_STATUS: "Warning"
@@ -49,8 +54,8 @@ const requesterTimeout = ({ id, dispatch }) => {
         id,
         dispatch
       });
+      console.log(response);
       if (response?.result === 'true' || response?.result === 'false') {
-        clearInterval(timer);
         setLoadingData(false);
         resolve(response);
         return clearInterval(timer);
