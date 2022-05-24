@@ -9,6 +9,7 @@ const data = createSlice({
     universesTree: [],
     dictionaries: [],
     symLayersData: [],
+    requestId: null,
   },
   reducers: {
     setConnectors: (state, action) => {
@@ -40,8 +41,11 @@ const data = createSlice({
     },
     setListReports: (state, action) => {
       state.listReports = action.payload
-    }
-  }
+    },
+    setRequestId: (state, action) => {
+      state.requestId = action.payload;
+    },
+  },
 });
 
 export const {
@@ -54,7 +58,8 @@ export const {
   setQueryData,
   setSymanticLayerQueryResult,
   setQueryResult,
-  setListReports
+  setListReports,
+  setRequestId,
 } = data.actions;
 
 export default data.reducer;

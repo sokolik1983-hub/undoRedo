@@ -28,7 +28,13 @@ function App() {
     }
   }, []);
 
-  return <AuthProvider>{routing}</AuthProvider>;
+  return (
+    <AuthProvider>
+      <div>
+        {routing}
+      </div>
+    </AuthProvider>
+);
 }
 
 export default App;

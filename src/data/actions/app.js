@@ -9,12 +9,12 @@ export const getDictionaries = queryParams => {
   return async dispatch => {
     try {
       const response = await request({
-        func: 'DIC.ALL',
+        code: 'CMS.LOGIN',
         params: queryParams,
         dispatch
       });
-      if (response?.success) {
-        dispatch(setDictionaries(response.result));
+      if (response) {
+        dispatch(setDictionaries(response));
       }
     } catch (err) {
       dispatch(
