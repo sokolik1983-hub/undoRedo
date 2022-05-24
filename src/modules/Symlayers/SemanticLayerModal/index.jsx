@@ -34,7 +34,7 @@ const SemanticLayerModal = ({ onClick }) => {
     <Formik
       initialValues={semLayerValues}
       onSubmit={data => {
-        window.location.pathname = '/Universe/symlayers/create';
+        window.location.pathname = '/symlayers/create';
         console.log(data);
       }}
     >
@@ -56,12 +56,12 @@ const SemanticLayerModal = ({ onClick }) => {
             isTextarea
           />
           <Connect title="Cоединение" />
-          {/* <Stats 
+          {/* <Stats
               title='Статистика'
             /> */}
-          {/* <TextFieldItem 
-              title='Комментарии' 
-              name='comments' 
+          {/* <TextFieldItem
+              title='Комментарии'
+              name='comments'
               className={styles.comments}
               onChange={handleChange}
               value={values.comments}

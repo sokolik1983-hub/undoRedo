@@ -17,7 +17,7 @@ import Reports from './modules/Reports';
 
 const routes = [
   {
-    path: '/Universe/',
+    path: '/',
     element: <Layout />,
     children: [
       { path: '/', element: <HomePage /> },
@@ -42,8 +42,8 @@ const routes = [
     element: <Layout />,
     children: [
       { path: 'login', element: <LoginPage /> },
-      { path: '/', element: <Navigate to="/Universe/login" /> },
-      { path: '*', element: <Navigate to="/Universe/404" /> }
+      { path: '/', element: <Navigate to="/login" /> },
+      { path: '*', element: <Navigate to="/404" /> }
     ]
   }
 ];

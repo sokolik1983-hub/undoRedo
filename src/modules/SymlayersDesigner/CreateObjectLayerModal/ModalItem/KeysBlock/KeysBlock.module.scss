@@ -46,7 +46,6 @@
 }
 
 .dropDownText {
-  font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-size: 11px;
@@ -54,7 +53,7 @@
   color: #000000;
   padding-left: 1px;
   cursor: pointer;
-  border-radius: none;
+  border-radius: unset;
 }
 
 .dropDownDataBlock {
@@ -63,11 +62,10 @@
   align-items: center;
   background: #ffffff;
   cursor: pointer;
-  box-shadow: 0px 1.5px 1.5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1.5px 1.5px rgba(0, 0, 0, 0.5);
 }
 
 .dropDownText {
-  font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-size: 11px;
@@ -75,7 +73,7 @@
   color: #000000;
   padding-left: 1px;
   cursor: pointer;
-  border-radius: none;
+  border-radius: unset;
 }
 
 .dropDownItem {
@@ -119,7 +117,7 @@
 .footerGroup {
   display: flex;
   flex-direction: row;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .keysBtn {
@@ -127,7 +125,6 @@
 }
 
 .smallText {
-  font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-size: 10px;

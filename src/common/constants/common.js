@@ -22,8 +22,8 @@ export const BREADCRUMBS_ROOT = '..'
 export const EMPTY_STRING = '';
 
 export const REDIRECT_LINKS = {
-  HOME_PAGE: '/Universe/dashboard',
-  LOGIN_PAGE: '/Universe/login'
+  HOME_PAGE: '/dashboard',
+  LOGIN_PAGE: '/login'
 };
 
 export const PAGE_TITLES = {
@@ -209,7 +209,7 @@ export const BUTTON = {
   BIG_GRAY: 'BIG_GRAY',
   BROWN: 'BROWN',
   BLUE: 'BLUE',
-  GRAY: 'GRAY', 
+  GRAY: 'GRAY',
   BROWN_DARKER: 'BROWN_DARKER',
   RED: 'RED',
   SMALL_ORANGE: 'SMALL_ORANGE',

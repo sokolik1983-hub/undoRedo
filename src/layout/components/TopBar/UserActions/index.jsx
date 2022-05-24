@@ -11,9 +11,9 @@ function UserActions() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  function handleLogout() {
+  const handleLogout = () => {
+    navigate(REDIRECT_LINKS.LOGIN_PAGE, { replace: true });
     dispatch(logoutUser());
-    navigate(REDIRECT_LINKS.LOGIN_PAGE, { replace: false });
     return false;
   }
 

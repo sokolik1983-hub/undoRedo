@@ -245,7 +245,7 @@ const Reports = () => {
         ) : (
           <Preloader />
         )}
-        <Link to="/Universe/report/create/">
+        <Link to="/report/create/">
           <FloatingButton icon={<CreateConnector />} text="Создать отчет" />
         </Link>
       </div>

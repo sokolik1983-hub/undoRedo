@@ -108,29 +108,33 @@ export const request = async ({ params, code, token, dispatch }) => {
 
   return null;
 };
-//
-// export const requestAuth = async ({ params, dispatch }) => {
-//   try {
-//     const response = await axios({
-//       method: 'get',
-//       withCredentials: true,
-//       url: `${SERVER_API_URL}authUser?login=${params.login}&password=${params.password}`,
-//       headers: {
-//         'Content-Type': 'application/x-www-form-urlencoded'
-//       }
-//     });
-//
-//     if (response && response.status === 200) {
-//       return response.data;
-//     }
-//
-//     throw Error(response.errorText);
-//   } catch (err) {
-//     dispatch(notificationShown({ message: err.message, messageType: 'error' }));
-//   }
-//
-//   return null;
-// };
+
+
+// запросы в одну сторону, на которые не ждем ответ
+export const requestWithoutResponse = async ({ params, code, token, dispatch }) => {
+  try {
+    const response = await axios({
+      method: 'post',
+      url: `${SERVER_API_URL}`,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      data: `code=${code}&token=${encodeURI(token) || null}&format=JSON&params=${
+        params ? JSON.stringify(params) : ''
+      }`
+    });
+    if (response && response.status === 200) {
+      return null;
+    }
+  } catch (err) {
+    dispatch(notificationShown({
+      message: err.message,
+      messageType: 'error',
+      reason: 'Сервер не отвечает',
+      advice: 'Обратиттесь к системному администратору' }));
+  }
+  return null;
+};
 
 export const prefixLS = str => `tby:md:${str}`;
 

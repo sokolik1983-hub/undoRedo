@@ -28,7 +28,7 @@ function HomePage() {
   }, []);
 
   const handleClick = () => {
-    window.location.pathname = '/Universe/report/create/1';
+    window.location.pathname = '/report/create/1';
   };
 
   return (

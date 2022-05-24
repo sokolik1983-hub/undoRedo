@@ -1,4 +1,4 @@
-import { request } from '../helpers';
+import { request, requestWithoutResponse } from '../helpers';
 import { login, logout } from '../reducers/auth';
 
 export const loginUser = queryParams => {
@@ -43,6 +43,12 @@ export const loginUser = queryParams => {
 
 export const logoutUser = () => {
   return async dispatch => {
+    await requestWithoutResponse({
+      code: 'CMS.UNLOGIN',
+      token: localStorage.getItem('token'),
+      params: null,
+      dispatch,
+    })
     localStorage.removeItem('userInfo');
     localStorage.removeItem('isAuth');
     localStorage.removeItem('token');

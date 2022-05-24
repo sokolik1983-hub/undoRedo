@@ -10,49 +10,49 @@ import { ReactComponent as ExplorerIcon } from './layout/assets/icons/explorer.s
 
 const navigationMenu = [
   {
-    href: '/Universe/connectors',
+    href: '/connectors',
     icon: <ConnectorsIcon />,
     title: 'Соединения',
     id: 'connectors'
   },
   {
-    href: '/Universe/symlayers',
+    href: '/symlayers',
     icon: <LayersIcon />,
     title: 'Семантика',
     id: 'symlayers'
   },
   {
-    href: '/Universe/audit',
+    href: '/audit',
     icon: <AuditIcon />,
     title: 'Аудит',
     id: 'audit'
   },
   {
-    href: '/Universe/reports',
+    href: '/reports',
     icon: <DesighIcon />,
     title: 'Дизайнер',
     id: 'reports'
   },
   {
-    href: '/Universe/roles',
+    href: '/roles',
     icon: <RolesIcon />,
     title: 'Роли',
     id: 'roles'
   },
   {
-    href: '/Universe/users',
+    href: '/users',
     icon: <UsersIcon />,
     title: 'Пользователи',
     id: 'users'
   },
   {
-    href: '/Universe/explorer',
+    href: '/explorer',
     icon: <ExplorerIcon />,
     title: 'Документы',
     id: 'explorer'
   },
   {
-    href: '/Universe/trash',
+    href: '/trash',
     icon: <BinIcon />,
     title: 'Корзина',
     id: 'recycle'

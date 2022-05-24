@@ -48,7 +48,7 @@ const UserMenu = () => {
     <Dropdown trigger={['click']} overlay={menu()}>
       <button type="button" className={styles.mainBtn}>
         <AvatarIcon />
-        <span className={styles.note}>{JSON.parse(userInfo).user_login}</span>
+        <span className={styles.note}>{userInfo}</span>
       </button>
     </Dropdown>
   );
