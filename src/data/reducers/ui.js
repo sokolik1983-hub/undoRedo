@@ -74,8 +74,8 @@ const ui = createSlice({
       state.confirmModalVisible = false;
     },
     setToastList: (state, action) => {
-      state.toastList.push(action.payload);
-    }
+      state.toastList = action.payload;
+    },
   }
 });
 

@@ -30,7 +30,12 @@ export const getDictionaries = queryParams => {
 };
 
 export const showToast = (type) => {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const state = getState()
+    const toastList = state.app.ui.toastList
+
+    console.log('state', state)
+
     switch (type) {
       case 'success':
         toastProperties = {
@@ -48,11 +53,11 @@ export const showToast = (type) => {
           description: '',
           backgroundColor: '#d9534f',
           type: 'danger'
-        };
+        };  
         break;
       default:
         toastProperties = [];
     }
-    dispatch(setToastList(toastProperties));
+    dispatch(setToastList([...toastList, toastProperties]));
   }
 }
