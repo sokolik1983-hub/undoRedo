@@ -8,8 +8,6 @@ import { notificationShown } from './reducers/notifications';
 // eslint-disable-next-line import/no-cycle
 import { logoutUser } from './actions/auth';
 
-// let toastProperties = null;
-
 export const request = async ({ type = 'request', params, func, dispatch }) => {
   try {
     dispatch(setLoadingData(true));
@@ -142,30 +140,3 @@ export const getTableIdFromParams = ({
 }) => {
   return `${schema}_${object_name}_${object_type_id}_${connect_id}`;
 };
-
-// export const showToast = (type, toastList, dispatch) => {
-
-//   switch (type) {
-//     case 'success':
-//       toastProperties = {
-//         id: Math.random(),
-//         title: 'Success',
-//         description: 'This is a success toast component',
-//         backgroundColor: '#5cb85c',
-//         type: 'success'
-//       };
-//       break;
-//     case 'danger':
-//       toastProperties = {
-//         id: Math.random(),
-//         title: 'Пустые фильтры',
-//         description: '',
-//         backgroundColor: '#d9534f',
-//         type: 'danger'
-//       };
-//       break;
-//     default:
-//       toastProperties = [];
-//   }
-//   dispatch(setToastList([...toastList, toastProperties]));
-// };
