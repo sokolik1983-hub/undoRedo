@@ -29,12 +29,8 @@ export const getDictionaries = queryParams => {
   };
 };
 
-export const showToast = createAsyncThunk(
-  'ternUniverse/showToastThunk',
-  (type, { dispatch, getState }) => {
-    const state = getState()
-    const toastList = state.app.ui.toastList
-
+export const showToast = (type) => {
+  return dispatch => {
     switch (type) {
       case 'success':
         toastProperties = {
@@ -57,6 +53,6 @@ export const showToast = createAsyncThunk(
       default:
         toastProperties = [];
     }
-    dispatch(setToastList([...toastList, toastProperties]));
+    dispatch(setToastList(toastProperties));
   }
-)
+}
