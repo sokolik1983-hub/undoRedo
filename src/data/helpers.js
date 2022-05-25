@@ -1,14 +1,14 @@
 /* eslint-disable camelcase */
 import axios from 'axios';
 import lodash from 'lodash';
-import { setLoadingData, setToastList } from './reducers/ui';
+import { setLoadingData, /* setToastList */ } from './reducers/ui';
 import { SERVER_API_URL } from '../common/constants/config';
 // eslint-disable-next-line import/no-cycle
 import { notificationShown } from './reducers/notifications';
 // eslint-disable-next-line import/no-cycle
 import { logoutUser } from './actions/auth';
 
-let toastProperties = null;
+// let toastProperties = null;
 
 export const request = async ({ type = 'request', params, func, dispatch }) => {
   try {
@@ -143,29 +143,29 @@ export const getTableIdFromParams = ({
   return `${schema}_${object_name}_${object_type_id}_${connect_id}`;
 };
 
-export const showToast = (type, toastList, dispatch) => {
+// export const showToast = (type, toastList, dispatch) => {
 
-  switch (type) {
-    case 'success':
-      toastProperties = {
-        id: toastList.length + 1,
-        title: 'Success',
-        description: 'This is a success toast component',
-        backgroundColor: '#5cb85c',
-        type: 'success'
-      };
-      break;
-    case 'danger':
-      toastProperties = {
-        id: toastList.length + 1,
-        title: 'Пустые фильтры',
-        description: '',
-        backgroundColor: '#d9534f',
-        type: 'danger'
-      };
-      break;
-    default:
-      toastProperties = [];
-  }
-  dispatch(setToastList([...toastList, toastProperties]));
-};
+//   switch (type) {
+//     case 'success':
+//       toastProperties = {
+//         id: Math.random(),
+//         title: 'Success',
+//         description: 'This is a success toast component',
+//         backgroundColor: '#5cb85c',
+//         type: 'success'
+//       };
+//       break;
+//     case 'danger':
+//       toastProperties = {
+//         id: Math.random(),
+//         title: 'Пустые фильтры',
+//         description: '',
+//         backgroundColor: '#d9534f',
+//         type: 'danger'
+//       };
+//       break;
+//     default:
+//       toastProperties = [];
+//   }
+//   dispatch(setToastList([...toastList, toastProperties]));
+// };

@@ -22,7 +22,7 @@ import DragNDropProvider from './context/DragNDropContext';
 import ModalConfirm from '../../common/components/Modal/ModalConfirm';
 import { getCondition } from './helper';
 import { setSymanticLayerData } from '../../data/reducers/data';
-import { showToast } from '../../data/helpers'
+import { showToast } from '../../data/actions/app';
 
 
 const QueryPanel = ({ visible }) => {
@@ -44,8 +44,6 @@ const QueryPanel = ({ visible }) => {
   const confirmModalOpened = useSelector(
     state => state.app.ui.confirmModalVisible
   );
-
-  const { toastList } = useSelector(state => state.app.ui);
 
   useEffect(() => {
     dispatch(getUniverses());
@@ -110,7 +108,7 @@ const QueryPanel = ({ visible }) => {
   useEffect(() => {
     const resultConditions = filters ? getCondition([filters]) : {};
     if (resultConditions === 'Empty Value') {
-      showToast('danger', toastList, dispatch)
+     dispatch(showToast('danger'))
     } else if (isSqlPopupOpened) {
       setError('');
       createQueryText();
@@ -118,6 +116,7 @@ const QueryPanel = ({ visible }) => {
       setQueryText('');
     }
   }, [isSqlPopupOpened])
+
 
   const modalContent = () => {
     return (
