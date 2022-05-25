@@ -31,7 +31,8 @@ export const loginUser = queryParams => {
       dispatch
     });
     if (response) {
-      if (response.result === 'true') {
+      console.log('response',response);
+      if (response.result === true) {
         localStorage.setItem('isAuth', 'true');
         localStorage.setItem('userInfo', queryParams.username);
         localStorage.setItem('token', response.token)

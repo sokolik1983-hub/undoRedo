@@ -43,7 +43,7 @@ function HomePage() {
     {code: 'REPOS.GET_SPECIAL_FOLDER', params: { folderType: 'USER' }},
     {code: 'REPOS.BLOCK_USER_OBJ', params: { id: "10020", isBlock: "0" }},
     {code: 'REPOS.GET_GROUP', params: { id: 10016 }},
-    {code: 'REPOS.GET_OBJ', params: { id: 10001 }},
+    {code: 'REPOS.GET_OBJ_DATA', params: { id: '10057' }},
     {code: 'REPOS.FIND_USER', params: { login: 'test' }},
     {code: 'REPOS.GET_USER', params: { id: "10111" }},
     {code: 'REPOS.SET_USER', params: { data: {id: 10021, user_pass: 'test4'} }},
