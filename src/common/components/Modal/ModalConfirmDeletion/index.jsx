@@ -11,7 +11,8 @@ const ModalConfirmDeletion = ({
   warnText,
   setDeleteWarningModalOpened, // закрытие модалки подтверждения удаления
   onCloseSchemaEditorBlock, // закрытие родительской модалки ShemaEditorBlock
-  selectedTableFullName // полное название открытой таблицы включая название папки и connector_id
+  selectedTableFullName, // полное название открытой таблицы включая название папки и connector_id
+  isDeleteWarningModalOpened
 }) => {
   const dispatch = useDispatch();
 
@@ -25,11 +26,18 @@ const ModalConfirmDeletion = ({
     );
   };
 
-  const deleteTable = tableToDelete => {
-    setDeleteWarningModalOpened(false);
-    onCloseSchemaEditorBlock(false);
-    dispatch(filterSelectedTables(filterDeletedTable(tableToDelete)));
+  const onCancel = () => {
+    if (isDeleteWarningModalOpened) {
+      setDeleteWarningModalOpened(!isDeleteWarningModalOpened);
+    }
   };
+
+  const deleteTable = tableToDelete => {
+    dispatch(filterSelectedTables(filterDeletedTable(tableToDelete)));
+    onCloseSchemaEditorBlock(false);
+    onCancel();
+  };
+
   return (
     <div className={styles.backgroundBlurLayer}>
       <div className={styles.modalConfirmWrapper}>
@@ -45,14 +53,11 @@ const ModalConfirmDeletion = ({
           <Button
             buttonStyle={BUTTON.BIG_ORANGE}
             className={styles.modalConfirmWrapperConfirmButton}
-            onClick={deleteTable(selectedTableFullName)}
+            onClick={() => deleteTable(selectedTableFullName)}
           >
             Подтвердить
           </Button>
-          <Button
-            buttonStyle={BUTTON.BIG_BLUE}
-            onClick={setDeleteWarningModalOpened}
-          >
+          <Button buttonStyle={BUTTON.BIG_BLUE} onClick={onCancel}>
             Отмена
           </Button>
         </div>
@@ -68,5 +73,6 @@ ModalConfirmDeletion.propTypes = {
   onCloseSchemaEditorBlock: PropTypes.func,
   warnTitle: PropTypes.string,
   selectedTableFullName: PropTypes.string,
-  warnText: PropTypes.string
+  warnText: PropTypes.string,
+  isDeleteWarningModalOpened: PropTypes.bool
 };

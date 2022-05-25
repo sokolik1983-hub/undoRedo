@@ -44,9 +44,7 @@ const SchemaEditorBlock = ({
   const [searchValue, setSearchValue] = useState('');
   const [isActive, setIsActive] = useState(false);
   const [isOpened, setIsOpened] = useState(true);
-  const [isDeleteWarningModalOpened, setDeleteWarningModalOpened] = useState(
-    false
-  );
+  const [isDeleteWarningModalOpened, setDeleteWarningModalOpened] = useState(false);
 
   useEffect(() => {
     setFilterableFields(selectedTableColumns);
@@ -187,6 +185,7 @@ const SchemaEditorBlock = ({
             setDeleteWarningModalOpened={setDeleteWarningModalOpened}
             selectedTableFullName={selectedTableFullName}
             onCloseSchemaEditorBlock={onCloseSchemaEditorBlock}
+            isDeleteWarningModalOpened={isDeleteWarningModalOpened}
           />,
           document.body
         )}
