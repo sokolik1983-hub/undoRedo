@@ -109,6 +109,7 @@ const QueryPanel = ({ visible }) => {
     const resultConditions = filters ? getCondition([filters]) : {};
     if (resultConditions === 'Empty Value') {
      dispatch(showToast('danger'))
+     setError(' ')
     } else if (isSqlPopupOpened) {
       setError('');
       createQueryText();
