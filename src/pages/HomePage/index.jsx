@@ -41,14 +41,19 @@ function HomePage() {
 
   const VALUES=[
     {code: 'REPOS.GET_SPECIAL_FOLDER', params: { folderType: 'USER' }},
-    {code: 'REPOS.BLOCK_USER_OBJ', params: { id: "10020", isBlock: "0" }},
+    {code: 'REPOS.BLOCK_USER', params: { id: 10020, isBlock: "0" }},
     {code: 'REPOS.GET_GROUP', params: { id: 10016 }},
     {code: 'REPOS.GET_OBJ_DATA', params: { id: '10057' }},
     {code: 'REPOS.FIND_USER', params: { login: 'test' }},
     {code: 'REPOS.GET_USER', params: { id: "10111" }},
     {code: 'REPOS.SET_USER', params: { data: {id: 10021, user_pass: 'test4'} }},
     {code: 'REPOS.GET_CHILDS', params: { id: 10002, startIndex: 0 }},
-    {code: 'REPOS.GET_NEW_OBJ', params: { kind: "FLD" }},
+    {code: 'REPOS.GET_NEW_OBJ', params: { kind: "KOLBASA" }},
+    {code: 'REP.OPEN_FILE', params: {fileName: 'test.js'}},
+    {code: 'REP.GET_REPORT_STRUCTURE', params: {id: 'R1'}},
+    {code: 'REP.GET_REPORTS_LIST', params: {fileName: 'test.js'}},
+    {code: 'REP.GET_VARIABLES', params: {fileName: 'test.js'}},
+    {code: 'REP.SET_STRUCTURE', params: {id: "R1", structure: {pgFooter:{id:"test_id",name:"нижний колонтитул",size:{minimalHeight:15},type:"pgFooter"}}}}
   ]
 
   const handleNewFuncSelect = (e) => {

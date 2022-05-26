@@ -32,14 +32,13 @@ export const requestReady = async ({ id, dispatch }) => {
 
       if (response.data.result === false && response.data.errors) {
         response.data.errors.forEach(item => {
-          const { ERR_TEXT, ERR_RECOMMEND, ERR_REASON } = item;
-          // так же с сервера приходит ERR_STATUS: "Warning"
-          // и ERR_CODE
+          // eslint-disable-next-line camelcase
+          const { err_text, err_recommend, err_reason } = item;
           dispatch(notificationShown({
-            message: ERR_TEXT,
+            message: err_text,
             messageType: 'error',
-            reason: ERR_REASON,
-            advice: ERR_RECOMMEND }));
+            reason: err_reason,
+            advice: err_recommend }));
           // err_category: 1
           // err_code: "040.00001"
           // err_group: "Центральный"
@@ -64,8 +63,7 @@ const requesterTimeout = ({ id, dispatch }) => {
         id,
         dispatch
       });
-      console.log(response);
-      if (response?.result === true || response?.result === false) {
+      if (response?.result === true || !response ) {
         setLoadingData(false);
         resolve(response);
         return clearInterval(timer);
@@ -93,9 +91,7 @@ const requesterTimeout = ({ id, dispatch }) => {
 // обычный запрос, в ответ на который мы получаем id запроса
 // для получения данных по запросу, надо отправить новый запрос с указанием id
 // для такого повторного запроса есть функция requestReady
-export const request = async ({ params, code, token, dispatch }) => {
-  // токе мы получим после логина, надо его сюда передавать
-  // но если не залогинены, и токена еще нет, то передать пустой токен
+export const request = async ({ params, code, token, streamreceiver, dispatch }) => {
   try {
     dispatch(setLoadingData(true));
     const response = await axios({
@@ -104,9 +100,12 @@ export const request = async ({ params, code, token, dispatch }) => {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      data: `code=${code}&token=${encodeURI(token) || null}&format=JSON&params=${
-        params ? JSON.stringify(params) : ''
-      }`
+      data: `
+      code=${code}
+      &token=${encodeURI(token) || null}
+      &format=JSON
+      &params=${params ? JSON.stringify(params) : ''}
+      &streamreceiver=${streamreceiver || null}`
     });
     if (response && response.status === 200) {
       return requesterTimeout({id: response.data, dispatch});

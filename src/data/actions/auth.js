@@ -53,17 +53,22 @@ export const logoutUser = () => {
 
 export const testNewFunc = queryParams => {
   const token = localStorage.getItem('token');
+  const streamreceiver = localStorage.getItem('streamreceiver');
   console.log(queryParams.token);
   return async dispatch => {
     const response = await request({
       code: queryParams.code,
       params: queryParams.params,
       token,
+      streamreceiver,
       dispatch
     });
     if (response) {
-      if (response.result === 'true') {
+      if (response.result === true) {
         dispatch(serverResponse(response))
+      }
+      if (response?.thread) {
+        localStorage.setItem('streamreceiver', response.thread)
       }
     }
   };
