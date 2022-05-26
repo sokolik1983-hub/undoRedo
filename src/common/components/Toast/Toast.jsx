@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { useCallback } from 'react'
 import { useEffect } from 'react/cjs/react.development';
+import { ReactComponent as CloseIcon } from '../../../layout/assets/close.svg';
 import styles from './Toast.module.scss'
 
 const Toast = ({ toastlist, position, setList, dispatch }) => {
@@ -30,14 +31,15 @@ const Toast = ({ toastlist, position, setList, dispatch }) => {
         toastlist.map((toast, i) => (
           <div
             key={i}
-            className={`${styles.notification} ${styles.toast} ${styles[position]}`}
-            style={{ backgroundColor: toast.backgroundColor, width: '1100px', height: '64px'}}
+            className={`${styles.notification} ${styles.toast} ${styles[position]} ${styles[toast.type]}`}
           >
-            <button onClick={() => deleteToast(toast.id)}>X</button>
             <div>
               <p className={styles.title}>{toast.title}</p>
               <p className={styles.description}>{toast.description}</p>
             </div>
+            <span className={styles.modalClose} onClick={() => deleteToast(toast.id)}>
+              <CloseIcon className={styles.close} />
+            </span>
           </div>
         ))
       }

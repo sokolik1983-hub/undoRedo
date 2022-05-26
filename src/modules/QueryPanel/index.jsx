@@ -108,7 +108,7 @@ const QueryPanel = ({ visible }) => {
   useEffect(() => {
     const resultConditions = filters ? getCondition([filters]) : {};
     if (resultConditions === 'Empty Value') {
-     dispatch(showToast('danger'))
+     dispatch(showToast('success', 'Пустые фильтры'))
      setError(' ')
     } else if (isSqlPopupOpened) {
       setError('');

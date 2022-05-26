@@ -29,34 +29,16 @@ export const getDictionaries = queryParams => {
   };
 };
 
-export const showToast = (type) => {
+export const showToast = (type, title, description) => {
   return (dispatch, getState) => {
     const state = getState()
     const toastList = state.app.ui.toastList
 
-    console.log('state', state)
-
-    switch (type) {
-      case 'success':
-        toastProperties = {
+    const toastProperties = {
           id: Math.random(),
-          title: 'Success',
-          description: 'This is a success toast component',
-          backgroundColor: '#5cb85c',
-          type: 'success'
-        };
-        break;
-      case 'danger':
-        toastProperties = {
-          id: Math.random(),
-          title: 'Пустые фильтры',
-          description: '',
-          backgroundColor: '#d9534f',
-          type: 'danger'
-        };  
-        break;
-      default:
-        toastProperties = [];
+          title,
+          description,
+          type,
     }
     dispatch(setToastList([...toastList, toastProperties]));
   }
