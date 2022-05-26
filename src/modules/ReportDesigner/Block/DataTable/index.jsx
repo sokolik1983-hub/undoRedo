@@ -17,6 +17,9 @@ function DataTable({
   structureItem,
   id,
   onSelectColumnHead,
+  newScales,
+  newPosition,
+  handleChangeScales,
   refContent
 }) {
   const dispatch = useDispatch();
@@ -43,13 +46,28 @@ function DataTable({
   function handleDropObject(event) {
     const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
     event.dataTransfer.clearData();
+    const {
+          width,
+          height,
+          x,
+          y
+        } = refContent?.current?.getBoundingClientRect();
+        if (newScales.width !== width || newScales.height !== height || newPosition.x !== x || newPosition.y !== y) {
+          handleChangeScales(id, {
+            width: newScales.width + 150,
+            height: 'auto',
+            x: newPosition.x,
+            y: newPosition.y
+          });
+        };
+    
     dispatch(
       addTableColumn({
         column: { ...columnObject, object: { ...selectedEl } },
         id
       })
     );
-  }
+  };
 
   function getSortedData() {
     if (currentReport?.dataset && structureItem?.sorting?.length > 0) {
@@ -350,6 +368,9 @@ DataTable.propTypes = {
   structureItem: PropTypes.object,
   onSelectColumnHead: PropTypes.func,
   blockStyles: PropTypes.object,
+  handleChangeScales: PropTypes.func,
+  newScales: PropTypes.object,
+  newPosition: PropTypes.object,
   refContent: PropTypes.any
 };
 
