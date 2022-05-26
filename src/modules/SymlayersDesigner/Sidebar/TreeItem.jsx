@@ -37,7 +37,7 @@ const TreeItem = ({ name, isSchema, table, onSelect }) => {
         <Tooltip
           placement="bottomLeft"
           overlay={
-            <div className={name.length < 36 && styles.tooltip}>{name}</div>
+            <div>{name}</div>
           }
         >
           <div
@@ -61,7 +61,7 @@ const TreeItem = ({ name, isSchema, table, onSelect }) => {
         <Tooltip
           placement="bottomLeft"
           overlay={
-            <div className={table.object_name.length < 26 && styles.tooltip}>
+            <div>
               {table.object_name}
             </div>
           }
