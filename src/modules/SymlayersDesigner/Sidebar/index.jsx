@@ -189,7 +189,9 @@ function Sidebar({ onSelect }) {
                 (
                   <div>
                     <div className={styles.listItemWrapper}>
-                      <ViewsIcon />
+                      <div>
+                        <ViewsIcon />
+                      </div>
                       <div className={styles.listItemName}>{i.name}</div>
                     </div>
                     {i.line.map(el => (
