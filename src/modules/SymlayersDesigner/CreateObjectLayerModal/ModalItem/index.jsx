@@ -6,11 +6,12 @@ import Accordion from '../../../../common/components/Accordion/Accordion';
  * @param title - строка для заголовка
  * @param noPadding - отсутствие нижнего отступа у элемента
  * @param children - - нода для отрисовки контента внутри аккордеона
+ * @param isAccordionOpened - раскрыт ли аккордеон по умолчанию
  */
-export default function ModalItem({ title, noPadding, children }) {
+export default function ModalItem({ title, noPadding, children, isAccordionOpened }) {
   return (
     <div>
-      <Accordion title={title} noPadding={noPadding}>
+      <Accordion title={title} noPadding={noPadding} isAccordionOpened={isAccordionOpened}>
         {children}
       </Accordion>
     </div>
@@ -20,7 +21,8 @@ export default function ModalItem({ title, noPadding, children }) {
 ModalItem.propTypes = {
   children: PropTypes.node,
   title: PropTypes.string,
-  noPadding: PropTypes.bool
+  noPadding: PropTypes.bool,
+  isAccordionOpened: PropTypes.bool,
 };
 
 ModalItem.defaultProps = {
