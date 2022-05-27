@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import axios from 'axios';
 import lodash from 'lodash';
-import { setLoadingData, /* setToastList */ } from './reducers/ui';
+import { setLoadingData } from './reducers/ui';
 import { SERVER_API_URL } from '../common/constants/config';
 // eslint-disable-next-line import/no-cycle
 import { notificationShown } from './reducers/notifications';

@@ -1,12 +1,13 @@
 .container {
     font-size: 14px;
-    position: fixed;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%);
     z-index: 999999;
   }
   
-  .bottom-right {
-    top: 1px;
-    right: 310px;
+  .center-top {
     animation: toast-in-right .7s;
   }
   
@@ -31,15 +32,6 @@
     width: 365px;
     color: #fff;
     padding: 20px 15px 10px 10px;
-  }
-  
-  .container button {
-    float: right;
-    background: none;
-    border: none;
-    color: #fff;
-    opacity: 0.8;
-    cursor: pointer;
   }
   
   .title {

@@ -16,6 +16,7 @@ function Layout() {
 
   return (
     <div className={styles.root}>
+      <Toast toastlist={toastList} setList={setToastList} position="center-top" dispatch={dispatch} />
       <div className={styles.background_image} />
       <main className={styles.content}>
         {!isLoginPage && <TopBar />}
@@ -24,7 +25,6 @@ function Layout() {
       <PopupDispatcher />
       {/* Разблокируем элементы интерфейса, если нет модального окна */}
       {notifications.length !== 0 && <Notifications />}
-      <Toast toastlist={toastList} setList={setToastList} position="bottom-right" dispatch={dispatch} />
     </div>
   );
 }
