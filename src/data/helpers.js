@@ -101,12 +101,7 @@ export const request = async ({ params, code, token, streamreceiver, dispatch })
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      data: `
-      code=${code}
-      &token=${encodeURI(token) || null}
-      &format=JSON
-      &params=${params ? JSON.stringify(params) : ''}
-      &streamreceiver=${streamreceiver || null}`
+      data: `code=${code}&token=${encodeURI(token) || null}&format=JSON&params=${params ? JSON.stringify(params) : ''}&streamreceiver=${streamreceiver || null}`
     });
     if (response && response.status === 200) {
       return requesterTimeout({id: response.data, dispatch});
