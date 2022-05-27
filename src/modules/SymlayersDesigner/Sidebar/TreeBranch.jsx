@@ -13,7 +13,7 @@ const TreeBranch = ({treeData, idx, name, onSelect, opened}) => {
   return (
     <div>
       <div onClick={() => setActive(!isActive)}>
-        <TreeItem id={idx} name={name} isSchema />
+        <TreeItem id={idx} name={name} isSchema isOpen={opened} />
       </div>
       <div className={isActive ? style.actListItems : style.disListItems}>
         {treeData[name].map((item) => (

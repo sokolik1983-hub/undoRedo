@@ -10,7 +10,7 @@ import { getTableIdFromParams } from '../../../data/helpers';
 import TreeTableField from './TreeTableField';
 import Tooltip from '../../../common/components/Tooltip';
 
-const TreeItem = ({ name, isSchema, table, onSelect }) => {
+const TreeItem = ({ name, isSchema, table, onSelect, isOpen }) => {
   const [isActive, setActive] = useState(false);
   const [isFolderOpen, setFolderOpen] = useState(false);
   const [event, setEvent] = useState({});
@@ -18,6 +18,11 @@ const TreeItem = ({ name, isSchema, table, onSelect }) => {
   const selectedTables = useSelector(
     state => state.app.schemaDesigner.selectedTables
   );
+
+  useEffect(() => {
+    if (isOpen) setFolderOpen(true);
+    else setFolderOpen(false);
+  }, [isOpen])
 
   const selectedTableColumns =
     selectedTables[getTableIdFromParams({ ...table, connect_id: 4 })];
@@ -106,7 +111,8 @@ TreeItem.propTypes = {
   name: PropTypes.string,
   isSchema: PropTypes.bool,
   table: PropTypes.object,
-  onSelect: PropTypes.func
+  onSelect: PropTypes.func,
+  isOpen: PropTypes.bool
 };
 
 export default TreeItem;
