@@ -33,6 +33,9 @@ function Sidebar({ onSelect }) {
   const [collapsed, setCollapsed] = useState(false);
   const [showingDataList, setShowingDataList] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
+  const [searchMod, setSearchMod] = useState(false);
+  const [selectedSchemes, setSelectedSchemes] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
   // eslint-disable-next-line no-unused-vars
   const [tables, setTables] = useState(selectedTables);
 
@@ -74,6 +77,16 @@ function Sidebar({ onSelect }) {
     }
   };
 
+  const searchTable = (event) => {
+    if(event.key === 'Enter' && searchValue.length) {
+      let result = JSON.parse(JSON.stringify(connectorObjects.filter(connector => connector.object_name.toUpperCase().includes(searchValue.toUpperCase())))); 
+      result = result.map(item => {item.opened = true; return item});
+      setSelectedSchemes(result);
+    } else if(event.key === 'Enter') {
+      setSelectedSchemes([]);
+    }
+  };
+
   return (
     <div>
       <div className={styles.root}>
@@ -107,17 +120,30 @@ function Sidebar({ onSelect }) {
           {activeTab === 0 ? (
             <>
               <div className={styles.tableActions}>
-                <div>
+                <div onClick={() => setSearchMod(!searchMod)}>
                   <AddTableIcon />
                 </div>
                 <div className={styles.search}>
                   <TextInput
                     className={styles.searchInput}
-                    onKeyPress={handleShowDataList}
-                    value={coloredValue}
-                    onChange={(event) => dispatch(setColoredValue(event.target.value))}
+                    onKeyPress={(event) => searchMod ? handleShowDataList(event) : searchTable(event, searchValue)}
+                    value={searchMod ? coloredValue : searchValue}
+                    onChange={(event) => {
+                      if (searchMod) {
+                        dispatch(setColoredValue(event.target.value))
+                      } else {
+                        setSearchValue(event.target.value);
+                      }
+                    }}
                   />
-                  <Magnifier className={styles.magnifier} onClick={() => {dispatch(setShowDataList()); setShowingDataList(true)}} />
+                  <Magnifier
+                    className={styles.magnifier}
+                    onClick={() => {
+                    if (searchMod) {
+                      dispatch(setShowDataList()); setShowingDataList(true)
+                    }
+                  }}
+                  />
                 </div>
                 <div className={styles.tableFilters}>
                   <ViewsIcon />
@@ -129,7 +155,7 @@ function Sidebar({ onSelect }) {
                 <span>Owner</span>
               </div>
               <div className={styles.contentData}>
-                { showingDataList ? dataList.map(i => 
+                {searchMod ? dataList.map(i => 
                 (
                   <div>
                     <div className={styles.listItemWrapper}>
@@ -149,7 +175,7 @@ function Sidebar({ onSelect }) {
                 )
                 : 
                 (
-                  <HierTreeView data={connectorObjects} onSelect={onSelect} />
+                  <HierTreeView data={selectedSchemes.length ? selectedSchemes : connectorObjects} onSelect={onSelect} isOpen={!!selectedSchemes?.length} />
               )}
               </div>
             </>
