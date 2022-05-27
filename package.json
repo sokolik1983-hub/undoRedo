@@ -2,8 +2,8 @@
   "name": "tern-universe",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://192.168.4.19:8181/",
-  "homepage": "http://192.168.4.2:8080/",
+  "proxy": "http://192.168.4.21:8181/",
+  "homepage": "http://192.168.4.20/",
   "dependencies": {
     "@material-ui/core": "4.12.2",
     "@material-ui/icons": "4.11.2",
