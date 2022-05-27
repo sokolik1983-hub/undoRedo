@@ -1,10 +1,10 @@
 .container {
-    font-size: 14px;
     position: absolute;
     top: 0;
     left: 50%;
     transform: translate(-50%);
     z-index: 999999;
+    margin-top: 10px;
   }
   
   .center-top {
@@ -20,18 +20,15 @@
     transition: .3s ease;
     display: flex;
     justify-content: space-between;
+    height: 50px;
+    width: 365px;
+    color: #fff;
+    padding: 20px 15px 10px 10px;
   }
   
   .notification:hover {
     box-shadow: 0 0 12px #fff;
     opacity: 1;
-  }
-  
-  .toast {
-    height: 50px;
-    width: 365px;
-    color: #fff;
-    padding: 20px 15px 10px 10px;
   }
   
   .title {
@@ -50,7 +47,7 @@
     text-align: left;
   }
 
-  .success {
+  .warning {
     background-color: #5cb85c;
     width: 1100px;
     height: 64px;

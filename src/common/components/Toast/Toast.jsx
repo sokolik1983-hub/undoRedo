@@ -31,7 +31,7 @@ const Toast = ({ toastlist, position, setList, dispatch }) => {
         toastlist.map((toast, i) => (
           <div
             key={i}
-            className={`${styles.notification} ${styles.toast} ${styles[position]} ${styles[toast.type]}`}
+            className={`${styles.notification} ${styles[position]} ${styles[toast.type]}`}
           >
             <div>
               <p className={styles.title}>{toast.title}</p>

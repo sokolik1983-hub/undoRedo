@@ -30,6 +30,7 @@ export const getDictionaries = queryParams => {
 };
 
 export const showToast = (type, title, description) => {
+  console.log('type', type)
   return (dispatch, getState) => {
     const state = getState()
     const toastList = state.app.ui.toastList
