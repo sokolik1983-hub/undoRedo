@@ -77,13 +77,13 @@
 
   .tabTable {
     width: 40%;
-    border-bottom-left-radius: 0px !important;
+    border-bottom-left-radius: 0px;
   }
 
   .tabObject {
     width: 60%;
-    border-bottom-right-radius: 0px !important;
-    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
   }
 }
 
@@ -408,9 +408,6 @@
 
 .tooltip {
   visibility: hidden;
-  width: 0px;
-  height: 0px;
-  box-shadow: none !important;
 }
 
 .wrapper {
