@@ -69,7 +69,6 @@ const CreateObjectLayerModal = ({ visible }) => {
       onSubmit={(values, event) => {
         handleClose();
         dispatch(setObjectsLayerList(values));
-        console.log('values--->', values);
         event.preventDefault();
         window.location.pathname = '/Universe/symlayers/create';
       }}
