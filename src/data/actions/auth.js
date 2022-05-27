@@ -2,28 +2,6 @@ import { request, requestWithoutResponse } from '../helpers';
 import { login, logout } from '../reducers/auth';
 
 export const loginUser = queryParams => {
-  // return async dispatch => {
-  //   try {
-  //     const response = await requestAuth({
-  //       params: queryParams,
-  //       dispatch
-  //     });
-  //     if (response) {
-  //       if (response.success) {
-  //         localStorage.setItem('isAuth', 'true');
-  //         localStorage.setItem('userInfo', JSON.stringify(response.userInfo));
-  //         dispatch(login(response.userInfo));
-  //       } else {
-  //         throw Error(response.errorText);
-  //       }
-  //     }
-  //   } catch (err) {
-  //     dispatch(
-  //       notificationShown({ message: err.message, messageType: 'error' })
-  //     );
-  //   }
-  // };
-  console.log(queryParams);
   return async dispatch => {
     const response = await request({
       code: 'CMS.LOGIN',
@@ -31,7 +9,7 @@ export const loginUser = queryParams => {
       dispatch
     });
     if (response) {
-      if (response.result === 'true') {
+      if (response.result === true) {
         localStorage.setItem('isAuth', 'true');
         localStorage.setItem('userInfo', queryParams.username);
         localStorage.setItem('token', response.token)
