@@ -11,10 +11,11 @@ import Divider from '../Divider'
  * @param children - нода для отрисовки контента
  * @param indents - вариант отступов
  * @param withDivider - булево, добавляет разделительную полосу
+ * @param isAccordionOpened - раскрыт ли аккордеон по умолчанию
  */
 
-const Accordion = ({ title, noPadding, children, indents, titleClassName, withDivider }) => {
-  const [isActive, setIsActive] = useState(false);
+const Accordion = ({ title, noPadding, children, indents, titleClassName, withDivider, isAccordionOpened }) => {
+  const [isActive, setIsActive] = useState(isAccordionOpened);
   const contentClasses = clsx(styles.content, indents, {
     [styles.contentNoPadding]: noPadding
   });
@@ -46,7 +47,8 @@ Accordion.propTypes = {
   children: PropTypes.node,
   indents: PropTypes.string,
   titleClassName:  PropTypes.string,
-  withDivider: PropTypes.bool
+  withDivider: PropTypes.bool,
+  isAccordionOpened: PropTypes.bool,
 };
 
 Accordion.defaultProps = {
