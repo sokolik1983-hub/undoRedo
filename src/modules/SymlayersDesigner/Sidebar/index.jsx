@@ -21,6 +21,7 @@ import HierTreeView from './HierTreeView';
 import styles from './Sidebar.module.scss';
 import { setCreateObjectModal } from '../../../data/actions/universes';
 import ObjectLayer from './ObjectLayer';
+import Tooltip from '../../../common/components/Tooltip';
 
 
 function Sidebar({ onSelect }) {
@@ -79,7 +80,7 @@ function Sidebar({ onSelect }) {
 
   const searchTable = (event) => {
     if(event.key === 'Enter' && searchValue.length) {
-      let result = JSON.parse(JSON.stringify(connectorObjects.filter(connector => connector.object_name.toUpperCase().includes(searchValue.toUpperCase())))); 
+      let result = JSON.parse(JSON.stringify(connectorObjects.filter(connector => connector.object_name.toUpperCase().includes(searchValue.toUpperCase()))));
       result = result.map(item => {item.opened = true; return item});
       setSelectedSchemes(result);
     } else if(event.key === 'Enter') {
@@ -95,7 +96,7 @@ function Sidebar({ onSelect }) {
             className={clsx(styles.tab,styles.tabTable, activeTab === 0 ? styles.activeTabTable : styles.notActiveTabTable)}
             onClick={handleSelectTab(0)}
           >
-            {activeTab === 0 && <span className={styles.tabDescr}>дизайнер схемы данных</span>} 
+            {activeTab === 0 && <span className={styles.tabDescr}>дизайнер схемы данных</span>}
             Таблицы
             <div className={styles.iconTableWrap}>
               {activeTab === 0 && <SaveIcon />}
@@ -105,14 +106,14 @@ function Sidebar({ onSelect }) {
             className={clsx(styles.tab, styles.tabObject, activeTab === 1 && styles.activeTabObject, activeTab === 0 && styles.notActiveTabObject)}
             onClick={handleSelectTab(1)}
           >
-            {activeTab === 1 && <span className={styles.tabDescr}>дизайнер семантического слоя</span>} 
+            {activeTab === 1 && <span className={styles.tabDescr}>дизайнер семантического слоя</span>}
             Объекты
             <div className={styles.iconObjectWrap}>
               {activeTab === 1 && <SaveIcon />}
             </div>
-            <div onClick={handleCollapse}>
-              <hr className={styles.divider} />
-            </div>
+            {/* <div onClick={handleCollapse}>
+            <hr className={styles.divider} />
+            </div> */}
           </div>
         </div>
         {!collapsed && (
@@ -121,7 +122,9 @@ function Sidebar({ onSelect }) {
             <>
               <div className={styles.tableActions}>
                 <div onClick={() => setSearchMod(!searchMod)}>
-                  <AddTableIcon />
+                  <Tooltip placement="rightBottom" overlay="Поиск по таблицам на схеме">
+                    <AddTableIcon />
+                  </Tooltip>
                 </div>
                 <div className={styles.search}>
                   <TextInput
@@ -155,7 +158,7 @@ function Sidebar({ onSelect }) {
                 <span>Owner</span>
               </div>
               <div className={styles.contentData}>
-                {searchMod ? dataList.map(i => 
+                {searchMod ? dataList.map(i =>
                 (
                   <div>
                     <div className={styles.listItemWrapper}>
@@ -173,7 +176,7 @@ function Sidebar({ onSelect }) {
                   </div>
                   )
                 )
-                : 
+                :
                 (
                   <HierTreeView data={selectedSchemes.length ? selectedSchemes : connectorObjects} onSelect={onSelect} isOpen={!!selectedSchemes?.length} />
               )}
@@ -183,7 +186,7 @@ function Sidebar({ onSelect }) {
             <div
               className={styles.contentObj}
               onDrop={e => {
-              if(e.dataTransfer.getData('field')) 
+              if(e.dataTransfer.getData('field'))
                 handleObjectDrop(JSON.parse(e.dataTransfer.getData('field')), e)
               }}
               onDragOver={e => e.preventDefault()}
@@ -211,7 +214,7 @@ function Sidebar({ onSelect }) {
                 </div>
               </div>
               <div className={styles.contentData}>
-                { showingDataList ? dataList.map(i => 
+                { showingDataList ? dataList.map(i =>
                 (
                   <div>
                     <div className={styles.listItemWrapper}>
@@ -229,12 +232,12 @@ function Sidebar({ onSelect }) {
                   </div>
                   )
                 )
-                : 
+                :
                 (
                   <div className={styles.objectsData}>
                     {objectsLayers.map(object => (
                       <ObjectLayer field={object} />
-                    ))} 
+                    ))}
                   </div>
                 )}
               </div>
