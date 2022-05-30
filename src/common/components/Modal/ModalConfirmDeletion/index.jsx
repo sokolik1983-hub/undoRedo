@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { useContext } from 'react';
 import Button from '../../Button';
 import { ReactComponent as WarnIcon } from '../../../../layout/assets/warnIcon.svg';
 import { BUTTON } from '../../../constants/common';
 import { filterSelectedTables } from '../../../../data/actions/schemaDesigner';
 import styles from './ModalConfirmDeletion.module.scss';
+import { SymanticLayerContext } from '../../../../modules/SymlayersDesigner/SchemaTables/context';
 
 const ModalConfirmDeletion = ({
   warnTitle,
@@ -19,6 +21,27 @@ const ModalConfirmDeletion = ({
   const selectedTables = useSelector(
     state => state.app.schemaDesigner.selectedTables
   );
+/// УДАЛЕНИЕ ИЗ СПИСКА ВЫБРАННЫХ ТАБЛИЦ  из SchemaTables - НАЧАЛО
+  const tables = useContext(SymanticLayerContext); // Объект из SchemaTables
+
+  const delTables = () => {
+    //  tables[1].SET_TABLES_POSTION([]);
+    tables[1].SET_TABLES([]);
+  };
+
+  console.log('tables', tables);
+
+  console.log('tables from context', tables[0].tables);
+  // console.log('setTables', delTables);
+  console.log('tables.SET_TABLES', tables[1].SET_TABLES);
+
+  // const filterSchemaTables = tableName => {
+  //   return Object.fromEntries(
+  //     Object.entries(tables[0].tables).filter(([key]) => key !== tableName)
+  //   );
+  // };
+  
+/// УДАЛЕНИЕ ИЗ СПИСКА ВЫБРАННЫХ ТАБЛИЦ  из SchemaTables - КОНЕЦ
 
   const filterDeletedTable = tableName => {
     return Object.fromEntries(
@@ -33,6 +56,8 @@ const ModalConfirmDeletion = ({
   };
 
   const deleteTable = tableToDelete => {
+    delTables();
+ 
     dispatch(filterSelectedTables(filterDeletedTable(tableToDelete)));
     onCloseSchemaEditorBlock(false);
     onCancel();
