@@ -24,6 +24,7 @@ const FiltersDeskNode = ({
     handleDragStart,
     handleDragOver,
     handleDropOnFiltersItem,
+    handleChangeCondition,
     handleEditFiltersItem,
     handleDropOnFiltersNodeItemsBlock,
     deleteFiltersDeskItem,
@@ -33,6 +34,7 @@ const FiltersDeskNode = ({
 
   const [conditionBlockActive, setConditionBlockActive] = useState(false);
   const [itemsBlockActive, setItemsBlockActive] = useState(false);
+  const [newCondition, setNewCondition] = useState(condition);
 
   const root = clsx(styles.root, {
     [styles.selected]: focused?.id === id
@@ -64,6 +66,11 @@ const FiltersDeskNode = ({
   const handleDropOnItemsBlock = e => {
     onItemsBlockDrop(e);
     setItemsBlockActive(false);
+  };
+
+  const conditionToggler = (cond) => {
+    const newCond = handleChangeCondition(cond)
+    setNewCondition(newCond)
   };
 
   const render = item =>
@@ -104,8 +111,8 @@ const FiltersDeskNode = ({
         onDragLeave={() => setConditionBlockActive(false)}
         onDrop={handeDropOnConditionBlock}
       >
-        <Button buttonStyle={BUTTON.SMALL_ORANGE} onClick={() => {}}>
-          {condition}
+        <Button buttonStyle={BUTTON.SMALL_ORANGE} onDoubleClick={() => {conditionToggler(newCondition)}}>
+          {newCondition}
         </Button>
       </div>
       <div
