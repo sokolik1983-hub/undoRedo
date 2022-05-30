@@ -5,8 +5,6 @@ import { setLoadingData } from './reducers/ui';
 import { SERVER_API_URL } from '../common/constants/config';
 // eslint-disable-next-line import/no-cycle
 import { notificationShown } from './reducers/notifications';
-// eslint-disable-next-line import/no-cycle
-import { logoutUser } from './actions/auth';
 
 export const request = async ({ type = 'request', params, func, dispatch }) => {
   try {
@@ -39,17 +37,14 @@ export const request = async ({ type = 'request', params, func, dispatch }) => {
 
     throw Error(response.errorText);
   } catch (err) {
-    // TODO: delete commented code, if no problems will happen
-    // dispatch(
-    //   notificationShown({
-    //     message: err.message,
-    //     messageType: 'error',
-    //     reason: 'Возможно не прошли авторизацию',
-    //     advice: 'Нажать кнопку выход и авторизоваться'
-    //   })
-    // );
-    dispatch(logoutUser());
-    window.location.replace('/login');
+    dispatch(
+      notificationShown({
+        message: err.message,
+        messageType: 'error',
+        reason: 'Возможно не прошли авторизацию',
+        advice: 'Нажать кнопку выход и авторизоваться'
+      })
+    );
     dispatch(setLoadingData(false));
   }
 
