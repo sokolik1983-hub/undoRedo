@@ -15,10 +15,7 @@ import {
 } from '../helper';
 import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
 import { ReactComponent as UniverseIcon } from '../../../layout/assets/icons/universeIcon.svg';
-import {
-  // BREADCRUMBS_ROOT,
-  TABLE_CELL_EMPTY_VALUE
-} from '../../../common/constants/common';
+import { TABLE_CELL_EMPTY_VALUE } from '../../../common/constants/common';
 import styles from './SymlayersList.module.scss';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import { getUniverses } from '../../../data/actions/universes';
