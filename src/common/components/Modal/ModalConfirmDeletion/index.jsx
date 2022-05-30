@@ -8,6 +8,7 @@ import { filterSelectedTables } from '../../../../data/actions/schemaDesigner';
 import styles from './ModalConfirmDeletion.module.scss';
 import { SymanticLayerContext } from '../../../../modules/SymlayersDesigner/SchemaTables/context';
 
+
 const ModalConfirmDeletion = ({
   warnTitle,
   warnText,
@@ -18,34 +19,26 @@ const ModalConfirmDeletion = ({
 }) => {
   const dispatch = useDispatch();
 
-  const selectedTables = useSelector(
+  const globalStateTables = useSelector(
     state => state.app.schemaDesigner.selectedTables
   );
 /// УДАЛЕНИЕ ИЗ СПИСКА ВЫБРАННЫХ ТАБЛИЦ  из SchemaTables - НАЧАЛО
-  const tables = useContext(SymanticLayerContext); // Объект из SchemaTables
-
-  const delTables = () => {
-    //  tables[1].SET_TABLES_POSTION([]);
-    tables[1].SET_TABLES([]);
-  };
-
-  console.log('tables', tables);
-
-  console.log('tables from context', tables[0].tables);
-  // console.log('setTables', delTables);
-  console.log('tables.SET_TABLES', tables[1].SET_TABLES);
-
-  // const filterSchemaTables = tableName => {
-  //   return Object.fromEntries(
-  //     Object.entries(tables[0].tables).filter(([key]) => key !== tableName)
-  //   );
+  const SymanticLayerContextState = useContext(SymanticLayerContext); // Объект из SchemaTables
+  
+  console.log('globalStateTables', globalStateTables); // таблицы в глобальном стейте
+  console.log('tables from context', SymanticLayerContextState[0].tables); // таблицы  в локальном стейте
+  console.log('setTables', SymanticLayerContextState[1].SET_TABLES);
+  
+  // const delTables = () => {
+  //   //  tables[1].SET_TABLES_POSTION([]);
+  //   tables[1].SET_TABLES([]);
   // };
   
 /// УДАЛЕНИЕ ИЗ СПИСКА ВЫБРАННЫХ ТАБЛИЦ  из SchemaTables - КОНЕЦ
 
   const filterDeletedTable = tableName => {
     return Object.fromEntries(
-      Object.entries(selectedTables).filter(([key]) => key !== tableName)
+      Object.entries(globalStateTables).filter(([key]) => key !== tableName)
     );
   };
 
@@ -56,11 +49,11 @@ const ModalConfirmDeletion = ({
   };
 
   const deleteTable = tableToDelete => {
-    delTables();
- 
+    SymanticLayerContextState[1].SET_TABLES(filterDeletedTable)
     dispatch(filterSelectedTables(filterDeletedTable(tableToDelete)));
     onCloseSchemaEditorBlock(false);
     onCancel();
+    console.log(' after tables from context', SymanticLayerContextState[0].tables); 
   };
 
   return (
