@@ -16,8 +16,9 @@ export const request = async ({ type = 'request', params, func, dispatch }) => {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       withCredentials: true,
-      data: `function=${func}&format=JSON&extraParam=&params=${params ? JSON.stringify(params) : ''
-        }`
+      data: `function=${func}&format=JSON&extraParam=&params=${
+        params ? JSON.stringify(params) : ''
+      }`
     });
 
     if (response && response.status === 200) {
@@ -63,7 +64,7 @@ export const requestSymLayerData = async ({ id, dispatch }) => {
       withCredentials: true,
       data: `function=SYMLAYER.READ&format=JSON&extraParam=&params=${JSON.stringify(
         { symlayer_id: id }
-      )}`,
+      )}`
     });
 
     if (response && response.status === 200) {
@@ -84,15 +85,14 @@ export const requestSymLayerData = async ({ id, dispatch }) => {
     dispatch(
       notificationShown({
         message: err.message,
-        messageType: 'error',
+        messageType: 'error'
       })
     );
     dispatch(setLoadingData(false));
   }
 
   return null;
-}
-
+};
 
 export const requestAuth = async ({ params, dispatch }) => {
   try {

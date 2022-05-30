@@ -16,6 +16,7 @@ const ui = createSlice({
     isNavShowing: false,
     modalCreateObjectVisible: false,
     confirmModalVisible: false,
+    toastList: [],
   },
   reducers: {
     showNav: (state, action) => {
@@ -72,7 +73,9 @@ const ui = createSlice({
     closeConfirmModal: state => {
       state.confirmModalVisible = false;
     },
-
+    setToastList: (state, action) => {
+      state.toastList = action.payload;
+    },
   }
 });
 
@@ -95,6 +98,7 @@ export const {
   closeCreateObjectModal,
   showConfirmModal,
   closeConfirmModal,
+  setToastList,
 } = ui.actions;
 
 export default ui.reducer;
