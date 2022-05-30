@@ -16,7 +16,7 @@ import {
 import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
 import { ReactComponent as UniverseIcon } from '../../../layout/assets/icons/universeIcon.svg';
 import {
-  BREADCRUMBS_ROOT,
+  // BREADCRUMBS_ROOT,
   TABLE_CELL_EMPTY_VALUE
 } from '../../../common/constants/common';
 import styles from './SymlayersList.module.scss';
@@ -80,7 +80,7 @@ const ConnectorsList = () => {
 
   const getBreadcrumbs = () =>
     foldersHistory
-      .map((i, idx) => (idx ? i.folder_name : BREADCRUMBS_ROOT))
+      .map((i, idx) => (idx ? i.folder_name : ''))
       .slice(0, currentFolderIndex + 1)
       .join(` / `);
 
