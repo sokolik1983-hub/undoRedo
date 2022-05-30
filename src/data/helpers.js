@@ -6,7 +6,7 @@ import { SERVER_API_URL } from '../common/constants/config';
 import { notificationShown } from './reducers/notifications';
 // eslint-disable-next-line import/no-cycle
 
-const PENDING_SERVER_TIMER = 1000;
+const PENDING_SERVER_TIMER = 200;
 const ATTEMPTS = 5;
 
 // это запрос готовности данных
@@ -92,7 +92,9 @@ const requesterTimeout = ({ id, dispatch }) => {
 // обычный запрос, в ответ на который мы получаем id запроса
 // для получения данных по запросу, надо отправить новый запрос с указанием id
 // для такого повторного запроса есть функция requestReady
-export const request = async ({ params, code, token, streamreceiver, dispatch }) => {
+export const request = async ({ params, code, streamreceiver, dispatch }) => {
+  const token = localStorage.getItem('token');
+
   try {
     dispatch(setLoadingData(true));
     const response = await axios({
