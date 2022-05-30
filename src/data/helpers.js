@@ -4,7 +4,6 @@ import { setLoadingData } from './reducers/ui';
 import { SERVER_API_URL } from '../common/constants/config';
 // eslint-disable-next-line import/no-cycle
 import { notificationShown } from './reducers/notifications';
-// eslint-disable-next-line import/no-cycle
 
 const PENDING_SERVER_TIMER = 200;
 const ATTEMPTS = 5;
@@ -109,11 +108,14 @@ export const request = async ({ params, code, streamreceiver, dispatch }) => {
       return requesterTimeout({id: response.data, dispatch});
     }
   } catch (err) {
-    dispatch(notificationShown({
-      message: err.message,
-      messageType: 'error',
-      reason: 'Возможно не прошли авторизацию',
-      advice: 'Нажать кнопку выход и авторизоваться' }));
+    dispatch(
+      notificationShown({
+        message: err.message,
+        messageType: 'error',
+        reason: 'Возможно не прошли авторизацию',
+        advice: 'Нажать кнопку выход и авторизоваться'
+      })
+    );
     dispatch(setLoadingData(false));
   }
 
