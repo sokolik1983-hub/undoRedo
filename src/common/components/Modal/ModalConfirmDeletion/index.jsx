@@ -49,7 +49,7 @@ const ModalConfirmDeletion = ({
   };
 
   const deleteTable = tableToDelete => {
-    SymanticLayerContextState[1].SET_TABLES(filterDeletedTable)
+    
     dispatch(filterSelectedTables(filterDeletedTable(tableToDelete)));
     onCloseSchemaEditorBlock(false);
     onCancel();
