@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './Block.module.scss';
 import { setSelectedColumns } from '../../../data/reducers/reportDesigner';
 import DataTable from './DataTable';
+import Cell from './Cell';
 
 function Block({
   id,
@@ -55,7 +56,7 @@ function Block({
   function renderContent() {
     switch (type) {
       case 'vTable':
-      case 'crossTable':
+      case 'xTable':
       case 'hTable':
         return (
           <DataTable
@@ -67,7 +68,16 @@ function Block({
           />
         );
       case 'graph':
-        return <div style={{ ...blockProps.styles }}>Graphoc</div>;
+        return <div style={{ ...blockProps.styles }}>Graph component</div>;
+      case 'cell':
+        return (
+          <Cell
+            blockStyles={blockProps.styles}
+            structureItem={structureItem}
+            id={id}
+            refContent={refContent}
+          />
+        );
       default:
         return null;
     }

@@ -51,7 +51,8 @@ const NewReportActions = () => {
     zoom: () => setIsZoomBlockOpen(!isZoomBlockOpen),
     setTable: () => setIsTableOpen(!isTableOpen),
     setGraph: () => setIsGraphOpen(!isGraphOpen),
-    showQueryPanel: () => dispatch(setQueryPanelModal(true))
+    showQueryPanel: () => dispatch(setQueryPanelModal(true)),
+    addCell: () => dispatch(setCreatingElement('cell'))
   };
 
   const clickRef = useRef();

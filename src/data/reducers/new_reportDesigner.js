@@ -2066,8 +2066,7 @@ export const reportObject = {
     reports: []
   }
 };
-
-export const dataCellObject = {
+export const cellObject = {
   id: 'R1.1',
   type: 'cell',
   name: 'ячейка 1',
@@ -2383,7 +2382,6 @@ export const section = {
     ]
   }
 };
-
 export const reportPageObject = {
   id: 1,
   name: 'Отчет 1',

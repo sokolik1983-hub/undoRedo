@@ -34,6 +34,7 @@ import ReportSidebar from './ReportSidebar';
 import QueryPanel from '../QueryPanel';
 import ReportContent from './ReportContent';
 import {
+  cellObject,
   reportPageObject,
   setReportDisplayMode
 } from '../../data/reducers/new_reportDesigner';
@@ -43,7 +44,7 @@ const BLOCK_TYPES = {
   table_cross: tableObject,
   table_horizontal: tableObject,
   graph: graphObject,
-  text: textObject,
+  cell: cellObject, 
   shape: shapeObject
 };
 
