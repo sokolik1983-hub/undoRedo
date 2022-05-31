@@ -32,26 +32,35 @@ const mockCell = {
 const Cell = ({ id, structureItem, blockStyles, refContent, displayMode = 'structure' }) => {
   // const dispatch = useDispatch();
   // const reportsUi = useSelector(state => state.app.reportDesigner.reportsUi.ui);
-  const { size, style, content } = mockCell;
+ 
+
+  const { size, style } = structureItem;
+
+
 
   const getCellStyle = () => {
     const result = {};
+    console.log('blockStyles',blockStyles)
+    if(blockStyles?.font) {
+        if(blockStyles?.font?.size) {
+          result['fontSize'] = blockStyles?.font?.size +  'px'
+        }
+    }
+    // const {
+    //   minimalHeight = 60,
+    //   minimalWidth = 120,
+    //   autofitWidth = false, // после уточнения
+    //   autofitHeight = false // после уточнения
+    // } = size;
 
-    const {
-      minimalHeight = 60,
-      minimalWidth = 120,
-      autofitWidth = false, // после уточнения
-      autofitHeight = false // после уточнения
-    } = size;
+    // result['minWidth'] = minimalWidth + 'px';
+    // result['minHeight'] = minimalHeight + 'px';
 
-    result['minWidth'] = minimalWidth + 'px';
-    result['minHeight'] = minimalHeight + 'px';
-
-    return { ...style, result };
+    return ({ ...blockStyles, ...result });
   };
  
-  const getCellValue = displayMode === 'structure' ? `=${content.expression.formula}` : 'Значение из БД'
-
+  const getCellValue = displayMode === 'structure' ? `${structureItem?.expression?.formula}` : 'Значение из БД'
+  console.log(getCellStyle())
   return <div style={getCellStyle()}>{getCellValue}</div>;
 };
 

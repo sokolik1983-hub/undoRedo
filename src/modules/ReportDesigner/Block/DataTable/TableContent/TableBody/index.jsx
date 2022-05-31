@@ -7,7 +7,7 @@ import { find, findIndex } from 'lodash';
 import Cell from '../../../Cell';
 
 const TableBody = ({ data, reportData, displayMode, variables, ...props }) => {
-  console.log(props);
+  // console.log(props);
   const { dpData, dpObjects } = reportData;
 
   const renderFormula = () => {
@@ -17,7 +17,7 @@ const TableBody = ({ data, reportData, displayMode, variables, ...props }) => {
           return (
             <th key={item.id}>
               <Cell
-                blockStyles={item.styles}
+                blockStyles={item.style}
                 structureItem={item}
                 id={item.id}
               />
@@ -43,7 +43,7 @@ const TableBody = ({ data, reportData, displayMode, variables, ...props }) => {
               dpObjects,
               it => variable?.parsedFormula.indexOf(it.id) > -1
             );
-            debugger;
+            // debugger;
             return (
               <th key={item.id}>
                 {expressionObjectIndex && row[expressionObjectIndex + 1]}
