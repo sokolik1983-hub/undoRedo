@@ -105,4 +105,3 @@ export const getCondition = (condition) => {
     resultString = isEmptyValue ? 'Empty Value' : resultString;
     return resultString;
   };
-

@@ -7,23 +7,12 @@ import TextInput from '../../../../common/components/TextInput';
 import IconButton from '../../../../common/components/IconButton';
 import { getIconByItemType } from '../../queryPanelHelper';
 import { EMPTY_STRING } from '../../../../common/constants/common';
+import { FILTER_TYPES, FILTER_TYPES_ARR } from './constants';
 import styles from './FiltersDeskItem.module.scss';
 import { useDragNDrop } from '../../context/DragNDropContext';
 import DotsMenu from './DotsMenu/DotsMenu';
 import DropdownItem from '../../../../common/components/Dropdown/DropdownItem';
 import Dropdown from '../../../../common/components/Dropdown';
-
-const options = [
-  { text: 'равно', value: 'EQUAL' },
-  { text: 'в списке', value: 'IN' },
-  { text: 'не в списке', value: 'NOT_IN' },
-  { text: 'между', value: 'BETWEEN' },
-  { text: 'более чем', value: 'MORE_THAN' },
-  { text: 'более чем или равно', value: 'MORE_THAN_EQUAL' },
-  { text: 'меньше чем', value: 'LESS_THAN' },
-  { text: 'меньше чем или равно', value: 'LESS_THAN_EQUAL' },
-  { text: 'соответсвие образцу', value: 'LIKE' }
-];
 
 const FiltersDeskItem = ({
   id,
@@ -77,7 +66,7 @@ const FiltersDeskItem = ({
 
   const menu = () => (
     <div className={styles.optionsWrapper}>
-      {options.map(i => (
+      {FILTER_TYPES_ARR.map(i => (
         <DropdownItem
           key={i.value}
           item={i}
@@ -107,7 +96,7 @@ const FiltersDeskItem = ({
           <Arrow className={styles.arrow} />
         </div>
       </Dropdown>
-      { filterType === 'между' ? (
+      { filterType === FILTER_TYPES.BETWEEN ? (
         <>
           <TextInput
             className={styles.input}
