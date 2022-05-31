@@ -95,6 +95,7 @@ const requesterTimeout = ({ id, dispatch }) => {
 export const request = async ({ params, code, dispatch }) => {
   const streamreceiver = localStorage.getItem('streamreceiver')
   const token = localStorage.getItem('token')
+
   try {
     dispatch(setLoadingData(true));
     const response = await axios({

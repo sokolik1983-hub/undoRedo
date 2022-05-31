@@ -1,6 +1,6 @@
 import { ActionCreators } from 'redux-undo';
 import { request } from '../helpers';
-import {setStructure} from "../reducers/new_reportDesigner"
+import {setStructure, setVariables} from "../reducers/new_reportDesigner"
 
 export const getStreamReceiever = queryParams => {
   return async dispatch => {
@@ -33,6 +33,26 @@ export const getReportStructure = queryParams => {
       if (response.result === true) {
        
         dispatch(setStructure(response.structure))
+      }
+      
+    }
+  };
+
+}
+
+
+export const getVariables = () => {
+  return async dispatch => {
+    const response = await request({
+      code: 'REP.GET_VARIABLES',
+      params: {},
+      dispatch
+    });
+    if (response) {
+
+      if (response.result === true) {
+       
+        dispatch(setVariables(response.variables))
       }
       
     }

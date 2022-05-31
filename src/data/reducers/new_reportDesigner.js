@@ -2557,7 +2557,7 @@ const reportDesigner = createSlice({
       state.reports = action.payload.reports;
     },
     setStructure: (state, action) => {
-
+     
       const report = lodash.find(
         state.reports,
         item => item.id === state.activeReport
@@ -2566,6 +2566,15 @@ const reportDesigner = createSlice({
      
     
       report.structure = action.payload;
+    },
+    setVariables: (state, action) => {
+   
+      const report = lodash.find(
+        state.reports,
+        item => item.id === state.activeReport
+      );
+
+      report.variables = action.payload;
     },
     setActiveNodeStyle: (state, action) => {
       const report = lodash.find(
@@ -2761,13 +2770,15 @@ export const {
   setActiveNodes,
   setReports,
   setStructure,
+  setVariables,
   setActiveNodeStyle,
   setTableStyle,
   addTableColumn,
   addSortingField,
   setTableVariant,
   addTableRow,
-  addTableValue
+  addTableValue,
+  
 } = reportDesigner.actions;
 
 export const {

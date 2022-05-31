@@ -25,7 +25,8 @@ import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
 import {
   getStreamReceiever,
-  getReportStructure
+  getReportStructure,
+  getVariables
 } from '../../data/actions/newReportDesigner';
 // import { SIDE_PANEL_TYPES } from '../../common/constants/common';
 import FormulaEditor from '../../common/components/FormulaEditor';
@@ -113,6 +114,10 @@ function ReportDesigner() {
   useEffect(async () => {
      dispatch(getReportStructure({"report_id": "R1"}));
    }, []);
+
+   useEffect(async () => {
+    dispatch(getVariables());
+  }, []);
 
    useEffect(async () => {
     dispatch(setCurrentPage(PAGE.REPORT_DESIGNER));
