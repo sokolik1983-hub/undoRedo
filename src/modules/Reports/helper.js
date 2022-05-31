@@ -5,16 +5,16 @@ export const sortFoldersAndItems = folderChildren => {
   if (!folderChildren) return null;
 
   const folders = folderChildren
-    ?.filter(i => i.isFolder)
+    ?.filter(i => i.kind === 'FLD')
     .sort((a, b) =>
-      a.folder_name.localeCompare(b.folder_name, {
+      a.name.localeCompare(b.name, {
         ignorePunctuation: true,
         sensitivity: 'accent'
       })
     );
 
   const items = folderChildren
-    ?.filter(i => !i.isFolder)
+    ?.filter(i => i.kind !== 'FLD')
     .sort((a, b) =>
       a.name.localeCompare(b.name, {
         ignorePunctuation: true,

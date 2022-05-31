@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
-import { useMemo, useEffect, useState, Fragment } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
-import { getConnectorFolderChildren, getConnectorsFolderId } from '../../../data/actions/connectors';
 import ListNavBar from '../../../common/components/ListNavBar/ListNavBar';
 import List from '../../../common/components/List/List';
 import ListItem from '../../../common/components/List/ListItem/ListItem';
@@ -24,11 +22,12 @@ import {
 import styles from './ConnectorsList.module.scss';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import Tooltip from '../../../common/components/Tooltip';
+import { getConnectorFolderChildren, getConnectorsFolderId } from '../../../data/actions/connectors';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
   const connectors = useSelector(state => state.app.data.connectors);
-  const connectorRootFolderId = useSelector(state => state.app.data.connectorFolderId); 
+  const connectorRootFolderId = useSelector(state => state.app.data.connectorsFolderId); 
 
   useEffect(() => {
     dispatch(getConnectorsFolderId({folderType: 'USER_CN'}));
@@ -56,7 +55,7 @@ const ConnectorsList = () => {
 
   useEffect(() => {
     if (connectors) {
-      setSortedItems(connectors.list);
+      setSortedItems(sortFoldersAndItems(connectors.list));
     }
   }, [connectors]);
 
@@ -67,12 +66,12 @@ const ConnectorsList = () => {
       dispatch(getConnectorFolderChildren({id: foldersIdHistory[currentFolderIndex]}));
     }
   }, [currentFolderIndex])
-  
-useEffect(() => {
-    if (connectorRootFolderId) {
-      goToRootFolder();
-    } 
-}, [connectorRootFolderId])
+    
+  useEffect(() => {
+      if (connectorRootFolderId) {
+        goToRootFolder();
+      } 
+  }, [connectorRootFolderId])
 
   useEffect(() => {
     setActionButtonIsDisable({
@@ -171,7 +170,6 @@ useEffect(() => {
     </div>
   );
 
-  const listItems = sortedItems;
   const listItemsWithDropdown = sortedItems?.map(item => {
     const isFolder = item.kind === 'FLD';
 

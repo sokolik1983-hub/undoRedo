@@ -4,26 +4,34 @@ const data = createSlice({
   name: 'data',
   initialState: {
     connectors: {},
-    connectorFolderId: 0,
+    connectorsFolderId: 0,
     connectorsTree: [],
     universes: [],
+    universesFolderId: 0,
     universesTree: [],
+    listReports: [],
+    reportsFolderId: 0,
     dictionaries: [],
     symLayersData: [],
     requestId: null,
+    reposFolderId: 0,
+    reposChildren: []
   },
   reducers: {
     setConnectors: (state, action) => {
       state.connectors = action.payload;
     },
     setConnectorsFolderId: (state, action) => {
-      state.connectorFolderId = action.payload;
+      state.connectorsFolderId = action.payload;
     },
     setConnectorsTree: (state, action) => {
       state.connectorsTree = action.payload;
     },
     setUniverses: (state, action) => {
       state.universes = action.payload;
+    },    
+    setUniversesFolderId: (state, action) => {
+      state.universesFolderId = action.payload;
     },
     setUniversesTree: (state, action) => {
       state.universesTree = action.payload;
@@ -46,9 +54,18 @@ const data = createSlice({
     setListReports: (state, action) => {
       state.listReports = action.payload
     },
+    setReportsFolderId: (state, action) => {
+      state.reportsFolderId = action.payload
+    },
     setRequestId: (state, action) => {
       state.requestId = action.payload;
     },
+    setReposFolderId: (state, action) => {
+      state.reposFolderId = action.payload;
+    },
+    setReposChildren: (state, action) => {
+      state.reposChildren = action.payload;
+    }
   },
 });
 
@@ -56,6 +73,7 @@ export const {
   setConnectors,
   setConnectorsFolderId,
   setUniverses,
+  setUniversesFolderId,
   setUniversesTree,
   setDictionaries,
   setConnectorsTree,
@@ -64,7 +82,10 @@ export const {
   setSymanticLayerQueryResult,
   setQueryResult,
   setListReports,
+  setReportsFolderId,
   setRequestId,
+  setReposFolderId,
+  setReposChildren
 } = data.actions;
 
 export default data.reducer;

@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useState, Fragment } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
 import { Link } from 'react-router-dom';
@@ -26,73 +26,82 @@ import { setCurrentPage } from '../../data/reducers/ui';
 import FloatingButton from '../../common/components/FloatingButton';
 import { ReactComponent as CreateConnector } from '../../layout/assets/createConnector.svg';
 import styles from './Reports.module.scss';
-import { getListReports } from '../../data/actions/universes';
 import Tooltip from '../../common/components/Tooltip';
+import { getReportsFolderChildren, getReportsFolderId } from '../../data/actions/universes';
 
 const Reports = () => {
   const dispatch = useDispatch();
-  const connectors = useSelector(state => state.app?.data?.listReports);
+  const reports = useSelector(state => state.app.data.listReports);
+  const reportsRootFolderId = useSelector(state => state.app.data.reportsFolderId); 
 
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.REPORTS));
-    dispatch(getListReports());
+    dispatch(getReportsFolderId({folderType: 'USER_REP'}));
   }, []);
 
-  const rootFolder = useMemo(() => {
-    if (!connectors?.children) return connectors;
-    const sortedConnectorsChildren = sortFoldersAndItems(connectors.children);
-
-    return {
-      ...connectors,
-      children: sortedConnectorsChildren
-    };
-  }, [connectors]);
-
-  const [foldersHistory, setFoldersHistory] = useState([rootFolder]);
+  const [foldersIdHistory, setFoldersIdHistory] = useState([]);
+  const [foldersNameHistory, setFoldersNameHistory] = useState([]);
+  const [sortedItems, setSortedItems] = useState([]);
   const [currentFolderIndex, setCurrentFolderIndex] = useState(0);
   const [actionButtonIsDisable, setActionButtonIsDisable] = useState({
     prev: true,
-    next: true,
+    next: false,
     up: true
   });
   const [multiColumnView, setMultiColumnView] = useState(true);
   const [searchValue, setSearchValue] = useState();
   const [editListItemId, setEditListItemId] = useState();
 
+  const goToRootFolder = () => {
+    dispatch(getReportsFolderChildren({id: reportsRootFolderId}));
+    setFoldersIdHistory([reportsRootFolderId]);
+    setFoldersNameHistory([BREADCRUMBS_ROOT]);
+    setCurrentFolderIndex(0);
+  };
+
   useEffect(() => {
-    setFoldersHistory([rootFolder]);
-  }, [connectors]);
+    if (reports) {
+      setSortedItems(sortFoldersAndItems(reports.list));
+    }
+  }, [reports]);
+
+  useEffect(() => {
+    if (currentFolderIndex === 0 && reportsRootFolderId) {
+      goToRootFolder();
+    } else if (reportsRootFolderId) {
+      dispatch(getReportsFolderChildren({id: foldersIdHistory[currentFolderIndex]}));
+    }
+  }, [currentFolderIndex])
+    
+  useEffect(() => {
+      if (reportsRootFolderId) {
+        goToRootFolder();
+      } 
+  }, [reportsRootFolderId])
 
   useEffect(() => {
     setActionButtonIsDisable({
       prev: !currentFolderIndex,
-      next: currentFolderIndex === foldersHistory.length - 1,
+      next: currentFolderIndex === foldersIdHistory.length - 1 || currentFolderIndex === 0,
       up: !currentFolderIndex
     });
   }, [currentFolderIndex]);
 
   const onFolderDoubleClick = folder => {
-    const folderWithSortedChildren = {
-      ...folder,
-      children: sortFoldersAndItems(folder.children)
-    };
-
-    setFoldersHistory([
-      ...foldersHistory.slice(0, currentFolderIndex + 1),
-      folderWithSortedChildren
-    ]);
+    setFoldersIdHistory([...foldersIdHistory, folder.id]);
+    setFoldersNameHistory([...foldersNameHistory, folder.name]);
     setCurrentFolderIndex(prev => prev + 1);
   };
 
-  const getBreadcrumbs = () =>
-    foldersHistory
-      .map((i, idx) => (idx ? i.folder_name : BREADCRUMBS_ROOT))
+  const getBreadcrumbs = () => {
+    return foldersNameHistory
+      .map(i => i)
       .slice(0, currentFolderIndex + 1)
       .join(` / `);
+  }
 
   const moveToRootFolder = () => {
     setCurrentFolderIndex(0);
-    setFoldersHistory([rootFolder]);
   };
 
   const moveToPrevFolder = () => {
@@ -101,7 +110,7 @@ const Reports = () => {
 
   const moveToNextFolder = () => {
     setCurrentFolderIndex(prev =>
-      prev === foldersHistory.length ? prev : prev + 1
+      prev === foldersIdHistory.length ? prev : prev + 1
     );
   };
 
@@ -159,22 +168,21 @@ const Reports = () => {
     </div>
   );
 
-  const listItems = foldersHistory[currentFolderIndex]?.children;
-  const listItemsWithDropdown = listItems?.map(item => {
-    const { isFolder } = item;
+  const listItemsWithDropdown = sortedItems?.map(item => {
+    const isFolder = item.kind === 'FLD';
 
-    const currentId = isFolder ? `folder_${item.folder_id}` : item.id;
+    const currentId = item.id;
 
     const menu = isFolder
-      ? getFolderDropdownItems(`folder_${item.folder_id}`)
+      ? getFolderDropdownItems(`folder_${item.id}`)
       : getUniverseDropdownItems(item.id);
 
     return (
-      <Fragment key={isFolder ? `folder_${item.folder_id}` : item.id}>
+      <Fragment key={isFolder ? `folder_${item.id}` : item.id}>
         {editListItemId === currentId ? (
           <ListItemEdit
-            key={isFolder ? `folder_${item.folder_id}` : item.id}
-            value={item.folder_name || item.name}
+            key={isFolder ? `folder_${item.id}` : item.id}
+            value={item.name}
             // TODO: implement submit function
             // onSubmit={onItemEditSubmit}
             onBlur={() => setEditListItemId(null)}
@@ -182,7 +190,7 @@ const Reports = () => {
         ) : (
           <ListItem
             className={styles.folderItemsColumnView}
-            name={isFolder ? item.folder_name : item.name}
+            name={item.name}
             onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
             icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
             menu={menu}
@@ -195,13 +203,13 @@ const Reports = () => {
   const tableHeader = connectorsTableHeader.map(i => (
     <th key={i.name}>{i.name}</th>
   ));
-  const tableRows = listItems?.map(item => {
-    const { isFolder } = item;
+  const tableRows = sortedItems?.map(item => {
+    const isFolder = item.kind === 'FLD';
 
-    const currentId = isFolder ? `folder_${item.folder_id}` : item.id;
+    const currentId = isFolder ? `folder_${item.id}` : item.id;
 
     const menu = isFolder
-      ? getFolderDropdownItems(`folder_${item.folder_id}`)
+      ? getFolderDropdownItems(`folder_${item.id}`)
       : getUniverseDropdownItems(item.id);
 
     return (
@@ -211,9 +219,9 @@ const Reports = () => {
         isEditMode={editListItemId === currentId}
         onEditEnd={() => setEditListItemId(null)}
         icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
-        name={isFolder ? item.folder_name : item.name}
+        name={item.name}
         menu={menu}
-        connectType={item.connect_type_name || TABLE_CELL_EMPTY_VALUE}
+        connectType={item.kind || TABLE_CELL_EMPTY_VALUE}
         symlayerCount={item.symlayer_count || TABLE_CELL_EMPTY_VALUE}
       />
     );
@@ -235,7 +243,7 @@ const Reports = () => {
           setSearchValue={setSearchValue}
           onSearch={onSearch}
         />
-        {!lodash.isEmpty(connectors) ? (
+        {!lodash.isEmpty(reports) ? (
           <List
             listItems={listItemsWithDropdown}
             multiColumnView={multiColumnView}
