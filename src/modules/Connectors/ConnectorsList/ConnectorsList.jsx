@@ -1,7 +1,6 @@
-import { useMemo, useEffect, useState, Fragment } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
-import { getConnectors } from '../../../data/actions/connectors';
 import ListNavBar from '../../../common/components/ListNavBar/ListNavBar';
 import List from '../../../common/components/List/List';
 import ListItem from '../../../common/components/List/ListItem/ListItem';
@@ -23,70 +22,80 @@ import {
 import styles from './ConnectorsList.module.scss';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import Tooltip from '../../../common/components/Tooltip';
+import { getConnectorFolderChildren, getConnectorsFolderId } from '../../../data/actions/connectors';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
   const connectors = useSelector(state => state.app.data.connectors);
+  const connectorRootFolderId = useSelector(state => state.app.data.connectorsFolderId); 
 
   useEffect(() => {
-    dispatch(getConnectors());
+    dispatch(getConnectorsFolderId({folderType: 'USER_CN'}));
   }, []);
 
-  const rootFolder = useMemo(() => {
-    if (!connectors.children) return connectors;
-    const sortedConnectorsChildren = sortFoldersAndItems(connectors.children);
-
-    return {
-      ...connectors,
-      children: sortedConnectorsChildren
-    };
-  }, [connectors]);
-
-  const [foldersHistory, setFoldersHistory] = useState([rootFolder]);
+  const [foldersIdHistory, setFoldersIdHistory] = useState([]);
+  const [foldersNameHistory, setFoldersNameHistory] = useState([]);
+  const [sortedItems, setSortedItems] = useState([]);
   const [currentFolderIndex, setCurrentFolderIndex] = useState(0);
   const [actionButtonIsDisable, setActionButtonIsDisable] = useState({
     prev: true,
-    next: true,
+    next: false,
     up: true
   });
   const [multiColumnView, setMultiColumnView] = useState(true);
   const [searchValue, setSearchValue] = useState();
   const [editListItemId, setEditListItemId] = useState();
 
+  const goToRootFolder = () => {
+    dispatch(getConnectorFolderChildren({id: connectorRootFolderId}));
+    setFoldersIdHistory([connectorRootFolderId]);
+    setFoldersNameHistory([BREADCRUMBS_ROOT]);
+    setCurrentFolderIndex(0);
+  }
+
   useEffect(() => {
-    setFoldersHistory([rootFolder]);
+    if (connectors) {
+      setSortedItems(sortFoldersAndItems(connectors.list));
+    }
   }, [connectors]);
+
+  useEffect(() => {
+    if (currentFolderIndex === 0 && connectorRootFolderId) {
+      goToRootFolder();
+    } else if (connectorRootFolderId) {
+      dispatch(getConnectorFolderChildren({id: foldersIdHistory[currentFolderIndex]}));
+    }
+  }, [currentFolderIndex])
+    
+  useEffect(() => {
+      if (connectorRootFolderId) {
+        goToRootFolder();
+      } 
+  }, [connectorRootFolderId])
 
   useEffect(() => {
     setActionButtonIsDisable({
       prev: !currentFolderIndex,
-      next: currentFolderIndex === foldersHistory.length - 1,
+      next: currentFolderIndex === foldersIdHistory.length - 1 || currentFolderIndex === 0,
       up: !currentFolderIndex
     });
-  }, [currentFolderIndex]);
+  }, [currentFolderIndex, foldersIdHistory]);
 
   const onFolderDoubleClick = folder => {
-    const folderWithSortedChildren = {
-      ...folder,
-      children: sortFoldersAndItems(folder.children)
-    };
-
-    setFoldersHistory([
-      ...foldersHistory.slice(0, currentFolderIndex + 1),
-      folderWithSortedChildren
-    ]);
+    setFoldersIdHistory([...foldersIdHistory, folder.id]);
+    setFoldersNameHistory([...foldersNameHistory, folder.name]);
     setCurrentFolderIndex(prev => prev + 1);
   };
 
-  const getBreadcrumbs = () =>
-    foldersHistory
-      .map((i, idx) => (idx ? i.folder_name : BREADCRUMBS_ROOT))
+  const getBreadcrumbs = () => {
+    return foldersNameHistory
+      .map(i => i)
       .slice(0, currentFolderIndex + 1)
       .join(` / `);
+  }
 
   const moveToRootFolder = () => {
     setCurrentFolderIndex(0);
-    setFoldersHistory([rootFolder]);
   };
 
   const moveToPrevFolder = () => {
@@ -95,7 +104,7 @@ const ConnectorsList = () => {
 
   const moveToNextFolder = () => {
     setCurrentFolderIndex(prev =>
-      prev === foldersHistory.length ? prev : prev + 1
+      prev === foldersIdHistory.length ? prev : prev + 1
     );
   };
 
@@ -161,21 +170,20 @@ const ConnectorsList = () => {
     </div>
   );
 
-  const listItems = foldersHistory[currentFolderIndex]?.children;
-  const listItemsWithDropdown = listItems?.map(item => {
-    const { isFolder } = item;
+  const listItemsWithDropdown = sortedItems?.map(item => {
+    const isFolder = item.kind === 'FLD';
 
-    const currentId = isFolder ? `folder_${item.folder_id}` : item.id;
+    const currentId = item.id;
 
     const menu = isFolder
-      ? getFolderDropdownItems(`folder_${item.folder_id}`)
+      ? getFolderDropdownItems(`folder_${item.id}`)
       : getUniverseDropdownItems(item.id);
 
     return (
-      <Fragment key={isFolder ? `folder_${item.folder_id}` : item.id}>
+      <Fragment key={isFolder ? `folder_${item.id}` : item.id}>
         {editListItemId === currentId ? (
           <ListItemEdit
-            value={item.folder_name || item.connect_name}
+            value={item.name}
             // TODO: implement submit function
             // onSubmit={onItemEditSubmit}
             onBlur={() => setEditListItemId(null)}
@@ -183,7 +191,7 @@ const ConnectorsList = () => {
         ) : (
           <ListItem
             className={styles.folderItemsColumnView}
-            name={isFolder ? item.folder_name : item.connect_name}
+            name={item.name}
             onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
             icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
             menu={menu}
@@ -196,13 +204,14 @@ const ConnectorsList = () => {
   const tableHeader = connectorsTableHeader.map(i => (
     <th key={i.name}>{i.name}</th>
   ));
-  const tableRows = listItems?.map(item => {
-    const { isFolder } = item;
 
-    const currentId = isFolder ? `folder_${item.folder_id}` : item.id;
+  const tableRows = sortedItems?.map(item => {
+    const isFolder = item.kind === 'FLD';
+
+    const currentId = isFolder ? `folder_${item.id}` : item.id;
 
     const menu = isFolder
-      ? getFolderDropdownItems(`folder_${item.folder_id}`)
+      ? getFolderDropdownItems(`folder_${item.id}`)
       : getUniverseDropdownItems(item.id);
 
     return (
@@ -212,9 +221,9 @@ const ConnectorsList = () => {
         isEditMode={editListItemId === currentId}
         onEditEnd={() => setEditListItemId(null)}
         icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
-        name={isFolder ? item.folder_name : item.connect_name}
+        name={item.name}
         menu={menu}
-        connectType={item.connect_type_name || TABLE_CELL_EMPTY_VALUE}
+        connectType={item.kind || TABLE_CELL_EMPTY_VALUE}
         symlayerCount={item.symlayer_count || TABLE_CELL_EMPTY_VALUE}
       />
     );
