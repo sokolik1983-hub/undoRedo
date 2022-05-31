@@ -30,6 +30,13 @@
   text-overflow: ellipsis;
 }
 
+.textContent {
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+  margin-left: 5px;
+}
+
 .input {
   margin-left: 5px;
   width: 131px;
@@ -63,7 +70,7 @@
   background: #ffffff;
   width: auto;
   height: 22px;
-  margin-left: 10px;
+  margin-left: 5px;
   padding: 4px;
   cursor: pointer;
 }

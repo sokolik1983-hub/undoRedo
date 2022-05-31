@@ -118,7 +118,7 @@ const FiltersDeskItem = ({
             value={filterValueBetween.from}
             onChange={handleChangeBetween}
           />
-          <p className={styles.title}>И</p>
+          <p className={styles.textContent}>И</p>
           <TextInput
             className={styles.input}
             placeholder="введите постоянную"
