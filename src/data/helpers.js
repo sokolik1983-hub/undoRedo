@@ -21,6 +21,8 @@ export const requestReady = async ({ id, dispatch }) => {
     // ответ от сервера всегда будет с кодом 200, даже если прийдет ошибка
     // разница в том, что response.data.result будет отсутствовать в ошибке
     // вместо этого мы получим response.data.errors
+
+
     if (response && response.status === 200) {
       // добавить все условия
       if (
@@ -64,6 +66,7 @@ const requesterTimeout = ({ id, dispatch }) => {
         id,
         dispatch
       });
+      
       if (response?.result === true || !response ) {
         setLoadingData(false);
         resolve(response);
@@ -105,7 +108,7 @@ export const request = async ({ params, code, dispatch }) => {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       data: `code=${code}&token=${encodeURI(token) || null}&format=JSON&params=${params ? JSON.stringify(params) : ''}&streamreceiver=${streamreceiver || null}`
-    });
+    })
     if (response && response.status === 200) {
       return requesterTimeout({id: response.data, dispatch});
     }

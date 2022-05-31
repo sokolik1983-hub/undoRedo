@@ -47,7 +47,9 @@ export const getVariables = () => {
       code: 'REP.GET_VARIABLES',
       params: {},
       dispatch
-    });
+    })
+
+
     if (response) {
 
       if (response.result === true) {

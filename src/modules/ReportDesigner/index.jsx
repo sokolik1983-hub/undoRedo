@@ -100,31 +100,25 @@ function ReportDesigner() {
     }
   }
 
-  useEffect(async () => {
-   dispatch(setCurrentPage(PAGE.REPORT_DESIGNER));
-  
+  useEffect(() => {
+    dispatch(setCurrentPage(PAGE.REPORT_DESIGNER));
 
     document.body.addEventListener('keyup', handleKeyUp);
   }, []);
 
   useEffect(async () => {
-    dispatch(getStreamReceiever({ fileName: 'test.js' }));
+    await dispatch(getStreamReceiever({ fileName: 'testX.js' }));
+    await dispatch(getReportStructure({ report_id: 'R1' }));
+    await dispatch(getVariables());
   }, []);
+
 
   useEffect(async () => {
-     dispatch(getReportStructure({"report_id": "R1"}));
-   }, []);
-
-   useEffect(async () => {
-    dispatch(getVariables());
-  }, []);
-
-   useEffect(async () => {
     dispatch(setCurrentPage(PAGE.REPORT_DESIGNER));
     //  dispatch(getReportStructure({ fileName: 'test.js' }));
- 
-     document.body.addEventListener('keyup', handleKeyUp);
-   }, []);
+
+    document.body.addEventListener('keyup', handleKeyUp);
+  }, []);
 
   useEffect(() => {
     return () => {
