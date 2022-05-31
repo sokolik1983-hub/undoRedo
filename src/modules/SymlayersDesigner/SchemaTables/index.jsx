@@ -173,8 +173,6 @@ const Provided = props => {
     }
   }, [props.tables]);
 
-  const [zoom, setZoom] = useState(1);
-
   const renderZoomBtn = () => (
     <div
       key="scalePanel"
