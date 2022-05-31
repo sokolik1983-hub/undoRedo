@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
@@ -8,27 +7,12 @@ import TextInput from '../../../../common/components/TextInput';
 import IconButton from '../../../../common/components/IconButton';
 import { getIconByItemType } from '../../queryPanelHelper';
 import { EMPTY_STRING } from '../../../../common/constants/common';
+import { FILTER_TYPES, FILTER_TYPES_ARR } from './constants';
 import styles from './FiltersDeskItem.module.scss';
 import { useDragNDrop } from '../../context/DragNDropContext';
 import DotsMenu from './DotsMenu/DotsMenu';
 import DropdownItem from '../../../../common/components/Dropdown/DropdownItem';
 import Dropdown from '../../../../common/components/Dropdown';
-
-const options = [
-  { text: 'не равно', value: 'notEqual' },
-  { text: 'равно', value: 'equal' },
-  { text: 'в списке', value: 'inList' },
-  { text: 'не в списке', value: 'notInList' },
-  { text: 'между', value: 'between' },
-  { text: 'вне', value: 'outside' },
-  { text: 'более чем', value: 'moreThan' },
-  { text: 'более чем или равно', value: 'moreThanOrEqual' },
-  { text: 'меньше чем', value: 'lessThan' },
-  { text: 'меньше чем или равно', value: 'lessThanOrEqual' },
-  { text: 'оба', value: 'both' },
-  { text: 'исключая', value: 'exept' },
-  { text: 'соответсвие образцу', value: 'like' }
-];
 
 const FiltersDeskItem = ({
   id,
@@ -41,9 +25,12 @@ const FiltersDeskItem = ({
 }) => {
   const { focused } = useDragNDrop();
   const [isActive, setIsActive] = useState(false);
-  const [inputValue, setInputValue] = useState(EMPTY_STRING);
-  const [selectedCond, setSelectedCond] = useState('равно');
-  const [selectedText, setSelectedText] = useState('равно');
+  const [filterValue, setFilterValue] = useState(EMPTY_STRING);
+  const [filterValueBetween, setFilterValueBetween] = useState({
+    from: '',
+    to: ''
+  });
+  const [filterType, setFilterType] = useState('равно');
 
   const root = clsx(styles.root, {
     [styles.active]: isActive,
@@ -51,25 +38,40 @@ const FiltersDeskItem = ({
   });
 
   const onEdit = e => {
-    setInputValue(e.target.value);
+    setFilterValue(e.target.value);
   };
 
-  const handleEditCondition = cond => {
-    setSelectedCond(cond);
+  const handleChangeBetween = event => {
+      setFilterValueBetween({
+        ...filterValueBetween,
+        [event.target.name]: event.target.value
+      });
+  };
+
+  const handleSelectFilterType = typeOfFilter => {
+    setFilterType(typeOfFilter);
+    setFilterValue('');
+    setFilterValueBetween({ from: '', to: '' });
   };
 
   useEffect(() => {
-    onEditItem(id, inputValue, selectedCond);
-  }, [inputValue, selectedCond]);
+    onEditItem(id, filterValue, filterValueBetween, filterType);
+  }, [filterValue, filterType, filterValueBetween]);
+
+  useEffect(() => {
+    if (filterValueBetween.from || filterValueBetween.to) {
+      onEditItem(id, filterValueBetween.from, filterValueBetween.to, filterType);
+    };
+  }, [filterValueBetween, filterType]);
 
   const menu = () => (
     <div className={styles.optionsWrapper}>
-      {options.map(i => (
+      {FILTER_TYPES_ARR.map(i => (
         <DropdownItem
           key={i.value}
           item={i}
           className={styles.optionsText}
-          onClick={() => {}}
+          onClick={() => {handleSelectFilterType(i.text)}}
         />
       ))}
     </div>
@@ -90,18 +92,42 @@ const FiltersDeskItem = ({
       {/* TODO: replace dropdown with custom select when ready */}
       <Dropdown trigger={['click']} overlay={menu()}>
         <div className={styles.select}>
-          <p className={styles.selectText}>{selectedText}</p>
+          <p className={styles.selectText}>{filterType}</p>
           <Arrow className={styles.arrow} />
         </div>
       </Dropdown>
-      <TextInput
-        className={styles.input}
-        placeholder="введите постоянную"
-        type="text"
-        label={EMPTY_STRING}
-        value={inputValue}
-        onChange={e => onEdit(e)}
-      />
+      { filterType === FILTER_TYPES.BETWEEN ? (
+        <>
+          <TextInput
+            className={styles.input}
+            placeholder="введите постоянную"
+            type='text'
+            label={EMPTY_STRING}
+            name='from'
+            value={filterValueBetween.from}
+            onChange={handleChangeBetween}
+          />
+          <p className={styles.textContent}>И</p>
+          <TextInput
+            className={styles.input}
+            placeholder="введите постоянную"
+            type='text'
+            label={EMPTY_STRING}
+            name='to'
+            value={filterValueBetween.to}
+            onChange={handleChangeBetween}
+          />
+        </>
+      ) : (
+        <TextInput
+          className={styles.input}
+          placeholder="введите постоянную"
+          type='text'
+          label={EMPTY_STRING}
+          value={filterValue}
+          onChange={e => onEdit(e)}
+        />
+      )}
       <DotsMenu />
       <IconButton
         className={styles.closeBtn}

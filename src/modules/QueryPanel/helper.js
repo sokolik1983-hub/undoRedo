@@ -1,9 +1,5 @@
 export const conditionSwitcher = (cond) => {
   switch (cond) {
-    case 'ИЛИ' :
-      return 'OR';
-    case 'И' :
-      return 'AND';
     case 'равно' :
       return 'EQUAL';
     case 'меньше чем':
@@ -25,7 +21,18 @@ export const conditionSwitcher = (cond) => {
     default :
       return null;
   }
-}
+};
+
+export const nodeConditionSwitcher = (nodeCond) => {
+  switch (nodeCond) {
+    case 'ИЛИ' :
+      return 'OR';
+    case 'И' :
+      return 'AND';
+    default :
+      return null;
+  }
+};
 
 export const getCondition = (condition) => {
     let isEmptyValue = false;
@@ -33,9 +40,9 @@ export const getCondition = (condition) => {
     function getChildren(item) {
       return {
         children: {
-          prefix: conditionSwitcher(item.condition),
+          prefix: nodeConditionSwitcher(item.condition),
           data: item.children.map(child => {
-            if (child.inputValue.trim() === '') {
+            if (child?.inputValue.trim() === '') {
               isEmptyValue = true;
             } 
             if (child && child.fieldItem) {
@@ -61,7 +68,7 @@ export const getCondition = (condition) => {
 
     condition.forEach(item => {
       if (item?.type === 'filter-node') {
-        resultString.prefix = conditionSwitcher(item.condition);
+        resultString.prefix = nodeConditionSwitcher(item.condition);
         resultString.data = item.children.map(child => {
           if (child && child.fieldItem) {
             if (child.inputValue.trim() === '') {
@@ -98,4 +105,3 @@ export const getCondition = (condition) => {
     resultString = isEmptyValue ? 'Empty Value' : resultString;
     return resultString;
   };
-
