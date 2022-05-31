@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { find } from 'lodash';
+import Cell from '../../../Cell';
 import styles from './TableHeader.module.scss';
 
 const TableHeader = ({ data, displayMode, reportData, ...props }) => {
   const { dpData, dpObjects } = reportData;
-  console.log(data, 'data');
-  const renderValue = item => {
-    if (displayMode === 'Formula') return item?.expression?.formula;
+
+  const renderData = item => {
     const expressionObject = find(
       dpObjects,
       it => item?.expression?.parsedFormula.indexOf(it.id) > -1
@@ -16,14 +16,26 @@ const TableHeader = ({ data, displayMode, reportData, ...props }) => {
     return expressionObject?.name;
   };
 
-  return (
-    <thead>
+  const renderFormula = () => {
+    return (
       <tr>
         {data?.cells?.map(item => {
-          return <th key={item.id}>{item?.expression?.formula}</th>;
+          return (
+            <th key={item.id}>
+              <Cell
+                blockStyles={item.styles}
+                structureItem={item}
+                id={item.id}
+              />
+            </th>
+          );
         })}
       </tr>
-    </thead>
+    );
+  };
+
+  return (
+    <thead>{displayMode === 'Formula' ? renderFormula() : renderData()}</thead>
   );
 };
 

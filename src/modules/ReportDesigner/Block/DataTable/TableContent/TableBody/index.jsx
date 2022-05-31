@@ -4,6 +4,7 @@
 /* eslint-disable react/prop-types */
 
 import { find, findIndex } from 'lodash';
+import Cell from '../../../Cell';
 
 const TableBody = ({ data, reportData, displayMode, variables, ...props }) => {
   console.log(props);
@@ -13,7 +14,16 @@ const TableBody = ({ data, reportData, displayMode, variables, ...props }) => {
     return (
       <tr>
         {data?.cells?.map(item => {
-          return <th key={item.id}>{item?.expression?.formula}</th>;
+          return (
+            <th key={item.id}>
+              <Cell
+                blockStyles={item.styles}
+                structureItem={item}
+                id={item.id}
+              />
+            </th>
+          );
+          // <th key={item.id}>{item?.expression?.formula}</th>;
         })}
       </tr>
     );

@@ -31,7 +31,12 @@ const TableContent = ({
         reportData={{ dpData, dpObjects }}
         variables={variables}
       />
-      <TableFooter data={footerZone} displayMode={displayMode} />
+      <TableFooter
+        data={footerZone}
+        displayMode={displayMode}
+        reportData={{ dpData, dpObjects }}
+        variables={variables}
+      />
     </table>
   );
 };
