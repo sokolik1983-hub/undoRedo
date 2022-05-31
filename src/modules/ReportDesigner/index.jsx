@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import lodash from 'lodash';
@@ -31,6 +32,11 @@ import FormulaEditor from '../../common/components/FormulaEditor';
 import { ReactComponent as CloseIcon } from '../../layout/assets/close.svg';
 import ReportSidebar from './ReportSidebar';
 import QueryPanel from '../QueryPanel';
+import ReportContent from './ReportContent';
+import {
+  reportPageObject,
+  setReportDisplayMode
+} from '../../data/reducers/new_reportDesigner';
 
 const BLOCK_TYPES = {
   table_vertical: tableObject,
@@ -68,7 +74,9 @@ function ReportDesigner() {
   const isQueryPanelModalOpened = useSelector(
     state => state.app.ui.modalVisible
   );
-  const zoom = useSelector(state => state.app.reportDesigner.reportsUi.ui?.zoom);
+  const zoom = useSelector(
+    state => state.app.reportDesigner.reportsUi.ui?.zoom
+  );
 
   function handleKeyUp(event) {
     // event.stopPropagation();
@@ -106,51 +114,65 @@ function ReportDesigner() {
 
   function handleAddBlock(event) {
     event.stopPropagation();
-    if (reportDesigner.reportsUi.ui.creatingElement) {
-      const newStructure = [
-        ...currentReport.structure,
-        {
-          ...BLOCK_TYPES[reportDesigner.reportsUi.ui.creatingElement],
-          position: mousePosition,
-          id: generateId(),
-          variant: creatingElement
-        }
-      ];
+    // TODO change to new store
+    // if (reportDesigner.reportsUi.ui.creatingElement) {
+    //   const newStructure = [
+    //     ...currentReport.structure,
+    //     {
+    //       ...BLOCK_TYPES[reportDesigner.reportsUi.ui.creatingElement],
+    //       position: mousePosition,
+    //       id: generateId(),
+    //       variant: creatingElement
+    //     }
+    //   ];
 
-      dispatch(setCreatingElement(null));
-      dispatch(setStructure(newStructure));
-    }
+    //   dispatch(setCreatingElement(null));
+    //   dispatch(setStructure(newStructure));
+    // }
   }
 
-  function handleChangePosition(id, newPosition) {
-    const newStructure = lodash.cloneDeep(currentReport.structure);
-    const currentBlock = lodash.find(newStructure, item => item.id === id);
+  // function handleChangePosition(id, newPosition) {
+  //   const newStructure = lodash.cloneDeep(currentReport.structure);
+  //   const currentBlock = lodash.find(newStructure, item => item.id === id);
 
-    if (currentBlock) {
-      currentBlock.position = { ...newPosition };
+  //   if (currentBlock) {
+  //     currentBlock.position = { ...newPosition };
+  //   }
+
+  //   dispatch(setStructure(newStructure));
+  // }
+  // function handleChangeScales(id, newScales) {
+  //   const newStructure = lodash.cloneDeep(currentReport.structure);
+  //   const currentBlock = lodash.find(newStructure, item => item.id === id);
+  //   if (currentBlock) {
+  //     currentBlock.scales = {
+  //       width: newScales.width,
+  //       height: newScales.height
+  //     };
+  //     currentBlock.position = { x: newScales.x, y: newScales.y };
+  //   }
+
+  //   dispatch(setStructure(newStructure));
+  // }
+
+  function handleChangeMode() {
+    const { displayMode } = currentReport;
+    let newMode = '';
+
+    if (displayMode && displayMode === 'Data') {
+      newMode = 'Formula';
+    } else {
+      newMode = 'Data';
     }
 
-    dispatch(setStructure(newStructure));
-  }
-  function handleChangeScales(id, newScales) {
-    const newStructure = lodash.cloneDeep(currentReport.structure);
-    const currentBlock = lodash.find(newStructure, item => item.id === id);
-    if (currentBlock) {
-      currentBlock.scales = {
-        width: newScales.width,
-        height: newScales.height
-      };
-      currentBlock.position = { x: newScales.x, y: newScales.y };
-    }
-
-    dispatch(setStructure(newStructure));
+    dispatch(setReportDisplayMode(newMode));
   }
 
   function handleAddReport() {
     const newReports = [
       ...reportDesigner.reportsData.present.reports,
       {
-        ...reportObject,
+        ...reportPageObject,
         id: reportDesigner.reportsData.present.reports.length + 1,
         name: `Отчет ${reportDesigner.reportsData.present.reports.length + 1}`
       }
@@ -187,36 +209,36 @@ function ReportDesigner() {
     }
   };
 
-  const handleSelect = (structureItem, addItem) => {
-    if (
-      lodash.find(reportDesigner.reportsData.present.activeNodes, structureItem)
-    ) {
-      const filteredNodes = reportDesigner.reportsData.present.activeNodes.filter(
-        item => item.id !== structureItem.id
-      );
-      dispatch(setActiveNodes(filteredNodes));
-      dispatch(setConfigPanelVisible(false));
-    } else {
-      let newActiveNodes = [structureItem];
-      if (addItem) {
-        newActiveNodes = [
-          ...reportDesigner.reportsData.present.activeNodes,
-          structureItem
-        ];
-      }
-      dispatch(setActiveNodes(newActiveNodes));
-      dispatch(setConfigPanelVisible(true));
-    }
-  };
+  // const handleSelect = (structureItem, addItem) => {
+  //   if (
+  //     lodash.find(reportDesigner.reportsData.present.activeNodes, structureItem)
+  //   ) {
+  //     const filteredNodes = reportDesigner.reportsData.present.activeNodes.filter(
+  //       item => item.id !== structureItem.id
+  //     );
+  //     dispatch(setActiveNodes(filteredNodes));
+  //     dispatch(setConfigPanelVisible(false));
+  //   } else {
+  //     let newActiveNodes = [structureItem];
+  //     if (addItem) {
+  //       newActiveNodes = [
+  //         ...reportDesigner.reportsData.present.activeNodes,
+  //         structureItem
+  //       ];
+  //     }
+  //     dispatch(setActiveNodes(newActiveNodes));
+  //     dispatch(setConfigPanelVisible(true));
+  //   }
+  // };
 
-  function checkIsActiveNode(id) {
-    return !lodash.isEmpty(
-      lodash.find(
-        reportDesigner.reportsData.present.activeNodes,
-        item => item.id === id
-      )
-    );
-  }
+  // function checkIsActiveNode(id) {
+  //   return !lodash.isEmpty(
+  //     lodash.find(
+  //       reportDesigner.reportsData.present.activeNodes,
+  //       item => item.id === id
+  //     )
+  //   );
+  // }
 
   function handleDisableSelection() {
     if (reportDesigner.reportsData.present.activeNodes.length > 0) {
@@ -283,27 +305,33 @@ function ReportDesigner() {
           <button onClick={handleAddReport} type="button">
             +
           </button>
+          <button onClick={handleChangeMode} type="button">
+            *
+          </button>
         </div>
         <div className={styles.containerOutline}>
           <div
-            style={{zoom: `${zoom}`}}
+            style={{ zoom: `${zoom}` }}
             className={clsx(styles.container, styles['container-portrait'])}
             onMouseMove={handleMouseMove}
             onClick={handleAddBlock}
             onDoubleClick={handleDisableSelection}
           >
-            {currentReport &&
-              currentReport.structure?.map(block => (
-                <Block
-                  {...block}
-                  key={block.id}
-                  structureItem={block}
-                  onChangePosition={handleChangePosition}
-                  onChangeScales={handleChangeScales}
-                  onSelect={handleSelect}
-                  isActiveNode={checkIsActiveNode(block.id)}
-                />
+            <ReportContent structure={currentReport?.structure} />
+            {/* <ReportHeader data={currentReport?.structure?.pgHeader} />
+            <ReportBody data={currentReport?.structure?.pgBody} />
+            {currentReport?.structure?.map(block => (
+              <Block
+                {...block}
+                key={block.id}
+                structureItem={block}
+                onChangePosition={handleChangePosition}
+                onChangeScales={handleChangeScales}
+                onSelect={handleSelect}
+                isActiveNode={checkIsActiveNode(block.id)}
+              />
             ))}
+            <ReportFooter data={currentReport?.structure?.pgFooter} /> */}
           </div>
         </div>
       </div>

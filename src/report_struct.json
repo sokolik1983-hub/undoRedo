@@ -1,0 +1,346 @@
+{
+    id: 1,
+    name: "Отчет 1",
+    paginationMode: 'Quick',
+    displayMode: 'Data',
+    pageSettings: {
+      margins: {
+        left: 100,
+        right: 100,
+        top: 100,
+        bottom: 100
+      },
+      orientation: 'Landscape',
+      height: 1024,
+      width: 768,
+      recordsHeight: 100,
+      recordsWidth: 25,
+      scale: 100
+    },
+    structure: {
+      pgHeader: {
+        id: 'R1.PH',
+        type: 'pgHeader',
+        name: 'заготовок страницы',
+        size: {
+          minimalHeight: 10
+        }
+      },
+      pgBody: {
+        id: 'R1',
+        type: 'pgBody',
+        name: 'тело',
+        size: {
+          minimalHeight: 10
+        },
+        content: {
+          childs: [
+             ячейка - заголовок
+             {
+               id: 'R1.1',
+               type: 'cell',
+               name: 'ячейка 1',
+               size: {
+                 minimalHeight: 10,
+                 minimalWidth: 120,
+                 autofitWidth: false,
+                 autofitHeight: false
+               },
+               position: {
+                 xType: 'Absolute',
+                 yType: 'Absolute',
+                 x: 20,
+                 y: 10
+               },
+               style: {},
+               content: {
+                 expression: {
+                   type: 'Const',
+                   dataType: 'String',
+                   formula: 'Заглавие для отчета'
+                 }
+               }
+             },
+             ячейка - агрегат
+             {
+               id: 'R1.2',
+               type: 'cell',
+               name: 'ячейка 2',
+               size: {
+                 minimalHeight: 10,
+                 minimalWidth: 120,
+                 autofitWidth: false,
+                 autofitHeight: false
+               },
+               position: {
+                 xType: 'Absolute',
+                 yType: 'Absolute',
+                 x: 20,
+                 y: 10
+               },
+               style: {},
+               content: {
+                 expression: {
+                   type: 'Measure',
+                   dataType: 'Number',
+                   formula: '=sum([Продажи])',
+                   parsedFormula: '=F101([DP0.M1])',
+                   outputFormat: '0.00'
+                 }
+               }
+             },
+             секция
+             {
+               id: 'R1.3',
+               type: 'section',
+               name: 'Секция Первая буква города',
+               size: {
+                 minimalHeight: 50
+               },
+               content: {
+                 axes: [
+                   {
+                     id: 1,
+                     role: 'Row',
+                     name: 'Первая буква города',
+                     expressions: [
+                       {
+                         type: 'Dimension',
+                         dataType: 'String',
+                         variable_id: 'DP0.V1',
+                         sort: {
+                           sortOrder: 'Asc',
+                           sortNum: 1
+                         }
+                       }
+                     ]
+                   }
+                 ],
+                 dataFilter: {
+                    для примера фильтр - в списке
+                   type: 'filter',
+                   filterTarget_id: 'DP0.V1',
+                   filterOperator: 'InList',
+                   filterOperand1: ['М', 'Т']
+                 },
+                 childs: [
+                    ячейка и таблица в секции
+                    {
+                      id: 'R1.3.1',
+                      type: 'cell',
+                      name: 'ячейка 3',
+                      size: {
+                        minimalHeight: 10,
+                        minimalWidth: 120,
+                        autofitWidth: false,
+                        autofitHeight: false
+                      },
+                      position: {
+                        xType: 'Absolute',
+                        yType: 'Relative_Element_Top',
+                        x: 20,
+                        yRelativeElement: 'R1.3',
+                        y: 5
+                      },
+                      style: {},
+                      content: {
+                        expression: {
+                          type: 'Dimension',
+                          dataType: 'String',
+                          formula: '=[Первая буква города]',
+                          parsedFormula: '=[DP0.V1]'
+                        }
+                      }
+                    },
+                    таблица
+                   {
+                     id: 'R1.3.2',
+                     type: 'vTable',
+                     name: 'Блок 1',
+                     position: {
+                       xType: 'Absolute',
+                       yType: 'Relative_Element_Top',
+                       x: 10,
+                       yRelativeElement: 'R1.3.1',
+                       y: 5
+                     },
+                     style: {},
+                     content: {
+                       axes: [
+                         {
+                           id: 1,
+                           role: 'Row',
+                           name: 'Строки',
+                           expressions: [
+                             {
+                               type: 'Dimension',
+                               dataType: 'String',
+                               variable_id: 'DP0.D1',
+                               sort: {
+                                 sortOrder: 'None'
+                               }
+                             },
+                             {
+                               type: 'Dimension',
+                               dataType: 'String',
+                               variable_id: 'DP0.D2',
+                               sort: {
+                                 sortOrder: 'Asc',
+                                 sortNum: 1
+                               }
+                             },
+                             {
+                               type: 'Dimension',
+                               dataType: 'String',
+                               variable_id: 'DP0.D3',
+                               sort: {
+                                 sortOrder: 'None'
+                               }
+                             },
+                             {
+                               type: 'Measure',
+                               dataType: 'Number',
+                               variable_id: 'DP0.M1',
+                               sort: {
+                                 sortOrder: 'None'
+                               }
+                             }
+                           ]
+                         }
+                       ],
+                       dataFilter: null,
+                       layout: {
+                         headerZone: [
+                            набор строк заголовка таблицы (здесь 1 строка)
+                           {
+                             id: 'R1.3.2.H1',
+                             height: 10,
+                             cells: [
+                               {
+                                 id: 'R1.3.2.H1.1',
+                                 span: 1,
+                                 size: { minimalWidth: 60 },
+                                 expression: {
+                                   type: 'Const',
+                                   dataType: 'String',
+                                   formula: '=NameOf([Страна])',
+                                   parsedFormula: '=F11([DP0.D1]]'
+                                 },
+                                 style_id: 's11'
+                               },
+                               {
+                                 id: 'R1.3.2.H1.2',
+                                 span: 1,
+                                 size: { minimalWidth: 40 },
+                                 expression: {
+                                   type: 'Const',
+                                   dataType: 'String',
+                                   formula: '=NameOf([Город])',
+                                   parsedFormula: '=F11([DP0.D2]]'
+                                 },
+                                 style_id: 's11'
+                               },
+                               {
+                                 id: 'R1.3.2.H1.3',
+                                 span: 1,
+                                 size: { minimalWidth: 40 },
+                                 expression: {
+                                   type: 'Const',
+                                   dataType: 'String',
+                                   formula: '=NameOf([Год])',
+                                   parsedFormula: '=F11([DP0.D3]]'
+                                 },
+                                 style_id: 's11'
+                               },
+                               {
+                                 id: 'R1.3.2.H1.4',
+                                 span: 1,
+                                 size: { minimalWidth: 40 },
+                                 expression: {
+                                   type: 'Const',
+                                   dataType: 'String',
+                                   formula: '=NameOf([Продажи])',
+                                   parsedFormula: '=F11([DP0.M1]]'
+                                 },
+                                 style_id: 's11'
+                               }
+                             ]
+                           }
+                         ],
+                         bodyZone: [
+                            набор строк тела таблицы (здесь 1 строка)
+                           {
+                             id: 'R1.3.2.B1',
+                             height: 8,
+                             cells: [
+                               {
+                                 id: 'R1.3.2.B1.1',
+                                 span: 1,
+                                 expression: {
+                                   type: 'Dimension',
+                                   dataType: 'String',
+                                   formula: '=[Страна]',
+                                   parsedFormula: '=[DP0.D1]'
+                                 },
+                                 style_id: 's12'
+                               },
+                               {
+                                 id: 'R1.3.2.B1.2',
+                                 span: 1,
+                                 size: { minimalWidth: 40 },
+                                 expression: {
+                                   type: 'Dimension',
+                                   dataType: 'String',
+                                   formula: '=[Город]',
+                                   parsedFormula: '=[DP0.D2]'
+                                 },
+                                 style_id: 's12'
+                               },
+                               {
+                                 id: 'R1.3.2.H1.3',
+                                 span: 1,
+                                 size: { minimalWidth: 40 },
+                                 expression: {
+                                   type: 'Dimension',
+                                   dataType: 'String',
+                                   formula: '=[Год]',
+                                   parsedFormula: '=[DP0.D3]]'
+                                 },
+                                 style_id: 's12'
+                               },
+                               {
+                                 id: 'R1.3.2.H1.4',
+                                 span: 1,
+                                 size: { minimalWidth: 40 },
+                                 expression: {
+                                   type: 'Measure',
+                                   dataType: 'String',
+                                   formula: '=[Продажи]',
+                                   parsedFormula: '=[DP0.M1]]'
+                                 },
+                                 style_id: 's12'
+                               }
+                             ]
+                           }
+                         ],
+                         footerZone: []
+                       }
+                     }
+                   }
+                 ]
+               }
+             }
+          ]
+        }
+      },
+      pgFooter: {
+        id: 'R1.PF',
+        type: 'pgFooter',
+        name: 'нижний колонтитул',
+        size: {
+          minimalHeight: 15
+        }
+      }
+    },
+    alerters: []
+  }
