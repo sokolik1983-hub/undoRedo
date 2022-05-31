@@ -16,14 +16,15 @@ const trash = createSlice({
     },
     filters: {
       time_start: moment(Date.now()).format('DD.MM.YYYY')
-    }
+    },
+    trashFolderId: 0
   },
 
   reducers: {
     showFilterPanel: state => {
       state.ui.showFilterPanel = !state.ui.showFilterPanel;
     },
-    setItems: (state, action) => {
+    setTrash: (state, action) => {
       state.items = action.payload;
     },
     setColumns: (state, action) => {
@@ -31,15 +32,19 @@ const trash = createSlice({
     },
     setSearchString: (state, action) => {
       state.searchString = action.payload;
+    }, 
+    setTrashFolderId: (state, action) => {
+      state.trashFolderId = action.payload;
     }
   }
 });
 
 export const {
   setSearchString,
-  setItems,
+  setTrash,
   setColumns,
-  showFilterPanel
+  showFilterPanel,
+  setTrashFolderId
 } = trash.actions;
 
 export default trash.reducer;
