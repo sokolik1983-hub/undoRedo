@@ -23,6 +23,10 @@ import { generateId, getCurrentReport } from './helpers';
 // import SidePanel from '../../common/components/SidePanel';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
+import {
+  getStreamReceiever,
+  getReportStructure
+} from '../../data/actions/newReportDesigner';
 // import { SIDE_PANEL_TYPES } from '../../common/constants/common';
 import FormulaEditor from '../../common/components/FormulaEditor';
 // import Sidebar from '../SymlayersDesigner/Sidebar';
@@ -44,7 +48,7 @@ const BLOCK_TYPES = {
   table_cross: tableObject,
   table_horizontal: tableObject,
   graph: graphObject,
-  cell: cellObject, 
+  cell: cellObject,
   shape: shapeObject
 };
 
@@ -95,10 +99,27 @@ function ReportDesigner() {
     }
   }
 
-  useEffect(() => {
-    dispatch(setCurrentPage(PAGE.REPORT_DESIGNER));
+  useEffect(async () => {
+   dispatch(setCurrentPage(PAGE.REPORT_DESIGNER));
+  
+
     document.body.addEventListener('keyup', handleKeyUp);
   }, []);
+
+  useEffect(async () => {
+    dispatch(getStreamReceiever({ fileName: 'test.js' }));
+  }, []);
+
+  useEffect(async () => {
+     dispatch(getReportStructure({"report_id": "R1"}));
+   }, []);
+
+   useEffect(async () => {
+    dispatch(setCurrentPage(PAGE.REPORT_DESIGNER));
+    //  dispatch(getReportStructure({ fileName: 'test.js' }));
+ 
+     document.body.addEventListener('keyup', handleKeyUp);
+   }, []);
 
   useEffect(() => {
     return () => {

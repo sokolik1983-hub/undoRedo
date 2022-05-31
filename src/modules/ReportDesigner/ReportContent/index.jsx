@@ -4,9 +4,10 @@ import styles from './ReportContent.module.scss';
 import ReportFooter from './ReportFooter';
 import ReportHeader from './ReportHeader';
 
-const ReportContent = ({ structure, ...props }) => {
+
+const ReportContent = ({ structure}) => {
   const { pgHeader, pgBody, pgFooter } = structure;
-  console.log(props);
+  // console.log(props);
   return (
     <div className={styles.root}>
       <ReportHeader data={pgHeader} />

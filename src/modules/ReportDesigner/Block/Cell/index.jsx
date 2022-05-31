@@ -40,7 +40,7 @@ const Cell = ({ id, structureItem, blockStyles, refContent, displayMode = 'struc
 
   const getCellStyle = () => {
     const result = {};
-    console.log('blockStyles',blockStyles)
+ 
     if(blockStyles?.font) {
         if(blockStyles?.font?.size) {
           result['fontSize'] = blockStyles?.font?.size +  'px'
@@ -60,7 +60,7 @@ const Cell = ({ id, structureItem, blockStyles, refContent, displayMode = 'struc
   };
  
   const getCellValue = displayMode === 'structure' ? `${structureItem?.expression?.formula}` : 'Значение из БД'
-  console.log(getCellStyle())
+
   return <div style={getCellStyle()}>{getCellValue}</div>;
 };
 

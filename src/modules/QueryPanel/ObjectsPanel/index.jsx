@@ -26,7 +26,7 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
   );
 
   const {
-    rootFolder,
+    // rootFolder,
     filterTypeId,
     handleFiltersSwitch,
     searchValue,
@@ -61,7 +61,7 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
         onDragOver={handleDragOver}
         onDrop={handleTreeDrop}
       >
-        {rootFolder && <ObjectsPanelList rootFolder={rootFolder} />}
+        <ObjectsPanelList rootFolder />
       </div>
     </div>
   );

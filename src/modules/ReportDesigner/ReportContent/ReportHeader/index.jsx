@@ -1,7 +1,7 @@
 import styles from './ReportHeader.module.scss';
 
-const ReportHeader = props => {
-  console.log(props);
+const ReportHeader = () => {
+  // console.log(props);
   return <div className={styles.root}>ReportHeader</div>;
 };
 

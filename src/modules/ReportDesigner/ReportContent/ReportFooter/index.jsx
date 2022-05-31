@@ -1,7 +1,7 @@
 import styles from './ReportFooter.module.scss';
 
-const ReportFooter = props => {
-  console.log(props);
+const ReportFooter = () => {
+  // console.log(props);
   return <div className={styles.root}>ReportFooter</div>;
 };
 
