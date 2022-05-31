@@ -92,7 +92,8 @@ const requesterTimeout = ({ id, dispatch }) => {
 // обычный запрос, в ответ на который мы получаем id запроса
 // для получения данных по запросу, надо отправить новый запрос с указанием id
 // для такого повторного запроса есть функция requestReady
-export const request = async ({ params, code, token, streamreceiver, dispatch }) => {
+export const request = async ({ params, code, token, dispatch }) => {
+  const streamreceiver = localStorage.getItem('streamreceiver')
   try {
     dispatch(setLoadingData(true));
     const response = await axios({
