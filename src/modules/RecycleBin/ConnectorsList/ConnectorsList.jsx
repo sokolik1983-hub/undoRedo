@@ -15,10 +15,7 @@ import {
 } from './helper';
 import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
 import { ReactComponent as ConnectorIcon } from '../../../layout/assets/connectorIcon.svg';
-import {
-  BREADCRUMBS_ROOT,
-  TABLE_CELL_EMPTY_VALUE
-} from '../../../common/constants/common';
+import { BREADCRUMBS_ROOT, TABLE_CELL_EMPTY_VALUE } from '../../../common/constants/common';
 import styles from './ConnectorsList.module.scss';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import { getTrashEvents } from '../../../data/actions/trash';

@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import { Field, useFormikContext } from 'formik';
 import PropTypes from 'prop-types';
 import ModalItem from '..';
@@ -84,6 +84,11 @@ const KeysBlock = ({ onChange, name }) => {
   const [selectedIcon, setSelectedDataIcon] = useState(
     selectDataOptions[0].icon
   );
+
+  useEffect(() => {
+    formikProps.setFieldValue(name[0], 'Символ');
+    formikProps.setFieldValue(name[3], 'main');
+  }, []);
 
   const setSelectedFields = item => {
     setSelectedDataIcon(item.icon);

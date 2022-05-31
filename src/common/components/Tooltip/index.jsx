@@ -19,8 +19,6 @@ const Tooltip = ({ children, placement, className, ...props }) => {
       mouseEnterDelay={0}
       mouseLeaveDelay={0}
       {...props}
-      // TODO: добавить собственный префикс и переделать стили на кастомные
-      // prefixCls="tern-tooltip"
     >
       {children}
     </RcTooltip>
@@ -45,7 +43,8 @@ Tooltip.propTypes = {
     'leftBottom',
     'bottomRight',
     'rightBottom'
-  ])
+  ]),
+  visible: PropTypes.bool
 };
 
 Tooltip.defaultProps = {

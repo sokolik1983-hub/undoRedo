@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import { SEMANTIC_PAGE_ACTIONS } from '../../../../common/constants/common';
 import styles from './PageActions.module.scss';
 import CreateObjectLayerModal from '../../../../modules/SymlayersDesigner/CreateObjectLayerModal/index';
-import { setObjectsConnectionsModal, setCreateObjectModal } from '../../../../data/actions/universes';
+import { setObjectsConnectionsModal } from '../../../../data/actions/universes';
 import {
   setIsShowingContexts,
   setIsShowingLinks
@@ -78,13 +78,6 @@ const SemanticActions = () => {
           </div>
         );
       })}
-      <button 
-        type='button' 
-        style={{marginLeft: '20px'}}
-        onClick={() => dispatch(setCreateObjectModal(true))}
-      >
-        создать
-      </button>
       {isCreateObjectModalOpened && (
         <CreateObjectLayerModal visible={isCreateObjectModalOpened && true} />
       )}
