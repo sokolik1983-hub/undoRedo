@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'formik';
+import { Field, useFormikContext } from 'formik';
 import ModalItem from '..';
 import Button from '../../../../../common/components/Button';
 import CheckboxField from '../../../../../common/components/formikFields/checkboxField';
@@ -15,6 +15,8 @@ import {
 import styles from './valueListConnectionBlock.module.scss';
 
 const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames }) => {
+  const formikProps = useFormikContext();
+
   const options = [
     { value: PUBLIC, text: PUBLIC },
     { value: CONTROLLED, text: CONTROLLED },
@@ -22,6 +24,10 @@ const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames }) => {
     { value: CONFIDENTIAL, text: CONFIDENTIAL },
     { value: PRIVATE, text: PRIVATE }
   ];
+
+  useEffect(() => {
+    formikProps.setFieldValue(name[1], PUBLIC);
+  }, []);
 
   const handleClick = e => {
     e.preventDefault();

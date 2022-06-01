@@ -38,7 +38,8 @@ const SchemaEditorBlock = ({
   isHighlight,
   selectedTableFullName,
   onDeleteTable,
-  tableItem
+  tableItem,
+  onFieldDragStart,
 }) => {
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
@@ -165,15 +166,7 @@ const SchemaEditorBlock = ({
 
             {filterableFields.map((item, index) => (
               // eslint-disable-next-line react/no-array-index-key
-              <li
-                className={
-                  item.colored && isHighlight
-                    ? styles.itemHighlited
-                    : styles.item
-                }
-                // eslint-disable-next-line react/no-array-index-key
-                key={item.field + item.type + index}
-              >
+              <li className={item.colored && isHighlight ? styles.itemHighlited : styles.item} key={item.field + item.type + index} draggable onDragStart={e => onFieldDragStart(e, item.field)}>
                 {item.field}
               </li>
             ))}

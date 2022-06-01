@@ -112,11 +112,10 @@ function SymlayersDesigner() {
           <div
             className={styles.tables}
             onDrop={e => {
-              handleSelectTable(JSON.parse(e.dataTransfer.getData('item')), e);
+            if(e.dataTransfer.getData("item")) 
+              handleSelectTable(JSON.parse(e.dataTransfer.getData("item")), e)
             }}
-            onDragOver={e => {
-              e.preventDefault();
-            }}
+            onDragOver={(e) => {e.preventDefault()}}
           >
             <SchemaTables tables={checked} onDeleteTable={handleDeleteTable} />
           </div>
