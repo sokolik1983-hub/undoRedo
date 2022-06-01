@@ -2,6 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
+/* eslint-disable */
 import React, {
   useContext,
   useEffect,
@@ -10,7 +11,7 @@ import React, {
   useState
 } from 'react';
 import lodash from 'lodash';
-
+import styles from './SchemaTables.module.scss'
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
@@ -193,14 +194,18 @@ const Provided = props => {
           <MapIcon />
         </IconButton>
       </Tooltip>
-      <Tooltip overlay="отдалить">
-        <IconButton onClick={mul < 0.10881882041201538 ? null : () => handleZoomCenter(-100)}>
-          <Minus />
-        </IconButton>
-      </Tooltip>
       <Tooltip overlay="масштаб всего семантического слоя">
         <IconButton onClick={handleZoomDefault}>
           <ZoomOutMapIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip overlay="отдалить">
+        <IconButton
+          onClick={
+            mul < 0.10881882041201538 ? null : () => handleZoomCenter(-100)
+          }
+        >
+          <Minus />
         </IconButton>
       </Tooltip>
       <Tooltip overlay="приблизить">
@@ -208,10 +213,6 @@ const Provided = props => {
           <Plus />
         </IconButton>
       </Tooltip>
-      <span>
-        {Math.round((mul / 1) * 100)}
-        %
-      </span>
     </div>
   );
 
@@ -357,6 +358,7 @@ const Provided = props => {
       >
         {renderZoomBtn()}
         <RNDZone>{renderContent()}</RNDZone>
+        <div className={styles.scaleValueWrapper}>{Math.round((mul / 1) * 100)}%</div>
       </div>
 
       {showMinimap && (
