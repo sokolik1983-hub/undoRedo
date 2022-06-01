@@ -1,11 +1,11 @@
-import ConnectorsListNavigationActions from '../ConnectorsListNavigationActions/ConnectorsListNavigationActions';
+import RecycleBinListNavigationActions from '../RecycleBinListNavigationActions/RecycleBinListNavigationActions';
 import TextInput from '../../../../common/components/TextInput';
 import ConnectorsListNavigationViewToggler from '../ConnectorsListNavigationViewToggler/ConnectorsListNavigationViewToggler';
 import Search from '../../../../common/components/Search';
 import { useConnectorsListData } from '../../context/connectorsList';
-import styles from './ConnectorsListNavigation.module.scss';
+import styles from './RecycleBinListNavigation.module.scss';
 
-const ConnectorsListNavigation = () => {
+const RecycleBinListNavigation = () => {
   const {
     moveToRootFolder,
     moveToPrevFolder,
@@ -21,7 +21,7 @@ const ConnectorsListNavigation = () => {
   return (
     <div className={styles.navigation}>
       <div className={styles.navigationActions}>
-        <ConnectorsListNavigationActions
+        <RecycleBinListNavigationActions
           onPrevClick={moveToPrevFolder}
           onNextClick={moveToNextFolder}
           onUpClick={moveToRootFolder}
@@ -47,4 +47,4 @@ const ConnectorsListNavigation = () => {
   );
 };
 
-export default ConnectorsListNavigation;
+export default RecycleBinListNavigation;

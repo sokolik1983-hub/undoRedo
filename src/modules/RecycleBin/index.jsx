@@ -5,7 +5,7 @@ import { PAGE } from '../../common/constants/pages';
 import { clearTrash, restoreTrashItem } from '../../data/actions/trash';
 // import FilterPanel from './FilterPanel';
 import { setCurrentPage } from '../../data/reducers/ui';
-import ConnectorsList from './ConnectorsList/ConnectorsList';
+import RecycleBinList from './ConnectorsList/RecycleBinList';
 // import Tooltip from '../../common/components/Tooltip/index';
 import styles from './RecycleBin.module.scss';
 
@@ -55,7 +55,7 @@ function RecycleBin() {
         Очистить корзину
       </Button>
 
-      <ConnectorsList onRestore={handleRestore} />
+      <RecycleBinList onRestore={handleRestore} />
 
       {/* <Table
         headersArr={trashTableHeadersArr}
