@@ -108,7 +108,7 @@ function ReportDesigner() {
 
   useEffect(async () => {
     await dispatch(getStreamReceiever({ fileName: 'test.js' }));
-   await dispatch(getReportStructure({ report_id: 'R1' }));
+    await dispatch(getReportStructure({ report_id: 'R1' }));
     await dispatch(getVariables());
   }, []);
 
@@ -135,8 +135,10 @@ function ReportDesigner() {
 
   function handleAddBlock(event) {
     event.stopPropagation();
-    // TODO change to new store
+    console.log(reportDesigner.reportsUi.ui.creatingElement, 'asd');
+    // TODO change to new store adding element
     // if (reportDesigner.reportsUi.ui.creatingElement) {
+    //   debugger
     //   const newStructure = [
     //     ...currentReport.structure,
     //     {

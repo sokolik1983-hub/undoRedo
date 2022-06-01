@@ -5,38 +5,28 @@ import Cell from '../../../Cell';
 import styles from './TableHeader.module.scss';
 
 const TableHeader = ({ data, displayMode, reportData, ...props }) => {
-  const { dpData, dpObjects } = reportData;
-
-  const renderData = item => {
-    const expressionObject = find(
-      dpObjects,
-      it => item?.expression?.parsedFormula.indexOf(it.id) > -1
-    );
-
-    return expressionObject?.name;
+  const renderCells = () => {
+    return data?.map(zone => {
+      return (
+        <tr>
+          {zone?.cells?.map(item => {
+            return (
+              <th key={item.id}>
+                <Cell
+                  displayMode={displayMode}
+                  blockStyles={item.styles}
+                  structureItem={item}
+                  id={item.id}
+                />
+              </th>
+            );
+          })}
+        </tr>
+      );
+    });
   };
 
-  const renderFormula = () => {
-    return (
-      <tr>
-        {data?.cells?.map(item => {
-          return (
-            <th key={item.id}>
-              <Cell
-                blockStyles={item.styles}
-                structureItem={item}
-                id={item.id}
-              />
-            </th>
-          );
-        })}
-      </tr>
-    );
-  };
-
-  return (
-    <thead>{displayMode === 'Formula' ? renderFormula() : renderData()}</thead>
-  );
+  return <thead>{renderCells()}</thead>;
 };
 
 export default TableHeader;
