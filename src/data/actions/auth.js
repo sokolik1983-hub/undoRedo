@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import { request, requestWithoutResponse } from '../helpers';
 import { login, logout } from '../reducers/auth';
 
@@ -31,5 +32,19 @@ export const logoutUser = () => {
     localStorage.removeItem('isAuth');
     localStorage.removeItem('token');
     dispatch(logout());
+  };
+};
+
+export const refreshUserSession = queryParams => {
+  return async dispatch => {
+    const response = await requestWithoutResponse({
+      code: 'CMS.ALIVE',
+      params: queryParams,
+      dispatch
+    });
+    if (response) {
+      return null;
+    }
+    return null;
   };
 };
