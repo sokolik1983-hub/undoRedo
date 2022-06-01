@@ -27,13 +27,24 @@ import Tooltip from '../../../common/components/Tooltip';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
-  const trash = useSelector(state => state.app.trash.items);
-  const trashRootFolderId = useSelector(state => state.app.trash.trashFolderId); 
+
+  const trashOther = useSelector(state => state.app.trash.trash);
+  const trashCon = useSelector(state => state.app.trash.connectorTrash);
+  const trashRep = useSelector(state => state.app.trash.reportTrash)
+
+  const trashConRootFolderId = useSelector(state => state.app.trash.trashConFolderId); 
+  const trashRepRootFolderId = useSelector(state => state.app.trash.trashRepFolderId); 
+
+  const trashOtherIsLoad = useSelector(state => state.app.trash.otherTrashIsLoad);
+  const trashConIsLoad = useSelector(state => state.app.trash.connectorTrashIsLoad);
+  const trashRepIsLoad = useSelector(state => state.app.trash.reportTrashIsLoad);
 
   useEffect(() => {
-    dispatch(getTrashFolderId({folderType: 'USER_CN_REC_BIN'}));
+    dispatch(getTrashFolderId({folderType: 'USER_CN_REC_BIN'}, 'CN'));
+    dispatch(getTrashFolderId({folderType: 'USER_REP_REC_BIN'}, 'REP'));
   }, []);
 
+  const [trash, setTrash] = useState([]);
   const [foldersIdHistory, setFoldersIdHistory] = useState([]);
   const [foldersNameHistory, setFoldersNameHistory] = useState([]);
   const [sortedItems, setSortedItems] = useState([]);
@@ -48,32 +59,41 @@ const ConnectorsList = () => {
   const [editListItemId, setEditListItemId] = useState();
 
   const goToRootFolder = () => {
-    dispatch(getTrashFolderChildren({id: trashRootFolderId}));
-    setFoldersIdHistory([trashRootFolderId]);
+    dispatch(getTrashFolderChildren({id: trashConRootFolderId}, 'CN'));
+    dispatch(getTrashFolderChildren({id: trashRepRootFolderId}, 'REP'));
+    setFoldersIdHistory([]);
     setFoldersNameHistory([BREADCRUMBS_ROOT]);
     setCurrentFolderIndex(0);
   };
 
   useEffect(() => {
-    if (trash) {
-      setSortedItems(trash.list);
+    if (trash.length) {
+      setSortedItems(trash);
     }
   }, [trash]);
 
   useEffect(() => {
-    if (currentFolderIndex === 0 && trashRootFolderId) {
+    setTrash([]);
+    if (trashConIsLoad && trashRepIsLoad) {
+      setTrash([...trashCon, ...trashRep]);
+    } else if (trashOtherIsLoad) {
+      setTrash([...trashOther]);
+    }
+  }, [trashOtherIsLoad, trashConIsLoad, trashRepIsLoad]);
+
+  useEffect(() => {
+    if (currentFolderIndex === 0 && trashConRootFolderId && trashRepRootFolderId) {
       goToRootFolder();
-    } else if (trashRootFolderId) {
+    } else if (currentFolderIndex !== 0) {
       dispatch(getTrashFolderChildren({id: foldersIdHistory[currentFolderIndex]}));
     }
   }, [currentFolderIndex])
     
   useEffect(() => {
-    console.log(trashRootFolderId)
-    if (trashRootFolderId) {
+    if (trashConRootFolderId && trashRepRootFolderId) {
       goToRootFolder();
     } 
-  }, [trashRootFolderId])
+  }, [trashConRootFolderId, trashRepRootFolderId])
 
   useEffect(() => {
     setActionButtonIsDisable({

@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { request } from '../helpers';
 import { notificationShown } from '../reducers/notifications';
-import { setTrash, setTrashFolderId } from '../reducers/trash';
+import { setTrash, setConnectorTrash, setReportTrash, setTrashConFolderId, setTrashRepFolderId } from '../reducers/trash';
 
 export const getTrashEvents = queryParams => {
   return async dispatch => {
@@ -22,7 +22,7 @@ export const getTrashEvents = queryParams => {
   };
 };
 
-export const getTrashFolderChildren = queryParams => {
+export const getTrashFolderChildren = (queryParams, trashType) => {
   return async dispatch => {
     try {
       const response = await request({
@@ -31,7 +31,17 @@ export const getTrashFolderChildren = queryParams => {
         dispatch
       }); 
       if (response?.result) {
-        dispatch(setTrash(response.data));
+        switch (trashType) {
+          case 'CN' :
+            dispatch(setConnectorTrash(response.data.list));
+            break;
+          case 'REP' :
+            dispatch(setReportTrash(response.data.list));
+            break;
+          default :
+            dispatch(setTrash(response.data.list))
+            break;
+        }
       }
     } catch (err) {
       dispatch(
@@ -41,7 +51,7 @@ export const getTrashFolderChildren = queryParams => {
   }
 }
 
-export const getTrashFolderId = queryParams => {
+export const getTrashFolderId = (queryParams, trashType) => {
   return async dispatch => {
     try {
       const response = await request({
@@ -50,7 +60,22 @@ export const getTrashFolderId = queryParams => {
         dispatch
       });
       if (response?.result) {
-        dispatch(setTrashFolderId(response.id));
+        switch (trashType) {
+          case 'CN' :
+            dispatch(setTrashConFolderId(response.id));
+            break;
+          case 'REP' :
+            dispatch(setTrashRepFolderId(response.id));
+            break;
+          default :
+            break;
+        }
+        // if (trashType === 'CN') {
+        //   dispatch(setTrashConFolderId(response.id));
+        // }
+        // if (trashType === 'REP') {
+        //   dispatch(setTrashRepFolderId(response.id));
+        // }
       }
     } catch (err) {
       dispatch(

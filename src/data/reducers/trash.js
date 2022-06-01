@@ -9,7 +9,9 @@ const trash = createSlice({
       { id: 'type_name', name: 'Тип', show: true, order: 2 },
       { id: 'name', name: 'Имя', show: true, order: 3 }
     ],
-    items: [],
+    trash: [],
+    connectorTrash: [],
+    reportTrash: [],
     searchString: '',
     ui: {
       showFilterPanel: false
@@ -17,7 +19,11 @@ const trash = createSlice({
     filters: {
       time_start: moment(Date.now()).format('DD.MM.YYYY')
     },
-    trashFolderId: 0
+    trashConFolderId: 0,
+    trashRepFolderId: 0,
+    connectorTrashIsLoad: false,
+    reportTrashIsLoad: false,
+    otherTrashIsLoad: false
   },
 
   reducers: {
@@ -25,7 +31,19 @@ const trash = createSlice({
       state.ui.showFilterPanel = !state.ui.showFilterPanel;
     },
     setTrash: (state, action) => {
-      state.items = action.payload;
+      state.trash = action.payload;
+      state.otherTrashIsLoad = true;
+      state.reportTrash = false;
+      state.connectorTrash = false;
+    },
+    setConnectorTrash: (state, action) => {
+      state.connectorTrash = action.payload;
+      state.otherTrashIsLoad = false;
+      state.connectorTrashIsLoad = true;
+    },
+    setReportTrash: (state, action) => {
+      state.reportTrash = action.payload;
+      state.reportTrashIsLoad = true;
     },
     setColumns: (state, action) => {
       state.columns = action.payload;
@@ -33,8 +51,11 @@ const trash = createSlice({
     setSearchString: (state, action) => {
       state.searchString = action.payload;
     }, 
-    setTrashFolderId: (state, action) => {
-      state.trashFolderId = action.payload;
+    setTrashConFolderId: (state, action) => {
+      state.trashConFolderId = action.payload;
+    },
+    setTrashRepFolderId: (state, action) => {
+      state.trashRepFolderId = action.payload;
     }
   }
 });
@@ -42,9 +63,12 @@ const trash = createSlice({
 export const {
   setSearchString,
   setTrash,
+  setConnectorTrash,
+  setReportTrash,
   setColumns,
   showFilterPanel,
-  setTrashFolderId
+  setTrashConFolderId,
+  setTrashRepFolderId,
 } = trash.actions;
 
 export default trash.reducer;
