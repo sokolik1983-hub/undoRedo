@@ -4,6 +4,8 @@ import { setLoadingData } from './reducers/ui';
 import { SERVER_API_URL } from '../common/constants/config';
 // eslint-disable-next-line import/no-cycle
 import { notificationShown } from './reducers/notifications';
+// eslint-disable-next-line import/no-cycle
+import { refreshUserSession } from './actions/auth';
 
 const PENDING_SERVER_TIMER = 100;
 const ATTEMPTS = 5;
@@ -87,44 +89,9 @@ const requesterTimeout = ({ id, dispatch }) => {
   });
 }
 
-
-// обычный запрос, в ответ на который мы получаем id запроса
-// для получения данных по запросу, надо отправить новый запрос с указанием id
-// для такого повторного запроса есть функция requestReady
-export const request = async ({ params, code, streamreceiver, dispatch }) => {
-  const token = localStorage.getItem('token');
-
-  try {
-    dispatch(setLoadingData(true));
-    const response = await axios({
-      method: 'post',
-      url: `${SERVER_API_URL}`,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      data: `code=${code}&token=${encodeURI(token) || null}&format=JSON&params=${params ? JSON.stringify(params) : ''}&streamreceiver=${streamreceiver || null}`
-    });
-    if (response && response.status === 200) {
-      return requesterTimeout({id: response.data, dispatch});
-    }
-  } catch (err) {
-    dispatch(
-      notificationShown({
-        message: err.message,
-        messageType: 'error',
-        reason: 'Возможно не прошли авторизацию',
-        advice: 'Нажать кнопку выход и авторизоваться'
-      })
-    );
-    dispatch(setLoadingData(false));
-  }
-
-  return null;
-};
-
-
 // запросы в одну сторону, на которые не ждем ответ
-export const requestWithoutResponse = async ({ params, code, token, dispatch }) => {
+export const requestWithoutResponse = async ({ params, code, dispatch }) => {
+  const token = localStorage.getItem('token')
   try {
     const response = await axios({
       method: 'post',
@@ -146,6 +113,41 @@ export const requestWithoutResponse = async ({ params, code, token, dispatch }) 
       reason: 'Сервер не отвечает',
       advice: 'Обратиттесь к системному администратору' }));
   }
+  return null;
+};
+
+
+// обычный запрос, в ответ на который мы получаем id запроса
+// для получения данных по запросу, надо отправить новый запрос с указанием id
+// для такого повторного запроса есть функция requestReady
+export const request = async ({ params, code, streamreceiver, dispatch }) => {
+  const token = localStorage.getItem('token');
+  try {
+    dispatch(setLoadingData(true));
+    const response = await axios({
+      method: 'post',
+      url: `${SERVER_API_URL}`,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      data: `code=${code}&token=${encodeURI(token) || null}&format=JSON&params=${params ? JSON.stringify(params) : ''}&streamreceiver=${streamreceiver || null}`
+    });
+    if (response && response.status === 200) {
+      dispatch(refreshUserSession({token}));
+      return requesterTimeout({id: response.data, dispatch});
+    }
+  } catch (err) {
+    dispatch(
+      notificationShown({
+        message: err.message,
+        messageType: 'error',
+        reason: 'Возможно не прошли авторизацию',
+        advice: 'Нажать кнопку выход и авторизоваться'
+      })
+    );
+    dispatch(setLoadingData(false));
+  }
+
   return null;
 };
 
