@@ -7,61 +7,28 @@ import { find, findIndex } from 'lodash';
 import Cell from '../../../Cell';
 
 const TableBody = ({ data, reportData, displayMode, variables, ...props }) => {
-  // console.log(props);
-  const { dpData, dpObjects } = reportData;
-
-  const renderFormula = () => {
-    return (
-      <tr>
-        {data?.cells?.map(item => {
-          return (
-            <th key={item.id}>
-              <Cell
-                blockStyles={item.style}
-                structureItem={item}
-                id={item.id}
-              />
-            </th>
-          );
-          // <th key={item.id}>{item?.expression?.formula}</th>;
-        })}
-      </tr>
-    );
-  };
-
-  const renderData = () => {
-    return dpData?.map(row => {
+  const renderCells = () => {
+    return data?.map(zone => {
       return (
-        <tr key={row}>
-          {data?.cells?.map(item => {
-            const variable = find(
-              variables,
-              it => it.id === item.expression?.variable_id
-            );
-
-            const expressionObjectIndex = findIndex(
-              dpObjects,
-              it => variable?.parsedFormula.indexOf(it.id) > -1
-            );
-            // debugger;
+        <tr>
+          {zone?.cells?.map(item => {
             return (
-              <th key={item.id}>
-                {expressionObjectIndex && row[expressionObjectIndex + 1]}
-              </th>
+              <td key={item.id}>
+                <Cell
+                  displayMode={displayMode}
+                  blockStyles={item.styles}
+                  structureItem={item}
+                  id={item.id}
+                />
+              </td>
             );
           })}
-          {/*         
-          {row?.map((value, idx) => {
-            return <td key={value}>{value}</td>;
-          })} */}
         </tr>
       );
     });
   };
 
-  return (
-    <tbody>{displayMode === 'Formula' ? renderFormula() : renderData()}</tbody>
-  );
+  return <tbody>{renderCells()}</tbody>;
 };
 
 export default TableBody;

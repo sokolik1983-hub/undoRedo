@@ -13,9 +13,12 @@ const TableContent = ({
   variables,
   ...props
 }) => {
-  const { headerZone, bodyZone, footerZone } = layout;
   const dpData = reportData?.dpData;
   const dpObjects = reportData?.dpObjects;
+
+  const headerZone = layout.zones.filter(item => item.vType === 'header');
+  const bodyZone = layout.zones.filter(item => item.vType === 'body');
+  const footerZone = layout.zones.filter(item => item.vType === 'footer');
 
   return (
     <table style={{ ...blockStyles }}>
