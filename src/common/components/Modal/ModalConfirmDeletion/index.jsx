@@ -1,13 +1,10 @@
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useContext } from 'react';
 import Button from '../../Button';
 import { ReactComponent as WarnIcon } from '../../../../layout/assets/warnIcon.svg';
 import { BUTTON } from '../../../constants/common';
 import { filterSelectedTables } from '../../../../data/actions/schemaDesigner';
 import styles from './ModalConfirmDeletion.module.scss';
-import { SymanticLayerContext } from '../../../../modules/SymlayersDesigner/SchemaTables/context';
-
 
 const ModalConfirmDeletion = ({
   warnTitle,
@@ -15,26 +12,15 @@ const ModalConfirmDeletion = ({
   setDeleteWarningModalOpened, // закрытие модалки подтверждения удаления
   onCloseSchemaEditorBlock, // закрытие родительской модалки ShemaEditorBlock
   selectedTableFullName, // полное название открытой таблицы включая название папки и connector_id
-  isDeleteWarningModalOpened
+  isDeleteWarningModalOpened,
+  onDeleteTable, // метод из первой версии по удалению таблиц
+  tableItem // объект таблицы целиком
 }) => {
   const dispatch = useDispatch();
 
   const globalStateTables = useSelector(
     state => state.app.schemaDesigner.selectedTables
   );
-/// УДАЛЕНИЕ ИЗ СПИСКА ВЫБРАННЫХ ТАБЛИЦ  из SchemaTables - НАЧАЛО
-  const SymanticLayerContextState = useContext(SymanticLayerContext); // Объект из SchemaTables
-  
-  console.log('globalStateTables', globalStateTables); // таблицы в глобальном стейте
-  console.log('tables from context', SymanticLayerContextState[0].tables); // таблицы  в локальном стейте
-  console.log('setTables', SymanticLayerContextState[1].SET_TABLES);
-  
-  // const delTables = () => {
-  //   //  tables[1].SET_TABLES_POSTION([]);
-  //   tables[1].SET_TABLES([]);
-  // };
-  
-/// УДАЛЕНИЕ ИЗ СПИСКА ВЫБРАННЫХ ТАБЛИЦ  из SchemaTables - КОНЕЦ
 
   const filterDeletedTable = tableName => {
     return Object.fromEntries(
@@ -49,11 +35,10 @@ const ModalConfirmDeletion = ({
   };
 
   const deleteTable = tableToDelete => {
-    
+    onDeleteTable(tableItem);
     dispatch(filterSelectedTables(filterDeletedTable(tableToDelete)));
     onCloseSchemaEditorBlock(false);
     onCancel();
-    console.log(' after tables from context', SymanticLayerContextState[0].tables); 
   };
 
   return (
@@ -89,8 +74,10 @@ export default ModalConfirmDeletion;
 ModalConfirmDeletion.propTypes = {
   setDeleteWarningModalOpened: PropTypes.func,
   onCloseSchemaEditorBlock: PropTypes.func,
+  onDeleteTable: PropTypes.func,
   warnTitle: PropTypes.string,
   selectedTableFullName: PropTypes.string,
   warnText: PropTypes.string,
-  isDeleteWarningModalOpened: PropTypes.bool
+  isDeleteWarningModalOpened: PropTypes.bool,
+  tableItem: PropTypes.object
 };

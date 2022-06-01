@@ -449,6 +449,8 @@ const TableComponent = ({
             selectedTableFullName={`${tableItem.schema}_${tableItem.object_name}_${tableItem.object_type_id}_${connect_id}`}
             onTablePreviewClick={handlePopupShow}
             onCloseSchemaEditorBlock={setActiveSchemaEditorBlock}
+            onDeleteTable={onDeleteTable}
+            tableItem={tableItem}
           />
         )}
       </foreignObject>

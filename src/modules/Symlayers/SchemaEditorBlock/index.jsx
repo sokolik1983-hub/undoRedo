@@ -37,6 +37,8 @@ const SchemaEditorBlock = ({
   onCloseSchemaEditorBlock,
   isHighlight,
   selectedTableFullName,
+  onDeleteTable,
+  tableItem
 }) => {
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
@@ -186,6 +188,8 @@ const SchemaEditorBlock = ({
             selectedTableFullName={selectedTableFullName}
             onCloseSchemaEditorBlock={onCloseSchemaEditorBlock}
             isDeleteWarningModalOpened={isDeleteWarningModalOpened}
+            onDeleteTable={onDeleteTable}
+            tableItem={tableItem}
           />,
           document.body
         )}
