@@ -70,12 +70,6 @@ export const getTrashFolderId = (queryParams, trashType) => {
           default :
             break;
         }
-        // if (trashType === 'CN') {
-        //   dispatch(setTrashConFolderId(response.id));
-        // }
-        // if (trashType === 'REP') {
-        //   dispatch(setTrashRepFolderId(response.id));
-        // }
       }
     } catch (err) {
       dispatch(
