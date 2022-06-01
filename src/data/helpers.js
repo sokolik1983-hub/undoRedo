@@ -183,7 +183,7 @@ export const getTableIdFromParams = ({
   return `${schema}_${object_name}_${object_type_id}_${connect_id}`;
 };
 
-export const deepObjectSearch = ({ target, key, value }) => {
+export const deepObjectSearch = ({ target, key, value, parent = null }) => {
   let result = [];
   const keys = Object.keys(target);
   for (let i = 0; i < keys.length; i++) {
@@ -191,14 +191,14 @@ export const deepObjectSearch = ({ target, key, value }) => {
 
     if (typeof target[objectKey] === 'object') {
       result = result.concat(
-        deepObjectSearch({ target: target[objectKey], key, value }) 
+        deepObjectSearch({ target: target[objectKey], key, value, parent: target }) 
       );
     }
     /*eslint-disable */
     if (objectKey !== key) continue;
 
     if(objectKey === key && target[objectKey] === value) {
-      result.push(target)
+      result.push({target, parent})
     }
   }
   return result;
@@ -211,7 +211,13 @@ export const deepObjectSearch = ({ target, key, value }) => {
 //       c: [
 //         {
 //           id: '14'
-//         }
+//         },
+//         {
+//           id: '15'
+//         },
+//         {
+//           id: '16'
+//         },
 //       ]
         
       

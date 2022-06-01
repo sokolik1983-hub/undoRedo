@@ -2697,6 +2697,7 @@ const reportDesigner = createSlice({
       });
     },
     addTableColumn: (state, action) => {
+      
       const report = lodash.find(
         state.reports,
         item => item.id === state.activeReport
@@ -2706,13 +2707,15 @@ const reportDesigner = createSlice({
       //   report.structure,
       //   item =>{ console.log(item.id); return item.id === action.payload.id}
       // );
+
+
       const targ = deepObjectSearch({
         target: report.structure,
         key: 'id',
         value: action.payload.id
       });
 
-      console.log(targ);
+      console.log(report, report.structure, targ);
 
       // reportNode.columns = [...reportNode.columns, action.payload.column];
     },
