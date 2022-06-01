@@ -39,8 +39,8 @@ const PanelListNode = ({ item }) => {
   return (
     <li className={styles.listNode}>
       <PanelListItem
-        name={item?.field}
-        icon={getIconByItemType(item.objectType_id) || <FolderIcon />}
+        name={item?.name}
+        icon={getIconByItemType(item.type) || <FolderIcon />}
         isFolder={item.isFolder}
         draggable
         onDragStart={e => handleDragStart(e, item, DRAG_PARENT_SECTION.TREE)}

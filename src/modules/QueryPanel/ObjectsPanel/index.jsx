@@ -10,6 +10,8 @@ import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList';
 // import { getSymanticLayerData } from '../../../data/actions/universes';
 import { useDragNDrop } from '../context/DragNDropContext';
 import styles from './ObjectsPanel.module.scss';
+import {getCurrentReport} from '../../ReportDesigner/helpers'
+
 
 const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
   // const dispatch = useDispatch();
@@ -24,7 +26,13 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
     styles.root,
     { [styles.report]: report }
   );
+  const reportDesigner = useSelector(state => state.app.reportDesigner);
+  const currentReport = getCurrentReport(
+    reportDesigner.reportsData.present.reports,
+    reportDesigner.reportsData.present.activeReport
+  );
 
+  const {variables} = currentReport
   const {
     // rootFolder,
     filterTypeId,
@@ -61,7 +69,7 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
         onDragOver={handleDragOver}
         onDrop={handleTreeDrop}
       >
-        <ObjectsPanelList rootFolder />
+        <ObjectsPanelList variables={variables} />
       </div>
     </div>
   );

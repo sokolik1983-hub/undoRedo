@@ -16,11 +16,24 @@ export const flat = arr => {
   return result;
 };
 
-export const getIconByItemType = objectTypeId => {
-  switch (objectTypeId) {
-    case 1:
+// export const getIconByItemType = objectTypeId => {
+//   switch (objectTypeId) {
+//     case 1:
+//       return <GaugeIcon />;
+//     case 2:
+//       return <MeasurementIcon />;
+//     case 3:
+//       return <AttributeIcon />;
+//     default:
+//       return null;
+//   }
+// };
+
+export const getIconByItemType = key => {
+  switch (key) {
+    case 'Dimension':
       return <GaugeIcon />;
-    case 2:
+    case 'Measure':
       return <MeasurementIcon />;
     case 3:
       return <AttributeIcon />;
