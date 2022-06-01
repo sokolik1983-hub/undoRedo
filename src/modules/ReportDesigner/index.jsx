@@ -108,7 +108,7 @@ function ReportDesigner() {
 
   useEffect(async () => {
     await dispatch(getStreamReceiever({ fileName: 'testX.js' }));
-    await dispatch(getReportStructure({ report_id: 'R1' }));
+   await dispatch(getReportStructure({ report_id: 'R1' }));
     await dispatch(getVariables());
   }, []);
 

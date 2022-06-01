@@ -4,153 +4,154 @@ import { combineReducers } from 'redux';
 import { createSlice } from '@reduxjs/toolkit';
 import lodash from 'lodash';
 import undoable from 'redux-undo';
+import { deepObjectSearch } from '../helpers';
 
-// const V_TABLE = {
-//   id: 'R1.B.2',
-//   type: 'vTable',
-//   name: 'таблица 1',
-//   size: {
-//     minimalHeight: 10,
-//     autofitWidth: false,
-//     autofitHeight: false
-//   },
-//   position: {
-//     xType: 'Absolute',
-//     yType: 'Absolute',
-//     x: 20,
-//     y: 40
-//   },
-//   content: {
-//     layout: {
-//       headerZone: {
-//         id: 'R1.B.2.H',
-//         shown: true,
-//         cells: [
-//           {
-//             id: 'R1.B.2.H.1',
-//             row: 1,
-//             col: 1,
-//             size: { minimalHeight: 12, minimalWidth: 100 },
-//             style: { font: { size: 12 } },
-//             expression: {
-//               type: 'Const',
-//               dataType: 'String',
-//               formula: 'Тип учредителя'
-//             }
-//           },
-//           {
-//             id: 'R1.B.2.H.2',
-//             row: 1,
-//             col: 2,
-//             size: { minimalWidth: 200 },
-//             style: { font: { size: 12 } },
-//             expression: {
-//               type: 'Const',
-//               dataType: 'String',
-//               formula: 'Наименование учредителя'
-//             }
-//           },
-//           {
-//             id: 'R1.B.2.H.3',
-//             row: 1,
-//             col: 3,
-//             size: { minimalWidth: 90 },
-//             style: { font: { size: 12 } },
-//             expression: {
-//               type: 'Const',
-//               dataType: 'String',
-//               formula: 'Доля(руб)'
-//             }
-//           }
-//         ]
-//       },
-//       bodyZone: {
-//         id: 'R1.B.2.B',
-//         shown: true,
-//         cells: [
-//           {
-//             id: 'R1.B.2.B.1',
-//             row: 1,
-//             col: 1,
-//             size: { minimalHeight: 11 },
-//             style: { font: { size: 10 } },
-//             expression: {
-//               type: 'Dimension',
-//               dataType: 'String',
-//               variable_id: 'DP0.V2',
-//               formula: '=[Тип учредителя]',
-//               parsedFormula: '=[DP0.D2]'
-//             }
-//           },
-//           {
-//             id: 'R1.B.2.B.2',
-//             row: 1,
-//             col: 2,
-//             style: { font: { size: 8 } },
-//             expression: {
-//               type: 'Dimension',
-//               dataType: 'String',
-//               variable_id: 'DP0.V3',
-//               formula: '=[Наименование учредителя]',
-//               parsedFormula: '=[DP0.D3]'
-//             }
-//           },
-//           {
-//             id: 'R1.B.2.B.3',
-//             row: 1,
-//             col: 3,
-//             size: { minimalWidth: 90 },
-//             style: { font: { size: 12 } },
-//             expression: {
-//               type: 'Measure',
-//               dataType: 'Number',
-//               variable_id: 'DP0.V4',
-//               formula: '=[Доля(руб)]',
-//               parsedFormula: '=[DP0.M4]'
-//             }
-//           }
-//         ]
-//       },
-//       footerZone: {
-//         id: 'R1.B.2.F',
-//         shown: false,
-//         cells: [
-//           {
-//             id: 'R1.B.2.F.1',
-//             row: 1,
-//             col: 1,
-//             size: { minimalHeight: 12 },
-//             style: { font: { size: 11 } }
-//           },
-//           {
-//             id: 'R1.B.2.F.2',
-//             row: 1,
-//             col: 2,
-//             style: { font: { size: 11 } },
-//             expression: {
-//               type: 'Const',
-//               dataType: 'String',
-//               formula: 'Сумма:'
-//             }
-//           },
-//           {
-//             id: 'R1.B.2.F.3',
-//             row: 1,
-//             col: 3,
-//             style: { font: { size: 11 } },
-//             expression: {
-//               type: 'Measure',
-//               dataType: 'Number',
-//               variable_id: 'DP0.V4',
-//               formula: '=sum([Доля(руб)])',
-//               parsedFormula: '=SUM([DP0.M4])'
-//             }
-//           }
-//         ]
-//       }
-//     }
-//   }
-// };
+const V_TABLE = {
+  id: 'R1.B.2',
+  type: 'vTable',
+  name: 'таблица 1',
+  size: {
+    minimalHeight: 10,
+    autofitWidth: false,
+    autofitHeight: false
+  },
+  position: {
+    xType: 'Absolute',
+    yType: 'Absolute',
+    x: 20,
+    y: 40
+  },
+  content: {
+    layout: {
+      headerZone: {
+        id: 'R1.B.2.H',
+        shown: true,
+        cells: [
+          {
+            id: 'R1.B.2.H.1',
+            row: 1,
+            col: 1,
+            size: { minimalHeight: 12, minimalWidth: 100 },
+            style: { font: { size: 12 } },
+            expression: {
+              type: 'Const',
+              dataType: 'String',
+              formula: 'Тип учредителя'
+            }
+          },
+          {
+            id: 'R1.B.2.H.2',
+            row: 1,
+            col: 2,
+            size: { minimalWidth: 200 },
+            style: { font: { size: 12 } },
+            expression: {
+              type: 'Const',
+              dataType: 'String',
+              formula: 'Наименование учредителя'
+            }
+          },
+          {
+            id: 'R1.B.2.H.3',
+            row: 1,
+            col: 3,
+            size: { minimalWidth: 90 },
+            style: { font: { size: 12 } },
+            expression: {
+              type: 'Const',
+              dataType: 'String',
+              formula: 'Доля(руб)'
+            }
+          }
+        ]
+      },
+      bodyZone: {
+        id: 'R1.B.2.B',
+        shown: true,
+        cells: [
+          {
+            id: 'R1.B.2.B.1',
+            row: 1,
+            col: 1,
+            size: { minimalHeight: 11 },
+            style: { font: { size: 10 } },
+            expression: {
+              type: 'Dimension',
+              dataType: 'String',
+              variable_id: 'DP0.V2',
+              formula: '=[Тип учредителя]',
+              parsedFormula: '=[DP0.D2]'
+            }
+          },
+          {
+            id: 'R1.B.2.B.2',
+            row: 1,
+            col: 2,
+            style: { font: { size: 8 } },
+            expression: {
+              type: 'Dimension',
+              dataType: 'String',
+              variable_id: 'DP0.V3',
+              formula: '=[Наименование учредителя]',
+              parsedFormula: '=[DP0.D3]'
+            }
+          },
+          {
+            id: 'R1.B.2.B.3',
+            row: 1,
+            col: 3,
+            size: { minimalWidth: 90 },
+            style: { font: { size: 12 } },
+            expression: {
+              type: 'Measure',
+              dataType: 'Number',
+              variable_id: 'DP0.V4',
+              formula: '=[Доля(руб)]',
+              parsedFormula: '=[DP0.M4]'
+            }
+          }
+        ]
+      },
+      footerZone: {
+        id: 'R1.B.2.F',
+        shown: false,
+        cells: [
+          {
+            id: 'R1.B.2.F.1',
+            row: 1,
+            col: 1,
+            size: { minimalHeight: 12 },
+            style: { font: { size: 11 } }
+          },
+          {
+            id: 'R1.B.2.F.2',
+            row: 1,
+            col: 2,
+            style: { font: { size: 11 } },
+            expression: {
+              type: 'Const',
+              dataType: 'String',
+              formula: 'Сумма:'
+            }
+          },
+          {
+            id: 'R1.B.2.F.3',
+            row: 1,
+            col: 3,
+            style: { font: { size: 11 } },
+            expression: {
+              type: 'Measure',
+              dataType: 'Number',
+              variable_id: 'DP0.V4',
+              formula: '=sum([Доля(руб)])',
+              parsedFormula: '=SUM([DP0.M4])'
+            }
+          }
+        ]
+      }
+    }
+  }
+};
 
 export const variableObject = {
   varType: 'DP',
@@ -2401,36 +2402,36 @@ export const reportPageObject = {
     recordsWidth: 25,
     scale: 100
   },
-  structure: {},
-  // structure: {
-  //   pgHeader: {
-  //     id: 'R1.PH',
-  //     type: 'pgHeader',
-  //     name: 'заготовок страницы',
-  //     size: {
-  //       minimalHeight: 10
-  //     }
-  //   },
-  //   pgBody: {
-  //     id: 'R1',
-  //     type: 'pgBody',
-  //     name: 'тело',
-  //     size: {
-  //       minimalHeight: 10
-  //     },
-  //     content: {
-  //       children: [V_TABLE]
-  //     }
-  //   },
-  //   pgFooter: {
-  //     id: 'R1.PF',
-  //     type: 'pgFooter',
-  //     name: 'нижний колонтитул',
-  //     size: {
-  //       minimalHeight: 15
-  //     }
-  //   }
-  // },
+  // structure: {},
+  structure: {
+    pgHeader: {
+      id: 'R1.PH',
+      type: 'pgHeader',
+      name: 'заготовок страницы',
+      size: {
+        minimalHeight: 10
+      }
+    },
+    pgBody: {
+      id: 'R1',
+      type: 'pgBody',
+      name: 'тело',
+      size: {
+        minimalHeight: 10
+      },
+      content: {
+        children: [V_TABLE]
+      }
+    },
+    pgFooter: {
+      id: 'R1.PF',
+      type: 'pgFooter',
+      name: 'нижний колонтитул',
+      size: {
+        minimalHeight: 15
+      }
+    }
+  },
   alerters: []
 };
 
@@ -2557,18 +2558,14 @@ const reportDesigner = createSlice({
       state.reports = action.payload.reports;
     },
     setStructure: (state, action) => {
-     
       const report = lodash.find(
         state.reports,
         item => item.id === state.activeReport
       );
 
-     
-    
       report.structure = action.payload;
     },
     setVariables: (state, action) => {
-   
       const report = lodash.find(
         state.reports,
         item => item.id === state.activeReport
@@ -2647,12 +2644,19 @@ const reportDesigner = createSlice({
         item => item.id === state.activeReport
       );
 
-      const reportNode = lodash.find(
-        report.structure,
-        item => item.id === action.payload.id
-      );
+      // const reportNode = lodash.find(
+      //   report.structure,
+      //   item =>{ console.log(item.id); return item.id === action.payload.id}
+      // );
+      const targ = deepObjectSearch({
+        target: report.structure,
+        key: 'id',
+        value: action.payload.id
+      });
 
-      reportNode.columns = [...reportNode.columns, action.payload.column];
+      console.log(targ);
+
+      // reportNode.columns = [...reportNode.columns, action.payload.column];
     },
     addTableRow: (state, action) => {
       const report = lodash.find(
@@ -2777,8 +2781,7 @@ export const {
   addSortingField,
   setTableVariant,
   addTableRow,
-  addTableValue,
-  
+  addTableValue
 } = reportDesigner.actions;
 
 export const {
