@@ -3,9 +3,9 @@ import IconButton from '../../../../common/components/IconButton';
 import { ReactComponent as ArrowRightIcon } from '../../../../layout/assets/arrow-right.svg';
 import { ReactComponent as ArrowLeftIcon } from '../../../../layout/assets/arrowLeft.svg';
 import { ReactComponent as ArrowUpIcon } from '../../../../layout/assets/arrow-up.svg';
-import styles from './ConnectorsListNavigationActions.module.scss';
+import styles from './RecycleBinListNavigationActions.module.scss';
 
-const ConnectorsListNavigationActions = ({
+const RecycleBinListNavigationActions = ({
   onPrevClick,
   onNextClick,
   onUpClick,
@@ -37,9 +37,9 @@ const ConnectorsListNavigationActions = ({
   );
 };
 
-export default ConnectorsListNavigationActions;
+export default RecycleBinListNavigationActions;
 
-ConnectorsListNavigationActions.propTypes = {
+RecycleBinListNavigationActions.propTypes = {
   onPrevClick: PropTypes.func,
   onNextClick: PropTypes.func,
   onUpClick: PropTypes.func,

@@ -20,20 +20,21 @@ import {
   BREADCRUMBS_ROOT,
   TABLE_CELL_EMPTY_VALUE
 } from '../../../common/constants/common';
-import styles from './ConnectorsList.module.scss';
+import styles from './RecycleBinList.module.scss';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import { getTrashFolderId, getTrashFolderChildren } from '../../../data/actions/trash';
 import Tooltip from '../../../common/components/Tooltip';
+import { ITEM_TYPE } from '../types';
 
-const ConnectorsList = () => {
+const RecycleBinList = () => {
   const dispatch = useDispatch();
 
   const trashOther = useSelector(state => state.app.trash.trash);
   const trashCon = useSelector(state => state.app.trash.connectorTrash);
   const trashRep = useSelector(state => state.app.trash.reportTrash)
 
-  const trashConRootFolderId = useSelector(state => state.app.trash.trashConFolderId); 
-  const trashRepRootFolderId = useSelector(state => state.app.trash.trashRepFolderId); 
+  const trashConRootFolderId = useSelector(state => state.app.trash.trashConFolderId);
+  const trashRepRootFolderId = useSelector(state => state.app.trash.trashRepFolderId);
 
   const trashOtherIsLoad = useSelector(state => state.app.trash.otherTrashIsLoad);
   const trashConIsLoad = useSelector(state => state.app.trash.connectorTrashIsLoad);
@@ -88,11 +89,11 @@ const ConnectorsList = () => {
       dispatch(getTrashFolderChildren({id: foldersIdHistory[currentFolderIndex]}));
     }
   }, [currentFolderIndex])
-    
+
   useEffect(() => {
     if (trashConRootFolderId && trashRepRootFolderId) {
       goToRootFolder();
-    } 
+    }
   }, [trashConRootFolderId, trashRepRootFolderId])
 
   useEffect(() => {
@@ -245,7 +246,7 @@ const ConnectorsList = () => {
         icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
         name={item.name}
         menu={menu}
-        connectType={item.kind || TABLE_CELL_EMPTY_VALUE}
+        connectType={ITEM_TYPE[item.kind] || TABLE_CELL_EMPTY_VALUE}
         symlayerCount={item.drop_dt || TABLE_CELL_EMPTY_VALUE}
       />
     );
@@ -280,4 +281,4 @@ const ConnectorsList = () => {
   );
 };
 
-export default ConnectorsList;
+export default RecycleBinList;
