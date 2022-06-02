@@ -107,8 +107,9 @@ export default ({ children = [], ...props }) => {
         style={{
           transform: `scale(${mul}) translate(${shift.x}px, ${shift.y}px)`
         }}
+        ref={contentRef}
       >
-        <g ref={contentRef}>{children}</g>
+        {children}
       </g>
     </svg>
   );

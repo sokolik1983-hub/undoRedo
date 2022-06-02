@@ -96,7 +96,7 @@ const TreeItem = ({ name, isSchema, table, onSelect, isOpen }) => {
             {isActive && (
               <div className={styles.tableFields}>
                 {selectedTableColumns?.map(col => (
-                  <TreeTableField field={col} />
+                  <TreeTableField field={col} key={Math.random()} />
                 ))}
               </div>
             )}
