@@ -2,6 +2,24 @@
 import { request, requestWithoutResponse } from '../helpers';
 import { login, logout } from '../reducers/auth';
 
+export const refreshUserSession = queryParams => {
+  return async (dispatch, getState) => {
+    const timer = setInterval(async () => {
+      const { isAuth } = getState().app.auth;
+      if (!isAuth) {clearInterval(timer)}
+      const response = await requestWithoutResponse({
+        code: 'CMS.ALIVE',
+        params: queryParams,
+        dispatch
+      });
+      if (response) {
+        return null;
+      }
+      return null;
+    }, 1800000);
+  };
+};
+
 export const loginUser = queryParams => {
   return async dispatch => {
     const response = await request({
@@ -16,6 +34,7 @@ export const loginUser = queryParams => {
         localStorage.setItem('token', response.token)
       }
       dispatch(login(response));
+      dispatch(refreshUserSession(response.token))
     }
   };
 };
@@ -35,16 +54,3 @@ export const logoutUser = () => {
   };
 };
 
-export const refreshUserSession = queryParams => {
-  return async dispatch => {
-    const response = await requestWithoutResponse({
-      code: 'CMS.ALIVE',
-      params: queryParams,
-      dispatch
-    });
-    if (response) {
-      return null;
-    }
-    return null;
-  };
-};

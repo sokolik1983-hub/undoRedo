@@ -4,8 +4,6 @@ import { setLoadingData } from './reducers/ui';
 import { SERVER_API_URL } from '../common/constants/config';
 // eslint-disable-next-line import/no-cycle
 import { notificationShown } from './reducers/notifications';
-// eslint-disable-next-line import/no-cycle
-import { refreshUserSession } from './actions/auth';
 
 const PENDING_SERVER_TIMER = 100;
 const ATTEMPTS = 5;
@@ -133,7 +131,6 @@ export const request = async ({ params, code, streamreceiver, dispatch }) => {
       data: `code=${code}&token=${encodeURI(token) || null}&format=JSON&params=${params ? JSON.stringify(params) : ''}&streamreceiver=${streamreceiver || null}`
     });
     if (response && response.status === 200) {
-      dispatch(refreshUserSession({token}));
       return requesterTimeout({id: response.data, dispatch});
     }
   } catch (err) {
