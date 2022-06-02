@@ -168,7 +168,7 @@ const Reports = () => {
     </div>
   );
 
-  const listItemsWithDropdown = sortedItems?.map(item => {
+  const listItemsWithDropdown = sortedItems?.filter(item => item.name !== 'Корзина').map(item => {
     const isFolder = item.kind === 'FLD';
 
     const currentId = item.id;
@@ -203,7 +203,7 @@ const Reports = () => {
   const tableHeader = connectorsTableHeader.map(i => (
     <th key={i.name}>{i.name}</th>
   ));
-  const tableRows = sortedItems?.map(item => {
+  const tableRows = sortedItems?.filter(item => item.name !== 'Корзина').map(item => {
     const isFolder = item.kind === 'FLD';
 
     const currentId = isFolder ? `folder_${item.id}` : item.id;
