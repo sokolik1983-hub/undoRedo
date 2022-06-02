@@ -3,13 +3,18 @@ import PropTypes from 'prop-types';
 import PanelListItem from '../PanelListItem/PanelListItem';
 import { ReactComponent as FolderIcon } from '../../../../../layout/assets/folderIcon.svg';
 import { ReactComponent as FolderOpenIcon } from '../../../../../layout/assets/folderOpenIcon.svg';
-import { useDragNDrop } from '../../../context/DragNDropContext';
+
 import { getIconByItemType } from '../../../queryPanelHelper';
 import { DRAG_PARENT_SECTION } from '../../../../../common/constants/common';
 import styles from './PanelListNode.module.scss';
 
 const PanelListNode = ({ item }) => {
-  const { handleDragStart } = useDragNDrop();
+  const handleDragStart = (e, obj) => {
+    e.stopPropagation();
+    e.dataTransfer.setData('text', JSON.stringify(obj));
+    e.dataTransfer.setDragImage(e.target, -10,10)
+  };
+
   const [isOpen, setIsOpen] = useState(false);
 
   const hasChildren = !!item?.children?.length;

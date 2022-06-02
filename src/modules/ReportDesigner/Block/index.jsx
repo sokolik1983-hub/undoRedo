@@ -73,7 +73,7 @@ function Block({
         return (
           <Cell
             blockStyles={blockProps.styles}
-            structureItem={structureItem}
+            structureItem={structureItem.content}
             id={id}
             refContent={refContent}
           />

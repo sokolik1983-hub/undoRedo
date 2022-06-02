@@ -328,8 +328,8 @@ function DataTable({
     <div
       className={styles['table-container']}
       ref={refContent}
-      onDrop={handleDropObject}
-      onDragOver={allowDrop}
+      // onDrop={handleDropObject}
+      // onDragOver={allowDrop}
     >
       {structureItem?.columns?.length === 0 && (
         <div
