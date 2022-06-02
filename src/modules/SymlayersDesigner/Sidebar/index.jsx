@@ -39,6 +39,7 @@ function Sidebar({ onSelect }) {
   const [searchValue, setSearchValue] = useState('');
   // eslint-disable-next-line no-unused-vars
   const [tables, setTables] = useState(selectedTables);
+  const [selectObjectLayer, setSelectObjectLayer] = useState('');
 
   const connectorObjects = useSelector(
     state => state.app.schemaDesigner.connectorObjects
@@ -48,6 +49,13 @@ function Sidebar({ onSelect }) {
     state => state.app.schemaDesigner.objectsLayerList
   );
 
+  const handleSelectObjectLayer = id => {
+    setSelectObjectLayer(id);
+    if (id === selectObjectLayer) {
+      setSelectObjectLayer('');
+    }
+  }
+
   const handleCollapse = () => {
     setCollapsed(prev => !prev);
   };
@@ -56,8 +64,8 @@ function Sidebar({ onSelect }) {
     setActiveTab(value);
   };
 
-  const handleObjectDrop = (e, fieldName) => {
-    dispatch(setCreateObjectModal(e, fieldName));
+  const handleObjectDrop = () => {
+    dispatch(setCreateObjectModal(true));
   };
 
   useEffect(() => {
@@ -236,7 +244,7 @@ function Sidebar({ onSelect }) {
                 (
                   <div className={styles.objectsData}>
                     {objectsLayers.map(object => (
-                      <ObjectLayer field={object} />
+                      <ObjectLayer field={object} active={selectObjectLayer === object.id} onSelect={handleSelectObjectLayer} />
                     ))}
                   </div>
                 )}

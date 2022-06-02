@@ -174,3 +174,8 @@ export const setConfirmModal = (open) => {
 export const setCreateObjectModal = (open) => {
   return dispatch => dispatch(open ? showCreateObjectModal() : closeCreateObjectModal());
 };
+
+export const setEditObjectModal = (object) => {
+  return dispatch => dispatch(object ? showCreateObjectModal() : closeCreateObjectModal());
+};
+

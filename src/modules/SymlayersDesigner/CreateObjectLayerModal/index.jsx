@@ -16,7 +16,7 @@ import { setCreateObjectModal } from '../../../data/actions/universes';
 import { CREATE_OBJECT_MODAL_VALUES } from './createObjectModalConstants';
 
 import styles from './CreateObjectLayerModal.module.scss';
-import { setObjectsLayerList } from '../../../data/reducers/schemaDesigner';
+import { addObjectLayer } from '../../../data/reducers/schemaDesigner';
 
 const createObjectModalValues = {
   [CREATE_OBJECT_MODAL_VALUES.NAME]: '',
@@ -68,7 +68,7 @@ const CreateObjectLayerModal = ({ visible }) => {
       initialValues={createObjectModalValues}
       onSubmit={(values, event) => {
         handleClose();
-        dispatch(setObjectsLayerList(values));
+        dispatch(addObjectLayer({...values, id: `objLay_${Date.now()}`}));
         event.preventDefault();
         window.location.pathname = '/Universe/symlayers/create';
       }}

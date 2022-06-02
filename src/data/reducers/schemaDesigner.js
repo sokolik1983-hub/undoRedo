@@ -79,8 +79,20 @@ const schemaDesigner = createSlice({
         return link;
       });
     },
-    setObjectsLayerList: (state, action) => {
+    addObjectLayer: (state, action) => {
       state.objectsLayerList = [...state.objectsLayerList, action.payload];
+    },
+    deleteObjectLayer: (state, action) => {
+      const id = action.payload;
+      state.objectsLayerList = state.objectsLayerList.filter(object => object.id !== id);
+    },
+    setObjectLayer: (state, action) => {
+      state.objectsLayerList = state.objectsLayerList.map(object => {
+        if (object.id === action?.payload.id) {
+          object = action?.payload; 
+        }
+        return object;
+      });
     },
     setContexts: (state, action) => {
       state.contexts = [...state.contexts, ...action.payload];
@@ -114,7 +126,8 @@ export const {
   addLink,
   setLinks,
   setLink,
-  setObjectsLayerList,
+  addObjectLayer,
+  deleteObjectLayer,
   setContexts,
   unsetTablePreviewData,
   setColoredValue,
