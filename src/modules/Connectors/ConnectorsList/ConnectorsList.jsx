@@ -23,11 +23,12 @@ import styles from './ConnectorsList.module.scss';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import Tooltip from '../../../common/components/Tooltip';
 import { getConnectorFolderChildren, getConnectorsFolderId } from '../../../data/actions/connectors';
+import { FOLDER_TYPE } from './types';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
   const connectors = useSelector(state => state.app.data.connectors);
-  const connectorRootFolderId = useSelector(state => state.app.data.connectorsFolderId); 
+  const connectorRootFolderId = useSelector(state => state.app.data.connectorsFolderId);
 
   useEffect(() => {
     dispatch(getConnectorsFolderId({folderType: 'USER_CN'}));
@@ -66,11 +67,11 @@ const ConnectorsList = () => {
       dispatch(getConnectorFolderChildren({id: foldersIdHistory[currentFolderIndex]}));
     }
   }, [currentFolderIndex])
-    
+
   useEffect(() => {
       if (connectorRootFolderId) {
         goToRootFolder();
-      } 
+      }
   }, [connectorRootFolderId])
 
   useEffect(() => {
@@ -170,7 +171,7 @@ const ConnectorsList = () => {
     </div>
   );
 
-  const listItemsWithDropdown = sortedItems?.filter(item => item.name !== 'Корзина').map(item => {
+  const listItemsWithDropdown = sortedItems?.filter(item => item.name !== FOLDER_TYPE.RECYCLE_BIN).map(item => {
     const isFolder = item.kind === 'FLD';
 
     const currentId = item.id;
@@ -205,7 +206,7 @@ const ConnectorsList = () => {
     <th key={i.name}>{i.name}</th>
   ));
 
-  const tableRows = sortedItems?.filter(item => item.name !== 'Корзина').map(item => {
+  const tableRows = sortedItems?.filter(item => item.name !== FOLDER_TYPE.RECYCLE_BIN).map(item => {
     const isFolder = item.kind === 'FLD';
 
     const currentId = isFolder ? `folder_${item.id}` : item.id;
