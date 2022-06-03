@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+import { delay } from 'lodash';
 import { REDIRECT_LINKS } from '../../common/constants/common';
 import { request, requestWithoutResponse } from '../helpers';
 import { login, logout } from '../reducers/auth';
@@ -24,21 +26,24 @@ export const logoutUser = () => {
   return async dispatch => {
     await requestWithoutResponse({
       code: 'REP.REBOOT',
+      token: localStorage.getItem('token'),
       params: {
         token: localStorage.getItem('token')
       },
       dispatch
     });
-    await requestWithoutResponse({
-      code: 'CMS.UNLOGIN',
-      token: localStorage.getItem('token'),
-      params: null,
-      dispatch
-    });
-    localStorage.removeItem('userInfo');
-    localStorage.removeItem('isAuth');
-    localStorage.removeItem('token');
-    dispatch(logout());
-    window.location.pathname = REDIRECT_LINKS.LOGIN_PAGE;
+    delay(async () => {
+      await requestWithoutResponse({
+        code: 'CMS.UNLOGIN',
+        token: localStorage.getItem('token'),
+        params: null,
+        dispatch
+      });
+      localStorage.removeItem('userInfo');
+      localStorage.removeItem('isAuth');
+      localStorage.removeItem('token');
+      dispatch(logout());
+      window.location.pathname = REDIRECT_LINKS.LOGIN_PAGE;
+    }, 3000);
   };
 };

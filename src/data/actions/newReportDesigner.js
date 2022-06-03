@@ -8,6 +8,7 @@ export const refreshServerResponse = queryParams => {
   return async dispatch => {
     await request({
       code: 'REP.REBOOT',
+      token: localStorage.getItem('token'),
       params: queryParams,
       dispatch
     });
@@ -31,18 +32,40 @@ export const getStreamReceiever = queryParams => {
 
 export const getReportStructure = queryParams => {
   return async dispatch => {
-    dispatch(setStructure(REP_GET_REPORT_STRUCTURE.structure));
+    // dispatch(setStructure(REP_GET_REPORT_STRUCTURE.structure));
 
-    // const response = await request({
-    //   code: 'REP.GET_REPORT_STRUCTURE',
-    //   params: queryParams,
-    //   dispatch
-    // });
-    // if (response) {
-    //   if (response.result === true) {
-    //     dispatch(setStructure(response.structure));
-    //   }
-    // }
+    const response = await request({
+      code: 'REP.GET_REPORT_STRUCTURE',
+      params: queryParams,
+      dispatch
+    });
+    if (response) {
+      if (response.result === true) {
+        dispatch(setStructure(response.structure));
+      }
+    }
+  };
+};
+
+export const setReportStructure = queryParams => {
+  //   code:REP.SET_STRUCTURE
+  // token:{{lastToken}}
+  // params:{"report_id": "R1", "structure": {"pgFooter":{"id":"test_id","name":"нижний колонтитул","size":{"minimalHeight":15},"type":"pgFooter"}}↵ }
+  // streamreceiver:{{lastThread}}
+
+  return async dispatch => {
+    // dispatch(setStructure(REP_GET_REPORT_STRUCTURE.structure));
+
+    const response = await request({
+      code: 'REP.SET_STRUCTURE',
+      params: queryParams,
+      dispatch
+    });
+    if (response) {
+      if (response.result === true) {
+        dispatch(getReportStructure({ report_id: queryParams.report_id }));
+      }
+    }
   };
 };
 
@@ -68,19 +91,19 @@ export const getElementData = (queryParams, callback) => {
 
 export const getVariables = () => {
   return async dispatch => {
-    dispatch(setVariables(REP_GET_VARIABLES.variables));
+    // dispatch(setVariables(REP_GET_VARIABLES.variables));
 
-    // const response = await request({
-    //   code: 'REP.GET_VARIABLES',
-    //   params: {},
-    //   dispatch
-    // });
+    const response = await request({
+      code: 'REP.GET_VARIABLES',
+      params: {},
+      dispatch
+    });
 
-    // if (response) {
-    //   if (response.result === true) {
-    //     dispatch(setVariables(response.variables));
-    //   }
-    // }
+    if (response) {
+      if (response.result === true) {
+        dispatch(setVariables(response.variables));
+      }
+    }
   };
 };
 

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import lodash from 'lodash';
+import lodash, { cloneDeep, find } from 'lodash';
 
 import TuneIcon from '@material-ui/icons/Tune';
 import BrushIcon from '@material-ui/icons/Brush';
@@ -26,7 +26,7 @@ import {
   setConfigPanelVisible,
   setStructure,
   setTableStyle,
-  setTableVariant,
+  // setTableVariant,
   sortingObject
 } from '../../../data/reducers/reportDesigner';
 import ObjectsList from './ObjectsList';
@@ -34,7 +34,11 @@ import { getCurrentReport } from '../../../modules/ReportDesigner/helpers';
 import SortingField from './SortingField';
 import { ReactComponent as CloseIcon } from '../../../layout/assets/close.svg';
 import { TABLE_ICONS } from '../../constants/reportDesigner/reportDesignerIcons';
-import { removeTableColumn } from '../../../data/reducers/new_reportDesigner';
+import {
+  removeTableColumn,
+  setTableVariant
+} from '../../../data/reducers/new_reportDesigner';
+import { setReportStructure } from '../../../data/actions/newReportDesigner';
 // import { deepObjectSearch } from '../../../data/helpers';
 
 const NAV_MENU_REPORT = [
@@ -71,13 +75,17 @@ export default function SidePanel({ navType }) {
     reportDesigner.reportsData.present.reports,
     reportDesigner.reportsData.present.activeReport
   );
+  const newStructureReport = cloneDeep(currentReport);
 
   const currentNode = lodash.find(
-    currentReport?.structure?.pgBody?.content?.children,
+    newStructureReport?.structure?.pgBody?.content?.children,
     item => item.id === activeNode?.id
   );
   const headerZone = currentNode?.content?.layout?.zones?.filter(
     item => item.vType === 'header'
+  );
+  const bodyZone = currentNode?.content?.layout?.zones?.filter(
+    item => item.vType === 'body'
   );
 
   function getNavMenu() {
@@ -165,6 +173,20 @@ export default function SidePanel({ navType }) {
 
   const handleRemoveColumn = object => event => {
     event?.stopPropagation();
+
+    headerZone[0].cells = headerZone[0].cells.filter(
+      item => item.col !== object.col
+    );
+    bodyZone[0].cells = bodyZone[0].cells.filter(
+      item => item.col !== object.col
+    );
+
+    dispatch(
+      setReportStructure({
+        report_id: 'R1',
+        structure: newStructureReport?.structure
+      })
+    );
 
     dispatch(
       removeTableColumn({
@@ -279,6 +301,19 @@ export default function SidePanel({ navType }) {
 
   const handleSetVariant = variant => {
     dispatch(setTableVariant(variant));
+    // const newStructureReport = cloneDeep(currentReport);
+    const currNode = find(
+      newStructureReport?.structure?.pgBody?.content?.children,
+      item => item.id === activeNode?.id
+    );
+    currNode.type = variant;
+
+    dispatch(
+      setReportStructure({
+        report_id: 'R1',
+        structure: newStructureReport?.structure
+      })
+    );
   };
 
   function renderBlockPanelContent() {

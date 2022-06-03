@@ -349,7 +349,8 @@ function DataTable({
       <TableContent
         layout={structureItem?.content?.layout}
         displayMode={currentReport.displayMode}
-        reportData={reportsData?.data?.dps && reportsData?.data?.dps[0]}
+        tableType={structureItem?.type} // vTable
+        // reportData={reportsData?.data?.dps && reportsData?.data?.dps[0]}
         variables={reportsData?.data?.variables}
       />
     </div>

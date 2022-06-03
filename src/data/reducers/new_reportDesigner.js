@@ -4,7 +4,7 @@ import { combineReducers } from 'redux';
 import { createSlice } from '@reduxjs/toolkit';
 import lodash, { find } from 'lodash';
 import undoable from 'redux-undo';
-import { deepObjectSearch } from '../helpers';
+// import { deepObjectSearch } from '../helpers';
 
 // const V_TABLE = {
 //   id: 'R1.B.2',
@@ -2715,11 +2715,11 @@ const reportDesigner = createSlice({
         item => item.vType === 'body'
       );
 
-      const targ = deepObjectSearch({
-        target: report.structure,
-        key: 'id',
-        value: action.payload.id
-      });
+      // const targ = deepObjectSearch({
+      //   target: report.structure,
+      //   key: 'id',
+      //   value: action.payload.id
+      // });
 
       debugger;
 
@@ -2729,7 +2729,7 @@ const reportDesigner = createSlice({
       ];
       bodyZone[0].cells = [...bodyZone[0].cells, action.payload.object];
 
-      console.log(report, report.structure, targ);
+      // console.log(report, report.structure, targ);
       // TODO изменить запись яколонки по дропнутой позиции
       // reportNode.columns = [...reportNode.columns, action.payload.column];
     },
@@ -2801,15 +2801,22 @@ const reportDesigner = createSlice({
         state.reports,
         item => item.id === state.activeReport
       );
+      debugger;
 
-      state.activeNodes.forEach(node => {
-        const reportNode = lodash.find(
-          report.structure,
-          item => item.id === node.id
-        );
+      const activeNode = state.activeNodes[0];
+      const currentNode = find(
+        report.structure?.pgBody?.content?.children,
+        item => item.id === activeNode?.id
+      );
+      currentNode.type = action.payload;
+      // state.activeNodes.forEach(node => {
+      //   const reportNode = lodash.find(
+      //     report.structure,
+      //     item => item.id === node.id
+      //   );
 
-        reportNode.variant = action.payload;
-      });
+      //   reportNode.variant = action.payload;
+      // });
     }
   }
 });

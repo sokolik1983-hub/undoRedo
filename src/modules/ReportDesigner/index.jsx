@@ -112,7 +112,7 @@ function ReportDesigner() {
 
   useEffect(async () => {
     // await dispatch(refreshServerResponse());
-    // await dispatch(getStreamReceiever({ fileName: 'test.js' }));
+    await dispatch(getStreamReceiever({ fileName: 'test.js' }));
     await dispatch(getReportStructure({ report_id: 'R1' }));
     await dispatch(getVariables());
 
@@ -345,7 +345,9 @@ function ReportDesigner() {
             onClick={handleAddBlock}
             onDoubleClick={handleDisableSelection}
           >
-            <ReportContent structure={currentReport?.structure} />
+            {currentReport?.structure && (
+              <ReportContent structure={currentReport?.structure} />
+            )}
             {/* <ReportHeader data={currentReport?.structure?.pgHeader} />
             <ReportBody data={currentReport?.structure?.pgBody} />
             {currentReport?.structure?.map(block => (

@@ -19,17 +19,17 @@ export const TABLE_ICONS = [
   },
   {
     text: 'Кросс',
-    type: 'table_cross',
+    type: 'xTable',
     icon: <CrossTable />
   },
   {
     text: 'Вертикальная',
-    type: 'table_vertical',
+    type: 'vTable',
     icon: <VerticalTable />
   },
   {
     text: 'Горизонтальная',
-    type: 'table_horizontal',
+    type: 'hTable',
     icon: <HorizontalTable />
   },
 ];

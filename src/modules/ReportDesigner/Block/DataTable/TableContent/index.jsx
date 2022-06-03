@@ -9,12 +9,13 @@ const TableContent = ({
   layout,
   displayMode,
   blockStyles,
-  reportData,
+  // reportData,
   variables,
+  tableType,
   ...props
 }) => {
-  const dpData = reportData?.dpData;
-  const dpObjects = reportData?.dpObjects;
+  // const dpData = reportData?.dpData;
+  // const dpObjects = reportData?.dpObjects;
 
   const headerZone = layout.zones.filter(item => item.vType === 'header');
   const bodyZone = layout.zones.filter(item => item.vType === 'body');
@@ -25,20 +26,25 @@ const TableContent = ({
       <TableHeader
         data={headerZone}
         displayMode={displayMode}
-        reportData={{ dpData, dpObjects }}
+        // reportData={{ dpData, dpObjects }}
         variables={variables}
+        tableType={tableType}
       />
       <TableBody
-        data={bodyZone}
+        bodyZone={bodyZone}
+        headerZone={headerZone}
+        footerZone={footerZone}
         displayMode={displayMode}
-        reportData={{ dpData, dpObjects }}
+        // reportData={{ dpData, dpObjects }}
         variables={variables}
+        tableType={tableType}
       />
       <TableFooter
         data={footerZone}
         displayMode={displayMode}
-        reportData={{ dpData, dpObjects }}
+        // reportData={{ dpData, dpObjects }}
         variables={variables}
+        tableType={tableType}
       />
     </table>
   );
