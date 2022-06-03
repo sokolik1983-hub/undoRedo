@@ -26,7 +26,9 @@ import { PAGE } from '../../common/constants/pages';
 import {
   getStreamReceiever,
   getReportStructure,
-  getVariables
+  getVariables,
+  refreshServerResponse,
+  getElementData
 } from '../../data/actions/newReportDesigner';
 // import { SIDE_PANEL_TYPES } from '../../common/constants/common';
 import FormulaEditor from '../../common/components/FormulaEditor';
@@ -77,6 +79,8 @@ function ReportDesigner() {
     reportDesigner.reportsData.present.reports,
     reportDesigner.reportsData.present.activeReport
   );
+  const { displayMode } = currentReport;
+
   const isQueryPanelModalOpened = useSelector(
     state => state.app.ui.modalVisible
   );
@@ -107,11 +111,13 @@ function ReportDesigner() {
   }, []);
 
   useEffect(async () => {
-    await dispatch(getStreamReceiever({ fileName: 'test.js' }));
+    // await dispatch(refreshServerResponse());
+    // await dispatch(getStreamReceiever({ fileName: 'test.js' }));
     await dispatch(getReportStructure({ report_id: 'R1' }));
     await dispatch(getVariables());
-  }, []);
 
+    // await dispatch(getElementData({ report_id: 'R1', element_id: 'R1.B.2.B' }));
+  }, []);
 
   useEffect(async () => {
     dispatch(setCurrentPage(PAGE.REPORT_DESIGNER));
@@ -179,11 +185,10 @@ function ReportDesigner() {
   // }
 
   function handleChangeMode() {
-    const { displayMode } = currentReport;
     let newMode = '';
 
     if (displayMode && displayMode === 'Data') {
-      newMode = 'Formula';
+      newMode = 'Structure';
     } else {
       newMode = 'Data';
     }
@@ -329,7 +334,7 @@ function ReportDesigner() {
             +
           </button>
           <button onClick={handleChangeMode} type="button">
-            *
+            {displayMode === 'Data' ? 'Структура' : 'Данные'}
           </button>
         </div>
         <div className={styles.containerOutline}>

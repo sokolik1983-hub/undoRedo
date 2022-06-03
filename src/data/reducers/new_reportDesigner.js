@@ -2,7 +2,7 @@
 import { combineReducers } from 'redux';
 /* eslint-disable no-lonely-if */
 import { createSlice } from '@reduxjs/toolkit';
-import lodash from 'lodash';
+import lodash, { find } from 'lodash';
 import undoable from 'redux-undo';
 import { deepObjectSearch } from '../helpers';
 
@@ -2444,7 +2444,7 @@ export const reportPageObject = {
   id: 1,
   name: 'Отчет 1',
   paginationMode: 'Quick', // Quick | ?
-  displayMode: 'Formula', // Data | Formula
+  displayMode: 'Structure', // Data | Structure
   pageSettings: {
     margins: {
       left: 100,
@@ -2459,7 +2459,7 @@ export const reportPageObject = {
     recordsWidth: 25,
     scale: 100
   },
-  structure:{},
+  structure: {},
   // structure: {
   //   pgHeader: {
   //     id: 'R1.PH',
@@ -2647,67 +2647,73 @@ const reportDesigner = createSlice({
       });
     },
     setTableStyle: (state, action) => {
-      const report = lodash.find(
-        state.reports,
-        item => item.id === state.activeReport
-      );
-
-      state.activeNodes.forEach(node => {
-        const reportNode = lodash.find(
-          report.structure,
-          item => item.id === node.id
-        );
-
-        reportNode.columns.forEach(column => {
-          if (action.payload.column) {
-            if (action.payload.column === column.object.id)
-              if (action.payload.isHeader) {
-                column.header.styles = action.payload.styles
-                  ? {
-                      ...column.header.styles,
-                      ...action.payload.styles
-                    }
-                  : {};
-              } else {
-                column.cells.styles = action.payload.styles
-                  ? {
-                      ...column.cells.styles,
-                      ...action.payload.styles
-                    }
-                  : {};
-              }
-          } else {
-            if (action.payload.isHeader) {
-              column.header.styles = action.payload.styles
-                ? {
-                    ...column.header.styles,
-                    ...action.payload.styles
-                  }
-                : {};
-            } else {
-              column.cells.styles = action.payload.styles
-                ? {
-                    ...column.cells.styles,
-                    ...action.payload.styles
-                  }
-                : {};
-            }
-          }
-        });
-      });
-    },
-    addTableColumn: (state, action) => {
-      
-      const report = lodash.find(
-        state.reports,
-        item => item.id === state.activeReport
-      );
-
-      // const reportNode = lodash.find(
-      //   report.structure,
-      //   item =>{ console.log(item.id); return item.id === action.payload.id}
+      console.log(state, 'asdads');
+      console.log(action, 'action');
+      // const report = lodash.find(
+      //   state.reports,
+      //   item => item.id === state.activeReport
       // );
 
+      // state.activeNodes.forEach(node => {
+      //   const reportNode = lodash.find(
+      //     report.structure,
+      //     item => item.id === node.id
+      //   );
+
+      //   reportNode.columns.forEach(column => {
+      //     if (action.payload.column) {
+      //       if (action.payload.column === column.object.id)
+      //         if (action.payload.isHeader) {
+      //           column.header.styles = action.payload.styles
+      //             ? {
+      //                 ...column.header.styles,
+      //                 ...action.payload.styles
+      //               }
+      //             : {};
+      //         } else {
+      //           column.cells.styles = action.payload.styles
+      //             ? {
+      //                 ...column.cells.styles,
+      //                 ...action.payload.styles
+      //               }
+      //             : {};
+      //         }
+      //     } else {
+      //       if (action.payload.isHeader) {
+      //         column.header.styles = action.payload.styles
+      //           ? {
+      //               ...column.header.styles,
+      //               ...action.payload.styles
+      //             }
+      //           : {};
+      //       } else {
+      //         column.cells.styles = action.payload.styles
+      //           ? {
+      //               ...column.cells.styles,
+      //               ...action.payload.styles
+      //             }
+      //           : {};
+      //       }
+      //     }
+      //   });
+      // });
+    },
+    addTableColumn: (state, action) => {
+      const report = lodash.find(
+        state.reports,
+        item => item.id === state.activeReport
+      );
+      const activeNode = state.activeNodes && state.activeNodes[0];
+      const currentNode = find(
+        report?.structure?.pgBody?.content?.children,
+        item => item.id === activeNode?.id
+      );
+      const headerZone = currentNode?.content?.layout?.zones?.filter(
+        item => item.vType === 'header'
+      );
+      const bodyZone = currentNode?.content?.layout?.zones?.filter(
+        item => item.vType === 'body'
+      );
 
       const targ = deepObjectSearch({
         target: report.structure,
@@ -2715,9 +2721,41 @@ const reportDesigner = createSlice({
         value: action.payload.id
       });
 
-      console.log(report, report.structure, targ);
+      debugger;
 
+      headerZone[0].cells = [
+        ...headerZone[0].cells,
+        { ...action.payload.object, type: 'Const' }
+      ];
+      bodyZone[0].cells = [...bodyZone[0].cells, action.payload.object];
+
+      console.log(report, report.structure, targ);
+      // TODO изменить запись яколонки по дропнутой позиции
       // reportNode.columns = [...reportNode.columns, action.payload.column];
+    },
+    removeTableColumn: (state, action) => {
+      const report = lodash.find(
+        state.reports,
+        item => item.id === state.activeReport
+      );
+      const activeNode = state.activeNodes && state.activeNodes[0];
+      const currentNode = find(
+        report?.structure?.pgBody?.content?.children,
+        item => item.id === activeNode?.id
+      );
+      const headerZone = currentNode?.content?.layout?.zones?.filter(
+        item => item.vType === 'header'
+      );
+      const bodyZone = currentNode?.content?.layout?.zones?.filter(
+        item => item.vType === 'body'
+      );
+      debugger;
+      headerZone[0].cells = headerZone[0].cells.filter(
+        item => item.col !== action.payload.object.col
+      );
+      bodyZone[0].cells = bodyZone[0].cells.filter(
+        item => item.col !== action.payload.object.col
+      );
     },
     addTableRow: (state, action) => {
       const report = lodash.find(
@@ -2787,10 +2825,14 @@ const reportDesignerUI = createSlice({
       selectedColumns: null,
       tableType: 'cross',
       graphType: 'graph1',
-      zoom: 1
+      zoom: 1,
+      formattingElement: null
     }
   },
   reducers: {
+    setFormattingElement: (state, action) => {
+      state.formattingElement = action.element;
+    },
     setSelectedColumns: (state, action) => {
       if (!action.payload) {
         state.ui.selectedColumns = {};
@@ -2830,6 +2872,7 @@ const reportDesignerUI = createSlice({
 });
 
 export const {
+  removeTableColumn,
   setReportDisplayMode,
   setActiveReport,
   setActiveNodes,
@@ -2846,6 +2889,7 @@ export const {
 } = reportDesigner.actions;
 
 export const {
+  setFormattingElement,
   setCreatingElement,
   setReportPanelVisible,
   setFormulaEditorVisible,

@@ -3,42 +3,58 @@
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
+import { find, findIndex } from 'lodash';
+import { getCurrentReport } from '../../helpers';
+import { addTableColumn } from '../../../../data/reducers/new_reportDesigner';
 
-const mockCell = {
-  id: 'R1.B.1',
-  type: 'cell',
-  name: 'ячейка 1',
-  size: {
-    minimalHeight: 60,
-    minimalWidth: 120,
-    autofitWidth: false,
-    autofitHeight: false
-  },
-  position: {
-    xType: 'Absolute',
-    yType: 'Absolute',
-    x: 20,
-    y: 10
-  },
-  style: {},
-  content: {
-    expression: {
-      type: 'Const',
-      dataType: 'String',
-      formula: 'Название отчета'
-    }
-  }
-};
+// const mockCell = {
+//   id: 'R1.B.1',
+//   type: 'cell',
+//   name: 'ячейка 1',
+//   size: {
+//     minimalHeight: 60,
+//     minimalWidth: 120,
+//     autofitWidth: false,
+//     autofitHeight: false
+//   },
+//   position: {
+//     xType: 'Absolute',
+//     yType: 'Absolute',
+//     x: 20,
+//     y: 10
+//   },
+//   style: {},
+//   content: {
+//     expression: {
+//       type: 'Const',
+//       dataType: 'String',
+//       formula: 'Название отчета'
+//     }
+//   }
+// };
 
 const Cell = ({
   id,
   structureItem,
   blockStyles,
   refContent,
-  displayMode = 'structure'
+  displayMode = 'Structure'
 }) => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // const reportsUi = useSelector(state => state.app.reportDesigner.reportsUi.ui);
+  const reportInformation = useSelector(
+    state => state.app.reportDesigner.reportsData.present
+  );
+  const reportDesigner = useSelector(state => state.app.reportDesigner);
+  const currentReport = getCurrentReport(
+    reportDesigner.reportsData.present.reports,
+    reportDesigner.reportsData.present.activeReport
+  );
+  const dataSource =
+    reportInformation?.data?.dps && reportInformation?.data?.dps[0];
+  const dpData = dataSource?.dpData;
+  const dpObjects = dataSource?.dpObjects;
+
   const [dragStatus, setDragStatus] = useState({
     left: false,
     top: false,
@@ -89,12 +105,46 @@ const Cell = ({
 
     console.log(position, id, selectedEl);
     setDragStatus(false);
-    // dispatch(
-    //   addTableColumn({
-    //     column: { ...columnObject, object: { ...selectedEl } },
-    //     id
-    //   })
-    // );
+
+    const activeNode =
+      reportDesigner.reportsData.present.activeNodes &&
+      reportDesigner.reportsData.present.activeNodes[0];
+    const currentNode = find(
+      currentReport?.structure?.pgBody?.content?.children,
+      item => item.id === activeNode?.id
+    );
+    const headerZone = currentNode?.content?.layout?.zones?.filter(
+      item => item.vType === 'header'
+    );
+    const bodyZone = currentNode?.content?.layout?.zones?.filter(
+      item => item.vType === 'body'
+    );
+
+    const element = {
+      id: 1,
+      row: 1,
+      col: 1,
+      size: {},
+      style: {},
+      expression: {
+        dataType: 'String',
+        formula: '=[Тип учредителя]',
+        parsedFormula: '=[DP0.D2]',
+        type: 'Dimension',
+        variable_id: 'DP0.D2'
+      }
+    };
+    debugger;
+    // bodyZone?.[0].cells.push(element);
+
+    dispatch(
+      addTableColumn({
+        // column: { },
+        // column: { ...columnObject, object: { ...selectedEl } },
+        object: { ...element, expression: { ...selectedEl } },
+        id
+      })
+    );
   };
 
   const getCellStyle = () => {
@@ -118,15 +168,22 @@ const Cell = ({
     return { ...blockStyles, ...result };
   };
 
+  const getValueFromDS = structureItem => {
+    if (structureItem?.expression?.type === 'Const') {
+      return structureItem?.expression?.formula;
+    }
+
+    return '-';
+  };
+
   const getCellValue =
-    displayMode === 'structure'
+    displayMode === 'Structure'
       ? `${structureItem?.expression?.formula}`
-      : 'Значение из БД';
+      : getValueFromDS(structureItem); //'Значение из БД';
 
   return (
     <div
       style={{ position: 'relative', ...getCellStyle() }}
-     
       // onDragOver={handleDragOver}
     >
       <div
@@ -140,10 +197,9 @@ const Cell = ({
         onDragEnter={e => handleDragEnter(e, 'left')}
         onDragOver={handleDragOver}
         onDrop={e => handleDrop(e, 'before')}
-     
       >
         <div
-         onDragLeave={handleDragLeave}
+          onDragLeave={handleDragLeave}
           style={{
             width: '100%',
             height: '100%',
@@ -159,15 +215,14 @@ const Cell = ({
           right: '25%',
           top: '25%',
           width: '50%',
-          height: '50%',
+          height: '50%'
         }}
         onDragEnter={e => handleDragEnter(e, 'center')}
         onDragOver={handleDragOver}
         onDrop={e => handleDrop(e, 'center')}
-     
       >
         <div
-         onDragLeave={handleDragLeave}
+          onDragLeave={handleDragLeave}
           style={{
             width: '100%',
             height: '100%',
@@ -176,7 +231,6 @@ const Cell = ({
           }}
         />
       </div>
-
 
       <div
         style={{
@@ -189,10 +243,9 @@ const Cell = ({
         onDragEnter={e => handleDragEnter(e, 'right')}
         onDragOver={handleDragOver}
         onDrop={e => handleDrop(e, 'after')}
-     
       >
         <div
-         onDragLeave={handleDragLeave}
+          onDragLeave={handleDragLeave}
           style={{
             width: '100%',
             height: '100%',

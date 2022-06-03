@@ -469,6 +469,7 @@ const reportDesigner = createSlice({
       });
     },
     setTableStyle: (state, action) => {
+      console.log(state, 'statestatestate');
       const report = lodash.find(
         state.reports,
         item => item.id === state.activeReport
@@ -599,7 +600,7 @@ const reportDesignerUI = createSlice({
       selectedColumns: null,
       tableType: 'cross',
       graphType: 'graph1',
-      zoom: 1
+      zoom: 1,
     }
   },
   reducers: {
@@ -656,6 +657,7 @@ export const {
 } = reportDesigner.actions;
 
 export const {
+  setFormattingElement,
   setCreatingElement,
   setReportPanelVisible,
   setFormulaEditorVisible,

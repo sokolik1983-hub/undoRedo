@@ -12,12 +12,16 @@ const TableFooter = ({ data, displayMode, reportData, ...props }) => {
           {zone?.cells?.map(item => {
             return (
               <td key={item.id}>
-                <Cell
-                  displayMode={displayMode}
-                  blockStyles={item.styles}
-                  structureItem={item}
-                  id={item.id}
-                />
+                {item.expression ? (
+                  <Cell
+                    displayMode={displayMode}
+                    blockStyles={item.styles}
+                    structureItem={item}
+                    id={item.id}
+                  />
+                ) : (
+                  <span> </span>
+                )}
               </td>
             );
           })}

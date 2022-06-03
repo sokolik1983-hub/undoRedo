@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import ReportBody from './ReportBody';
 import styles from './ReportContent.module.scss';
@@ -10,9 +11,9 @@ const ReportContent = ({ structure}) => {
   // console.log(props);
   return (
     <div className={styles.root}>
-      <ReportHeader data={pgHeader} />
+      {/* <ReportHeader data={pgHeader} /> */}
       <ReportBody data={pgBody} />
-      <ReportFooter data={pgFooter} />
+      {/* <ReportFooter data={pgFooter} /> */}
     </div>
   );
 };

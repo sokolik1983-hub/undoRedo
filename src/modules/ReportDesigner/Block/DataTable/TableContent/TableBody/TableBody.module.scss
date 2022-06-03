@@ -5,3 +5,11 @@
   // background-color: greenyellow;
   flex: 2;
 }
+
+.loader {
+  position: absolute;
+  background: white;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}

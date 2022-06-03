@@ -6,8 +6,8 @@ import { SERVER_API_URL } from '../common/constants/config';
 import { notificationShown } from './reducers/notifications';
 // eslint-disable-next-line import/no-cycle
 
-const PENDING_SERVER_TIMER = 1000;
-const ATTEMPTS = 5;
+const PENDING_SERVER_TIMER = 5000;
+const ATTEMPTS = 50;
 
 // это запрос готовности данных
 export const requestReady = async ({ id, dispatch }) => {

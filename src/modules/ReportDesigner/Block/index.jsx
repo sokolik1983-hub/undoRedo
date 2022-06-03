@@ -93,9 +93,9 @@ function Block({
       enableResizing
       size={{ ...scales }}
       position={{ ...position }}
-      onClick={e => {
-        e.stopPropagation();
-      }}
+      // onClick={e => {
+      //   e.stopPropagation();
+      // }}
       onDoubleClick={e => {
         e.stopPropagation();
         onSelect(structureItem, e.shiftKey);
