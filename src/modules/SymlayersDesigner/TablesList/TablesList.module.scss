@@ -14,7 +14,7 @@
     
   &:first-child {
     flex: 2;
-    margin-left: 315px;
+    // margin-left: 315px;
   }
 }
 
@@ -46,6 +46,10 @@
   overflow: auto;
   width: 100%;
   margin: 0;
+
+  .item {
+    display: flex;
+  }
 
   &Item {
     font-size: 14px;

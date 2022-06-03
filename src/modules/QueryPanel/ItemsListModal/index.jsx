@@ -8,10 +8,11 @@ import Dropdown from '../../../common/components/Dropdown';
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import TextInput from '../../../common/components/TextInput';
 import { BUTTON } from '../../../common/constants/common';
-import { ReactComponent as MeasurementIcon } from '../../../layout/assets/queryPanel/measurement-icon.svg';
+import { ReactComponent as MeasurementIcon } from '../../../layout/assets/queryPanel/measurementIcon.svg';
 import { ReactComponent as Reload } from '../../../layout/assets/queryPanel/reload.svg';
 import { ReactComponent as Gear } from '../../../layout/assets/queryPanel/gearBold.svg';
 import { ReactComponent as Dots } from '../../../layout/assets/queryPanel/dotsInCorner.svg';
+import IconButton from '../../../common/components/IconButton';
 
 const data = [
   { text: 'Колонка', id: '1' },
@@ -77,26 +78,37 @@ const ItemsListModal = ({ visible, onClose }) => {
     console.log('click from button');
   };
 
+  const menu = () => (
+    <div className={styles.itemsWrapper}>
+      {items.map(i => (
+        <DropdownItem
+          key={i.text}
+          item={i}
+          onClick={handleClick}
+          className={styles.text}
+        />
+      ))}
+    </div>
+  );
+
   const modalContent = () => {
     return (
       <div className={styles.root}>
         <div className={styles.topBlock}>
           <p className={styles.heading}>Список значений</p>
           <div className={styles.icons}>
-            <Reload className={styles.iconsIndents} />
+            <IconButton className={styles.iconsIndents} icon={<Reload />} />
             <Dropdown
-              className={styles.iconsIndents}
-              mainButton={<Gear />}
-              itemsWrapper={styles.itemsWrapper}
+              trigger={['click']}
+              overlay={menu()}
+              align={{
+                offset: [40, -30]
+              }}
             >
-              {items.map(i => (
-                <DropdownItem
-                  key={i.text}
-                  item={i}
-                  onClick={handleClick}
-                  className={styles.text}
-                />
-              ))}
+              <IconButton
+                className={styles.iconsIndents}
+                icon={<Gear fill="white" />}
+              />
             </Dropdown>
           </div>
         </div>
@@ -179,6 +191,7 @@ const ItemsListModal = ({ visible, onClose }) => {
       onClose={handleClose}
       dialogClassName={styles.dialog}
       bodyClassName={styles.modalBody}
+      modalClassName={styles.modal}
       contentClassName={styles.modalContent}
       headerClassName={styles.headerContent}
       withoutTitle

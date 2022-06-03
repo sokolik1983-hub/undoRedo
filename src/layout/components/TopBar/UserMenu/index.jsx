@@ -15,19 +15,6 @@ const UserMenu = () => {
   const dispatch = useDispatch();
   const userInfo = window.localStorage.getItem('userInfo');
 
-  const mainButton = () => {
-    return (
-      <div className={styles.mainButton}>
-        <div>
-          <AvatarIcon />
-        </div>
-        <div className={styles.mainButtonRight}>
-          <span>{JSON.parse(userInfo).user_login}</span>
-        </div>
-      </div>
-    );
-  };
-
   const handleLogoutClick = () => {
     dispatch(logoutUser());
     navigate(REDIRECT_LINKS.LOGIN_PAGE, { replace: false });
@@ -44,21 +31,25 @@ const UserMenu = () => {
     }
   };
 
-  const makingItems = () => {
-    return DEFAULT_USER_ACTIONS.map(item => {
-      return (
+  const menu = () => (
+    <div className={styles.menuContainer}>
+      {DEFAULT_USER_ACTIONS.map(item => (
         <DropdownItem
+          key={item.title}
           onClick={handleItemClick}
           className={styles.menuItem}
           item={item}
         />
-      );
-    });
-  };
+      ))}
+    </div>
+  );
 
   return (
-    <Dropdown mainButton={mainButton()} itemsWrapper={styles.itemsWrapper}>
-      {makingItems()}
+    <Dropdown trigger={['click']} overlay={menu()}>
+      <button type="button" className={styles.mainBtn}>
+        <AvatarIcon />
+        <span className={styles.note}>{JSON.parse(userInfo).user_login}</span>
+      </button>
     </Dropdown>
   );
 };

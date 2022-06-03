@@ -7,8 +7,8 @@ import { loginUser } from '../../data/actions/auth';
 import { REDIRECT_LINKS, BUTTON } from '../../common/constants/common';
 import TextInput from '../../common/components/TextInput';
 import Button from '../../common/components/Button';
-import { ReactComponent as LogoIcon } from '../../layout/assets/login-page-logo.svg';
-import { ReactComponent as AvatarIcon } from '../../layout/assets/login-page-avatar.svg';
+import { ReactComponent as LogoIcon } from '../../layout/assets/loginPageLogo.svg';
+import { ReactComponent as AvatarIcon } from '../../layout/assets/loginPageAvatar.svg';
 import styles from './LoginPage.module.scss';
 
 const LoginPage = () => {
@@ -31,8 +31,8 @@ const LoginPage = () => {
         <AvatarIcon className={styles.avatar} />
         <Formik
           initialValues={{
-            login: 'test1',
-            password: 'test1'
+            login: 'admin',
+            password: 'admin'
           }}
           validationSchema={Yup.object().shape({
             login: Yup.string()

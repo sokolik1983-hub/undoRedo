@@ -1,0 +1,8 @@
+.blurEffect {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    backdrop-filter: blur(3px) invert(25%) brightness(130%) drop-shadow(1px 1px 1px rgb(251, 255, 255));
+    -webkit-backdrop-filter: blur(3px) invert(25%) brightness(130%);
+}

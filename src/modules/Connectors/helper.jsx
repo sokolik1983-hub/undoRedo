@@ -1,9 +1,9 @@
-import { ReactComponent as EditIcon } from '../../layout/assets/folder-item-edit.svg';
-import { ReactComponent as BinIcon } from '../../layout/assets/folder-item-bin.svg';
-import { ReactComponent as CreateCopyIcon } from '../../layout/assets/folder-item-create-copy.svg';
-import { ReactComponent as SettingsIcon } from '../../layout/assets/folder-item-settings.svg';
-import { ReactComponent as CheckConnectionIcon } from '../../layout/assets/folder-item-connection-check.svg';
-import { ReactComponent as CreateUniverseIcon } from '../../layout/assets/folder-item-create-universe.svg';
+import { ReactComponent as EditIcon } from '../../layout/assets/folderItemEdit.svg';
+import { ReactComponent as BinIcon } from '../../layout/assets/folderItemBin.svg';
+import { ReactComponent as CreateCopyIcon } from '../../layout/assets/folderItemCreateCopy.svg';
+import { ReactComponent as SettingsIcon } from '../../layout/assets/folderItemSettings.svg';
+import { ReactComponent as CheckConnectionIcon } from '../../layout/assets/folderItemConnectionCheck.svg';
+import { ReactComponent as CreateUniverseIcon } from '../../layout/assets/folderItemCreateUniverse.svg';
 
 export const sortFoldersAndItems = folderChildren => {
   if (!folderChildren) return null;
@@ -82,6 +82,6 @@ export const FOLDER_DROPDOWN_ACTIONS = [
 
 export const connectorsTableHeader = [
   { name: 'Имя' },
-  { name: 'Тип коннектора' },
+  { name: 'Тип соединения' },
   { name: 'Источник' },
 ];

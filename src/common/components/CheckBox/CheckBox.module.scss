@@ -1,15 +1,14 @@
 .wrapper {
   display: flex;
   box-sizing: content-box;
+  align-items: center;
 }
 
 .label {
   display: inline-block;
   cursor: pointer;
   padding-left: 7px;
-  color: #FFFFFF;
-  font-size: 12px;
-  line-height: 17px;
+  color: #ffffff;
   font-weight: 400;
 }
 
@@ -18,7 +17,6 @@
   position: relative;
   width: 12px;
   height: 12px;
-  flex: 0 0 auto;
   cursor: pointer;
 }
 
@@ -29,15 +27,16 @@
 }
 
 .mark {
-  background-color: #FFFFFF;
   display: inline-block;
   width: 10px;
   height: 10px;
   box-sizing: border-box;
   position: absolute;
+  top: 5px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  background-color: #ffffff;
 
   &:after {
     content: '';
@@ -50,6 +49,11 @@
     background-size: cover;
     opacity: 0;
   }
+}
+
+.blueBGColor {
+  @extend .mark;
+  background-color: #6f8ebc;
 }
 
 .input:checked + .mark:after {

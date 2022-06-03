@@ -1,0 +1,214 @@
+.modal {
+  overflow: visible !important;
+}
+
+.dialog {
+  width: 100%;
+  max-width: 557px;
+  height: 435px;
+  overflow: visible !important;
+  background: linear-gradient(
+    152.97deg,
+    #005889 0%,
+    rgba(0, 88, 137, 0.5) 100%
+  );
+  box-shadow: 0 7px 17px rgba(34, 82, 102, 0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28px;
+  color: #ffffff;
+  align-items: center;
+}
+
+.parameterTypeBlock {
+  width: 557px;
+  height: 49px;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .text {
+    margin-left: 15px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    color: white;
+  }
+}
+
+.promptTextBlock {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  color: white;
+
+  .text {
+    margin-left: 15px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    padding-right: 7px;
+  }
+
+  .input {
+    width: 406px;
+    height: 22px;
+    outline: none;
+    color: black;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+  }
+}
+
+.allRadio {
+  width: 100%;
+  width: fit-content;
+
+  display: flex;
+  flex-direction: row;
+  margin-left: 20px;
+  margin-right: 20px;
+  cursor: pointer;
+
+  .text {
+    display: flex;
+    width: fit-content;
+    font-size: 14px;
+  }
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  padding: 0 10px;
+}
+
+.allCheckBoxBlock {
+  width: 100%;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  padding: 0 5px 5px 15px;
+}
+
+.checkBox {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5px 0 10px 0;
+  padding: 5px 5px 5px 15px;
+  cursor: pointer;
+  .label {
+    font-size: 14px;
+  }
+}
+.checkBoxWrapper {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.byDefaultBlock {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: start;
+  width: 557px;
+  height: 96px;
+  background: rgba(0, 0, 0, 0.5);
+
+  .text {
+    margin: 7px 0 7px 15px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+  }
+  .defaultBoxText {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+  }
+  .defaultCheckBox {
+    padding-left: 15px;
+  }
+}
+
+.defaultCheckBoxBlock {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  .button {
+    margin-left: 12px;
+  }
+}
+
+.inputArrowBlock {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  .input {
+    width: 248px;
+    height: 22px;
+    margin: 8px 0 8px 15px;
+    outline: none;
+  }
+  .dataWindow {
+    position: absolute;
+    bottom: 82px;
+    right: 14px;
+    z-index: 1500;
+    width: 248px;
+    height: 194px;
+    outline: none;
+    background: #ffffff;
+  }
+
+  .arrow {
+    transform: rotate(270deg);
+    margin: 10px 8px 8px 8px;
+  }
+}
+
+.footerButtons {
+  width: 557px;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  padding-top: 15px;
+
+  .button {
+    margin: 0 5px;
+  }
+}
+
+.defaultCheckBoxlabel {
+  padding: 0 28px 0 5px;
+  font-size: 14px;
+}

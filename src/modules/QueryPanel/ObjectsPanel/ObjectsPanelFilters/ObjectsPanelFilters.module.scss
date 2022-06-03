@@ -2,11 +2,23 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-right: 20px;
 }
 
 .iconBtn {
   margin: 7px 5px;
   width: auto;
   height: auto;
+}
+
+.filterNameInput {
+  outline: transparent;
+}
+
+.filterNameInput:hover {
+  outline: 1px solid #003789bf;
+  transition: outline 0.2s;
+}
+
+.filterNameInput:focus-visible {
+  outline: 1px solid #003789bf;
 }

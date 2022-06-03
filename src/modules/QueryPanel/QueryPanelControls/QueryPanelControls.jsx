@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import Button from '../../../common/components/Button';
 import styles from './QueryPanelControls.module.scss';
 
-const QueryPanelControls = ({ onRun, onApply, onCancel, onToggleClick }) => {
+const QueryPanelControls = ({ onSql, onRun, onApply, onCancel }) => {
   return (
     <div className={styles.buttonsWrapper}>
-      {/* eslint-disable-next-line react/jsx-indent */}
-      {/* ↓ временно, пока не вольется модалка Свойства подсказки */}
-      <Button onClick={onToggleClick}>Список значений</Button>
+      <Button onClick={onSql} className={styles.sql}>
+        Показать SQL
+      </Button>
       <Button onClick={onRun} className={styles.run}>
         Запустить
       </Button>
@@ -24,8 +24,8 @@ const QueryPanelControls = ({ onRun, onApply, onCancel, onToggleClick }) => {
 export default QueryPanelControls;
 
 QueryPanelControls.propTypes = {
+  onSql: PropTypes.func,
   onRun: PropTypes.func,
   onApply: PropTypes.func,
-  onCancel: PropTypes.func,
-  onToggleClick: PropTypes.func
+  onCancel: PropTypes.func
 };

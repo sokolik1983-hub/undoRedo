@@ -20,10 +20,13 @@ import {
   getObjectData,
   getObjectFields
 } from '../../../data/actions/schemaDesigner';
+import { setDataList, clearDataList, setShowDataList } from '../../../data/reducers/schemaDesigner';
 import { getTableIdFromParams } from '../../../data/helpers';
 import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock';
 // import { useApplicationActions } from 'src/data/appProvider';
 import { SymanticLayerContext } from './context';
+import TablePreview from "./TablePreview";
+import { setTablePreviewModal } from '../../../data/actions/universes';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -121,12 +124,16 @@ const TableComponent = ({
 
   const {
     tableItem,
-    connect_id,
+    // connect_id,
     expanded,
     position,
     filter: columnFilter,
     ...props
   } = getTableProps(tableId);
+
+  const { selectedTables, coloredValue, showDataList } = useSelector(
+    state => state.app.schemaDesigner
+  );
 
   // const refs = useMemo(() => tableRefs[tableId], [tableRefs, tableId]);
   const [synName, setSynName] = useState('');
@@ -134,16 +141,62 @@ const TableComponent = ({
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [columns, setColumns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isHighlighted, setIsHighlighted] = useState(false);
+  const [colorValue, setColorValue] = useState('');
   const contentScrollContainer = useRef();
   const dispatch = useDispatch();
 
-  const selectedTables = useSelector(
-    state => state.app.schemaDesigner.selectedTables
+  const connect_id = useSelector(
+    state => state.app.schemaDesigner.connectorId
   );
 
-  const selectedTableColumns =
-    selectedTables[getTableIdFromParams({ ...tableItem, connect_id: 4 })];
+  const searchMatches = (item) => {
+    return item?.field.toLowerCase()?.includes(coloredValue.toLowerCase())
+  }
 
+  const searchStaticMatches = (item) => {
+    return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase())
+  }
+
+  const selectedTableColumns =
+    selectedTables[getTableIdFromParams({ ...tableItem, connect_id: 4 })]?.map((item) => {
+      return ({
+        ...item,
+        colored: colorValue && searchStaticMatches(item),
+      })
+    });
+
+  // eslint-disable-next-line consistent-return
+  const getList = (obj) => {
+    const tableNames = Object.keys(obj);
+    if (tableNames.length) {
+      const list = [];
+      tableNames.forEach(i => {
+        const choosenItems = obj[i].reduce((acc, item) => 
+                searchMatches(item) && coloredValue ? [...acc, item.field ] : acc, []);
+        
+        if (choosenItems.length) {
+          list.push({name: i, line: choosenItems })
+        }
+      })
+      return list;
+    }
+  };
+
+  useEffect(() => {
+    if (showDataList) {
+      setColorValue(coloredValue);
+    }
+  }, [showDataList])
+
+  useEffect(() => {
+    if (showDataList) {
+      setIsHighlighted(true);
+      dispatch(setDataList(getList(selectedTables)));
+      dispatch(setShowDataList());
+    };
+  }, [showDataList]);
+  
   useEffect(() => {
     dispatch(getObjectFields({ ...tableItem, connect_id: 4 }));
 
@@ -172,7 +225,6 @@ const TableComponent = ({
 
   const [tableData, setTableData] = useState(null);
   const [isLoadingData, setIsLoadingData] = useState(true);
-  const [showPopup, setShowPopup] = useState(false);
   // const { getObjectFields, getObjectData } = useApplicationActions();
   const [tableSize, setTableSize] = useState({ width: 400, height: 100 });
 
@@ -188,14 +240,14 @@ const TableComponent = ({
     } else {
       setIsLoading(true);
       // dispatch(getObjectData({ ...tableItem, connect_id: 4 }))
-
+      //
       // .then(response => {
       //   if (response && response.success) {
       //     setColumns(response.result);
       //     tableItem.columns = response.result;
       //     setIsLoading(false);
       //   }
-      // }));
+      // });
     }
   }, []);
 
@@ -236,8 +288,9 @@ const TableComponent = ({
   useEffect(forceUpdate, [expanded, onFilter, columnFilter, forceUpdate]);
 
   const handlePopupShow = () => {
-    setShowPopup(true);
-    // getObjectData({ ...tableItem, connect_id, max_rows: 100 }).then(
+    dispatch(setTablePreviewModal(true));
+    dispatch(getObjectData({ ...tableItem, connect_id }))
+    //   .then(
     //   response => {
     //     if (response && response.success) {
     //       setTableData(response.result);
@@ -245,10 +298,6 @@ const TableComponent = ({
     //     }
     //   }
     // );
-  };
-
-  const handlePopupClose = () => {
-    setShowPopup(false);
   };
 
   // const handleEditPopupShow = item => () => {
@@ -274,7 +323,6 @@ const TableComponent = ({
 
   const onTableDragStart = useCallback(
     event => {
-      console.log('dragging start');
       event.stopPropagation();
       const delta = posToCoord(event).dif(ActualPosition);
       const dragCallback = ({ state, commit }, { postition }) => {
@@ -287,6 +335,10 @@ const TableComponent = ({
     },
     [posToCoord, startDrag]
   );
+
+  const onFieldDragStart = (event, field) => {
+    event.dataTransfer.setData('field', JSON.stringify(field));
+  }
 
   const tryLinkEnd = ({ item, event }) => {
     addLink({ table: tableItem, field: item });
@@ -331,6 +383,7 @@ const TableComponent = ({
       setShowSynPopup(false);
       setSynName('');
     } else {
+      // eslint-disable-next-line no-alert
       alert('Имя синонима введено некорректно!');
     }
   }
@@ -368,11 +421,13 @@ const TableComponent = ({
       <foreignObject
         x={0}
         y={0}
-        width="460px"
-        height="550px"
+        width="1px"
+        height="1px"
+        id={`obj${  tableItem.object_name}`}
         // width={(tableSize && `${tableSize.width + 2}px`) || '360px'}
         // height={tableSize && `${tableSize.height + 2}px`}
         style={{
+          overflow: 'visible',
           outline: focusedTableHere
             ? `2px solid ${
                 focusHere && focusedItem.type === 'table' ? 'orange' : 'yellow'
@@ -381,11 +436,15 @@ const TableComponent = ({
         }}
       >
         <SchemaEditorBlock
+          isHighlight={isHighlighted}
           onTableDragStart={onTableDragStart}
           selectedTableColumns={selectedTableColumns}
           selectedTableName={tableItem.object_name}
+          onTablePreviewClick={handlePopupShow}
+          onFieldDragStart={onFieldDragStart}
         />
-        {/* <div
+      </foreignObject>
+      {/* <div
           className={`${classes.tableItem} unselectable`}
           style={{ margin: 0, display: 'flex', flexDirection: 'column' }}
           ref={tableRef}
@@ -641,49 +700,8 @@ const TableComponent = ({
               </Table>
             )}
           </div>
-        </div>
-        {showPopup && (
-          <Dialog
-            open={showPopup}
-            onClose={handlePopupClose}
-            fullWidth
-            maxWidth="lg"
-            onWheel={ev => {
-              ev.persist();
-              ev.preventDefault();
-              ev.stopPropagation();
-            }}
-          >
-            <DialogTitle>Table data view</DialogTitle>
-            <DialogContent>
-              {isLoadingData ? (
-                <LinearProgress />
-              ) : (
-                <Table size="small">
-                  <TableHead className={classes.tableHead}>
-                    {tableData &&
-                      tableData.fields &&
-                      tableData.fields.map(item => (
-                        <TableCell>{item.name}</TableCell>
-                      ))}
-                  </TableHead>
-                  <TableBody>
-                    {tableData &&
-                      tableData.data &&
-                      tableData.data.map(item => (
-                        <TableRow>
-                          {item.map(dataItem => (
-                            <TableCell>{dataItem}</TableCell>
-                          ))}
-                        </TableRow>
-                      ))}
-                  </TableBody>
-                </Table>
-              )}
-            </DialogContent>
-          </Dialog>
-        )}
-        {showSynPopup && (
+        </div> */}
+      {/* {showSynPopup && (
           <Dialog
             open={showSynPopup}
             onClose={() => setShowSynPopup(false)}
@@ -746,7 +764,6 @@ const TableComponent = ({
             </DialogActions>
           </Dialog>
         )} */}
-      </foreignObject>
     </g>
   );
 };

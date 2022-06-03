@@ -1,19 +1,17 @@
 /* eslint-disable */
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveConnector } from '../../data/actions/connectors';
 import styles from './Symlayers.module.scss';
-import TreeView from '../../common/components/TreeView/index';
 import Button from '../../common/components/Button';
-import Modal from '../../common/components/Modal';
 import TextInput from '../../common/components/TextInput';
 import Select from '../../common/components/Select';
 import FloatingButton from '../../common/components/FloatingButton';
-import { ReactComponent as CreateConnector } from '../../layout/assets/create-connector.svg';
+import { ReactComponent as CreateConnector } from '../../layout/assets/createConnector.svg';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
 import SemanticLayerModal from './SemanticLayerModal';
-import SymlayersList from './SymlayersList'
+import SymlayersList from './SymlayersList';
 
 function Symlayers() {
   const dispatch = useDispatch();
@@ -83,22 +81,22 @@ function Symlayers() {
   const createConnectorModalContent = (
     <form className={styles.form}>
       <TextInput
-        label="Название коннектора"
+        label='Название соединения'
         value={connectName}
         onChange={e => setConnectName(e.target.value)}
-        id="connectorName"
+        id='connectorName'
       />
       <Select
         value={connectType}
         options={typeOptions}
-        defaultValue="Тип коннектора"
+        defaultValue='Тип соединения'
         onSelectItem={setConnectType}
       />
       <Select
         value={connectSource}
         onSelectItem={setConnectSource}
         options={sourceOptions?.filter(item => item.value === connectType)} // Фильтурем для получения подходящих options в завимисомти от типо коннектора
-        defaultValue="Источник"
+        defaultValue='Источник'
       />
       <Select
         value={connectionType}
@@ -107,46 +105,46 @@ function Symlayers() {
           // Фильтруем для получения подходящих options на основе источника
           item => item.value === connectSource
         )}
-        defaultValue="Тип соединения"
+        defaultValue='Тип соединения'
       />
       {+connectionType === 2 && ( //В зависимости от выбранного типа соединения дорисовываем поля ввода
         <>
           <TextInput
             value={login}
             onChange={e => setLogin(e.target.value)}
-            id="login"
-            label="Логин"
-          ></TextInput>
+            id='login'
+            label='Логин'
+          />
           <TextInput
             value={pass}
             onChange={e => setPass(e.target.value)}
-            id="password"
-            label="Пароль"
-          ></TextInput>
+            id='password'
+            label='Пароль'
+          />
           <TextInput
             value={connectionStr}
             onChange={e => setConnectionStr(e.target.value)}
-            id="connectionStr"
-            label="Строка соединения"
-          ></TextInput>
+            id='connectionStr'
+            label='Строка соединения'
+          />
           <TextInput
             value={port}
             onChange={e => setPort(e.target.value)}
-            id="port"
-            label="Порт"
-          ></TextInput>
+            id='port'
+            label='Порт'
+          />
           <TextInput
             value={nameIP}
             onChange={e => setNameIP(e.target.value)}
-            id="nameAPI"
-            label="Имя или IP сервера"
-          ></TextInput>
+            id='nameAPI'
+            label='Имя или IP сервера'
+          />
           <TextInput
             value={baseSIDService}
             onChange={e => setBaseSIDService(e.target.value)}
-            id="baseSIDService"
-            label="Название Базы, SID, Имя сервиса"
-          ></TextInput>
+            id='baseSIDService'
+            label='Название Базы, SID, Имя сервиса'
+          />
         </>
       )}
     </form>
@@ -167,7 +165,7 @@ function Symlayers() {
 
       <FloatingButton
         icon={<CreateConnector />}
-        text="Создать юниверс"
+        text='Создать юниверс'
         onClick={createConnectorModalHandler}
       />
       {isVisible && <SemanticLayerModal onClick={closeConnectorModalHandler} />}

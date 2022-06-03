@@ -1,14 +1,18 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import ObjectsPanelHeader from './ObjectsPanelHeader/ObjectsPanelHeader';
 import Divider from '../../../common/components/Divider';
+import usePanelListFilters from './usePanelListFilters';
 import ObjectsPanelFilters from './ObjectsPanelFilters/ObjectsPanelFilters';
-import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList';
-import styles from './ObjectsPanel.module.scss';
+import ReportObjectsPanelFilters from './ReportObjectsPanelFilters';
+import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList'; 
 import { getSymanticLayerData } from '../../../data/actions/universes';
+import { useDragNDrop } from '../context/DragNDropContext'; 
+import styles from './ObjectsPanel.module.scss';
 
-const ObjectsPanel = ({ symanticLayer, onToggleClick }) => {
+const ObjectsPanel = ({ symanticLayer, modalOpenHandler, showHeader, report }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -16,23 +20,59 @@ const ObjectsPanel = ({ symanticLayer, onToggleClick }) => {
   }, [symanticLayer]);
 
   const symLayersData = useSelector(state => state.app?.data?.symLayersData);
-  const structure = symLayersData?.data?.structure[0];
+
+  const rootClasses = clsx(
+    styles.root,
+    { [styles.report]: report }
+  );
+
+  const {
+    rootFolder,
+    filterTypeId,
+    handleFiltersSwitch,
+    searchValue,
+    setSearchValue
+  } = usePanelListFilters(symLayersData?.data?.structure[0]); 
+
+  const { handleDragOver, handleTreeDrop } = useDragNDrop();
 
   return (
-    <div className={styles.root}>
-      <ObjectsPanelHeader onToggleClick={onToggleClick} />
-      <Divider color="#0D6CDD" />
-      <ObjectsPanelFilters />
-      <div className={styles.panelListContainer}>
-        <ObjectsPanelList rootFolder={structure} />
+    <div className={rootClasses}>
+      {showHeader && (
+        <>
+          <ObjectsPanelHeader modalOpenHandler={modalOpenHandler} />
+          <Divider color="#0D6CDD" />
+        </>
+      )}
+      {report ? (
+        <ReportObjectsPanelFilters
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+        />
+        ) : (
+          <ObjectsPanelFilters
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+            filterId={filterTypeId}
+            onFiltersSwitch={handleFiltersSwitch}
+          />
+            )}
+      <div
+        className={styles.panelListContainer}
+        onDragOver={handleDragOver}
+        onDrop={handleTreeDrop}
+      >
+        {rootFolder && <ObjectsPanelList rootFolder={rootFolder} />}
       </div>
     </div>
   );
 };
 
-export default ObjectsPanel;
+export default ObjectsPanel; 
 
 ObjectsPanel.propTypes = {
   symanticLayer: PropTypes.object,
-  onToggleClick: PropTypes.func
+  modalOpenHandler: PropTypes.func,
+  showHeader: PropTypes.bool,
+  report: PropTypes.bool,
 };

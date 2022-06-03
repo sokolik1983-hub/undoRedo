@@ -3,7 +3,15 @@
   height: 26px;
 }
 
-.mainButton {
+.menuContainer {
+  background: linear-gradient(152.97deg, rgba(21, 21, 21, 0.208) 0%, rgba(21, 21, 21, 0) 100%);
+  filter: drop-shadow(0px 4px 4px rgba(34, 82, 102, 0.25));
+  backdrop-filter: blur(7px);
+  border-radius: 7.5px;
+  box-shadow: 0 4px 4px rgba(34, 82, 102, 0.25);
+}
+
+.mainBtn {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -12,20 +20,11 @@
   font-weight: normal;
   font-size: 13px;
   line-height: 15px;
-  height: 38px;
-}
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 
-.mainButton:hover {
-  text-decoration-line: underline;
-}
-
-.itemsWrapper {
-  left: -56px;
-  z-index: 100;
-}
-
-.mainButtonRight {
-  display: flex;
-  flex-direction: column;
-  margin-left: 8px;
+  & .note {
+    margin-left: 8px;
+  }
 }

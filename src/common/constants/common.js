@@ -8,7 +8,6 @@ import { ReactComponent as AddConnection } from '../../layout/assets/semanticAct
 import { ReactComponent as ConnectionsPanel } from '../../layout/assets/semanticActionsIcons/connectionsPanel.svg';
 import { ReactComponent as ContextPanel } from '../../layout/assets/semanticActionsIcons/contextPanel.svg';
 import { ReactComponent as DefineConnections } from '../../layout/assets/semanticActionsIcons/defineConnections.svg';
-import { ReactComponent as FindTool } from '../../layout/assets/semanticActionsIcons/findTool.svg';
 import { ReactComponent as RefreshStructure } from '../../layout/assets/semanticActionsIcons/refreshStructure.svg';
 import { ReactComponent as Divider } from '../../layout/assets/headerActionsDivider.svg';
 import { ReactComponent as DisableAddConnection } from '../../layout/assets/semanticActionsIcons/disAddConnection.svg';
@@ -19,6 +18,7 @@ import { ReactComponent as DisableRefreshStructure } from '../../layout/assets/s
 
 export const TABLE_CELL_EMPTY_VALUE = '-';
 export const BREADCRUMBS_ROOT = '..'
+export const EMPTY_STRING = '';
 
 export const REDIRECT_LINKS = {
   HOME_PAGE: '/Universe/dashboard',
@@ -30,6 +30,7 @@ export const PAGE_TITLES = {
   AUDIT: 'Аудит',
   TRASH: 'Корзина',
   SEMANTIC: 'Семантика',
+  REPORT_DESIGNER: 'Дизайнер отчетов',
   ROLES: 'Роли',
   USERS: 'Пользователи',
   CONNECTORS: 'Коннекторы',
@@ -185,28 +186,23 @@ export const SEMANTIC_PAGE_ACTIONS = [
     icon: <AddConnection />,
     enable: true,
     disIcon: <DisableAddConnection />
-  },
-  {
-    type: 'divider',
-    icon: <Divider />,
-    enable: true
-  },
-  {
-    action: 'commonSearch',
-    title: 'Общий поиск',
-    text: 'Общий поиск',
-    icon: <FindTool />,
-    enable: true
   }
-
 ];
 
 export const BUTTON = {
   BIG_BLUE: 'BIG_BLUE',
   BIG_ORANGE: 'BIG_ORANGE',
+  BIG_GRAY: 'BIG_GRAY',
   BROWN: 'BROWN',
   BLUE: 'BLUE',
   GRAY: 'GRAY', 
   BROWN_DARKER: 'BROWN_DARKER',
   RED: 'RED',
+  SMALL_ORANGE: 'SMALL_ORANGE',
+}
+
+export const DRAG_PARENT_SECTION = {
+  TREE: 'TREE',
+  OBJECTS: 'OBJECTS',
+  FILTERS: 'FILTERS'
 }

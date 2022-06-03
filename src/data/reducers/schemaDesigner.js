@@ -28,13 +28,17 @@ const schemaDesigner = createSlice({
     connectorObjects: [],
     selectedTables: [],
     selectedTablesData: [],
+    showDataList: false,
+    dataList: [],
     links: [],
     contexts: [],
+    objectsLayerList: [],
     ui: {
       showLinks: false,
       showContexts: false,
       isLoading: false
-    }
+    },
+    coloredValue: ''
   },
   reducers: {
     setIsLoading: (state, action) => {
@@ -49,6 +53,9 @@ const schemaDesigner = createSlice({
     setConnectorObjects: (state, action) => {
       state.connectorObjects = action.payload;
     },
+    setConnectorData: (state, action) => {
+      state.connectorData = action.payload;
+    },
     setSelectedTables: (state, action) => {
       state.selectedTables = { ...state.selectedTables, ...action.payload };
     },
@@ -58,11 +65,40 @@ const schemaDesigner = createSlice({
         ...action.payload
       };
     },
-    setLinks: (state, action) => {
+    addLink: (state, action) => {
       state.links = [...state.links, action.payload];
+    },
+    setLinks: (state, action) => {
+      state.links = action.payload;
+    },
+    setLink: (state, action) => {
+      state.links = state.links.map(link => {
+        if (link.id === action?.payload.id) {
+          link = action?.payload; 
+        }
+        return link;
+      });
+    },
+    setObjectsLayerList: (state, action) => {
+      state.objectsLayerList = [...state.objectsLayerList, action.payload];
     },
     setContexts: (state, action) => {
       state.contexts = [...state.contexts, ...action.payload];
+    },
+    unsetTablePreviewData: (state) => {
+      state.connectorData = null;
+    },
+    setColoredValue: (state, action) => {
+      state.coloredValue = action.payload
+    },
+    setDataList: (state, action) => {
+      state.dataList = action.payload;
+    },
+    clearDataList: (state) => {
+      state.dataList = []
+    },
+    setShowDataList: state => {
+      state.showDataList = !state.showDataList;
     }
   }
 });
@@ -72,10 +108,19 @@ export const {
   setIsShowingContexts,
   setIsShowingLinks,
   setConnectorObjects,
+  setConnectorData,
   setSelectedTables,
   setSelectedTablesData,
+  addLink,
   setLinks,
-  setContexts
+  setLink,
+  setObjectsLayerList,
+  setContexts,
+  unsetTablePreviewData,
+  setColoredValue,
+  setDataList,
+  clearDataList,
+  setShowDataList
 } = schemaDesigner.actions;
 
 export default schemaDesigner.reducer;

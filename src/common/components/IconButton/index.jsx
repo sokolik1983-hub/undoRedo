@@ -25,8 +25,8 @@ const IconButton = ({
   icon,
   ...props
 }) => {
-  const classes = clsx(styles.iconButton, className, { active }, [
-    styles[size]
+  const classes = clsx(styles.iconButton, className, {[styles.active]: active}, [
+    styles[size],
   ]);
 
   const onClickAction = event => {
@@ -41,11 +41,11 @@ const IconButton = ({
 
   return (
     <Tag
+      {...props}
       disabled={disabled}
       type="button"
       className={classes}
       onClick={onClickAction}
-      {...props}
     >
       <span className={styles.icon} color={color} size={size}>
         {icon}

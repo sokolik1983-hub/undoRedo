@@ -28,6 +28,18 @@ const data = createSlice({
     },
     setSymanticLayerData: (state, action) => {
       state.symLayersData = action.payload
+    },
+    setQueryData: (state, action) => {
+      state.queryData = action.payload
+    },
+    setSymanticLayerQueryResult: (state, action) => {
+      state.symanticLayerQueryResult = action.payload
+    },
+    setQueryResult: (state, action) => {
+      state.queryResult = action.payload
+    },
+    setListReports: (state, action) => {
+      state.listReports = action.payload
     }
   }
 });
@@ -38,7 +50,11 @@ export const {
   setUniversesTree,
   setDictionaries,
   setConnectorsTree,
-  setSymanticLayerData
+  setSymanticLayerData,
+  setQueryData,
+  setSymanticLayerQueryResult,
+  setQueryResult,
+  setListReports
 } = data.actions;
 
 export default data.reducer;

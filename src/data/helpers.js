@@ -52,7 +52,7 @@ export const request = async ({ type = 'request', params, func, dispatch }) => {
   return null;
 };
 
-export const requestSymLayerData = async ({id, dispatch}) => {
+export const requestSymLayerData = async ({ id, dispatch }) => {
   try {
     dispatch(setLoadingData(true));
     const response = await axios({
@@ -64,7 +64,7 @@ export const requestSymLayerData = async ({id, dispatch}) => {
       withCredentials: true,
       data: `function=SYMLAYER.READ&format=JSON&extraParam=&params=${JSON.stringify(
         { symlayer_id: id }
-      )}`,
+      )}`
     });
 
     if (response && response.status === 200) {
@@ -81,19 +81,18 @@ export const requestSymLayerData = async ({id, dispatch}) => {
         throw Error(errorText);
       }
     }
-  } catch(err) {
+  } catch (err) {
     dispatch(
       notificationShown({
         message: err.message,
-        messageType: 'error',
+        messageType: 'error'
       })
     );
     dispatch(setLoadingData(false));
   }
-    
-  return null;
-}
 
+  return null;
+};
 
 export const requestAuth = async ({ params, dispatch }) => {
   try {

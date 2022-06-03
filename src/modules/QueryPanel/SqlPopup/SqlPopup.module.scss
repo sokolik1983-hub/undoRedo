@@ -1,0 +1,50 @@
+.dialog {
+  width: 80%;
+  max-width: none;
+  height: auto;
+  min-height: 250px;
+}
+
+.sql {
+  max-width: none;
+  height: 100%;
+  .queryField {
+    background-color: white;
+    border-radius: 5px;
+    color: black;
+    margin: 0px 15px;
+    height: auto;
+    min-height: 100px;
+    padding: 5px 5px;
+    margin-bottom: 30px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: end;
+    padding-right: 15px;
+  }
+}
+
+.test {
+  background: linear-gradient(
+    180deg,
+    #ffefc5 0%,
+    #ffd35a 9.9%,
+    #ff8b2b 40.1%,
+    #e14a13 100%
+  );
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 15px;
+  color: #ffffff;
+  border: none;
+  margin-left: 10px;
+}
+
+.exit {
+  @extend .test;
+  background: linear-gradient(199.32deg, #1ae3d7 -13.92%, #0945df 111.71%);
+}

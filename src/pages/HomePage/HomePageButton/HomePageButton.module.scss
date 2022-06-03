@@ -1,11 +1,8 @@
 .homePageButton {
   width: 77px;
   height: 102px;
-  background: linear-gradient(
-    152.97deg,
-    rgba(30, 142, 245, 0.29) 0%,
-    rgba(11, 34, 55, 0) 100%
-  );
+  margin: auto;
+  background: url(../../../layout/assets/Apps.svg);
   cursor: pointer;
   border-radius: 9px;
   filter: drop-shadow(0px 4px 4px rgba(34, 82, 102, 0.25));
@@ -31,7 +28,7 @@
   background: url(../../../layout/assets/Report.svg);
   cursor: pointer;
   &:hover {
-    background: url(../../../layout/assets/ReportScaled.svg);
+    background: url(../../../layout/assets/reportScaled.svg);
     transform: scale(1.2);
   }
 }
@@ -44,10 +41,25 @@
 }
 
 .buttonText {
-  margin-top: 12px;
-  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
+  margin-top: 12px;
   max-width: 80px;
-  white-space: nowrap;
+  min-height: 26px;
   text-align: center;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  position: relative;
+}
+
+.buttonTextApps {
+  max-width: none;
+  white-space: nowrap;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  @extend .buttonText;
 }

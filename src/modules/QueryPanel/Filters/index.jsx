@@ -1,31 +1,80 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
+/* eslint-disable react/jsx-curly-newline */
 import Divider from '../../../common/components/Divider';
+import FiltersHeader from './FiltersHeader/FiltersHeader';
+import { useDragNDrop } from '../context/DragNDropContext';
+import FiltersDeskItem from './FiltersDeskItem/FiltersDeskItem';
+import FiltersDeskNode from './FiltersDeskNode/FiltersDeskNode';
+import { DRAG_PARENT_SECTION } from '../../../common/constants/common';
 import styles from './Filters.module.scss';
-import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowBold.svg';
-import { ReactComponent as Basket } from '../../../layout/assets/queryPanel/basket.svg';
 
-const Filters = ({ title }) => {
+const Filters = () => {
+  const {
+    filtersDesk,
+    handleDragStart,
+    handleDragOver,
+    handleDropOnFiltersArea,
+    handleDropOnFiltersItem,
+    handleEditFiltersItem,
+    handleDropOnFiltersNodeItemsBlock,
+    deleteFiltersDeskItem,
+    setFocused
+  } = useDragNDrop();
+
+  const renderFiltersDesk = () => {
+    if (!filtersDesk)
+      return (
+        <div>
+          Для фильтрации отчета выберите предопределенные фильтры или объекты на
+          панели и перетащите их сюда
+        </div>
+      );
+
+    return filtersDesk.type === 'filter-node' ? (
+      <FiltersDeskNode
+        id={filtersDesk.id}
+        items={filtersDesk.children}
+        condition={filtersDesk.condition}
+        onConditionBlockClick={() => setFocused(filtersDesk)}
+        draggable
+        onDragStart={e =>
+          handleDragStart(e, filtersDesk, DRAG_PARENT_SECTION.FILTERS)
+        }
+        onDragOver={handleDragOver}
+        onConditionBlockDrop={e => handleDropOnFiltersItem(e, filtersDesk)}
+        onItemsBlockDrop={e =>
+          handleDropOnFiltersNodeItemsBlock(e, filtersDesk)
+        }
+      />
+    ) : (
+      <FiltersDeskItem
+        id={filtersDesk.id}
+        title={filtersDesk.fieldItem.field}
+        type={filtersDesk.fieldItem.objectType_id}
+        onItemClick={() => setFocused(filtersDesk)}
+        onDeleteItem={() => deleteFiltersDeskItem(filtersDesk.id)}
+        onEditItem={handleEditFiltersItem}
+        draggable
+        onDragStart={e =>
+          handleDragStart(e, filtersDesk, DRAG_PARENT_SECTION.FILTERS)
+        }
+      />
+    );
+  };
+
   return (
     <div className={styles.wrapper}>
-      <Divider color='#FFFFFF' />
-      <div className={styles.content}>
-        <div className={styles.top}>
-          <div className={styles.title}>{title}</div>
-          <div className={styles.icons}>
-            <Arrow className={styles.iconsIndents} />
-            <Arrow className={clsx(styles.iconsIndents, styles.rotate)} />
-            <Basket className={styles.iconsIndents} />
-          </div>
-        </div>
+      <Divider color="#FFFFFF" />
+      <FiltersHeader />
+      <div
+        id="filters-block"
+        className={styles.filtersBlock}
+        onDragOver={handleDragOver}
+        onDrop={handleDropOnFiltersArea}
+      >
+        {renderFiltersDesk()}
       </div>
     </div>
   );
 };
 
 export default Filters;
-
-Filters.propTypes = {
-  title: PropTypes.string
-};

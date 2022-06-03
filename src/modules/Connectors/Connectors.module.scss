@@ -20,12 +20,12 @@
 }
 
 .connectorsLabel {
-  font-family: 'Roboto';
   font-style: normal;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 28px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
   color: #ffffff;
+  margin-bottom: 5px;
 }
 
 .connectionTypeSection {
@@ -35,58 +35,100 @@
 }
 
 .selectText {
-  font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;
   color: #ffffff;
   margin-bottom: 5px;
+  margin-left: -4px;
 }
 
 .connectorsInput {
   margin-bottom: 10px;
+  padding-left: 6px;
+  font-size: 10px;
 }
 
 .testConnectionWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 125px;
 }
 
 .connectionWrapper {
   display: flex;
   flex-direction: column;
-  padding-left: 24px;
-  padding-right: 24px;
+  margin: 0 22px;
 }
 
 .connectionTypeWrapper {
+  width: 301px;
+  padding: 0 0 11px 22px;
+}
+
+.connectionTypeSelect {
+  border: none;
   width: 100%;
-  padding-left: 24px;
+  padding-left: 6px;
+  margin: 0 0 25px 0px;
 }
 
 .connectionTypeInputsWrapper {
-  padding-left: 36px;
+  padding-left: 21px;
 }
 
 .testConnectionButton {
-  font-size: 10px;
-  width: 102px;
-  height: 22px;
-  margin-top: 92px;
+  margin-top: 146px;
 }
 
 .gearsIconWrapper {
   position: relative;
   top: 40px;
+  margin-left: 85px;
+  transform: scale(1.5);
 }
 
 .connectorsLabel {
-  font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;
   color: #ffffff;
+  margin-left:-4px;
 }
+
+.selectInput {
+  max-width: 379px;
+  padding-left: 6px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+  border: none;
+}
+
+.selectTypeConnection {
+  width: calc(100% - 4px);
+  @extend .selectInput;
+}
+
+.footerButtonsGroup {
+  padding: 0 0 4px 0;
+}
+
+.modalContent {
+  padding: 0;
+}
+
+.cancelButton {
+  margin: 0 9px 0 10px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  align-items: center;
+}
+

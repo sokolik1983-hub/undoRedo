@@ -1,6 +1,21 @@
 .root {
-  width: 90vw;
+  width: 100vw;
   height: 100vh;
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.content {
+  padding-left: 320px;
+}
+
+.containerOutline {
+  position: absolute;
+  top: 138px;
+  right: 12px;
+  left: 306px;
+  bottom: 5px;
 }
 
 .container {
@@ -8,17 +23,17 @@
   height: 100%;
   outline: 1px solid black;
   overflow: hidden;
-  position:relative;
+  position: relative;
 
-  &-portrait {
-    width: 1240px;
-    height: 1754px;
-  }
+  // &-portrait {
+  //   width: 1240px;
+  //   height: 1754px;
+  // }
 
-  &-landscape {
-    width: 1754px;
-    height: 1240px;
-  }
+  // &-landscape {
+  //   width: 1754px;
+  //   height: 1240px;
+  // }
 }
 
 .tabs {
@@ -26,9 +41,15 @@
 
   .tab {
     cursor: pointer;
+    font-size: 14px;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
 
     &_active {
-      background-color: red;
+      background-color: #16a9db;
+      color: white;
     }
   }
 }
@@ -37,4 +58,9 @@
   width: 100%;
   height: 35px;
   background-color: #fff;
+}
+
+.closeIcon {
+  margin-left: 15px;
+  width: 10px;
 }

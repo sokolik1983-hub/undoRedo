@@ -1,3 +1,7 @@
+.modal {
+  overflow: visible !important;
+}
+
 .dialog {
   background: linear-gradient(152.97deg, #007089 0%, rgba(0, 88, 137, 0.5) 100%);
   width: 370px;
@@ -32,8 +36,10 @@
 }
 
 .iconsIndents {
-  margin-left: 11px;
+  margin: 0 0 0 11px;
   cursor: pointer;
+  width: auto;
+  height: auto;
 }
 
 .menu {
@@ -46,8 +52,8 @@
   box-shadow: 0px 4px 4px rgba(34, 82, 102, 0.25);
   backdrop-filter: blur(7px);
   width: 207px;
-  left: 52px;
-  top: -7px;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .text {

@@ -10,36 +10,33 @@ import { ReactComponent as DotsMenu } from '../../../layout/assets/dotsMenu.svg'
 import { ReactComponent as CloseInput } from '../../../layout/assets/schemaEditorBlock/closeInput.svg';
 import { ReactComponent as MagnifierWhite } from '../../../layout/assets/schemaEditorBlock/magnifierWhite.svg';
 import styles from './SchemaEditorBlock.module.scss';
-
-// const data = [
-//   { text: 'Колонка', id: '1' },
-//   { text: 'Колонка 1', id: '2' },
-//   { text: 'Колонка 2', id: '3' },
-//   { text: 'Колонка 3', id: '4' },
-//   { text: 'Колонка 4', id: '5' },
-//   { text: 'Колонка 5', id: '6' },
-//   { text: 'Колонка 6', id: '7' },
-//   { text: 'Колонка 7', id: '8' }
-// ];
+import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowOk.svg';
+import Tooltip from '../../../common/components/Tooltip';
+import IconButton from '../../../common/components/IconButton';
 
 const items = [
   { text: 'Псевдоним' },
   { text: 'Изменить вид' },
   { text: 'Определение ключей' },
   { text: 'Определение числа элементов' },
-  { text: 'Определение числа строк' }
+  { text: 'Определение числа строк' },
+  { text: 'Предпросмотр таблицы', value: 'tablePreview' }
 ];
 
-const ShemaEditorBlock = ({
+const SchemaEditorBlock = ({
   onTableDragStart,
   selectedTableName,
-  selectedTableColumns = []
+  selectedTableColumns = [],
+  onTablePreviewClick,
+  onFieldDragStart,
+  isHighlight
 }) => {
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
   );
   const [searchValue, setSearchValue] = useState('');
   const [isActive, setIsActive] = useState(false);
+  const [isOpened, setIsOpened] = useState(true);
 
   useEffect(() => {
     setFilterableFields(selectedTableColumns);
@@ -49,52 +46,83 @@ const ShemaEditorBlock = ({
     [styles.contentWithSearch]: isActive
   });
 
-  const handleClick = () => {
-    console.log('click from ShemaEditorBlock');
+  const handleClick = item => {
+    if (item.value === 'tablePreview') {
+      return onTablePreviewClick();
+    }
+    return console.log(item.text);
   };
 
   const handleSearch = e => {
-    const value = e.target.value.toLowerCase();
+    const { value } = e.target;
 
     setSearchValue(value);
     setFilterableFields(
       selectedTableColumns?.filter(i => {
-        return i.field.toLowerCase().includes(value);
+        return i.field.toLowerCase().includes(value.toLowerCase());
       })
     );
   };
 
+  const onCloseInput = () => {
+    setIsActive(!isActive);
+    setSearchValue('');
+    setFilterableFields(selectedTableColumns);
+  };
+
+  const menu = () => (
+    <div className={styles.itemsWrapper}>
+      {items.map(i => (
+        <DropdownItem
+          item={i}
+          onClick={() => handleClick(i)}
+          className={styles.text}
+        />
+      ))}
+    </div>
+  );
+
   return (
     <div className={styles.wrapper}>
       <div>
-        <div className={styles.header}>
-          <h1
-            className={styles.heading}
-            onMouseDown={event => {
+        <div
+          className={styles.header}
+          onMouseDown={event => {
               event.stopPropagation();
               if (event.button !== 0) return;
               onTableDragStart(event);
             }}
+          onDoubleClick={() => setIsOpened(prev => !prev)}
+        >
+          <h1
+            className={styles.heading}
           >
             {selectedTableName}
           </h1>
           <div className={styles.iconsContainer}>
+            <Tooltip
+              placement="bottom"
+              overlay={isOpened ? 'Свернуть таблицу' : 'Развернуть таблицу'}
+            >
+              <Arrow
+                onClick={() => setIsOpened(prev => !prev)}
+                className={
+                  isOpened ? styles.arrowBtnOpened : styles.arrowBtnClosed
+                }
+              />
+            </Tooltip>
             <MagnifierWhite
               onClick={() => setIsActive(!isActive)}
               className={styles.magnifier}
             />
             <Dropdown
-              className={styles.buttonIndents}
-              mainButton={<DotsMenu className={styles.menu} />}
-              itemsWrapper={styles.itemsWrapper}
+              trigger={['click']}
+              overlay={menu()}
+              align={{
+                offset: [45, -50]
+              }}
             >
-              {items.map(i => (
-                <DropdownItem
-                  item={i}
-                  onClick={handleClick}
-                  className={styles.text}
-                />
-              ))}
+              <IconButton size='small' className={styles.dottedBtn} icon={<DotsMenu />} />
             </Dropdown>
           </div>
         </div>
@@ -106,31 +134,29 @@ const ShemaEditorBlock = ({
             id="1"
             type="text"
           />
-          <CloseInput
-            className={styles.icon}
-            onClick={() => setIsActive(!isActive)}
-          />
+          <CloseInput className={styles.icon} onClick={onCloseInput} />
         </div>
       </div>
-      <div className={contentClasses}>
-        <ul className={styles.list}>
-          <DropdownItem
-            item=""
-            onClick={handleClick}
-            className={styles.search}
-          />
+      {isOpened && (
+        <div className={contentClasses}>
+          <ul className={styles.list}>
+            <DropdownItem
+              item=""
+              onClick={handleClick}
+              className={styles.search}
+            />
 
-          {filterableFields.map(item => (
-            // eslint-disable-next-line react/no-array-index-key
-            <li className={styles.item} key={item.field + item.type}>
-              {item.type}
-              {item.field}
-            </li>
+            {filterableFields.map((item, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <li className={item.colored && isHighlight ? styles.itemHighlited : styles.item} key={item.field + item.type + index} draggable onDragStart={e => onFieldDragStart(e, item.field)}>
+                {item.field}
+              </li>
           ))}
-        </ul>
-      </div>
+          </ul>
+        </div>
+)}
     </div>
   );
 };
 
-export default ShemaEditorBlock;
+export default SchemaEditorBlock;

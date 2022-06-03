@@ -4,7 +4,7 @@
   flex-direction: column;
   align-content: center;
   align-items: center;
-  margin-left: 24px;
+  margin-left: 38px;
 }
 
 .divider {
@@ -26,9 +26,14 @@
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: nowrap;
-  margin-top: 42px;
+  margin-top: 12px;
+  align-items: center;
 }
 
 .deactivated {
   color: #fff;
+}
+
+.filterInput {
+  margin-left: 10px;
 }

@@ -1,0 +1,76 @@
+.report {
+  position: relative;
+  padding: 32px 64px;
+  height: calc(100% - 75px);
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  min-width: 650px;
+  width: 100%;
+  height: calc(100% - 100px);
+  padding: 16px 22px;
+  background: linear-gradient(
+    154.55deg,
+    #ffffff 0%,
+    rgba(255, 255, 255, 0.22) 95.45%
+  );
+  box-shadow: 0px 12px 27px rgba(12, 74, 167, 0.31);
+  border-radius: 10px;
+  span {
+    text-decoration: none;
+    color: #000;
+  }
+}
+
+.title {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 28px;
+  color: #000000;
+}
+
+.itemsWrapper {
+  z-index: 10;
+  width: auto;
+  display: flex;
+  background: linear-gradient(
+    152.97deg,
+    rgba(47, 137, 187, 0.208) 0%,
+    rgba(21, 21, 21, 0) 100%
+  );
+  filter: drop-shadow(0px 4px 4px rgba(34, 82, 102, 0.25));
+  backdrop-filter: blur(7px);
+  border-radius: 7.5px;
+}
+
+.dropdownItem {
+  padding: 0;
+
+  &:hover {
+    background-color: transparent;
+  }
+
+  &:hover svg {
+    fill: #0078bb;
+    transition: all 0.2s;
+  }
+
+  & div {
+    margin: 0;
+    padding: 8px 6px;
+  }
+}
+
+.dropdownColumn {
+  width: 250px;
+}
+
+.folderItemsColumnView {
+  padding-left: 18px;
+  width: 250px;
+}
+

@@ -1,9 +1,10 @@
 import React from 'react';
-import ConnectorsIcon from './layout/assets/ConnectorsIcon';
-import LayersIcon from './layout/assets/LayersIcon';
-import AuditIcon from './layout/assets/AuditIcon';
-import RolesIcon from './layout/assets/RolesIcon';
-import UsersIcon from './layout/assets/UsersIcon';
+import { ReactComponent as ConnectorsIcon } from './layout/assets/connectorsIcon.svg';
+import { ReactComponent as LayersIcon } from './layout/assets/layersIcon.svg';
+import { ReactComponent as AuditIcon } from './layout/assets/auditIcon.svg';
+import { ReactComponent as RolesIcon } from './layout/assets/rolesIcon.svg';
+import { ReactComponent as DesighIcon } from './layout/assets/designIcon.svg';
+import { ReactComponent as UsersIcon } from './layout/assets/usersIcon.svg';
 import { ReactComponent as BinIcon } from './layout/assets/icons/bin.svg';
 import { ReactComponent as ExplorerIcon } from './layout/assets/icons/explorer.svg';
 
@@ -11,43 +12,49 @@ const navigationMenu = [
   {
     href: '/Universe/connectors',
     icon: <ConnectorsIcon />,
-    title: 'коннекторы',
+    title: 'Соединения',
     id: 'connectors'
   },
   {
     href: '/Universe/symlayers',
     icon: <LayersIcon />,
-    title: 'семантика',
+    title: 'Семантика',
     id: 'symlayers'
   },
   {
     href: '/Universe/audit',
     icon: <AuditIcon />,
-    title: 'аудит',
+    title: 'Аудит',
     id: 'audit'
+  },
+  {
+    href: '/Universe/reports',
+    icon: <DesighIcon />,
+    title: 'Дизайнер',
+    id: 'reports'
   },
   {
     href: '/Universe/roles',
     icon: <RolesIcon />,
-    title: 'роли',
+    title: 'Роли',
     id: 'roles'
   },
   {
     href: '/Universe/users',
     icon: <UsersIcon />,
-    title: 'пользователи',
+    title: 'Пользователи',
     id: 'users'
   },
   {
     href: '/Universe/explorer',
     icon: <ExplorerIcon />,
-    title: 'документы',
+    title: 'Документы',
     id: 'explorer'
   },
   {
     href: '/Universe/trash',
     icon: <BinIcon />,
-    title: 'корзина',
+    title: 'Корзина',
     id: 'recycle'
   }
 ];

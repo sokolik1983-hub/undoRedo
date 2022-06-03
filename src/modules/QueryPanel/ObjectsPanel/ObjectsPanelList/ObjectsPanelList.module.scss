@@ -1,13 +1,10 @@
 .root {
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
-.listNode {
-  list-style: none;
-
-  & .listNodeInnerList {
-    margin-left: 0;
-    padding-left: 23px;
-  }
+.innerListNode {
+  margin: 0;
+  padding-left: 23px;
 }

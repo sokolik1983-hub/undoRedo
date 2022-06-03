@@ -29,5 +29,12 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    user-select: none;
   }
+}
+
+.tooltip {
+  max-width: 250px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
