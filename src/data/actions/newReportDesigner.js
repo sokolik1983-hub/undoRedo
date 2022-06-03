@@ -31,18 +31,18 @@ export const getStreamReceiever = queryParams => {
 
 export const getReportStructure = queryParams => {
   return async dispatch => {
-    dispatch(setStructure(REP_GET_REPORT_STRUCTURE.structure));
+    // dispatch(setStructure(REP_GET_REPORT_STRUCTURE.structure));
 
-    // const response = await request({
-    //   code: 'REP.GET_REPORT_STRUCTURE',
-    //   params: queryParams,
-    //   dispatch
-    // });
-    // if (response) {
-    //   if (response.result === true) {
-    //     dispatch(setStructure(response.structure));
-    //   }
-    // }
+    const response = await request({
+      code: 'REP.GET_REPORT_STRUCTURE',
+      params: queryParams,
+      dispatch
+    });
+    if (response) {
+      if (response.result === true) {
+        dispatch(setStructure(response.structure));
+      }
+    }
   };
 };
 
@@ -68,19 +68,19 @@ export const getElementData = (queryParams, callback) => {
 
 export const getVariables = () => {
   return async dispatch => {
-    dispatch(setVariables(REP_GET_VARIABLES.variables));
+    //  dispatch(setVariables(REP_GET_VARIABLES.variables));
 
-    // const response = await request({
-    //   code: 'REP.GET_VARIABLES',
-    //   params: {},
-    //   dispatch
-    // });
+    const response = await request({
+      code: 'REP.GET_VARIABLES',
+      params: {},
+      dispatch
+    });
 
-    // if (response) {
-    //   if (response.result === true) {
-    //     dispatch(setVariables(response.variables));
-    //   }
-    // }
+    if (response) {
+      if (response.result === true) {
+        dispatch(setVariables(response.variables));
+      }
+    }
   };
 };
 

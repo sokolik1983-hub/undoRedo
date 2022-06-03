@@ -38,7 +38,8 @@ const Cell = ({
   structureItem,
   blockStyles,
   refContent,
-  displayMode = 'Structure'
+  displayMode = 'Structure',
+  selected = false
 }) => {
   const dispatch = useDispatch();
   // const reportsUi = useSelector(state => state.app.reportDesigner.reportsUi.ui);
@@ -149,22 +150,6 @@ const Cell = ({
 
   const getCellStyle = () => {
     const result = {};
-
-    if (blockStyles?.font) {
-      if (blockStyles?.font?.size) {
-        result['fontSize'] = blockStyles?.font?.size + 'px';
-      }
-    }
-    // const {
-    //   minimalHeight = 60,
-    //   minimalWidth = 120,
-    //   autofitWidth = false, // после уточнения
-    //   autofitHeight = false // после уточнения
-    // } = size;
-
-    // result['minWidth'] = minimalWidth + 'px';
-    // result['minHeight'] = minimalHeight + 'px';
-
     return { ...blockStyles, ...result };
   };
 
@@ -183,7 +168,7 @@ const Cell = ({
 
   return (
     <div
-      style={{ position: 'relative', ...getCellStyle() }}
+      style={{ position: 'relative', ...getCellStyle(), outline: selected ? 'solid 1px blue' : "none" }}
       // onDragOver={handleDragOver}
     >
       <div

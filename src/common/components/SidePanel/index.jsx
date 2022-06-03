@@ -21,20 +21,19 @@ import {
   addTableColumn,
   addTableRow,
   addTableValue,
-  columnObject,
   setActiveNodes,
   setConfigPanelVisible,
   setStructure,
   setTableStyle,
-  setTableVariant,
-  sortingObject
-} from '../../../data/reducers/reportDesigner';
+  removeTableColumn,
+  setTableVariant
+} from '../../../data/reducers/new_reportDesigner';
 import ObjectsList from './ObjectsList';
 import { getCurrentReport } from '../../../modules/ReportDesigner/helpers';
 import SortingField from './SortingField';
 import { ReactComponent as CloseIcon } from '../../../layout/assets/close.svg';
 import { TABLE_ICONS } from '../../constants/reportDesigner/reportDesignerIcons';
-import { removeTableColumn } from '../../../data/reducers/new_reportDesigner';
+
 // import { deepObjectSearch } from '../../../data/helpers';
 
 const NAV_MENU_REPORT = [
@@ -62,6 +61,8 @@ export default function SidePanel({ navType }) {
   const [activeSubMenu, setActiveSubMenu] = useState(1);
   const reportDesigner = useSelector(state => state.app.reportDesigner);
   const dispatch = useDispatch();
+
+  const formattingElement = reportDesigner?.reportsUi?.ui?.formattingElement;
 
   const activeNode =
     reportDesigner.reportsData.present.activeNodes &&
@@ -112,17 +113,6 @@ export default function SidePanel({ navType }) {
       default:
         return null;
     }
-  }
-
-  function handleAddSorting() {
-    const { sorting } = currentNode;
-
-    dispatch(
-      addSortingField({
-        id: currentNode.id,
-        sorting: [...sorting, { ...sortingObject, id: Date.now() }]
-      })
-    );
   }
 
   function handleChangeSortingField(changedItem) {
@@ -251,30 +241,6 @@ export default function SidePanel({ navType }) {
     //     id: currentNode?.id
     //   })
     // );
-  }
-  function handleDropObjectRow(event) {
-    const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
-    event.dataTransfer.clearData();
-    refreshFieldsStore(selectedEl);
-
-    dispatch(
-      addTableRow({
-        row: { ...columnObject, object: { ...selectedEl } },
-        id: currentNode?.id
-      })
-    );
-  }
-  function handleDropObjectValue(event) {
-    const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
-    event.dataTransfer.clearData();
-
-    refreshFieldsStore(selectedEl);
-    dispatch(
-      addTableValue({
-        value: { ...columnObject, object: { ...selectedEl } },
-        id: currentNode?.id
-      })
-    );
   }
 
   const handleSetVariant = variant => {
@@ -435,9 +401,7 @@ export default function SidePanel({ navType }) {
         return (
           <div>
             <p>Сортировка</p>
-            <button type="button" onClick={handleAddSorting}>
-              Добавить сортировку
-            </button>
+            <button type="button">Добавить сортировку</button>
             {currentNode?.sorting?.map(item => (
               <SortingField
                 onChange={handleChangeSortingField}
@@ -463,7 +427,7 @@ export default function SidePanel({ navType }) {
             )}
             <StyleFormatter
               isHeader={activeSubMenu === 1}
-              onChange={params => dispatch(setTableStyle(params))}
+              onChange={params =>dispatch(setTableStyle({ ...params, formattingElement }))}
             />
           </div>
         );

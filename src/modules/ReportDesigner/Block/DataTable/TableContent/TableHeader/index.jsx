@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import { find } from 'lodash';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { getElementData } from '../../../../../../data/actions/newReportDesigner';
 import { setFormattingElement } from '../../../../../../data/reducers/new_reportDesigner';
 import Cell from '../../../Cell';
@@ -25,9 +25,9 @@ const TableHeader = ({ data, displayMode, reportData, ...props }) => {
   //   }
   // }, [displayMode]);
 
+  const formattingElement = useSelector(state => state.app.reportDesigner?.reportsUi?.ui?.formattingElement);
+
   const handleClick = (zone, item) => {
-    console.log(zone, 'zone');
-    console.log(item, 'item');
     dispatch(setFormattingElement({ zone, item }));
   };
 
@@ -40,9 +40,10 @@ const TableHeader = ({ data, displayMode, reportData, ...props }) => {
               <th key={item.id} onClick={() => handleClick('headerZone', item)}>
                 <Cell
                   displayMode={displayMode}
-                  blockStyles={item.styles}
+                  blockStyles={item.style}
                   structureItem={item}
                   id={item.id}
+                  selected={formattingElement && formattingElement.id === item.id}
                 />
               </th>
             );

@@ -10,8 +10,7 @@ import { getCurrentReport } from '../../helpers';
 import styles from './DataTable.module.scss';
 import {
   addTableColumn,
-  columnObject
-} from '../../../../data/reducers/reportDesigner';
+} from '../../../../data/reducers/new_reportDesigner';
 import TableContent from './TableContent';
 
 function DataTable({
@@ -41,20 +40,6 @@ function DataTable({
     );
   }
 
-  function allowDrop(event) {
-    event.preventDefault();
-  }
-
-  function handleDropObject(event) {
-    const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
-    event.dataTransfer.clearData();
-    dispatch(
-      addTableColumn({
-        column: { ...columnObject, object: { ...selectedEl } },
-        id
-      })
-    );
-  }
 
   function getSortedData() {
     if (currentReport?.dataset && structureItem?.sorting?.length > 0) {

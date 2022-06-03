@@ -21,6 +21,7 @@
     "http-proxy": "1.18.1",
     "http-proxy-middleware": "2.0.1",
     "http-route-proxy": "0.2.2",
+    "immer": "^9.0.14",
     "lodash": "4.17.21",
     "moment": "2.29.1",
     "node-sass": "6.0.1",

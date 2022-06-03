@@ -17,7 +17,7 @@ import {
   setCreatingElement,
   setConfigPanelVisible,
   setFormulaEditorVisible
-} from '../../../data/reducers/reportDesigner';
+} from '../../../data/reducers/new_reportDesigner';
 import ActionsGroup from '../../../common/components/ActionsGroup';
 import styles from './ReportActions.module.scss';
 import { notificationShown } from '../../../data/reducers/notifications';
