@@ -23,7 +23,6 @@ import { setCreateObjectModal } from '../../../data/actions/universes';
 import ObjectLayer from './ObjectLayer';
 import Tooltip from '../../../common/components/Tooltip';
 
-
 function Sidebar({ onSelect }) {
 
   const { selectedTables, coloredValue, dataList } = useSelector(
