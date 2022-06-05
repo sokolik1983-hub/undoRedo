@@ -4,9 +4,9 @@ import { Rnd } from 'react-rnd';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Block.module.scss';
-import { setSelectedColumns } from '../../../data/reducers/reportDesigner';
 import DataTable from './DataTable';
 import Cell from './Cell';
+import { setSelectedColumns } from '../../../data/reducers/new_reportDesigner';
 
 function Block({
   id,

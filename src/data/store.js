@@ -5,7 +5,7 @@ import { configureStore } from '@reduxjs/toolkit';
 // import uiReducer from './reducers/ui';
 // import notificationsReducer from './reducers/notifications';
 // import dataReducer from './reducers/data';
-// import reportDesignerReducer from './reducers/reportDesigner';
+// import reportDesignerReducer from './reducers/new_reportDesigner';
 import appReducer from './reducers/root';
 
 const store = configureStore({

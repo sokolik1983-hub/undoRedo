@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import lodash from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  graphObject,
   reportObject,
   setActiveNodes,
   setActiveReport,
@@ -13,10 +12,10 @@ import {
   setReports,
   setSelectedColumns,
   setStructure,
-  shapeObject,
-  tableObject,
-  textObject
-} from '../../data/reducers/reportDesigner';
+  cellObject,
+  reportPageObject,
+  setReportDisplayMode
+} from '../../data/reducers/new_reportDesigner';
 import Block from './Block';
 import styles from './ReportDesigner.module.scss';
 import { generateId, getCurrentReport } from './helpers';
@@ -40,20 +39,9 @@ import { ReactComponent as CloseIcon } from '../../layout/assets/close.svg';
 import ReportSidebar from './ReportSidebar';
 import QueryPanel from '../QueryPanel';
 import ReportContent from './ReportContent';
-import {
-  cellObject,
-  reportPageObject,
-  setReportDisplayMode
-} from '../../data/reducers/new_reportDesigner';
 
-const BLOCK_TYPES = {
-  table_vertical: tableObject,
-  table_cross: tableObject,
-  table_horizontal: tableObject,
-  graph: graphObject,
-  cell: cellObject,
-  shape: shapeObject
-};
+
+
 
 // const getVariant = (type, tableType, graphType) => {
 //   const types = ['table', 'graph'];

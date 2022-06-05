@@ -3,7 +3,7 @@
 /* eslint-disable react/prop-types */
 import { find } from 'lodash';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getElementData } from '../../../../../../data/actions/newReportDesigner';
 import { setFormattingElement } from '../../../../../../data/reducers/new_reportDesigner';
 import Cell from '../../../Cell';
@@ -19,6 +19,7 @@ const TableHeader = ({
   const dispatch = useDispatch();
   const [isFetching, setIsFetching] = useState(false);
   const [response, setResponse] = useState();
+  const formattingElement = useSelector(state => state.app.reportDesigner?.reportsUi?.ui?.formattingElement);
 
   useEffect(() => {
     if (displayMode === 'Data') {
@@ -33,6 +34,7 @@ const TableHeader = ({
   }, [displayMode]);
 
   if (tableType === 'hTable') return null;
+
 
   const handleClick = (zone, item) => {
     dispatch(setFormattingElement({ zone, item }));
@@ -85,9 +87,10 @@ const TableHeader = ({
               <th key={item.id} onClick={() => handleClick('headerZone', item)}>
                 <Cell
                   displayMode={displayMode}
-                  blockStyles={item.styles}
+                  blockStyles={item.style}
                   structureItem={item}
                   id={item.id}
+                  selected={formattingElement && formattingElement.id === item.id}
                 />
               </th>
             );

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './ZoomSlider.module.scss';
 import { ReactComponent as Minus } from '../../../assets/reportDesigner/minus.svg';
 import { ReactComponent as Plus } from '../../../assets/reportDesigner/plus.svg';
-import { setZoom } from '../../../../data/reducers/reportDesigner';
+import { setZoom } from '../../../../data/reducers/new_reportDesigner';
 
 const ZoomSlider = () => {
   const zoom = useSelector(state => state.app.reportDesigner.reportsUi.ui?.zoom);

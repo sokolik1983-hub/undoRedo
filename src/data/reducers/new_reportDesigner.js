@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 import { createSlice } from '@reduxjs/toolkit';
 import lodash, { find } from 'lodash';
 import undoable from 'redux-undo';
+import { deepObjectSearch } from '../helpers';
 // import { deepObjectSearch } from '../helpers';
 
 // const V_TABLE = {
@@ -2647,56 +2648,32 @@ const reportDesigner = createSlice({
       });
     },
     setTableStyle: (state, action) => {
-      console.log(state, 'asdads');
-      console.log(action, 'action');
-      // const report = lodash.find(
-      //   state.reports,
-      //   item => item.id === state.activeReport
-      // );
+      const report = lodash.find(
+        state.reports,
+        item => item.id === state.activeReport
+      );
 
-      // state.activeNodes.forEach(node => {
-      //   const reportNode = lodash.find(
-      //     report.structure,
-      //     item => item.id === node.id
-      //   );
+      const { formattingElement } = action.payload;
 
-      //   reportNode.columns.forEach(column => {
-      //     if (action.payload.column) {
-      //       if (action.payload.column === column.object.id)
-      //         if (action.payload.isHeader) {
-      //           column.header.styles = action.payload.styles
-      //             ? {
-      //                 ...column.header.styles,
-      //                 ...action.payload.styles
-      //               }
-      //             : {};
-      //         } else {
-      //           column.cells.styles = action.payload.styles
-      //             ? {
-      //                 ...column.cells.styles,
-      //                 ...action.payload.styles
-      //               }
-      //             : {};
-      //         }
-      //     } else {
-      //       if (action.payload.isHeader) {
-      //         column.header.styles = action.payload.styles
-      //           ? {
-      //               ...column.header.styles,
-      //               ...action.payload.styles
-      //             }
-      //           : {};
-      //       } else {
-      //         column.cells.styles = action.payload.styles
-      //           ? {
-      //               ...column.cells.styles,
-      //               ...action.payload.styles
-      //             }
-      //           : {};
-      //       }
-      //     }
-      //   });
-      // });
+      if (!formattingElement) return;
+
+      const targ = deepObjectSearch({
+        target: report.structure,
+        key: 'id',
+        value: formattingElement.id
+      })[0].target;
+
+      if (!targ) {
+        console.log('targ not found');
+        return;
+      }
+
+      if (Object.keys(action.payload.styles).length === 0) {
+        targ.style = {};
+        return;
+      }
+
+      targ.style = { ...targ.style, ...action.payload.styles };
     },
     addTableColumn: (state, action) => {
       const report = lodash.find(
@@ -2720,8 +2697,6 @@ const reportDesigner = createSlice({
       //   key: 'id',
       //   value: action.payload.id
       // });
-
-      debugger;
 
       headerZone[0].cells = [
         ...headerZone[0].cells,
@@ -2749,7 +2724,6 @@ const reportDesigner = createSlice({
       const bodyZone = currentNode?.content?.layout?.zones?.filter(
         item => item.vType === 'body'
       );
-      debugger;
       headerZone[0].cells = headerZone[0].cells.filter(
         item => item.col !== action.payload.object.col
       );
@@ -2801,8 +2775,6 @@ const reportDesigner = createSlice({
         state.reports,
         item => item.id === state.activeReport
       );
-      debugger;
-
       const activeNode = state.activeNodes[0];
       const currentNode = find(
         report.structure?.pgBody?.content?.children,
@@ -2833,12 +2805,17 @@ const reportDesignerUI = createSlice({
       tableType: 'cross',
       graphType: 'graph1',
       zoom: 1,
-      formattingElement: null
+      formattingElement: null,
+      test: 'test'
     }
   },
   reducers: {
     setFormattingElement: (state, action) => {
-      state.formattingElement = action.element;
+      if (state.ui.formattingElement?.id === action.payload.item?.id) {
+        state.ui.formattingElement = null;
+      } else {
+        state.ui.formattingElement = action.payload.item;
+      }
     },
     setSelectedColumns: (state, action) => {
       if (!action.payload) {

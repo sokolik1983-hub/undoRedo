@@ -54,18 +54,18 @@ export const setReportStructure = queryParams => {
   // streamreceiver:{{lastThread}}
 
   return async dispatch => {
-    // dispatch(setStructure(REP_GET_REPORT_STRUCTURE.structure));
+    dispatch(setStructure(REP_GET_REPORT_STRUCTURE.structure));
 
-    const response = await request({
-      code: 'REP.SET_STRUCTURE',
-      params: queryParams,
-      dispatch
-    });
-    if (response) {
-      if (response.result === true) {
-        dispatch(getReportStructure({ report_id: queryParams.report_id }));
-      }
-    }
+    // const response = await request({
+    //   code: 'REP.SET_STRUCTURE',
+    //   params: queryParams,
+    //   dispatch
+    // });
+    // if (response) {
+    //   if (response.result === true) {
+    //     dispatch(getReportStructure({ report_id: queryParams.report_id }));
+    //   }
+    // }
   };
 };
 
@@ -93,7 +93,7 @@ export const getElementData = (queryParams, callback) => {
 
 export const getVariables = () => {
   return async dispatch => {
-    dispatch(setVariables(REP_GET_VARIABLES.variables));
+     dispatch(setVariables(REP_GET_VARIABLES.variables));
 
     // const response = await request({
     //   code: 'REP.GET_VARIABLES',
