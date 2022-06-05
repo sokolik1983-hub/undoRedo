@@ -8,7 +8,7 @@ import { getElementData } from '../../../../../../data/actions/newReportDesigner
 import Cell from '../../../Cell';
 import styles from './TableFooter.module.scss';
 
-const TableFooter = ({ data, displayMode, reportData, ...props }) => {
+const TableFooter = ({ data, displayMode, reportData, tableType, ...props }) => {
   const dispatch = useDispatch();
   const [isFetching, setIsFetching] = useState(false);
   const [response, setResponse] = useState();
@@ -26,6 +26,7 @@ const TableFooter = ({ data, displayMode, reportData, ...props }) => {
   }, [displayMode]);
 
   const renderCells = () => {
+    if (tableType === 'hTable') return null;
     return data?.map(zone => {
       console.log(zone?.cells, 'zone?.cells?');
       return (

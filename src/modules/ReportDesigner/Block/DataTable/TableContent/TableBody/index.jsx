@@ -90,6 +90,7 @@ const TableBody = ({
                   id={item.id}
                 />
               </td>
+              {tableType === 'hTable' ? renderHTableFooter(item.col) : null}
             </tr>
           );
         })
@@ -103,14 +104,14 @@ const TableBody = ({
         <tr>
           {zone?.cells?.map(item => {
             return (
-              <th key={item.id}>
+              <td key={item.id}>
                 <Cell
                   displayMode={displayMode}
                   blockStyles={item.styles}
                   structureItem={item}
                   id={item.id}
                 />
-              </th>
+              </td>
             );
           })}
         </tr>
@@ -128,6 +129,7 @@ const TableBody = ({
             {item.map(cell => {
               return <td key={cell}>{cell}</td>;
             })}
+            {tableType === 'hTable' && renderHTableFooter(idx + 1)}
           </tr>
         );
       })

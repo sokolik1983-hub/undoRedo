@@ -112,7 +112,7 @@ function ReportDesigner() {
 
   useEffect(async () => {
     // await dispatch(refreshServerResponse());
-    await dispatch(getStreamReceiever({ fileName: 'test.js' }));
+    // await dispatch(getStreamReceiever({ fileName: 'test.js' }));
     await dispatch(getReportStructure({ report_id: 'R1' }));
     await dispatch(getVariables());
 
