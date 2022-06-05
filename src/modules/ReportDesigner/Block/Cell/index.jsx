@@ -193,7 +193,11 @@ const Cell = ({
 
   return (
     <div
-      style={{ position: 'relative', ...getCellStyle(), outline: selected ? 'solid 1px blue' : "none" }}
+      style={{
+        position: 'relative',
+        ...getCellStyle(),
+        outline: selected ? 'solid 1px blue' : 'none'
+      }}
       // onDragOver={handleDragOver}
     >
       <div
@@ -265,7 +269,14 @@ const Cell = ({
         />
       </div>
 
-      <div>{getCellValue}</div>
+      <div
+        style={{
+          position: 'relative',
+          ...getCellStyle()
+        }}
+      >
+        {getCellValue}
+      </div>
     </div>
   );
 };

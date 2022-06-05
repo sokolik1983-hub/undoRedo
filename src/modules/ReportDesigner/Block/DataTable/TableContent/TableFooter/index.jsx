@@ -3,16 +3,25 @@
 /* eslint-disable react/prop-types */
 import { find } from 'lodash';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getElementData } from '../../../../../../data/actions/newReportDesigner';
+import { setFormattingElement } from '../../../../../../data/reducers/new_reportDesigner';
 import Cell from '../../../Cell';
 import styles from './TableFooter.module.scss';
 
-const TableFooter = ({ data, displayMode, reportData, tableType, ...props }) => {
+const TableFooter = ({
+  data,
+  displayMode,
+  reportData,
+  tableType,
+  ...props
+}) => {
   const dispatch = useDispatch();
   const [isFetching, setIsFetching] = useState(false);
   const [response, setResponse] = useState();
-
+  const formattingElement = useSelector(
+    state => state.app.reportDesigner?.reportsUi?.ui?.formattingElement
+  );
   useEffect(() => {
     if (displayMode === 'Data') {
       setIsFetching(true);
@@ -25,6 +34,10 @@ const TableFooter = ({ data, displayMode, reportData, tableType, ...props }) => 
     }
   }, [displayMode]);
 
+  const handleClick = (zone, item) => {
+    dispatch(setFormattingElement({ zone, item }));
+  };
+
   const renderCells = () => {
     if (tableType === 'hTable') return null;
     return data?.map(zone => {
@@ -33,12 +46,15 @@ const TableFooter = ({ data, displayMode, reportData, tableType, ...props }) => 
         <tr>
           {zone?.cells?.map(item => {
             return (
-              <th key={item.id}>
+              <th key={item.id} onClick={() => handleClick('footerZone', item)}>
                 <Cell
                   displayMode={displayMode}
-                  blockStyles={item.styles}
+                  blockStyles={item.style}
                   structureItem={item}
                   id={item.id}
+                  selected={
+                    formattingElement && formattingElement.id === item.id
+                  }
                 />
               </th>
             );

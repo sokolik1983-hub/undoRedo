@@ -41,8 +41,6 @@ import QueryPanel from '../QueryPanel';
 import ReportContent from './ReportContent';
 
 
-
-
 // const getVariant = (type, tableType, graphType) => {
 //   const types = ['table', 'graph'];
 

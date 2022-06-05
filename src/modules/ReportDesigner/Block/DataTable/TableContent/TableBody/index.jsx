@@ -6,9 +6,10 @@
 
 import { find, findIndex } from 'lodash';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Preloader from '../../../../../../common/components/Preloader/Preloader';
 import { getElementData } from '../../../../../../data/actions/newReportDesigner';
+import { setFormattingElement } from '../../../../../../data/reducers/new_reportDesigner';
 import Cell from '../../../Cell';
 import styles from './TableBody.module.scss';
 
@@ -25,6 +26,9 @@ const TableBody = ({
   const dispatch = useDispatch();
   const [isFetching, setIsFetching] = useState(false);
   const [response, setResponse] = useState();
+  const formattingElement = useSelector(
+    state => state.app.reportDesigner?.reportsUi?.ui?.formattingElement
+  );
 
   useEffect(() => {
     if (displayMode === 'Data') {
@@ -38,18 +42,25 @@ const TableBody = ({
     }
   }, [displayMode]);
 
+  const handleClick = (zone, item) => {
+    dispatch(setFormattingElement({ zone, item }));
+  };
+
   const renderHTableHeader = colId => {
     return headerZone?.map(zone => {
       const headerField = find(zone?.cells, it => it.col === colId);
 
       return (
         headerField && (
-          <th>
+          <th onClick={() => handleClick('headerZone', headerField)}>
             <Cell
               displayMode={displayMode}
               blockStyles={headerField.styles}
               structureItem={headerField}
               id={headerField.id}
+              selected={
+                formattingElement && formattingElement.id === headerField.id
+              }
             />
           </th>
         )
@@ -58,16 +69,19 @@ const TableBody = ({
   };
   const renderHTableFooter = colId => {
     return footerZone?.map(zone => {
-      const headerField = find(zone?.cells, it => it.col === colId);
+      const footerField = find(zone?.cells, it => it.col === colId);
 
       return (
-        headerField && (
-          <th>
+        footerField && (
+          <th onClick={() => handleClick('footerZone', footerField)}>
             <Cell
               displayMode={displayMode}
-              blockStyles={headerField.styles}
-              structureItem={headerField}
-              id={headerField.id}
+              blockStyles={footerField.styles}
+              structureItem={footerField}
+              id={footerField.id}
+              selected={
+                formattingElement && formattingElement.id === footerField.id
+              }
             />
           </th>
         )
@@ -82,12 +96,15 @@ const TableBody = ({
           return (
             <tr key={item.id}>
               {tableType === 'hTable' ? renderHTableHeader(item.col) : null}
-              <td>
+              <td onClick={() => handleClick('bodyZone', item)}>
                 <Cell
                   displayMode={displayMode}
-                  blockStyles={item.styles}
+                  blockStyles={item.style}
                   structureItem={item}
                   id={item.id}
+                  selected={
+                    formattingElement && formattingElement.id === item.id
+                  }
                 />
               </td>
               {tableType === 'hTable' ? renderHTableFooter(item.col) : null}
@@ -104,12 +121,15 @@ const TableBody = ({
         <tr>
           {zone?.cells?.map(item => {
             return (
-              <td key={item.id}>
+              <td key={item.id} onClick={() => handleClick('bodyZone', item)}>
                 <Cell
                   displayMode={displayMode}
-                  blockStyles={item.styles}
+                  blockStyles={item.style}
                   structureItem={item}
                   id={item.id}
+                  selected={
+                    formattingElement && formattingElement.id === item.id
+                  }
                 />
               </td>
             );
@@ -127,7 +147,11 @@ const TableBody = ({
           <tr key={item} data="data-row">
             {tableType === 'hTable' && renderHTableHeader(idx + 1)}
             {item.map(cell => {
-              return <td key={cell}>{cell}</td>;
+              return (
+                <td key={cell} style={{ ...item.style }}>
+                  {cell}
+                </td>
+              );
             })}
             {tableType === 'hTable' && renderHTableFooter(idx + 1)}
           </tr>
