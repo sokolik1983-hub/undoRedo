@@ -18,7 +18,7 @@ import {
 } from '../../data/reducers/new_reportDesigner';
 import Block from './Block';
 import styles from './ReportDesigner.module.scss';
-import { generateId, getCurrentReport } from './helpers';
+import { createReportElement, getCurrentReport } from './helpers';
 // import SidePanel from '../../common/components/SidePanel';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
@@ -127,23 +127,30 @@ function ReportDesigner() {
 
   function handleAddBlock(event) {
     event.stopPropagation();
-    console.log(reportDesigner.reportsUi.ui.creatingElement, 'asd');
-    // TODO change to new store adding element
-    // if (reportDesigner.reportsUi.ui.creatingElement) {
-    //   debugger
-    //   const newStructure = [
-    //     ...currentReport.structure,
-    //     {
-    //       ...BLOCK_TYPES[reportDesigner.reportsUi.ui.creatingElement],
-    //       position: mousePosition,
-    //       id: generateId(),
-    //       variant: creatingElement
-    //     }
-    //   ];
 
-    //   dispatch(setCreatingElement(null));
-    //   dispatch(setStructure(newStructure));
-    // }
+    console.log(reportDesigner.reportsUi.ui.creatingElement, 'asd');
+
+    console.log(currentReport.structure)
+    console.log(mousePosition)
+
+
+    if (reportDesigner.reportsUi.ui.creatingElement) {
+      const newStructure = lodash.cloneDeep(currentReport.structure)
+      console.log(newStructure)
+      newStructure.pgBody.content.children.push(createReportElement({type: reportDesigner.reportsUi.ui.creatingElement, mousePosition}))
+      // const newStructure = [
+      //   ...currentReport.structure,
+      //   {
+      //     ...BLOCK_TYPES[reportDesigner.reportsUi.ui.creatingElement],
+      //     position: mousePosition,
+      //     id: generateId(),
+      //     variant: creatingElement
+      //   }
+      // ];
+
+      dispatch(setCreatingElement(null));
+      dispatch(setStructure(newStructure));
+    }
   }
 
   // function handleChangePosition(id, newPosition) {

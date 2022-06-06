@@ -72,10 +72,12 @@ function Block({
       case 'cell':
         return (
           <Cell
-            blockStyles={blockProps.styles}
+            blockStyles={structureItem.style}
             structureItem={structureItem.content}
             id={id}
             refContent={refContent}
+            independent
+            originalItem={structureItem}
           />
         );
       default:

@@ -41,7 +41,6 @@ const TableFooter = ({
   const renderCells = () => {
     if (tableType === 'hTable') return null;
     return data?.map(zone => {
-      console.log(zone?.cells, 'zone?.cells?');
       return (
         <tr>
           {zone?.cells?.map(item => {

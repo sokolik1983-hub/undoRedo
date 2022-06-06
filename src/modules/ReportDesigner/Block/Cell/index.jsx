@@ -7,6 +7,7 @@ import { cloneDeep, find, findIndex } from 'lodash';
 import { getCurrentReport } from '../../helpers';
 import { addTableColumn } from '../../../../data/reducers/new_reportDesigner';
 import { setReportStructure } from '../../../../data/actions/newReportDesigner';
+import { setFormattingElement } from '../../../../data/reducers/new_reportDesigner';
 
 // const mockCell = {
 //   id: 'R1.B.1',
@@ -38,9 +39,10 @@ const Cell = ({
   id,
   structureItem,
   blockStyles,
-  refContent,
   displayMode = 'Structure',
-  selected = false
+  selected = false,
+  independent = false,
+  originalItem = {}
 }) => {
   const dispatch = useDispatch();
   // const reportsUi = useSelector(state => state.app.reportDesigner.reportsUi.ui);
@@ -97,6 +99,11 @@ const Cell = ({
     });
   };
 
+
+
+  const handleClick = () => dispatch( setFormattingElement({ item:originalItem }) )
+  
+
   const handleDrop = (event, position) => {
     const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
     event.dataTransfer.clearData();
@@ -130,30 +137,34 @@ const Cell = ({
       item => item.vType === 'body'
     );
 
-    headerZone[0].cells = [
-      ...headerZone[0].cells,
-      {
-        ...element,
-        expression: {
-          dataType: selectedEl.dataType,
-          formula: selectedEl.name,
-          type: 'Const'
+    if (headerZone && headerZone.length > 0) {
+      headerZone[0].cells = [
+        ...headerZone[0].cells,
+        {
+          ...element,
+          expression: {
+            dataType: selectedEl.dataType,
+            formula: selectedEl.name,
+            type: 'Const'
+          }
         }
-      }
-    ];
-    bodyZone[0].cells = [
-      ...bodyZone[0].cells,
-      {
-        ...element,
-        expression: {
-          dataType: selectedEl.dataType,
-          formula: selectedEl.formula,
-          parsedFormula: selectedEl.parsedFormula,
-          type: selectedEl.type,
-          variable_id: selectedEl.id
+      ];
+    }
+    if (bodyZone && bodyZone.length > 0) {
+      bodyZone[0].cells = [
+        ...bodyZone[0].cells,
+        {
+          ...element,
+          expression: {
+            dataType: selectedEl.dataType,
+            formula: selectedEl.formula,
+            parsedFormula: selectedEl.parsedFormula,
+            type: selectedEl.type,
+            variable_id: selectedEl.id
+          }
         }
-      }
-    ];
+      ];
+    }
 
     dispatch(
       setReportStructure({
@@ -198,7 +209,8 @@ const Cell = ({
         ...getCellStyle(),
         outline: selected ? 'solid 1px blue' : 'none'
       }}
-      // onDragOver={handleDragOver}
+      onDragOver={handleDragOver}
+      onClick={independent ? handleClick : () => {}}
     >
       <div
         style={{
@@ -271,7 +283,6 @@ const Cell = ({
 
       <div
         style={{
-          position: 'relative',
           ...getCellStyle()
         }}
       >

@@ -86,8 +86,8 @@ export const REPORT_PAGE_ACTIONS = [
     enable: true
   },
   {
-    // action: '',
-    title: 'добавить текстовое поле [Ctrl+T]',
+    action: 'addCell',
+    title: 'добавить ячейку [Ctrl+T]',
     icon: <AddTextIcon />,
     enable: true
   },
