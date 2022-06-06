@@ -13,6 +13,11 @@
   padding-bottom: 1px;
 }
 
+.wrapperHighlight {
+  @extend .wrapper;
+  box-shadow: 0px 5px 37px rgba(198, 67, 219, 0.74);
+}
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -63,6 +68,7 @@
   color: #ffffff;
   margin: 0 -16px;
   padding: 3px 16px;
+  cursor: pointer;
 
   &:hover {
     transition: 0.3s ease-in-out;
@@ -76,11 +82,8 @@
   color: #ffffff;
   margin: 0 -16px;
   padding: 3px 16px;
-  background: #cc8e35;
-  &:hover {
-    transition: 0.3s ease-in-out;
-    background: rgba(196, 196, 196, 0.25);
-  }
+  cursor: pointer;
+  background: rgba(198, 67, 219, 0.5);
 }
 
 .itemsWrapper {

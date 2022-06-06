@@ -135,6 +135,12 @@ const TableComponent = ({
     state => state.app.schemaDesigner
   );
 
+  const [coords, setCoords] = useState({x: 0, y: 0});
+
+  useEffect(() => {
+    setCoords({x: coords.x + 50, y: coords.y + 50});
+  }, [ selectedTables]);
+
   // const refs = useMemo(() => tableRefs[tableId], [tableRefs, tableId]);
   const [synName, setSynName] = useState('');
   const [showSynPopup, setShowSynPopup] = useState(false);
@@ -196,7 +202,7 @@ const TableComponent = ({
       dispatch(setShowDataList());
     };
   }, [showDataList]);
-  
+
   useEffect(() => {
     dispatch(getObjectFields({ ...tableItem, connect_id: 4 }));
 
@@ -222,7 +228,6 @@ const TableComponent = ({
   ]);
 
   const [onFilter, setOnFilter] = useState(false);
-
   const [tableData, setTableData] = useState(null);
   const [isLoadingData, setIsLoadingData] = useState(true);
   // const { getObjectFields, getObjectData } = useApplicationActions();
@@ -305,7 +310,7 @@ const TableComponent = ({
   //   props.onNewLinkItem(item);
   // };
 
-  const ActualPosition = (position && position.deltaPosition) || { x: 0, y: 0 };
+  const ActualPosition = (position && position.deltaPosition) || coords;
 
   // function handleDropObject(event) {}
 
@@ -434,7 +439,7 @@ const TableComponent = ({
               }`
             : undefined
         }}
-      >
+      > 
         <SchemaEditorBlock
           isHighlight={isHighlighted}
           onTableDragStart={onTableDragStart}
