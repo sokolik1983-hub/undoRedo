@@ -22,6 +22,16 @@ const ModalConfirmDeletion = ({
     state => state.app.schemaDesigner.selectedTables
   );
 
+  const Links = useSelector(state => state.app.schemaDesigner.links);
+
+  const filteredLinks = Links.filter(item => !item.expression.includes(selectedTableFullName));
+
+    console.log('fullName', selectedTableFullName );
+    console.log('Links', Links );
+    console.log('filteredLinks', filteredLinks );
+
+
+
   const filterDeletedTable = tableName => {
     return Object.fromEntries(
       Object.entries(globalStateTables).filter(([key]) => key !== tableName)
