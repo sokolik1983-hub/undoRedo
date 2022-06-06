@@ -4,7 +4,7 @@ import { notificationShown } from '../reducers/notifications';
 import {
   setConnectorObjects,
   setSelectedTables,
-  setConnectorData, unsetTablePreviewData, setSelectedTablesFiltered
+  setConnectorData, unsetTablePreviewData, setSelectedTablesFiltered, setLinksFiltered
 } from '../reducers/schemaDesigner';
 
 export const getConnectorObjectsList = queryParams => {
@@ -74,4 +74,8 @@ export const clearTablePreview = () => {
 
 export const filterSelectedTables = (filteredTables) => {
   return dispatch => dispatch(setSelectedTablesFiltered(filteredTables));
+}
+
+export const filterTablesLinks = (filteredLinks) => {
+  return dispatch => dispatch(setLinksFiltered(filteredLinks));
 }

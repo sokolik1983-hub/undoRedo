@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../Button';
 import { ReactComponent as WarnIcon } from '../../../../layout/assets/warnIcon.svg';
 import { BUTTON } from '../../../constants/common';
-import { filterSelectedTables } from '../../../../data/actions/schemaDesigner';
+import {
+  filterSelectedTables,
+  filterTablesLinks
+} from '../../../../data/actions/schemaDesigner';
 import styles from './ModalConfirmDeletion.module.scss';
 
 const ModalConfirmDeletion = ({
@@ -24,13 +27,9 @@ const ModalConfirmDeletion = ({
 
   const Links = useSelector(state => state.app.schemaDesigner.links);
 
-  const filteredLinks = Links.filter(item => !item.expression.includes(selectedTableFullName));
-
-    console.log('fullName', selectedTableFullName );
-    console.log('Links', Links );
-    console.log('filteredLinks', filteredLinks );
-
-
+  const filteredLinks = Links.filter(
+    item => !item.expression.includes(selectedTableFullName)
+  );
 
   const filterDeletedTable = tableName => {
     return Object.fromEntries(
@@ -47,6 +46,7 @@ const ModalConfirmDeletion = ({
   const deleteTable = tableToDelete => {
     onDeleteTable(tableItem);
     dispatch(filterSelectedTables(filterDeletedTable(tableToDelete)));
+    dispatch(filterTablesLinks(filteredLinks));
     onCloseSchemaEditorBlock(false);
     onCancel();
   };

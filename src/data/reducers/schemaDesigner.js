@@ -82,6 +82,9 @@ const schemaDesigner = createSlice({
         return link;
       });
     },
+    setLinksFiltered: (state, action) => {
+      state.links = action.payload;
+    },
     setObjectsLayerList: (state, action) => {
       state.objectsLayerList = [...state.objectsLayerList, action.payload];
     },
@@ -117,6 +120,7 @@ export const {
   addLink,
   setLinks,
   setLink,
+  setLinksFiltered,
   setObjectsLayerList,
   setContexts,
   unsetTablePreviewData,
