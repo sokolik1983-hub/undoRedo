@@ -127,14 +127,14 @@ const EditObjectLayerModal = ({ visible }) => {
 							data.usagePermission || values[CREATE_OBJECT_MODAL_VALUES.USAGE_PERMISSION],
             ]}
             checkboxes={[
-						data.thisListEditCheckBox,
-						data.refreshBeforeUsageCheckBox,
-						data.showHierarchyCheckBox,
-						data.exportByUniverseCheckBox,
-						data.searchDelegetionCheckBox,
-						data.useInResultsCheckBox,
-						data.useInConditionsCheckBox,
-						data.useInSortingsCheckBox
+              data.thisListEditCheckBox,
+              data.refreshBeforeUsageCheckBox,
+              data.showHierarchyCheckBox,
+              data.exportByUniverseCheckBox,
+              data.searchDelegetionCheckBox,
+              data.useInResultsCheckBox,
+              data.useInConditionsCheckBox,
+              data.useInSortingsCheckBox
 						]}
             onChange={handleChange}
           />
