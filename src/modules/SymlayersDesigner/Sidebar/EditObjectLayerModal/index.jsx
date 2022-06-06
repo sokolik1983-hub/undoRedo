@@ -17,12 +17,12 @@ import TechInfoBlock from '../../CreateObjectLayerModal/ModalItem/TechInfoBlock'
 import FooterBlock from '../../CreateObjectLayerModal/ModalItem/Footer';
 import Modal from '../../../../common/components/Modal';
 import { setEditObjectModal } from '../../../../data/actions/universes';
+import { showToast } from '../../../../data/actions/app';
 
 const EditObjectLayerModal = ({ visible }) => {
   const dispatch = useDispatch();
 
 	const data = useSelector(state => state.app.ui.modalData);
-	console.log(data);
 
 	const editObjectModalValues = {
 		[CREATE_OBJECT_MODAL_VALUES.NAME]: data.name,
@@ -51,7 +51,6 @@ const EditObjectLayerModal = ({ visible }) => {
 		[CREATE_OBJECT_MODAL_VALUES.ORIGIN_INPUT]: data.originInput
 	};
 
-	console.log(data)
 	const handleClose = () => {
 		return dispatch(setEditObjectModal(false));
 	};
@@ -67,14 +66,13 @@ const EditObjectLayerModal = ({ visible }) => {
     CREATE_OBJECT_MODAL_VALUES.USE_IN_SORTINGS_CHECKBOX
   ];
 	
-	console.log(checkBoxValues)
-
   const content = (
     <Formik
       initialValues={editObjectModalValues}
       onSubmit={(values, event) => {
         handleClose();
         dispatch(setObjectLayer({...values, id: data.id}));
+				dispatch(showToast('warning', 'Объект сохранен'));
         event.preventDefault();
         window.location.pathname = '/Universe/symlayers/create';
       }}

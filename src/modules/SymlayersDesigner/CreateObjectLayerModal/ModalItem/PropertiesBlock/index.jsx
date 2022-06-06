@@ -21,7 +21,6 @@ import styles from './PropertiesBlock.module.scss';
 
 const PropertiesBlock = ({ name, value }) => {
   const formikProps = useFormikContext();
-  console.log(value)
 
   const selectDataOptions = [
     { icon: <SymbolIcon />, text: 'Символ', value: 'symbol' },

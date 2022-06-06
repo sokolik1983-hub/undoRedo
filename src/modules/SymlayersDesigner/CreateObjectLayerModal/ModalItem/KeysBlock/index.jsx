@@ -89,7 +89,7 @@ const KeysBlock = ({ onChange, name, value }) => {
 
   useEffect(() => {
     formikProps.setFieldValue(name[0], 'Символ');
-    formikProps.setFieldValue(name[3], value[3] || 'main');
+    formikProps.setFieldValue(name[3], value?.[3] || 'main');
   }, []);
 
   const setSelectedFields = item => {
