@@ -7,39 +7,39 @@ import styles from './DeleteObjectModal.module.scss';
 
 const DeleteObjectModal = ({ onClose, onDelete }) => {
 
-	const confirmContent = (
-  <div className={styles.message}>
-    Данный объект будет удален. 
-    <br />
-    Вы уверены что хотите продолжить?
-  </div>
+  const confirmContent = (
+    <div className={styles.message}>
+      Данный объект будет удален. 
+      <br />
+      Вы уверены что хотите продолжить?
+    </div>
 	)
 
-	const warnTitle = (
-  <div className={styles.title}>
-    <WarnIcon />
-    <span>
-      Внимание
-    </span>
-  </div>
+  const warnTitle = (
+    <div className={styles.title}>
+      <WarnIcon />
+      <span>
+        Внимание
+      </span>
+    </div>
 	)
 
-	const buttonsFooter = (
-  <div className={styles.footer}>
-    <Button buttonStyle='BIG_ORANGE' onClick={onDelete}> Удалить объект </Button>
-    <Button buttonStyle='BIG_BLUE' onClick={onClose}> Отмена </Button>
-  </div>
+  const buttonsFooter = (
+    <div className={styles.footer}>
+      <Button buttonStyle='BIG_ORANGE' onClick={onDelete}> Удалить объект </Button>
+      <Button buttonStyle='BIG_BLUE' onClick={onClose}> Отмена </Button>
+    </div>
 	)
 
-	return (
-  <Modal
-    className={styles.root}
-    visible
-    onClose={onClose}
-    title={warnTitle}
-    content={confirmContent}
-    footer={buttonsFooter}
-		/>
+  return (
+    <Modal
+      className={styles.root}
+      visible
+      onClose={onClose}
+      title={warnTitle}
+      content={confirmContent}
+      footer={buttonsFooter}
+    />
 	)
 }
 
