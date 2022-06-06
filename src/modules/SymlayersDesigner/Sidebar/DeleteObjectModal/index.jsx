@@ -13,7 +13,8 @@ const DeleteObjectModal = ({ onClose, onDelete }) => {
       <br />
       Вы уверены что хотите продолжить?
     </div>
-	)
+  )
+
 
   const warnTitle = (
     <div className={styles.title}>
@@ -22,14 +23,14 @@ const DeleteObjectModal = ({ onClose, onDelete }) => {
         Внимание
       </span>
     </div>
-	)
+  )
 
   const buttonsFooter = (
     <div className={styles.footer}>
       <Button buttonStyle='BIG_ORANGE' onClick={onDelete}> Удалить объект </Button>
       <Button buttonStyle='BIG_BLUE' onClick={onClose}> Отмена </Button>
     </div>
-	)
+  )
 
   return (
     <Modal
@@ -40,7 +41,7 @@ const DeleteObjectModal = ({ onClose, onDelete }) => {
       content={confirmContent}
       footer={buttonsFooter}
     />
-	)
+  )
 }
 
 export default DeleteObjectModal;
