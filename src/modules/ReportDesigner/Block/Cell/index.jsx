@@ -2,12 +2,12 @@
 
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { cloneDeep, find, findIndex } from 'lodash';
 import { getCurrentReport } from '../../helpers';
 import { addTableColumn } from '../../../../data/reducers/new_reportDesigner';
-import { setReportStructure } from '../../../../data/actions/newReportDesigner';
 import { setFormattingElement } from '../../../../data/reducers/new_reportDesigner';
+import { getElementData, setReportStructure } from '../../../../data/actions/newReportDesigner';
 
 // const mockCell = {
 //   id: 'R1.B.1',
@@ -45,6 +45,22 @@ const Cell = ({
   originalItem = {}
 }) => {
   const dispatch = useDispatch();
+
+  const [isFetching, setIsFetching] = useState(false);
+  const [response, setResponse] = useState();
+
+  // useEffect(() => {
+  //   if (displayMode === 'Data') {
+  //     setIsFetching(true);
+  //     dispatch(
+  //       getElementData({ report_id: 'R1', element_id: id }, res => {
+  //         setIsFetching(false);
+  //         setResponse(res);
+  //       })
+  //     );
+  //   }
+  // }, [displayMode]);
+
   // const reportsUi = useSelector(state => state.app.reportDesigner.reportsUi.ui);
   const reportInformation = useSelector(
     state => state.app.reportDesigner.reportsData.present
@@ -107,8 +123,6 @@ const Cell = ({
   const handleDrop = (event, position) => {
     const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
     event.dataTransfer.clearData();
-
-    console.log(position, id, selectedEl);
     setDragStatus(false);
 
     const newStructureReport = cloneDeep(currentReport);
@@ -173,9 +187,6 @@ const Cell = ({
       })
     );
 
-    debugger;
-    // bodyZone?.[0].cells.push(element);
-
     dispatch(
       addTableColumn({
         object: { ...element, expression: { ...selectedEl } },
@@ -189,10 +200,12 @@ const Cell = ({
     return { ...blockStyles, ...result };
   };
 
-  const getValueFromDS = structureItem => {
+  const getValueFromDS = () => {
     if (structureItem?.expression?.type === 'Const') {
       return structureItem?.expression?.formula;
     }
+
+    // console.log(response, 'response');
 
     return '-';
   };

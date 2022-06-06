@@ -140,15 +140,21 @@ const TableBody = ({
   };
 
   const renderData = () => {
+    const getStyle = index => {
+      return bodyZone?.[0].cells?.[index]
+        ? bodyZone?.[0].cells?.[index].style
+        : {};
+    };
+
     return (
       response &&
       response.data.data.map((item, idx) => {
         return (
           <tr key={item} data="data-row">
             {tableType === 'hTable' && renderHTableHeader(idx + 1)}
-            {item.map(cell => {
+            {item.map((cell, columnIndex) => {
               return (
-                <td key={cell} style={{ ...item.style }}>
+                <td key={cell} style={{ ...getStyle(columnIndex) }}>
                   {cell}
                 </td>
               );

@@ -19,7 +19,9 @@ const TableHeader = ({
   const dispatch = useDispatch();
   const [isFetching, setIsFetching] = useState(false);
   const [response, setResponse] = useState();
-  const formattingElement = useSelector(state => state.app.reportDesigner?.reportsUi?.ui?.formattingElement);
+  const formattingElement = useSelector(
+    state => state.app.reportDesigner?.reportsUi?.ui?.formattingElement
+  );
 
   useEffect(() => {
     if (displayMode === 'Data') {
@@ -35,20 +37,27 @@ const TableHeader = ({
 
   if (tableType === 'hTable') return null;
 
-
   const handleClick = (zone, item) => {
     dispatch(setFormattingElement({ zone, item }));
   };
 
   const renderData = () => {
+    const getStyle = index => {
+      return data?.[0].cells?.[index] ? data?.[0].cells?.[index].style : {};
+    };
+
     return (
       response &&
       response.data.data.map(item => {
         return (
           <tr key={item} data="data-row">
             {item.map((cell, idx) => {
-              // eslint-disable-next-line react/no-array-index-key
-              return <td key={cell + idx}>{cell}</td>;
+              return (
+                // eslint-disable-next-line react/no-array-index-key
+                <th key={cell + idx} style={{ ...getStyle(idx) }}>
+                  {cell}
+                </th>
+              );
             })}
           </tr>
         );
@@ -90,7 +99,9 @@ const TableHeader = ({
                   blockStyles={item.style}
                   structureItem={item}
                   id={item.id}
-                  selected={formattingElement && formattingElement.id === item.id}
+                  selected={
+                    formattingElement && formattingElement.id === item.id
+                  }
                 />
               </th>
             );

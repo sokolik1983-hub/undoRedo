@@ -40,6 +40,7 @@ const TableFooter = ({
 
   const renderCells = () => {
     if (tableType === 'hTable') return null;
+    
     return data?.map(zone => {
       return (
         <tr>
@@ -64,13 +65,23 @@ const TableFooter = ({
   };
 
   const renderData = () => {
+    if (tableType === 'hTable') return null;
+
+    const getStyle = index => {
+      return data?.[0].cells?.[index] ? data?.[0].cells?.[index].style : {};
+    };
+
     return (
       response &&
       response.data.data.map(item => {
         return (
           <tr key={item} data="data-row">
             {item.map((cell, idx) => {
-              return <th key={cell + idx}>{cell}</th>;
+              return (
+                <th key={cell + idx} style={{ ...getStyle(idx) }}>
+                  {cell}
+                </th>
+              );
             })}
           </tr>
         );
