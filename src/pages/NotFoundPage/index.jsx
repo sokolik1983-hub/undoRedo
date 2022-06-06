@@ -4,7 +4,6 @@ import { BUTTON } from '../../common/constants/common';
 import styles from './NotFoundPage.module.scss';
 
 const NotFoundPage = () => {
-
   return (
     <div className={styles.root}>
       <h1>Ошибка 404</h1>
@@ -13,11 +12,9 @@ const NotFoundPage = () => {
         <br />
         Стоит попробовать еще раз, но проверив запрос.
       </p>
-      <a href="/Universe/dashboard">
-        <Button buttonStyle={BUTTON.BIG_BLUE}>
-          Ок, вернуться!
-        </Button>
-      </a>
+      <Button href="/Universe/dashboard" buttonStyle={BUTTON.BIG_BLUE}>
+        Ок, вернуться!
+      </Button>
       <NotFound />
     </div>
   );

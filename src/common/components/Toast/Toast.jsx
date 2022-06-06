@@ -1,10 +1,9 @@
 /* eslint-disable */
-import { useCallback } from 'react';
-import { useEffect } from 'react/cjs/react.development';
+import { useCallback, useEffect } from 'react';
 import { ReactComponent as CloseIcon } from '../../../layout/assets/close.svg';
 import styles from './Toast.module.scss';
 
-const Toast = ({ toastlist, position, setList, dispatch }) => {
+const Toast = ({ toastlist, setList, dispatch }) => {
   const deleteToast = useCallback(
     id => {
       const toastListItem = toastlist.filter(e => e.id !== id);
@@ -28,11 +27,11 @@ const Toast = ({ toastlist, position, setList, dispatch }) => {
   }, [toastlist, deleteToast]);
 
   return (
-    <div className={`${styles.container} ${styles[position]}`}>
+    <div className={styles.container}>
       {toastlist.map((toast, i) => (
         <div
           key={i}
-          className={`${styles.notification} ${styles[position]} ${
+          className={`${styles.notification} ${
             styles[toast.type]
           }`}
         >

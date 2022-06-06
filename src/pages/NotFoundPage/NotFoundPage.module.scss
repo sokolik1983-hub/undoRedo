@@ -7,7 +7,6 @@
     margin-top: 20px;
     margin-bottom: 0;
     font-size: 96px;
-    font-family: 'Roboto';
     font-weight: 300;
     font-style: normal;
     color: #003D5F;
@@ -15,14 +14,14 @@
 
   p {
     font-size: 20px;
-    font-family: 'Roboto';
     font-weight: 400;
     font-style: normal;
     color: #003D5F;
   }
   
-  button {
+  a {
       margin-bottom: 88px;
+      text-decoration: none;
   }
 
   svg {
