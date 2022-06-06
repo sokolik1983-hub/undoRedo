@@ -72,7 +72,7 @@ const EditObjectLayerModal = ({ visible }) => {
       onSubmit={(values, event) => {
         handleClose();
         dispatch(setObjectLayer({...values, id: data.id}));
-				dispatch(showToast('warning', 'Объект сохранен'));
+        dispatch(showToast('warning', 'Объект сохранен'));
         event.preventDefault();
         window.location.pathname = '/Universe/symlayers/create';
       }}
@@ -135,7 +135,7 @@ const EditObjectLayerModal = ({ visible }) => {
               data.useInResultsCheckBox,
               data.useInConditionsCheckBox,
               data.useInSortingsCheckBox
-						]}
+            ]}
             onChange={handleChange}
           />
           <KeysBlock
@@ -146,11 +146,11 @@ const EditObjectLayerModal = ({ visible }) => {
               [CREATE_OBJECT_MODAL_VALUES.KEYS_TYPE]
             ]}
             value={[
-							data.keysDataType,
+              data.keysDataType,
               values[CREATE_OBJECT_MODAL_VALUES.KEYS_SELECT_INPUT],
               values[CREATE_OBJECT_MODAL_VALUES.KEYS_WHERE_INPUT],
               data.keysType || values[CREATE_OBJECT_MODAL_VALUES.KEYS_TYPE]
-						]}
+            ]}
             onChange={handleChange}
           />
           <TechInfoBlock
