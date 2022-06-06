@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { useCallback, useEffect } from 'react';
-import { ReactComponent as CloseIcon } from '../../../layout/assets/close.svg';
+import ToastItem from './ToastItem';
 import styles from './Toast.module.scss';
 
 const Toast = ({ toastlist, setList, dispatch }) => {
@@ -28,23 +28,8 @@ const Toast = ({ toastlist, setList, dispatch }) => {
 
   return (
     <div className={styles.container}>
-      {toastlist.map((toast, i) => (
-        <div
-          key={i}
-          className={`${styles.notification} ${
-            styles[toast.type]
-          }`}
-        >
-          <div className={styles.titleWrapper}>
-            <p className={styles.title}>{toast.title}</p>
-          </div>
-          <span
-            className={styles.modalClose}
-            onClick={() => deleteToast(toast.id)}
-          >
-            <CloseIcon className={styles.close} />
-          </span>
-        </div>
+      {toastlist.map((toast, index) => (
+        <ToastItem type={toast.type} title={toast.title} key={index} deleteToast={deleteToast} id={toast.id}/>
       ))}
     </div>
   );
