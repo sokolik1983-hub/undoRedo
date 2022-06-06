@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from 'prop-types';
 import { useDispatch } from "react-redux";
 import styles from './Sidebar.module.scss';
@@ -12,14 +11,12 @@ import DropdownItem from "../../../common/components/Dropdown/DropdownItem";
 import { setEditObjectModal } from "../../../data/actions/universes";
 import { deleteObjectLayer } from "../../../data/reducers/schemaDesigner";
 import DeleteObjectModal from "./DeleteObjectModal";
-import EditObjectLayerModal from "./EditObjectLayerModal";
 import { showToast } from "../../../data/actions/app";
 
 const ObjectLayer = ({ field, active, onSelect }) => {
   const dispatch = useDispatch();
   const { name, objectType, id } = field;
   const [ isDelModalOpened, setDelModelOpened ] = useState(false);
-  const [ isEditModalOpened, setEditModalOpened ] = useState(false);
 
   const selectIcon = (type) => {
     switch (type) {
