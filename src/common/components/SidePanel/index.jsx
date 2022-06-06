@@ -84,6 +84,9 @@ export default function SidePanel({ navType }) {
   const bodyZone = currentNode?.content?.layout?.zones?.filter(
     item => item.vType === 'body'
   );
+  const footerZone = currentNode?.content?.layout?.zones?.filter(
+    item => item.vType === 'footer'
+  );
 
   function getNavMenu() {
     switch (navType) {
@@ -160,10 +163,13 @@ export default function SidePanel({ navType }) {
   const handleRemoveColumn = object => event => {
     event?.stopPropagation();
 
-    headerZone[0].cells = headerZone[0].cells.filter(
+    headerZone[0].cells = headerZone?.[0].cells.filter(
       item => item.col !== object.col
     );
-    bodyZone[0].cells = bodyZone[0].cells.filter(
+    bodyZone[0].cells = bodyZone?.[0].cells.filter(
+      item => item.col !== object.col
+    );
+    footerZone[0].cells = footerZone?.[0]?.cells.filter(
       item => item.col !== object.col
     );
 
