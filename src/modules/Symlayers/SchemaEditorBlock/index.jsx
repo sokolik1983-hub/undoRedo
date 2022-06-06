@@ -39,7 +39,9 @@ const SchemaEditorBlock = ({
   const [isOpened, setIsOpened] = useState(true);
 
   useEffect(() => {
-    setFilterableFields(selectedTableColumns);
+    setTimeout(() => {
+      setFilterableFields(selectedTableColumns);
+    }, 50);
   }, [selectedTableColumns]);
 
   const contentClasses = clsx(styles.content, {
@@ -64,6 +66,8 @@ const SchemaEditorBlock = ({
     );
   };
 
+  const highlightOutline = filterableFields.filter(i => i.colored).length ? styles.wrapperHighlight : styles.wrapper;
+
   const onCloseInput = () => {
     setIsActive(!isActive);
     setSearchValue('');
@@ -75,6 +79,7 @@ const SchemaEditorBlock = ({
       {items.map(i => (
         <DropdownItem
           item={i}
+          key={Math.random()}
           onClick={() => handleClick(i)}
           className={styles.text}
         />
@@ -83,7 +88,7 @@ const SchemaEditorBlock = ({
   );
 
   return (
-    <div className={styles.wrapper}>
+    <div className={highlightOutline}>
       <div>
         <div
           className={styles.header}

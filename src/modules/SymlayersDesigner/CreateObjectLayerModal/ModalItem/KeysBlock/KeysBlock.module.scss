@@ -19,7 +19,6 @@
 
 .DDData {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-between;
   height: 22px;
@@ -29,7 +28,6 @@
 
 .selectedIconText {
   display: flex;
-  flex-direction: row;
 }
 
 .defaultIcon {
@@ -101,7 +99,6 @@
 
 .selectGroup {
   display: flex;
-  flex-direction: row;
   margin-bottom: 15px;
 }
 
@@ -119,7 +116,7 @@
 .footerGroup {
   display: flex;
   flex-direction: row;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .keysBtn {
@@ -145,7 +142,6 @@
 
 .selectDiv {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   height: 22px;
   width: 146px;
@@ -188,7 +184,6 @@
 
 .keysTableTitle {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: flex-start;
   margin: 5px;
