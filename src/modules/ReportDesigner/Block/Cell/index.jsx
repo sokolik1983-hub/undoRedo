@@ -1,41 +1,13 @@
-/*eslint-disable */
-
-
-
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
-import { cloneDeep, find, findIndex } from 'lodash';
+import { useState } from 'react';
+import { cloneDeep, find } from 'lodash';
 import { getCurrentReport } from '../../helpers';
-import { addTableColumn } from '../../../../data/reducers/new_reportDesigner';
-import { setFormattingElement } from '../../../../data/reducers/new_reportDesigner';
-import { getElementData, setReportStructure } from '../../../../data/actions/newReportDesigner';
-
-// const mockCell = {
-//   id: 'R1.B.1',
-//   type: 'cell',
-//   name: 'ячейка 1',
-//   size: {
-//     minimalHeight: 60,
-//     minimalWidth: 120,
-//     autofitWidth: false,
-//     autofitHeight: false
-//   },
-//   position: {
-//     xType: 'Absolute',
-//     yType: 'Absolute',
-//     x: 20,
-//     y: 10
-//   },
-//   style: {},
-//   content: {
-//     expression: {
-//       type: 'Const',
-//       dataType: 'String',
-//       formula: 'Название отчета'
-//     }
-//   }
-// };
+import {
+  setFormattingElement,
+  addTableColumn
+} from '../../../../data/reducers/new_reportDesigner';
+import { setReportStructure } from '../../../../data/actions/newReportDesigner';
 
 const Cell = ({
   id,
@@ -47,26 +19,7 @@ const Cell = ({
   originalItem = {}
 }) => {
   const dispatch = useDispatch();
-
-  const [isFetching, setIsFetching] = useState(false);
-  const [response, setResponse] = useState();
-
-  // useEffect(() => {
-  //   if (displayMode === 'Data') {
-  //     setIsFetching(true);
-  //     dispatch(
-  //       getElementData({ report_id: 'R1', element_id: id }, res => {
-  //         setIsFetching(false);
-  //         setResponse(res);
-  //       })
-  //     );
-  //   }
-  // }, [displayMode]);
-
-  // const reportsUi = useSelector(state => state.app.reportDesigner.reportsUi.ui);
-  const reportInformation = useSelector(
-    state => state.app.reportDesigner.reportsData.present
-  );
+ 
   const reportDesigner = useSelector(state => state.app.reportDesigner);
   const currentReport = getCurrentReport(
     reportDesigner.reportsData.present.reports,
@@ -81,7 +34,7 @@ const Cell = ({
     center: false
   });
 
-  const { size, style } = structureItem;
+
 
   const handleDragOver = e => {
     e.preventDefault();
@@ -117,12 +70,10 @@ const Cell = ({
     });
   };
 
+  const handleClick = () =>
+    dispatch(setFormattingElement({ item: originalItem }));
 
-
-  const handleClick = () => dispatch( setFormattingElement({ item:originalItem }) )
-  
-
-  const handleDrop = (event, position) => {
+  const handleDrop = (event) => {
     const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
     event.dataTransfer.clearData();
     setDragStatus(false);
@@ -215,7 +166,7 @@ const Cell = ({
   const getCellValue =
     displayMode === 'Structure'
       ? `${structureItem?.expression?.formula || ''}`
-      : getValueFromDS(structureItem); //'Значение из БД';
+      : getValueFromDS(structureItem); 
 
   return (
     <div
@@ -311,7 +262,10 @@ Cell.propTypes = {
   id: PropTypes.string,
   structureItem: PropTypes.object,
   blockStyles: PropTypes.object,
-  refContent: PropTypes.any
+  displayMode: PropTypes.string,
+  selected: PropTypes.bool,
+  independent: PropTypes.bool,
+  originalItem: PropTypes.object
 };
 
 export default Cell;
