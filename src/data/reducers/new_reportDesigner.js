@@ -6,7 +6,6 @@ import lodash, { find } from 'lodash';
 import undoable from 'redux-undo';
 import { deepObjectSearch } from '../helpers';
 // import { deepObjectSearch } from '../helpers';
-
 // const V_TABLE = {
 //   id: 'R1.B.2',
 //   type: 'vTable',
