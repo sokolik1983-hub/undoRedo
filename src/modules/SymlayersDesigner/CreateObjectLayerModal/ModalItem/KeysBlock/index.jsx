@@ -16,7 +16,7 @@ import { ReactComponent as TextIcon } from '../../../../../layout/assets/icons/t
 import { ReactComponent as NumberIcon } from '../../../../../layout/assets/icons/numberIcon.svg';
 import styles from './KeysBlock.module.scss';
 
-const KeysBlock = ({ onChange, name }) => {
+const KeysBlock = ({ onChange, name, value }) => {
   const formikProps = useFormikContext();
 
   const handleClick = e => {
@@ -26,7 +26,7 @@ const KeysBlock = ({ onChange, name }) => {
   const keyTypeOptions = [
     { value: 'main', text: 'Основной' },
     { value: 'secondary', text: 'Второстепенный' }
-  ];
+  ]
 
   const SELECT_DATA = 'Data.Дата + convert(SMALLDATETIME,{fn(CURDATE())}';
   const WHERE_DATA =
@@ -78,6 +78,8 @@ const KeysBlock = ({ onChange, name }) => {
     { icon: <NumberIcon />, id: 3, text: 'Текст', value: 'text' }
   ];
 
+  const defDataOptionIndex = selectDataOptions.findIndex(opt => opt.text === value?.[0] || opt.value === value?.[0]);
+
   const [selectedDataText, setSelectedDataText] = useState(
     selectDataOptions[0].text
   );
@@ -87,7 +89,7 @@ const KeysBlock = ({ onChange, name }) => {
 
   useEffect(() => {
     formikProps.setFieldValue(name[0], 'Символ');
-    formikProps.setFieldValue(name[3], 'main');
+    formikProps.setFieldValue(name[3], value[3] || 'main');
   }, []);
 
   const setSelectedFields = item => {
@@ -95,6 +97,12 @@ const KeysBlock = ({ onChange, name }) => {
     setSelectedDataText(item.text);
     formikProps.setFieldValue(name[0], item.value);
   };
+
+  useEffect(() => {
+    if (defDataOptionIndex > -1) {
+      setSelectedFields(selectDataOptions[defDataOptionIndex]);
+    }
+  }, [defDataOptionIndex])
 
   const dataOptions = () => (
     <div className={styles.dropDownDataBlock}>
@@ -188,6 +196,7 @@ const KeysBlock = ({ onChange, name }) => {
                 <input
                   id={name[1]}
                   name={name[1]}
+                  value={value?.[1]}
                   onChange={onChange}
                   className={styles.keysBlockSelectWhereInput}
                 />
@@ -200,6 +209,7 @@ const KeysBlock = ({ onChange, name }) => {
                 <input
                   id={name[2]}
                   name={name[2]}
+                  value={value?.[2]}
                   onChange={onChange}
                   className={styles.keysBlockSelectWhereInput}
                 />
@@ -240,5 +250,6 @@ export default KeysBlock;
 
 KeysBlock.propTypes = {
   onChange: PropTypes.func,
-  name: PropTypes.array
+  name: PropTypes.array,
+  value: PropTypes.array
 };

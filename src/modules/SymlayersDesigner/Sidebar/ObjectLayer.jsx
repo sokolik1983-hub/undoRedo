@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import { useDispatch } from "react-redux";
 import styles from './Sidebar.module.scss';
@@ -9,12 +9,17 @@ import { ReactComponent as AttrIcon } from '../../../layout/assets/queryPanel/at
 import FOLDER_ITEM_DROPDOWN_ACTIONS from "./helper";
 import Tooltip from "../../../common/components/Tooltip";
 import DropdownItem from "../../../common/components/Dropdown/DropdownItem";
-import { setCreateObjectModal } from "../../../data/actions/universes";
+import { setEditObjectModal } from "../../../data/actions/universes";
 import { deleteObjectLayer } from "../../../data/reducers/schemaDesigner";
+import DeleteObjectModal from "./DeleteObjectModal";
+import EditObjectLayerModal from "./EditObjectLayerModal";
+import { showToast } from "../../../data/actions/app";
 
 const ObjectLayer = ({ field, active, onSelect }) => {
   const dispatch = useDispatch();
   const { name, objectType, id } = field;
+  const [ isDelModalOpened, setDelModelOpened ] = useState(false);
+  const [ isEditModalOpened, setEditModalOpened ] = useState(false);
 
   const selectIcon = (type) => {
     switch (type) {
@@ -29,19 +34,32 @@ const ObjectLayer = ({ field, active, onSelect }) => {
     }
   };
 
+  const handleDelModalOpen = () => {
+    setDelModelOpened(!isDelModalOpened);
+  };
+
+  const handleEditModalOpen = () => {
+    dispatch(setEditObjectModal(field))
+  };
+
+  const handleDeleteObject = () => {
+		dispatch(deleteObjectLayer(id));
+    dispatch(showToast('warning', 'Объект удален'));
+  }
+
   const handleObjectClick = (action) => {
     onSelect(id);
     switch (action) {
       case 'edit':
-        dispatch(setCreateObjectModal(true));
+        handleEditModalOpen();
         break;
       case 'delete':
-        dispatch(deleteObjectLayer(id));
+        handleDelModalOpen();
         break;
       default:
         console.log(action);
     }
-};
+  };
 
   const getObjectDropdownItems = () => (
     <div className={styles.objectDrdnWrapper}>
@@ -65,6 +83,7 @@ const ObjectLayer = ({ field, active, onSelect }) => {
 
   return (
     <div className={styles.objectItemWrapper}>
+      {isDelModalOpened ? <DeleteObjectModal onDelete={handleDeleteObject} /> : null}
       <button type="button" className={active ? styles.actObjectLayer : styles.objectLayer} onClick={handleObjectClick}>
         {selectIcon(objectType)}
         <span>

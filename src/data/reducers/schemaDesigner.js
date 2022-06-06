@@ -127,6 +127,7 @@ export const {
   setLinks,
   setLink,
   addObjectLayer,
+  setObjectLayer,
   deleteObjectLayer,
   setContexts,
   unsetTablePreviewData,

@@ -89,11 +89,6 @@ const CreateObjectLayerModal = ({ visible }) => {
               [CREATE_OBJECT_MODAL_VALUES.OBJECT_TYPE],
               [CREATE_OBJECT_MODAL_VALUES.OBJECT_FUNCTION]
             ]}
-            value={[
-              [CREATE_OBJECT_MODAL_VALUES.OBJECT_DATA_TYPE],
-              [CREATE_OBJECT_MODAL_VALUES.OBJECT_TYPE],
-              [CREATE_OBJECT_MODAL_VALUES.OBJECT_FUNCTION]
-            ]}
             onChange={handleChange}
           />
           <DescriptionBlock
