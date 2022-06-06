@@ -172,7 +172,7 @@ export const REP_GET_REPORT_STRUCTURE = {
               autofitWidth: false,
               minimalHeight: 10
             },
-            type: 'hTable'
+            type: 'vTable'
           }
         ]
       },

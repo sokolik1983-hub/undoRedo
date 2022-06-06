@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+
+
 
 function PaddingsConfig({ onChange, isHeader }) {
+  const reportDesigner = useSelector(state => state.app.reportDesigner);
+const formattingElement = reportDesigner?.reportsUi?.ui?.formattingElement;
   return (
     <table style={{ textAlign: 'center', border: 'none' }}>
       <tbody>
@@ -11,6 +16,7 @@ function PaddingsConfig({ onChange, isHeader }) {
             <input
               placeholder="Верх"
               style={{ width: 30 }}
+              value={formattingElement?.style?.paddingTop}
               onChange={event => {
                 onChange({
                   isHeader,
@@ -28,6 +34,7 @@ function PaddingsConfig({ onChange, isHeader }) {
             <input
               placeholder="Лев"
               style={{ width: 30 }}
+              value={formattingElement?.style?.paddingLeft}
               onChange={event => {
                 onChange({
                   isHeader,
@@ -43,6 +50,7 @@ function PaddingsConfig({ onChange, isHeader }) {
             <input
               placeholder="Прав"
               style={{ width: 30 }}
+              value={formattingElement?.style?.paddingRight}
               onChange={event => {
                 onChange({
                   isHeader,
@@ -60,6 +68,7 @@ function PaddingsConfig({ onChange, isHeader }) {
             <input
               placeholder="Низ"
               style={{ width: 30 }}
+              value={formattingElement?.style?.paddingBottom}
               onChange={event => {
                 onChange({
                   isHeader,

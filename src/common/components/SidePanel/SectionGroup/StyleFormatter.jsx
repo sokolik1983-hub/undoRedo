@@ -21,7 +21,7 @@ import styles from './SectionGroup.module.scss';
 import PaddingsConfig from './PaddingsConfig';
 import BordersConfig from './BordersConfig';
 
-function StyleFormatter({ onChange, isHeader }) {
+function StyleFormatter({ onChange, isHeader, formattingElement }) {
   return (
     <div>
       <SectionGroup
@@ -31,6 +31,7 @@ function StyleFormatter({ onChange, isHeader }) {
             id: 'font-family',
             component: (
               <Select
+                defaultValue={formattingElement?.style?.fontFamily || ""}
                 className={styles.select}
                 name="fontfamily"
                 options={transformOptions(FONT_LIST)}
@@ -48,6 +49,7 @@ function StyleFormatter({ onChange, isHeader }) {
             component: (
               <Select
                 name="fsize"
+                defaultValue={formattingElement?.style?.fontSize || ""}
                 className={styles.select}
                 options={transformOptions(FONT_SIZE)}
                 onSelectItem={fontSize =>
@@ -181,6 +183,7 @@ function StyleFormatter({ onChange, isHeader }) {
             id: 'paddings',
             component: (
               <PaddingsConfig
+                formattingElement={formattingElement}
                 isHeader={isHeader}
                 onChange={params => onChange(params)}
               />
@@ -195,6 +198,7 @@ function StyleFormatter({ onChange, isHeader }) {
             id: 'borders',
             component: (
               <BordersConfig
+                formattingElement={formattingElement}
                 isHeader={isHeader}
                 onChange={params => onChange(params)}
               />
@@ -208,7 +212,8 @@ function StyleFormatter({ onChange, isHeader }) {
 
 StyleFormatter.propTypes = {
   onChange: PropTypes.func,
-  isHeader: PropTypes.bool
+  isHeader: PropTypes.bool,
+  formattingElement: PropTypes.object
 };
 
 export default StyleFormatter;

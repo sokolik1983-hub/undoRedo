@@ -457,9 +457,11 @@ export default function SidePanel({ navType }) {
               />
             )}
             <StyleFormatter
+              key={formattingElement?.id}
               isHeader={activeSubMenu === 1}
               onChange={params =>
                 dispatch(setTableStyle({ ...params, formattingElement }))}
+              formattingElement={formattingElement}
             />
           </div>
         );
