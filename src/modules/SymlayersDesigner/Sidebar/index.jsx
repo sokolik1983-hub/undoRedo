@@ -23,6 +23,7 @@ import styles from './Sidebar.module.scss';
 import { setCreateObjectModal } from '../../../data/actions/universes';
 import ObjectLayer from './ObjectLayer';
 import Tooltip from '../../../common/components/Tooltip';
+import IconButton from '../../../common/components/IconButton';
 
 function Sidebar({ onSelect }) {
 
@@ -39,6 +40,7 @@ function Sidebar({ onSelect }) {
   const [searchValue, setSearchValue] = useState('');
   // eslint-disable-next-line no-unused-vars
   const [tables, setTables] = useState(selectedTables);
+  const [filterObjectsMode, setFilterObjectMode] = useState(null);
 
   const connectorObjects = useSelector(
     state => state.app.schemaDesigner.connectorObjects
@@ -202,15 +204,36 @@ function Sidebar({ onSelect }) {
                   <Magnifier className={styles.magnifier} onClick={() => {dispatch(setShowDataList()); setShowingDataList(true)}} />
                 </div>
                 <div className={styles.objectsFilters}>
-                  <div>
-                    <GaugeIcon />
-                  </div>
-                  <div>
-                    <AttrIcon />
-                  </div>
-                  <div>
-                    <MeasIcon />
-                  </div>
+                  <IconButton
+                    size='small'
+                    icon={<GaugeIcon />}
+                    onClick={() => {
+                    if (filterObjectsMode === 'GAUGE') {
+                      setFilterObjectMode(null);
+                    } else
+                      setFilterObjectMode('GAUGE')
+                  }}
+                  />
+                  <IconButton
+                    size='small'
+                    icon={<AttrIcon />}
+                    onClick={() => {
+                    if (filterObjectsMode === 'ATTR') {
+                      setFilterObjectMode(null);
+                    } else
+                    setFilterObjectMode('ATTR')
+                  }}
+                  />
+                  <IconButton
+                    size='small'
+                    icon={<MeasIcon />}
+                    onClick={() => {
+                    if (filterObjectsMode === 'MEAS') {
+                      setFilterObjectMode(null);
+                    } else
+                    setFilterObjectMode('MEAS')
+                  }}
+                  />
                 </div>
               </div>
               <div className={styles.owner}>
@@ -239,9 +262,17 @@ function Sidebar({ onSelect }) {
                 :
                 (
                   <div className={styles.objectsData}>
-                    {objectsLayers.map(object => (
-                      <ObjectLayer field={object} />
-                    ))}
+                    {objectsLayers.map(object => {
+                      if (filterObjectsMode === 'GAUGE' && object.objectType === 'Показатель')
+                        return <ObjectLayer field={object} />
+                      if (filterObjectsMode === 'MEAS' && object.objectType === 'Измерение')
+                        return <ObjectLayer field={object} />
+                      if (filterObjectsMode === 'ATTR' && object.objectType === 'Атрибут')
+                        return <ObjectLayer field={object} />
+                      if (!filterObjectsMode) 
+                        return <ObjectLayer field={object} />
+                      return null;
+                    })}
                   </div>
                 )}
               </div>

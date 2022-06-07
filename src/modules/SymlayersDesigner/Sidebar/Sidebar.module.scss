@@ -212,6 +212,8 @@
 
 .objectsFilters {
   @extend .tableFilters;
+  grid-gap: 0px;
+  grid: 0px
 }
 
 %tableItem {
