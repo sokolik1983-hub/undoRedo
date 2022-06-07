@@ -2,6 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
+/* eslint-disable */
 import React, {
   useContext,
   useEffect,
@@ -10,13 +11,16 @@ import React, {
   useState
 } from 'react';
 import lodash from 'lodash';
-
+import styles from './SchemaTables.module.scss'
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import MapIcon from '@material-ui/icons/Map';
 import SearchIcon from '@material-ui/icons/Search';
-import { IconButton, Tooltip } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
+import Tooltip from '../../../common/components/Tooltip/index';
+import { ReactComponent as Plus } from '../../../layout/assets/reportDesigner/plus.svg';
+import { ReactComponent as Minus } from '../../../layout/assets/reportDesigner/minus.svg';
 
 import { SymanticLayerContextProvider, SymanticLayerContext } from './context';
 
@@ -185,24 +189,28 @@ const Provided = props => {
       {/*     <SearchIcon /> */}
       {/*   </IconButton> */}
       {/* </Tooltip> */}
-      <Tooltip title={`${showMinimap ? 'скрыть' : 'показать'} миникарту`}>
+      <Tooltip overlay={`${showMinimap ? 'скрыть' : 'показать'} миникарту`}>
         <IconButton onClick={() => SET_SHOW_MINIMAP(!showMinimap)}>
           <MapIcon />
         </IconButton>
       </Tooltip>
-      <Tooltip title="отдалить">
-        <IconButton onClick={() => handleZoomCenter(-120)}>
-          <ZoomOutIcon />
-        </IconButton>
-      </Tooltip>
-      <Tooltip title="масштаб всего семантического слоя">
+      <Tooltip overlay="масштаб всего семантического слоя">
         <IconButton onClick={handleZoomDefault}>
           <ZoomOutMapIcon />
         </IconButton>
       </Tooltip>
-      <Tooltip title="приблизить">
-        <IconButton onClick={() => handleZoomCenter(+120)}>
-          <ZoomInIcon />
+      <Tooltip overlay="отдалить">
+        <IconButton
+          onClick={
+            mul < 0.10881882041201538 ? null : () => handleZoomCenter(-100)
+          }
+        >
+          <Minus />
+        </IconButton>
+      </Tooltip>
+      <Tooltip overlay="приблизить">
+        <IconButton onClick={mul <= 1.9 ? () => handleZoomCenter(+100) : null}>
+          <Plus />
         </IconButton>
       </Tooltip>
     </div>
@@ -350,6 +358,7 @@ const Provided = props => {
       >
         {renderZoomBtn()}
         <RNDZone>{renderContent()}</RNDZone>
+        <div className={styles.scaleValueWrapper}>{Math.round((mul / 1) * 100)}%</div>
       </div>
 
       {showMinimap && (

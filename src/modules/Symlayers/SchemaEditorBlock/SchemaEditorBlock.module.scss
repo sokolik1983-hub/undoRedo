@@ -4,19 +4,25 @@
                   rgba(0, 55, 137, 0.75) 0%,
                   rgba(0, 55, 137, 0.375) 100%
   );
-  box-shadow: 0 7px 17px rgba(34, 82, 102, 0.75);
+  box-shadow: 0 2px 4px rgba(34, 82, 102, 0.75);
   backdrop-filter: blur(10px);
   border-radius: 10px;
   min-width: 210px;
   max-width: 210px;
   user-select: none;
+  padding-bottom: 1px;
+}
+
+.wrapperHighlight {
+  @extend .wrapper;
+  box-shadow: 0px 5px 37px rgba(198, 67, 219, 0.74);
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 7px 7px 5px 15px;
+  padding: 2px 7px 0px 15px;
 }
 
 .heading {
@@ -28,6 +34,14 @@
   max-width: 130px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.menu {
+  cursor: pointer;
+}
+
+.buttonIndents {
+  padding: 0 6px;
 }
 
 .content {
@@ -54,11 +68,22 @@
   color: #ffffff;
   margin: 0 -16px;
   padding: 3px 16px;
+  cursor: pointer;
 
   &:hover {
     transition: 0.3s ease-in-out;
     background: rgba(196, 196, 196, 0.25);
   }
+}
+
+.itemHighlited {
+  font-size: 12px;
+  line-height: 14px;
+  color: #ffffff;
+  margin: 0 -16px;
+  padding: 3px 16px;
+  cursor: pointer;
+  background: rgba(198, 67, 219, 0.5);
 }
 
 .itemsWrapper {
@@ -98,6 +123,7 @@
 
 .iconsContainer {
   display: flex;
+  align-items: center;
 }
 
 .search {
@@ -139,7 +165,7 @@
 }
 
 .arrowBtnOpened, .arrowBtnClosed {
-  margin: 0 3px;
+  margin: 0 5px 0 3px;
 
   & path {
     stroke: #FFFFFF;
@@ -151,5 +177,5 @@
 }
 
 .dottedBtn {
-  margin: 0;
+  margin: 0 -5px;
 }

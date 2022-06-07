@@ -8,7 +8,6 @@ import { ReactComponent as AddConnection } from '../../layout/assets/semanticAct
 import { ReactComponent as ConnectionsPanel } from '../../layout/assets/semanticActionsIcons/connectionsPanel.svg';
 import { ReactComponent as ContextPanel } from '../../layout/assets/semanticActionsIcons/contextPanel.svg';
 import { ReactComponent as DefineConnections } from '../../layout/assets/semanticActionsIcons/defineConnections.svg';
-import { ReactComponent as FindTool } from '../../layout/assets/semanticActionsIcons/findTool.svg';
 import { ReactComponent as RefreshStructure } from '../../layout/assets/semanticActionsIcons/refreshStructure.svg';
 import { ReactComponent as Divider } from '../../layout/assets/headerActionsDivider.svg';
 import { ReactComponent as DisableAddConnection } from '../../layout/assets/semanticActionsIcons/disAddConnection.svg';
@@ -187,20 +186,7 @@ export const SEMANTIC_PAGE_ACTIONS = [
     icon: <AddConnection />,
     enable: true,
     disIcon: <DisableAddConnection />
-  },
-  {
-    type: 'divider',
-    icon: <Divider />,
-    enable: true
-  },
-  {
-    action: 'commonSearch',
-    title: 'Общий поиск',
-    text: 'Общий поиск',
-    icon: <FindTool />,
-    enable: true
   }
-
 ];
 
 export const BUTTON = {

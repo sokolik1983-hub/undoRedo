@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useFormikContext } from 'formik';
 
@@ -60,6 +60,12 @@ const PropertiesBlock = ({ name }) => {
   const [selectedFuncIcon, setSelectedFuncIcon] = useState(
     selectFuncOptions[0].icon
   );
+  
+  useEffect(()=> {
+    formikProps.setFieldValue(name[0],  'Символ');
+    formikProps.setFieldValue(name[1],  'Показатель');
+    formikProps.setFieldValue(name[2],  'Нет');
+  }, [])
 
   const setSelectedDataFields = item => {
     setSelectedDataIcon(item.icon);

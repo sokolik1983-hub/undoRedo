@@ -12,9 +12,6 @@ const SqlPopup = ({ onClose, queryText }) => {
         {queryText?.length ? queryText : <Preloader />}
       </div>
       <div className={styles.buttons}>
-        <Button className={styles.test}>
-          Тест
-        </Button>
         <Button className={styles.exit} onClick={onClose}>
           Закрыть
         </Button>

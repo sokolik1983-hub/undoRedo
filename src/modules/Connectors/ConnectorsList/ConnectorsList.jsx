@@ -16,10 +16,7 @@ import {
 } from '../helper';
 import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
 import { ReactComponent as ConnectorIcon } from '../../../layout/assets/connectorIcon.svg';
-import {
-  BREADCRUMBS_ROOT,
-  TABLE_CELL_EMPTY_VALUE
-} from '../../../common/constants/common';
+import { TABLE_CELL_EMPTY_VALUE } from '../../../common/constants/common';
 import styles from './ConnectorsList.module.scss';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import Tooltip from '../../../common/components/Tooltip';
@@ -80,7 +77,7 @@ const ConnectorsList = () => {
 
   const getBreadcrumbs = () =>
     foldersHistory
-      .map((i, idx) => (idx ? i.folder_name : BREADCRUMBS_ROOT))
+      .map((i, idx) => (idx ? i.folder_name : ''))
       .slice(0, currentFolderIndex + 1)
       .join(` / `);
 

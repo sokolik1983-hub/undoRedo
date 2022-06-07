@@ -1,26 +1,50 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import CreateObjectLayerModal from '../CreateObjectLayerModal/index';
 import { ReactComponent as SearchIcon } from '../../../layout/assets/icons/search.svg';
 import { ReactComponent as AddTableIcon } from '../../../layout/assets/icons/tablesAdd.svg';
 import { ReactComponent as FiltersIcon } from '../../../layout/assets/icons/tablesFilters.svg';
 import { ReactComponent as ViewsIcon } from '../../../layout/assets/icons/viewsShow.svg';
 import { ReactComponent as SaveIcon } from '../../../layout/assets/icons/tableSave.svg';
 import { ReactComponent as OwnerIcon } from '../../../layout/assets/icons/ownerIcon.svg';
+import { ReactComponent as UnknownItemIcon } from '../../../layout/assets/icons/unknownTypeIcon.svg';
+import { ReactComponent as GaugeIcon } from '../../../layout/assets/queryPanel/gauge_icon.svg';
+import { ReactComponent as MeasIcon } from '../../../layout/assets/queryPanel/measurementIcon.svg';
+import { ReactComponent as AttrIcon } from '../../../layout/assets/queryPanel/attributeIcon.svg';
+import { setColoredValue, setShowDataList } from '../../../data/reducers/schemaDesigner';
+import TextInput from '../../../common/components/TextInput';
+import { ReactComponent as Magnifier } from '../../../layout/assets/magnifier.svg';
 import HierTreeView from './HierTreeView';
 import styles from './Sidebar.module.scss';
 import { setCreateObjectModal } from '../../../data/actions/universes';
-
+import ObjectLayer from './ObjectLayer';
+import Tooltip from '../../../common/components/Tooltip';
 
 function Sidebar({ onSelect }) {
+
+  const { selectedTables, coloredValue, dataList } = useSelector(
+    state => state.app.schemaDesigner
+  );
+
   const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
+  const [showingDataList, setShowingDataList] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
+  const [searchMod, setSearchMod] = useState(false);
+  const [selectedSchemes, setSelectedSchemes] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
+  // eslint-disable-next-line no-unused-vars
+  const [tables, setTables] = useState(selectedTables);
 
   const connectorObjects = useSelector(
     state => state.app.schemaDesigner.connectorObjects
+  );
+
+  const objectsLayers = useSelector(
+    state => state.app.schemaDesigner.objectsLayerList
   );
 
   const handleCollapse = () => {
@@ -31,64 +55,101 @@ function Sidebar({ onSelect }) {
     setActiveTab(value);
   };
 
-  /* удалить когда перенесем кнопку открытия Создать  */
-  const isCreateObjectModalOpened = useSelector(
-    state => state.app.ui.modalCreateObjectVisible
-  );
-  /* удалить когда перенесем кнопку открытия Создать  */
+  const handleObjectDrop = (e, fieldName) => {
+    dispatch(setCreateObjectModal(e, fieldName));
+  };
+
+  useEffect(() => {
+    if (!selectedTables.length) {
+      setTables([]);
+    }
+    setTables(selectedTables)
+  }, [selectedTables]);
+
+  const handleShowDataList = (event) => {
+    if(event.key === 'Enter' && coloredValue.length) {
+      event.preventDefault();
+      dispatch(setShowDataList());
+      setShowingDataList(true);
+    } else if(event.key === 'Enter') {
+      dispatch(setShowDataList());
+      setShowingDataList(false);
+    }
+  };
+
+  const searchTable = (event) => {
+    if(event.key === 'Enter' && searchValue.length) {
+      let result = JSON.parse(JSON.stringify(connectorObjects.filter(connector => connector.object_name.toUpperCase().includes(searchValue.toUpperCase()))));
+      result = result.map(item => {item.opened = true; return item});
+      setSelectedSchemes(result);
+    } else if(event.key === 'Enter') {
+      setSelectedSchemes([]);
+    }
+  };
 
   return (
-    <div className={styles.root}>
-      <div className={styles.header}>
+    <div>
+      <div className={styles.root}>
         <div className={styles.tabs}>
           <div
-            className={clsx(styles.tab, activeTab === 0 && styles.activeTab)}
+            className={clsx(styles.tab,styles.tabTable, activeTab === 0 ? styles.activeTabTable : styles.notActiveTabTable)}
             onClick={handleSelectTab(0)}
           >
+            {activeTab === 0 && <span className={styles.tabDescr}>дизайнер схемы данных</span>}
             Таблицы
-            {activeTab === 0 && <span>дизайнер схемы данных</span>} 
+            <div className={styles.iconTableWrap}>
+              {activeTab === 0 && <SaveIcon />}
+            </div>
           </div>
-          {activeTab === 0 && <SaveIcon />}
           <div
-            className={clsx(styles.tab, activeTab === 1 && styles.activeTab)}
+            className={clsx(styles.tab, styles.tabObject, activeTab === 1 && styles.activeTabObject, activeTab === 0 && styles.notActiveTabObject)}
             onClick={handleSelectTab(1)}
           >
+            {activeTab === 1 && <span className={styles.tabDescr}>дизайнер семантического слоя</span>}
             Объекты
-            {activeTab === 1 && <span>дизайнер семантического слоя</span>} 
-          </div>
-          <div
-            style={{ cursor: 'pointer' }}
-            onClick={() => dispatch(setCreateObjectModal(true))}
-          >
-            Создать
-          </div>
-          {activeTab === 1 && <SaveIcon />}
-        </div>
-
-        <div className={styles.actions}>
-          <div onClick={handleCollapse}>
+            <div className={styles.iconObjectWrap}>
+              {activeTab === 1 && <SaveIcon />}
+            </div>
+            {/* <div onClick={handleCollapse}>
             <hr className={styles.divider} />
+            </div> */}
           </div>
         </div>
-      </div>
-      {!collapsed && (
+        {!collapsed && (
         <div className={styles.content}>
           {activeTab === 0 ? (
             <>
               <div className={styles.tableActions}>
-                <div>
-                  <AddTableIcon />
+                <div onClick={() => setSearchMod(!searchMod)}>
+                  <Tooltip placement="rightBottom" overlay="Поиск по таблицам на схеме">
+                    <AddTableIcon />
+                  </Tooltip>
+                </div>
+                <div className={styles.search}>
+                  <TextInput
+                    className={styles.searchInput}
+                    onKeyPress={(event) => searchMod ? handleShowDataList(event) : searchTable(event, searchValue)}
+                    value={searchMod ? coloredValue : searchValue}
+                    onChange={(event) => {
+                      if (searchMod) {
+                        dispatch(setColoredValue(event.target.value))
+                      } else {
+                        setSearchValue(event.target.value);
+                      }
+                    }}
+                  />
+                  <Magnifier
+                    className={styles.magnifier}
+                    onClick={() => {
+                    if (searchMod) {
+                      dispatch(setShowDataList()); setShowingDataList(true)
+                    }
+                  }}
+                  />
                 </div>
                 <div className={styles.tableFilters}>
-                  <div>
-                    <SearchIcon />
-                  </div>
-                  <div>
-                    <ViewsIcon />
-                  </div>
-                  <div>
-                    <FiltersIcon />
-                  </div>
+                  <ViewsIcon />
+                  <FiltersIcon />
                 </div>
               </div>
               <div className={styles.owner}>
@@ -96,17 +157,94 @@ function Sidebar({ onSelect }) {
                 <span>Owner</span>
               </div>
               <div className={styles.contentData}>
-                <HierTreeView data={connectorObjects} onSelect={onSelect} />
+                {searchMod ? dataList.map(i =>
+                (
+                  <div>
+                    <div className={styles.listItemWrapper}>
+                      <div>
+                        <ViewsIcon />
+                      </div>
+                      <div className={styles.listItemName}>{i.name}</div>
+                    </div>
+                    {i.line.map(el => (
+                      <div className={styles.listItemFieldWrapper}>
+                        <UnknownItemIcon />
+                        <div className={styles.listItemField}>{el}</div>
+                      </div>
+                    ))}
+                  </div>
+                  )
+                )
+                :
+                (
+                  <HierTreeView data={selectedSchemes.length ? selectedSchemes : connectorObjects} onSelect={onSelect} isOpen={!!selectedSchemes?.length} />
+              )}
               </div>
             </>
           ) : (
-            <></>
+            <div
+              className={styles.contentObj}
+              onDrop={e => {
+              if(e.dataTransfer.getData('field'))
+                handleObjectDrop(JSON.parse(e.dataTransfer.getData('field')), e)
+              }}
+              onDragOver={e => e.preventDefault()}
+            >
+              <div className={styles.objectsActions}>
+                <div className={styles.search}>
+                  <TextInput
+                    className={styles.searchInputObjects}
+                    onKeyPress={handleShowDataList}
+                    value={coloredValue}
+                    onChange={(event) => dispatch(setColoredValue(event.target.value))}
+                  />
+                  <Magnifier className={styles.magnifier} onClick={() => {dispatch(setShowDataList()); setShowingDataList(true)}} />
+                </div>
+                <div className={styles.objectsFilters}>
+                  <div>
+                    <GaugeIcon />
+                  </div>
+                  <div>
+                    <AttrIcon />
+                  </div>
+                  <div>
+                    <MeasIcon />
+                  </div>
+                </div>
+              </div>
+              <div className={styles.contentData}>
+                { showingDataList ? dataList.map(i =>
+                (
+                  <div>
+                    <div className={styles.listItemWrapper}>
+                      <div>
+                        <ViewsIcon />
+                      </div>
+                      <div className={styles.listItemName}>{i.name}</div>
+                    </div>
+                    {i.line.map(el => (
+                      <div className={styles.listItemFieldWrapper}>
+                        <UnknownItemIcon />
+                        <div className={styles.listItemField}>{el}</div>
+                      </div>
+                    ))}
+                  </div>
+                  )
+                )
+                :
+                (
+                  <div className={styles.objectsData}>
+                    {objectsLayers.map(object => (
+                      <ObjectLayer field={object} />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
           )}
         </div>
       )}
-      {isCreateObjectModalOpened && (
-        <CreateObjectLayerModal visible={isCreateObjectModalOpened && true} />
-      )}
+      </div>
     </div>
   );
 }

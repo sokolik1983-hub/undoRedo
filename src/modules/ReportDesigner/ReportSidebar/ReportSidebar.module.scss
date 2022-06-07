@@ -16,8 +16,6 @@
   flex-direction: column;
   height: 745px;
   box-shadow: 0px 7px 17px rgba(34, 82, 102, 0.75);
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
 }
 
 .contentData {
@@ -175,19 +173,19 @@
 }
 
 .sidePanel {
-  height: 645px;
+  height: 787px;
   width: 240px;
   position: absolute;
   left: 0px;
-  top: 0;
-  z-index: 10;
+  top: -42px;
+  z-index: 20;
   visibility: hidden;
   background: linear-gradient(
     152.97deg,
     rgba(0, 55, 137, 0.75) 0%,
     rgba(0, 55, 137, 0.375) 100%
   );
-  box-shadow: 0px 7px 17px rgba(34, 82, 102, 0.75);
+  box-shadow: 0px 4px 4px rgba(34, 82, 102, 0.75);
   backdrop-filter: blur(10px);
   border-radius: 10px;
 }

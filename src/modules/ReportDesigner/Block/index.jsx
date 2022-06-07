@@ -23,33 +23,6 @@ function Block({
   const dispatch = useDispatch();
   const reportsUi = useSelector(state => state.app.reportDesigner.reportsUi.ui);
 
-  // useEffect(() => {
-  //   const { width, height } = refContent?.current?.getBoundingClientRect();
-  //   if (scales.width !== width || scales.height !== height) {
-  //     onChangeScales(id, {
-  //       width,
-  //       height
-  //     });
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   const {
-  //     width,
-  //     height,
-  //     // x,
-  //     // y
-  //   } = refContent?.current?.getBoundingClientRect();
-  //   if (scales.width !== width || scales.height !== height) {
-  //     onChangeScales(id, {
-  //       width,
-  //       height,
-  //       // x,
-  //       // y: position.y < 103 ? position.y : y - 103
-  //     });
-  //   }
-  // }, [refContent, scales]);
-
   const handleSelectColumn = columnId => event => {
     event.stopPropagation();
     if (isActiveNode) {
@@ -85,8 +58,11 @@ function Block({
         return (
           <DataTable
             blockStyles={blockProps.styles}
+            newScales={scales}
+            newPosition={position}
             structureItem={structureItem}
             onSelectColumnHead={handleSelectColumn}
+            handleChangeScales={onChangeScales}
             id={id}
             refContent={refContent}
           />

@@ -24,9 +24,11 @@ export default ({ children = [], ...props }) => {
   const [anchor, setAnchor] = useState(null);
 
   const onBackgroundMounseDown = event => {
-    if (event.button !== 0) return;
-    const coord = posToCoord(event);
-    setAnchor(coord);
+    if (event.target.tagName === 'rect') {
+      if (event.button !== 0) return;
+        const coord = posToCoord(event);
+        setAnchor(coord);
+    }
   };
 
   const onBackgroundMounseUp = event => {
@@ -105,8 +107,9 @@ export default ({ children = [], ...props }) => {
         style={{
           transform: `scale(${mul}) translate(${shift.x}px, ${shift.y}px)`
         }}
+        ref={contentRef}
       >
-        <g ref={contentRef}>{children}</g>
+        {children}
       </g>
     </svg>
   );

@@ -10,11 +10,6 @@ import {
 import { setQueryPanelSymlayerFilters } from '../../../data/reducers/data';
 import { flat } from '../queryPanelHelper';
 
-const NODE_CONDITION = {
-  AND: 'И',
-  OR: 'ИЛИ'
-};
-
 const DragNDropContext = createContext();
 export const useDragNDrop = () => useContext(DragNDropContext);
 
@@ -67,7 +62,7 @@ const DragNDropProvider = ({ children }) => {
   const createNode = () => ({
     id: Math.random(),
     type: 'filter-node',
-    condition: NODE_CONDITION.OR,
+    condition: 'ИЛИ',
     children: []
   });
 
@@ -75,6 +70,7 @@ const DragNDropProvider = ({ children }) => {
     id: Date.now(),
     type: 'filter-item',
     inputValue: EMPTY_STRING,
+    secondInputValue: EMPTY_STRING,
     itemCondition: 'равно',
     fieldItem: item
   });
@@ -158,10 +154,6 @@ const DragNDropProvider = ({ children }) => {
   };
 
   const getParent = (obj, id) => {
-    /*
-      TODO: предложить решение с моментальным выходом из цикла в случае
-      когда нужные родитель и индекс найдены или другое лучшее решение.
-    */
     let result = null;
     let idx = null;
 
@@ -412,8 +404,8 @@ const DragNDropProvider = ({ children }) => {
     const [parent] = getParent(filtersDeskClone, focused.id);
 
     if (focused.type === 'filter-node') {
-      const focusedNode = parent.children.find(i => i.id === focused.id);
-      focusedNode.children.push(node);
+      const focusedNode = parent?.children.find(i => i.id === focused.id);
+      focusedNode?.children.push(node);
     }
 
     if (focused.type === 'filter-item') {
@@ -450,15 +442,43 @@ const DragNDropProvider = ({ children }) => {
     setFiltersDesk(filtersDeskClone);
   };
 
-  const handleEditFiltersItem = (id, input, condition) => {
+  const handleChangeCondition = condition => {
+    const filtersDeskClone = JSON.parse(JSON.stringify(filtersDesk));
+    let newCondition = '';
+    if (filtersDeskClone.type === 'filter-node') {
+      if (condition === 'ИЛИ') {
+        filtersDeskClone.condition = 'И';
+        newCondition = 'И';
+        setFiltersDesk(filtersDeskClone);
+      } else {
+        filtersDeskClone.condition = 'ИЛИ';
+        newCondition = 'ИЛИ';
+        setFiltersDesk(filtersDeskClone);
+      }
+    } else {
+      newCondition = condition;
+    }
+
+    return newCondition;
+  };
+
+  const handleEditFiltersItem = (id, input, secondInput, condition) => {
     const filtersDeskClone = JSON.parse(JSON.stringify(filtersDesk));
     if (filtersDesk.type === 'filter-node') {
       const [parent, idx] = getParent(filtersDeskClone, id);
-      parent.children[idx].inputValue = input;
-      parent.children[idx].itemCondition = condition;
+      if (typeof secondInput !== 'object') {
+        parent.children[idx].inputValue = `${input} AND ${secondInput}`;
+      } else {
+        parent.children[idx].inputValue = input;
+        parent.children[idx].itemCondition = condition;
+      }
     } else if (filtersDesk.type === 'filter-item') {
-      filtersDeskClone.inputValue = input;
-      filtersDeskClone.itemCondition = condition;
+      if (typeof secondInput !== 'object') {
+        filtersDeskClone.inputValue = `${input} AND ${secondInput}`;
+      } else {
+        filtersDeskClone.inputValue = input;
+        filtersDeskClone.itemCondition = condition;
+      }
     }
 
     setFiltersDesk(filtersDeskClone);
@@ -482,6 +502,7 @@ const DragNDropProvider = ({ children }) => {
         handleDropOnObjectItem,
         handleDropOnFiltersArea,
         handleDropOnFiltersItem,
+        handleChangeCondition,
         handleEditFiltersItem,
         handleDropOnFiltersNodeItemsBlock,
         handleTreeDrop,

@@ -14,17 +14,6 @@ import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrow
 import Tooltip from '../../../common/components/Tooltip';
 import IconButton from '../../../common/components/IconButton';
 
-// const data = [
-//   { text: 'Колонка', id: '1' },
-//   { text: 'Колонка 1', id: '2' },
-//   { text: 'Колонка 2', id: '3' },
-//   { text: 'Колонка 3', id: '4' },
-//   { text: 'Колонка 4', id: '5' },
-//   { text: 'Колонка 5', id: '6' },
-//   { text: 'Колонка 6', id: '7' },
-//   { text: 'Колонка 7', id: '8' }
-// ];
-
 const items = [
   { text: 'Псевдоним' },
   { text: 'Изменить вид' },
@@ -34,11 +23,13 @@ const items = [
   { text: 'Предпросмотр таблицы', value: 'tablePreview' }
 ];
 
-const ShemaEditorBlock = ({
+const SchemaEditorBlock = ({
   onTableDragStart,
   selectedTableName,
   selectedTableColumns = [],
-  onTablePreviewClick
+  onTablePreviewClick,
+  onFieldDragStart,
+  isHighlight
 }) => {
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
@@ -46,16 +37,11 @@ const ShemaEditorBlock = ({
   const [searchValue, setSearchValue] = useState('');
   const [isActive, setIsActive] = useState(false);
   const [isOpened, setIsOpened] = useState(true);
-  const [isLoaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    if (isLoaded) setFilterableFields(selectedTableColumns);
-  }, [isLoaded]);
-
-  useEffect(() => {
-    if (selectedTableColumns.length) {
-      setLoaded(true);
-    }
+    setTimeout(() => {
+      setFilterableFields(selectedTableColumns);
+    }, 50);
   }, [selectedTableColumns]);
 
   const contentClasses = clsx(styles.content, {
@@ -80,6 +66,8 @@ const ShemaEditorBlock = ({
     );
   };
 
+  const highlightOutline = filterableFields.filter(i => i.colored).length ? styles.wrapperHighlight : styles.wrapper;
+
   const onCloseInput = () => {
     setIsActive(!isActive);
     setSearchValue('');
@@ -91,6 +79,7 @@ const ShemaEditorBlock = ({
       {items.map(i => (
         <DropdownItem
           item={i}
+          key={Math.random()}
           onClick={() => handleClick(i)}
           className={styles.text}
         />
@@ -99,17 +88,19 @@ const ShemaEditorBlock = ({
   );
 
   return (
-    <div className={styles.wrapper}>
+    <div className={highlightOutline}>
       <div>
-        <div className={styles.header}>
-          <h1
-            className={styles.heading}
-            onMouseDown={event => {
+        <div
+          className={styles.header}
+          onMouseDown={event => {
               event.stopPropagation();
               if (event.button !== 0) return;
               onTableDragStart(event);
             }}
-            onDoubleClick={() => setIsOpened(prev => !prev)}
+          onDoubleClick={() => setIsOpened(prev => !prev)}
+        >
+          <h1
+            className={styles.heading}
           >
             {selectedTableName}
           </h1>
@@ -136,7 +127,7 @@ const ShemaEditorBlock = ({
                 offset: [45, -50]
               }}
             >
-              <IconButton className={styles.dottedBtn} icon={<DotsMenu />} />
+              <IconButton size='small' className={styles.dottedBtn} icon={<DotsMenu />} />
             </Dropdown>
           </div>
         </div>
@@ -162,15 +153,15 @@ const ShemaEditorBlock = ({
 
             {filterableFields.map((item, index) => (
               // eslint-disable-next-line react/no-array-index-key
-              <li className={styles.item} key={item.field + item.type + index}>
+              <li className={item.colored && isHighlight ? styles.itemHighlited : styles.item} key={item.field + item.type + index} draggable onDragStart={e => onFieldDragStart(e, item.field)}>
                 {item.field}
               </li>
-            ))}
+          ))}
           </ul>
         </div>
-      )}
+)}
     </div>
   );
 };
 
-export default ShemaEditorBlock;
+export default SchemaEditorBlock;

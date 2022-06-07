@@ -23,6 +23,9 @@ import DragNDropProvider from './context/DragNDropContext';
 import ModalConfirm from '../../common/components/Modal/ModalConfirm';
 import { getCondition } from './helper';
 import { setSymanticLayerData } from '../../data/reducers/data';
+import { showToast } from '../../data/actions/app';
+import { TOAST_TYPE } from '../../Consts';
+
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
@@ -108,7 +111,8 @@ const QueryPanel = ({ visible }) => {
   useEffect(() => {
     const resultConditions = filters ? getCondition([filters]) : {};
     if (resultConditions === 'Empty Value') {
-      setError('Пустые фильтры');
+     dispatch(showToast(TOAST_TYPE.DANGER, 'Пустые фильтры'))
+     setError(' ')
     } else if (isSqlPopupOpened) {
       setError('');
       createQueryText();
@@ -116,6 +120,7 @@ const QueryPanel = ({ visible }) => {
       setQueryText('');
     }
   }, [isSqlPopupOpened]);
+
 
   const modalContent = () => {
     return (
