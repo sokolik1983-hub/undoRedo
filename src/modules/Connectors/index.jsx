@@ -135,6 +135,7 @@ function Connectors() {
             <Select
               value={connectionType}
               onSelectItem={setConnectionType}
+              className={styles.connectionTypeSelect}
               options={connectionOptions?.filter(
                 item => item.value === connectSource
               )}
