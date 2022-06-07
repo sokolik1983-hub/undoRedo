@@ -83,7 +83,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               }
             ],
             hType: 'header',
-            id: 'R1.B.2.H',
+            id: generateId(),
             shown: true,
             vType: 'header'
           },
@@ -102,7 +102,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               }
             ],
             hType: 'header',
-            id: 'R1.B.2.B',
+            id: generateId(),
             shown: true,
             vType: 'body'
           },
@@ -111,7 +111,7 @@ export const createReportElement = ({ type, mousePosition }) => {
 
             ],
             hType: 'header',
-            id: 'R1.B.2.F',
+            id: generateId(),
             shown: false,
             vType: 'footer'
           }
@@ -148,7 +148,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               }
             ],
             hType: 'header',
-            id: 'R1.B.2.H',
+            id: generateId(),
             shown: true,
             vType: 'header'
           },
@@ -167,7 +167,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               }
             ],
             hType: 'header',
-            id: 'R1.B.2.B',
+            id: generateId(),
             shown: true,
             vType: 'body'
           },
@@ -176,7 +176,7 @@ export const createReportElement = ({ type, mousePosition }) => {
 
             ],
             hType: 'header',
-            id: 'R1.B.2.F',
+            id: generateId(),
             shown: false,
             vType: 'footer'
           }
@@ -201,21 +201,21 @@ export const createReportElement = ({ type, mousePosition }) => {
           {
             cells: [],
             hType: 'header',
-            id: 'R1.B.2.H',
+            id: generateId(),
             shown: true,
             vType: 'header'
           },
           {
             cells: [],
             hType: 'header',
-            id: 'R1.B.2.B',
+            id: generateId(),
             shown: true,
             vType: 'body'
           },
           {
             cells: [],
             hType: 'header',
-            id: 'R1.B.2.F',
+            id: generateId(),
             shown: false,
             vType: 'footer'
           }
