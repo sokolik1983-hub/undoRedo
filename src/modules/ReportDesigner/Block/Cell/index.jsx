@@ -111,8 +111,7 @@ const Cell = ({
           ...element,
           expression: {
             dataType: selectedEl.dataType,
-            formula: selectedEl.name,
-            type: 'Const'
+            formula: selectedEl.name
           }
         }
       ];
@@ -142,7 +141,8 @@ const Cell = ({
 
     dispatch(
       addTableColumn({
-        object: { ...element, expression: { ...selectedEl } },
+        object: { ...element, expression: { variable_id: selectedEl.id,  type: selectedEl.type, formula: selectedEl.formula,
+          parsedFormula: selectedEl.parsedFormula,} },
         id
       })
     );

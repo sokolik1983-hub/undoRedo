@@ -97,19 +97,19 @@ export const getElementData = (queryParams, callback) => {
 
 export const getVariables = () => {
   return async dispatch => {
-    dispatch(setVariables(REP_GET_VARIABLES.variables));
+    // dispatch(setVariables(REP_GET_VARIABLES.variables));
 
-    // const response = await request({
-    //   code: 'REP.GET_VARIABLES',
-    //   params: {},
-    //   dispatch
-    // });
+    const response = await request({
+      code: 'REP.GET_VARIABLES',
+      params: {},
+      dispatch
+    });
 
-    // if (response) {
-    //   if (response.result === true) {
-    //     dispatch(setVariables(response.variables));
-    //   }
-    // }
+    if (response) {
+      if (response.result === true) {
+        dispatch(setVariables(response.variables));
+      }
+    }
   };
 };
 

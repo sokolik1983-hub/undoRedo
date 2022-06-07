@@ -148,7 +148,7 @@ const TableBody = ({
 
     return (
       response &&
-      response.data.data.map((item, idx) => {
+      response?.data?.data?.map((item, idx) => {
         return (
           <tr key={item} data="data-row">
             {tableType === 'hTable' && renderHTableHeader(idx + 1)}

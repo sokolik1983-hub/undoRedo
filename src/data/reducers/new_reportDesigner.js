@@ -2699,7 +2699,7 @@ const reportDesigner = createSlice({
 
       headerZone[0].cells = [
         ...headerZone[0].cells,
-        { ...action.payload.object, type: 'Const' }
+        { ...action.payload.object }
       ];
       bodyZone[0].cells = [...bodyZone[0].cells, action.payload.object];
 

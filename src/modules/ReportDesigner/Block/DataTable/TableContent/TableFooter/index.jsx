@@ -73,7 +73,7 @@ const TableFooter = ({
 
     return (
       response &&
-      response.data.data.map(item => {
+      response?.data?.data?.map(item => {
         return (
           <tr key={item} data="data-row">
             {item.map((cell, idx) => {
