@@ -1,45 +1,19 @@
-.modalContent {
-  padding: 0;
-}
-
-.selectInput {
-  padding-left: 6px;
-  margin-left: 4px;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 14px;
-  border: none;
-}
-
 .form {
   display: flex;
   flex-direction: column;
 }
 
-.connectionWrapper {
-  display: flex;
-  flex-direction: column;
-  padding: 0 22px;
+.createButton {
+  margin: 0;
+  height: max-content;
+  width: max-content;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  transform: translate(50%, 50%);
 }
 
 .connectorsLabel {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 16px;
-  color: #ffffff;
-}
-
-.selectInput {
-  padding-left: 6px;
-  margin-left: 4px;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 14px;
-  border: none;
-}
-
-.selectText {
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -54,13 +28,14 @@
   margin-top: 10px;
 }
 
-.connectionTypeWrapper {
-  width: 301px;
-  padding: 0 0 11px 22px;
-}
-
-.connectionTypeInputsWrapper {
-  padding-left: 21px;
+.selectText {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #ffffff;
+  margin-bottom: 5px;
+  margin-left: -4px;
 }
 
 .connectorsInput {
@@ -76,6 +51,32 @@
   width: 125px;
 }
 
+.connectionWrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 0 22px;
+}
+
+.connectionTypeWrapper {
+  width: 301px;
+  padding: 0 0 11px 22px;
+}
+
+.connectionTypeSelect {
+  border: none;
+  width: 100%;
+  padding-left: 6px;
+  margin: 0 0 25px 0px;
+}
+
+.connectionTypeInputsWrapper {
+  padding-left: 21px;
+}
+
+.testConnectionButton {
+  margin-top: 146px;
+}
+
 .gearsIconWrapper {
   position: relative;
   top: 40px;
@@ -83,31 +84,39 @@
   transform: scale(1.5);
 }
 
-.testConnectionButton {
-  margin-top: 146px;
+.connectorsLabel {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #ffffff;
+  margin-left:-4px;
+}
+
+.selectInput {
+  max-width: 379px;
+  padding-left: 6px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+  border: none;
+}
+
+.selectTypeConnection {
+  width: calc(100% - 4px);
+  @extend .selectInput;
 }
 
 .footerButtonsGroup {
   padding: 0 0 4px 0;
 }
 
+.modalContent {
+  padding: 0;
+}
+
 .cancelButton {
   margin: 0 9px 0 10px;
-}
-
-.createButton {
-  margin: 0;
-  height: max-content;
-  width: max-content;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  transform: translate(50%, 50%);
-}
-
-.selectTypeConnection {
-  width: calc(100% - 4px);
-  @extend .selectInput;
 }
 
 .actions {
