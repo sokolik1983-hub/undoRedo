@@ -13,7 +13,6 @@ import styles from './EditConnectorModal.module.scss';
 const EditConnectorModal = ({ visible, onClose }) => {
 
   const connectorData =  useSelector(state => state.app.data.connectorData);
-  console.log(connectorData)
 
   const [connectName, setConnectName] = useState(''); // имя коннектора
   const [connectType, setConnectType] = useState(null); // тип коннектора(База Данных, Тестовый файл)
@@ -71,8 +70,6 @@ const EditConnectorModal = ({ visible, onClose }) => {
       setTestConnectionInputPassword(connectorData.data.fields.filter(field => field.fieldKey === 'PWD')[0].value);
     }
   }, [connectorData])
-
-  console.log(login, pass)
 
   const createConnectorModalContent = (
     <form className={styles.form}>
