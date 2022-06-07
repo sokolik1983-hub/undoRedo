@@ -86,3 +86,33 @@
 .testConnectionButton {
   margin-top: 146px;
 }
+
+.footerButtonsGroup {
+  padding: 0 0 4px 0;
+}
+
+.cancelButton {
+  margin: 0 9px 0 10px;
+}
+
+.createButton {
+  margin: 0;
+  height: max-content;
+  width: max-content;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  transform: translate(50%, 50%);
+}
+
+.selectTypeConnection {
+  width: calc(100% - 4px);
+  @extend .selectInput;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  align-items: center;
+}
