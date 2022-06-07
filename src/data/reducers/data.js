@@ -15,7 +15,8 @@ const data = createSlice({
     symLayersData: [],
     requestId: null,
     reposFolderId: 0,
-    reposChildren: []
+    reposChildren: [],
+    connectorData: {}
   },
   reducers: {
     setConnectors: (state, action) => {
@@ -65,6 +66,9 @@ const data = createSlice({
     },
     setReposChildren: (state, action) => {
       state.reposChildren = action.payload;
+    },
+    setConnectorData: (state, action) => {
+      state.connectorData = action.payload;
     }
   },
 });
@@ -85,7 +89,8 @@ export const {
   setReportsFolderId,
   setRequestId,
   setReposFolderId,
-  setReposChildren
+  setReposChildren,
+  setConnectorData
 } = data.actions;
 
 export default data.reducer;

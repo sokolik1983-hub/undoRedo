@@ -1,6 +1,7 @@
 import { request } from '../helpers';
-import { setConnectors, setConnectorsFolderId } from '../reducers/data';
+import { setConnectorData, setConnectors, setConnectorsFolderId } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
+import { showEditConnectorModal } from '../reducers/ui';
 
 export const getConnectorFolderChildren = queryParams => {
   return async dispatch => {
@@ -31,6 +32,26 @@ export const getConnectorsFolderId = queryParams => {
       });
       if (response?.result) {
         dispatch(setConnectorsFolderId(response.id));
+      }
+    } catch (err) {
+      dispatch(
+        notificationShown({ message: err.message, messageType: 'error' })
+      );
+    }
+  };
+};
+
+export const getConnector = queryParams => {
+  return async dispatch => {
+    try {
+      const response = await request({
+        code: 'CN.OPEN',
+        params: queryParams,
+        dispatch
+      });
+      if (response?.result) {
+        dispatch(setConnectorData(response.data));
+        dispatch(showEditConnectorModal());
       }
     } catch (err) {
       dispatch(
