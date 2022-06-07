@@ -212,6 +212,7 @@ export const BUTTON = {
   GRAY: 'GRAY', 
   BROWN_DARKER: 'BROWN_DARKER',
   RED: 'RED',
+  BIG_RED: 'BIG_RED',
   SMALL_ORANGE: 'SMALL_ORANGE',
 }
 
