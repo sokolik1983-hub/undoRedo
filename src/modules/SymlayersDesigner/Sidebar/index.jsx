@@ -14,6 +14,7 @@ import { ReactComponent as UnknownItemIcon } from '../../../layout/assets/icons/
 import { ReactComponent as GaugeIcon } from '../../../layout/assets/queryPanel/gauge_icon.svg';
 import { ReactComponent as MeasIcon } from '../../../layout/assets/queryPanel/measurementIcon.svg';
 import { ReactComponent as AttrIcon } from '../../../layout/assets/queryPanel/attributeIcon.svg';
+import { ReactComponent as FolderIcon } from '../../../layout/assets/openFolderIcon.svg';
 import { setColoredValue, setShowDataList } from '../../../data/reducers/schemaDesigner';
 import TextInput from '../../../common/components/TextInput';
 import { ReactComponent as Magnifier } from '../../../layout/assets/magnifier.svg';
@@ -211,6 +212,10 @@ function Sidebar({ onSelect }) {
                     <MeasIcon />
                   </div>
                 </div>
+              </div>
+              <div className={styles.owner}>
+                <FolderIcon />
+                <span>Новый семантический слой</span>
               </div>
               <div className={styles.contentData}>
                 { showingDataList ? dataList.map(i =>
