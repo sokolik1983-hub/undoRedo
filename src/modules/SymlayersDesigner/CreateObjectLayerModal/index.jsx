@@ -16,6 +16,7 @@ import { setCreateObjectModal } from '../../../data/actions/universes';
 import { CREATE_OBJECT_MODAL_VALUES } from './createObjectModalConstants';
 
 import styles from './CreateObjectLayerModal.module.scss';
+
 import { addObjectLayer } from '../../../data/reducers/schemaDesigner';
 
 const createObjectModalValues = {

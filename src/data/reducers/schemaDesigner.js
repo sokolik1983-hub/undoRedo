@@ -59,6 +59,9 @@ const schemaDesigner = createSlice({
     setSelectedTables: (state, action) => {
       state.selectedTables = { ...state.selectedTables, ...action.payload };
     },
+    setSelectedTablesFiltered: (state, action) => {
+      state.selectedTables = action.payload
+    },
     setSelectedTablesData: (state, action) => {
       state.selectedTablesData = {
         ...state.selectedTablesData,
@@ -74,10 +77,13 @@ const schemaDesigner = createSlice({
     setLink: (state, action) => {
       state.links = state.links.map(link => {
         if (link.id === action?.payload.id) {
-          link = action?.payload; 
+          link = action?.payload;
         }
         return link;
       });
+    },
+    setLinksFiltered:  (state, action) => { 
+      state.links = action.payload;
     },
     addObjectLayer: (state, action) => {
       state.objectsLayerList = [...state.objectsLayerList, action.payload];
@@ -129,8 +135,10 @@ export const {
   addObjectLayer,
   setObjectLayer,
   deleteObjectLayer,
+  setLinksFiltered,
   setContexts,
   unsetTablePreviewData,
+  setSelectedTablesFiltered,
   setColoredValue,
   setDataList,
   clearDataList,

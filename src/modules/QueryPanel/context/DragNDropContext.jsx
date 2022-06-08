@@ -1,20 +1,52 @@
-/* eslint-disable no-multi-assign */
+/* eslint-disable consistent-return */
+/* eslint-disable no-shadow */
 import PropTypes from 'prop-types';
-import { createContext, useContext, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   DRAG_PARENT_SECTION,
   EMPTY_STRING
 } from '../../../common/constants/common';
+import { setQueryPanelSymlayerFilters } from '../../../data/reducers/data';
 import { flat } from '../queryPanelHelper';
 
 const DragNDropContext = createContext();
 export const useDragNDrop = () => useContext(DragNDropContext);
 
 const DragNDropProvider = ({ children }) => {
+  const dispatch = useDispatch();
+
+  const { objects, filters, currentLayerTitle } = useSelector(state => {
+    const {
+      currentLayerTitle,
+      data
+    } = state?.app?.data?.queryPanelSymlayersData;
+
+    const { objects = [], filters = null } =
+      data?.find(i => i.queryTitle === currentLayerTitle) || {};
+
+    return { objects, filters, currentLayerTitle };
+  });
+
   const [objectsDesk, setObjectsDesk] = useState([]);
   const [filtersDesk, setFiltersDesk] = useState(null);
   const [focused, setFocused] = useState(null);
   const parentSection = useRef(null);
+
+  useEffect(() => {
+    if (!currentLayerTitle) return;
+    setObjectsDesk(objects);
+    setFiltersDesk(filters);
+  }, [currentLayerTitle]);
+
+  useEffect(() => {
+    dispatch(
+      setQueryPanelSymlayerFilters({
+        objects: objectsDesk,
+        filters: filtersDesk
+      })
+    );
+  }, [objectsDesk, filtersDesk]);
 
   // ======================== общие для всех ========================
   const handleDragStart = (e, obj, parent) => {
@@ -138,10 +170,9 @@ const DragNDropProvider = ({ children }) => {
       }
     };
 
-    
     if (!result || !idx) {
-      find(obj)
-    };
+      find(obj);
+    }
 
     return [result, idx];
   };
@@ -411,7 +442,7 @@ const DragNDropProvider = ({ children }) => {
     setFiltersDesk(filtersDeskClone);
   };
 
-  const handleChangeCondition = (condition) => {
+  const handleChangeCondition = condition => {
     const filtersDeskClone = JSON.parse(JSON.stringify(filtersDesk));
     let newCondition = '';
     if (filtersDeskClone.type === 'filter-node') {
@@ -427,7 +458,7 @@ const DragNDropProvider = ({ children }) => {
     } else {
       newCondition = condition;
     }
-    
+
     return newCondition;
   };
 
@@ -435,21 +466,21 @@ const DragNDropProvider = ({ children }) => {
     const filtersDeskClone = JSON.parse(JSON.stringify(filtersDesk));
     if (filtersDesk.type === 'filter-node') {
       const [parent, idx] = getParent(filtersDeskClone, id);
-      if (typeof(secondInput) !== 'object') {
+      if (typeof secondInput !== 'object') {
         parent.children[idx].inputValue = `${input} AND ${secondInput}`;
       } else {
         parent.children[idx].inputValue = input;
         parent.children[idx].itemCondition = condition;
       }
     } else if (filtersDesk.type === 'filter-item') {
-      if (typeof(secondInput) !== 'object') {
+      if (typeof secondInput !== 'object') {
         filtersDeskClone.inputValue = `${input} AND ${secondInput}`;
       } else {
         filtersDeskClone.inputValue = input;
         filtersDeskClone.itemCondition = condition;
       }
     }
-    
+
     setFiltersDesk(filtersDeskClone);
   };
 

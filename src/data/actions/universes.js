@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { request, requestSymLayerData } from '../helpers';
-import { setQueryData, setSymanticLayerData, setUniverses, setSymanticLayerQueryResult, setQueryResult, setListReports } from '../reducers/data';
+import { setQueryData, setSymanticLayerData, setUniverses, setSymanticLayerQueryResult, setQueryResult, setListReports, setQueryPanelSymlayersData } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
 import { showObjectsConnectionsModal, closeModal, showQueryPanelModal, showSemanticLayerModal, showTablePreviewModal, showCreateObjectModal, closeCreateObjectModal,showEditObjectModal, closeEditObjectModal, showConfirmModal, closeConfirmModal } from '../reducers/ui';
 
@@ -33,6 +33,25 @@ export const getSymanticLayerData = id => {
 
       if (response?.success) {
         dispatch(setSymanticLayerData(response.result));
+      }
+    } catch (err) {
+      dispatch(
+        notificationShown({ message: err.message, messageType: 'error' })
+      );
+    }
+  }
+}
+
+export const getQueryPanelSymanticLayerData = id => {
+  return async dispatch => {
+    try {
+      const response = await requestSymLayerData({
+        id,
+        dispatch
+      });
+
+      if (response?.success) {
+        dispatch(setQueryPanelSymlayersData(response.result));
       }
     } catch (err) {
       dispatch(
