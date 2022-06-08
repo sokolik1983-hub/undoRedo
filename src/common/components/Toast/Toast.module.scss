@@ -7,11 +7,7 @@
     margin-top: 10px;
     width: 80%;
   }
-  
-  .center-top {
-    animation: toast-in-right .7s;
-  }
-  
+
   .notification {
     display: flex;
     flex-direction: row;
@@ -24,6 +20,7 @@
     color: #fff;
     padding: 15px 10px;
     text-align: center;
+    animation: toast-in-right .7s;
   }
 
   .titleWrapper {

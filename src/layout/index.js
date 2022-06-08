@@ -21,7 +21,6 @@ function Layout() {
         <Toast
           toastlist={toastList}
           setList={setToastList}
-          position="center-top"
           dispatch={dispatch}
         />
         {!isLoginPage && <TopBar />}
