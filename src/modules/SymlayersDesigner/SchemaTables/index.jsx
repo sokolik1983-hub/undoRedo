@@ -174,6 +174,8 @@ const Provided = props => {
     }
   }, [props.tables]);
 
+ 
+
   const renderZoomBtn = () => (
     <div
       key="scalePanel"
@@ -319,12 +321,12 @@ const Provided = props => {
                 getTableId(link.object1.object) ===
                 getTableId(link.object2.object)
               }
-              onCreateSynonym={props.onCreateSynonym}
+              // onCreateSynonym={props.onCreateSynonym}
             />
           );
         })}
 
-        {Object.keys(tables)?.map((tableId, index) => {
+        {Object.keys(tables)?.map(tableId => {
           return (
             <Table
               tableId={tableId}

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-return-assign */
 /* eslint-disable react/no-array-index-key */
@@ -20,7 +21,7 @@ import {
   getObjectData,
   getObjectFields
 } from '../../../data/actions/schemaDesigner';
-import { setDataList, clearDataList, setShowDataList } from '../../../data/reducers/schemaDesigner';
+import { setDataList, setSelectedTables, setShowDataList } from '../../../data/reducers/schemaDesigner';
 import { getTableIdFromParams } from '../../../data/helpers';
 import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock';
 // import { useApplicationActions } from 'src/data/appProvider';
@@ -142,8 +143,7 @@ const TableComponent = ({
   }, [ selectedTables]);
 
   // const refs = useMemo(() => tableRefs[tableId], [tableRefs, tableId]);
-  const [synName, setSynName] = useState('');
-  const [showSynPopup, setShowSynPopup] = useState(false);
+  // const [showSynPopup, setShowSynPopup] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [columns, setColumns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -160,15 +160,11 @@ const TableComponent = ({
     return item?.field.toLowerCase()?.includes(coloredValue.toLowerCase())
   }
 
-  const searchStaticMatches = (item) => {
-    return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase())
-  }
-
   const selectedTableColumns =
     selectedTables[getTableIdFromParams({ ...tableItem, connect_id: 4 })]?.map((item) => {
       return ({
         ...item,
-        colored: colorValue && searchStaticMatches(item),
+        colored: colorValue && searchMatches(item),
       })
     });
 
@@ -182,7 +178,7 @@ const TableComponent = ({
                 searchMatches(item) && coloredValue ? [...acc, item.field ] : acc, []);
         
         if (choosenItems.length) {
-          list.push({name: i, line: choosenItems })
+          list.push({ name: i, line: choosenItems})
         }
       })
       return list;
@@ -368,31 +364,6 @@ const TableComponent = ({
     startDrag({ event, dragCallback, dragStopCallback });
   };
 
-  function handleCreateSynonym() {
-    const numberReg = /[0-9]+/g;
-    const specReg = /[!"@#';:/?$%^*()]+/g;
-
-    if (
-      synName &&
-      synName.length > 3 &&
-      !synName[0].match(numberReg) &&
-      !synName.match(specReg)
-    ) {
-      const newSynonym = lodash.cloneDeep(tableItem);
-      newSynonym.parent_table = tableItem.parent_table
-        ? tableItem.parent_table
-        : tableItem.object_name;
-      newSynonym.object_name = synName;
-      newSynonym.id = null;
-      onCreateSynonym(newSynonym);
-      setShowSynPopup(false);
-      setSynName('');
-    } else {
-      // eslint-disable-next-line no-alert
-      alert('Имя синонима введено некорректно!');
-    }
-  }
-
   const relatedSearchItems = searchResult.filter(
     elem => tableItem && elem.tableid === tableItem.id
   );
@@ -416,6 +387,32 @@ const TableComponent = ({
       }
     }
   }, [focusedItem]);
+
+  const [synName, setSynName] = useState('');
+
+  const handleCreateSynonym = () => {
+    const numberReg = /[0-9]+/g;
+    const specReg = /[!"@#';:/?$%^*()]+/g;
+
+    if (
+      synName &&
+      synName.length > 3 &&
+      !synName[0].match(numberReg) &&
+      !synName.match(specReg)
+    ) {
+      const newSynonym = lodash.cloneDeep(tableItem);
+      newSynonym.parent_table = tableItem.parent_table
+        ? tableItem.parent_table
+        : tableItem.object_name;
+      newSynonym.object_name = synName;
+      newSynonym.id = null;
+      onCreateSynonym(newSynonym);
+      
+    } else {
+      // eslint-disable-next-line no-alert
+      alert('Имя синонима введено некорректно!');
+    }
+  }
 
   return (
     <g
@@ -447,6 +444,9 @@ const TableComponent = ({
           selectedTableName={tableItem.object_name}
           onTablePreviewClick={handlePopupShow}
           onFieldDragStart={onFieldDragStart}
+          onCreate={handleCreateSynonym}
+          synoName={synName}
+          setSynoName={setSynName}
         />
       </foreignObject>
       {/* <div

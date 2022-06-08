@@ -44,6 +44,10 @@ function SymlayersDesigner() {
     }
   };
 
+  const handleAddSynonym = (table) => {
+    setChecked([...checked, table]);
+  };
+
   return (
     <div className={styles.root}>
       <div className={styles.content}>
@@ -64,7 +68,7 @@ function SymlayersDesigner() {
             }}
             onDragOver={(e) => {e.preventDefault()}}
           >
-            <SchemaTables tables={checked} />
+            <SchemaTables onCreateSynonym={handleAddSynonym} tables={checked} />
           </div>
         </div>
         <Sidebar onSelect={handleSelectTable} />
