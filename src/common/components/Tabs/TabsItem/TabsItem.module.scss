@@ -1,0 +1,32 @@
+.tabsItem {
+	list-style: none;
+	margin: 0;
+	flex: 1;
+	background: rgb(85, 85, 85);
+	border-bottom: 1px solid gray;
+  
+  &:not(:last-child) {
+    border-right: 1px solid gray;
+  }
+
+
+	& button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: none;
+		background: none;
+		font: inherit;
+		color: inherit;
+		cursor: pointer;
+		padding: 10px;
+		width: 100%;
+	}
+	
+	&.active {
+		color: black;
+		font-weight: bold;
+		background: white;
+		border-bottom: 1px solid transparent;
+	}
+}

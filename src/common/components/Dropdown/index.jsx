@@ -1,6 +1,7 @@
 import { cloneElement, Children } from 'react';
 import PropTypes from 'prop-types';
 import RcDropdown from 'rc-dropdown';
+import styles from './Dropdown.module.scss';
 import 'rc-dropdown/assets/index.css';
 
 /**
@@ -20,6 +21,7 @@ const Dropdown = ({
 
   return (
     <RcDropdown
+      overlayClassName={styles.overlay}
       {...props}
       trigger={trigger}
       overlay={<div>{overlay}</div>}

@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-shadow */
 import clsx from 'clsx';
+import ReactDOM from 'react-dom';
 import React, { useEffect, useState } from 'react';
 import Dropdown from '../../../common/components/Dropdown';
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
@@ -13,6 +14,7 @@ import styles from './SchemaEditorBlock.module.scss';
 import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowOk.svg';
 import Tooltip from '../../../common/components/Tooltip';
 import IconButton from '../../../common/components/IconButton';
+import ModalConfirmDeletion  from '../../../common/components/Modal/ModalConfirmDeletion';
 
 const items = [
   { text: 'Псевдоним' },
@@ -20,16 +22,24 @@ const items = [
   { text: 'Определение ключей' },
   { text: 'Определение числа элементов' },
   { text: 'Определение числа строк' },
-  { text: 'Предпросмотр таблицы', value: 'tablePreview' }
+  { text: 'Предпросмотр таблицы', value: 'tablePreview' },
+  { text: 'Удалить таблицу', value: 'deleteTable' }
 ];
+
+const modalWarningText =
+  'Будет удалена таблица и все связи с этой таблицей, включая объекты. Вы уверены?';
 
 const SchemaEditorBlock = ({
   onTableDragStart,
   selectedTableName,
   selectedTableColumns = [],
   onTablePreviewClick,
+  onCloseSchemaEditorBlock,
+  isHighlight,
+  selectedTableFullName,
+  onDeleteTable,
+  tableItem,
   onFieldDragStart,
-  isHighlight
 }) => {
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
@@ -37,6 +47,7 @@ const SchemaEditorBlock = ({
   const [searchValue, setSearchValue] = useState('');
   const [isActive, setIsActive] = useState(false);
   const [isOpened, setIsOpened] = useState(true);
+  const [isDeleteWarningModalOpened, setDeleteWarningModalOpened] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -51,6 +62,9 @@ const SchemaEditorBlock = ({
   const handleClick = item => {
     if (item.value === 'tablePreview') {
       return onTablePreviewClick();
+    }
+    if (item.value === 'deleteTable') {
+      return setDeleteWarningModalOpened(true);
     }
     return console.log(item.text);
   };
@@ -79,7 +93,7 @@ const SchemaEditorBlock = ({
       {items.map(i => (
         <DropdownItem
           item={i}
-          key={Math.random()}
+          key={i.text}
           onClick={() => handleClick(i)}
           className={styles.text}
         />
@@ -127,7 +141,11 @@ const SchemaEditorBlock = ({
                 offset: [45, -50]
               }}
             >
-              <IconButton size='small' className={styles.dottedBtn} icon={<DotsMenu />} />
+              <IconButton
+                size="small"
+                className={styles.dottedBtn}
+                icon={<DotsMenu />}
+              />
             </Dropdown>
           </div>
         </div>
@@ -156,10 +174,23 @@ const SchemaEditorBlock = ({
               <li className={item.colored && isHighlight ? styles.itemHighlited : styles.item} key={item.field + item.type + index} draggable onDragStart={e => onFieldDragStart(e, item.field)}>
                 {item.field}
               </li>
-          ))}
+            ))}
           </ul>
         </div>
-)}
+      )}
+      {isDeleteWarningModalOpened &&
+        ReactDOM.createPortal(
+          <ModalConfirmDeletion
+            warnText={modalWarningText}
+            setDeleteWarningModalOpened={setDeleteWarningModalOpened}
+            selectedTableFullName={selectedTableFullName}
+            onCloseSchemaEditorBlock={onCloseSchemaEditorBlock}
+            isDeleteWarningModalOpened={isDeleteWarningModalOpened}
+            onDeleteTable={onDeleteTable}
+            tableItem={tableItem}
+          />,
+          document.body
+        )}
     </div>
   );
 };

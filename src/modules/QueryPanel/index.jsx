@@ -6,6 +6,7 @@ import Modal from '../../common/components/Modal';
 import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.module.scss';
 import {
   createQuery,
+  getQueryPanelSymanticLayerData,
   getUniverses,
   setConfirmModal,
   setQueryPanelModal
@@ -28,7 +29,6 @@ import { TOAST_TYPE } from '../../Consts';
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
-  const [semanticLayer, setSemanticLayer] = useState(null);
   const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(
     false
   );
@@ -59,7 +59,7 @@ const QueryPanel = ({ visible }) => {
   const handleObjFilEdit = (objs, fils) => {
     setObjects(objs);
     setFilters(fils);
-  }
+  };
 
   const handleQueryExecute = () => {
     setQueryExecute(true);
@@ -80,13 +80,13 @@ const QueryPanel = ({ visible }) => {
     return setSemanticLayerModalOpened(false);
   };
 
-  const onSelectSemanticLayer = value => {
-    setSemanticLayer(value);
+  const onSelectSemanticLayer = symLayer => {
+    dispatch(getQueryPanelSymanticLayerData(symLayer.id));
     setSemanticLayerModalOpened(false);
     setIsChanged(true);
   };
 
-  const handleQueryText = (text) => {
+  const handleQueryText = text => {
     setQueryText(text);
   };
 
@@ -98,13 +98,15 @@ const QueryPanel = ({ visible }) => {
 
   const createQueryText = () => {
     if (objects) {
-      dispatch(createQuery({
-        symlayer_id: symLayerData.symlayer_id,
-        data: objects.map(item => `${item.parent_folder}.${item.field}`),
-        conditions: filters ? getCondition([filters]) : {} 
-      }));
+      dispatch(
+        createQuery({
+          symlayer_id: symLayerData.symlayer_id,
+          data: objects.map(item => `${item.parent_folder}.${item.field}`),
+          conditions: filters ? getCondition([filters]) : {}
+        })
+      );
     }
-  }
+  };
 
   useEffect(() => {
     const resultConditions = filters ? getCondition([filters]) : {};
@@ -117,7 +119,7 @@ const QueryPanel = ({ visible }) => {
     } else {
       setQueryText('');
     }
-  }, [isSqlPopupOpened])
+  }, [isSqlPopupOpened]);
 
 
   const modalContent = () => {
@@ -126,10 +128,7 @@ const QueryPanel = ({ visible }) => {
         <DragNDropProvider>
           <div className={styles.content}>
             <div className={styles.leftPanel}>
-              <ObjectsPanel
-                symanticLayer={semanticLayer}
-                modalOpenHandler={handleShowSelector}
-              />
+              <ObjectsPanel modalOpenHandler={handleShowSelector} showHeader />
             </div>
             <div className={styles.rightPanel}>
               <Objects className={styles.section} />
@@ -141,7 +140,7 @@ const QueryPanel = ({ visible }) => {
                 onQueryTextCreate={handleQueryText}
                 onObjFilEdit={handleObjFilEdit}
               />
-              <span style={{color: 'red'}}>{errorText}</span>
+              <span style={{ color: 'red' }}>{errorText}</span>
               <QueryPanelControls
                 onRun={handleQueryExecute}
                 onSql={handleShowSqlPopup}
@@ -160,16 +159,13 @@ const QueryPanel = ({ visible }) => {
         )}
         {confirmModalOpened && (
           <ModalConfirm
-            style={{'top': 1}}
+            style={{ top: 1 }}
             onReturn={() => dispatch(setConfirmModal(false))}
             onClose={() => onClose()}
           />
         )}
         {isSqlPopupOpened && !errorText.length && (
-          <SqlPopup 
-            onClose={handleShowSqlPopup}
-            queryText={queryText}
-          />
+          <SqlPopup onClose={handleShowSqlPopup} queryText={queryText} />
         )}
       </div>
     );
