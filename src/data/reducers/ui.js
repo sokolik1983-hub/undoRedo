@@ -16,6 +16,7 @@ const ui = createSlice({
     isNavShowing: false,
     modalCreateObjectVisible: false,
     confirmModalVisible: false,
+    editConnectorModalVisible: false
   },
   reducers: {
     showNav: (state, action) => {
@@ -72,6 +73,12 @@ const ui = createSlice({
     closeConfirmModal: state => {
       state.confirmModalVisible = false;
     },
+    showEditConnectorModal: state => {
+      state.editConnectorModalVisible = true;
+    },
+    closeEditConnectorModal: state => {
+      state.editConnectorModalVisible = false;
+    }
 
   }
 });
@@ -95,6 +102,8 @@ export const {
   closeCreateObjectModal,
   showConfirmModal,
   closeConfirmModal,
+  showEditConnectorModal,
+  closeEditConnectorModal
 } = ui.actions;
 
 export default ui.reducer;

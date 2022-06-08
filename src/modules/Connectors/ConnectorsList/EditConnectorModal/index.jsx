@@ -1,34 +1,18 @@
-/* eslint-disable */
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { saveConnector } from '../../data/actions/connectors';
-import styles from './Connectors.module.scss';
-import TreeView from '../../common/components/TreeView/index';
-import Button from '../../common/components/Button';
-import Modal from '../../common/components/Modal';
-import TextInput from '../../common/components/TextInput';
-import Select from '../../common/components/Select';
-import ConnectorsList from './ConnectorsList/ConnectorsList';
-import FloatingButton from '../../common/components/FloatingButton';
-import { ReactComponent as CreateConnector } from '../../layout/assets/createConnector.svg';
-import { setCurrentPage } from '../../data/reducers/ui';
-import { PAGE } from '../../common/constants/pages';
-import Gears from '../../common/components/Gears';
-import { BUTTON } from '../../common/constants/common';
+/* eslint-disable no-unused-vars */
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import Button from "../../../../common/components/Button";
+import Gears from "../../../../common/components/Gears";
+import Modal from "../../../../common/components/Modal";
+import Select from "../../../../common/components/Select";
+import TextInput from "../../../../common/components/TextInput";
+import { BUTTON } from "../../../../common/constants/common";
+import styles from './EditConnectorModal.module.scss';
 
-function Connectors() {
-  const dispatch = useDispatch();
+const EditConnectorModal = ({ visible, onClose }) => {
 
-  useEffect(() => {
-    dispatch(setCurrentPage(PAGE.CONNECTORS));
-  }, []);
-
-  // Получаем из словаря типы, источники, типы соединения
-  const types = useSelector(state => state.app.data.dictionaries.source_type);
-  const sources = useSelector(state => state.app.data.dictionaries.source);
-  const connections = useSelector(
-    state => state.app.data.dictionaries.connect_type
-  );
+  const connectorData =  useSelector(state => state.app.data.connectorData);
 
   const [connectName, setConnectName] = useState(''); // имя коннектора
   const [connectType, setConnectType] = useState(null); // тип коннектора(База Данных, Тестовый файл)
@@ -48,10 +32,13 @@ function Connectors() {
     testConnectionInputPassword,
     setTestConnectionInputPassword
   ] = useState('');
-  // Видима/невидима модалка добавления коннектора
-  const [isVisible, setIsVisible] = useState(false);
 
-  // Делаем из полученных из словаря типов, источников, типов соединения подходящие массивы options для компонента Select
+  const types = useSelector(state => state.app.data.dictionaries.source_type);
+  const sources = useSelector(state => state.app.data.dictionaries.source);
+  const connections = useSelector(
+    state => state.app.data.dictionaries.connect_type
+  );
+
   const typeOptions = types?.map(item => ({
     text: item.name,
     value: String(item.id)
@@ -66,7 +53,7 @@ function Connectors() {
     text: item.name,
     value: String(item.source_id)
   }));
-
+    
   const [isActive, setIsActive] = useState(false);
 
   const onClickAction = e => {
@@ -74,27 +61,16 @@ function Connectors() {
     setIsActive(!isActive);
   };
 
-  // Хэнделры для открытия/закрытия модалки
-  const createConnectorModalHandler = () => {
-    setIsVisible(true);
-  };
+  useEffect(() => {
+    if (connectorData.data) {
+      setConnectName(connectorData.header.name);
+      setConnectType(connectorData.data.type_id);
+      setConnectSource(connectorData.data.class_id);
+      setTestConnectionInputLogin(connectorData.data.fields.filter(field => field.fieldKey === 'UID')[0].value);
+      setTestConnectionInputPassword(connectorData.data.fields.filter(field => field.fieldKey === 'PWD')[0].value);
+    }
+  }, [connectorData])
 
-  const closeConnectorModalHandler = () => {
-    setIsVisible(false);
-  };
-
-  // Функция для добавления нового коннектора
-  const addConnector = () => {
-    dispatch(
-      saveConnector({
-        connect_name: connectName,
-        connect_type_id: connectType,
-        source_id: connectSource
-      })
-    );
-  };
-
-  // Контент для модалки для добавления коннеткора
   const createConnectorModalContent = (
     <form className={styles.form}>
       <div className={styles.connectionWrapper}>
@@ -113,7 +89,8 @@ function Connectors() {
         <Select
           value={connectType}
           options={typeOptions}
-          defaultValue="Тип соединения"
+          defaultValue={connectType}
+          // defaultValue="Имя"
           onSelectItem={setConnectType}
           className={styles.selectInput}
         />
@@ -125,33 +102,14 @@ function Connectors() {
           value={connectSource}
           onSelectItem={setConnectSource}
           options={sourceOptions?.filter(item => item.value === connectType)} // Фильтурем для получения подходящих options в завимисомти от типо коннектора
-          defaultValue="Источник"
+          // defaultValue="Источник"
+          defaultValue={connectSource}
         />
       </div>
       <div className={styles.connectionTypeSection}>
         <div className={styles.connectionTypeWrapper}>
           <p className={styles.selectText}>Тип соединения</p>
-          <div>
-            <Select
-              value={connectionType}
-              onSelectItem={setConnectionType}
-              className={styles.connectionTypeSelect}
-              options={connectionOptions?.filter(
-                item => item.value === connectSource
-              )}
-              defaultValue="Тип соединения"
-            />
-          </div>
           <div className={styles.connectionTypeInputsWrapper}>
-            <TextInput
-              id="testConnectionInputString"
-              placeholder="Строка соединения"
-              value={testConnectionInputString}
-              className={styles.connectorsInput}
-              onChange={e => {
-                setTestConnectionInputString(e.target.value);
-              }}
-            />
             <TextInput
               id="testConnectionInputLogin"
               placeholder="Логин"
@@ -185,7 +143,7 @@ function Connectors() {
           </Button>
         </div>
       </div>
-      {+connectionType === 2 && ( //В зависимости от выбранного типа соединения дорисовываем поля ввода
+      {+connectionType === 2 && ( // В зависимости от выбранного типа соединения дорисовываем поля ввода
         <div className={styles.connectionWrapper}>
           <TextInput
             labelClassName={styles.connectorsLabel}
@@ -233,41 +191,38 @@ function Connectors() {
       )}
     </form>
   );
-
+  
   // Футер модалки
   const createConnectorModalFooter = (
     <div className={styles.footerButtonsGroup}>
-      <Button buttonStyle={BUTTON.BIG_ORANGE} onClick={addConnector}>
+      <Button buttonStyle={BUTTON.BIG_ORANGE} onClick={() => {}}>
         Сохранить
       </Button>
       <Button
         buttonStyle={BUTTON.BIG_BLUE}
-        onClick={closeConnectorModalHandler}
+        onClick={onClose}
         className={styles.cancelButton}
       >
         Отмена
       </Button>
     </div>
   );
-
+	
   return (
-    <div className={styles.root}>
-      <ConnectorsList />
-      <FloatingButton
-        icon={<CreateConnector />}
-        text="Создать соединение"
-        onClick={createConnectorModalHandler}
-      />
-      <Modal
-        className={styles.modalContent}
-        visible={isVisible}
-        onClose={closeConnectorModalHandler}
-        title="Новое соединение"
-        content={createConnectorModalContent}
-        footer={createConnectorModalFooter}
-      />
-    </div>
-  );
-}
+    <Modal
+      className={styles.modalContent}
+      visible={visible}
+      onClose={onClose}
+      title="Редактировать соединение"
+      content={createConnectorModalContent}
+      footer={createConnectorModalFooter}
+    />
+	)
+};
 
-export default Connectors;
+EditConnectorModal.propTypes = {
+  visible: PropTypes.bool,
+  onClose: PropTypes.func
+};
+
+export default EditConnectorModal;

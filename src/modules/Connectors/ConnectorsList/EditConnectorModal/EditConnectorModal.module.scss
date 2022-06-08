@@ -3,12 +3,6 @@
   flex-direction: column;
 }
 
-.root {
-  position: relative;
-  padding: 32px 64px;
-  height: calc(100% - 75px);
-}
-
 .createButton {
   margin: 0;
   height: max-content;
@@ -28,12 +22,6 @@
   margin-bottom: 5px;
 }
 
-.connectionTypeSection {
-  display: flex;
-  background: rgba(0, 0, 0, 0.5);
-  margin-top: 10px;
-}
-
 .selectText {
   font-style: normal;
   font-weight: 400;
@@ -41,6 +29,7 @@
   line-height: 16px;
   color: #ffffff;
   margin-bottom: 5px;
+  margin-left: -4px;
 }
 
 .connectorsInput {
@@ -59,16 +48,12 @@
 .connectionWrapper {
   display: flex;
   flex-direction: column;
-  padding: 0 22px;
+  margin: 0 22px;
 }
 
 .connectionTypeWrapper {
   width: 301px;
   padding: 0 0 11px 22px;
-}
-
-.connectionTypeInputsWrapper {
-  padding-left: 21px;
 }
 
 .connectionTypeSelect {
@@ -78,8 +63,21 @@
   margin: 0 0 25px 0px;
 }
 
+.connectionTypeInputsWrapper {
+  padding-left: 21px;
+  padding-top: 15px;
+
+}
+
 .testConnectionButton {
-  margin-top: 146px;
+  margin-top: 126px;
+}
+
+.connectionTypeSection {
+  display: flex;
+  background: rgba(0, 0, 0, 0.5);
+  margin-top: 10px;
+  padding-bottom: 20px;
 }
 
 .gearsIconWrapper {
@@ -95,11 +93,12 @@
   font-size: 14px;
   line-height: 16px;
   color: #ffffff;
+  margin-left:-4px;
 }
 
 .selectInput {
+  max-width: 379px;
   padding-left: 6px;
-  margin-left: 4px;
   font-size: 12px;
   font-weight: 400;
   line-height: 14px;

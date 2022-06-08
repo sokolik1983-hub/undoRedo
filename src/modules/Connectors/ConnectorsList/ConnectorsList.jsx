@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
@@ -22,8 +23,11 @@ import {
 import styles from './ConnectorsList.module.scss';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import Tooltip from '../../../common/components/Tooltip';
-import { getConnectorFolderChildren, getConnectorsFolderId } from '../../../data/actions/connectors';
+import { getConnectorFolderChildren, getConnectorsFolderId, getConnector } from '../../../data/actions/connectors';
 import { FOLDER_TYPE } from './types';
+import EditConnectorModal from './EditConnectorModal';
+import { closeEditConnectorModal, showEditConnectorModal } from '../../../data/reducers/ui';
+import { setConnectorData } from '../../../data/reducers/data';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
@@ -33,6 +37,71 @@ const ConnectorsList = () => {
   useEffect(() => {
     dispatch(getConnectorsFolderId({folderType: 'USER_CN'}));
   }, []);
+
+  const isEditConnModalVisible = useSelector(state => state.app.ui.editConnectorModalVisible);
+  const mockObj = {
+      "header" : {
+        "id" : 123,
+        "guid" : "8e95fa98-26eb-4f54-a0d0-298ed9d9badd",
+        "kind" : "CON",
+        "parent_id" : 42,
+        "name" : "Придуманное пользователем имя",
+        "description" : "комментарий пишет пользователь !",
+        "owner_id" : 0,
+        "createUser_id" : 0,
+        "create_ts" : "2022-05-24T17:04:55.1234Z+3",
+        "version" : "версия сервиса",
+        "releaseNumber" : 1
+      },
+      "data" : {
+        "class_id" : "db",
+        "type_id" : "db-pg",
+        "fields" : [
+          {
+            "fieldName" : "Имя или IP сервера", 
+            "fieldKey":"SERVER", 
+            "required" : true, 
+            "type" : "string",
+            "value" : "local.mashine"
+            },
+          {
+            "fieldName" : "Название Базы, SID, Имя сервиса", 
+            "fieldKey":"DATABASE", 
+            "required" : true, 
+            "type" : "string",
+            "value" : "data-provider"
+          },
+          {
+            "fieldName" : "Порт", 
+            "fieldKey":"PORT", 
+            "required" : true, 
+            "type" : "number", 
+            "value" : 43433
+          },
+          {
+            "fieldName" : "Логин", 
+            "fieldKey":"UID", 
+            "required" : true, 
+            "type" : "string",
+            "value" : "postgress"
+          },
+          {
+            "fieldName" : "Пароль", 
+            "fieldKey":"PWD", 
+            "required" : true, 
+            "type" : "string",
+            "value" : "xtqdUnzQykq6eSjMnaZsGnmaBTzvVRY7XqF6vQdx9SBbtn9UNHrzdWRX6dHPFPLP"
+          },
+          {
+            "fieldName" : "Дополнительные параметры", 
+            "fieldKey":"external", 
+            "required" : false, 
+            "type" : "string",
+            "value" : "BoolsAsChar=0;"
+          }
+        ]
+    }
+  }
 
   const [foldersIdHistory, setFoldersIdHistory] = useState([]);
   const [foldersNameHistory, setFoldersNameHistory] = useState([]);
@@ -115,6 +184,19 @@ const ConnectorsList = () => {
     setEditListItemId(id);
   };
 
+  const editConnectorModalHandler = id => {
+    // dispatch(getConnector({id}));
+    return Promise.resolve(mockObj)
+      .then(obj => {
+        dispatch(setConnectorData(obj));
+        dispatch(showEditConnectorModal());
+      });
+  };
+
+  const closeConnectorModalHandler = () => {
+    dispatch(closeEditConnectorModal())
+  };
+
   const handleItemClick = (id, action) => {
     switch (action) {
       case 'edit':
@@ -125,6 +207,7 @@ const ConnectorsList = () => {
       case 'create copy':
         break;
       case 'settings':
+        editConnectorModalHandler(id);
         break;
       case 'connection check':
         break;
@@ -255,6 +338,7 @@ const ConnectorsList = () => {
       ) : (
         <Preloader />
       )}
+      <EditConnectorModal visible={isEditConnModalVisible} onClose={closeConnectorModalHandler} />
     </div>
   );
 };
