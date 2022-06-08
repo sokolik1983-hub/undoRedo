@@ -205,6 +205,7 @@ function Sidebar({ onSelect }) {
                 </div>
                 <div className={styles.objectsFilters}>
                   <IconButton
+                    active={filterObjectsMode === 'GAUGE'}
                     size='small'
                     icon={<GaugeIcon />}
                     onClick={() => {
@@ -215,6 +216,7 @@ function Sidebar({ onSelect }) {
                   }}
                   />
                   <IconButton
+                    active={filterObjectsMode === 'ATTR'}
                     size='small'
                     icon={<AttrIcon />}
                     onClick={() => {
@@ -225,6 +227,7 @@ function Sidebar({ onSelect }) {
                   }}
                   />
                   <IconButton
+                    active={filterObjectsMode === 'MEAS'}
                     size='small'
                     icon={<MeasIcon />}
                     onClick={() => {

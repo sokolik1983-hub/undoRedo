@@ -460,6 +460,7 @@ const TableComponent = ({
             onCloseSchemaEditorBlock={setActiveSchemaEditorBlock}
             onDeleteTable={onDeleteTable}
             tableItem={tableItem}
+            onFieldDragStart={onFieldDragStart}
           />
         )}
       </foreignObject>
