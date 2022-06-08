@@ -89,10 +89,22 @@
   @extend .smallButtonFont;
 }
 
+.bigRed {
+  height: 29px;
+  background: linear-gradient(180deg, #eebbbb 0%, rgba(48, 0, 0, 0) 100%),
+    #960000;
+  @extend .bigButtonFont;
+}
+
 .smallOrange {
   height: 17px;
   width: 35px;
   background: linear-gradient(206.57deg, #FFC700 -15.48%, #DF0909 169.05%);
   @extend .smallButtonFont;
   padding: 3px 7px;
+}
+
+.disabled {
+  background: linear-gradient(180deg, #d1d1d1 0%, rgba(48, 0, 0, 0) 100%),
+    #424242;
 }
