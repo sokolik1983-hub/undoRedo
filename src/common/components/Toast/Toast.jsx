@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { useCallback, useEffect } from 'react';
 import ToastItem from './ToastItem';
+import Portal from '../Portal/Portal';
 import styles from './Toast.module.scss';
 
 const Toast = ({ toastlist, setList, dispatch }) => {
@@ -27,11 +28,13 @@ const Toast = ({ toastlist, setList, dispatch }) => {
   }, [toastlist, deleteToast]);
 
   return (
-    <div className={styles.container}>
-      {toastlist.map((toast, index) => (
-        <ToastItem type={toast.type} title={toast.title} key={index} deleteToast={deleteToast} id={toast.id}/>
-      ))}
-    </div>
+    <Portal>
+      <div className={styles.container}>
+        {toastlist.map((toast, index) => (
+          <ToastItem type={toast.type} title={toast.title} key={index} deleteToast={deleteToast} id={toast.id}/>
+        ))}
+      </div>
+    </Portal>
   );
 };
 

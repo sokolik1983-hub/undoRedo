@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-return-assign */
 /* eslint-disable react/no-array-index-key */
@@ -26,11 +27,14 @@ import {
   setShowDataList
 } from '../../../data/reducers/schemaDesigner';
 import { getTableIdFromParams } from '../../../data/helpers';
-import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock';
+import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock/index';
 // import { useApplicationActions } from 'src/data/appProvider';
 import { SymanticLayerContext } from './context';
 import TablePreview from './TablePreview';
+import { showToast } from '../../../data/actions/app';
+import { TOAST_TYPE } from '../../../Consts';
 import { setTablePreviewModal } from '../../../data/actions/universes';
+import { handleCheckMatch } from './helper';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -146,8 +150,7 @@ const TableComponent = ({
   }, [ selectedTables]);
 
   // const refs = useMemo(() => tableRefs[tableId], [tableRefs, tableId]);
-  const [synName, setSynName] = useState('');
-  const [showSynPopup, setShowSynPopup] = useState(false);
+  // const [showSynPopup, setShowSynPopup] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [columns, setColumns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -373,31 +376,6 @@ const TableComponent = ({
     startDrag({ event, dragCallback, dragStopCallback });
   };
 
-  function handleCreateSynonym() {
-    const numberReg = /[0-9]+/g;
-    const specReg = /[!"@#';:/?$%^*()]+/g;
-
-    if (
-      synName &&
-      synName.length > 3 &&
-      !synName[0].match(numberReg) &&
-      !synName.match(specReg)
-    ) {
-      const newSynonym = lodash.cloneDeep(tableItem);
-      newSynonym.parent_table = tableItem.parent_table
-        ? tableItem.parent_table
-        : tableItem.object_name;
-      newSynonym.object_name = synName;
-      newSynonym.id = null;
-      onCreateSynonym(newSynonym);
-      setShowSynPopup(false);
-      setSynName('');
-    } else {
-      // eslint-disable-next-line no-alert
-      alert('Имя синонима введено некорректно!');
-    }
-  }
-
   const relatedSearchItems = searchResult.filter(
     elem => tableItem && elem.tableid === tableItem.id
   );
@@ -421,6 +399,24 @@ const TableComponent = ({
       }
     }
   }, [focusedItem]);
+
+  const [synName, setSynName] = useState('');
+
+  const handleCreateSynonym = () => {
+    if (
+      handleCheckMatch(synName)
+    ) {
+      const newSynonym = lodash.cloneDeep(tableItem);
+      newSynonym.parent_table = tableItem.parent_table
+        ? tableItem.parent_table
+        : tableItem.object_name;
+      newSynonym.object_name = synName;
+      newSynonym.id = null;
+      onCreateSynonym(newSynonym);
+    } else {
+      dispatch(showToast(TOAST_TYPE.DANGER, 'Имя синонима введено некорректно!'))
+    }
+  };
 
   const [isActiveSchemaEditorBlock, setActiveSchemaEditorBlock] = useState(
     true
@@ -453,26 +449,20 @@ const TableComponent = ({
           <SchemaEditorBlock
             isHighlight={isHighlighted}
             onTableDragStart={onTableDragStart}
+            onFieldDragStart={onFieldDragStart}
             selectedTableColumns={selectedTableColumns}
             selectedTableName={tableItem.object_name}
             selectedTableFullName={`${tableItem.schema}_${tableItem.object_name}_${tableItem.object_type_id}_${connect_id}`}
             onTablePreviewClick={handlePopupShow}
             onCloseSchemaEditorBlock={setActiveSchemaEditorBlock}
             onDeleteTable={onDeleteTable}
-            onFieldDragStart={onFieldDragStart}
             tableItem={tableItem}
+            onCreate={handleCreateSynonym}
+            synoName={synName}
+            setSynoName={setSynName}
           />
         )}
       </foreignObject>
-      {/* <div
-        <SchemaEditorBlock
-          isHighlight={isHighlighted}
-          onTableDragStart={onTableDragStart}
-          selectedTableColumns={selectedTableColumns}
-          selectedTableName={tableItem.object_name}
-          onTablePreviewClick={handlePopupShow}
-          onFieldDragStart={onFieldDragStart}
-        />
       {/* <div
           className={`${classes.tableItem} unselectable`}
           style={{ margin: 0, display: 'flex', flexDirection: 'column' }}

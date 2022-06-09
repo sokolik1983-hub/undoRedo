@@ -113,7 +113,6 @@
 
   &:first-child {
     margin-top: 13px;
-    border-radius: initial;
   }
 
   &:last-child {
@@ -152,12 +151,8 @@
 .icon {
   position: absolute;
   right: 21px;
-  top: 3px;
+  top: 6px;
   cursor: pointer;
-}
-
-.hide {
-  display: none;
 }
 
 .magnifier {
@@ -178,4 +173,28 @@
 
 .dottedBtn {
   margin: 0 -5px;
+}
+
+.copyModalWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 382px;
+  height: 168px;
+}
+
+.title {
+  margin: 20px 0 0 16px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.buttons {
+  display: flex;
+  margin: 0 0 20px 18px;
+}
+
+.create {
+  margin-right: 15px;
 }

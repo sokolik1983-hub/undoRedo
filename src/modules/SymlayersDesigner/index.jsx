@@ -46,6 +46,11 @@ function SymlayersDesigner() {
     }
   };
 
+  const handleAddSynonym = (table) => {
+    setChecked([...checked, table]);
+  };
+
+  
   const handleDeleteTable = table => {
     // удаление связей и полей уаленной таблицы
 
@@ -117,7 +122,7 @@ function SymlayersDesigner() {
             }}
             onDragOver={(e) => {e.preventDefault()}}
           >
-            <SchemaTables tables={checked} onDeleteTable={handleDeleteTable} />
+            <SchemaTables onCreateSynonym={handleAddSynonym} onDeleteTable={handleDeleteTable} tables={checked} />
           </div>
         </div>
         <Sidebar onSelect={handleSelectTable} />
