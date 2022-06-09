@@ -6,7 +6,7 @@ import styles from './ReportActions.module.scss';
 import { handleUndo, handleRedo } 
 from '../../../data/actions/newReportDesigner';
 import TextInput from '../../../common/components/TextInput';
-import { setTableType, setGraphType, setCreatingElement } from '../../../data/reducers/reportDesigner';
+import { setTableType, setGraphType, setCreatingElement } from '../../../data/reducers/new_reportDesigner';
 import { TABLE_ICONS, GRAPH_ICONS } from '../../../common/constants/reportDesigner/reportDesignerIcons';
 import useClickOutside from '../../../common/helpers/useClickOutside';
 import { setQueryPanelModal } from '../../../data/actions/universes';
@@ -51,7 +51,8 @@ const NewReportActions = () => {
     zoom: () => setIsZoomBlockOpen(!isZoomBlockOpen),
     setTable: () => setIsTableOpen(!isTableOpen),
     setGraph: () => setIsGraphOpen(!isGraphOpen),
-    showQueryPanel: () => dispatch(setQueryPanelModal(true))
+    showQueryPanel: () => dispatch(setQueryPanelModal(true)),
+    addCell: () => dispatch(setCreatingElement('cell'))
   };
 
   const clickRef = useRef();

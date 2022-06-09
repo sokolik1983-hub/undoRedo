@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 function BordersConfig({ onChange, isHeader }) {
+  const reportDesigner = useSelector(state => state.app.reportDesigner);
+  const formattingElement = reportDesigner?.reportsUi?.ui?.formattingElement;
   return (
     <table style={{ textAlign: 'center', border: 'none' }}>
       <tbody>
@@ -11,6 +14,7 @@ function BordersConfig({ onChange, isHeader }) {
             <input
               placeholder="Верх"
               style={{ width: 30 }}
+              value={formattingElement?.style?.borderTop}
               onChange={event => {
                 onChange({
                   isHeader,
@@ -28,6 +32,7 @@ function BordersConfig({ onChange, isHeader }) {
             <input
               placeholder="Лев"
               style={{ width: 30 }}
+              value={formattingElement?.style?.borderLeft}
               onChange={event => {
                 onChange({
                   isHeader,
@@ -43,6 +48,7 @@ function BordersConfig({ onChange, isHeader }) {
             <input
               placeholder="Прав"
               style={{ width: 30 }}
+              value={formattingElement?.style?.borderRight}
               onChange={event => {
                 onChange({
                   isHeader,
@@ -60,6 +66,7 @@ function BordersConfig({ onChange, isHeader }) {
             <input
               placeholder="Низ"
               style={{ width: 30 }}
+              value={formattingElement?.style?.borderBottom}
               onChange={event => {
                 onChange({
                   isHeader,

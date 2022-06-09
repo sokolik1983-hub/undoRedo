@@ -4,8 +4,9 @@ import { Rnd } from 'react-rnd';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Block.module.scss';
-import { setSelectedColumns } from '../../../data/reducers/reportDesigner';
 import DataTable from './DataTable';
+import Cell from './Cell';
+import { setSelectedColumns } from '../../../data/reducers/new_reportDesigner';
 
 function Block({
   id,
@@ -54,7 +55,9 @@ function Block({
 
   function renderContent() {
     switch (type) {
-      case 'table':
+      case 'vTable':
+      case 'xTable':
+      case 'hTable':
         return (
           <DataTable
             blockStyles={blockProps.styles}
@@ -68,7 +71,18 @@ function Block({
           />
         );
       case 'graph':
-        return <div style={{ ...blockProps.styles }}>Graphoc</div>;
+        return <div style={{ ...blockProps.styles }}>Graph component</div>;
+      case 'cell':
+        return (
+          <Cell
+            blockStyles={structureItem.style}
+            structureItem={structureItem.content}
+            id={id}
+            refContent={refContent}
+            independent
+            originalItem={structureItem}
+          />
+        );
       default:
         return null;
     }
@@ -84,9 +98,9 @@ function Block({
       enableResizing
       size={{ ...scales }}
       position={{ ...position }}
-      onClick={e => {
-        e.stopPropagation();
-      }}
+      // onClick={e => {
+      //   e.stopPropagation();
+      // }}
       onDoubleClick={e => {
         e.stopPropagation();
         onSelect(structureItem, e.shiftKey);

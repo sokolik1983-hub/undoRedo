@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import clsx from 'clsx';
 import React from 'react';
@@ -9,17 +10,14 @@ import { getCurrentReport } from '../../helpers';
 import styles from './DataTable.module.scss';
 import {
   addTableColumn,
-  columnObject
-} from '../../../../data/reducers/reportDesigner';
+} from '../../../../data/reducers/new_reportDesigner';
+import TableContent from './TableContent';
 
 function DataTable({
   blockStyles,
   structureItem,
   id,
   onSelectColumnHead,
-  newScales,
-  newPosition,
-  handleChangeScales,
   refContent
 }) {
   const dispatch = useDispatch();
@@ -32,6 +30,9 @@ function DataTable({
     reportsData.activeReport
   );
 
+  const { axes, dataFilter, layout } = structureItem?.content;
+  const { headerZone, bodyZone, footerZone } = layout;
+
   function getSelectedState(column) {
     return (
       reportsUi.selectedColumns &&
@@ -39,35 +40,6 @@ function DataTable({
     );
   }
 
-  function allowDrop(event) {
-    event.preventDefault();
-  }
-
-  function handleDropObject(event) {
-    const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
-    event.dataTransfer.clearData();
-    const {
-          width,
-          height,
-          x,
-          y
-        } = refContent?.current?.getBoundingClientRect();
-        if (newScales.width !== width || newScales.height !== height || newPosition.x !== x || newPosition.y !== y) {
-          handleChangeScales(id, {
-            width: newScales.width + 150,
-            height: 'auto',
-            x: newPosition.x,
-            y: newPosition.y
-          });
-        };
-    
-    dispatch(
-      addTableColumn({
-        column: { ...columnObject, object: { ...selectedEl } },
-        id
-      })
-    );
-  };
 
   function getSortedData() {
     if (currentReport?.dataset && structureItem?.sorting?.length > 0) {
@@ -341,8 +313,8 @@ function DataTable({
     <div
       className={styles['table-container']}
       ref={refContent}
-      onDrop={handleDropObject}
-      onDragOver={allowDrop}
+      // onDrop={handleDropObject}
+      // onDragOver={allowDrop}
     >
       {structureItem?.columns?.length === 0 && (
         <div
@@ -358,7 +330,14 @@ function DataTable({
           <span>Перетащите объекты</span>
         </div>
       )}
-      {renderTable()}
+      {/* {renderTable()} */}
+      <TableContent
+        layout={structureItem?.content?.layout}
+        displayMode={currentReport.displayMode}
+        tableType={structureItem?.type} // vTable
+        // reportData={reportsData?.data?.dps && reportsData?.data?.dps[0]}
+        variables={reportsData?.data?.variables}
+      />
     </div>
   );
 }
@@ -368,9 +347,6 @@ DataTable.propTypes = {
   structureItem: PropTypes.object,
   onSelectColumnHead: PropTypes.func,
   blockStyles: PropTypes.object,
-  handleChangeScales: PropTypes.func,
-  newScales: PropTypes.object,
-  newPosition: PropTypes.object,
   refContent: PropTypes.any
 };
 

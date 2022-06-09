@@ -5,7 +5,8 @@ import auditReducer from './audit';
 import uiReducer from './ui';
 import notificationsReducer from './notifications';
 import dataReducer from './data';
-import reportDesignerReducer from './reportDesigner';
+// import reportDesignerReducer from './reportDesigner';
+import reportDesignerReducer from './new_reportDesigner';
 import trashReducer from './trash';
 import schemaDesignerReducer from './schemaDesigner';
 

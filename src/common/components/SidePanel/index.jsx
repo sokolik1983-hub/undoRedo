@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import lodash from 'lodash';
+import lodash, { cloneDeep, find } from 'lodash';
 
 import TuneIcon from '@material-ui/icons/Tune';
 import BrushIcon from '@material-ui/icons/Brush';
@@ -20,19 +21,20 @@ import {
   addTableColumn,
   addTableRow,
   addTableValue,
-  columnObject,
   setActiveNodes,
   setConfigPanelVisible,
   setStructure,
   setTableStyle,
-  setTableVariant,
-  sortingObject
-} from '../../../data/reducers/reportDesigner';
+  removeTableColumn,
+  setTableVariant
+} from '../../../data/reducers/new_reportDesigner';
 import ObjectsList from './ObjectsList';
 import { getCurrentReport } from '../../../modules/ReportDesigner/helpers';
 import SortingField from './SortingField';
 import { ReactComponent as CloseIcon } from '../../../layout/assets/close.svg';
 import { TABLE_ICONS } from '../../constants/reportDesigner/reportDesignerIcons';
+import { setReportStructure } from '../../../data/actions/newReportDesigner';
+// import { deepObjectSearch } from '../../../data/helpers';
 
 const NAV_MENU_REPORT = [
   { id: 1, title: 'Данные', icon: <ExtensionIcon /> },
@@ -60,6 +62,8 @@ export default function SidePanel({ navType }) {
   const reportDesigner = useSelector(state => state.app.reportDesigner);
   const dispatch = useDispatch();
 
+  const formattingElement = reportDesigner?.reportsUi?.ui?.formattingElement;
+
   const activeNode =
     reportDesigner.reportsData.present.activeNodes &&
     reportDesigner.reportsData.present.activeNodes[0];
@@ -68,10 +72,20 @@ export default function SidePanel({ navType }) {
     reportDesigner.reportsData.present.reports,
     reportDesigner.reportsData.present.activeReport
   );
+  const newStructureReport = cloneDeep(currentReport);
 
   const currentNode = lodash.find(
-    currentReport?.structure,
+    newStructureReport?.structure?.pgBody?.content?.children,
     item => item.id === activeNode?.id
+  );
+  const headerZone = currentNode?.content?.layout?.zones?.filter(
+    item => item.vType === 'header'
+  );
+  const bodyZone = currentNode?.content?.layout?.zones?.filter(
+    item => item.vType === 'body'
+  );
+  const footerZone = currentNode?.content?.layout?.zones?.filter(
+    item => item.vType === 'footer'
   );
 
   function getNavMenu() {
@@ -106,17 +120,6 @@ export default function SidePanel({ navType }) {
       default:
         return null;
     }
-  }
-
-  function handleAddSorting() {
-    const { sorting } = currentNode;
-
-    dispatch(
-      addSortingField({
-        id: currentNode.id,
-        sorting: [...sorting, { ...sortingObject, id: Date.now() }]
-      })
-    );
   }
 
   function handleChangeSortingField(changedItem) {
@@ -157,22 +160,45 @@ export default function SidePanel({ navType }) {
     dispatch(setConfigPanelVisible(false));
   }
 
-  const handleRemoveColumn = columnId => event => {
+  const handleRemoveColumn = object => event => {
     event?.stopPropagation();
 
-    dispatch(
-      setStructure(
-        currentReport?.structure?.map(item => {
-          const clone = lodash.cloneDeep(item);
-          if (clone?.id === currentNode?.id) {
-            clone.columns = currentNode?.columns?.filter(
-              col => col?.object?.id !== columnId
-            );
-          }
-          return clone;
-        })
-      )
+    headerZone[0].cells = headerZone?.[0].cells.filter(
+      item => item.col !== object.col
     );
+    bodyZone[0].cells = bodyZone?.[0].cells.filter(
+      item => item.col !== object.col
+    );
+    footerZone[0].cells = footerZone?.[0]?.cells.filter(
+      item => item.col !== object.col
+    );
+
+    dispatch(
+      setReportStructure({
+        report_id: 'R1',
+        structure: newStructureReport?.structure
+      })
+    );
+
+    dispatch(
+      removeTableColumn({
+        object
+      })
+    );
+
+    // dispatch(
+    //   setStructure(
+    //     currentReport?.structure?.map(item => {
+    //       const clone = lodash.cloneDeep(item);
+    //       if (clone?.id === currentNode?.id) {
+    //         clone.columns = currentNode?.columns?.filter(
+    //           col => col?.object?.id !== columnId
+    //         );
+    //       }
+    //       return clone;
+    //     })
+    //   )
+    // );
   };
   const handleRemoveRow = rowId => event => {
     event?.stopPropagation();
@@ -233,40 +259,29 @@ export default function SidePanel({ navType }) {
     const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
     event.dataTransfer.clearData();
     refreshFieldsStore(selectedEl);
-    dispatch(
-      addTableColumn({
-        column: { ...columnObject, object: { ...selectedEl } },
-        id: currentNode?.id
-      })
-    );
-  }
-  function handleDropObjectRow(event) {
-    const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
-    event.dataTransfer.clearData();
-    refreshFieldsStore(selectedEl);
-
-    dispatch(
-      addTableRow({
-        row: { ...columnObject, object: { ...selectedEl } },
-        id: currentNode?.id
-      })
-    );
-  }
-  function handleDropObjectValue(event) {
-    const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
-    event.dataTransfer.clearData();
-
-    refreshFieldsStore(selectedEl);
-    dispatch(
-      addTableValue({
-        value: { ...columnObject, object: { ...selectedEl } },
-        id: currentNode?.id
-      })
-    );
+    // dispatch(
+    //   addTableColumn({
+    //     column: { ...columnObject, object: { ...selectedEl } },
+    //     id: currentNode?.id
+    //   })
+    // );
   }
 
   const handleSetVariant = variant => {
     dispatch(setTableVariant(variant));
+    // const newStructureReport = cloneDeep(currentReport);
+    const currNode = find(
+      newStructureReport?.structure?.pgBody?.content?.children,
+      item => item.id === activeNode?.id
+    );
+    currNode.type = variant;
+
+    dispatch(
+      setReportStructure({
+        report_id: 'R1',
+        structure: newStructureReport?.structure
+      })
+    );
   };
 
   function renderBlockPanelContent() {
@@ -294,7 +309,34 @@ export default function SidePanel({ navType }) {
               style={{ minHeight: 100, minWidth: 100 }}
             >
               <p>Колонки</p>
-              {currentNode?.columns?.map(column => (
+              {/* TODO  headerZone */}
+              {headerZone?.map(zone =>
+                zone.cells?.map(object => {
+                  return (
+                    <p
+                      className={styles.objectItem}
+                      key={object.id}
+                      draggable
+                      onDragStart={event => {
+                        event.dataTransfer.setData(
+                          'text/plain',
+                          JSON.stringify({
+                            object,
+                            source: 'columns'
+                          })
+                        );
+                      }}
+                    >
+                      {object.expression.formula}
+                      <CloseIcon
+                        onClick={handleRemoveColumn(object)}
+                        className={styles.closeIcon}
+                      />
+                    </p>
+                  );
+                })
+              )}
+              {/* {currentNode?.columns?.map(column => (
                 <p
                   className={styles.objectItem}
                   key={column.object.id}
@@ -309,16 +351,15 @@ export default function SidePanel({ navType }) {
                     );
                   }}
                 >
-                  {/* TODO change to name after backemd */}
                   {column.object.field}
                   <CloseIcon
                     onClick={handleRemoveColumn(column.object.id)}
                     className={styles.closeIcon}
                   />
                 </p>
-              ))}
+              ))} */}
             </div>
-
+            {/* 
             {currentNode?.variant === 'table_cross' && (
               <>
                 <div
@@ -379,7 +420,7 @@ export default function SidePanel({ navType }) {
                   ))}
                 </div>
               </>
-            )}
+            )} */}
 
             <button type="button" onClick={handleRemoveNode}>
               Удалить элемент
@@ -397,9 +438,7 @@ export default function SidePanel({ navType }) {
         return (
           <div>
             <p>Сортировка</p>
-            <button type="button" onClick={handleAddSorting}>
-              Добавить сортировку
-            </button>
+            <button type="button">Добавить сортировку</button>
             {currentNode?.sorting?.map(item => (
               <SortingField
                 onChange={handleChangeSortingField}
@@ -424,8 +463,11 @@ export default function SidePanel({ navType }) {
               />
             )}
             <StyleFormatter
+              key={formattingElement?.id}
               isHeader={activeSubMenu === 1}
-              onChange={params => dispatch(setTableStyle(params))}
+              onChange={params =>
+                dispatch(setTableStyle({ ...params, formattingElement }))}
+              formattingElement={formattingElement}
             />
           </div>
         );

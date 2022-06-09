@@ -30,11 +30,9 @@ function App() {
 
   return (
     <AuthProvider>
-      <div>
-        {routing}
-      </div>
+      <div>{routing}</div>
     </AuthProvider>
-);
+  );
 }
 
 export default App;

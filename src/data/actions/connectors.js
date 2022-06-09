@@ -3,6 +3,26 @@ import { setConnectorData, setConnectors, setConnectorsFolderId } from '../reduc
 import { notificationShown } from '../reducers/notifications';
 import { showEditConnectorModal } from '../reducers/ui';
 
+export const getStreamReceiever = queryParams => {
+  return async dispatch => {
+    const response = await request({
+      code: 'REP.OPEN_FILE',
+      params: queryParams,
+      dispatch
+    });
+    if (response) {
+
+      if (response.result === true) {
+        localStorage.setItem('streamreceiver', response.thread);
+
+      }
+
+    }
+  };
+
+}
+
+
 export const getConnectorFolderChildren = queryParams => {
   return async dispatch => {
     try {
@@ -10,7 +30,7 @@ export const getConnectorFolderChildren = queryParams => {
         code: 'REPOS.GET_CHILDREN',
         params: queryParams,
         dispatch
-      }); 
+      });
       if (response?.result) {
         dispatch(setConnectors(response.data));
       }
@@ -65,7 +85,7 @@ export const saveConnector = queryParams => {
   return async dispatch => {
     try {
       await request({
-        func: 'CONNECT.SAVE',
+        code: 'CONNECT.SAVE',
         params: queryParams,
         dispatch
       });
@@ -81,7 +101,7 @@ export const removeConnector = queryParams => {
   return async dispatch => {
     try {
       await request({
-        func: 'CONNECT.DROP',
+        code: 'CONNECT.DROP',
         params: queryParams,
         dispatch
       });

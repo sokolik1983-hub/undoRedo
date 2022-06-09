@@ -469,6 +469,7 @@ const reportDesigner = createSlice({
       });
     },
     setTableStyle: (state, action) => {
+      console.log(state, 'statestatestate');
       const report = lodash.find(
         state.reports,
         item => item.id === state.activeReport
