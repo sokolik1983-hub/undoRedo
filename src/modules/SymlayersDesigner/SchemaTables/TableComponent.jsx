@@ -31,6 +31,8 @@ import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock/index';
 // import { useApplicationActions } from 'src/data/appProvider';
 import { SymanticLayerContext } from './context';
 import TablePreview from './TablePreview';
+import { showToast } from '../../../data/actions/app';
+import { TOAST_TYPE } from '../../../Consts';
 import { setTablePreviewModal } from '../../../data/actions/universes';
 
 const useStyles = makeStyles(theme => ({
@@ -419,7 +421,7 @@ const TableComponent = ({
       
     } else {
       // eslint-disable-next-line no-alert
-      alert('Имя синонима введено некорректно!');
+      dispatch(showToast(TOAST_TYPE.DANGER, 'Имя синонима введено некорректно!'))
     }
   }
   const [isActiveSchemaEditorBlock, setActiveSchemaEditorBlock] = useState(

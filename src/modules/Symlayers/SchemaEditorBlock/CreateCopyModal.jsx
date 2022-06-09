@@ -16,7 +16,7 @@ const CreateCopyModal = ({ create, newName, oldName, setNewName, onCancel}) => {
   }, [inputRef.current]);
 
   const createTable = (old) => {
-    create(old); onCancel(); setNewName('')
+    create(old); setNewName('')
   };
 
   return (
