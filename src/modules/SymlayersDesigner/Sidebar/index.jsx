@@ -36,6 +36,7 @@ function Sidebar({ onSelect }) {
   const [showingDataList, setShowingDataList] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [searchMod, setSearchMod] = useState(false);
+  const [searchObjectMod, setSearchObjectMod] = useState(false);
   const [selectedSchemes, setSelectedSchemes] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   // eslint-disable-next-line no-unused-vars
@@ -49,6 +50,8 @@ function Sidebar({ onSelect }) {
   const objectsLayers = useSelector(
     state => state.app.schemaDesigner.objectsLayerList
   );
+
+  const [objectsList, setObjectsList] = useState(objectsLayers);
 
   const handleCollapse = () => {
     setCollapsed(prev => !prev);
@@ -90,6 +93,15 @@ function Sidebar({ onSelect }) {
     }
   };
 
+  const searchObject = (event) => {
+    if(event.key === 'Enter' && searchValue.length) {
+      const result = JSON.parse(JSON.stringify(objectsLayers.filter(object => object.name.toUpperCase().includes(searchValue.toUpperCase()))));
+      setObjectsList(result);
+    } else if(event.key === 'Enter') {
+      setObjectsList(objectsLayers);
+    }
+  }
+
   return (
     <div>
       <div className={styles.root}>
@@ -113,9 +125,6 @@ function Sidebar({ onSelect }) {
             <div className={styles.iconObjectWrap}>
               {activeTab === 1 && <SaveIcon />}
             </div>
-            {/* <div onClick={handleCollapse}>
-            <hr className={styles.divider} />
-            </div> */}
           </div>
         </div>
         {!collapsed && (
@@ -197,11 +206,11 @@ function Sidebar({ onSelect }) {
                 <div className={styles.search}>
                   <TextInput
                     className={styles.searchInputObjects}
-                    onKeyPress={handleShowDataList}
-                    value={coloredValue}
-                    onChange={(event) => dispatch(setColoredValue(event.target.value))}
+                    onKeyPress={searchObject}
+                    value={searchValue}
+                    onChange={(event) => setSearchValue(event.target.value)}
                   />
-                  <Magnifier className={styles.magnifier} onClick={() => {dispatch(setShowDataList()); setShowingDataList(true)}} />
+                  <Magnifier className={styles.magnifier} onClick={searchObject} />
                 </div>
                 <div className={styles.objectsFilters}>
                   <IconButton
@@ -244,28 +253,8 @@ function Sidebar({ onSelect }) {
                 <span>Новый семантический слой</span>
               </div>
               <div className={styles.contentData}>
-                { showingDataList ? dataList.map(i =>
-                (
-                  <div>
-                    <div className={styles.listItemWrapper}>
-                      <div>
-                        <ViewsIcon />
-                      </div>
-                      <div className={styles.listItemName}>{i.name}</div>
-                    </div>
-                    {i.line.map(el => (
-                      <div className={styles.listItemFieldWrapper}>
-                        <UnknownItemIcon />
-                        <div className={styles.listItemField}>{el}</div>
-                      </div>
-                    ))}
-                  </div>
-                  )
-                )
-                :
-                (
-                  <div className={styles.objectsData}>
-                    {objectsLayers.map(object => {
+                <div className={styles.objectsData}>
+                  {objectsList?.map(object => {
                       if (filterObjectsMode === 'GAUGE' && object.objectType === 'Показатель')
                         return <ObjectLayer field={object} />
                       if (filterObjectsMode === 'MEAS' && object.objectType === 'Измерение')
@@ -276,8 +265,7 @@ function Sidebar({ onSelect }) {
                         return <ObjectLayer field={object} />
                       return null;
                     })}
-                  </div>
-                )}
+                </div>
               </div>
             </div>
           )}
