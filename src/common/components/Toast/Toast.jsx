@@ -1,10 +1,9 @@
 /* eslint-disable */
-import { useCallback } from 'react';
-import { useEffect } from 'react/cjs/react.development';
-import { ReactComponent as CloseIcon } from '../../../layout/assets/close.svg';
+import { useCallback, useEffect } from 'react';
+import ToastItem from './ToastItem';
 import styles from './Toast.module.scss';
 
-const Toast = ({ toastlist, position, setList, dispatch }) => {
+const Toast = ({ toastlist, setList, dispatch }) => {
   const deleteToast = useCallback(
     id => {
       const toastListItem = toastlist.filter(e => e.id !== id);
@@ -28,24 +27,9 @@ const Toast = ({ toastlist, position, setList, dispatch }) => {
   }, [toastlist, deleteToast]);
 
   return (
-    <div className={`${styles.container} ${styles[position]}`}>
-      {toastlist.map((toast, i) => (
-        <div
-          key={i}
-          className={`${styles.notification} ${styles[position]} ${
-            styles[toast.type]
-          }`}
-        >
-          <div className={styles.titleWrapper}>
-            <p className={styles.title}>{toast.title}</p>
-          </div>
-          <span
-            className={styles.modalClose}
-            onClick={() => deleteToast(toast.id)}
-          >
-            <CloseIcon className={styles.close} />
-          </span>
-        </div>
+    <div className={styles.container}>
+      {toastlist.map((toast, index) => (
+        <ToastItem type={toast.type} title={toast.title} key={index} deleteToast={deleteToast} id={toast.id}/>
       ))}
     </div>
   );

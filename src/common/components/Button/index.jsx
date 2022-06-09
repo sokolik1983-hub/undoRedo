@@ -38,11 +38,13 @@ const Button = ({
     { [styles.gray]: buttonStyle === BUTTON.GRAY },
     { [styles.brownDarker]: buttonStyle === BUTTON.BROWN_DARKER },
     { [styles.red]: buttonStyle === BUTTON.RED },
-    { [styles.smallOrange]: buttonStyle === BUTTON.SMALL_ORANGE },  
+    { [styles.bigRed]: buttonStyle === BUTTON.BIG_RED },
+    { [styles.smallOrange]: buttonStyle === BUTTON.SMALL_ORANGE },
     className,
     { active },
     [styles[size]],
-    [styles[color]]
+    [styles[color]],
+    { [styles.disabled]: disabled }
   );
 
   const onClickAction = event => {

@@ -7,12 +7,8 @@ import { BUTTON } from '../../../common/constants/common';
 import styles from './SchemaEditorBlock.module.scss';
 
 const CreateCopyModal = ({ create, newName, oldName, setNewName, onCancel}) => {
-  // const [value, setValue] = useState(EMPTY_STRING);
-  const inputRef = useRef();
 
-  // useEffect(() => {
-  //   setValue(currentTitle);
-  // }, [currentTitle]);
+  const inputRef = useRef();
 
   useEffect(() => {
     inputRef?.current?.focus();
@@ -25,7 +21,7 @@ const CreateCopyModal = ({ create, newName, oldName, setNewName, onCancel}) => {
 
   return (
     <ModalPortal isVisible>
-      <div className={styles.root}>
+      <div className={styles.copyModalWrapper}>
         <p className={styles.title}>Создать синоним</p>
         <TextInput
           className={styles.input}
@@ -36,6 +32,7 @@ const CreateCopyModal = ({ create, newName, oldName, setNewName, onCancel}) => {
         />
         <div className={styles.buttons}>
           <Button
+            className={styles.create}
             buttonStyle={BUTTON.BIG_BLUE}
             onClick={() => createTable(oldName)}
           >

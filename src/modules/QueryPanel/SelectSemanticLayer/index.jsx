@@ -106,10 +106,6 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     setCurrentFolderIndex(prev => prev + 1);
   };
 
-  const handleItemClick = item => {
-    onSelectSemanticLayer(item);
-  };
-
   const moveToPrevFolder = () => {
     setCurrentFolderIndex(prev => (prev === 0 ? 0 : prev - 1));
   };
@@ -144,7 +140,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
           onDoubleClick={
             isFolder
               ? () => onFolderDoubleClick(item)
-              : () => handleItemClick(item)
+              : () => onSelectSemanticLayer(item)
           }
         />
       </div>

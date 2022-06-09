@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import ObjectsPanelHeader from './ObjectsPanelHeader/ObjectsPanelHeader';
@@ -7,24 +6,19 @@ import Divider from '../../../common/components/Divider';
 import usePanelListFilters from './usePanelListFilters';
 import ObjectsPanelFilters from './ObjectsPanelFilters/ObjectsPanelFilters';
 import ReportObjectsPanelFilters from './ReportObjectsPanelFilters';
-import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList'; 
-import { getSymanticLayerData } from '../../../data/actions/universes';
-import { useDragNDrop } from '../context/DragNDropContext'; 
+import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList';
+import { useDragNDrop } from '../context/DragNDropContext';
 import styles from './ObjectsPanel.module.scss';
 
-const ObjectsPanel = ({ symanticLayer, modalOpenHandler, showHeader, report }) => {
-  const dispatch = useDispatch();
+const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
+  const currentLayer = useSelector(state => {
+    const {
+      data,
+      currentLayerTitle
+    } = state.app?.data?.queryPanelSymlayersData;
 
-  useEffect(() => {
-    if (symanticLayer) dispatch(getSymanticLayerData(symanticLayer.id));
-  }, [symanticLayer]);
-
-  const symLayersData = useSelector(state => state.app?.data?.symLayersData);
-
-  const rootClasses = clsx(
-    styles.root,
-    { [styles.report]: report }
-  );
+    return data.find(i => i.queryTitle === currentLayerTitle);
+  });
 
   const {
     rootFolder,
@@ -32,9 +26,11 @@ const ObjectsPanel = ({ symanticLayer, modalOpenHandler, showHeader, report }) =
     handleFiltersSwitch,
     searchValue,
     setSearchValue
-  } = usePanelListFilters(symLayersData?.data?.structure[0]); 
+  } = usePanelListFilters(currentLayer?.symLayerData);
 
   const { handleDragOver, handleTreeDrop } = useDragNDrop();
+
+  const rootClasses = clsx(styles.root, { [styles.report]: report });
 
   return (
     <div className={rootClasses}>
@@ -49,14 +45,14 @@ const ObjectsPanel = ({ symanticLayer, modalOpenHandler, showHeader, report }) =
           searchValue={searchValue}
           setSearchValue={setSearchValue}
         />
-        ) : (
-          <ObjectsPanelFilters
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
-            filterId={filterTypeId}
-            onFiltersSwitch={handleFiltersSwitch}
-          />
-            )}
+      ) : (
+        <ObjectsPanelFilters
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          filterId={filterTypeId}
+          onFiltersSwitch={handleFiltersSwitch}
+        />
+      )}
       <div
         className={styles.panelListContainer}
         onDragOver={handleDragOver}
@@ -68,11 +64,10 @@ const ObjectsPanel = ({ symanticLayer, modalOpenHandler, showHeader, report }) =
   );
 };
 
-export default ObjectsPanel; 
+export default ObjectsPanel;
 
 ObjectsPanel.propTypes = {
-  symanticLayer: PropTypes.object,
   modalOpenHandler: PropTypes.func,
   showHeader: PropTypes.bool,
-  report: PropTypes.bool,
+  report: PropTypes.bool
 };

@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import clsx from 'clsx';
+import ReactDOM from 'react-dom';
 import React, { useEffect, useState } from 'react';
 import Dropdown from '../../../common/components/Dropdown';
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
@@ -12,6 +13,7 @@ import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrow
 import Tooltip from '../../../common/components/Tooltip';
 import IconButton from '../../../common/components/IconButton';
 import CreateCopyModal from './CreateCopyModal';
+import ModalConfirmDeletion  from '../../../common/components/Modal/ModalConfirmDeletion';
 
 const items = [
   { text: 'Псевдоним', value: 'copy' },
@@ -19,19 +21,27 @@ const items = [
   { text: 'Определение ключей' },
   { text: 'Определение числа элементов' },
   { text: 'Определение числа строк' },
-  { text: 'Предпросмотр таблицы', value: 'tablePreview' }
+  { text: 'Предпросмотр таблицы', value: 'tablePreview' },
+  { text: 'Удалить таблицу', value: 'deleteTable' }
 ];
+
+const modalWarningText =
+  'Будет удалена таблица и все связи с этой таблицей, включая объекты. Вы уверены?';
 
 const SchemaEditorBlock = ({
   onTableDragStart,
   selectedTableName,
   selectedTableColumns = [],
   onTablePreviewClick,
+  onCloseSchemaEditorBlock,
+  isHighlight,
+  selectedTableFullName,
+  onDeleteTable,
+  tableItem,
   onFieldDragStart,
   onCreate,
   synoName,
-  setSynoName,
-  isHighlight
+  setSynoName
 }) => {
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
@@ -40,6 +50,7 @@ const SchemaEditorBlock = ({
   const [isActive, setIsActive] = useState(false);
   const [isOpened, setIsOpened] = useState(true);
   const [isCopy, setIsCopy] = useState(false);
+  const [isDeleteWarningModalOpened, setDeleteWarningModalOpened] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -54,10 +65,13 @@ const SchemaEditorBlock = ({
   const handleClick = item => {
     if (item.value === 'tablePreview') {
       return onTablePreviewClick();
-    }
+    };
     if (item.value === 'copy') {
       return setIsCopy(true);
-    }
+    };
+    if (item.value === 'deleteTable') {
+      return setDeleteWarningModalOpened(true);
+    };
     return console.log(item.text);
   };
 
@@ -132,7 +146,11 @@ const SchemaEditorBlock = ({
                 offset: [45, -50]
               }}
           >
-            <IconButton size='small' className={styles.dottedBtn} icon={<DotsMenu />} />
+            <IconButton
+              size="small"
+              className={styles.dottedBtn}
+              icon={<DotsMenu />}
+            />
           </Dropdown>
         </div>
       </div>
@@ -162,7 +180,7 @@ const SchemaEditorBlock = ({
               <li className={item.colored && isHighlight ? styles.itemHighlited : styles.item} key={item.field + item.type + index} draggable onDragStart={e => onFieldDragStart(e, item.field)}>
                 {item.field}
               </li>
-          ))}
+            ))}
           </ul>
         </div>
       )}
@@ -175,6 +193,19 @@ const SchemaEditorBlock = ({
         oldName={selectedTableName}
       />
       )}
+      {isDeleteWarningModalOpened &&
+        ReactDOM.createPortal(
+          <ModalConfirmDeletion
+            warnText={modalWarningText}
+            setDeleteWarningModalOpened={setDeleteWarningModalOpened}
+            selectedTableFullName={selectedTableFullName}
+            onCloseSchemaEditorBlock={onCloseSchemaEditorBlock}
+            isDeleteWarningModalOpened={isDeleteWarningModalOpened}
+            onDeleteTable={onDeleteTable}
+            tableItem={tableItem}
+          />,
+          document.body
+        )}
     </div>
   );
 };

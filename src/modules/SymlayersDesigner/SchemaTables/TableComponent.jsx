@@ -21,12 +21,16 @@ import {
   getObjectData,
   getObjectFields
 } from '../../../data/actions/schemaDesigner';
-import { setDataList, setSelectedTables, setShowDataList } from '../../../data/reducers/schemaDesigner';
+import {
+  setDataList,
+  clearDataList,
+  setShowDataList
+} from '../../../data/reducers/schemaDesigner';
 import { getTableIdFromParams } from '../../../data/helpers';
-import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock';
+import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock/index';
 // import { useApplicationActions } from 'src/data/appProvider';
 import { SymanticLayerContext } from './context';
-import TablePreview from "./TablePreview";
+import TablePreview from './TablePreview';
 import { setTablePreviewModal } from '../../../data/actions/universes';
 
 const useStyles = makeStyles(theme => ({
@@ -152,35 +156,41 @@ const TableComponent = ({
   const contentScrollContainer = useRef();
   const dispatch = useDispatch();
 
-  const connect_id = useSelector(
-    state => state.app.schemaDesigner.connectorId
-  );
+  const connect_id = useSelector(state => state.app.schemaDesigner.connectorId);
 
-  const searchMatches = (item) => {
-    return item?.field.toLowerCase()?.includes(coloredValue.toLowerCase())
-  }
+  const searchMatches = item => {
+    return item?.field.toLowerCase()?.includes(coloredValue.toLowerCase());
+  };
 
-  const selectedTableColumns =
-    selectedTables[getTableIdFromParams({ ...tableItem, connect_id: 4 })]?.map((item) => {
-      return ({
-        ...item,
-        colored: colorValue && searchMatches(item),
-      })
-    });
+  const searchStaticMatches = item => {
+    return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase());
+  };
+
+  const selectedTableColumns = selectedTables[
+    getTableIdFromParams({ ...tableItem, connect_id: 4 })
+  ]?.map(item => {
+    return {
+      ...item,
+      colored: colorValue && searchStaticMatches(item)
+    };
+  });
 
   // eslint-disable-next-line consistent-return
-  const getList = (obj) => {
+  const getList = obj => {
     const tableNames = Object.keys(obj);
     if (tableNames.length) {
       const list = [];
       tableNames.forEach(i => {
-        const choosenItems = obj[i].reduce((acc, item) => 
-                searchMatches(item) && coloredValue ? [...acc, item.field ] : acc, []);
-        
+        const choosenItems = obj[i].reduce(
+          (acc, item) =>
+            searchMatches(item) && coloredValue ? [...acc, item.field] : acc,
+          []
+        );
+
         if (choosenItems.length) {
-          list.push({ name: i, line: choosenItems})
+          list.push({ name: i, line: choosenItems });
         }
-      })
+      });
       return list;
     }
   };
@@ -189,14 +199,14 @@ const TableComponent = ({
     if (showDataList) {
       setColorValue(coloredValue);
     }
-  }, [showDataList])
+  }, [showDataList]);
 
   useEffect(() => {
     if (showDataList) {
       setIsHighlighted(true);
       dispatch(setDataList(getList(selectedTables)));
       dispatch(setShowDataList());
-    };
+    }
   }, [showDataList]);
 
   useEffect(() => {
@@ -290,7 +300,7 @@ const TableComponent = ({
 
   const handlePopupShow = () => {
     dispatch(setTablePreviewModal(true));
-    dispatch(getObjectData({ ...tableItem, connect_id }))
+    dispatch(getObjectData({ ...tableItem, connect_id }));
     //   .then(
     //   response => {
     //     if (response && response.success) {
@@ -331,7 +341,6 @@ const TableComponent = ({
         const value = { ...position, deltaPosition: res };
         commit('SET_TABLE_POSITION', { tableId, value });
       };
-
       startDrag({ event, dragCallback, extra: { delta } });
     },
     [posToCoord, startDrag]
@@ -339,7 +348,7 @@ const TableComponent = ({
 
   const onFieldDragStart = (event, field) => {
     event.dataTransfer.setData('field', JSON.stringify(field));
-  }
+  };
 
   const tryLinkEnd = ({ item, event }) => {
     addLink({ table: tableItem, field: item });
@@ -413,6 +422,9 @@ const TableComponent = ({
       alert('Имя синонима введено некорректно!');
     }
   }
+  const [isActiveSchemaEditorBlock, setActiveSchemaEditorBlock] = useState(
+    true
+  );
 
   return (
     <g
@@ -425,7 +437,7 @@ const TableComponent = ({
         y={0}
         width="1px"
         height="1px"
-        id={`obj${  tableItem.object_name}`}
+        id={`obj${tableItem.object_name}`}
         // width={(tableSize && `${tableSize.width + 2}px`) || '360px'}
         // height={tableSize && `${tableSize.height + 2}px`}
         style={{
@@ -436,18 +448,24 @@ const TableComponent = ({
               }`
             : undefined
         }}
-      > 
-        <SchemaEditorBlock
-          isHighlight={isHighlighted}
-          onTableDragStart={onTableDragStart}
-          selectedTableColumns={selectedTableColumns}
-          selectedTableName={tableItem.object_name}
-          onTablePreviewClick={handlePopupShow}
-          onFieldDragStart={onFieldDragStart}
-          onCreate={handleCreateSynonym}
-          synoName={synName}
-          setSynoName={setSynName}
-        />
+      >
+        {isActiveSchemaEditorBlock && (
+          <SchemaEditorBlock
+            isHighlight={isHighlighted}
+            onTableDragStart={onTableDragStart}
+            onFieldDragStart={onFieldDragStart}
+            selectedTableColumns={selectedTableColumns}
+            selectedTableName={tableItem.object_name}
+            selectedTableFullName={`${tableItem.schema}_${tableItem.object_name}_${tableItem.object_type_id}_${connect_id}`}
+            onTablePreviewClick={handlePopupShow}
+            onCloseSchemaEditorBlock={setActiveSchemaEditorBlock}
+            onDeleteTable={onDeleteTable}
+            tableItem={tableItem}
+            onCreate={handleCreateSynonym}
+            synoName={synName}
+            setSynoName={setSynName}
+          />
+        )}
       </foreignObject>
       {/* <div
           className={`${classes.tableItem} unselectable`}
