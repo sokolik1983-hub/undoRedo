@@ -72,7 +72,7 @@ const EditObjectLayerModal = ({ visible }) => {
       onSubmit={(values, event) => {
         handleClose();
         dispatch(setObjectLayer({...values, id: data.id}));
-        dispatch(showToast('warning', 'Объект сохранен'));
+        dispatch(showToast('success', 'Объект сохранен'));
         event.preventDefault();
         window.location.pathname = '/Universe/symlayers/create';
       }}

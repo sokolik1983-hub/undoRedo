@@ -41,12 +41,11 @@ const ObjectLayer = ({ field, active, onSelect }) => {
 
   const handleDeleteObject = () => {
 		dispatch(deleteObjectLayer(id));
-    dispatch(showToast('warning', 'Объект удален'));
+    dispatch(showToast('success', 'Объект удален'));
   }
 
   const handleObjectClick = (action) => {
     onSelect(id);
-    console.log(id)
     switch (action) {
       case 'edit':
         handleEditModalOpen();
