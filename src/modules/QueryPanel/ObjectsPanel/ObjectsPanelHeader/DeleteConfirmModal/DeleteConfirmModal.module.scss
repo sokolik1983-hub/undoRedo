@@ -1,0 +1,10 @@
+.title {
+  margin: 0 0 25px 0;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  justify-items: end;
+  grid-gap: 20px;
+}

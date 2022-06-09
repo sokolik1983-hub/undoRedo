@@ -1,7 +1,8 @@
 .dialog {
   width: 80%;
   max-width: none;
-  height: 80%;
+  height: auto;
+  min-height: 250px;
 }
 
 .sql {
@@ -11,9 +12,11 @@
     background-color: white;
     border-radius: 5px;
     color: black;
-    height: 90%;
+    margin: 0px 15px;
+    height: auto;
+    min-height: 100px;
     padding: 5px 5px;
-    margin: 0 15px 30px;
+    margin-bottom: 30px;
   }
 
   .buttons {

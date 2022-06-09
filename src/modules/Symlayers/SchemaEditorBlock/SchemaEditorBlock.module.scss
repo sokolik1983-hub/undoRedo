@@ -1,8 +1,8 @@
 .wrapper {
   background: linear-gradient(
-                  152.97deg,
-                  rgba(0, 55, 137, 0.75) 0%,
-                  rgba(0, 55, 137, 0.375) 100%
+    152.97deg,
+    rgba(0, 55, 137, 0.75) 0%,
+    rgba(0, 55, 137, 0.375) 100%
   );
   box-shadow: 0 2px 4px rgba(34, 82, 102, 0.75);
   backdrop-filter: blur(10px);
@@ -11,6 +11,11 @@
   max-width: 210px;
   user-select: none;
   padding-bottom: 1px;
+}
+
+.wrapperHighlight {
+  @extend .wrapper;
+  box-shadow: 0px 5px 37px rgba(198, 67, 219, 0.74);
 }
 
 .header {
@@ -63,6 +68,7 @@
   color: #ffffff;
   margin: 0 -16px;
   padding: 3px 16px;
+  cursor: pointer;
 
   &:hover {
     transition: 0.3s ease-in-out;
@@ -76,11 +82,8 @@
   color: #ffffff;
   margin: 0 -16px;
   padding: 3px 16px;
-  background: #cc8e35;
-  &:hover {
-    transition: 0.3s ease-in-out;
-    background: rgba(196, 196, 196, 0.25);
-  }
+  cursor: pointer;
+  background: rgba(198, 67, 219, 0.5);
 }
 
 .itemsWrapper {
@@ -110,7 +113,6 @@
 
   &:first-child {
     margin-top: 13px;
-    border-radius: initial;
   }
 
   &:last-child {
@@ -149,12 +151,8 @@
 .icon {
   position: absolute;
   right: 21px;
-  top: 3px;
+  top: 6px;
   cursor: pointer;
-}
-
-.hide {
-  display: none;
 }
 
 .magnifier {
@@ -165,7 +163,7 @@
   margin: 0 5px 0 3px;
 
   & path {
-    stroke: #FFFFFF;
+    stroke: #ffffff;
   }
 }
 
@@ -175,4 +173,28 @@
 
 .dottedBtn {
   margin: 0 -5px;
+}
+
+.copyModalWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 382px;
+  height: 168px;
+}
+
+.title {
+  margin: 20px 0 0 16px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.buttons {
+  display: flex;
+  margin: 0 0 20px 18px;
+}
+
+.create {
+  margin-right: 15px;
 }

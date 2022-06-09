@@ -111,11 +111,11 @@ function Connectors() {
       <div className={styles.connectionWrapper}>
         <p className={styles.selectText}>Тип</p>
         <Select
+          className={styles.selectInput}
           value={connectType}
           options={typeOptions}
           defaultValue="Тип соединения"
           onSelectItem={setConnectType}
-          className={styles.selectInput}
         />
       </div>
       <div className={styles.connectionWrapper}>
@@ -133,6 +133,8 @@ function Connectors() {
           <p className={styles.selectText}>Тип соединения</p>
           <div>
             <Select
+              // fullWidth
+              className={styles.connectionTypeSelect}
               value={connectionType}
               onSelectItem={setConnectionType}
               className={styles.connectionTypeSelect}

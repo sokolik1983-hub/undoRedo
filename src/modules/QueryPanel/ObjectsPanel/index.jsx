@@ -7,18 +7,19 @@ import usePanelListFilters from './usePanelListFilters';
 import ObjectsPanelFilters from './ObjectsPanelFilters/ObjectsPanelFilters';
 import ReportObjectsPanelFilters from './ReportObjectsPanelFilters';
 import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList';
-// import { getSymanticLayerData } from '../../../data/actions/universes';
 import { useDragNDrop } from '../context/DragNDropContext';
 import styles from './ObjectsPanel.module.scss';
 import {getCurrentReport} from '../../ReportDesigner/helpers'
 
-
 const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
-  // const dispatch = useDispatch();
+  const currentLayer = useSelector(state => {
+    const {
+      data,
+      currentLayerTitle
+    } = state.app?.data?.queryPanelSymlayersData;
 
-  // useEffect(() => {
-  //   if (symanticLayer) dispatch(getSymanticLayerData(symanticLayer.id));
-  // }, [symanticLayer]);
+    return data.find(i => i.queryTitle === currentLayerTitle);
+  });
 
   const symLayersData = useSelector(state => state.app?.data?.symLayersData);
 
@@ -26,22 +27,26 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
     styles.root,
     { [styles.report]: report }
   );
+
   const reportDesigner = useSelector(state => state.app.reportDesigner);
   const currentReport = getCurrentReport(
     reportDesigner.reportsData.present.reports,
     reportDesigner.reportsData.present.activeReport
   );
 
+
   const {variables} = currentReport
   const {
-    // rootFolder,
+    rootFolder,
     filterTypeId,
     handleFiltersSwitch,
     searchValue,
     setSearchValue
-  } = usePanelListFilters(symLayersData?.data?.structure[0]);
-
+  // } = usePanelListFilters(symLayersData?.data?.structure[0]);
+  } = usePanelListFilters(currentLayer?.symLayerData);
   const { handleDragOver, handleTreeDrop } = useDragNDrop();
+
+  const rootClasses = clsx(styles.root, { [styles.report]: report });
 
   return (
     <div className={rootClasses}>
@@ -56,20 +61,20 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
           searchValue={searchValue}
           setSearchValue={setSearchValue}
         />
-        ) : (
-          <ObjectsPanelFilters
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
-            filterId={filterTypeId}
-            onFiltersSwitch={handleFiltersSwitch}
-          />
-            )}
+      ) : (
+        <ObjectsPanelFilters
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          filterId={filterTypeId}
+          onFiltersSwitch={handleFiltersSwitch}
+        />
+      )}
       <div
         className={styles.panelListContainer}
         onDragOver={handleDragOver}
         onDrop={handleTreeDrop}
       >
-        <ObjectsPanelList variables={variables} />
+        {rootFolder && <ObjectsPanelList rootFolder={rootFolder} />}
       </div>
     </div>
   );
@@ -80,5 +85,5 @@ export default ObjectsPanel;
 ObjectsPanel.propTypes = {
   modalOpenHandler: PropTypes.func,
   showHeader: PropTypes.bool,
-  report: PropTypes.bool,
+  report: PropTypes.bool
 };

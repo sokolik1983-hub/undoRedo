@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'formik';
+import { Field, useFormikContext } from 'formik';
 import ModalItem from '..';
 import Button from '../../../../../common/components/Button';
 import CheckboxField from '../../../../../common/components/formikFields/checkboxField';
@@ -14,7 +14,9 @@ import {
 } from './valueListConstants';
 import styles from './valueListConnectionBlock.module.scss';
 
-const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames }) => {
+const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames, checkboxes }) => {
+  const formikProps = useFormikContext();
+
   const options = [
     { value: PUBLIC, text: PUBLIC },
     { value: CONTROLLED, text: CONTROLLED },
@@ -22,6 +24,10 @@ const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames }) => {
     { value: CONFIDENTIAL, text: CONFIDENTIAL },
     { value: PRIVATE, text: PRIVATE }
   ];
+
+  useEffect(() => {
+    formikProps.setFieldValue(name[1], value[1] || PUBLIC);
+  }, []);
 
   const handleClick = e => {
     e.preventDefault();
@@ -70,6 +76,7 @@ const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames }) => {
             id={checkBoxNames[0]}
             value={checkBoxNames[0]}
             name={checkBoxNames[0]}
+            checked={checkboxes?.[0]}
             labelClass={styles.checkBoxLabel}
             label="Редактировать этот список"
           />
@@ -77,6 +84,7 @@ const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames }) => {
             id={checkBoxNames[1]}
             value={checkBoxNames[1]}
             name={checkBoxNames[1]}
+            checked={checkboxes?.[1]}
             labelClass={styles.checkBoxLabel}
             label="Обновить перед использованием"
           />
@@ -84,6 +92,7 @@ const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames }) => {
             id={checkBoxNames[2]}
             value={checkBoxNames[2]}
             name={checkBoxNames[2]}
+            checked={checkboxes?.[2]}
             labelClass={styles.checkBoxLabel}
             label="Показ иерархии"
           />
@@ -91,6 +100,7 @@ const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames }) => {
             id={checkBoxNames[3]}
             value={checkBoxNames[3]}
             name={checkBoxNames[3]}
+            checked={checkboxes?.[3]}
             labelClass={styles.checkBoxLabel}
             label="Экспортс юниверсом"
           />
@@ -98,6 +108,7 @@ const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames }) => {
             id={checkBoxNames[4]}
             value={checkBoxNames[4]}
             name={checkBoxNames[4]}
+            checked={checkboxes?.[4]}
             labelClass={styles.checkBoxLabel}
             label="Делегировать поиск"
           />
@@ -122,6 +133,7 @@ const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames }) => {
               id={checkBoxNames[5]}
               value={checkBoxNames[5]}
               name={checkBoxNames[5]}
+              checked={checkboxes?.[5]}
               labelClass={styles.checkBoxLabel}
               label="Результатах"
             />
@@ -129,6 +141,7 @@ const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames }) => {
               id={checkBoxNames[6]}
               value={checkBoxNames[6]}
               name={checkBoxNames[6]}
+              checked={checkboxes?.[6]}
               labelClass={styles.checkBoxLabel}
               label="Условиях"
             />
@@ -136,6 +149,7 @@ const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames }) => {
               id={checkBoxNames[7]}
               value={checkBoxNames[7]}
               name={checkBoxNames[7]}
+              checked={checkboxes?.[7]}
               labelClass={styles.checkBoxLabel}
               label="Сортировках"
             />
@@ -152,5 +166,6 @@ ValueListConnectionBlock.propTypes = {
   onChange: PropTypes.func,
   name: PropTypes.array,
   value: PropTypes.array,
-  checkBoxNames: PropTypes.any
+  checkBoxNames: PropTypes.any,
+  checkboxes: PropTypes.array
 };

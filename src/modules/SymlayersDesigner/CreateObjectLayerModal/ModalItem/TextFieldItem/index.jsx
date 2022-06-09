@@ -14,8 +14,8 @@ const TextFieldItem = ({ title, id, name, className, onChange, value }) => {
   };
 
   return (
-    <ModalItem title={title}>
-      <input {...inputProps} />
+    <ModalItem title={title} isAccordionOpened>
+      <input {...inputProps} required />
     </ModalItem>
   );
 };

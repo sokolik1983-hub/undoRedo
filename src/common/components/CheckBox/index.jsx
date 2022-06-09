@@ -27,7 +27,7 @@ const CheckBox = ({
   blueBGColor,
   ...props
 }) => {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(checked);
 
   const wrapperClasses = clsx(styles.wrapper, wrapperClass);
   const labelClasses = clsx(styles.label, labelClass);

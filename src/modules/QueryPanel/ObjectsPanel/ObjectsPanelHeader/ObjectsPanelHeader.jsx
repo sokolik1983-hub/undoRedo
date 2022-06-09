@@ -1,27 +1,167 @@
+/* eslint-disable no-shadow */
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  copySymlayer,
+  deleteSymlayer,
+  editSymlayer,
+  setCurrentQueryPanelSymlayer
+} from '../../../../data/reducers/data';
 import IconButton from '../../../../common/components/IconButton';
-// import { ReactComponent as Arrow } from '../../../../layout/assets/queryPanel/arrowOk.svg';
+import Option from '../../../../common/components/NewSelect/Option';
+import Select from '../../../../common/components/NewSelect/Select';
+import Tooltip from '../../../../common/components/Tooltip';
+import DropdownItem from '../../../../common/components/Dropdown/DropdownItem';
+import EditLayerModal from './EditLayerModal/EditLayerModal';
+import DeleteConfirmModal from './DeleteConfirmModal/DeleteConfirmModal';
+import { ReactComponent as SymlayerIcon } from '../../../../layout/assets/queryPanel/symlayerIcon.svg';
 import { ReactComponent as PlusIcon } from '../../../../layout/assets/queryPanel/plus.svg';
+import { ReactComponent as RenameIcon } from '../../../../layout/assets/queryPanel/selectOptionActions/editIcon.svg';
+import { ReactComponent as CopyIcon } from '../../../../layout/assets/queryPanel/selectOptionActions/createCopyIcon.svg';
+import { ReactComponent as BinIcon } from '../../../../layout/assets/queryPanel/selectOptionActions/binIcon.svg';
 import styles from './ObjectsPanelHeader.module.scss';
 
+const SYMLAYER_SELECT_OPTION_ACTIONS = [
+  {
+    title: 'Переименовать',
+    icon: <RenameIcon />,
+    action: 'rename'
+  },
+  {
+    title: 'Дублировать',
+    icon: <CopyIcon />,
+    action: 'copy'
+  },
+  {
+    title: 'Удалить',
+    icon: <BinIcon />,
+    action: 'delete'
+  }
+];
+
 const ObjectsPanelHeader = ({ modalOpenHandler }) => {
-  // const handleClick = () => {
-  //   console.log('Данные организации');
-  // };
+  const dispatch = useDispatch();
+
+  const { data, options } = useSelector(state => {
+    const data = state.app?.data?.queryPanelSymlayersData.data;
+    const options = data?.map(({ symLayerName, queryTitle }) => ({
+      symLayerName,
+      queryTitle
+    }));
+    return { data, options };
+  });
+
+  const [selectedValue, setSelectedValue] = useState();
+  const [layerTitle, setLayerTitle] = useState();
+  const [isDeleteModalActive, setIsDeleteModalActive] = useState(false);
+  const [isRenameModalActive, setIsRenameModalActive] = useState(false);
+
+  useEffect(() => {
+    if (data.length === 1) setSelectedValue(data[0]?.queryTitle);
+  }, [data]);
+
+  useEffect(() => {
+    const currentLayer = data?.find(
+      layer => layer.queryTitle === selectedValue
+    );
+    dispatch(setCurrentQueryPanelSymlayer(currentLayer?.queryTitle));
+  }, [selectedValue]);
+
+  const handleRenameLayer = params => {
+    dispatch(editSymlayer(params));
+    setIsRenameModalActive(false);
+  };
+
+  const handleDeleteLayer = () => {
+    dispatch(deleteSymlayer(layerTitle));
+    setIsDeleteModalActive(false);
+  };
+
+  const handleClick = (title, action) => {
+    switch (action) {
+      case 'rename':
+        setLayerTitle(title);
+        setIsRenameModalActive(true);
+        break;
+      case 'copy':
+        dispatch(copySymlayer(title));
+        break;
+      case 'delete':
+        setIsDeleteModalActive(true);
+        setLayerTitle(title);
+        break;
+      default:
+        console.log(action);
+    }
+  };
+
+  const menu = title => (
+    <div className={styles.itemsWrapper}>
+      {SYMLAYER_SELECT_OPTION_ACTIONS.map(item => (
+        <Tooltip
+          key={item.title}
+          overlay={<div className={styles.tooltip}>{item.title}</div>}
+          trigger={['hover']}
+        >
+          <DropdownItem
+            key={item.title}
+            className={styles.dropdownItem}
+            onClick={action => handleClick(title, action)}
+            item={item}
+          />
+        </Tooltip>
+      ))}
+    </div>
+  );
 
   return (
-    <div className={styles.header}>
-      <div className={styles.request}>Запрос</div>
-      {/* <div onClick={handleClick} className={styles.data}>
-        <p className={styles.dataText}>Данные организации</p>
-        <Arrow className={styles.indents} />
-      </div> */}
-      <IconButton
-        className={styles.plusBtn}
-        onClick={modalOpenHandler}
-        icon={<PlusIcon />}
+    <>
+      <div className={styles.header}>
+        <div className={styles.request}>Запрос</div>
+        <Select
+          className={styles.select}
+          value={selectedValue}
+          onChange={setSelectedValue}
+        >
+          {options?.map(option => (
+            <Option
+              key={option.queryTitle}
+              value={option.queryTitle}
+              icon={<SymlayerIcon />}
+              secondaryText={option.symLayerName}
+              contextMenu={menu(option.queryTitle)}
+            >
+              {option.queryTitle}
+            </Option>
+          ))}
+        </Select>
+        <Tooltip
+          placement="topLeft"
+          overlay="Добавить запрос"
+          align={{
+            offset: [0, -10]
+          }}
+        >
+          <IconButton
+            className={styles.plusBtn}
+            onClick={modalOpenHandler}
+            icon={<PlusIcon />}
+          />
+        </Tooltip>
+      </div>
+      <DeleteConfirmModal
+        isOpen={isDeleteModalActive}
+        onConfirm={handleDeleteLayer}
+        onCancel={() => setIsDeleteModalActive(false)}
       />
-    </div>
+      <EditLayerModal
+        isOpen={isRenameModalActive}
+        onRename={handleRenameLayer}
+        onCancel={() => setIsRenameModalActive(false)}
+        currentTitle={layerTitle}
+      />
+    </>
   );
 };
 

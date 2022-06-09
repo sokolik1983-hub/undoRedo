@@ -1,9 +1,14 @@
+/* eslint-disable */
 /* eslint-disable import/prefer-default-export */
 // eslint-disable-next-line import/no-cycle
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import { request } from '../helpers';
 import { setDictionaries, setReposChildren, setReposFolderId } from '../reducers/data';
+import { setToastList } from '../reducers/ui';
 // eslint-disable-next-line import/no-cycle
 import { notificationShown } from '../reducers/notifications';
+
+let toastProperties = null;
 
 export const getDictionaries = queryParams => {
   return async dispatch => {
@@ -31,7 +36,7 @@ export const getReposChildren = queryParams => {
         code: 'REPOS.GET_CHILDREN',
         params: queryParams,
         dispatch
-      }); 
+      });
       if (response?.result) {
         dispatch(setReposChildren(response.data));
       }
@@ -61,3 +66,18 @@ export const getReposSpecFolder = queryParams => {
     }
   };
 };
+
+export const showToast = (type, title, description) => {
+  return (dispatch, getState) => {
+    const state = getState()
+    const toastList = state.app.ui.toastList
+
+    const toastProperties = {
+          id: Math.random(),
+          title,
+          description,
+          type,
+    }
+    dispatch(setToastList([...toastList, toastProperties]));
+  }
+}

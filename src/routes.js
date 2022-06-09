@@ -14,6 +14,7 @@ import SymlayersDesigner from './modules/SymlayersDesigner';
 import Symlayers from './modules/Symlayers';
 import Explorer from './modules/Explorer';
 import Reports from './modules/Reports';
+import NotFoundPage from './pages/NotFoundPage';
 
 const routes = [
   {
@@ -43,7 +44,7 @@ const routes = [
     children: [
       { path: 'login', element: <LoginPage /> },
       { path: '/', element: <Navigate to="/login" /> },
-      { path: '*', element: <Navigate to="/404" /> }
+      { path: '*', element: <NotFoundPage /> }
     ]
   }
 ];

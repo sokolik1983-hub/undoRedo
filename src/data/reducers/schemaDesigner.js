@@ -38,7 +38,8 @@ const schemaDesigner = createSlice({
       showContexts: false,
       isLoading: false
     },
-    coloredValue: ''
+    coloredValue: '',
+    semantycLayerName: null,
   },
   reducers: {
     setIsLoading: (state, action) => {
@@ -59,6 +60,9 @@ const schemaDesigner = createSlice({
     setSelectedTables: (state, action) => {
       state.selectedTables = { ...state.selectedTables, ...action.payload };
     },
+    setSelectedTablesFiltered: (state, action) => {
+      state.selectedTables = action.payload
+    },
     setSelectedTablesData: (state, action) => {
       state.selectedTablesData = {
         ...state.selectedTablesData,
@@ -74,13 +78,28 @@ const schemaDesigner = createSlice({
     setLink: (state, action) => {
       state.links = state.links.map(link => {
         if (link.id === action?.payload.id) {
-          link = action?.payload; 
+          link = action?.payload;
         }
         return link;
       });
     },
-    setObjectsLayerList: (state, action) => {
+    setLinksFiltered:  (state, action) => { 
+      state.links = action.payload;
+    },
+    addObjectLayer: (state, action) => {
       state.objectsLayerList = [...state.objectsLayerList, action.payload];
+    },
+    deleteObjectLayer: (state, action) => {
+      const id = action.payload;
+      state.objectsLayerList = state.objectsLayerList.filter(object => object.id !== id);
+    },
+    setObjectLayer: (state, action) => {
+      state.objectsLayerList = state.objectsLayerList.map(object => {
+        if (object.id === action?.payload.id) {
+          object = action?.payload; 
+        }
+        return object;
+      });
     },
     setContexts: (state, action) => {
       state.contexts = [...state.contexts, ...action.payload];
@@ -99,6 +118,9 @@ const schemaDesigner = createSlice({
     },
     setShowDataList: state => {
       state.showDataList = !state.showDataList;
+    },
+    setSemantycLayerName: (state, action) => {
+      state.semantycLayerName = action.payload
     }
   }
 });
@@ -114,13 +136,18 @@ export const {
   addLink,
   setLinks,
   setLink,
-  setObjectsLayerList,
+  addObjectLayer,
+  setObjectLayer,
+  deleteObjectLayer,
+  setLinksFiltered,
   setContexts,
   unsetTablePreviewData,
+  setSelectedTablesFiltered,
   setColoredValue,
   setDataList,
   clearDataList,
-  setShowDataList
+  setShowDataList,
+  setSemantycLayerName
 } = schemaDesigner.actions;
 
 export default schemaDesigner.reducer;

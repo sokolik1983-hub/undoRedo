@@ -17,6 +17,8 @@ import TablePreview from './SchemaTables/TablePreview';
 function SymlayersDesigner() {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState([]);
+  const [folders, setFolders] = useState([]);
+  const [objectsLinks, setObjectsLinks] = useState([]);
 
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.SEMANTIC));
@@ -44,6 +46,62 @@ function SymlayersDesigner() {
     }
   };
 
+  const handleAddSynonym = (table) => {
+    setChecked([...checked, table]);
+  };
+
+  
+  const handleDeleteTable = table => {
+    // удаление связей и полей уаленной таблицы
+
+    const filteredTables = checked.filter(
+      item =>
+        `${item.schema}.${item.object_name}` !==
+        `${table.schema}.${table.object_name}`
+    );
+    setChecked(filteredTables);
+
+    const filteredLinks = objectsLinks.filter(link => {
+      if (
+        `${link.object1.object.schema}.${link.object1.object.object_name}` ===
+          `${table.schema}.${table.object_name}` ||
+        `${link.object2.object.schema}.${link.object2.object.object_name}` ===
+          `${table.schema}.${table.object_name}`
+      ) {
+        return false;
+      }
+
+      return true;
+    });
+
+    setObjectsLinks(filteredLinks);
+
+    function childrenCheck(item) {
+      if (item && item.children) {
+        childrenCheck(item);
+      }
+
+      return item && item.tableName !== `${table.schema}.${table.object_name}`;
+    }
+
+    const newFolders = folders.map(folder => {
+      if (folder && folder.children) {
+        folder.children = folder.children.filter(child => {
+          if (child && child.children) {
+            return childrenCheck(child);
+          }
+          return (
+            child && child.tableName !== `${table.schema}.${table.object_name}`
+          );
+        });
+      }
+
+      return folder;
+    });
+
+    setFolders(newFolders);
+  };
+
   return (
     <div className={styles.root}>
       <div className={styles.content}>
@@ -64,7 +122,7 @@ function SymlayersDesigner() {
             }}
             onDragOver={(e) => {e.preventDefault()}}
           >
-            <SchemaTables tables={checked} />
+            <SchemaTables onCreateSynonym={handleAddSynonym} onDeleteTable={handleDeleteTable} tables={checked} />
           </div>
         </div>
         <Sidebar onSelect={handleSelectTable} />
