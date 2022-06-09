@@ -1,13 +1,22 @@
 import React, { useState } from "react";
 import PropTypes from 'prop-types';
+import { useDispatch } from "react-redux";
 import styles from './Sidebar.module.scss';
 import { ReactComponent as GaugeIcon } from '../../../layout/assets/queryPanel/gauge_icon.svg';
 import { ReactComponent as MeasIcon } from '../../../layout/assets/queryPanel/measurementIcon.svg';
 import { ReactComponent as AttrIcon } from '../../../layout/assets/queryPanel/attributeIcon.svg';
+import FOLDER_ITEM_DROPDOWN_ACTIONS from "./helper";
+import Tooltip from "../../../common/components/Tooltip";
+import DropdownItem from "../../../common/components/Dropdown/DropdownItem";
+import { setEditObjectModal } from "../../../data/actions/universes";
+import { deleteObjectLayer } from "../../../data/reducers/schemaDesigner";
+import DeleteObjectModal from "./DeleteObjectModal";
+import { showToast } from "../../../data/actions/app";
 
-const ObjectLayer = ({ field }) => {
-  const [isActive, setActive] = useState(false); 
-  const { name, objectType } = field;
+const ObjectLayer = ({ field, active, onSelect }) => {
+  const dispatch = useDispatch();
+  const { name, objectType, id } = field;
+  const [ isDelModalOpened, setDelModelOpened ] = useState(false);
 
   const selectIcon = (type) => {
     switch (type) {
@@ -22,18 +31,71 @@ const ObjectLayer = ({ field }) => {
     }
   };
 
+  const handleDelModalOpen = () => {
+    setDelModelOpened(!isDelModalOpened);
+  };
+
+  const handleEditModalOpen = () => {
+    dispatch(setEditObjectModal(field))
+  };
+
+  const handleDeleteObject = () => {
+		dispatch(deleteObjectLayer(id));
+    dispatch(showToast('success', 'Объект удален'));
+  }
+
+  const handleObjectClick = (action) => {
+    onSelect(id);
+    switch (action) {
+      case 'edit':
+        handleEditModalOpen();
+        break;
+      case 'delete':
+        handleDelModalOpen();
+        break;
+      default:
+        console.log(action);
+    }
+  };
+
+  const getObjectDropdownItems = () => (
+    <div className={styles.objectDrdnWrapper}>
+      {FOLDER_ITEM_DROPDOWN_ACTIONS.map(item => (
+        <Tooltip
+          key={item.title}
+          overlay={<div>{item.title}</div>}
+          trigger={['hover']}
+        >
+          <DropdownItem
+            className={styles.dropdownItem}
+            onClick={action => handleObjectClick(action)}
+            item={item}
+          />
+        </Tooltip>
+      ))}
+    </div>
+  );
+
+  const drdnMenu = active ? getObjectDropdownItems() : null;
+
   return (
-    <button type="button" className={isActive ? styles.actObjectLayer : styles.objectLayer} onClick={() => setActive(!isActive)}>
-      {selectIcon(objectType)}
-      <span>
-        {name || 'name'}
-      </span>
-    </button>
+    <div className={styles.objectItemWrapper}>
+      {isDelModalOpened ? <DeleteObjectModal onDelete={handleDeleteObject} /> : null}
+      <button type="button" className={active ? styles.actObjectLayer : styles.objectLayer} onClick={handleObjectClick}>
+        {selectIcon(objectType)}
+        <span>
+          {name}
+        </span> 
+      </button>
+      {drdnMenu}
+    </div>
   )
 }
 
 ObjectLayer.propTypes = {
-  field: PropTypes.object
+  field: PropTypes.object,
+  active: PropTypes.bool,
+  onSelect: PropTypes.string
 }
 
 export default ObjectLayer;

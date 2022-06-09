@@ -3,9 +3,9 @@ import { useField } from 'formik';
 import PropTypes from 'prop-types';
 import CheckBox from '../CheckBox';
 
-const CheckboxField = ({ name, value, label, ...props }) => {
+const CheckboxField = ({ name, value, label, checked, ...props }) => {
   const [ field ] = useField({ name, value, type: 'checkbox' });
-  const { name: fieldName, checked, onChange, value: fieldValue } = field;
+  const { name: fieldName, onChange, value: fieldValue } = field;
 
   return (
     <CheckBox
@@ -23,7 +23,8 @@ const CheckboxField = ({ name, value, label, ...props }) => {
 CheckboxField.propTypes = {
   name: PropTypes.string,
   value: PropTypes.string,
-  label: PropTypes.string,
+  label: PropTypes.string, 
+  checked: PropTypes.bool
 };
 
 export default CheckboxField;
