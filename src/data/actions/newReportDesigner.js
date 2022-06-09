@@ -27,9 +27,7 @@ export const getStreamReceiever = queryParams => {
       dispatch
     });
     if (response) {
-      if (response.result === true) {
-        localStorage.setItem('streamreceiver', response.thread);
-      }
+      localStorage.setItem('streamreceiver', response.thread);
     }
   };
 };
@@ -44,9 +42,7 @@ export const getReportStructure = queryParams => {
       dispatch
     });
     if (response) {
-      if (response.result === true) {
-        dispatch(setStructure(response.structure));
-      }
+      dispatch(setStructure(response.structure));
     }
   };
 };
@@ -59,9 +55,7 @@ export const setReportStructure = queryParams => {
       dispatch
     });
     if (response) {
-      if (response.result === true) {
-        dispatch(getReportStructure({ report_id: queryParams.report_id }));
-      }
+      dispatch(getReportStructure({ report_id: queryParams.report_id }));
     }
   };
 };
@@ -80,10 +74,8 @@ export const getElementData = (queryParams, callback) => {
       dispatch
     });
     if (response) {
-      if (response.result === true) {
-        callback(response);
-        // dispatch(setStructure(response.structure));
-      }
+      callback(response);
+      // dispatch(setStructure(response.structure));
     }
   };
 };
@@ -99,9 +91,7 @@ export const getVariables = () => {
     });
 
     if (response) {
-      if (response.result === true) {
-        dispatch(setVariables(response.variables));
-      }
+      dispatch(setVariables(response.variables));
     }
   };
 };

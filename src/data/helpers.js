@@ -5,7 +5,7 @@ import { SERVER_API_URL } from '../common/constants/config';
 // eslint-disable-next-line import/no-cycle
 import { notificationShown } from './reducers/notifications';
 
-const PENDING_SERVER_TIMER = 100;
+const PENDING_SERVER_TIMER = 1000;
 const ATTEMPTS = 50;
 
 // это запрос готовности данных
@@ -23,14 +23,13 @@ export const requestReady = async ({ id, dispatch }) => {
     if (response && response.status === 200) {
       // добавить все условия
       if (
-        response.data.result === true ||
-        response.data.result === 'pending' ||
-        response.data.result === 'failed'
+        response.data.result === 1 ||
+        response.data.result === 'pending'
       ) {
         return response.data;
       }
 
-    if (response.data.result === false && response.data.errors) {
+    if (response.data.result === 0 && response.data.errors) {
       response.data.errors.forEach(item => {
         // eslint-disable-next-line camelcase
         const { err_text, err_recommend, err_reason } = item;
@@ -67,7 +66,7 @@ const requesterTimeout = ({ id, dispatch }) => {
         dispatch
       });
 
-      if (response?.result === true || !response) {
+      if (response?.result === 1 || !response) {
         setLoadingData(false);
         resolve(response);
         return clearInterval(timer);
@@ -95,7 +94,9 @@ const requesterTimeout = ({ id, dispatch }) => {
 // обычный запрос, в ответ на который мы получаем id запроса
 // для получения данных по запросу, надо отправить новый запрос с указанием id
 // для такого повторного запроса есть функция requestReady
-export const request = async ({ params, code, token, streamreceiver, dispatch }) => {
+export const request = async ({ params, code, dispatch }) => {
+  const token = localStorage.getItem('token');
+  const streamreceiver = localStorage.getItem('streamreceiver');
   try {
     const response = await axios({
       method: 'post',
