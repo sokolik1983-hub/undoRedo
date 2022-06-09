@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 import Modal from '../../../common/components/Modal';
 import Button from '../../../common/components/Button';
@@ -11,9 +12,10 @@ import Connect from './ModalItem/Connect';
 import BusinessObjects from './ModalItem/BusinessObjects';
 import Control from './ModalItem/Control';
 import TextFieldItem from './ModalItem/TextFieldItem';
+import { setSemantycLayerDataName } from '../../../data/actions/schemaDesigner';
 
 const semLayerValues = {
-  name: '',
+  name: 'Новый семантический слой 1',
   description: '',
   SQLRequest: [],
   SQLMultipleRoads: [],
@@ -26,6 +28,7 @@ const semLayerValues = {
  */
 
 const SemanticLayerModal = ({ onClick }) => {
+  const dispatch = useDispatch();
   const onClickAction = event => {
     onClick(event);
   };
@@ -35,6 +38,7 @@ const SemanticLayerModal = ({ onClick }) => {
       initialValues={semLayerValues}
       onSubmit={data => {
         window.location.pathname = '/Universe/symlayers/create';
+        dispatch(setSemantycLayerDataName(data.name))
         console.log(data);
       }}
     >
@@ -46,6 +50,8 @@ const SemanticLayerModal = ({ onClick }) => {
             className={styles.name}
             onChange={handleChange}
             value={values.name}
+            isAccordionOpened
+            isRequired
           />
           <TextFieldItem
             title="Описание"
@@ -86,7 +92,7 @@ const SemanticLayerModal = ({ onClick }) => {
   return (
     <div>
       <Modal
-        title="Создать юниверс"
+        title="Создать семантический слой"
         visible
         content={content}
         withScroll={false}

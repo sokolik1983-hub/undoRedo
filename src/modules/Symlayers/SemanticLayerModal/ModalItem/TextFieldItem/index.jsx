@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import ModalItem from "..";
 import styles from './TextFieldItem.module.scss';
 
-const TextFieldItem = ({title, id, name, className, onChange, value, isTextarea}) => {
+const TextFieldItem = ({ title, id, name, className, onChange, value, isTextarea, isRequired, isAccordionOpened }) => {
   const idProp = id || name;
   const inputProps = {
     id: idProp,
@@ -15,9 +15,10 @@ const TextFieldItem = ({title, id, name, className, onChange, value, isTextarea}
   }
 
   return (
-    <ModalItem title={title}>
+    <ModalItem title={title} isAccordionOpened={isAccordionOpened}>
       {isTextarea ? <textarea {...inputProps} /> : (
-        <input 
+        <input
+          required={isRequired}
           {...inputProps}
           type='text'
         />
@@ -36,6 +37,8 @@ TextFieldItem.propTypes = {
   value: PropTypes.string,
   name: PropTypes.string,
   isTextarea: PropTypes.bool,
+  isRequired: PropTypes.bool,
+  isAccordionOpened: PropTypes.bool,
 };
 
 TextFieldItem.defaultProps = {
@@ -45,5 +48,7 @@ TextFieldItem.defaultProps = {
   onChange: Function.prototype,
   value: '',
   name: '',
-  isTextarea: false
+  isTextarea: false,
+  isRequired: false,
+  isAccordionOpened: false
 };
