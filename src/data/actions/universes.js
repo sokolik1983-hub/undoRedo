@@ -62,7 +62,7 @@ export const getUniversesFolderId = queryParams => {
 }
 
 export const getQueryPanelSymanticLayerData = id => {
-  return async dispatch => {
+  /* return async dispatch => {
     try {
       const response = await requestSymLayerData({
         id,
@@ -77,7 +77,8 @@ export const getQueryPanelSymanticLayerData = id => {
         notificationShown({ message: err.message, messageType: 'error' })
       );
     }
-  }
+  } */
+  return null;
 }
 
 export const saveConnector = queryParams => {

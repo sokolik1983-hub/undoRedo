@@ -21,7 +21,7 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
     return data.find(i => i.queryTitle === currentLayerTitle);
   });
 
-  const symLayersData = useSelector(state => state.app?.data?.symLayersData);
+  // const symLayersData = useSelector(state => state.app?.data?.symLayersData);
 
   const rootClasses = clsx(
     styles.root,
@@ -46,7 +46,6 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
   } = usePanelListFilters(currentLayer?.symLayerData);
   const { handleDragOver, handleTreeDrop } = useDragNDrop();
 
-  const rootClasses = clsx(styles.root, { [styles.report]: report });
 
   return (
     <div className={rootClasses}>
@@ -75,6 +74,7 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
         onDrop={handleTreeDrop}
       >
         {rootFolder && <ObjectsPanelList rootFolder={rootFolder} />}
+        <ObjectsPanelList variables={variables} />
       </div>
     </div>
   );

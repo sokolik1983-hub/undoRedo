@@ -229,7 +229,7 @@ const DragNDropProvider = ({ children }) => {
       setFiltersDesk(filtersDeskClone);
     }
 
-    /* если дроп айтема на ноду или наоборот и оба находятся в одном 
+    /* если дроп айтема на ноду или наоборот и оба находятся в одном
     родителе - меняем их местами */
     if (
       (target.type === 'filter-node' || dropped.type === 'filter-node') &&
@@ -257,7 +257,7 @@ const DragNDropProvider = ({ children }) => {
       (target.type === 'filter-node' || dropped.type === 'filter-node') &&
       targetParent !== droppedParent
     ) {
-      /* если дроп идет внутри фильтров а не извне - фильтруем родителя 
+      /* если дроп идет внутри фильтров а не извне - фильтруем родителя
         от которого идет дроп
       */
       if (parentSection.current === DRAG_PARENT_SECTION.FILTERS) {

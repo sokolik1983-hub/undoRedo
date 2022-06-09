@@ -85,7 +85,7 @@ const ObjectLayer = ({ field, active, onSelect }) => {
         {selectIcon(objectType)}
         <span>
           {name}
-        </span> 
+        </span>
       </button>
       {drdnMenu}
     </div>

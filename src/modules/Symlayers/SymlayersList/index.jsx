@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useState, Fragment } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
 import ListNavBar from '../../../common/components/ListNavBar/ListNavBar';
