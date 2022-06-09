@@ -463,9 +463,13 @@ const TableComponent = ({
             onCloseSchemaEditorBlock={setActiveSchemaEditorBlock}
             onDeleteTable={onDeleteTable}
             tableItem={tableItem}
+<<<<<<< HEAD
             onCreate={handleCreateSynonym}
             synoName={synName}
             setSynoName={setSynName}
+=======
+            onFieldDragStart={onFieldDragStart}
+>>>>>>> master
           />
         )}
       </foreignObject>
