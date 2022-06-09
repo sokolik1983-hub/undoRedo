@@ -10,6 +10,7 @@ import {
   setIsShowingContexts,
   setIsShowingLinks
 } from '../../../../data/reducers/schemaDesigner';
+import EditObjectLayerModal from '../../../../modules/SymlayersDesigner/Sidebar/EditObjectLayerModal';
 // import TextInput from '../../../../common/components/TextInput';
 
 const SemanticActions = () => {
@@ -58,6 +59,11 @@ const SemanticActions = () => {
     state => state.app.ui.modalCreateObjectVisible
   );
   /* удалить когда перенесем кнопку открытия Создать  */
+  /* удалить когда перенесем кнопку открытия Создать  */
+  const isEditObjectModalOpened = useSelector(
+    state => state.app.ui.modalEditObjectVisible
+  );
+  /* удалить когда перенесем кнопку открытия Создать  */
 
   return (
     <div className={styles.actionsContainer}>
@@ -80,6 +86,9 @@ const SemanticActions = () => {
       })}
       {isCreateObjectModalOpened && (
         <CreateObjectLayerModal visible={isCreateObjectModalOpened && true} />
+      )}
+      {isEditObjectModalOpened && (
+        <EditObjectLayerModal visible={isEditObjectModalOpened && true} />
       )}
       {/* {isFilter && <TextInput value={coloredValue} onChange={(event) => dispatch(setColoredValue(event.target.value))} className={styles.filterInput} />} */}
     </div>

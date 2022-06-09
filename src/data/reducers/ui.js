@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   CONNECTOR_POPUP, OBJECTS_CONNECTIONS_MODAL,
   QUERY_PANEL_MODAL, UNIVERSE_MODAL,
-  UNIVERSE_POPUP, CREATE_OBJECT_MODAL, TABLE_PREVIEW_MODAL, CONFIRM_MODAL
+  UNIVERSE_POPUP, CREATE_OBJECT_MODAL, EDIT_OBJECT_MODAL, TABLE_PREVIEW_MODAL, CONFIRM_MODAL
 } from '../../common/constants/popups';
 
 const ui = createSlice({
@@ -15,6 +15,7 @@ const ui = createSlice({
     isLoadingData: false,
     isNavShowing: false,
     modalCreateObjectVisible: false,
+    modalEditObjectVisible: false,
     confirmModalVisible: false,
     toastList: [],
   },
@@ -64,6 +65,13 @@ const ui = createSlice({
     closeCreateObjectModal: state => {
       state.modalCreateObjectVisible = false;
     },
+    showEditObjectModal: (state, action) => {
+      state.modalData = action.payload;
+      state.modalEditObjectVisible = EDIT_OBJECT_MODAL;
+    },
+    closeEditObjectModal: state => {
+      state.modalEditObjectVisible = false;
+    },
     showTablePreviewModal: state => {
       state.modalVisible = TABLE_PREVIEW_MODAL;
     },
@@ -95,6 +103,8 @@ export const {
   showSemanticLayerModal,
   closeModal,
   showCreateObjectModal,
+  showEditObjectModal,
+  closeEditObjectModal,
   closeCreateObjectModal,
   showConfirmModal,
   closeConfirmModal,

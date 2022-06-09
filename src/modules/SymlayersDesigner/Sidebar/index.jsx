@@ -41,6 +41,7 @@ function Sidebar({ onSelect }) {
   const [searchValue, setSearchValue] = useState('');
   // eslint-disable-next-line no-unused-vars
   const [tables, setTables] = useState(selectedTables);
+  const [selectObjectLayer, setSelectObjectLayer] = useState('');
   const [filterObjectsMode, setFilterObjectMode] = useState(null);
 
   const connectorObjects = useSelector(
@@ -50,8 +51,21 @@ function Sidebar({ onSelect }) {
   const objectsLayers = useSelector(
     state => state.app.schemaDesigner.objectsLayerList
   );
+  const [objectsList, setObjectsList] = useState([]);
 
-  const [objectsList, setObjectsList] = useState(objectsLayers);
+  useEffect(() => {
+    if (objectsLayers.length) {
+      setObjectsList(objectsLayers);
+      setFilterObjectMode(null);
+    }
+  }, [objectsLayers])
+
+  const handleSelectObjectLayer = id => {
+    setSelectObjectLayer(id);
+    if (id === selectObjectLayer) {
+      setSelectObjectLayer('');
+    }
+  }
 
   const handleCollapse = () => {
     setCollapsed(prev => !prev);
@@ -61,8 +75,8 @@ function Sidebar({ onSelect }) {
     setActiveTab(value);
   };
 
-  const handleObjectDrop = (e, fieldName) => {
-    dispatch(setCreateObjectModal(e, fieldName));
+  const handleObjectDrop = () => {
+    dispatch(setCreateObjectModal(true));
   };
 
   useEffect(() => {
@@ -256,13 +270,13 @@ function Sidebar({ onSelect }) {
                 <div className={styles.objectsData}>
                   {objectsList?.map(object => {
                       if (filterObjectsMode === 'GAUGE' && object.objectType === 'Показатель')
-                        return <ObjectLayer field={object} />
+                        return <ObjectLayer active={selectObjectLayer === object.id} onSelect={handleSelectObjectLayer} field={object} />
                       if (filterObjectsMode === 'MEAS' && object.objectType === 'Измерение')
-                        return <ObjectLayer field={object} />
+                        return <ObjectLayer active={selectObjectLayer === object.id} onSelect={handleSelectObjectLayer} field={object} />
                       if (filterObjectsMode === 'ATTR' && object.objectType === 'Атрибут')
-                        return <ObjectLayer field={object} />
+                        return <ObjectLayer active={selectObjectLayer === object.id} onSelect={handleSelectObjectLayer} field={object} />
                       if (!filterObjectsMode) 
-                        return <ObjectLayer field={object} />
+                        return <ObjectLayer active={selectObjectLayer === object.id} onSelect={handleSelectObjectLayer} field={object} />
                       return null;
                     })}
                 </div>
