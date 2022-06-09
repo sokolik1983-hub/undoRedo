@@ -4,7 +4,7 @@ import { notificationShown } from '../reducers/notifications';
 import {
   setConnectorObjects,
   setSelectedTables,
-  setConnectorData, unsetTablePreviewData, setSelectedTablesFiltered, setLinksFiltered
+  setConnectorData, unsetTablePreviewData, setSelectedTablesFiltered, setLinksFiltered, setSemantycLayerName
 } from '../reducers/schemaDesigner';
 
 export const getConnectorObjectsList = queryParams => {
@@ -78,4 +78,8 @@ export const filterSelectedTables = (filteredTables) => {
 
 export const filterTablesLinks = (filteredLinks) => {
   return dispatch => dispatch(setLinksFiltered(filteredLinks));
+}
+
+export const setSemantycLayerDataName = (name) => {
+  return dispatch => dispatch(setSemantycLayerName(name));
 }

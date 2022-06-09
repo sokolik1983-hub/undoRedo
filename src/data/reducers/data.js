@@ -13,7 +13,7 @@ const data = createSlice({
     queryPanelSymlayersData: {
       currentLayerTitle: null,
       data: []
-    }
+    },
   },
   reducers: {
     setConnectors: (state, action) => {
@@ -100,7 +100,7 @@ const data = createSlice({
     },
     setListReports: (state, action) => {
       state.listReports = action.payload
-    }
+    },
   }
 });
 
@@ -120,7 +120,7 @@ export const {
   setQueryData,
   setSymanticLayerQueryResult,
   setQueryResult,
-  setListReports
+  setListReports,
 } = data.actions;
 
 export default data.reducer;

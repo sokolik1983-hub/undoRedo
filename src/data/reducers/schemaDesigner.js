@@ -38,7 +38,8 @@ const schemaDesigner = createSlice({
       showContexts: false,
       isLoading: false
     },
-    coloredValue: ''
+    coloredValue: '',
+    semantycLayerName: null,
   },
   reducers: {
     setIsLoading: (state, action) => {
@@ -117,6 +118,9 @@ const schemaDesigner = createSlice({
     },
     setShowDataList: state => {
       state.showDataList = !state.showDataList;
+    },
+    setSemantycLayerName: (state, action) => {
+      state.semantycLayerName = action.payload
     }
   }
 });
@@ -142,7 +146,8 @@ export const {
   setColoredValue,
   setDataList,
   clearDataList,
-  setShowDataList
+  setShowDataList,
+  setSemantycLayerName
 } = schemaDesigner.actions;
 
 export default schemaDesigner.reducer;
