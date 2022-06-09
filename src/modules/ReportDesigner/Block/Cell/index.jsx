@@ -1,3 +1,5 @@
+/*eslint-disable */
+
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
@@ -9,6 +11,8 @@ import {
 } from '../../../../data/reducers/new_reportDesigner';
 import { setReportStructure } from '../../../../data/actions/newReportDesigner';
 
+import * as dropHelpers from './helpers';
+
 const Cell = ({
   id,
   structureItem,
@@ -19,7 +23,7 @@ const Cell = ({
   originalItem = {}
 }) => {
   const dispatch = useDispatch();
- 
+
   const reportDesigner = useSelector(state => state.app.reportDesigner);
   const currentReport = getCurrentReport(
     reportDesigner.reportsData.present.reports,
@@ -33,8 +37,6 @@ const Cell = ({
     bottom: false,
     center: false
   });
-
-
 
   const handleDragOver = e => {
     e.preventDefault();
@@ -73,79 +75,96 @@ const Cell = ({
   const handleClick = () =>
     dispatch(setFormattingElement({ item: originalItem }));
 
-  const handleDrop = (event) => {
-    const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
+  const handleDrop = (event, position) => {
+    const payload = JSON.parse(event.dataTransfer.getData('text'));
     event.dataTransfer.clearData();
     setDragStatus(false);
 
-    const newStructureReport = cloneDeep(currentReport);
+    const target = structureItem;
 
-    const element = {
-      id: Date.now(),
-      row: 1,
-      col: 4,
-      size: {},
-      style: {},
-      expression: {}
+    const structure = cloneDeep(currentReport);
+
+    const mapper = {
+      before: dropHelpers.handleAddBefore,
+      after: dropHelpers.handleAddAfter,
+      center: dropHelpers.handleReplace,
+      above: dropHelpers.handleAddAbove,
+      below: dropHelpers.handleAddBelow
     };
+    const { type, dataType, formula, parsedFormula, id } = payload
+    const modified = mapper[position]({
+      structure,
+      target,
+      payload: {type, dataType, formula, parsedFormula, variable_id:id }
+    });
 
-    const activeNode =
-      reportDesigner.reportsData.present.activeNodes &&
-      reportDesigner.reportsData.present.activeNodes[0];
+    // const element = {
+    //   id: Date.now(),
+    //   row: 1,
+    //   col: 4,
+    //   size: {},
+    //   style: {},
+    //   expression: {}
+    // };
 
-    const currentNode = find(
-      newStructureReport?.structure?.pgBody?.content?.children,
-      item => item.id === activeNode?.id
-    );
-    const headerZone = currentNode?.content?.layout?.zones?.filter(
-      item => item.vType === 'header'
-    );
-    const bodyZone = currentNode?.content?.layout?.zones?.filter(
-      item => item.vType === 'body'
-    );
+    // const activeNode =
+    //   reportDesigner.reportsData.present.activeNodes &&
+    //   reportDesigner.reportsData.present.activeNodes[0];
 
-    if (headerZone && headerZone.length > 0) {
-      headerZone[0].cells = [
-        ...headerZone[0].cells,
-        {
-          ...element,
-          expression: {
-            dataType: selectedEl.dataType,
-            formula: selectedEl.name
-          }
-        }
-      ];
-    }
-    if (bodyZone && bodyZone.length > 0) {
-      bodyZone[0].cells = [
-        ...bodyZone[0].cells,
-        {
-          ...element,
-          expression: {
-            dataType: selectedEl.dataType,
-            formula: selectedEl.formula,
-            parsedFormula: selectedEl.parsedFormula,
-            type: selectedEl.type,
-            variable_id: selectedEl.id
-          }
-        }
-      ];
-    }
+    // const currentNode = find(
+    //   newStructureReport?.structure?.pgBody?.content?.children,
+    //   item => item.id === activeNode?.id
+    // );
+    // const headerZone = currentNode?.content?.layout?.zones?.filter(
+    //   item => item.vType === 'header'
+    // );
+    // const bodyZone = currentNode?.content?.layout?.zones?.filter(
+    //   item => item.vType === 'body'
+    // );
+
+    // if (headerZone && headerZone.length > 0) {
+    //   headerZone[0].cells = [
+    //     ...headerZone[0].cells,
+    //     {
+    //       ...element,
+    //       expression: {
+    //         dataType: selectedEl.dataType,
+    //         formula: selectedEl.name
+    //       }
+    //     }
+    //   ];
+    // }
+    // if (bodyZone && bodyZone.length > 0) {
+    //   bodyZone[0].cells = [
+    //     ...bodyZone[0].cells,
+    //     {
+    //       ...element,
+    //       expression: {
+    //         dataType: selectedEl.dataType,
+    //         formula: selectedEl.formula,
+    //         parsedFormula: selectedEl.parsedFormula,
+    //         type: selectedEl.type,
+    //         variable_id: selectedEl.id
+    //       }
+    //     }
+    //   ];
+    // }
 
     dispatch(
       setReportStructure({
         report_id: 'R1',
-        structure: newStructureReport?.structure
+        structure: modified.structure
       })
     );
 
-    dispatch(
-      addTableColumn({
-        object: { ...element, expression: { variable_id: selectedEl.id,  type: selectedEl.type, formula: selectedEl.formula,
-          parsedFormula: selectedEl.parsedFormula,} },
-        id
-      })
-    );
+    // dispatch(
+    //   addTableColumn({
+    //     object: { ...element, expression: { variable_id: selectedEl.id,  type: selectedEl.type, formula: selectedEl.formula,
+    //       parsedFormula: selectedEl.parsedFormula,} },
+    //     id,
+    //     position
+    //   })
+    // );
   };
 
   const getCellStyle = () => {
@@ -166,7 +185,7 @@ const Cell = ({
   const getCellValue =
     displayMode === 'Structure'
       ? `${structureItem?.expression?.formula || ''}`
-      : getValueFromDS(structureItem); 
+      : getValueFromDS(structureItem);
 
   return (
     <div
@@ -259,7 +278,7 @@ const Cell = ({
 };
 
 Cell.propTypes = {
-  id: PropTypes.string,
+  id: [PropTypes.string, PropTypes.number],
   structureItem: PropTypes.object,
   blockStyles: PropTypes.object,
   displayMode: PropTypes.string,

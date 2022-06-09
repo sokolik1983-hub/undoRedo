@@ -2697,11 +2697,48 @@ const reportDesigner = createSlice({
       //   value: action.payload.id
       // });
 
-      headerZone[0].cells = [
-        ...headerZone[0].cells,
-        { ...action.payload.object }
-      ];
-      bodyZone[0].cells = [...bodyZone[0].cells, action.payload.object];
+      // headerZone[0].cells = [
+      //   ...headerZone[0].cells,
+      //   { ...action.payload.object }
+      // ];
+
+      bodyZone[0].cells = [ bodyZone[0].cells, ...action.payload.object];
+      headerZone[0].cells = [ headerZone[0].cells, ...action.payload.object];
+   
+      // if(position === 'before') {
+      //   bodyZone[0].cells = [ action.payload.object, ...bodyZone[0].cells];
+      //   headerZone[0].cells = [ action.payload.object, ...bodyZone[0].cells];
+      // }
+
+      // if(position === 'after') {
+      //   bodyZone[0].cells = [ action.payload.object, ...bodyZone[0].cells];
+      //   headerZone[0].cells = [ action.payload.object, ...bodyZone[0].cells];
+      // }
+      
+      // if(position === 'center') {
+      //   if(bodyZone[0] && bodyZone[0].cells) {
+      //     bodyZone[0].cells =  bodyZone[0].cells.map(cell => {
+      //       if(cell.id === action.payload.object.id) {
+      //         return action.payload.object
+      //       }
+      //       return cell
+      //     }) 
+      //   }
+
+      //   if(headerZone[0] && headerZone[0].cells) {
+      //     headerZone[0].cells =  headerZone[0].cells.map(cell => {
+      //       if(cell.id === action.payload.object.id) {
+      //         return action.payload.object
+      //       }
+      //       return cell
+      //     }) 
+      //   }
+        
+
+
+
+    
+      // }
 
       // console.log(report, report.structure, targ);
       // TODO изменить запись яколонки по дропнутой позиции

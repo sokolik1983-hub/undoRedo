@@ -52,14 +52,8 @@ export const getReportStructure = queryParams => {
 };
 
 export const setReportStructure = queryParams => {
-  //   code:REP.SET_STRUCTURE
-  // token:{{lastToken}}
-  // params:{"report_id": "R1", "structure": {"pgFooter":{"id":"test_id","name":"нижний колонтитул","size":{"minimalHeight":15},"type":"pgFooter"}}↵ }
-  // streamreceiver:{{lastThread}}
-
+  console.log(queryParams)
   return async dispatch => {
-    // dispatch(setStructure(REP_GET_REPORT_STRUCTURE.structure));
-
     const response = await request({
       code: 'REP.SET_STRUCTURE',
       params: queryParams,
