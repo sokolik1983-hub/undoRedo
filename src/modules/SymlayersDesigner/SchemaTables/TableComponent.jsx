@@ -34,6 +34,7 @@ import TablePreview from './TablePreview';
 import { showToast } from '../../../data/actions/app';
 import { TOAST_TYPE } from '../../../Consts';
 import { setTablePreviewModal } from '../../../data/actions/universes';
+import { handleCheckMatch } from './helper';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -402,14 +403,8 @@ const TableComponent = ({
   const [synName, setSynName] = useState('');
 
   const handleCreateSynonym = () => {
-    const numberReg = /[0-9]+/g;
-    const specReg = /[!"@#';:/?$%^*()]+/g;
-
     if (
-      synName &&
-      synName.length > 3 &&
-      !synName[0].match(numberReg) &&
-      !synName.match(specReg)
+      handleCheckMatch(synName)
     ) {
       const newSynonym = lodash.cloneDeep(tableItem);
       newSynonym.parent_table = tableItem.parent_table
@@ -418,12 +413,11 @@ const TableComponent = ({
       newSynonym.object_name = synName;
       newSynonym.id = null;
       onCreateSynonym(newSynonym);
-      
     } else {
-      // eslint-disable-next-line no-alert
       dispatch(showToast(TOAST_TYPE.DANGER, 'Имя синонима введено некорректно!'))
     }
-  }
+  };
+
   const [isActiveSchemaEditorBlock, setActiveSchemaEditorBlock] = useState(
     true
   );

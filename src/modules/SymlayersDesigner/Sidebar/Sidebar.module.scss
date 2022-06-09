@@ -448,3 +448,42 @@
   margin-left: 6px;
   cursor: pointer;
 }
+
+.objectItemWrapper {
+  position: relative;
+
+  .objectDrdnWrapper {
+    z-index: 10;
+    width: fit-content;
+    display: flex;
+    position: absolute;
+    right: 0;
+    background: linear-gradient(
+      152.97deg,
+      rgba(47, 137, 187, 0.208) 0%,
+      rgba(21, 21, 21, 0) 100%
+    );
+    filter: drop-shadow(0px 4px 4px rgba(34, 82, 102, 0.25));
+    backdrop-filter: blur(7px);
+    border-radius: 7.5px;
+  }
+  
+  .dropdownItem {
+    padding: 0;
+  
+    &:hover {
+      background-color: transparent;
+    }
+  
+    &:hover svg {
+      fill: #0078bb;
+      transition: all 0.2s;
+    }
+  
+    & div {
+      margin: 0;
+      padding: 8px 6px;
+    }
+  }
+
+}

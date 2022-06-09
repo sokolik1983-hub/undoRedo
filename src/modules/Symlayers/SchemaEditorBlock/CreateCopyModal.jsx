@@ -5,6 +5,7 @@ import ModalPortal from '../../../common/components/ModalPortal/Modal';
 import TextInput from '../../../common/components/TextInput';
 import { BUTTON } from '../../../common/constants/common';
 import styles from './SchemaEditorBlock.module.scss';
+import { handleCheckMatch } from '../../SymlayersDesigner/SchemaTables/helper';
 
 const CreateCopyModal = ({ create, newName, oldName, setNewName, onCancel}) => {
 
@@ -16,7 +17,10 @@ const CreateCopyModal = ({ create, newName, oldName, setNewName, onCancel}) => {
   }, [inputRef.current]);
 
   const createTable = (old) => {
-    create(old); setNewName('')
+    create(old); setNewName(''); 
+    if (handleCheckMatch(newName)) {
+      onCancel();
+    }
   };
 
   return (
