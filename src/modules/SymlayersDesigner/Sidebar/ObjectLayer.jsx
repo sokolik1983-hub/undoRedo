@@ -46,6 +46,7 @@ const ObjectLayer = ({ field, active, onSelect }) => {
 
   const handleObjectClick = (action) => {
     onSelect(id);
+    console.log(id)
     switch (action) {
       case 'edit':
         handleEditModalOpen();

@@ -14,6 +14,7 @@ import { ReactComponent as UnknownItemIcon } from '../../../layout/assets/icons/
 import { ReactComponent as GaugeIcon } from '../../../layout/assets/queryPanel/gauge_icon.svg';
 import { ReactComponent as MeasIcon } from '../../../layout/assets/queryPanel/measurementIcon.svg';
 import { ReactComponent as AttrIcon } from '../../../layout/assets/queryPanel/attributeIcon.svg';
+import { ReactComponent as FolderIcon } from '../../../layout/assets/openFolderIcon.svg';
 import { setColoredValue, setShowDataList } from '../../../data/reducers/schemaDesigner';
 import TextInput from '../../../common/components/TextInput';
 import { ReactComponent as Magnifier } from '../../../layout/assets/magnifier.svg';
@@ -22,6 +23,7 @@ import styles from './Sidebar.module.scss';
 import { setCreateObjectModal } from '../../../data/actions/universes';
 import ObjectLayer from './ObjectLayer';
 import Tooltip from '../../../common/components/Tooltip';
+import IconButton from '../../../common/components/IconButton';
 
 function Sidebar({ onSelect }) {
 
@@ -39,6 +41,7 @@ function Sidebar({ onSelect }) {
   // eslint-disable-next-line no-unused-vars
   const [tables, setTables] = useState(selectedTables);
   const [selectObjectLayer, setSelectObjectLayer] = useState('');
+  const [filterObjectsMode, setFilterObjectMode] = useState(null);
 
   const connectorObjects = useSelector(
     state => state.app.schemaDesigner.connectorObjects
@@ -209,16 +212,44 @@ function Sidebar({ onSelect }) {
                   <Magnifier className={styles.magnifier} onClick={() => {dispatch(setShowDataList()); setShowingDataList(true)}} />
                 </div>
                 <div className={styles.objectsFilters}>
-                  <div>
-                    <GaugeIcon />
-                  </div>
-                  <div>
-                    <AttrIcon />
-                  </div>
-                  <div>
-                    <MeasIcon />
-                  </div>
+                  <IconButton
+                    active={filterObjectsMode === 'GAUGE'}
+                    size='small'
+                    icon={<GaugeIcon />}
+                    onClick={() => {
+                    if (filterObjectsMode === 'GAUGE') {
+                      setFilterObjectMode(null);
+                    } else
+                      setFilterObjectMode('GAUGE')
+                  }}
+                  />
+                  <IconButton
+                    active={filterObjectsMode === 'ATTR'}
+                    size='small'
+                    icon={<AttrIcon />}
+                    onClick={() => {
+                    if (filterObjectsMode === 'ATTR') {
+                      setFilterObjectMode(null);
+                    } else
+                    setFilterObjectMode('ATTR')
+                  }}
+                  />
+                  <IconButton
+                    active={filterObjectsMode === 'MEAS'}
+                    size='small'
+                    icon={<MeasIcon />}
+                    onClick={() => {
+                    if (filterObjectsMode === 'MEAS') {
+                      setFilterObjectMode(null);
+                    } else
+                    setFilterObjectMode('MEAS')
+                  }}
+                  />
                 </div>
+              </div>
+              <div className={styles.owner}>
+                <FolderIcon />
+                <span>Новый семантический слой</span>
               </div>
               <div className={styles.contentData}>
                 { showingDataList ? dataList.map(i =>
@@ -242,9 +273,17 @@ function Sidebar({ onSelect }) {
                 :
                 (
                   <div className={styles.objectsData}>
-                    {objectsLayers.map(object => (
-                      <ObjectLayer field={object} active={selectObjectLayer === object.id} onSelect={handleSelectObjectLayer} />
-                    ))}
+                    {objectsLayers.map(object => {
+                      if (filterObjectsMode === 'GAUGE' && object.objectType === 'Показатель')
+                        return <ObjectLayer active={selectObjectLayer === object.id} onSelect={handleSelectObjectLayer} field={object} />
+                      if (filterObjectsMode === 'MEAS' && object.objectType === 'Измерение')
+                        return <ObjectLayer active={selectObjectLayer === object.id} onSelect={handleSelectObjectLayer} field={object} />
+                      if (filterObjectsMode === 'ATTR' && object.objectType === 'Атрибут')
+                        return <ObjectLayer active={selectObjectLayer === object.id} onSelect={handleSelectObjectLayer} field={object} />
+                      if (!filterObjectsMode) 
+                        return <ObjectLayer active={selectObjectLayer === object.id} onSelect={handleSelectObjectLayer} field={object} />
+                      return null;
+                    })}
                   </div>
                 )}
               </div>
