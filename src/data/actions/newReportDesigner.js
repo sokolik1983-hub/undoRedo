@@ -52,7 +52,6 @@ export const getReportStructure = queryParams => {
 };
 
 export const setReportStructure = queryParams => {
-  console.log(queryParams)
   return async dispatch => {
     const response = await request({
       code: 'REP.SET_STRUCTURE',

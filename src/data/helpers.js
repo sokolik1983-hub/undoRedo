@@ -198,7 +198,7 @@ export const deepObjectSearch = ({ target, key, value, parent = null }) => {
     if (objectKey !== key) continue;
 
     if(objectKey === key && target[objectKey] === value) {
-      result.push({target, parent})
+      result.push({target, parent, targetIndex: i})
     }
   }
   return result;

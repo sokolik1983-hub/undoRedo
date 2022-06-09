@@ -98,73 +98,12 @@ const Cell = ({
       payload: {type, dataType, formula, parsedFormula, variable_id:id }
     });
 
-    // const element = {
-    //   id: Date.now(),
-    //   row: 1,
-    //   col: 4,
-    //   size: {},
-    //   style: {},
-    //   expression: {}
-    // };
-
-    // const activeNode =
-    //   reportDesigner.reportsData.present.activeNodes &&
-    //   reportDesigner.reportsData.present.activeNodes[0];
-
-    // const currentNode = find(
-    //   newStructureReport?.structure?.pgBody?.content?.children,
-    //   item => item.id === activeNode?.id
-    // );
-    // const headerZone = currentNode?.content?.layout?.zones?.filter(
-    //   item => item.vType === 'header'
-    // );
-    // const bodyZone = currentNode?.content?.layout?.zones?.filter(
-    //   item => item.vType === 'body'
-    // );
-
-    // if (headerZone && headerZone.length > 0) {
-    //   headerZone[0].cells = [
-    //     ...headerZone[0].cells,
-    //     {
-    //       ...element,
-    //       expression: {
-    //         dataType: selectedEl.dataType,
-    //         formula: selectedEl.name
-    //       }
-    //     }
-    //   ];
-    // }
-    // if (bodyZone && bodyZone.length > 0) {
-    //   bodyZone[0].cells = [
-    //     ...bodyZone[0].cells,
-    //     {
-    //       ...element,
-    //       expression: {
-    //         dataType: selectedEl.dataType,
-    //         formula: selectedEl.formula,
-    //         parsedFormula: selectedEl.parsedFormula,
-    //         type: selectedEl.type,
-    //         variable_id: selectedEl.id
-    //       }
-    //     }
-    //   ];
-    // }
-
     dispatch(
       setReportStructure({
         report_id: 'R1',
         structure: modified.structure
       })
     );
-
-    // dispatch(
-    //   addTableColumn({
-    //     object: { ...element, expression: { variable_id: selectedEl.id,  type: selectedEl.type, formula: selectedEl.formula,
-    //       parsedFormula: selectedEl.parsedFormula,} },
-    //     id,
-    //     position
-    //   })
-    // );
   };
 
   const getCellStyle = () => {
@@ -176,16 +115,13 @@ const Cell = ({
     if (structureItem?.expression?.type === 'Const') {
       return structureItem?.expression?.formula;
     }
-
-    // console.log(response, 'response');
-
     return '-';
   };
 
   const getCellValue =
     displayMode === 'Structure'
       ? `${structureItem?.expression?.formula || ''}`
-      : getValueFromDS(structureItem);
+      : getValueFromDS();
 
   return (
     <div

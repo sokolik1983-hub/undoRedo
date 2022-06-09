@@ -1,19 +1,23 @@
 /* eslint-disable no-unused-vars */
 import { deepObjectSearch } from '../../../../data/helpers';
+import { generateId } from '../../helpers';
 
-const swapId = array => {
-  const letterKey = array[array.length - 2];
+const swapId = str => {
+  const splittedId = String(str.id).split('.');
+  const letterKey = splittedId[splittedId.length - 2];
   if (letterKey === 'H' || letterKey === 'B') {
-    array.splice(array.length - 2, 1, letterKey === 'H' ? 'B' : 'H')
-    return array.join('.');
+    splittedId.splice(splittedId.length - 2, 1, letterKey === 'H' ? 'B' : 'H');
+    return splittedId.join('.');
   }
   return null;
 };
 
+const makeCellObject = ({ parent, expression }) => ({
+  id: `${parent.id}.${generateId()}`,
+  expression
+});
+
 export const handleReplace = ({ structure, target, payload, once = false }) => {
-
-
-
   const toReplace = deepObjectSearch({
     target: structure,
     key: 'id',
@@ -28,9 +32,7 @@ export const handleReplace = ({ structure, target, payload, once = false }) => {
     return structure;
   }
 
-  const splittedId = String(target.id).split('.');
-
-  const swappedId = swapId(splittedId);
+  const swappedId = swapId(target.id);
 
   if (swappedId) {
     const updatedStructure = handleReplace({
@@ -46,7 +48,37 @@ export const handleReplace = ({ structure, target, payload, once = false }) => {
 };
 
 export const handleAddBefore = ({ structure, target, payload }) => {
-  return structure;
+  const dropTarget = deepObjectSearch({
+    target: structure,
+    key: 'id',
+    value: target.id
+  });
+
+  if (!dropTarget || !dropTarget[0]) {
+    return structure;
+  }
+
+  const { parent, targetIndex } = dropTarget[0];
+/*eslint-disable */
+
+  if (targetIndex === 0) {
+    return structure;
+  } else {
+    parent.splice(
+      targetIndex - 1,
+      0,
+      makeCellObject({ parent, expression: payload })
+    );
+    const swappedTargetId = swapId(target.id);
+    const updatedStructure = handleAddBefore({
+      structure,
+      target: { id: swappedTargetId },
+      payload
+    });
+
+    return updatedStructure;
+  }
+
 };
 
 export const handleAddAfter = ({ structure, target, payload }) => {
