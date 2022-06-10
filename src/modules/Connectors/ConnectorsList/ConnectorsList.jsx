@@ -159,8 +159,7 @@ const ConnectorsList = () => {
 
   const getBreadcrumbs = () => {
     return foldersNameHistory
-      // .map(i => i)
-      .map((i, idx) => (idx ? i.folder_name : ''))
+      .map(i => i)
       .slice(0, currentFolderIndex + 1)
       .join(` / `);
   }
