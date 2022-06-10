@@ -1,18 +1,18 @@
-import {ReactComponent as Eight} from '../../../layout/assets/reportDesigner/reportPageIcons/8.svg';
-import {ReactComponent as AddTextIcon} from '../../../layout/assets/reportDesigner/reportPageIcons/cell.svg';
-import {ReactComponent as Filters} from '../../../layout/assets/reportDesigner/reportPageIcons/filters.svg';
+import Eight from '../../../layout/assets/reportDesigner/reportPageIcons/8.svg';
+import AddTextIcon from '../../../layout/assets/reportDesigner/reportPageIcons/cell.svg';
+import Filters from '../../../layout/assets/reportDesigner/reportPageIcons/filters.svg';
 // import { ReactComponent as ChangeSourceIcon } from '../../../layout/assets/reportDesigner/reportPageIcons/сhangeSourceIcon.svg';
 // import { ReactComponent as ClearDataIcon } from '../../../layout/assets/reportDesigner/reportPageIcons/сlearDataIcon.svg';
-import {ReactComponent as Formula} from '../../../layout/assets/reportDesigner/reportPageIcons/formula.svg';
-import {ReactComponent as AddGraphIcon} from '../../../layout/assets/reportDesigner/reportPageIcons/graph.svg';
-import {ReactComponent as QueryPanelIcon} from '../../../layout/assets/reportDesigner/reportPageIcons/queryPanelIcon.svg';
-import {ReactComponent as Redo} from '../../../layout/assets/reportDesigner/reportPageIcons/redo.svg';
-import {ReactComponent as Dots} from '../../../layout/assets/reportDesigner/reportPageIcons/reportDots.svg';
-import {ReactComponent as Save} from '../../../layout/assets/reportDesigner/reportPageIcons/save.svg';
-import {ReactComponent as Zoom} from '../../../layout/assets/reportDesigner/reportPageIcons/scale.svg';
-import {ReactComponent as AddTableIcon} from '../../../layout/assets/reportDesigner/reportPageIcons/table.svg';
-import {ReactComponent as Undo} from '../../../layout/assets/reportDesigner/reportPageIcons/undo.svg';
-import {ReactComponent as UpdateIcon} from '../../../layout/assets/reportDesigner/reportPageIcons/updateIcon.svg';
+import Formula from '../../../layout/assets/reportDesigner/reportPageIcons/formula.svg';
+import AddGraphIcon from '../../../layout/assets/reportDesigner/reportPageIcons/graph.svg';
+import QueryPanelIcon from '../../../layout/assets/reportDesigner/reportPageIcons/queryPanelIcon.svg';
+import Redo from '../../../layout/assets/reportDesigner/reportPageIcons/redo.svg';
+import Dots from '../../../layout/assets/reportDesigner/reportPageIcons/reportDots.svg';
+import Save from '../../../layout/assets/reportDesigner/reportPageIcons/save.svg';
+import Zoom from '../../../layout/assets/reportDesigner/reportPageIcons/scale.svg';
+import AddTableIcon from '../../../layout/assets/reportDesigner/reportPageIcons/table.svg';
+import Undo from '../../../layout/assets/reportDesigner/reportPageIcons/undo.svg';
+import UpdateIcon from '../../../layout/assets/reportDesigner/reportPageIcons/updateIcon.svg';
 
 export const REPORT_PAGE_ACTIONS = [
     {

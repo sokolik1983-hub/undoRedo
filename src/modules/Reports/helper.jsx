@@ -1,7 +1,5 @@
 import BinIcon from '../../layout/assets/folderItemBin.svg';
-import CreateCopyIcon from '../../layout/assets/folderItemCreateCopy.svg';
 import EditIcon from '../../layout/assets/folderItemEdit.svg';
-import SettingsIcon from '../../layout/assets/folderItemSettings.svg';
 
 export const sortFoldersAndItems = (folderChildren) => {
     if (!folderChildren) return null;
@@ -38,16 +36,6 @@ export const FOLDER_ITEM_DROPDOWN_ACTIONS = [
         icon: <BinIcon />,
         action: 'delete',
     },
-    {
-        title: 'Создать копию',
-        icon: <CreateCopyIcon />,
-        action: 'create copy',
-    },
-    {
-        title: 'Настройки',
-        icon: <SettingsIcon />,
-        action: 'settings',
-    },
 ];
 
 export const FOLDER_DROPDOWN_ACTIONS = [
@@ -61,11 +49,6 @@ export const FOLDER_DROPDOWN_ACTIONS = [
         icon: <BinIcon />,
         action: 'delete',
     },
-    {
-        title: 'Создать копию',
-        icon: <CreateCopyIcon />,
-        action: 'create copy',
-    },
 ];
 
-export const connectorsTableHeader = [{name: 'Имя'}, {name: 'Соединение'}];
+export const connectorsTableHeader = [{name: 'Имя'}];

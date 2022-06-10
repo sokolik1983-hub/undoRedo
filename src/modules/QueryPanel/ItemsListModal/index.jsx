@@ -8,10 +8,10 @@ import IconButton from '../../../common/components/IconButton';
 import Modal from '../../../common/components/Modal';
 import TextInput from '../../../common/components/TextInput';
 import {BUTTON} from '../../../common/constants/common';
-import {ReactComponent as Dots} from '../../../layout/assets/queryPanel/dotsInCorner.svg';
-import {ReactComponent as Gear} from '../../../layout/assets/queryPanel/gearBold.svg';
-import {ReactComponent as MeasurementIcon} from '../../../layout/assets/queryPanel/measurementIcon.svg';
-import {ReactComponent as Reload} from '../../../layout/assets/queryPanel/reload.svg';
+import Dots from '../../../layout/assets/queryPanel/dotsInCorner.svg';
+import Gear from '../../../layout/assets/queryPanel/gearBold.svg';
+import MeasurementIcon from '../../../layout/assets/queryPanel/measurementIcon.svg';
+import Reload from '../../../layout/assets/queryPanel/reload.svg';
 import styles from './ItemsListModal.module.scss';
 
 const data = [
