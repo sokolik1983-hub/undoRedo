@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
 
 import FloatingButton from '../../common/components/FloatingButton';
 import {PAGE} from '../../common/constants/pages';
@@ -23,13 +24,14 @@ const FAVORITES = [
 
 function HomePage() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(setCurrentPage(PAGE.DASHBOARD));
     }, []);
 
     const handleClick = () => {
-        window.location.pathname = '/report/create/1';
+        navigate('/report/create/1');
     };
 
     return (

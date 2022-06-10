@@ -102,7 +102,9 @@ const ConnectorsList = ({audit, auditHeaders}) => {
         );
     };
 
-    const onSearch = async () => {};
+    const onSearch = async () => {
+        // something
+    };
 
     const handleEditClick = (id) => {
         setEditListItemId(id);

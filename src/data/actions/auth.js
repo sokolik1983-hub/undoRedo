@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import {delay} from 'lodash';
+import {useNavigate} from 'react-router-dom';
 
 import {REDIRECT_LINKS} from '../../common/constants/common';
 import {request, requestWithoutResponse} from '../helpers';
@@ -41,6 +42,7 @@ export const loginUser = (queryParams) => {
 };
 
 export const logoutUser = () => {
+    const navigate = useNavigate();
     return async (dispatch) => {
         await requestWithoutResponse({
             code: 'REP.REBOOT',
@@ -61,7 +63,7 @@ export const logoutUser = () => {
             localStorage.removeItem('isAuth');
             localStorage.removeItem('token');
             dispatch(logout());
-            window.location.pathname = REDIRECT_LINKS.LOGIN_PAGE;
+            navigate(REDIRECT_LINKS.LOGIN_PAGE);
         }, 3000);
     };
 };

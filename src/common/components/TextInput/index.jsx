@@ -1,6 +1,7 @@
-import { forwardRef } from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import {forwardRef} from 'react';
+
 import styles from './TextInput.module.scss';
 
 /**
@@ -16,78 +17,80 @@ import styles from './TextInput.module.scss';
  */
 
 const TextInput = forwardRef(
-  (
-    {
-      id,
-      className,
-      wrapperClassName,
-      labelClassName,
-      label,
-      error,
-      onChange,
-      value,
-      fullWidth,
-      ...props
+    (
+        {
+            id,
+            className,
+            wrapperClassName,
+            labelClassName,
+            label,
+            error,
+            onChange,
+            value,
+            fullWidth,
+            ...props
+        },
+        ref,
+    ) => {
+        const classes = clsx(
+            styles.input,
+            className,
+            {[styles.error]: error},
+            {[styles.fullWidth]: className ? false : fullWidth},
+        );
+
+        const wrapperClasses = clsx(styles.inputWrapper, wrapperClassName);
+
+        const labelClasses = clsx(styles.inputLabel, labelClassName);
+
+        return (
+            <div className={wrapperClasses}>
+                {label && (
+                    <label className={labelClasses} htmlFor={id}>
+                        {label}
+                    </label>
+                )}
+                {props.required && (
+                    <span className={styles.inputRequired}>Required</span>
+                )}
+                <input
+                    ref={ref}
+                    onChange={onChange}
+                    name={id}
+                    className={classes}
+                    value={value}
+                    {...props}
+                />
+                {error && <span className={styles.textError}>{error}</span>}
+            </div>
+        );
     },
-    ref
-  ) => {
-    const classes = clsx(
-      styles.input,
-      className,
-      { [styles.error]: error },
-      { [styles.fullWidth]: className ? false : fullWidth }
-    );
-
-    const wrapperClasses = clsx(styles.inputWrapper, wrapperClassName);
-
-    const labelClasses = clsx(styles.inputLabel, labelClassName);
-
-    return (
-      <div className={wrapperClasses}>
-        {label && (
-          <label className={labelClasses} htmlFor={id}>
-            {label}
-          </label>
-        )}
-        {props.required && (
-          <span className={styles.inputRequired}>Required</span>
-        )}
-        <input
-          ref={ref}
-          onChange={onChange}
-          name={id}
-          className={classes}
-          value={value}
-          {...props}
-        />
-        {error && <span className={styles.textError}>{error}</span>}
-      </div>
-    );
-  }
 );
 
 export default TextInput;
 
 TextInput.propTypes = {
-  id: PropTypes.string,
-  className: PropTypes.string,
-  wrapperClassName: PropTypes.string,
-  label: PropTypes.string,
-  labelClassName: PropTypes.string,
-  error: PropTypes.string,
-  onChange: PropTypes.func,
-  value: PropTypes.string,
-  fullWidth: PropTypes.bool,
-  required: PropTypes.bool
+    id: PropTypes.string,
+    className: PropTypes.string,
+    wrapperClassName: PropTypes.string,
+    label: PropTypes.string,
+    labelClassName: PropTypes.string,
+    error: PropTypes.string,
+    onChange: PropTypes.func,
+    value: PropTypes.string,
+    fullWidth: PropTypes.bool,
+    required: PropTypes.bool,
 };
 
 TextInput.defaultProps = {
-  className: '',
-  wrapperClassName: '',
-  labelClassName: '',
-  label: '',
-  error: '',
-  onChange: () => {},
-  value: '',
-  fullWidth: false
+    className: '',
+    wrapperClassName: '',
+    labelClassName: '',
+    label: '',
+    error: '',
+    onChange: () => {
+        // something
+    },
+    value: '',
+    fullWidth: false,
 };

@@ -155,7 +155,9 @@ const RecycleBinList = () => {
         );
     };
 
-    const onSearch = async () => {};
+    const onSearch = async () => {
+        // something
+    };
 
     const handleEditClick = (id) => {
         setEditListItemId(id);

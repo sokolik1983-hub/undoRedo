@@ -322,7 +322,7 @@ function ReportDesigner() {
                                     <div
                                         key={report.id}
                                         className={clsx(styles.tab, {
-                                            [styles.tab_active]: isActive,
+                                            [styles.tabActive]: isActive,
                                         })}
                                         onClick={handleSelectReport(report.id)}
                                     >

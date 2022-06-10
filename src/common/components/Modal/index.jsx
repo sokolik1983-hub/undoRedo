@@ -131,7 +131,9 @@ Modal.defaultProps = {
     content: null,
     footer: null,
     withScroll: true,
-    onClose: () => {},
+    onClose: () => {
+        // something
+    },
     modalClassName: '',
     titleClassName: '',
     dialogClassName: '',

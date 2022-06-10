@@ -17,7 +17,7 @@ export const svgReactComponentRule = {
             loader: '@svgr/webpack',
             options: {
                 babel: false,
-                icon: true,
+                icon: false,
             },
         },
     ],

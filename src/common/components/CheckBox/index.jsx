@@ -88,5 +88,7 @@ CheckBox.defaultProps = {
     checked: false,
     disabled: false,
     blueBGColor: '',
-    onChange: () => {},
+    onChange: () => {
+        // something
+    },
 };

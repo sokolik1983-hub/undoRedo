@@ -126,7 +126,9 @@ const Reports = () => {
         );
     };
 
-    const onSearch = async () => {};
+    const onSearch = async () => {
+        // something
+    };
 
     const handleEditClick = (id) => {
         setEditListItemId(id);

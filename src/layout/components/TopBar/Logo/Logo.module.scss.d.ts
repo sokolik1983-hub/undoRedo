@@ -8,7 +8,7 @@ declare namespace LogoModuleScssNamespace {
         pageLogo: string;
         pageTitle: string;
         root: string;
-        rootText: string;
+        roottext: string;
     }
 }
 
