@@ -16,14 +16,18 @@ const ObjectsHeader = ({clearObjectsDesk}) => {
                     <IconButton
                         className={styles.iconBtn}
                         icon={<Filter />}
-                        onClick={() => {}}
+                        onClick={() => {
+                            // something
+                        }}
                     />
                 </Tooltip>
                 <Tooltip placement="topLeft" overlay="Списки">
                     <IconButton
                         className={styles.iconBtn}
                         icon={<Lists />}
-                        onClick={() => {}}
+                        onClick={() => {
+                            // something
+                        }}
                     />
                 </Tooltip>
                 <Tooltip placement="topLeft" overlay="Очистить всё">

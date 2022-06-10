@@ -1,6 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+
 import styles from './Radio.module.scss';
 
 /**
@@ -14,67 +15,74 @@ import styles from './Radio.module.scss';
  */
 
 const Radio = ({
-  id,
-  name,
-  label,
-  disabled,
-  onChange,
-  wrapperClass,
-  labelClass,
-  value,
-  checked,
-  ...props
+    id,
+    name,
+    label,
+    disabled,
+    onChange,
+    wrapperClass,
+    labelClass,
+    value,
+    checked,
+    ...props
 }) => {
-  const wrapperClasses = clsx(styles.wrapper, wrapperClass);
-  const labelClasses = clsx(styles.label, labelClass);
+    const wrapperClasses = clsx(styles.wrapper, wrapperClass);
+    const labelClasses = clsx(styles.label, labelClass);
 
-  const handleChange = event => onChange(event);
+    const handleChange = (event) => onChange(event);
 
-  const changeCb = !disabled && !checked ? handleChange : () => {};
+    const changeCb =
+        !disabled && !checked
+            ? handleChange
+            : () => {
+                  // something
+              };
 
-  return (
-    <div className={wrapperClasses}>
-      <label htmlFor={id} className={labelClasses}>
-        <input
-          id={id}
-          value={value}
-          name={name}
-          type="radio"
-          checked={checked}
-          onChange={changeCb}
-          disabled={disabled}
-          className={styles.input}
-          {...props}
-        />
-        <span className={styles.mark} />
-        {label}
-      </label>
-    </div>
-  );
+    return (
+        <div className={wrapperClasses}>
+            <label htmlFor={id} className={labelClasses}>
+                <input
+                    id={id}
+                    value={value}
+                    name={name}
+                    type="radio"
+                    checked={checked}
+                    onChange={changeCb}
+                    disabled={disabled}
+                    className={styles.input}
+                    {...props}
+                />
+                <span className={styles.mark} />
+                {label}
+            </label>
+        </div>
+    );
 };
 
 export default Radio;
 
 Radio.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  label: PropTypes.string,
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func,
-  wrapperClass: PropTypes.string,
-  labelClass: PropTypes.string,
-  name: PropTypes.string,
-  value: PropTypes.string,
-  checked: PropTypes.bool
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    label: PropTypes.string,
+    disabled: PropTypes.bool,
+    onChange: PropTypes.func,
+    wrapperClass: PropTypes.string,
+    labelClass: PropTypes.string,
+    name: PropTypes.string,
+    value: PropTypes.string,
+    checked: PropTypes.bool,
 };
 
 Radio.defaultProps = {
-  id: '',
-  name: '',
-  label: '',
-  wrapperClass: '',
-  labelClass: '',
-  value: '',
-  checked: false,
-  disabled: false,
-  onChange: () => {}
+    id: '',
+    name: '',
+    label: '',
+    wrapperClass: '',
+    labelClass: '',
+    value: '',
+    checked: false,
+    disabled: false,
+    onChange: () => {
+        // something
+    },
 };

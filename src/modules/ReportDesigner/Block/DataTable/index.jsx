@@ -162,7 +162,7 @@ function DataTable({
                                 key={col.object.id}
                                 onClick={onSelectColumnHead(col.object.id)}
                                 className={clsx({
-                                    [styles['active_col']]: getSelectedState(
+                                    [styles['activeCol']]: getSelectedState(
                                         col.object.id,
                                     ),
                                 })}
@@ -190,7 +190,7 @@ function DataTable({
                                         // eslint-disable-next-line react/no-array-index-key
                                         key={`${item[fieldIndex]}.${rowIndex}`}
                                         className={clsx({
-                                            [styles['active_col']]:
+                                            [styles['activeCol']]:
                                                 getSelectedState(col.object.id),
                                         })}
                                         style={{...col.cells.styles}}
@@ -215,7 +215,7 @@ function DataTable({
                             key={col.object.id}
                             onClick={onSelectColumnHead(col.object.id)}
                             className={clsx({
-                                [styles['active_col']]: getSelectedState(
+                                [styles['activeCol']]: getSelectedState(
                                     col.object.id,
                                 ),
                             })}
@@ -235,7 +235,7 @@ function DataTable({
                                         // eslint-disable-next-line react/no-array-index-key
                                         key={`${item[fieldIndex]}.${rowIndex}`}
                                         className={clsx({
-                                            [styles['active_col']]:
+                                            [styles['activeCol']]:
                                                 getSelectedState(col.object.id),
                                         })}
                                         style={{...col.cells.styles}}
@@ -333,7 +333,7 @@ function DataTable({
 
     return (
         <div
-            className={styles['table-container']}
+            className={styles['tableContainer']}
             ref={refContent}
             // onDrop={handleDropObject}
             // onDragOver={allowDrop}

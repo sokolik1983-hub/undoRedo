@@ -1,6 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+
 import styles from './IconButton.module.scss';
 
 /**
@@ -15,64 +16,69 @@ import styles from './IconButton.module.scss';
  */
 
 const IconButton = ({
-  children,
-  onClick,
-  size,
-  color,
-  disabled,
-  className,
-  active,
-  icon,
-  ...props
+    children,
+    onClick,
+    size,
+    color,
+    disabled,
+    className,
+    active,
+    icon,
+    ...props
 }) => {
-  const classes = clsx(styles.iconButton, className, {[styles.active]: active}, [
-    styles[size],
-  ]);
+    const classes = clsx(
+        styles.iconButton,
+        className,
+        {[styles.active]: active},
+        [styles[size]],
+    );
 
-  const onClickAction = event => {
-    if (disabled) {
-      event.preventDefault();
-    } else {
-      onClick(event);
-    }
-  };
+    const onClickAction = (event) => {
+        if (disabled) {
+            event.preventDefault();
+        } else {
+            onClick(event);
+        }
+    };
 
-  const Tag = props.href ? 'a' : 'button';
+    const Tag = props.href ? 'a' : 'button';
 
-  return (
-    <Tag
-      {...props}
-      disabled={disabled}
-      type="button"
-      className={classes}
-      onClick={onClickAction}
-    >
-      <span className={styles.icon} color={color} size={size}>
-        {icon}
-      </span>
-    </Tag>
-  );
+    return (
+        <Tag
+            {...props}
+            disabled={disabled}
+            type="button"
+            className={classes}
+            onClick={onClickAction}
+        >
+            <span className={styles.icon} color={color} size={size}>
+                {icon}
+            </span>
+        </Tag>
+    );
 };
 
 export default IconButton;
 
 IconButton.propTypes = {
-  children: PropTypes.node,
-  onClick: PropTypes.func,
-  size: PropTypes.string,
-  color: PropTypes.string,
-  disabled: PropTypes.bool,
-  active: PropTypes.bool,
-  className: PropTypes.string,
-  href: PropTypes.string,
-  icon: PropTypes.node
+    children: PropTypes.node,
+    onClick: PropTypes.func,
+    size: PropTypes.string,
+    color: PropTypes.string,
+    disabled: PropTypes.bool,
+    active: PropTypes.bool,
+    className: PropTypes.string,
+    href: PropTypes.string,
+    icon: PropTypes.node,
 };
 
 IconButton.defaultProps = {
-  children: null,
-  onClick: () => {},
-  size: 'medium',
-  color: '',
-  disabled: false,
-  icon: null
+    children: null,
+    onClick: () => {
+        // something
+    },
+    size: 'medium',
+    color: '',
+    disabled: false,
+    icon: null,
 };

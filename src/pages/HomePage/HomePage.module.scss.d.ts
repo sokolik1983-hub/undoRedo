@@ -5,11 +5,7 @@ declare namespace HomePageModuleScssNamespace {
         apps: string;
         appsBg: string;
         favoritesBg: string;
-        newServerContainer: string;
-        newServerManual: string;
-        newServerResponse: string;
         recentBg: string;
-        requestWrapper: string;
         root: string;
         row: string;
         rowTitle: string;

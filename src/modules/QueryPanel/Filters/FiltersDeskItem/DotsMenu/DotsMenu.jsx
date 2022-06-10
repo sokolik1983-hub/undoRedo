@@ -16,7 +16,12 @@ const DotsMenu = () => {
         useState(false);
 
     const items = [
-        {text: 'постоянная', action: () => {}},
+        {
+            text: 'постоянная',
+            action: () => {
+                // something
+            },
+        },
         {text: 'значение из списка', action: () => setSemanticListOpened(true)},
         {
             text: 'подсказка',
@@ -30,12 +35,16 @@ const DotsMenu = () => {
         {
             text: 'объект данного запроса',
             disabled: true,
-            action: () => {},
+            action: () => {
+                // something
+            },
         },
         {
             text: 'результат другого запроса',
             disabled: true,
-            action: () => {},
+            action: () => {
+                // something
+            },
         },
     ];
 
