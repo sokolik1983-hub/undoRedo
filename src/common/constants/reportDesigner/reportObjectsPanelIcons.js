@@ -56,3 +56,4 @@ export const REPORT_OBJECTS_PANEL_ICONS = [
   }
 ];
 
+

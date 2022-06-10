@@ -14,7 +14,6 @@ import { ReactComponent as AddTableIcon } from '../../../layout/assets/reportDes
 import { ReactComponent as AddGraphIcon } from '../../../layout/assets/reportDesigner/reportPageIcons/graph.svg';
 import { ReactComponent as AddTextIcon } from '../../../layout/assets/reportDesigner/reportPageIcons/cell.svg';
 
-// eslint-disable-next-line import/prefer-default-export
 export const REPORT_PAGE_ACTIONS = [
 
   {
@@ -40,7 +39,7 @@ export const REPORT_PAGE_ACTIONS = [
     icon: <Redo />,
     enable: true
   },
-  { 
+  {
     type: 'divider',
     icon: <Dots />,
     enable: true
@@ -68,7 +67,7 @@ export const REPORT_PAGE_ACTIONS = [
   //   icon: <ClearDataIcon />,
   //   enable: true
   // },
-  { 
+  {
     type: 'divider',
     icon: <Dots />,
     enable: true
@@ -91,7 +90,7 @@ export const REPORT_PAGE_ACTIONS = [
     icon: <AddTextIcon />,
     enable: true
   },
-  { 
+  {
     type: 'divider',
     icon: <Dots />,
     enable: true
@@ -131,3 +130,4 @@ export const REPORT_PAGE_ACTIONS = [
     enable: true
   }
 ];
+

@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { createContext, useState, Children, useContext } from 'react';
