@@ -24,7 +24,7 @@ import ModalConfirm from '../../common/components/Modal/ModalConfirm';
 import { getCondition } from './helper';
 import { setSymanticLayerData } from '../../data/reducers/data';
 import { showToast } from '../../data/actions/app';
-import { TOAST_TYPE } from '../../Consts';
+import { TOAST_TYPE } from '../../common/constants/common';
 
 
 const QueryPanel = ({ visible }) => {
@@ -111,7 +111,7 @@ const QueryPanel = ({ visible }) => {
   useEffect(() => {
     const resultConditions = filters ? getCondition([filters]) : {};
     if (resultConditions === 'Empty Value') {
-     dispatch(showToast(TOAST_TYPE.DANGER, 'Пустые фильтры'))
+     dispatch(showToast(TOAST_TYPE.SUCCESS, 'Пустые фильтры'))
      setError(' ')
     } else if (isSqlPopupOpened) {
       setError('');
