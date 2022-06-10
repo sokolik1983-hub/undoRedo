@@ -145,17 +145,17 @@ const ConnectorsList = () => {
     dispatch(createSampleUniverse({}));
     dispatch(getObjectFromConnector({id: selectedConnectorId}));
   }
-  
+
   const closeCreateUnvModalHandler = () => {
     setIsCreateUnvModalOpened(false);
   }
-  
+
   useEffect(() => {
     if (connectors) {
       setSortedItems(sortFoldersAndItems(connectors.list));
     }
   }, [connectors]);
-  
+
   useEffect(() => {
     if (currentFolderIndex === 0 && connectorRootFolderId) {
       goToRootFolder();
@@ -198,31 +198,31 @@ const ConnectorsList = () => {
   const moveToRootFolder = () => {
     setCurrentFolderIndex(0);
   };
-  
+
   const moveToPrevFolder = () => {
     setCurrentFolderIndex(prev => (prev === 0 ? 0 : prev - 1));
   };
-  
+
   const moveToNextFolder = () => {
     setCurrentFolderIndex(prev =>
       prev === foldersIdHistory.length ? prev : prev + 1
       );
     };
-    
+
     const onSearch = async () => {};
-    
+
     const handleEditClick = id => {
       setEditListItemId(id);
   };
-  
+
   const editConnectorModalHandler = id => {
     dispatch(getConnector({'id' : id}));
   };
-  
+
   const closeConnectorModalHandler = () => {
     dispatch(closeEditConnectorModal());
   };
-  
+
   const handleItemClick = (id, action) => {
     switch (action) {
       case 'edit':
@@ -238,7 +238,7 @@ const ConnectorsList = () => {
       case 'connection check':
         break;
       case 'create universe':
-        setIsCreateUnvModalOpened(true); 
+        setIsCreateUnvModalOpened(true);
         setSelectedConnectorId(id);
         dispatch(setConnectorId(id));
         break;
@@ -246,7 +246,7 @@ const ConnectorsList = () => {
       console.log(action);
       }
     };
-    
+
     const getUniverseDropdownItems = id => (
       <div className={styles.itemsWrapper}>
         {FOLDER_ITEM_DROPDOWN_ACTIONS.map(item => (
@@ -371,13 +371,13 @@ const ConnectorsList = () => {
       ) : (
         <Preloader />
       )}
-      <SemanticLayerModal 
-        isVisible={isCreateUnvModalVisible} 
-        onSave={createUnvHandler} 
-        onClose={closeCreateUnvModalHandler} 
+      <SemanticLayerModal
+        isVisible={isCreateUnvModalVisible}
+        onSave={createUnvHandler}
+        onClose={closeCreateUnvModalHandler}
         connectorName={selectedConnectorName}
         connectorId={selectedConnectorId}
-      /> 
+      />
       <EditConnectorModal visible={isEditConnModalVisible} onClose={closeConnectorModalHandler} />
     </div>
   );

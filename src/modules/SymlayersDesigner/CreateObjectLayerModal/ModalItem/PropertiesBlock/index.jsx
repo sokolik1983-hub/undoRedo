@@ -4,18 +4,18 @@ import {useEffect, useState} from 'react';
 
 import Dropdown from '../../../../../common/components/Dropdown';
 import DropdownItem from '../../../../../common/components/Dropdown/DropdownItem';
-import {ReactComponent as AverageIcon} from '../../../../../layout/assets/icons/averageIcon.svg';
-import {ReactComponent as CounterIcon} from '../../../../../layout/assets/icons/counterIcon.svg';
-import {ReactComponent as DateIcon} from '../../../../../layout/assets/icons/dateIcon.svg';
-import {ReactComponent as NullIcon} from '../../../../../layout/assets/icons/nullIcon.svg';
-import {ReactComponent as NumberIcon} from '../../../../../layout/assets/icons/numberIcon.svg';
-import {ReactComponent as SumIcon} from '../../../../../layout/assets/icons/sumIcon.svg';
-import {ReactComponent as SymbolIcon} from '../../../../../layout/assets/icons/symbolIcon.svg';
-import {ReactComponent as TextIcon} from '../../../../../layout/assets/icons/textIcon.svg';
-import {ReactComponent as Arrow} from '../../../../../layout/assets/queryPanel/arrowThin.svg';
-import {ReactComponent as AttributeIcon} from '../../../../../layout/assets/queryPanel/attributeIcon.svg';
-import {ReactComponent as GaugeIcon} from '../../../../../layout/assets/queryPanel/gauge_icon.svg';
-import {ReactComponent as MeasureIcon} from '../../../../../layout/assets/queryPanel/measurementIcon.svg';
+import AverageIcon from '../../../../../layout/assets/icons/averageIcon.svg';
+import CounterIcon from '../../../../../layout/assets/icons/counterIcon.svg';
+import DateIcon from '../../../../../layout/assets/icons/dateIcon.svg';
+import NullIcon from '../../../../../layout/assets/icons/nullIcon.svg';
+import NumberIcon from '../../../../../layout/assets/icons/numberIcon.svg';
+import SumIcon from '../../../../../layout/assets/icons/sumIcon.svg';
+import SymbolIcon from '../../../../../layout/assets/icons/symbolIcon.svg';
+import TextIcon from '../../../../../layout/assets/icons/textIcon.svg';
+import Arrow from '../../../../../layout/assets/queryPanel/arrowThin.svg';
+import AttributeIcon from '../../../../../layout/assets/queryPanel/attributeIcon.svg';
+import GaugeIcon from '../../../../../layout/assets/queryPanel/gauge_icon.svg';
+import MeasureIcon from '../../../../../layout/assets/queryPanel/measurementIcon.svg';
 import styles from './PropertiesBlock.module.scss';
 
 const PropertiesBlock = ({name, value}) => {
