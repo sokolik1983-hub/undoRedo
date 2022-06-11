@@ -10,6 +10,7 @@ export const devServerConfig = {
         overlay: false,
     },
     headers: {'Access-Control-Allow-Origin': '*'},
+    port: 3000,
     historyApiFallback: true,
     hot: true,
     proxy: devServerProxyConfig,
