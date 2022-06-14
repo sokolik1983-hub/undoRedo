@@ -26,12 +26,10 @@ import { setSymanticLayerData } from '../../data/reducers/data';
 import { showToast } from '../../data/actions/app';
 import { TOAST_TYPE } from '../../common/constants/common';
 
-
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
-  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(
-    false
-  );
+  const [semanticLayerModalOpened, setSemanticLayerModalOpened] =
+    useState(false);
   const [isQueryExecute, setQueryExecute] = useState(false);
   const [isChanged, setIsChanged] = useState(false);
   const [isSqlPopupOpened, setSqlPopupOpened] = useState(false);
@@ -40,10 +38,10 @@ const QueryPanel = ({ visible }) => {
   const [filters, setFilters] = useState([]);
   const [errorText, setError] = useState('');
 
-  const symLayerData = useSelector(state => state.app?.data?.symLayersData);
+  const symLayerData = useSelector((state) => state.app?.data?.symLayersData);
 
   const confirmModalOpened = useSelector(
-    state => state.app.ui.confirmModalVisible
+    (state) => state.app.ui.confirmModalVisible
   );
 
   useEffect(() => {
@@ -80,13 +78,13 @@ const QueryPanel = ({ visible }) => {
     return setSemanticLayerModalOpened(false);
   };
 
-  const onSelectSemanticLayer = symLayer => {
+  const onSelectSemanticLayer = (symLayer) => {
     dispatch(getQueryPanelSymanticLayerData(symLayer.id));
     setSemanticLayerModalOpened(false);
     setIsChanged(true);
   };
 
-  const handleQueryText = text => {
+  const handleQueryText = (text) => {
     setQueryText(text);
   };
 
@@ -101,7 +99,7 @@ const QueryPanel = ({ visible }) => {
       dispatch(
         createQuery({
           symlayer_id: symLayerData.symlayer_id,
-          data: objects.map(item => `${item.parent_folder}.${item.field}`),
+          data: objects.map((item) => `${item.parent_folder}.${item.field}`),
           conditions: filters ? getCondition([filters]) : {}
         })
       );
@@ -111,8 +109,10 @@ const QueryPanel = ({ visible }) => {
   useEffect(() => {
     const resultConditions = filters ? getCondition([filters]) : {};
     if (resultConditions === 'Empty Value') {
-     dispatch(showToast(TOAST_TYPE.SUCCESS, 'Пустые фильтры'))
-     setError(' ')
+      dispatch(
+        showToast(TOAST_TYPE.DANGER, 'Не задано значение одного из фильтров')
+      );
+      setError(' ');
     } else if (isSqlPopupOpened) {
       setError('');
       createQueryText();
@@ -120,7 +120,6 @@ const QueryPanel = ({ visible }) => {
       setQueryText('');
     }
   }, [isSqlPopupOpened]);
-
 
   const modalContent = () => {
     return (
