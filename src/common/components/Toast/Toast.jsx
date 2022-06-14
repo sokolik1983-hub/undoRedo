@@ -1,23 +1,28 @@
-/* eslint-disable */
 import { useCallback, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import ToastItem from './ToastItem';
 import Portal from '../Portal/Portal';
 import styles from './Toast.module.scss';
+import { TOAST_TYPE } from '../../constants/common';
 
-const Toast = ({ toastlist, setList, dispatch }) => {
+const Toast = ({ toastList, setList }) => {
+  const dispatch = useDispatch();
   const deleteToast = useCallback(
-    id => {
-      const toastListItem = toastlist.filter(e => e.id !== id);
+    (id) => {
+      const toastListItem = toastList.filter((e) => e.id !== id);
       dispatch(setList(toastListItem));
     },
-    [toastlist, setList]
+    [toastList, setList]
   );
 
-  const successToast = toastlist.find(toast => toast.type === 'success');
+  const successToast = toastList?.find(
+    (toast) => toast.type === TOAST_TYPE.SUCCESS
+  );
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (toastlist.length) {
+      if (toastList?.length) {
         deleteToast(successToast?.id);
       }
     }, 3000);
@@ -25,13 +30,19 @@ const Toast = ({ toastlist, setList, dispatch }) => {
     return () => {
       clearInterval(interval);
     };
-  }, [toastlist, deleteToast]);
+  }, [toastList, deleteToast]);
 
   return (
     <Portal>
       <div className={styles.container}>
-        {toastlist.map((toast, index) => (
-          <ToastItem type={toast.type} title={toast.title} key={index} deleteToast={deleteToast} id={toast.id}/>
+        {toastList?.map((toast) => (
+          <ToastItem
+            type={toast.type}
+            title={toast.title}
+            key={toast.id}
+            deleteToast={deleteToast}
+            id={toast.id}
+          />
         ))}
       </div>
     </Portal>
@@ -39,3 +50,8 @@ const Toast = ({ toastlist, setList, dispatch }) => {
 };
 
 export default Toast;
+
+Toast.propTypes = {
+  toastList: PropTypes.arrayOf(PropTypes.object),
+  setList: PropTypes.func
+};

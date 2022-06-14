@@ -207,3 +207,9 @@ export const DRAG_PARENT_SECTION = {
   OBJECTS: 'OBJECTS',
   FILTERS: 'FILTERS'
 }
+
+// Значения типов временных уведомлений.
+export const TOAST_TYPE = {
+  SUCCESS: 'success',
+  DANGER: 'danger',
+}
