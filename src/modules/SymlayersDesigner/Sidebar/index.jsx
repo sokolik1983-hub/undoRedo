@@ -36,13 +36,13 @@ function Sidebar({ onSelect }) {
   const [showingDataList, setShowingDataList] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [searchMod, setSearchMod] = useState(false);
-  const [searchObjectMod, setSearchObjectMod] = useState(false);
   const [selectedSchemes, setSelectedSchemes] = useState([]);
   const [searchValue, setSearchValue] = useState('');
+  const [searchObjValue, setSearchObjValue] = useState('');
   // eslint-disable-next-line no-unused-vars
   const [tables, setTables] = useState(selectedTables);
   const [selectObjectLayer, setSelectObjectLayer] = useState('');
-  const [filterObjectsMode, setFilterObjectMode] = useState(null);
+  const [filterObjectModes, setFilterObjectModes] = useState([]);
 
   const connectorObjects = useSelector(
     state => state.app.schemaDesigner.connectorObjects
@@ -51,12 +51,13 @@ function Sidebar({ onSelect }) {
   const objectsLayers = useSelector(
     state => state.app.schemaDesigner.objectsLayerList
   );
+
   const [objectsList, setObjectsList] = useState([]);
 
   useEffect(() => {
     if (objectsLayers.length) {
       setObjectsList(objectsLayers);
-      setFilterObjectMode(null);
+      setFilterObjectModes([]);
     }
   }, [objectsLayers])
 
@@ -108,8 +109,8 @@ function Sidebar({ onSelect }) {
   };
 
   const searchObject = (event) => {
-    if(event.key === 'Enter' && searchValue.length) {
-      const result = JSON.parse(JSON.stringify(objectsLayers.filter(object => object.name.toUpperCase().includes(searchValue.toUpperCase()))));
+    if(event.key === 'Enter' && searchObjValue.length) {
+      const result = JSON.parse(JSON.stringify(objectsLayers.filter(object => object.name.toUpperCase().includes(searchObjValue.toUpperCase()))));
       setObjectsList(result);
     } else if(event.key === 'Enter') {
       setObjectsList(objectsLayers);
@@ -221,43 +222,45 @@ function Sidebar({ onSelect }) {
                   <TextInput
                     className={styles.searchInputObjects}
                     onKeyPress={searchObject}
-                    value={searchValue}
-                    onChange={(event) => setSearchValue(event.target.value)}
+                    value={searchObjValue}
+                    onChange={(event) => setSearchObjValue(event.target.value)}
                   />
                   <Magnifier className={styles.magnifier} onClick={searchObject} />
                 </div>
                 <div className={styles.objectsFilters}>
                   <IconButton
-                    active={filterObjectsMode === 'GAUGE'}
+                    active={filterObjectModes.includes('GAUGE')}
                     size='small'
                     icon={<GaugeIcon />}
                     onClick={() => {
-                    if (filterObjectsMode === 'GAUGE') {
-                      setFilterObjectMode(null);
-                    } else
-                      setFilterObjectMode('GAUGE')
+                    if (filterObjectModes.includes('GAUGE')) {
+                      setFilterObjectModes(filterObjectModes.filter(filter => filter !== 'GAUGE'));
+                    } else {
+                      setFilterObjectModes([...filterObjectModes, 'GAUGE'])
+                    }
                   }}
                   />
                   <IconButton
-                    active={filterObjectsMode === 'ATTR'}
+                    active={filterObjectModes.includes('ATTR')}
                     size='small'
                     icon={<AttrIcon />}
                     onClick={() => {
-                    if (filterObjectsMode === 'ATTR') {
-                      setFilterObjectMode(null);
-                    } else
-                    setFilterObjectMode('ATTR')
+                    if (filterObjectModes.includes('ATTR')) {
+                      setFilterObjectModes(filterObjectModes.filter(filter => filter !== 'ATTR'));
+                    } else {
+                      setFilterObjectModes([...filterObjectModes, 'ATTR']);
+                    }
                   }}
                   />
                   <IconButton
-                    active={filterObjectsMode === 'MEAS'}
+                    active={filterObjectModes.includes('MEAS')}
                     size='small'
                     icon={<MeasIcon />}
                     onClick={() => {
-                    if (filterObjectsMode === 'MEAS') {
-                      setFilterObjectMode(null);
+                    if (filterObjectModes.includes('MEAS')) {
+                      setFilterObjectModes(filterObjectModes.filter(filter => filter !== 'MEAS'));
                     } else
-                    setFilterObjectMode('MEAS')
+                      setFilterObjectModes([...filterObjectModes, 'MEAS']);
                   }}
                   />
                 </div>
@@ -269,13 +272,13 @@ function Sidebar({ onSelect }) {
               <div className={styles.contentData}>
                 <div className={styles.objectsData}>
                   {objectsList?.map(object => {
-                      if (filterObjectsMode === 'GAUGE' && object.objectType === 'Показатель')
+                      if (filterObjectModes.includes('GAUGE') && object.objectType === 'Показатель')
                         return <ObjectLayer active={selectObjectLayer === object.id} onSelect={handleSelectObjectLayer} field={object} />
-                      if (filterObjectsMode === 'MEAS' && object.objectType === 'Измерение')
+                      if (filterObjectModes.includes('MEAS') && object.objectType === 'Измерение')
                         return <ObjectLayer active={selectObjectLayer === object.id} onSelect={handleSelectObjectLayer} field={object} />
-                      if (filterObjectsMode === 'ATTR' && object.objectType === 'Атрибут')
+                      if (filterObjectModes.includes('ATTR') && object.objectType === 'Атрибут')
                         return <ObjectLayer active={selectObjectLayer === object.id} onSelect={handleSelectObjectLayer} field={object} />
-                      if (!filterObjectsMode) 
+                      if (!filterObjectModes.length) 
                         return <ObjectLayer active={selectObjectLayer === object.id} onSelect={handleSelectObjectLayer} field={object} />
                       return null;
                     })}
