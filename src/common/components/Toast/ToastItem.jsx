@@ -1,7 +1,7 @@
-/* eslint-disable */
+import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import { ReactComponent as CloseIcon } from '../../../layout/assets/close.svg';
 import styles from './Toast.module.scss';
-import clsx from 'clsx';
 
 const ToastItem = ({ type, title, deleteToast, id }) => {
 
@@ -22,3 +22,10 @@ const ToastItem = ({ type, title, deleteToast, id }) => {
 };
 
 export default ToastItem;
+
+ToastItem.propTypes = {
+  type: PropTypes.string,
+  title: PropTypes.string,
+  deleteToast: PropTypes.func,
+  id: PropTypes.string,
+}
