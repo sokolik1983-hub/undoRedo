@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import { useDispatch } from 'react-redux';
-
+import { useNavigate } from 'react-router';
 import Modal from '../../../common/components/Modal';
 import TextFieldItem from './ModalItem/TextFieldItem';
 import PropertiesBlock from './ModalItem/PropertiesBlock';
@@ -14,6 +14,7 @@ import TechInfoBlock from './ModalItem/TechInfoBlock';
 import FooterBlock from './ModalItem/Footer';
 import { setCreateObjectModal } from '../../../data/actions/universes';
 import { CREATE_OBJECT_MODAL_VALUES } from './createObjectModalConstants';
+import { REDIRECT_LINKS } from '../../../common/constants/common'
 
 import styles from './CreateObjectLayerModal.module.scss';
 
@@ -48,6 +49,7 @@ const createObjectModalValues = {
 
 const CreateObjectLayerModal = ({ visible }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleClose = () => {
     return dispatch(setCreateObjectModal(false));
@@ -71,7 +73,7 @@ const CreateObjectLayerModal = ({ visible }) => {
         handleClose();
         dispatch(addObjectLayer({...values, id: `objLay_${Date.now()}`}));
         event.preventDefault();
-        window.location.pathname = '/Universe/symlayers/create';
+        navigate(REDIRECT_LINKS.UNIVERSE_SYMLAYERS_CREATE, { replace: true })
       }}
     >
       {({ values, handleChange, handleSubmit }) => (

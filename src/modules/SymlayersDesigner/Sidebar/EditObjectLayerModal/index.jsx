@@ -1,9 +1,8 @@
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { useNavigate } from 'react-router';
 import styles from './EditObjectLayerModal.module.scss';
 import { CREATE_OBJECT_MODAL_VALUES } from '../../CreateObjectLayerModal/createObjectModalConstants';
 import { setObjectLayer } from '../../../../data/reducers/schemaDesigner';
@@ -18,9 +17,11 @@ import FooterBlock from '../../CreateObjectLayerModal/ModalItem/Footer';
 import Modal from '../../../../common/components/Modal';
 import { setEditObjectModal } from '../../../../data/actions/universes';
 import { showToast } from '../../../../data/actions/app';
+import { REDIRECT_LINKS } from '../../../../common/constants/common'
 
 const EditObjectLayerModal = ({ visible }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const data = useSelector(state => state.app.ui.modalData);
 
@@ -74,7 +75,7 @@ const EditObjectLayerModal = ({ visible }) => {
         dispatch(setObjectLayer({...values, id: data.id}));
         dispatch(showToast('success', 'Объект сохранен'));
         event.preventDefault();
-        window.location.pathname = '/Universe/symlayers/create';
+        navigate(REDIRECT_LINKS.UNIVERSE_SYMLAYERS_CREATE)
       }}
     >
       {({ values, handleChange, handleSubmit }) => (

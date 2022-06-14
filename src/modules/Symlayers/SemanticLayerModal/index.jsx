@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 import { Formik } from 'formik';
 import Modal from '../../../common/components/Modal';
 import Button from '../../../common/components/Button';
@@ -13,6 +14,7 @@ import BusinessObjects from './ModalItem/BusinessObjects';
 import Control from './ModalItem/Control';
 import TextFieldItem from './ModalItem/TextFieldItem';
 import { setSemantycLayerDataName } from '../../../data/actions/schemaDesigner';
+import { REDIRECT_LINKS } from '../../../common/constants/common'
 
 const semLayerValues = {
   name: 'Новый семантический слой 1',
@@ -29,6 +31,7 @@ const semLayerValues = {
 
 const SemanticLayerModal = ({ onClick }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const onClickAction = event => {
     onClick(event);
   };
@@ -37,9 +40,8 @@ const SemanticLayerModal = ({ onClick }) => {
     <Formik
       initialValues={semLayerValues}
       onSubmit={data => {
-        window.location.pathname = '/symlayers/create';
+        navigate(REDIRECT_LINKS.SYMLAEYERS_CREATE)
         dispatch(setSemantycLayerDataName(data.name))
-        console.log(data);
       }}
     >
       {({ values, handleChange, handleSubmit }) => (
