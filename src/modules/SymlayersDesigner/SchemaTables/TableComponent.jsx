@@ -35,6 +35,7 @@ import { showToast } from '../../../data/actions/app';
 import { TOAST_TYPE } from '../../../Consts';
 import { setTablePreviewModal } from '../../../data/actions/universes';
 import { handleCheckMatch } from './helper';
+import { styles } from './TableComponent.module.scss'
 
 const useStyles = makeStyles(theme => ({
   root: {

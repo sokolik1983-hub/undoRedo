@@ -1,14 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import {
-  IconButton,
-} from '@material-ui/core';
 import { Rnd } from 'react-rnd';
-
 import MinimizeIcon from '@material-ui/icons/Minimize';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
-
+import IconButton from '../../../common/components/IconButton'
 import useStyles from './style';
 import { SymanticLayerContext } from './context';
 import Vector from './vector';
