@@ -2842,7 +2842,8 @@ const reportDesignerUI = createSlice({
       graphType: 'graph1',
       zoom: 1,
       formattingElement: null,
-      test: 'test'
+      test: 'test',
+      structureItem: 'objects'
     }
   },
   reducers: {
@@ -2887,6 +2888,9 @@ const reportDesignerUI = createSlice({
     },
     setZoom: (state, action) => {
       state.ui.zoom = action.payload;
+    },
+    setStructureItem: (state, action) => {
+      state.ui.structureItem = action.payload;
     }
   }
 });
@@ -2917,7 +2921,8 @@ export const {
   setSelectedColumns,
   setTableType,
   setGraphType,
-  setZoom
+  setZoom,
+  setStructureItem,
 } = reportDesignerUI.actions;
 
 export default combineReducers({

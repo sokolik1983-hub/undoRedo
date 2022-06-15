@@ -11,33 +11,8 @@ import { SIDE_PANEL_TYPES } from '../../../common/constants/common';
 // import { getSymanticLayerData } from '../../../data/actions/universes';
 import { ReactComponent as Arrow } from '../../../layout/assets/semanticLayerModal/arrow.svg';
 import ReportInfoBlock from '../ReportInfoBlock';
+import { REPORT_OBJECTS_PANEL_ICONS } from '../../../common/constants/reportDesigner/reportObjectsPanelIcons';
 
-const items = [
-  {
-    id: 1,
-    name: 'Объекты'
-  },
-  {
-    id: 2,
-    name: 'Структура'
-  },
-  {
-    id: 3,
-    name: 'Карта'
-  },
-  {
-    id: 4,
-    name: 'Комментарии'
-  },
-  {
-    id: 5,
-    name: 'Свойства'
-  },
-  {
-    id: 6,
-    name: 'Навигация'
-  }
-];
 
 const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
   // const dispatch = useDispatch();
@@ -78,6 +53,15 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
     return styles.viewBlockActive
   };
 
+  const structureItem = useSelector(
+    state => state.app.reportDesigner.reportsUi.ui?.structureItem
+  );
+
+  const getName = (item) => {
+    const res = REPORT_OBJECTS_PANEL_ICONS.filter(el => el.action === item);
+    return res[0].title;
+  };
+
   // useEffect(() => {
   //   if (semanticLayer) dispatch(getSymanticLayerData(semanticLayer.id));
   // }, [semanticLayer]);
@@ -95,7 +79,7 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
               <>
                 <div>
                   <p className={styles.viewActiveText}>просмотр</p>
-                  <p className={styles.viewItem}>{items[5].name}</p>
+                  <p className={styles.viewItem}>{getName(structureItem)}</p>
                 </div>
                 <div className={styles.actions}>
                   <div onClick={handleCollapse}>
@@ -114,7 +98,7 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
               <>
                 <div>
                   <p className={styles.editActiveText}>редактирование</p>
-                  <p className={styles.editableItem}>{items[2].name}</p>
+                  <p className={styles.editableItem}>{getName(structureItem)}</p>
                 </div>
                 <div className={styles.actions}>
                   <div onClick={handleCollapse}>

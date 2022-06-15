@@ -1,15 +1,22 @@
-import { useSelector } from 'react-redux';
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-unused-vars */
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import ObjectsPanelHeader from './ObjectsPanelHeader/ObjectsPanelHeader';
 import Divider from '../../../common/components/Divider';
 import usePanelListFilters from './usePanelListFilters';
 import ObjectsPanelFilters from './ObjectsPanelFilters/ObjectsPanelFilters';
-import ReportObjectsPanelFilters from './ReportObjectsPanelFilters';
+import ReportObjectsPanel from './ReportObjectsPanel/index';
 import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList';
+import { REPORT_OBJECTS_PANEL_ICONS } from '../../../common/constants/reportDesigner/reportObjectsPanelIcons';
+import Structure from './ReportObjectsPanel/Structure';
 import { useDragNDrop } from '../context/DragNDropContext';
 import styles from './ObjectsPanel.module.scss';
-import {getCurrentReport} from '../../ReportDesigner/helpers'
+import {getCurrentReport} from '../../ReportDesigner/helpers';
+import { setStructureItem } from '../../../data/reducers/new_reportDesigner';
+
 
 const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
   const currentLayer = useSelector(state => {
@@ -34,7 +41,6 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
     reportDesigner.reportsData.present.activeReport
   );
 
-
   const {variables} = currentReport
   const {
     rootFolder,
@@ -46,6 +52,34 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
   } = usePanelListFilters(currentLayer?.symLayerData);
   const { handleDragOver, handleTreeDrop } = useDragNDrop();
 
+  const [arr, setArr] = useState(REPORT_OBJECTS_PANEL_ICONS);
+  const [showInput, setShowInput] = useState(false);
+  
+  const handleToggleIcon = (item) => {
+    const newArr = arr.map(el => el.action === item ? 
+      {...el, enable: true } : {...el, enable: false });
+    setArr(newArr);
+  };
+  
+  const dispatch = useDispatch();
+  const structureItem = useSelector(
+    state => state.app.reportDesigner.reportsUi.ui?.structureItem
+  );
+
+  const actions = {
+    objects: () => { dispatch(setStructureItem('objects')); handleToggleIcon('objects') },
+    structure: () => { dispatch(setStructureItem('structure')); handleToggleIcon('structure') },
+    map: () => { dispatch(setStructureItem('map')); handleToggleIcon('map') },
+    comments: () => { dispatch(setStructureItem('comments')); handleToggleIcon('comments') },
+    properties: () => { dispatch(setStructureItem('properties')); handleToggleIcon('properties') },
+    magnifier: () => setShowInput(!showInput)
+  };
+
+  console.log(currentReport)
+
+  const handleSetInput = () => {
+    setShowInput(!showInput)
+  };
 
   return (
     <div className={rootClasses}>
@@ -56,9 +90,13 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
         </>
       )}
       {report ? (
-        <ReportObjectsPanelFilters
+        <ReportObjectsPanel
           searchValue={searchValue}
           setSearchValue={setSearchValue}
+          showInput={showInput}
+          setInput={handleSetInput}
+          array={arr}
+          actions={actions}
         />
       ) : (
         <ObjectsPanelFilters
@@ -74,8 +112,14 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
         onDrop={handleTreeDrop}
       >
         {rootFolder && <ObjectsPanelList rootFolder={rootFolder} />}
-        <ObjectsPanelList variables={variables} />
+        {structureItem === 'objects' && (
+          <ObjectsPanelList variables={variables} />
+        )}
+        {structureItem ==='structure' && (
+          <Structure currentReport={currentReport} />
+        )}
       </div>
+      
     </div>
   );
 };
