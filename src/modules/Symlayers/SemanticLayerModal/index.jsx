@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router';
 import { Formik } from 'formik';
 import Modal from '../../../common/components/Modal';
 import Button from '../../../common/components/Button';
