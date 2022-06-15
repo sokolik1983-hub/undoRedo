@@ -7,12 +7,18 @@ table {
   height: 100%;
   border-collapse: collapse;
   background-color: #fff;
-
+  font-size: '10px';
   td {
-    border: 1px solid #d8d8d8;
+    border:  1px solid #E4E4E4;
+    height: 19px
   }
   th {
-    border: 1px solid #d8d8d8;
+    border:  1px solid #E4E4E4;
+    background: linear-gradient(180deg, #1AE3D7 -20%, #0945DF 120%);
+    color: white;
+    height: 19px;
+    font-style: normal;
+    font-weight: 700;
   }
 }
 

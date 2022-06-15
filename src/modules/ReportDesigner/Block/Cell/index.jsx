@@ -91,12 +91,14 @@ const Cell = ({
       above: dropHelpers.handleAddAbove,
       below: dropHelpers.handleAddBelow
     };
-    const { type, dataType, formula, parsedFormula, id } = payload
+    const { type, dataType, formula, parsedFormula, id, name } = payload
     const modified = mapper[position]({
       structure,
       target,
-      payload: {type, dataType, formula, parsedFormula, variable_id:id }
+      payload: {type, dataType, formula, parsedFormula, variable_id:id, name }
     });
+
+    console.log(modified)
 
     dispatch(
       setReportStructure({
