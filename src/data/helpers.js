@@ -97,6 +97,7 @@ const requesterTimeout = ({ id, dispatch }) => {
 export const request = async ({ params, code, dispatch }) => {
   const token = localStorage.getItem('token');
   const streamreceiver = localStorage.getItem('streamreceiver');
+  
   try {
     const response = await axios({
       method: 'post',
@@ -169,26 +170,26 @@ export const getTableIdFromParams = ({
   return `${schema}_${object_name}_${object_type_id}_${connect_id}`;
 };
 
-export const deepObjectSearch = ({ target, key, value, parent = null }) => {
-  let result = [];
-  const keys = Object.keys(target);
-  for (let i = 0; i < keys.length; i++) {
-    const objectKey = keys[i];
+// export const deepObjectSearch = ({ target, key, value, parent = null, grandParent = null }) => {
+//   let result = [];
+//   const keys = Object.keys(target);
+//   for (let i = 0; i < keys.length; i++) {
+//     const objectKey = keys[i];
 
-    if (typeof target[objectKey] === 'object') {
-      result = result.concat(
-        deepObjectSearch({ target: target[objectKey], key, value, parent: target })
-      );
-    }
-    /*eslint-disable */
-    if (objectKey !== key) continue;
+//     if (typeof target[objectKey] === 'object') {
+//       result = result.concat(
+//         deepObjectSearch({ target: target[objectKey], key, value, parent: target, grandParent: parent })
+//       );
+//     }
+//     /*eslint-disable */
+//     if (objectKey !== key) continue;
 
-    if(objectKey === key && target[objectKey] === value) {
-      result.push({target, parent, targetIndex: i})
-    }
-  }
-  return result;
-};
+//     if(objectKey === key && target[objectKey] === value) {
+//       result.push({target, parent, targetIndex: i, grandParent})
+//     }
+//   }
+//   return result;
+// };
 
 
 // let t = {
@@ -214,4 +215,25 @@ export const deepObjectSearch = ({ target, key, value, parent = null }) => {
 // }
 
 
-// console.log('find',deepObjectSearch({ target: t, key: 'id', value: '14' }))
+
+
+export const deepObjectSearch = ({ target, key, value, parentNodes = [], parentKey = null}) => {
+  let result = [];
+  const keys = Object.keys(target);
+  for (let i = 0; i < keys.length; i++) {
+    const objectKey = keys[i];
+
+    if (typeof target[objectKey] === 'object') {
+      result = result.concat(
+        deepObjectSearch({ target: target[objectKey], key, value, parentNodes: [target, ...parentNodes], parentKey: objectKey })
+      );
+    }
+    /*eslint-disable */
+    if (objectKey !== key) continue;
+
+    if(objectKey === key && target[objectKey] === value) {
+      result.push({target, parentKey, parentNodes })
+    }
+  }
+  return result;
+};
