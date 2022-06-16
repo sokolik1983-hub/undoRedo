@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useFormikContext } from 'formik';
 
@@ -19,7 +19,7 @@ import { ReactComponent as CounterIcon } from '../../../../../layout/assets/icon
 
 import styles from './PropertiesBlock.module.scss';
 
-const PropertiesBlock = ({ name }) => {
+const PropertiesBlock = ({ name, value }) => {
   const formikProps = useFormikContext();
 
   const selectDataOptions = [
@@ -42,6 +42,10 @@ const PropertiesBlock = ({ name }) => {
     { icon: <CounterIcon />, text: 'Счётчик', value: 'counter' }
   ];
 
+  const defDataOptIndex = selectDataOptions.findIndex(opt => opt.text === value?.[0]);
+  const defTypeOptIndex = selectTypeOptions.findIndex(opt => opt.text === value?.[1]);
+  const defFuncOptIndex = selectFuncOptions.findIndex(opt => opt.text === value?.[2]);
+
   const [selectedDataText, setSelectedDataText] = useState(
     selectDataOptions[0].text
   );
@@ -60,6 +64,12 @@ const PropertiesBlock = ({ name }) => {
   const [selectedFuncIcon, setSelectedFuncIcon] = useState(
     selectFuncOptions[0].icon
   );
+  
+  useEffect(()=> {
+    formikProps.setFieldValue(name[0], value?.[0] || 'Символ');
+    formikProps.setFieldValue(name[1], value?.[1] || 'Показатель');
+    formikProps.setFieldValue(name[2], value?.[2] || 'Нет');
+  }, [])
 
   const setSelectedDataFields = item => {
     setSelectedDataIcon(item.icon);
@@ -78,6 +88,14 @@ const PropertiesBlock = ({ name }) => {
     setSelectedFuncText(item.text);
     formikProps.setFieldValue(name[2], item.text);
   };
+
+  useEffect(() => {
+    if (defDataOptIndex > -1 && defFuncOptIndex > -1 && defTypeOptIndex > -1) {
+      setSelectedDataFields(selectDataOptions[defDataOptIndex]);
+      setSelectedTypeFields(selectTypeOptions[defTypeOptIndex]);
+      setSelectedFuncFields(selectFuncOptions[defFuncOptIndex]);
+    }
+  }, [defDataOptIndex, defFuncOptIndex, defTypeOptIndex])
 
   const dataOptionsMenu = () => (
     <div className={styles.dropDownDataBlock}>
@@ -169,5 +187,6 @@ const PropertiesBlock = ({ name }) => {
 export default PropertiesBlock;
 
 PropertiesBlock.propTypes = {
-  name: PropTypes.array
+  name: PropTypes.array,
+  value: PropTypes.array
 };

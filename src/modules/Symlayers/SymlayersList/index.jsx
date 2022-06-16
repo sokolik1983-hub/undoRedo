@@ -28,7 +28,7 @@ import { getUniversesFolderChildren, getUniversesFolderId } from '../../../data/
 const ConnectorsList = () => {
   const dispatch = useDispatch();
   const universes = useSelector(state => state.app.data.universes);
-  const unvRootFolderId = useSelector(state => state.app.data.universesFolderId); 
+  const unvRootFolderId = useSelector(state => state.app.data.universesFolderId);
 
   useEffect(() => {
     dispatch(getUniversesFolderId({folderType: 'USER_UNV'}));
@@ -67,11 +67,11 @@ const ConnectorsList = () => {
       dispatch(getUniversesFolderChildren({id: foldersIdHistory[currentFolderIndex]}));
     }
   }, [currentFolderIndex])
-    
+
   useEffect(() => {
       if (unvRootFolderId) {
         goToRootFolder();
-      } 
+      }
   }, [unvRootFolderId])
 
 
@@ -233,7 +233,7 @@ const ConnectorsList = () => {
 
   return (
     <div className={styles.root}>
-      <div className={styles.title}>Список юниверсов</div>
+      <div className={styles.title}>Список семантических слоев</div>
       <ListNavBar
         moveToRootFolder={moveToRootFolder}
         moveToPrevFolder={moveToPrevFolder}

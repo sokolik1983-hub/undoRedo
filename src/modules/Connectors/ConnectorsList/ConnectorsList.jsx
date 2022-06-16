@@ -58,44 +58,44 @@ const ConnectorsList = () => {
         "type_id" : "db-pg",
         "fields" : [
           {
-            "fieldName" : "Имя или IP сервера", 
-            "fieldKey":"SERVER", 
-            "required" : true, 
+            "fieldName" : "Имя или IP сервера",
+            "fieldKey":"SERVER",
+            "required" : true,
             "type" : "string",
             "value" : "local.mashine"
             },
           {
-            "fieldName" : "Название Базы, SID, Имя сервиса", 
-            "fieldKey":"DATABASE", 
-            "required" : true, 
+            "fieldName" : "Название Базы, SID, Имя сервиса",
+            "fieldKey":"DATABASE",
+            "required" : true,
             "type" : "string",
             "value" : "data-provider"
           },
           {
-            "fieldName" : "Порт", 
-            "fieldKey":"PORT", 
-            "required" : true, 
-            "type" : "number", 
+            "fieldName" : "Порт",
+            "fieldKey":"PORT",
+            "required" : true,
+            "type" : "number",
             "value" : 43433
           },
           {
-            "fieldName" : "Логин", 
-            "fieldKey":"UID", 
-            "required" : true, 
+            "fieldName" : "Логин",
+            "fieldKey":"UID",
+            "required" : true,
             "type" : "string",
             "value" : "postgress"
           },
           {
-            "fieldName" : "Пароль", 
-            "fieldKey":"PWD", 
-            "required" : true, 
+            "fieldName" : "Пароль",
+            "fieldKey":"PWD",
+            "required" : true,
             "type" : "string",
             "value" : "xtqdUnzQykq6eSjMnaZsGnmaBTzvVRY7XqF6vQdx9SBbtn9UNHrzdWRX6dHPFPLP"
           },
           {
-            "fieldName" : "Дополнительные параметры", 
-            "fieldKey":"external", 
-            "required" : false, 
+            "fieldName" : "Дополнительные параметры",
+            "fieldKey":"external",
+            "required" : false,
             "type" : "string",
             "value" : "BoolsAsChar=0;"
           }

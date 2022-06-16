@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { request } from '../helpers';
-import { setQueryData, setUniverses, setSymanticLayerQueryResult, setQueryResult, setListReports, setUniversesFolderId, setReportsFolderId } from '../reducers/data';
+import { setQueryData, setSymanticLayerData, setUniverses, setSymanticLayerQueryResult, setQueryResult, setListReports, setQueryPanelSymlayersData, setUniversesFolderId, setReportsFolderId } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
-import { showObjectsConnectionsModal, closeModal, showQueryPanelModal, showSemanticLayerModal, showTablePreviewModal, showCreateObjectModal, closeCreateObjectModal, showConfirmModal, closeConfirmModal } from '../reducers/ui';
+import { showObjectsConnectionsModal, closeModal, showQueryPanelModal, showSemanticLayerModal, showTablePreviewModal, showCreateObjectModal, closeCreateObjectModal,showEditObjectModal, closeEditObjectModal, showConfirmModal, closeConfirmModal } from '../reducers/ui';
 
 export const getUniverses = queryParams => {
   return async dispatch => {
@@ -21,7 +21,7 @@ export const getUniverses = queryParams => {
       );
     }
   };
-}
+};
 
 export const getUniversesFolderChildren = queryParams => {
   return async dispatch => {
@@ -30,7 +30,7 @@ export const getUniversesFolderChildren = queryParams => {
         code: 'REPOS.GET_CHILDREN',
         params: queryParams,
         dispatch
-      }); 
+      });
       if (response?.result) {
         dispatch(setUniverses(response.data));
       }
@@ -58,26 +58,28 @@ export const getUniversesFolderId = queryParams => {
         notificationShown({ message: err.message, messageType: 'error' })
       );
     }
-  };
-};
-// export const getSymanticLayerData = id => {
-//   return async dispatch => {
-//     try {
-//       const response = await requestSymLayerData({
-//         id,
-//         dispatch
-//       });
-//
-//       if (response?.success) {
-//         dispatch(setSymanticLayerData(response.result));
-//       }
-//     } catch (err) {
-//       dispatch(
-//         notificationShown({ message: err.message, messageType: 'error' })
-//       );
-//     }
-//   }
-// }
+  }
+}
+
+export const getQueryPanelSymanticLayerData = id => {
+  /* return async dispatch => {
+    try {
+      const response = await requestSymLayerData({
+        id,
+        dispatch
+      });
+
+      if (response?.success) {
+        dispatch(setQueryPanelSymlayersData(response.result));
+      }
+    } catch (err) {
+      dispatch(
+        notificationShown({ message: err.message, messageType: 'error' })
+      );
+    }
+  } */
+  return null;
+}
 
 export const saveConnector = queryParams => {
   return async dispatch => {
@@ -176,7 +178,7 @@ export const getReportsFolderChildren = queryParams => {
         code: 'REPOS.GET_CHILDREN',
         params: queryParams,
         dispatch
-      }); 
+      });
       if (response?.result) {
         dispatch(setListReports(response.data));
       }
@@ -249,3 +251,8 @@ export const setConfirmModal = (open) => {
 export const setCreateObjectModal = (open) => {
   return dispatch => dispatch(open ? showCreateObjectModal() : closeCreateObjectModal());
 };
+
+export const setEditObjectModal = (object) => {
+  return dispatch => dispatch(object ? showEditObjectModal(object) : closeEditObjectModal());
+};
+

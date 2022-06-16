@@ -165,7 +165,7 @@ function Symlayers() {
 
       <FloatingButton
         icon={<CreateConnector />}
-        text='Создать юниверс'
+        text='Создать семантический слой'
         onClick={createConnectorModalHandler}
       />
       {isVisible && <SemanticLayerModal onClick={closeConnectorModalHandler} />}

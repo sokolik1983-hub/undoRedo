@@ -5,14 +5,22 @@ import styles from './Layout.module.scss';
 import Notifications from '../common/components/Notifications';
 import PopupDispatcher from './components/PopupDispatcher';
 import TopBar from './components/TopBar';
+import Toast from '../common/components/Toast/Toast';
+import { setToastList } from '../data/reducers/ui';
 
 function Layout() {
   const notifications = useSelector(state => state.app.notifications.items);
   const isLoginPage = useSelector(state => state.app.ui.currentPage) === '';
+  const toastList = useSelector(state => state.app.ui.toastList);
+
   return (
     <div className={styles.root}>
       <div className={styles.background_image} />
       <main className={styles.content}>
+        <Toast
+          toastList={toastList}
+          setList={setToastList}
+        />
         {!isLoginPage && <TopBar />}
         <Outlet />
       </main>
@@ -24,4 +32,3 @@ function Layout() {
 }
 
 export default Layout;
-
