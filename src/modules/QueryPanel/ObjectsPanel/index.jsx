@@ -75,8 +75,6 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
     magnifier: () => setShowInput(!showInput)
   };
 
-  console.log(currentReport)
-
   const handleSetInput = () => {
     setShowInput(!showInput)
   };
@@ -119,7 +117,6 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
           <Structure currentReport={currentReport} />
         )}
       </div>
-      
     </div>
   );
 };
