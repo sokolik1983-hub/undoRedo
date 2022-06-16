@@ -56,39 +56,117 @@ export const requestReady = async ({ id, dispatch }) => {
   return null;
 };
 
-const requesterTimeout = ({ id, dispatch }) => {
-  return new Promise((resolve, reject) => {
-    let tryCount = 0;
-    const timer = setInterval(async () => {
-      tryCount++;
-      const response = await requestReady({
-        id,
-        dispatch
-      });
+// const requesterTimeout = ({ id, dispatch }) => {
+//   return new Promise((resolve, reject) => {
+//     let tryCount = 0;
+//     const timer = setInterval(async () => {
+//       tryCount++;
 
-      if (response?.result === 1 || !response) {
-        setLoadingData(false);
-        resolve(response);
-        return clearInterval(timer);
-      }
-      if (response?.result === 'failed') {
-        console.log('id запроса устарел');
-        clearInterval(timer);
+//       const response = await requestReady({
+//         id,
+//         dispatch
+//       });
+
+//       console.log('rt resp',response)
+
+//       if (response?.result === 1 || !response) {
+//         setLoadingData(false);
+//         clearInterval(timer);
+//         return resolve(response);
+//       }
+//       if (response?.result === 'failed') {
+//         console.log('id запроса устарел');
+//         clearInterval(timer);
+//         return reject(response);
+//       }
+//       if (response?.result === 'pending') {
+//         if (tryCount >= ATTEMPTS) {
+//           console.log('исчерпаны попытки, выход из запроса');
+//           clearInterval(timer);
+//           return reject(response);
+//         }
+//         console.log('данные на сервере еще не готовы');
+//         return reject(response);
+//       }
+//       return null;
+//     }, PENDING_SERVER_TIMER);
+//   });
+// }
+
+const requesterTimeout = ({ id, dispatch }) => new Promise((resolve, reject) => {
+  let tryCount = 0
+  const interval = async () => {
+    tryCount++;
+    const response = await requestReady({
+      id,
+      dispatch
+    });
+    if (response?.result === 1 || !response) {
+      setLoadingData(false);
+      return resolve(response);
+    }
+    if (response?.result === 'failed') {
+      console.log('id запроса устарел');
+      return reject(response);
+    }
+    if (response?.result === 'pending') {
+      if (tryCount >= ATTEMPTS) {
+        console.log('исчерпаны попытки, выход из запроса');
         return reject(response);
       }
-      if (response?.result === 'pending') {
-        if (tryCount >= ATTEMPTS) {
-          console.log('исчерпаны попытки, выход из запроса');
-          clearInterval(timer);
-          return reject(response);
-        }
-        console.log('данные на сервере еще не готовы');
-        reject(response);
-      }
-      return null;
-    }, PENDING_SERVER_TIMER);
-  });
-}
+      console.log('данные на сервере еще не готовы');
+      return setTimeout(interval, PENDING_SERVER_TIMER);
+    
+    }
+    return null;
+
+  }
+
+  setTimeout(interval, PENDING_SERVER_TIMER);
+
+
+})
+
+
+
+
+
+
+//   return new Promise((resolve, reject) => {
+//     let tryCount = 0;
+//     const timer = setInterval(async () => {
+//       tryCount++;
+
+//       const response = await requestReady({
+//         id,
+//         dispatch
+//       });
+
+//       console.log('rt resp',response)
+
+//       if (response?.result === 1 || !response) {
+//         setLoadingData(false);
+//         clearInterval(timer);
+//         return resolve(response);
+//       }
+//       if (response?.result === 'failed') {
+//         console.log('id запроса устарел');
+//         clearInterval(timer);
+//         return reject(response);
+//       }
+//       if (response?.result === 'pending') {
+//         if (tryCount >= ATTEMPTS) {
+//           console.log('исчерпаны попытки, выход из запроса');
+//           clearInterval(timer);
+//           return reject(response);
+//         }
+//         console.log('данные на сервере еще не готовы');
+//         return reject(response);
+//       }
+//       return null;
+//     }, PENDING_SERVER_TIMER);
+//   });
+// }
 
 
 // обычный запрос, в ответ на который мы получаем id запроса
@@ -110,6 +188,7 @@ export const request = async ({ params, code, dispatch }) => {
         params ? JSON.stringify(params) : ''
       }&streamreceiver=${streamreceiver || null}`
     });
+
     if (response && response.status === 200) {
       return requesterTimeout({ id: response.data, dispatch });
     }

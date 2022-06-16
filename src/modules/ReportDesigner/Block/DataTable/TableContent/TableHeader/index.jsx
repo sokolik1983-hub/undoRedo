@@ -10,6 +10,8 @@ import { getElementData } from '../../../../../../data/actions/newReportDesigner
 import { setFormattingElement } from '../../../../../../data/reducers/new_reportDesigner';
 import Cell from '../../../Cell';
 import styles from './TableHeader.module.scss';
+import {getZoneData, selectCell} from '../helpers'
+
 
 const TableHeader = ({
   data,
@@ -28,7 +30,7 @@ const TableHeader = ({
     state => state.app.reportDesigner?.reportsUi?.ui?.formattingElement
   );
 
-  const callBack = key => (res) => {
+  const callback = key => (res) => {
     setZoneData(prev => ({ ...prev, [key]: res?.data?.data }));
     setZoneLoadingStatus({
       ...zoneLoadingStatus,
@@ -36,40 +38,28 @@ const TableHeader = ({
     });
   }
 
+  const resetFn = key => {
+    setZoneData({ ...zoneData, [key]: null });
+    setZoneLoadingStatus({ ...zoneLoadingStatus, [key]: true });
+}
+
+  const zones = data
+
 
   useEffect(() => {
     if (displayMode === 'Data') {
-      const promiseArr = [];
-      for (let i = 0; i < data.length; i++) {
-        const currentKey = data[i].id;
-        setZoneData({ ...zoneData, [currentKey]: null });
-        setZoneLoadingStatus({ ...zoneLoadingStatus, [currentKey]: true });
-
-        promiseArr.push(
-          dispatch(
-            getElementData({ report_id: 'R1', element_id: currentKey }, callBack(currentKey))
-          )
-        );
-
-        // dispatch(
-        //   getElementData({ report_id: 'R1', element_id: currentKey }, res => {
-        //     changeZoneDataByKey(currentKey, res?.data?.data);
-        //     changeZoneDataLoadingStatusByKey(currentKey, false);
-        //   })
-        // );
-      }
-
-      Promise.all(promiseArr);
-
-      // setIsFetching(true);
+      getZoneData({
+        zones,
+        dispatch,
+        callback,
+        resetFn
+      })
     }
   }, [displayMode]);
 
   if (tableType === 'hTable') return null;
 
-  const handleClick = (zone, item) => {
-    dispatch(setFormattingElement({ zone, item }));
-  };
+  
 
   const getStyle = (index, key) => {
     return data?.[0].cells?.[index] ? data?.[0].cells?.[index].style : {};
@@ -148,7 +138,7 @@ const TableHeader = ({
           // <tr key={zone.id}>
           zone?.cells?.map(item => {
             return (
-              <th key={item.id} onClick={() => handleClick('headerZone', item)}>
+              <th key={item.id} onClick={() => selectCell(item)}>
                 <Cell
                   displayMode={displayMode}
                   blockStyles={item.style}
@@ -171,7 +161,7 @@ const TableHeader = ({
         <tr>
           {zone?.cells?.map(item => {
             return (
-              <th key={item.id} onClick={() => handleClick('headerZone', item)}>
+              <th key={item.id} onClick={() => selectCell(item)}>
                 <Cell
                   displayMode={displayMode}
                   blockStyles={item.style}

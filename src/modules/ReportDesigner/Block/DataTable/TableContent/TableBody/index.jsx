@@ -12,6 +12,8 @@ import { getElementData } from '../../../../../../data/actions/newReportDesigner
 import { setFormattingElement } from '../../../../../../data/reducers/new_reportDesigner';
 import Cell from '../../../Cell';
 import styles from './TableBody.module.scss';
+import {getZoneData} from '../helpers'
+
 
 const TableBody = ({
   bodyZone,
@@ -45,7 +47,7 @@ const TableBody = ({
   //   }
   // }, [displayMode]);
 
-  const callBack = key => res => {
+  const callback = key => res => {
     setZoneData(prev => ({ ...prev, [key]: res?.data?.data }));
     setZoneLoadingStatus({
       ...zoneLoadingStatus,
@@ -56,40 +58,27 @@ const TableBody = ({
   useEffect(async () => {
     if (displayMode === 'Data') {
       setZoneData({});
-      const data = tableType === 'vTable' ? bodyZone : [...headerZone, ...bodyZone, ...footerZone];
+      const zones =
+        tableType === 'vTable'
+          ? bodyZone
+          : [...headerZone, ...bodyZone, ...footerZone];
 
-      const promiseArr = [];
-      for (let i = 0; i < data.length; i++) {
-        const currentKey = data[i].id;
-        setZoneData({ ...zoneData, [currentKey]: null });
-        setZoneLoadingStatus({ ...zoneLoadingStatus, [currentKey]: true });
-
-        promiseArr.push(
-          dispatch(
-            getElementData(
-              { report_id: 'R1', element_id: currentKey },
-              callBack(currentKey)
-            )
-          )
-        );
-
-        // dispatch(
-        //   getElementData({ report_id: 'R1', element_id: currentKey }, res => {
-        //     changeZoneDataByKey(currentKey, res?.data?.data);
-        //     changeZoneDataLoadingStatusByKey(currentKey, false);
-        //   })
-        // );
+          const resetFn = key => {
+            setZoneData({ ...zoneData, [key]: null });
+            setZoneLoadingStatus({ ...zoneLoadingStatus, [key]: true });
       }
 
-      Promise.all(promiseArr);
-
-      // setIsFetching(true);
+      getZoneData({
+        zones,
+        dispatch,
+        callback,
+        resetFn
+      })
     }
   }, [displayMode]);
 
-  const handleClick = (zone, item) => {
-    dispatch(setFormattingElement({ zone, item }));
-  };
+  const handleClick = (zone, item) => dispatch(setFormattingElement({ zone, item }));
+  
 
   const renderHTableHeader = colId => {
     return headerZone?.map(zone => {

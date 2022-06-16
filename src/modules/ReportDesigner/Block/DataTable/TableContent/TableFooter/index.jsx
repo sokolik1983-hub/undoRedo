@@ -8,6 +8,8 @@ import { getElementData } from '../../../../../../data/actions/newReportDesigner
 import { setFormattingElement } from '../../../../../../data/reducers/new_reportDesigner';
 import Cell from '../../../Cell';
 import styles from './TableFooter.module.scss';
+import {getZoneData} from '../helpers'
+
 
 const TableFooter = ({
   data,
@@ -23,7 +25,7 @@ const TableFooter = ({
     state => state.app.reportDesigner?.reportsUi?.ui?.formattingElement
   );
 
-  const callBack = key => res => {
+  const callback = key => res => {
     setZoneData(prev => ({ ...prev, [key]: res?.data?.data }));
     setZoneLoadingStatus({
       ...zoneLoadingStatus,
@@ -31,33 +33,19 @@ const TableFooter = ({
     });
   };
 
+  const resetFn = key => {
+        setZoneData({ ...zoneData, [key]: null });
+        setZoneLoadingStatus({ ...zoneLoadingStatus, [key]: true });
+  }
 
   useEffect(() => {
     if (displayMode === 'Data') {
-      const promiseArr = [];
-      for (let i = 0; i < data.length; i++) {
-        const currentKey = data[i].id;
-        setZoneData({ ...zoneData, [currentKey]: null });
-        setZoneLoadingStatus({ ...zoneLoadingStatus, [currentKey]: true });
-
-        promiseArr.push(
-          dispatch(
-            getElementData(
-              { report_id: 'R1', element_id: currentKey },
-              callBack(currentKey)
-            )
-          )
-        );
-
-        // dispatch(
-        //   getElementData({ report_id: 'R1', element_id: currentKey }, res => {
-        //     changeZoneDataByKey(currentKey, res?.data?.data);
-        //     changeZoneDataLoadingStatusByKey(currentKey, false);
-        //   })
-        // );
-      }
-
-      Promise.all(promiseArr);
+      getZoneData({
+        zones: data,
+        dispatch,
+        callback,
+        resetFn
+      })
     }
   }, [displayMode]);
 
