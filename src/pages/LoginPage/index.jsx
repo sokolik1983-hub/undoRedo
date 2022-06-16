@@ -14,7 +14,7 @@ import styles from './LoginPage.module.scss';
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const auth = useSelector(state => state.app.auth);
+  const auth = useSelector((state) => state.app.auth);
 
   useEffect(() => {
     if (auth) {
@@ -35,14 +35,19 @@ const LoginPage = () => {
             password: 'test'
           }}
           validationSchema={Yup.object().shape({
+<<<<<<< HEAD
             userName: Yup.string()
               .max(255)
               .required('Login is required'),
             password: Yup.string()
               .max(255)
               .required('Password is required')
+=======
+            userName: Yup.string().max(255).required('Login is required'),
+            password: Yup.string().max(255).required('Password is required')
+>>>>>>> develop
           })}
-          onSubmit={values => dispatch(loginUser(values))}
+          onSubmit={(values) => dispatch(loginUser(values))}
         >
           {({
             errors,
