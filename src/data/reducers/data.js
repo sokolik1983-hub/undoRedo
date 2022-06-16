@@ -11,7 +11,7 @@ const data = createSlice({
     universesTree: [],
     listReports: [],
     reportsFolderId: 0,
-    dictionaries: [],
+    dictionaries: {},
     symLayersData: [],
     requestId: null,
     reposFolderId: 0,
@@ -31,6 +31,12 @@ const data = createSlice({
     },
     setConnectorsTree: (state, action) => {
       state.connectorsTree = action.payload;
+    },
+    setConnectorsTypes: (state, action) => {
+      state.dictionaries.source_type = action.payload;
+    },
+    setConnectorSource: (state, action) => {
+      state.dictionaries.source = action.payload;
     },
     setUniverses: (state, action) => {
       state.universes = action.payload;
@@ -135,6 +141,8 @@ const data = createSlice({
 export const {
   setConnectors,
   setConnectorsFolderId,
+  setConnectorsTypes,
+  setConnectorSource,
   setUniverses,
   setUniversesFolderId,
   setUniversesTree,

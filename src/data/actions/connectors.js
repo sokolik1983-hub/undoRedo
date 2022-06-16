@@ -1,5 +1,5 @@
 import { request } from '../helpers';
-import { setConnectorData, setConnectors, setConnectorsFolderId } from '../reducers/data';
+import { setConnectorSource, setConnectorData, setConnectors, setConnectorsFolderId, setConnectorsTypes } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
 import { showEditConnectorModal } from '../reducers/ui';
 
@@ -110,5 +110,19 @@ export const removeConnector = queryParams => {
         notificationShown({ message: err.message, messageType: 'error' })
       );
     }
+  };
+};
+
+
+export const getConnectorTypesSources = queryParams => {
+  return async dispatch => {
+    const response = await request({
+      code: 'CN.GET_TYPES',
+      params: queryParams,
+      dispatch
+    });
+    dispatch(setConnectorsTypes(response?.classes));
+    dispatch(setConnectorSource(response?.types));
+
   };
 };

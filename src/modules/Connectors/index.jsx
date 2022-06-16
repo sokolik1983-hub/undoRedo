@@ -1,7 +1,10 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveConnector } from '../../data/actions/connectors';
+import {
+  saveConnector,
+  getConnectorTypesSources
+} from '../../data/actions/connectors';
 import styles from './Connectors.module.scss';
 import TreeView from '../../common/components/TreeView/index';
 import Button from '../../common/components/Button';
@@ -21,6 +24,7 @@ function Connectors() {
 
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.CONNECTORS));
+    dispatch(getConnectorTypesSources({}));
   }, []);
 
   // Получаем из словаря типы, источники, типы соединения
@@ -29,6 +33,10 @@ function Connectors() {
   const connections = useSelector(
     state => state.app.data.dictionaries.connect_type
   );
+
+  // console.log('types', types);
+  // console.log('sources', sources);
+  // console.log('connections', connections);
 
   const [connectName, setConnectName] = useState(''); // имя коннектора
   const [connectType, setConnectType] = useState(null); // тип коннектора(База Данных, Тестовый файл)
@@ -64,7 +72,7 @@ function Connectors() {
 
   const connectionOptions = connections?.map(item => ({
     text: item.name,
-    value: String(item.source_id)
+    value: String(item.id)
   }));
 
   const [isActive, setIsActive] = useState(false);
@@ -114,8 +122,8 @@ function Connectors() {
           className={styles.selectInput}
           value={connectType}
           options={typeOptions}
-          defaultValue="Тип соединения"
           onSelectItem={setConnectType}
+          // defaultValue={''}
         />
       </div>
       <div className={styles.connectionWrapper}>
@@ -124,11 +132,11 @@ function Connectors() {
           className={styles.selectInput}
           value={connectSource}
           onSelectItem={setConnectSource}
-          options={sourceOptions?.filter(item => item.value === connectType)} // Фильтурем для получения подходящих options в завимисомти от типо коннектора
-          defaultValue="Источник"
+          // options={sourceOptions?.filter(item => item.value === connectType)} // Фильтурем для получения подходящих options в завимисомти от типо коннектора
+          options={sourceOptions}
         />
       </div>
-      <div className={styles.connectionTypeSection}>
+      {/* <div className={styles.connectionTypeSection}>
         <div className={styles.connectionTypeWrapper}>
           <p className={styles.selectText}>Тип соединения</p>
           <div>
@@ -137,7 +145,6 @@ function Connectors() {
               className={styles.connectionTypeSelect}
               value={connectionType}
               onSelectItem={setConnectionType}
-              className={styles.connectionTypeSelect}
               options={connectionOptions?.filter(
                 item => item.value === connectSource
               )}
@@ -186,8 +193,8 @@ function Connectors() {
             Тест соединения
           </Button>
         </div>
-      </div>
-      {+connectionType === 2 && ( //В зависимости от выбранного типа соединения дорисовываем поля ввода
+      </div> */}
+      {connectName &&( //В зависимости от выбранного типа соединения дорисовываем поля ввода
         <div className={styles.connectionWrapper}>
           <TextInput
             labelClassName={styles.connectorsLabel}
