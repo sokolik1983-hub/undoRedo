@@ -14,7 +14,7 @@ import styles from './LoginPage.module.scss';
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const auth = useSelector(state => state.app.auth);
+  const auth = useSelector((state) => state.app.auth);
 
   useEffect(() => {
     if (auth) {
@@ -31,18 +31,14 @@ const LoginPage = () => {
         <AvatarIcon className={styles.avatar} />
         <Formik
           initialValues={{
-            username: 'test',
+            userName: 'test',
             password: 'test'
           }}
           validationSchema={Yup.object().shape({
-            username: Yup.string()
-              .max(255)
-              .required('Login is required'),
-            password: Yup.string()
-              .max(255)
-              .required('Password is required')
+            userName: Yup.string().max(255).required('Login is required'),
+            password: Yup.string().max(255).required('Password is required')
           })}
-          onSubmit={values => dispatch(loginUser(values))}
+          onSubmit={(values) => dispatch(loginUser(values))}
         >
           {({
             errors,
@@ -57,13 +53,13 @@ const LoginPage = () => {
               <TextInput
                 className={styles.textInput}
                 wrapperClassName={styles.inputWrapper}
-                id="username"
+                id="userName"
                 type="text"
                 label="Имя пользователя"
-                value={values.username}
+                value={values.userName}
                 onBlur={handleBlur}
                 onChange={handleChange}
-                error={touched.username && errors.username}
+                error={touched.userName && errors.userName}
               />
               <TextInput
                 className={styles.textInput}
