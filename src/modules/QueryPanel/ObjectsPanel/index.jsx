@@ -17,8 +17,7 @@ import styles from './ObjectsPanel.module.scss';
 import {getCurrentReport} from '../../ReportDesigner/helpers';
 import { setStructureItem } from '../../../data/reducers/new_reportDesigner';
 
-
-const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
+const ObjectsPanel = ({ modalOpenHandler, showHeader, report, onSelect }) => {
   const currentLayer = useSelector(state => {
     const {
       data,
@@ -114,7 +113,7 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report }) => {
           <ObjectsPanelList variables={variables} />
         )}
         {structureItem ==='structure' && (
-          <Structure currentReport={currentReport} />
+          <Structure onSelect={onSelect} currentReport={currentReport} />
         )}
       </div>
     </div>
@@ -126,5 +125,6 @@ export default ObjectsPanel;
 ObjectsPanel.propTypes = {
   modalOpenHandler: PropTypes.func,
   showHeader: PropTypes.bool,
+  onSelect: PropTypes.func,
   report: PropTypes.bool
 };

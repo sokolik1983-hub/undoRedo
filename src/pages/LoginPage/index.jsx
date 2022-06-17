@@ -35,17 +35,8 @@ const LoginPage = () => {
             password: 'test'
           }}
           validationSchema={Yup.object().shape({
-<<<<<<< HEAD
-            userName: Yup.string()
-              .max(255)
-              .required('Login is required'),
-            password: Yup.string()
-              .max(255)
-              .required('Password is required')
-=======
             userName: Yup.string().max(255).required('Login is required'),
             password: Yup.string().max(255).required('Password is required')
->>>>>>> develop
           })}
           onSubmit={(values) => dispatch(loginUser(values))}
         >

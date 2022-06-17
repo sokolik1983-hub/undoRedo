@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import lodash from 'lodash';
 import styles from './ReportObjectsPanel.module.scss';
 import { ReactComponent as StructureIcon } from '../../../../layout/assets/reportDesigner/structure.svg';
 import { ReactComponent as HeaderIcon } from '../../../../layout/assets/reportDesigner/structureHeader.svg';
@@ -13,14 +15,49 @@ import Tooltip from '../../../../common/components/Tooltip';
 import ListItem from '../../../../common/components/List/ListItem/ListItem';
 import ListItemEditReport from '../../../../common/components/List/ListItemEdit/ListItemEditReport';
 import { FOLDER_ITEM_DROPDOWN_ACTIONS } from '../../../Reports/helper';
+import { setStructure } from '../../../../data/reducers/new_reportDesigner';
+import { deepObjectSearch } from '../../../../data/helpers';
 
-const Structure = ({currentReport}) => {
+const Structure = ({currentReport, onSelect}) => {
 
   const [editListItemId, setEditListItemId] = useState();
+
+  const dispatch = useDispatch();
 
   const handleEditClick = id => {
     setEditListItemId(id);
   };
+
+  const handleSelect = id => {
+    const structureItem = currentReport?.structure?.pgBody?.content?.children.find(item => item?.id === id);
+    if (structureItem) {
+      onSelect(structureItem, false);
+    }
+  };
+
+  const handleUpdateName = id => value => {
+    const newStructure = lodash.cloneDeep(currentReport.structure);
+    const targ = deepObjectSearch({
+      target: newStructure,
+      key: 'id',
+      value: id
+    })[0].target;
+
+    if (!targ) {
+      console.log('targ not found');
+      return;
+    }
+    
+    targ.name= value;
+    dispatch(setStructure(newStructure));
+  };
+
+  const handleDeleteBlock = id => {
+    const newStructure = lodash.cloneDeep(currentReport.structure);
+    const newChildren = newStructure.pgBody?.content?.children.filter(item => item?.id !== id);
+    dispatch(setStructure({...newStructure, ...newStructure.pgBody.content.children = newChildren}))
+  };
+
 
   const handleItemClick = (id, action) => {
     switch (action) {
@@ -28,14 +65,12 @@ const Structure = ({currentReport}) => {
         handleEditClick(id);
         break;
       case 'delete':
+        handleDeleteBlock(id);
         break;
       default:
         console.log(action);
     }
   };
-
-  const [reportValue, setReportValue] = useState(currentReport?.structure?.pgBody?.content?.children[0]?.content?.expression?.formula);
-  const [value, setValue] = useState(currentReport?.structure?.pgBody?.content?.children[1]?.name);
 
   const getDropdownItems = id => (
     <div className={styles.itemsWrapper}>
@@ -55,14 +90,6 @@ const Structure = ({currentReport}) => {
     </div>
   );
 
-  const handleSubmitReportValue = (e) => {
-    e.preventDefault();
-  };
-
-  const handleSubmitValue = (e) => {
-    e.preventDefault();
-  };
-
   return (
     <div className={styles.сontainer}>
       <div className={styles.wrapper}>
@@ -77,24 +104,7 @@ const Structure = ({currentReport}) => {
             <HeaderIcon />
             <p className={styles.text}>{currentReport?.structure?.pgHeader?.name}</p>
           </div>
-          <div className={styles.innerBlock}>
-            {editListItemId === currentReport?.structure?.pgBody?.content?.children[0]?.id ? (
-              <ListItemEditReport
-                newValue={reportValue}
-                setNewValue={setReportValue}
-                onSubmit={handleSubmitReportValue}
-                onBlur={() => setEditListItemId(null)}
-              />
-            ) : (
-              <ListItem 
-                icon={<TextIcon />}
-                className={styles.listItem}
-                key={currentReport?.structure?.pgBody?.content?.children[0]?.id}
-                menu={getDropdownItems(currentReport?.structure?.pgBody?.content?.children[0]?.id)}
-                name={reportValue}
-              />
-            )}
-          </div>
+          
         </div>
         <div className={styles.wrapperBlock}>
           <div className={styles.block}>
@@ -102,21 +112,25 @@ const Structure = ({currentReport}) => {
             <p className={styles.text}>{currentReport?.structure?.pgBody?.name}</p>
           </div>
           <div className={styles.innerBlock}>
-            {editListItemId === currentReport?.structure?.pgBody?.content?.children[1]?.id ? (
-              <ListItemEditReport
-                newValue={value}
-                setNewValue={setValue}
-                onSubmit={handleSubmitValue}
-                onBlur={() => setEditListItemId(null)}
-              />
-            ) : (
-              <ListItem 
-                icon={<TableIcon />}
-                className={styles.listItem}
-                key={currentReport?.structure?.pgBody?.content?.children[1]?.id}
-                menu={getDropdownItems(currentReport?.structure?.pgBody?.content?.children[1]?.id)}
-                name={value}
-              />
+            {currentReport?.structure?.pgBody?.content?.children.map((i, idx) => 
+              editListItemId === i.id ? (
+                <ListItemEditReport
+                  key={currentReport?.structure?.pgBody?.content?.children[idx]?.id}
+                  newValue={currentReport?.structure?.pgBody?.content?.children[idx]?.name}
+                  setNewValue={handleUpdateName(currentReport?.structure?.pgBody?.content?.children[idx]?.id)}
+                  id={currentReport?.structure?.pgBody?.content?.children[idx]?.id}
+                  onBlur={() => setEditListItemId(null)}
+                />
+              ) : (
+                <ListItem
+                  icon={<TextIcon />}
+                  className={styles.listItem}
+                  onDoubleClick={() => handleSelect(currentReport?.structure?.pgBody?.content?.children[idx]?.id)}
+                  key={currentReport?.structure?.pgBody?.content?.children[idx]?.id}
+                  menu={getDropdownItems(currentReport?.structure?.pgBody?.content?.children[idx]?.id)}
+                  name={currentReport?.structure?.pgBody?.content?.children[idx]?.name}
+                />
+              )
             )}
           </div>
         </div>

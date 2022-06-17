@@ -14,7 +14,7 @@ import ReportInfoBlock from '../ReportInfoBlock';
 import { REPORT_OBJECTS_PANEL_ICONS } from '../../../common/constants/reportDesigner/reportObjectsPanelIcons';
 
 
-const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
+const ReportSidebar = ({ semanticLayer, handleShowSelector, onSelect }) => {
   // const dispatch = useDispatch();
   const reportDesigner = useSelector(state => state.app.reportDesigner);
   const isShowingPanel = reportDesigner.reportsUi.ui.showConfigPanel;
@@ -123,6 +123,7 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
                     <ObjectsPanel
                       symanticLayer={semanticLayer}
                       onToggleClick={handleShowSelector}
+                      onSelect={onSelect}
                       showHeader={false}
                       report
                     />
