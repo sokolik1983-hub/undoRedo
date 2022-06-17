@@ -32,6 +32,7 @@
   display: flex;
   background: rgba(0, 0, 0, 0.5);
   margin-top: 10px;
+  padding-top: 10px;
 }
 
 .selectText {
@@ -44,10 +45,23 @@
   margin-left: -4px;
 }
 
+.textAreaName {
+  @extend .selectText;
+  margin-top: 0px;
+}
+
 .connectorsInput {
   margin-bottom: 10px;
   padding-left: 6px;
   font-size: 10px;
+}
+
+.textarea{
+  @extend .connectorsInput;
+  width: 100%;
+  min-height: 50px;
+  border: none;
+  outline: none;
 }
 
 .testConnectionWrapper {

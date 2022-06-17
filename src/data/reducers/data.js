@@ -6,6 +6,7 @@ const data = createSlice({
     connectors: {},
     connectorsFolderId: 0,
     connectorsTree: [],
+    createConnector: {},
     universes: [],
     universesFolderId: 0,
     universesTree: [],
@@ -37,6 +38,9 @@ const data = createSlice({
     },
     setConnectorSource: (state, action) => {
       state.dictionaries.source = action.payload;
+    },
+    setCreateConnector: (state, action) => {
+      state.createConnector = action.payload;
     },
     setUniverses: (state, action) => {
       state.universes = action.payload;
@@ -143,6 +147,7 @@ export const {
   setConnectorsFolderId,
   setConnectorsTypes,
   setConnectorSource,
+  setCreateConnector,
   setUniverses,
   setUniversesFolderId,
   setUniversesTree,
