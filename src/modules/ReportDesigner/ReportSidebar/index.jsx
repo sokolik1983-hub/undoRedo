@@ -39,7 +39,7 @@ const items = [
   }
 ];
 
-const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
+const ReportSidebar = ({ semanticLayer, handleShowSelector, setTabNumber }) => {
   // const dispatch = useDispatch();
   const reportDesigner = useSelector(state => state.app.reportDesigner);
   const isShowingPanel = reportDesigner.reportsUi.ui.showConfigPanel;
@@ -53,6 +53,7 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
 
   const handleSelectTab = value => () => {
     setActiveTab(value);
+    setTabNumber(value)
   };
 
   const handleChangeEditBlockClass = () => {
@@ -77,6 +78,19 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
     }
     return styles.viewBlockActive
   };
+
+  // const structureItem = useSelector(
+  //   state => state.app.reportDesigner.reportsUi.ui?.structureItem
+  // );
+
+  // const getName = (item) => {
+  //   const res = REPORT_OBJECTS_PANEL_ICONS.filter(el => el.action === item);
+  //   return res[0].title;
+  // };
+
+  const sidePanelStyle = clsx(styles.sidePanel, {
+    [styles.sidePanelVisible]: isShowingPanel
+  });
 
   // useEffect(() => {
   //   if (semanticLayer) dispatch(getSymanticLayerData(semanticLayer.id));
@@ -144,14 +158,10 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
                     />
                   </DragNDropProvider>
                 </div>
-                <div
-                  className={clsx(styles.sidePanel, {
-                    [styles.sidePanelVisible]: isShowingPanel
-                  })}
-                >
+                <div className={sidePanelStyle}>
                   <SidePanel
                     navType={SIDE_PANEL_TYPES.BLOCK_MENU}
-                    marginRight={reportDesigner.reportsUi.ui.showReportPanel ? 250 : 0}
+                    marginRight={isShowingPanel ? 250 : 0}
                   />
                 </div>
               </div>

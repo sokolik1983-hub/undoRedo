@@ -3,19 +3,15 @@
   height: 100vh;
   display: flex;
   gap: 12px;
-  margin-top: 20px;
-}
-
-.content {
-  padding-left: 320px;
+  margin-top: 30px;
 }
 
 .containerOutline {
   position: absolute;
   top: 138px;
-  right: 12px;
+  right: 0;
   left: 306px;
-  bottom: 5px;
+  bottom: 9px;
 }
 
 .container {
@@ -24,7 +20,7 @@
   outline: 1px solid black;
   overflow: hidden;
   position: relative;
-
+  background: white;
   // &-portrait {
   //   width: 1240px;
   //   height: 1754px;
@@ -36,8 +32,15 @@
   // }
 }
 
+.containerCompressed {
+  @extend .containerOutline;
+
+  left: 545px;
+}
+
 .tabs {
   display: flex;
+  margin-top: -16px;
 
   .tab {
     cursor: pointer;

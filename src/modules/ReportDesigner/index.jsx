@@ -57,6 +57,7 @@ function ReportDesigner() {
     id: 165,
     name: 'Клиентская справка'
   });
+  const [activeTab, setActiveTab] = useState(0);
 
   const dispatch = useDispatch();
   const reportDesigner = useSelector(state => state.app.reportDesigner);
@@ -128,15 +129,8 @@ function ReportDesigner() {
   function handleAddBlock(event) {
     event.stopPropagation();
 
-    console.log(reportDesigner.reportsUi.ui.creatingElement, 'asd');
-
-    console.log(currentReport.structure)
-    console.log(mousePosition)
-
-
     if (reportDesigner.reportsUi.ui.creatingElement) {
-      const newStructure = lodash.cloneDeep(currentReport.structure)
-      console.log(newStructure)
+      const newStructure = lodash.cloneDeep(currentReport.structure);
       newStructure.pgBody.content.children.push(createReportElement({type: reportDesigner.reportsUi.ui.creatingElement, mousePosition}))
       // const newStructure = [
       //   ...currentReport.structure,
@@ -176,6 +170,12 @@ function ReportDesigner() {
 
   //   dispatch(setStructure(newStructure));
   // }
+
+  const isShowingPanel = reportDesigner.reportsUi.ui.showConfigPanel;
+
+  const containerCompressed = clsx(styles.containerOutline, {
+    [styles.containerCompressed]: isShowingPanel
+  });
 
   function handleChangeMode() {
     let newMode = '';
@@ -289,19 +289,22 @@ function ReportDesigner() {
           />
         </DragNDropProvider>
       </div> */}
-      <ReportSidebar
-        semanticLayer={semanticLayer}
-        onToggleClick={handleShowSelector}
-        showHeader={false}
-      />
-      <div className={styles.content}>
+      
+      <div>
         {reportDesigner.reportsUi.ui.showFormulaEditor && (
           <div className={styles.formulaEditor}>
             <FormulaEditor />
           </div>
         )}
-        <div className={styles.tabs}>
-          {reportDesigner.reportsData.present.reports &&
+        <ReportSidebar
+          semanticLayer={semanticLayer}
+          onToggleClick={handleShowSelector}
+          showHeader={false}
+          setTabNumber={setActiveTab}
+        />
+        <div className={activeTab === 1 ? containerCompressed : styles.containerOutline}>
+          <div className={styles.tabs}>
+            {reportDesigner.reportsData.present.reports &&
             reportDesigner.reportsData.present.reports.map(report => {
               const isActive =
                 reportDesigner.reportsData.present.activeReport === report.id;
@@ -323,17 +326,16 @@ function ReportDesigner() {
                 </div>
               );
             })}
-          <button onClick={handleAddReport} type="button">
-            +
-          </button>
-          <button onClick={handleChangeMode} type="button">
-            {displayMode === 'Data' ? 'Структура' : 'Данные'}
-          </button>
-        </div>
-        <div className={styles.containerOutline}>
+            <button onClick={handleAddReport} type="button">
+              +
+            </button>
+            <button onClick={handleChangeMode} type="button">
+              {displayMode === 'Data' ? 'Структура' : 'Данные'}
+            </button>
+          </div>
           <div
             style={{ zoom: `${zoom}` }}
-            className={clsx(styles.container, styles['container-portrait'])}
+            className={styles.container}
             onMouseMove={handleMouseMove}
             onClick={handleAddBlock}
             onDoubleClick={handleDisableSelection}
@@ -361,17 +363,6 @@ function ReportDesigner() {
       {isQueryPanelModalOpened && (
         <QueryPanel visible={isQueryPanelModalOpened && true} />
       )}
-      {/* <div className="right">
-        {reportDesigner.reportsUi.ui.showConfigPanel && (
-          <SidePanel
-            navType={SIDE_PANEL_TYPES.BLOCK_MENU}
-            marginRight={reportDesigner.reportsUi.ui.showReportPanel ? 250 : 0}
-          />
-        )}
-        {reportDesigner.reportsUi.ui.showReportPanel && (
-          <SidePanel navType={SIDE_PANEL_TYPES.CONFIG_MENU} />
-        )}
-      </div> */}
     </div>
   );
 }
