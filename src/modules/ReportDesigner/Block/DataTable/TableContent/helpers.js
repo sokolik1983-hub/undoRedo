@@ -19,4 +19,4 @@ export const getZoneData = ({zones, dispatch, resetFn, callback, report_id = 'R1
     }
 }
 
-export const selectCell = (item) =>  dispatch(setFormattingElement({ item }));
+export const selectCell = dispatch => item =>  dispatch(setFormattingElement({ item }));

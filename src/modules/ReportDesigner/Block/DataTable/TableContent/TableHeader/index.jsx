@@ -59,7 +59,7 @@ const TableHeader = ({
 
   if (tableType === 'hTable') return null;
 
-  
+  const handleClick = selectCell(dispatch)
 
   const getStyle = (index, key) => {
     return data?.[0].cells?.[index] ? data?.[0].cells?.[index].style : {};
@@ -138,7 +138,7 @@ const TableHeader = ({
           // <tr key={zone.id}>
           zone?.cells?.map(item => {
             return (
-              <th key={item.id} onClick={() => selectCell(item)}>
+              <th key={item.id} onClick={() => handleClick(item)}>
                 <Cell
                   displayMode={displayMode}
                   blockStyles={item.style}
@@ -161,7 +161,7 @@ const TableHeader = ({
         <tr>
           {zone?.cells?.map(item => {
             return (
-              <th key={item.id} onClick={() => selectCell(item)}>
+              <th key={item.id} onClick={() => handleClick(item)}>
                 <Cell
                   displayMode={displayMode}
                   blockStyles={item.style}

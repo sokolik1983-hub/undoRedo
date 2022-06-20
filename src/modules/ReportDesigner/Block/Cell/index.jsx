@@ -98,8 +98,6 @@ const Cell = ({
       payload: {type, dataType, formula, parsedFormula, variable_id:id, name }
     });
 
-    console.log(modified)
-
     dispatch(
       setReportStructure({
         report_id: 'R1',
@@ -109,7 +107,9 @@ const Cell = ({
   };
 
   const getCellStyle = () => {
-    const result = {};
+    const result = {
+      minHeight: '30px'
+    };
     return { ...blockStyles, ...result };
   };
 
@@ -161,10 +161,34 @@ const Cell = ({
       <div
         style={{
           position: 'absolute',
+          left: '0px',
+          top: '0px',
+          width: '100%',
+          height: '10px'
+        }}
+        onDragEnter={e => handleDragEnter(e, 'top')}
+        onDragOver={handleDragOver}
+        onDrop={e => handleDrop(e, 'above')}
+      >
+        <div
+          onDragLeave={handleDragLeave}
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(124,124,255,0.5)',
+            visibility: dragStatus.top ? 'visible' : 'hidden'
+          }}
+        />
+      </div>
+      
+
+      <div
+        style={{
+          position: 'absolute',
           right: '25%',
           top: '25%',
           width: '50%',
-          height: '50%'
+          height: 'calc(100% - 20px)'
         }}
         onDragEnter={e => handleDragEnter(e, 'center')}
         onDragOver={handleDragOver}

@@ -2,24 +2,42 @@
 import { deepObjectSearch } from '../../../../data/helpers';
 import { generateId } from '../../helpers';
 
-const swapId = str => {
+const getFooterId = str => {
   const splittedId = String(str).split('.');
   const letterKey = splittedId[splittedId.length - 2];
   if (letterKey === 'H' || letterKey === 'B') {
-    splittedId.splice(splittedId.length - 2, 1, letterKey === 'H' ? 'B' : 'H');
+    splittedId.splice(splittedId.length - 2, 1, 'F');
     return splittedId.join('.');
   }
   return null;
 };
 
-const makeCellObject = ({ parent, expression }) => ({
-  id: `${parent.id}.${generateId()}`,
-  expression
-});
+const swapIds = str => {
+  const splittedId = String(str).split('.');
+  const letterKey = splittedId[splittedId.length - 2];
+  if (letterKey === 'H' || letterKey === 'B') {
+    splittedId.splice(splittedId.length - 2, 1, letterKey === 'H' ? 'B' : 'H');
+    return [splittedId.join('.'), getFooterId(str)];
+  }
+  return [];
+};
+
+const makeCellObject = ({ parent, expression }) => {
+  const obj = { id: `${parent.id}.${generateId()}` };
+  if (!expression) {
+    return obj;
+  }
+
+  return {
+    ...obj,
+    expression
+  };
+};
 
 const tweakExpression = ({ id, expression }) => {
+  if(!expression) return null
   const { name, ...rest } = expression;
-  const splittedId = id.split('.')
+  const splittedId = id.split('.');
 
   if (splittedId[splittedId.length - 2] === 'H') {
     return {
@@ -50,7 +68,7 @@ export const handleReplace = ({ structure, target, payload, once = false }) => {
     return structure;
   }
 
-  const swappedId = swapId(target.id);
+  const [swappedId, footerId] = swapIds(target.id);
 
   if (swappedId) {
     const updatedStructure = handleReplace({
@@ -78,7 +96,7 @@ const addItem = ({ structure, target, payload, position, once = false }) => {
 
   const { parentKey, parentNodes } = dropTarget[0];
   const parent = parentNodes[0];
-  const coeff = position === 'after' ? 1 : 0
+  const coeff = position === 'after' ? 1 : 0;
   const targetIndex = Number(parentKey) + coeff;
 
   parent.splice(
@@ -99,9 +117,9 @@ const addItem = ({ structure, target, payload, position, once = false }) => {
     return structure;
   }
 
-  const swappedTargetId = swapId(target.id);
+  const [swappedTargetId, footerId] = swapIds(target.id);
 
-  const updatedStructure = addItem({
+  let updatedStructure = addItem({
     structure,
     target: { id: swappedTargetId },
     payload,
@@ -109,12 +127,22 @@ const addItem = ({ structure, target, payload, position, once = false }) => {
     position
   });
 
+  updatedStructure = addItem({
+    structure,
+    target: { id: footerId },
+    payload: null,
+    once: true,
+    position
+  });
+
   return updatedStructure;
 };
 
-export const handleAddBefore = (params) => addItem({...params, position: 'before'});
+export const handleAddBefore = params =>
+  addItem({ ...params, position: 'before' });
 
-export const handleAddAfter = (params) => addItem({...params, position: 'after'});
+export const handleAddAfter = params =>
+  addItem({ ...params, position: 'after' });
 
 export const handleAddAbove = ({ structure, target, payload }) => {
   return structure;

@@ -77,7 +77,7 @@ const TableBody = ({
     }
   }, [displayMode]);
 
-  const handleClick = (zone, item) => dispatch(setFormattingElement({ zone, item }));
+  const handleClick = (item) => dispatch(setFormattingElement({ item }));
   
 
   const renderHTableHeader = colId => {
@@ -86,7 +86,7 @@ const TableBody = ({
 
       return (
         headerField && (
-          <th onClick={() => handleClick('headerZone', headerField)}>
+          <th onClick={() => handleClick(headerField)}>
             <Cell
               displayMode={displayMode}
               blockStyles={headerField.styles}
@@ -107,7 +107,7 @@ const TableBody = ({
 
       return (
         footerField && (
-          <td onClick={() => handleClick('footerZone', footerField)}>
+          <td onClick={() => handleClick(footerField)}>
             <Cell
               displayMode={displayMode}
               blockStyles={footerField.styles}
@@ -130,7 +130,7 @@ const TableBody = ({
           return (
             <tr key={item.id}>
               {tableType === 'hTable' ? renderHTableHeader(item.col) : null}
-              <td onClick={() => handleClick('bodyZone', item)}>
+              <td onClick={() => handleClick(item)}>
                 <Cell
                   displayMode={displayMode}
                   blockStyles={item.style}
@@ -155,7 +155,7 @@ const TableBody = ({
         <tr>
           {zone?.cells?.map(item => {
             return (
-              <td key={item.id} onClick={() => handleClick('bodyZone', item)}>
+              <td key={item.id} onClick={() => handleClick(item)}>
                 <Cell
                   displayMode={displayMode}
                   blockStyles={item.style}
@@ -184,7 +184,7 @@ const TableBody = ({
       return zone?.cells?.map(item => {
         if (zone.hType === 'header') {
           return (
-            <th key={item.id} onClick={() => handleClick('headerZone', item)}>
+            <th key={item.id} onClick={() => handleClick(item)}>
               <Cell
                 displayMode={displayMode}
                 blockStyles={item.style}
@@ -197,7 +197,7 @@ const TableBody = ({
         }
 
         return (
-          <td key={item.id} onClick={() => handleClick('headerZone', item)}>
+          <td key={item.id} onClick={() => handleClick(item)}>
             <Cell
               displayMode={displayMode}
               blockStyles={item.style}
@@ -211,10 +211,24 @@ const TableBody = ({
     });
   };
 
-  const getStyle = index => {
-    return bodyZone?.[0].cells?.[index]
+  // const getStyle = (zone, id) => {
+
+  // }
+
+  const getStyle = (index, key) => {
+    if(!key) {
+      return bodyZone?.[0].cells?.[index]
       ? bodyZone?.[0].cells?.[index].style
       : {};
+    }
+
+    const targetZone = [...bodyZone, ...footerZone, ...headerZone].find(zone => (zone.id === key))
+     
+    return targetZone?.cells?.[index]
+    ? targetZone?.cells?.[index].style
+    : {};
+  
+   
   };
 
   const renderRow = () => {
@@ -241,8 +255,8 @@ const TableBody = ({
         if (!currentRow) return acc;
         const rowData = currentRow[index] || [];
         acc.push(
-          rowData.map(cell =>
-            key.indexOf('HB') > -1 ? <th>{cell}</th> : <td>{cell}</td>
+          rowData.map((cell, cellIndex) =>
+            key.indexOf('HB') > -1 ? <th style={{ ...getStyle(index, key) }}>{cell}</th> : <td style={{ ...getStyle(index, key) }}>{cell}</td>
           )
         );
         return acc;
