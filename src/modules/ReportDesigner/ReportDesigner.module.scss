@@ -7,20 +7,19 @@
 }
 
 .containerOutline {
-  position: absolute;
-  top: 138px;
-  right: 0;
-  left: 306px;
-  bottom: 9px;
+  width: 5240px;
+  height: 100%;
+  outline: 1px solid black;
+  position: relative;
+  background: white;
+  overflow: scroll
 }
 
 .container {
-  width: 100%;
+  width: 5240px;
   height: 100%;
-  outline: 1px solid black;
-  overflow: hidden;
-  position: relative;
-  background: white;
+  overflow: scroll
+  
   // &-portrait {
   //   width: 1240px;
   //   height: 1754px;
@@ -35,7 +34,7 @@
 .containerCompressed {
   @extend .containerOutline;
 
-  left: 545px;
+  left: 234px;
 }
 
 .tabs {
@@ -55,6 +54,11 @@
       color: white;
     }
   }
+}
+
+.tabsCompressed {
+  @extend .tabs;
+  margin-left: 234px;
 }
 
 .formulaEditor {

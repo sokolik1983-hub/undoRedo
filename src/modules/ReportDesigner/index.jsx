@@ -36,7 +36,7 @@ import FormulaEditor from '../../common/components/FormulaEditor';
 // import DragNDropProvider from '../QueryPanel/context/DragNDropContext';
 // import { getSymanticLayerData } from '../../data/actions/universes';
 import { ReactComponent as CloseIcon } from '../../layout/assets/close.svg';
-import ReportSidebar from './ReportSidebar';
+import ReportSidebar from './ReportSidebar'; 
 import QueryPanel from '../QueryPanel';
 import ReportContent from './ReportContent';
 
@@ -124,7 +124,7 @@ function ReportDesigner() {
       x: event.nativeEvent.offsetX,
       y: event.nativeEvent.offsetY
     });
-  }
+  };
 
   function handleAddBlock(event) {
     event.stopPropagation();
@@ -177,6 +177,10 @@ function ReportDesigner() {
     [styles.containerCompressed]: isShowingPanel
   });
 
+  const tabsCompressed = clsx(styles.tabs, {
+    [styles.tabsCompressed]: isShowingPanel
+  });
+
   function handleChangeMode() {
     let newMode = '';
 
@@ -187,7 +191,7 @@ function ReportDesigner() {
     }
 
     dispatch(setReportDisplayMode(newMode));
-  }
+  };
 
   function handleAddReport() {
     const newReports = [
@@ -290,21 +294,20 @@ function ReportDesigner() {
         </DragNDropProvider>
       </div> */}
       
-      <div>
-        {reportDesigner.reportsUi.ui.showFormulaEditor && (
-          <div className={styles.formulaEditor}>
-            <FormulaEditor />
-          </div>
+      {reportDesigner.reportsUi.ui.showFormulaEditor && (
+      <div className={styles.formulaEditor}>
+        <FormulaEditor />
+      </div>
         )}
-        <ReportSidebar
-          semanticLayer={semanticLayer}
-          onToggleClick={handleShowSelector}
-          showHeader={false}
-          setTabNumber={setActiveTab}
-        />
-        <div className={activeTab === 1 ? containerCompressed : styles.containerOutline}>
-          <div className={styles.tabs}>
-            {reportDesigner.reportsData.present.reports &&
+      <ReportSidebar
+        semanticLayer={semanticLayer}
+        onToggleClick={handleShowSelector}
+        showHeader={false}
+        setTabNumber={setActiveTab}
+      />
+      <div>
+        <div className={activeTab === 1 ? tabsCompressed : styles.tabs}>
+          {reportDesigner.reportsData.present.reports &&
             reportDesigner.reportsData.present.reports.map(report => {
               const isActive =
                 reportDesigner.reportsData.present.activeReport === report.id;
@@ -326,13 +329,14 @@ function ReportDesigner() {
                 </div>
               );
             })}
-            <button onClick={handleAddReport} type="button">
-              +
-            </button>
-            <button onClick={handleChangeMode} type="button">
-              {displayMode === 'Data' ? 'Структура' : 'Данные'}
-            </button>
-          </div>
+          <button onClick={handleAddReport} type="button">
+            +
+          </button>
+          <button onClick={handleChangeMode} type="button">
+            {displayMode === 'Data' ? 'Структура' : 'Данные'}
+          </button>
+        </div>
+        <div className={activeTab === 1 ? containerCompressed : styles.containerOutline}>
           <div
             style={{ zoom: `${zoom}` }}
             className={styles.container}
@@ -341,7 +345,7 @@ function ReportDesigner() {
             onDoubleClick={handleDisableSelection}
           >
             {currentReport?.structure && (
-              <ReportContent structure={currentReport?.structure} />
+            <ReportContent structure={currentReport?.structure} />
             )}
             {/* <ReportHeader data={currentReport?.structure?.pgHeader} />
             <ReportBody data={currentReport?.structure?.pgBody} />

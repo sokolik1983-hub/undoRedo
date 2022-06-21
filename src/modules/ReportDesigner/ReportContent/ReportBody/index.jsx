@@ -11,7 +11,7 @@ import {
   setStructure
 } from '../../../../data/reducers/new_reportDesigner';
 
-const ReportBody = ({ data, props }) => {
+const ReportBody = ({ data }) => {
   const dispatch = useDispatch();
   const reportDesigner = useSelector(state => state.app.reportDesigner);
   const currentReport = getCurrentReport(
@@ -60,6 +60,7 @@ const ReportBody = ({ data, props }) => {
         y: newScales.y
       };
     }
+    console.log(newScales)
 
     dispatch(setStructure(newStructure));
   }

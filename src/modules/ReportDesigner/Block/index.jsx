@@ -61,11 +61,10 @@ function Block({
         return (
           <DataTable
             blockStyles={blockProps.styles}
-            newScales={scales}
-            newPosition={position}
+            // newScales={scales}
+            // newPosition={position}
             structureItem={structureItem}
             onSelectColumnHead={handleSelectColumn}
-            handleChangeScales={onChangeScales}
             id={id}
             refContent={refContent}
           />
@@ -107,6 +106,12 @@ function Block({
       }}
       onDragStop={(e, d) => {
         e.stopPropagation();
+        console.log(d);
+        console.log(e);
+        console.log({
+          x: d.x,
+          y: d.y
+        })
         onChangePosition(id, {
           x: d.x,
           y: d.y
