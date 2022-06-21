@@ -56,39 +56,117 @@ export const requestReady = async ({ id, dispatch }) => {
   return null;
 };
 
-const requesterTimeout = ({ id, dispatch }) => {
-  return new Promise((resolve, reject) => {
-    let tryCount = 0;
-    const timer = setInterval(async () => {
-      tryCount++;
-      const response = await requestReady({
-        id,
-        dispatch
-      });
+// const requesterTimeout = ({ id, dispatch }) => {
+//   return new Promise((resolve, reject) => {
+//     let tryCount = 0;
+//     const timer = setInterval(async () => {
+//       tryCount++;
 
-      if (response?.result === 1 || !response) {
-        setLoadingData(false);
-        resolve(response);
-        return clearInterval(timer);
-      }
-      if (response?.result === 'failed') {
-        console.log('id запроса устарел');
-        clearInterval(timer);
+//       const response = await requestReady({
+//         id,
+//         dispatch
+//       });
+
+//       console.log('rt resp',response)
+
+//       if (response?.result === 1 || !response) {
+//         setLoadingData(false);
+//         clearInterval(timer);
+//         return resolve(response);
+//       }
+//       if (response?.result === 'failed') {
+//         console.log('id запроса устарел');
+//         clearInterval(timer);
+//         return reject(response);
+//       }
+//       if (response?.result === 'pending') {
+//         if (tryCount >= ATTEMPTS) {
+//           console.log('исчерпаны попытки, выход из запроса');
+//           clearInterval(timer);
+//           return reject(response);
+//         }
+//         console.log('данные на сервере еще не готовы');
+//         return reject(response);
+//       }
+//       return null;
+//     }, PENDING_SERVER_TIMER);
+//   });
+// }
+
+const requesterTimeout = ({ id, dispatch }) => new Promise((resolve, reject) => {
+  let tryCount = 0
+  const interval = async () => {
+    tryCount++;
+    const response = await requestReady({
+      id,
+      dispatch
+    });
+    if (response?.result === 1 || !response) {
+      setLoadingData(false);
+      return resolve(response);
+    }
+    if (response?.result === 'failed') {
+      console.log('id запроса устарел');
+      return reject(response);
+    }
+    if (response?.result === 'pending') {
+      if (tryCount >= ATTEMPTS) {
+        console.log('исчерпаны попытки, выход из запроса');
         return reject(response);
       }
-      if (response?.result === 'pending') {
-        if (tryCount >= ATTEMPTS) {
-          console.log('исчерпаны попытки, выход из запроса');
-          clearInterval(timer);
-          return reject(response);
-        }
-        console.log('данные на сервере еще не готовы');
-        reject(response);
-      }
-      return null;
-    }, PENDING_SERVER_TIMER);
-  });
-}
+      console.log('данные на сервере еще не готовы');
+      return setTimeout(interval, PENDING_SERVER_TIMER);
+    
+    }
+    return null;
+
+  }
+
+  setTimeout(interval, PENDING_SERVER_TIMER);
+
+
+})
+
+
+
+
+
+
+//   return new Promise((resolve, reject) => {
+//     let tryCount = 0;
+//     const timer = setInterval(async () => {
+//       tryCount++;
+
+//       const response = await requestReady({
+//         id,
+//         dispatch
+//       });
+
+//       console.log('rt resp',response)
+
+//       if (response?.result === 1 || !response) {
+//         setLoadingData(false);
+//         clearInterval(timer);
+//         return resolve(response);
+//       }
+//       if (response?.result === 'failed') {
+//         console.log('id запроса устарел');
+//         clearInterval(timer);
+//         return reject(response);
+//       }
+//       if (response?.result === 'pending') {
+//         if (tryCount >= ATTEMPTS) {
+//           console.log('исчерпаны попытки, выход из запроса');
+//           clearInterval(timer);
+//           return reject(response);
+//         }
+//         console.log('данные на сервере еще не готовы');
+//         return reject(response);
+//       }
+//       return null;
+//     }, PENDING_SERVER_TIMER);
+//   });
+// }
 
 
 // обычный запрос, в ответ на который мы получаем id запроса
@@ -97,6 +175,7 @@ const requesterTimeout = ({ id, dispatch }) => {
 export const request = async ({ params, code, dispatch }) => {
   const token = localStorage.getItem('token');
   const streamreceiver = localStorage.getItem('streamreceiver');
+  
   try {
     const response = await axios({
       method: 'post',
@@ -109,6 +188,7 @@ export const request = async ({ params, code, dispatch }) => {
         params ? JSON.stringify(params) : ''
       }&streamreceiver=${streamreceiver || null}`
     });
+
     if (response && response.status === 200) {
       return requesterTimeout({ id: response.data, dispatch });
     }
@@ -169,26 +249,26 @@ export const getTableIdFromParams = ({
   return `${schema}_${object_name}_${object_type_id}_${connect_id}`;
 };
 
-export const deepObjectSearch = ({ target, key, value, parent = null }) => {
-  let result = [];
-  const keys = Object.keys(target);
-  for (let i = 0; i < keys.length; i++) {
-    const objectKey = keys[i];
+// export const deepObjectSearch = ({ target, key, value, parent = null, grandParent = null }) => {
+//   let result = [];
+//   const keys = Object.keys(target);
+//   for (let i = 0; i < keys.length; i++) {
+//     const objectKey = keys[i];
 
-    if (typeof target[objectKey] === 'object') {
-      result = result.concat(
-        deepObjectSearch({ target: target[objectKey], key, value, parent: target })
-      );
-    }
-    /*eslint-disable */
-    if (objectKey !== key) continue;
+//     if (typeof target[objectKey] === 'object') {
+//       result = result.concat(
+//         deepObjectSearch({ target: target[objectKey], key, value, parent: target, grandParent: parent })
+//       );
+//     }
+//     /*eslint-disable */
+//     if (objectKey !== key) continue;
 
-    if(objectKey === key && target[objectKey] === value) {
-      result.push({target, parent, targetIndex: i})
-    }
-  }
-  return result;
-};
+//     if(objectKey === key && target[objectKey] === value) {
+//       result.push({target, parent, targetIndex: i, grandParent})
+//     }
+//   }
+//   return result;
+// };
 
 
 // let t = {
@@ -214,4 +294,25 @@ export const deepObjectSearch = ({ target, key, value, parent = null }) => {
 // }
 
 
-// console.log('find',deepObjectSearch({ target: t, key: 'id', value: '14' }))
+
+
+export const deepObjectSearch = ({ target, key, value, parentNodes = [], parentKey = null}) => {
+  let result = [];
+  const keys = Object.keys(target);
+  for (let i = 0; i < keys.length; i++) {
+    const objectKey = keys[i];
+
+    if (typeof target[objectKey] === 'object') {
+      result = result.concat(
+        deepObjectSearch({ target: target[objectKey], key, value, parentNodes: [target, ...parentNodes], parentKey: objectKey })
+      );
+    }
+    /*eslint-disable */
+    if (objectKey !== key) continue;
+
+    if(objectKey === key && target[objectKey] === value) {
+      result.push({target, parentKey, parentNodes })
+    }
+  }
+  return result;
+};

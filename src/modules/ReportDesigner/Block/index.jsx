@@ -90,7 +90,7 @@ function Block({
   return (
     <Rnd
       enableUserSelectHack
-      bounds="parent"
+      // bounds="parent"
       className={clsx(styles.root, styles[type], {
         [styles['is_active']]: isActiveNode
       })}
@@ -106,12 +106,6 @@ function Block({
       }}
       onDragStop={(e, d) => {
         e.stopPropagation();
-        console.log(d);
-        console.log(e);
-        console.log({
-          x: d.x,
-          y: d.y
-        })
         onChangePosition(id, {
           x: d.x,
           y: d.y

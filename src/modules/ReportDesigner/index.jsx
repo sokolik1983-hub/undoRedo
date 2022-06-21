@@ -130,7 +130,7 @@ function ReportDesigner() {
     event.stopPropagation();
 
     if (reportDesigner.reportsUi.ui.creatingElement) {
-      const newStructure = lodash.cloneDeep(currentReport.structure);
+      const newStructure = lodash.cloneDeep(currentReport.structure)
       newStructure.pgBody.content.children.push(createReportElement({type: reportDesigner.reportsUi.ui.creatingElement, mousePosition}))
       // const newStructure = [
       //   ...currentReport.structure,
@@ -282,6 +282,29 @@ function ReportDesigner() {
   // }, [semanticLayer]);
   // {id: 165, name: "Клиентская справка"}
 
+  // HELLO
+  const handleSelectBlock = (structureItem, addItem) => {
+    if (
+      lodash.find(reportDesigner.reportsData.present.activeNodes, structureItem)
+    ) {
+      const filteredNodes = reportDesigner.reportsData.present.activeNodes.filter(
+        item => item.id !== structureItem.id
+      );
+      dispatch(setActiveNodes(filteredNodes));
+      dispatch(setConfigPanelVisible(false));
+    } else {
+      let newActiveNodes = [structureItem];
+      if (addItem) {
+        newActiveNodes = [
+          ...reportDesigner.reportsData.present.activeNodes,
+          structureItem
+        ];
+      }
+      dispatch(setActiveNodes(newActiveNodes));
+      dispatch(setConfigPanelVisible(true));
+    }
+  };
+
   return (
     <div className={styles.root}>
       {/* <div className={styles.sidebar}>
@@ -302,6 +325,7 @@ function ReportDesigner() {
       <ReportSidebar
         semanticLayer={semanticLayer}
         onToggleClick={handleShowSelector}
+        onSelect={handleSelectBlock}
         showHeader={false}
         setTabNumber={setActiveTab}
       />
@@ -345,7 +369,7 @@ function ReportDesigner() {
             onDoubleClick={handleDisableSelection}
           >
             {currentReport?.structure && (
-            <ReportContent structure={currentReport?.structure} />
+              <ReportContent structure={currentReport?.structure} onSelect={handleSelectBlock} />
             )}
             {/* <ReportHeader data={currentReport?.structure?.pgHeader} />
             <ReportBody data={currentReport?.structure?.pgBody} />

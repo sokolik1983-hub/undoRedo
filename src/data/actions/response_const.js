@@ -189,7 +189,7 @@ export const REP_GET_REPORT_STRUCTURE = {
     },
     pgHeader: {
       id: 'R1.H',
-      name: 'заготовок страницы',
+      name: 'заголовок страницы',
       size: { minimalHeight: 10 },
       type: 'pgHeader'
     }
