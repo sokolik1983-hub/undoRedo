@@ -1,5 +1,5 @@
 import { request } from '../helpers';
-import { setCreateConnector, setConnectorSource, setConnectorData, setConnectors, setConnectorsFolderId, setConnectorsTypes } from '../reducers/data';
+import { setCreateConnectorResult, setCreateConnector, setConnectorSource, setConnectorData, setConnectors, setConnectorsFolderId, setConnectorsTypes } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
 import { showEditConnectorModal } from '../reducers/ui';
 
@@ -84,11 +84,12 @@ export const getConnector = queryParams => {
 export const saveConnector = queryParams => {
   return async dispatch => {
     try {
-      await request({
+      const response = await request({
         code: 'CN.SAVE',
         params: queryParams,
         dispatch
       });
+      dispatch(setCreateConnectorResult(response));
     } catch (err) {
       dispatch(
         notificationShown({ message: err.message, messageType: 'error' })

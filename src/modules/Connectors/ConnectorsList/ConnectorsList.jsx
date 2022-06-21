@@ -145,7 +145,7 @@ const ConnectorsList = () => {
 
   useEffect(() => {
     setActionButtonIsDisable({
-      prev: !currentFolderIndex,
+      prev: !currentFolderIndex,  
       next: currentFolderIndex === foldersIdHistory.length - 1 || currentFolderIndex === 0,
       up: !currentFolderIndex
     });

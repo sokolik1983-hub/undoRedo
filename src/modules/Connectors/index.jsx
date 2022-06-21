@@ -5,7 +5,8 @@ import lodash from 'lodash';
 import {
   saveConnector,
   getConnectorTypesSources,
-  createConnector
+  createConnector,
+  getConnectorsFolderId
 } from '../../data/actions/connectors';
 import styles from './Connectors.module.scss';
 import TreeView from '../../common/components/TreeView/index';
@@ -21,6 +22,8 @@ import { PAGE } from '../../common/constants/pages';
 import Gears from '../../common/components/Gears';
 import { BUTTON } from '../../common/constants/common';
 import { cloneDeep } from 'lodash';
+import { TOAST_TYPE } from '../../common/constants/common';
+import { showToast } from '../../data/actions/app';
 
 function Connectors() {
   const dispatch = useDispatch();
@@ -32,19 +35,28 @@ function Connectors() {
   // Получаем из словаря типы, источники, типы соединения
   const types = useSelector(state => state.app.data.dictionaries.source_type);
   const sources = useSelector(state => state.app.data.dictionaries.source);
-  const connections = useSelector(
-    state => state.app.data.dictionaries.connect_type
-  );
 
   // Oбъект коннектора из стора
   const connectorObject = useSelector(state => state.app.data.createConnector);
 
-  // Локальный объект коннектора
+  // Делаем локальную копию объекта коннектора, пришедшего с бека
   let newConnector = cloneDeep(connectorObject);
 
   useEffect(() => {
     newConnector = cloneDeep(connectorObject);
   }, [connectorObject]);
+  
+  //Ответ сервера на запрос создания коннектора
+  const creationResult = useSelector(
+    state => state.app.data.createConnectorResult
+  );
+
+  // Получаем id текущей папки для добавдения его в parent_id  у нового коннектора
+  const folderId = useSelector(state => state.app.data.connectorsFolderId);
+  
+  // useEffect(() => {
+  //   dispatch(getConnectorsFolderId({folderType: 'USER_CN'}));
+  // }, [folderId]);
 
   const [connectName, setConnectName] = useState(''); // имя коннектора
   const [connectType, setConnectType] = useState(null); // тип коннектора(База Данных, Тестовый файл)
@@ -54,12 +66,6 @@ function Connectors() {
   // Видима/невидима модалка добавления коннектора
   const [isVisible, setIsVisible] = useState(false);
 
-  // Устанавливаем значения для Select по умолчанию
-  // useEffect(() => {
-  //   setConnectType(types?.[0].id);
-  //   setConnectSource(sources?.[0].id);
-  // }, [types?.[0].id, sources?.[0].id]);
-
   // Делаем из полученных из словаря типов, источников, типов соединения подходящие массивы options для компонента Select
   const typeOptions = types?.map(item => ({
     text: item.name,
@@ -67,11 +73,6 @@ function Connectors() {
   }));
 
   const sourceOptions = sources?.map(item => ({
-    text: item.name,
-    value: String(item.id)
-  }));
-
-  const connectionOptions = connections?.map(item => ({
     text: item.name,
     value: String(item.id)
   }));
@@ -89,8 +90,15 @@ function Connectors() {
     dispatch(getConnectorTypesSources({})); // Запрос типов и ресурсов на бек
   };
 
+  // Чистим введенныю данные при закрытии модалки создания нового коннектора
+  const clearEnteredData = () => {
+    setConnectName('');
+    setConnectionDescription('');
+  };
+
   const closeConnectorModalHandler = () => {
     setIsVisible(false);
+    clearEnteredData();
   };
 
   useEffect(() => {
@@ -115,9 +123,20 @@ function Connectors() {
     newConnector.header.description = connectionDescription;
   };
 
+  // Показ уведомления в зависимости от результат с бэка
+  useEffect(() => {
+    if (creationResult?.result) {
+      if (creationResult.result === 1) {
+        dispatch(showToast(TOAST_TYPE.SUCCESS, 'Соединение успешно создано'));
+      } else {
+        dispatch(showToast(TOAST_TYPE.DANGER, 'Ошибка создания соединения'));
+      }
+    }
+  }, [creationResult]);
+
   // Функция для добавления и сохранения нового коннектора на бэке
   const addConnector = () => {
-    newConnector.header.parent_id = 10009; // переписать - брать parent_id из бека
+    newConnector.header.parent_id = folderId;
     setHeaderAndDescription();
     dispatch(saveConnector(newConnector));
     closeConnectorModalHandler();
@@ -153,7 +172,6 @@ function Connectors() {
           className={styles.selectInput}
           value={connectSource}
           onSelectItem={setConnectSource}
-          // options={sourceOptions?.filter(item => item.value === connectType)} // Фильтурем для получения подходящих options в завимисомти от типо коннектора
           options={sourceOptions}
           defaultValue={'...'}
         />
@@ -206,7 +224,11 @@ function Connectors() {
   // Футер модалки
   const createConnectorModalFooter = (
     <div className={styles.footerButtonsGroup}>
-      <Button buttonStyle={BUTTON.BIG_ORANGE} onClick={addConnector}>
+      <Button
+        buttonStyle={BUTTON.BIG_ORANGE}
+        onClick={addConnector}
+        disabled={newConnector?.data?.fields ? false : true}
+      >
         Сохранить
       </Button>
       <Button
