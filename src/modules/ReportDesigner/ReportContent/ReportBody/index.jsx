@@ -11,7 +11,7 @@ import {
   setStructure
 } from '../../../../data/reducers/new_reportDesigner';
 
-const ReportBody = ({ data, onSelect }) => {
+const ReportBody = ({ data, onSelect, isActiveNode }) => {
   const dispatch = useDispatch();
   const reportDesigner = useSelector(state => state.app.reportDesigner);
   const currentReport = getCurrentReport(
@@ -21,14 +21,7 @@ const ReportBody = ({ data, onSelect }) => {
 
   const children = data?.content?.children;
 
-  function checkIsActiveNode(id) {
-    return !lodash.isEmpty(
-      lodash.find(
-        reportDesigner.reportsData.present.activeNodes,
-        item => item.id === id
-      )
-    );
-  }
+  
 
   function handleChangePosition(id, newPosition) {
     const newStructure = lodash.cloneDeep(currentReport.structure);
@@ -60,7 +53,6 @@ const ReportBody = ({ data, onSelect }) => {
         y: newScales.y
       };
     }
-    console.log(newScales)
 
     dispatch(setStructure(newStructure));
   }
@@ -76,7 +68,7 @@ const ReportBody = ({ data, onSelect }) => {
             onChangePosition={handleChangePosition}
             onChangeScales={handleChangeScales}
             onSelect={onSelect}
-            isActiveNode={checkIsActiveNode(item.id)}
+            isActiveNode={isActiveNode(item.id)}
           />
         );
       })}

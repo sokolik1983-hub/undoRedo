@@ -16,7 +16,8 @@ import {
   reportPageObject,
   setReportDisplayMode
 } from '../../data/reducers/new_reportDesigner';
-import Block from './Block';
+import { BUTTON } from '../../common/constants/common';
+import Button from '../../common/components/Button';
 import styles from './ReportDesigner.module.scss';
 import { createReportElement, getCurrentReport } from './helpers';
 // import SidePanel from '../../common/components/SidePanel';
@@ -256,14 +257,14 @@ function ReportDesigner() {
   //   }
   // };
 
-  // function checkIsActiveNode(id) {
-  //   return !lodash.isEmpty(
-  //     lodash.find(
-  //       reportDesigner.reportsData.present.activeNodes,
-  //       item => item.id === id
-  //     )
-  //   );
-  // }
+  function checkIsActiveNode(id) {
+    return !lodash.isEmpty(
+      lodash.find(
+        reportDesigner.reportsData.present.activeNodes,
+        item => item.id === id
+      )
+    );
+  }
 
   function handleDisableSelection() {
     if (reportDesigner.reportsData.present.activeNodes.length > 0) {
@@ -326,40 +327,12 @@ function ReportDesigner() {
         semanticLayer={semanticLayer}
         onToggleClick={handleShowSelector}
         onSelect={handleSelectBlock}
+        isActiveNode={checkIsActiveNode}
         showHeader={false}
         setTabNumber={setActiveTab}
       />
-      <div>
-        <div className={activeTab === 1 ? tabsCompressed : styles.tabs}>
-          {reportDesigner.reportsData.present.reports &&
-            reportDesigner.reportsData.present.reports.map(report => {
-              const isActive =
-                reportDesigner.reportsData.present.activeReport === report.id;
-              return (
-                <div
-                  key={report.id}
-                  className={clsx(styles.tab, {
-                    [styles.tab_active]: isActive
-                  })}
-                  onClick={handleSelectReport(report.id)}
-                >
-                  {report.name}
-                  {isActive && (
-                    <CloseIcon
-                      onClick={handleDeleteReport(report.id)}
-                      className={styles.closeIcon}
-                    />
-                  )}
-                </div>
-              );
-            })}
-          <button onClick={handleAddReport} type="button">
-            +
-          </button>
-          <button onClick={handleChangeMode} type="button">
-            {displayMode === 'Data' ? 'Структура' : 'Данные'}
-          </button>
-        </div>
+      <div className={styles.wrapper}>
+        
         <div className={activeTab === 1 ? containerCompressed : styles.containerOutline}>
           <div
             style={{ zoom: `${zoom}` }}
@@ -369,7 +342,11 @@ function ReportDesigner() {
             onDoubleClick={handleDisableSelection}
           >
             {currentReport?.structure && (
-              <ReportContent structure={currentReport?.structure} onSelect={handleSelectBlock} />
+              <ReportContent 
+                structure={currentReport?.structure}
+                onSelect={handleSelectBlock}
+                isActiveNode={checkIsActiveNode}
+              />
             )}
             {/* <ReportHeader data={currentReport?.structure?.pgHeader} />
             <ReportBody data={currentReport?.structure?.pgBody} />
@@ -386,6 +363,38 @@ function ReportDesigner() {
             ))}
             <ReportFooter data={currentReport?.structure?.pgFooter} /> */}
           </div>
+          
+        </div>
+        <div className={activeTab === 1 ? tabsCompressed : styles.tabs}>
+          {reportDesigner.reportsData.present.reports &&
+            reportDesigner.reportsData.present.reports.map(report => {
+              const isActive =
+                reportDesigner.reportsData.present.activeReport === report.id;
+              return (
+                <Button
+                  buttonStyle={BUTTON.BLUE}
+                  key={report.id}
+                  className={clsx(styles.tab, {
+                    [styles.tab_active]: isActive
+                  })}
+                  onClick={handleSelectReport(report.id)}
+                >
+                  {report.name}
+                  {isActive && (
+                    <CloseIcon
+                      onClick={handleDeleteReport(report.id)}
+                      className={styles.closeIcon}
+                    />
+                  )}
+                </Button>
+              );
+            })}
+          <Button onClick={handleAddReport} buttonStyle={BUTTON.BLUE} className={styles.plus}>
+            +
+          </Button>
+          <Button onClick={handleChangeMode} buttonStyle={BUTTON.BLUE}>
+            {displayMode === 'Data' ? 'Структура' : 'Данные'}
+          </Button>
         </div>
       </div>
       {isQueryPanelModalOpened && (

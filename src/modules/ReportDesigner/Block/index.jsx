@@ -91,6 +91,9 @@ function Block({
     <Rnd
       enableUserSelectHack
       // bounds="parent"
+      // TODO: закомментировано для Дизайнера отчета, чтобы таблица не прилипала к верхней границе
+      //       подумать над альтернативой (баг в либе RnD: если таблица не полностью попадает в видимую область,
+      //       координаты для частично не показываемых элементов равны нулю)
       className={clsx(styles.root, styles[type], {
         [styles['is_active']]: isActiveNode
       })}

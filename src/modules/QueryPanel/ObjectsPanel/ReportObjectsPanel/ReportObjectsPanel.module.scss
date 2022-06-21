@@ -129,3 +129,10 @@
 .listItem {
   width: 100%;
 }
+
+.activeListItem {
+  width: 99%;
+  outline: 2px solid royalblue;
+  box-shadow: 0px 0px 5px 5px rgba(34, 60, 80, 0.15);
+  z-index: 19;
+}
