@@ -2464,7 +2464,7 @@ export const reportPageObject = {
   //   pgHeader: {
   //     id: 'R1.PH',
   //     type: 'pgHeader',
-  //     name: 'заготовок страницы',
+  //     name: 'заголовок страницы',
   //     size: {
   //       minimalHeight: 10
   //     }

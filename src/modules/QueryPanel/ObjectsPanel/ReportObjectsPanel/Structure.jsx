@@ -1,15 +1,13 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import lodash from 'lodash';
+import { cloneDeep } from 'lodash';
 import styles from './ReportObjectsPanel.module.scss';
 import { ReactComponent as StructureIcon } from '../../../../layout/assets/reportDesigner/structure.svg';
 import { ReactComponent as HeaderIcon } from '../../../../layout/assets/reportDesigner/structureHeader.svg';
 import { ReactComponent as BodyIcon } from '../../../../layout/assets/reportDesigner/structureBody.svg';
 import { ReactComponent as FooterIcon } from '../../../../layout/assets/reportDesigner/structureFooter.svg';
 import { ReactComponent as TextIcon } from '../../../../layout/assets/reportDesigner/structureText.svg';
-import { ReactComponent as TableIcon } from '../../../../layout/assets/reportDesigner/structureTable.svg';
 import DropdownItem from '../../../../common/components/Dropdown/DropdownItem';
 import Tooltip from '../../../../common/components/Tooltip';
 import ListItem from '../../../../common/components/List/ListItem/ListItem';
@@ -36,7 +34,7 @@ const Structure = ({currentReport, onSelect}) => {
   };
 
   const handleUpdateName = id => value => {
-    const newStructure = lodash.cloneDeep(currentReport.structure);
+    const newStructure = cloneDeep(currentReport.structure);
     const targ = deepObjectSearch({
       target: newStructure,
       key: 'id',
@@ -53,7 +51,7 @@ const Structure = ({currentReport, onSelect}) => {
   };
 
   const handleDeleteBlock = id => {
-    const newStructure = lodash.cloneDeep(currentReport.structure);
+    const newStructure = cloneDeep(currentReport.structure);
     const newChildren = newStructure.pgBody?.content?.children.filter(item => item?.id !== id);
     dispatch(setStructure({...newStructure, ...newStructure.pgBody.content.children = newChildren}))
   };
@@ -143,6 +141,11 @@ const Structure = ({currentReport, onSelect}) => {
       </div>
     </div>
     );
+};
+
+Structure.propTypes = {
+  currentReport: PropTypes.object,
+  onSelect: PropTypes.func
 };
 
 export default Structure;

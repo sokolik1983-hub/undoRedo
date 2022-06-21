@@ -103,7 +103,6 @@ function Block({
       // }}
       onDoubleClick={e => {
         e.stopPropagation();
-        console.log(e);
         onSelect(structureItem, e.shiftKey);
       }}
       onDragStop={(e, d) => {

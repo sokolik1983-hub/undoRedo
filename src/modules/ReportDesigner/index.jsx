@@ -128,15 +128,8 @@ function ReportDesigner() {
   function handleAddBlock(event) {
     event.stopPropagation();
 
-    console.log(reportDesigner.reportsUi.ui.creatingElement, 'asd');
-
-    console.log(currentReport.structure)
-    console.log(mousePosition)
-
-
     if (reportDesigner.reportsUi.ui.creatingElement) {
       const newStructure = lodash.cloneDeep(currentReport.structure)
-      console.log(newStructure)
       newStructure.pgBody.content.children.push(createReportElement({type: reportDesigner.reportsUi.ui.creatingElement, mousePosition}))
       // const newStructure = [
       //   ...currentReport.structure,
