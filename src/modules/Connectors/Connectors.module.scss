@@ -56,7 +56,7 @@
   font-size: 10px;
 }
 
-.textarea{
+.textarea {
   @extend .connectorsInput;
   width: 100%;
   min-height: 50px;
@@ -67,6 +67,8 @@
 .testConnectionWrapper {
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
+  margin-bottom: 25px;
   align-items: center;
   width: 125px;
 }
@@ -117,7 +119,7 @@
   font-size: 14px;
   line-height: 16px;
   color: #ffffff;
-  margin-left:-4px;
+  margin-left: -4px;
 }
 
 .selectInput {
@@ -152,4 +154,3 @@
   justify-content: flex-end;
   align-items: center;
 }
-

@@ -8,6 +8,7 @@ import {
   createConnector,
   getConnectorsFolderId
 } from '../../data/actions/connectors';
+import { Field, Form, Formik } from 'formik';
 import styles from './Connectors.module.scss';
 import TreeView from '../../common/components/TreeView/index';
 import Button from '../../common/components/Button';
@@ -45,7 +46,7 @@ function Connectors() {
   useEffect(() => {
     newConnector = cloneDeep(connectorObject);
   }, [connectorObject]);
-  
+
   //Ответ сервера на запрос создания коннектора
   const creationResult = useSelector(
     state => state.app.data.createConnectorResult
@@ -53,7 +54,7 @@ function Connectors() {
 
   // Получаем id текущей папки для добавдения его в parent_id  у нового коннектора
   const folderId = useSelector(state => state.app.data.connectorsFolderId);
-  
+
   // useEffect(() => {
   //   dispatch(getConnectorsFolderId({folderType: 'USER_CN'}));
   // }, [folderId]);
@@ -135,7 +136,8 @@ function Connectors() {
   }, [creationResult]);
 
   // Функция для добавления и сохранения нового коннектора на бэке
-  const addConnector = () => {
+  const addConnector = (event) => {
+    event.preventDefault();
     newConnector.header.parent_id = folderId;
     setHeaderAndDescription();
     dispatch(saveConnector(newConnector));
@@ -144,13 +146,14 @@ function Connectors() {
 
   // Контент для модалки для добавления коннеткора
   const createConnectorModalContent = (
-    <form className={styles.form}>
+    <form className={styles.form} id="createConnectorForm" onSubmit={addConnector}>
       <div className={styles.connectionWrapper}>
         <TextInput
           label="Введите имя соединения"
           value={connectName}
           onChange={e => setConnectName(e.target.value)}
           id="connectorName"
+          required='hide'
           labelClassName={styles.connectorsLabel}
           className={styles.selectInput}
           placeholder="Имя соединения"
@@ -187,7 +190,8 @@ function Connectors() {
                   labelClassName={styles.selectText}
                   value={item.value}
                   key={`${item.fieldName}_${index}`}
-                  // required={item.required}
+                  type="text"
+                  required='invisible'
                   className={styles.connectorsInput}
                   onChange={e => {
                     newConnector.data.fields[index].value = e.target.value;
@@ -226,7 +230,9 @@ function Connectors() {
     <div className={styles.footerButtonsGroup}>
       <Button
         buttonStyle={BUTTON.BIG_ORANGE}
-        onClick={addConnector}
+        onSubmit={(e) => addConnector(e)}
+        form="createConnectorForm"
+        type="text"
         disabled={newConnector?.data?.fields ? false : true}
       >
         Сохранить

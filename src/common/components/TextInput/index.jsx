@@ -50,7 +50,9 @@ const TextInput = forwardRef(
           </label>
         )}
         {props.required && (
-          <span className={styles.inputRequired}>Required</span>
+          <span className={styles.inputRequired}>
+            {props.required === 'invisible' ? '' : 'Required'}
+          </span>
         )}
         <input
           ref={ref}
