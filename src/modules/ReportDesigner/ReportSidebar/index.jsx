@@ -54,8 +54,8 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector, onSelect, setTabNumb
     return styles.viewBlockActive
   };
 
-  const structureItem = useSelector(
-    state => state.app.reportDesigner.reportsUi.ui?.structureItem
+  const menuItem = useSelector(
+    state => state.app.reportDesigner.reportsUi.ui?.menuItem
   );
 
   const getName = (item) => {
@@ -84,7 +84,7 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector, onSelect, setTabNumb
               <>
                 <div>
                   <p className={styles.viewActiveText}>просмотр</p>
-                  <p className={styles.viewItem}>{getName(structureItem)}</p>
+                  <p className={styles.viewItem}>{getName(menuItem)}</p>
                 </div>
                 <div className={styles.actions}>
                   <div onClick={handleCollapse}>
@@ -103,7 +103,7 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector, onSelect, setTabNumb
               <>
                 <div>
                   <p className={styles.editActiveText}>редактирование</p>
-                  <p className={styles.editableItem}>{getName(structureItem)}</p>
+                  <p className={styles.editableItem}>{getName(menuItem)}</p>
                 </div>
                 <div className={styles.actions}>
                   <div onClick={handleCollapse}>

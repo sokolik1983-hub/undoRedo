@@ -1,8 +1,10 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-unused-vars */
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import lodash from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
+import IconButton from '../../common/components/IconButton';
 import {
   reportObject,
   setActiveNodes,
@@ -40,6 +42,9 @@ import { ReactComponent as CloseIcon } from '../../layout/assets/close.svg';
 import ReportSidebar from './ReportSidebar'; 
 import QueryPanel from '../QueryPanel';
 import ReportContent from './ReportContent';
+import { ReactComponent as MiniFormulaIcon } from '../../layout/assets/reportDesigner/miniFormula.svg';
+import { ReactComponent as OkFormulaIcon } from '../../layout/assets/reportDesigner/okFormula.svg';
+import { ReactComponent as ClearFormulaIcon } from '../../layout/assets/reportDesigner/clearFormula.svg';
 
 
 // const getVariant = (type, tableType, graphType) => {
@@ -174,12 +179,29 @@ function ReportDesigner() {
 
   const isShowingPanel = reportDesigner.reportsUi.ui.showConfigPanel;
 
-  const containerCompressed = clsx(styles.containerOutline, {
-    [styles.containerCompressed]: isShowingPanel
-  });
+  const containerStyle = () => {
+
+    if (reportDesigner.reportsUi?.ui.showFormulaEditor && !isShowingPanel) {
+      return styles.container
+    }
+    
+    if (activeTab === 1 && isShowingPanel && !reportDesigner.reportsUi?.ui.showFormulaEditor) {
+      return styles.containerTab1
+    }
+
+    if (activeTab === 1 && reportDesigner.reportsUi?.ui.showFormulaEditor && isShowingPanel) {
+      return styles.containerTab1Formula
+    }
+
+    return styles.containerFull
+  }
 
   const tabsCompressed = clsx(styles.tabs, {
     [styles.tabsCompressed]: isShowingPanel
+  });
+
+  const formulaCompressed = clsx(styles.formula, {
+    [styles.formulaCompressed]: isShowingPanel
   });
 
   function handleChangeMode() {
@@ -278,12 +300,15 @@ function ReportDesigner() {
     setSemanticLayer(true);
   };
 
+  const [formula, setFormula] = useState('');
+
+  const handleChange = e => setFormula(e.target.value);
+
   // useEffect(() => {
   //   if (semanticLayer) dispatch(getSymanticLayerData(semanticLayer.id));
   // }, [semanticLayer]);
   // {id: 165, name: "Клиентская справка"}
 
-  // HELLO
   const handleSelectBlock = (structureItem, addItem) => {
     if (
       lodash.find(reportDesigner.reportsData.present.activeNodes, structureItem)
@@ -317,12 +342,6 @@ function ReportDesigner() {
           />
         </DragNDropProvider>
       </div> */}
-      
-      {reportDesigner.reportsUi.ui.showFormulaEditor && (
-      <div className={styles.formulaEditor}>
-        <FormulaEditor />
-      </div>
-        )}
       <ReportSidebar
         semanticLayer={semanticLayer}
         onToggleClick={handleShowSelector}
@@ -332,11 +351,35 @@ function ReportDesigner() {
         setTabNumber={setActiveTab}
       />
       <div className={styles.wrapper}>
-        
-        <div className={activeTab === 1 ? containerCompressed : styles.containerOutline}>
+        {reportDesigner.reportsUi.ui.showFormulaEditor && (
+        <div className={activeTab === 1 ? formulaCompressed : styles.formula}>
+          <MiniFormulaIcon />
+          <textarea 
+            className={styles.formulaTextarea}
+            type="text"
+            name="formula"
+            value={formula}
+            onChange={handleChange}
+          />
+          <div className={styles.formulaIcons}>
+            <IconButton
+              size='small'
+              className={styles.okFormula}
+              icon={<OkFormulaIcon />}
+              onClick={() => {}}
+            />
+            <IconButton
+              size='small'
+              icon={<ClearFormulaIcon />}
+              onClick={() => {}}
+            />
+          </div>
+        </div>
+        )}
+        <div className={containerStyle()}>
           <div
             style={{ zoom: `${zoom}` }}
-            className={styles.container}
+            className={styles.innerContainer}
             onMouseMove={handleMouseMove}
             onClick={handleAddBlock}
             onDoubleClick={handleDisableSelection}
