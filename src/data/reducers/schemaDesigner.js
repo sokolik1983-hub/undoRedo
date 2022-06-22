@@ -26,7 +26,8 @@ const schemaDesigner = createSlice({
   initialState: {
     connectorId: 4, // demo data
     connectorObjects: [],
-    selectedTables: [],
+    selectedTables: {},
+    selectedTablesArray: [],
     selectedTablesData: [],
     showDataList: false,
     dataList: [],
@@ -59,6 +60,18 @@ const schemaDesigner = createSlice({
     },
     setSelectedTables: (state, action) => {
       state.selectedTables = { ...state.selectedTables, ...action.payload };
+    },
+    setSelectedTablesArray: (state, action) => {
+      state.selectedTablesArray = [...state.selectedTablesArray, {...action.payload}]
+    },
+    addRefSelectedTables: (state, action) => {
+      state.selec = state.selectedTablesArray.map(table => {
+        console.log(table)
+        if (table.object_name === action.payload.tableName) {
+          table.ref = action.payload.ref;
+        }
+        return table;
+      })
     },
     setSelectedTablesFiltered: (state, action) => {
       state.selectedTables = action.payload
@@ -132,6 +145,8 @@ export const {
   setConnectorObjects,
   setConnectorData,
   setSelectedTables,
+  setSelectedTablesArray,
+  addRefSelectedTables,
   setSelectedTablesData,
   addLink,
   setLinks,

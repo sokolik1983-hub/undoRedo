@@ -3,8 +3,6 @@
 import React from 'react';
 
 export default props => {
-  // console.log(Object.freeze(props))
-
   const {
     SourceRect: { portRect: SourceRect = {}, tableRect: SourceTableRect },
     TargetRect: { portRect: TargetRect = {}, tableRect: TargetTableRect }
@@ -176,6 +174,7 @@ export default props => {
   };
 
   // console.log({SourceRect, TargetRect, crossClass, sp, sd, tp, td, dc, bd})
+  // console.log(props.link.object2)
   const objectToMarker = object =>
     object.cardinality === 'many' ? 'url(#fork)' : null;
 

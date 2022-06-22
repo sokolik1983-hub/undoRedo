@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cn from 'clsx';
@@ -27,6 +28,10 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
   const [rightTable, setRightTable] = useState(null); // name правой таблицы
   const [leftSelected, setLeftSelected] = useState([]);
   const [rightSelected, setRightSelected] = useState([]);
+  const [leftSchema, setLeftSchema] = useState([]);
+  const [rightSchema, setRightSchema] = useState([]);
+  const [leftColumns, setLeftColumns] = useState([]);
+  const [rightColumns, setRightColumns] = useState([]);
 
   const currentObjLink = useSelector(
     state => state.app.ui.modalData 
@@ -37,7 +42,25 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
 
   const selectedTables = useSelector(
     state => state.app.schemaDesigner.selectedTables
-  );
+  );  
+
+  const connectorObjects = useSelector(
+    state => state.app.schemaDesigner.connectorObjects
+  );  
+
+  useEffect(() => {
+    console.log(leftTable, rightTable)
+    if (connectorObjects.length && leftTable && rightTable) {
+      connectorObjects?.forEach(schema => {
+        if (leftTable.includes(schema.schema)) {
+          setLeftSchema(schema.schema)
+        }
+        if (rightTable.includes(schema.schema)) {
+          setRightSchema(schema.schema);
+        }
+      })
+    } 
+  }, [connectorObjects, leftTable, rightTable])
 
   const convertedData = useMemo(() => {
     return Object.keys(selectedTables).map(table => ({
@@ -48,13 +71,25 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
   }, [selectedTables]);
 
   useEffect(() => {
+    convertedData.forEach(table => {
+      if (table.name === leftTable) {
+        setLeftColumns(table.columns);
+      }
+      if (table.name === rightTable) {
+        setRightColumns(table.columns);
+      }
+    })
+  }, [convertedData, leftTable, rightTable])
+
+
+  useEffect(() => {
     setResultExpression(
       createExpression(
         leftSelected || currentObjLink?.object1.selectedColumns,
         rightSelected || currentObjLink?.object2.selectedColumns,
         condition, 
-        leftTable || currentObjLink?.object1.object,
-        rightTable || currentObjLink?.object2.object
+        leftTable || currentObjLink?.object1.object_name,
+        rightTable || currentObjLink?.object2.object_name
       )
     );
   }, [rightSelected, leftSelected, condition]);
@@ -72,15 +107,17 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
           expression: resultExpression,
           object1: {
             cardinality: 'one',
-            fields: [{ field: 'prospect_id', type: 'Number' }],
-            object: leftTable,
+            object_name: leftTable,
+            schema: leftSchema,
+            fields: leftColumns,
             selectedColumns: leftSelected,
             outerJoin: null
           },
           object2: {
-            cardinality: 'many',
-            fields: [{ field: 'egr_id', type: 'Number' }],
-            object: rightTable,
+            cardinality: 'one',
+            object_name: rightTable,
+            schema: rightSchema,
+            fields: rightColumns,
             selectedColumns: rightSelected,
             outerJoin: null
           }
@@ -94,15 +131,17 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
             expression: resultExpression,
             object1: {
               cardinality: 'one',
-              fields: [{ field: 'prospect_id', type: 'Number' }],
-              object: leftTable,
+              object_name: leftTable,
+              schema: leftSchema,
+              columns: leftColumns,
               selectedColumns: leftSelected || currentObjLink.object1.selectedColumns,
               outerJoin: null
             },
             object2: {
-              cardinality: 'many',
-              fields: [{ field: 'egr_id', type: 'Number' }],
-              object: rightTable,
+              cardinality: 'one',
+              object_name: rightTable,
+              schema: rightSchema,
+              columns: rightColumns,
               selectedColumns: rightSelected || currentObjLink.object2.selectedColumns,
               outerJoin: null
             }
@@ -151,7 +190,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
             onSelectColumn={setSelectedColumns}
             onSelectTable={handleSelectTable}
             tableSelected={getTableSelected()}
-            currentLeftTable={currentObjLink?.object1.object}
+            currentLeftTable={currentObjLink?.object1.object_name}
             currentLeftColumns={currentObjLink?.object1.selectedColumns}
           />
           <ConnectionType onSelectExpression={setSelectedCondition} currentExpression={currentObjLink?.condition} />
@@ -161,7 +200,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
             onSelectColumn={setSelectedColumns}
             onSelectTable={handleSelectTable}
             tableSelected={getTableSelected()}
-            currentLeftTable={currentObjLink?.object2.object}
+            currentLeftTable={currentObjLink?.object2.object_name}
             currentRightColumns={currentObjLink?.object2.selectedColumns}
           />
         </div>

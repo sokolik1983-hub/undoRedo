@@ -21,6 +21,7 @@ import { IconButton } from '@material-ui/core';
 import Tooltip from '../../../common/components/Tooltip/index';
 import { ReactComponent as Plus } from '../../../layout/assets/reportDesigner/plus.svg';
 import { ReactComponent as Minus } from '../../../layout/assets/reportDesigner/minus.svg';
+import { useSelector } from 'react-redux';
 
 import { SymanticLayerContextProvider, SymanticLayerContext } from './context';
 
@@ -38,6 +39,7 @@ import SymanticLink from './Link';
 import Minimap from './Minimap';
 // import SearchDialog from './SearchDialog';
 import Vector from './vector';
+import { getTableIdFromParams } from '../../../data/helpers';
 
 const Provided = props => {
   const [lastUpdTime, forceUpdate] = useReducer(() => new Date(), 0);
@@ -150,19 +152,21 @@ const Provided = props => {
 
   useMemo(() => {
     if (props.tablesPosition) {
+      console.log('45454')
       setTablesPosition(props.tablesPosition);
       setTablePositionChangedCallback(props.setTablesPosition);
     }
   }, [props.tablesPosition]);
 
-  useMemo(() => {
-    if (props.tables) {
-      setTables(props.tables);
-
+  useEffect(() => {
+    const tablesCurrent = props.tables;
+    // console.log('tablesCurrent', tablesCurrent);
+    if (tablesCurrent) {
+      setTables(tablesCurrent);
       lodash.keys(props.tablesPosition).forEach(key => {
         if (
           !lodash.find(
-            props.tables,
+            tablesCurrent,
             table => `${table.schema}.${table.object_name}` === key
           )
         ) {
@@ -219,13 +223,14 @@ const Provided = props => {
   );
 
   const targetRect = (table, field) => {
-    const tableName = getTableId(table);
+    const tableName = getTableId(table).replace(/(_[0-9]+)+/, '').replace(/.+\./, '').replace(new RegExp(`^${table.schema}_`), `${table.schema}\.`);
     const tp = getTablePosition(tableName) || { deltaPosition: { x: 0, y: 0 } };
+    console.log(tp)
     const tr = getRefs(tableName);
 
     if (!tp || !tr || !tr.tableRef || !tr.headerRef) return { tp, tr };
 
-    let port = tr.ports.find(column => column.key === field.field);
+    let port = tr.ports.find(column => column.key === field);
 
     if (!port) port = tr.headerRef;
     else port = port.ref;
@@ -236,6 +241,7 @@ const Provided = props => {
       tr.tableRef.current && tr.tableRef.current.getBoundingClientRect();
     let rect = port.current && port.current.getBoundingClientRect();
 
+    // console.log(headerRect, tableRect, rect);
     if (!rect) {
       rect = headerRect || tableRect;
       port = tr.headerRef || tr.tableRef;
@@ -258,8 +264,9 @@ const Provided = props => {
       port.current.clientWidth,
       port.current.clientHeight
     ];
+
     const x =
-      ((rect.x - tableRect.x) * height) / rect.height + tp.deltaPosition.x;
+      ((rect.x - tableRect.x) * width) / rect.width + tp.deltaPosition.x;
     const y =
       ((rect.y - tableRect.y) * height) / rect.height + tp.deltaPosition.y;
 
@@ -273,6 +280,7 @@ const Provided = props => {
       tableRect
     };
   };
+  const links = useSelector(state => state.app.schemaDesigner.links);
   const renderContent = ({ isShadow = false } = {}) => {
     return (
       <React.Fragment key="content">
@@ -298,15 +306,14 @@ const Provided = props => {
               />
             );
           })()}
-
-        {props.objectsLinks?.map(link => {
+        {links?.map(link => {
           const SourceRect = targetRect(
-            link.object1.object,
-            !isShadow && link.object1.fields[0]
+            link?.object1,
+            !isShadow && link?.object1.selectedColumns[0]
           );
           const TargetRect = targetRect(
-            link.object2.object,
-            !isShadow && link.object2.fields[0]
+            link?.object2,
+            !isShadow && link?.object2.selectedColumns[0]
           );
 
           return (
@@ -318,8 +325,8 @@ const Provided = props => {
               onShowLinkEdit={props.onShowLinkEdit}
               key={link}
               isLoop={
-                getTableId(link.object1.object) ===
-                getTableId(link.object2.object)
+                getTableId(link.object1) ===
+                getTableId(link.object2)
               }
               // onCreateSynonym={props.onCreateSynonym}
             />

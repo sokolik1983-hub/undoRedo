@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import clsx from 'clsx';
 import ReactDOM from 'react-dom';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Dropdown from '../../../common/components/Dropdown';
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import TextInput from '../../../common/components/TextInput';
@@ -14,6 +16,8 @@ import Tooltip from '../../../common/components/Tooltip';
 import IconButton from '../../../common/components/IconButton';
 import CreateCopyModal from './CreateCopyModal';
 import ModalConfirmDeletion  from '../../../common/components/Modal/ModalConfirmDeletion';
+import { SymanticLayerContext } from '../../SymlayersDesigner/SchemaTables/context';
+import { addRefSelectedTables } from '../../../data/reducers/schemaDesigner';
 
 const items = [
   { text: 'Псевдоним', value: 'copy' },
@@ -32,17 +36,48 @@ const SchemaEditorBlock = ({
   onTableDragStart,
   selectedTableName,
   selectedTableColumns = [],
+  addRefToColumns,
+  addRefToTable,
+  addRefToHeader,
   onTablePreviewClick,
   onCloseSchemaEditorBlock,
   isHighlight,
   selectedTableFullName,
   onDeleteTable,
   tableItem,
+  tableId,
   onFieldDragStart,
+  onFieldDragOver,
   onCreate,
   synoName,
   setSynoName
 }) => {
+  const [
+    { linkAnchor},
+    {
+      SET_TABLE_REFS,
+      // SET_TABLE_POSITION,
+      SET_EXPANDED,
+      SET_FILTER,
+      ZOOM_DEFAULT,
+
+      startDrag,
+      onStopDrag: stopDrag,
+
+      initLink
+    },
+    { getTableProps, posToCoord, addLink }
+  ] = useContext(SymanticLayerContext);
+
+  const {
+    // tableItem,
+    // connect_id,
+    expanded,
+    position,
+    filter: columnFilter,
+    ...props
+  } = getTableProps(tableId);
+
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
   );
@@ -50,9 +85,55 @@ const SchemaEditorBlock = ({
   const [isActive, setIsActive] = useState(false);
   const [isOpened, setIsOpened] = useState(true);
   const [isCopy, setIsCopy] = useState(false);
+  const [fieldsCount, setFieldsCount] = useState(selectedTableColumns.length);
+  const [coorded, setCoorded] = useState(false);
+  const [portsRefs, setPortsRef] = useState([]);
   const [isDeleteWarningModalOpened, setDeleteWarningModalOpened] = useState(false);
+  const headerRef = useRef(null);
+  const tableRef = useRef(null);
+  const fieldRefs = useRef([React.createRef(), React.createRef()]);
+
+  const updateFieldsCount = (value) => {
+    setFieldsCount(value);
+    fieldRefs.current = fieldRefs.current.splice(0, value);
+    for (let i = 0; i < value; i++) {
+      fieldRefs.current[i] = fieldRefs.current[i] || React.createRef();
+    }
+    fieldRefs.current = fieldRefs.current.map(fieldRef => fieldRef || React.createRef());
+    setPortsRef([...fieldRefs.current]);
+  }
 
   useEffect(() => {
+    fieldRefs.current[fieldRefs.current.length - 1].current?.focus();
+  }, [fieldsCount]);
+
+  useEffect(() => {
+    if (tableRef) {
+      addRefToTable(tableRef);
+    }
+  }, [tableRef]);
+
+  useEffect(() => {
+    if (headerRef) {
+      addRefToHeader(headerRef);
+    }
+  }, [headerRef]);
+
+  useEffect(() => {
+    // const coord = headerRef.current.getBoundingClientRect(); 
+    // const delta = posToCoord(coord).dif({x: 100, y: 100});
+    // console.log('coord', coord, 'delta', delta);
+    setCoorded(true);
+  }, [])
+
+  useEffect(() => {
+    if (portsRefs.length) {
+      addRefToColumns(portsRefs);
+    }
+  }, [fieldsCount]);
+
+  useEffect(() => {
+    updateFieldsCount(selectedTableColumns.length);
     setTimeout(() => {
       setFilterableFields(selectedTableColumns);
     }, 50);
@@ -108,7 +189,7 @@ const SchemaEditorBlock = ({
   );
 
   return (
-    <div className={highlightOutline}>
+    <div className={highlightOutline} ref={tableRef}>
       <div
         className={styles.header}
         onMouseDown={event => {
@@ -117,6 +198,7 @@ const SchemaEditorBlock = ({
               onTableDragStart(event);
             }}
         onDoubleClick={() => setIsOpened(prev => !prev)}
+        ref={headerRef}
       >
         <div
           className={styles.heading}
@@ -174,10 +256,16 @@ const SchemaEditorBlock = ({
               onClick={handleClick}
               className={styles.search}
             />
-
             {filterableFields.map((item, index) => (
               // eslint-disable-next-line react/no-array-index-key
-              <li className={item.colored && isHighlight ? styles.itemHighlited : styles.item} key={item.field + item.type + index} draggable onDragStart={e => onFieldDragStart(e, item.field)}>
+              <li
+                className={item.colored && isHighlight ? styles.itemHighlited : styles.item}
+                key={item.field + item.type}
+                draggable 
+                onDragStart={e => onFieldDragStart(e, item)}
+                onDrop={e => onFieldDragOver(e, item)}
+                ref={fieldRefs.current[index]}
+              >
                 {item.field}
               </li>
             ))}

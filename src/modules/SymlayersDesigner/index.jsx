@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentPage } from '../../data/reducers/ui';
@@ -35,6 +36,21 @@ function SymlayersDesigner() {
   const isTablePreviewModalOpened = useSelector(
     state => state.app.ui.modalVisible === TABLE_PREVIEW_MODAL
   );
+  const selectedTablesArray = useSelector(
+    state => state.app.schemaDesigner.selectedTablesArray
+  );
+
+  useEffect(() => {
+    if (selectedTablesArray.length) {
+      const tables = checked.map(table => {
+        const {schema, object_name, object_type_id} = table;
+        const findTable = [...selectedTablesArray].find(selTable => selTable.name === `${schema}_${object_name}_${object_type_id}_${4}`);
+        table = {...table, columns: findTable?.fields};
+        return table;
+      });
+      setChecked(tables);
+    }
+  }, [selectedTablesArray])
 
   const handleSelectTable = (selected, event) => {
     if (event) {

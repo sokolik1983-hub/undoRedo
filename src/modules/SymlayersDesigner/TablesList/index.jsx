@@ -30,7 +30,7 @@ function TablesList({ title, items, type }) {
                 key={item}
                 name={
                 type === 'links'
-                  ? `${item.object1.object} - ${item.object2.object}`
+                  ? `${item.object1.object_name} - ${item.object2.object_name}`
                   : null
               }
                 onDoubleClick={handleClick}
