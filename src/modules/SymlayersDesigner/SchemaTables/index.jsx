@@ -224,12 +224,12 @@ const Provided = props => {
     </div>
   );
 
-  const targetRect = (table, field) => {
+  const targetRect = (table, field, canExe) => {
     const tableName = getTableId(table).replace(/(_[0-9]+)+/, '').replace(/.+\./, '').replace(new RegExp(`^${table.schema}_`), `${table.schema}\.`);
     const tp = getTablePosition(tableName) || { deltaPosition: { x: 0, y: 0 } };
     const tr = getRefs(tableName);
 
-    if (!tp || !tr || !tr.tableRef || !tr.headerRef) return { tp, tr };
+    if (!tp || !tr || !tr.tableRef || !tr.headerRef || !canExe) return { tp, tr };
 
     let port = tr.ports.find(column => column.key === field);
 
@@ -282,6 +282,8 @@ const Provided = props => {
   };
   const links = useSelector(state => state.app.schemaDesigner.links);
   const renderContent = ({ isShadow = false } = {}) => {
+    const canExe = event?.target.tagName === 'DIV' || !event;
+    console.log(canExe)
     return (
       <React.Fragment key="content">
         {linkAnchor &&
@@ -306,15 +308,16 @@ const Provided = props => {
               />
             );
           })()}
-
         {links?.map(link => {
           const SourceRect = targetRect(
             link?.object1,
-            !isShadow && link?.object1.selectedColumns[0]
+            !isShadow && link?.object1.selectedColumns[0],
+            canExe
           );
           const TargetRect = targetRect(
             link?.object2,
-            !isShadow && link?.object2.selectedColumns[0]
+            !isShadow && link?.object2.selectedColumns[0],
+            canExe
           );
 
           return (

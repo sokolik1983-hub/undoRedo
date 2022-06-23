@@ -267,7 +267,6 @@ const TableComponent = ({
   }, [isShadow, columns]);
 
   useMemo(() => {
-    // console.log('tableItem', tableItem)
     if (tableItem && tableItem.columns) {
       setColumns(tableItem.columns);
     } else {
@@ -343,12 +342,9 @@ const TableComponent = ({
     event => {
       event.stopPropagation();
       const delta = posToCoord(event).dif(ActualPosition);
-      console.log(delta)
-      // console.log('coord', event, 'delta', delta)
       const dragCallback = ({ state, commit }, { postition }) => {
         const res = postition.dif(state.dragState.delta);
         const value = { ...position, deltaPosition: res };
-        // console.log('commit')
         commit('SET_TABLE_POSITION', { tableId, value });
       };
       startDrag({ event, dragCallback, extra: { delta } });
@@ -356,35 +352,8 @@ const TableComponent = ({
     [posToCoord, startDrag]
   );
 
-  const tryLinkEnd = ({ field, event }) => {
-    addLink({ table: tableItem, field });
-    dispatch(setObjectsConnectionsModal(true));
-    initLink({});
-    stopDrag(event);
-  };
-
-  const tryLinkStart = ({ field, event }) => {
-    // console.log(field, event)
-    if (linkAnchor) return;
-    const dragStopCallback = ({ state }) => {
-      state.linkAnchor = null;
-      state.linkDescr = null;
-    };
-
-    const dragCallback = ({ state }, { postition }) => {
-      state.linkAnchor = postition;
-    };
-
-    initLink({
-      descr: { table: tableItem, field },
-      pos: posToCoord(event)
-    });
-    startDrag({ event, dragCallback, dragStopCallback });
-  };
-
   const onFieldDragStart = (event, field) => {
     event.dataTransfer.setData('field', JSON.stringify(field));
-    // tryLinkStart({field, event})
   };
   
   const onFieldDragOver = (event, field) => {
