@@ -61,11 +61,10 @@ function Block({
         return (
           <DataTable
             blockStyles={blockProps.styles}
-            newScales={scales}
-            newPosition={position}
+            // newScales={scales}
+            // newPosition={position}
             structureItem={structureItem}
             onSelectColumnHead={handleSelectColumn}
-            handleChangeScales={onChangeScales}
             id={id}
             refContent={refContent}
           />
@@ -91,7 +90,10 @@ function Block({
   return (
     <Rnd
       enableUserSelectHack
-      bounds="parent"
+      // bounds="parent"
+      // TODO: закомментировано для Дизайнера отчета, чтобы таблица не прилипала к верхней границе
+      //       подумать над альтернативой (баг в либе RnD: если таблица не полностью попадает в видимую область,
+      //       координаты для частично не показываемых элементов равны нулю)
       className={clsx(styles.root, styles[type], {
         [styles['is_active']]: isActiveNode
       })}
