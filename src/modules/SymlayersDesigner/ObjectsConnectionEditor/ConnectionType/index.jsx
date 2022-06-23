@@ -27,6 +27,18 @@ const ConnectionType = ({ onSelectExpression, currentExpression }) => {
     setRight(prev => !prev);
   };
 
+  const connectionTypeStatusRender = () => {
+    if (!left && !right)
+      return <span className={styles.connectionTypeText}>Один к одному</span>;
+    if ((!left && right) || (left && !right))
+      return <span className={styles.connectionTypeText}>Один ко многим</span>;
+    if (left && right)
+      return (
+        <span className={styles.connectionTypeText}>Многие ко многим</span>
+      );
+    return null;
+  };
+
   return (
     <div className={styles.connectionsWrapper}>
       <div className={styles.iconWrapper}>
@@ -34,7 +46,7 @@ const ConnectionType = ({ onSelectExpression, currentExpression }) => {
           <DefineConnectionIcon />
         </Tooltip>
       </div>
-      <span className={styles.connectionTypeText}>один к одному</span>
+      {connectionTypeStatusRender()}
       <div className={styles.connectTypeBlock}>
         <div onClick={() => handleLeftSideClick()}>
           <ConnectionImages side="left" connectSeveral={left} />
