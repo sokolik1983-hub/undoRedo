@@ -11,14 +11,15 @@ const ReportObjectsPanel = ({
   actions,
   showInput,
   setInput,
-  array
+  iconsArr,
+  menuItem
 }) => {
 
   return (
     <div className={styles.root}>
       {!showInput && (
       <>
-          {array.map(item => {
+          {iconsArr.map(item => {
             return (
               <div
                 key={item.title}
@@ -26,7 +27,7 @@ const ReportObjectsPanel = ({
                 title={item.title || ''}
                 onClick={() => actions[item.action] ? actions[item.action](item) : null}
               >
-                {item.enable ? item.icon : item.disIcon}
+                {item.action ===  menuItem ? item.icon : item.disIcon}
               </div>
             );
           })}
@@ -51,7 +52,8 @@ const ReportObjectsPanel = ({
 export default ReportObjectsPanel;
 
 ReportObjectsPanel.propTypes = {
-  array: PropTypes.array,
+  iconsArr: PropTypes.array,
+  menuItem: PropTypes.string,
   actions: PropTypes.object,
   searchValue: PropTypes.string,
   showInput: PropTypes.bool,
