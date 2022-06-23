@@ -16,7 +16,7 @@ import { FOLDER_ITEM_DROPDOWN_ACTIONS } from '../../../Reports/helper';
 import { setStructure } from '../../../../data/reducers/new_reportDesigner';
 import { deepObjectSearch } from '../../../../data/helpers';
 
-const Structure = ({currentReport, onSelect}) => {
+const Structure = ({currentReport, onSelect, isActiveNode}) => {
 
   const [editListItemId, setEditListItemId] = useState();
 
@@ -122,7 +122,7 @@ const Structure = ({currentReport, onSelect}) => {
               ) : (
                 <ListItem
                   icon={<TextIcon />}
-                  className={styles.listItem}
+                  className={isActiveNode(i?.id) ? styles.activeListItem : styles.listItem}
                   onDoubleClick={() => handleSelect(currentReport?.structure?.pgBody?.content?.children[idx]?.id)}
                   key={currentReport?.structure?.pgBody?.content?.children[idx]?.id}
                   menu={getDropdownItems(currentReport?.structure?.pgBody?.content?.children[idx]?.id)}
@@ -145,6 +145,7 @@ const Structure = ({currentReport, onSelect}) => {
 
 Structure.propTypes = {
   currentReport: PropTypes.object,
+  isActiveNode: PropTypes.func,
   onSelect: PropTypes.func
 };
 

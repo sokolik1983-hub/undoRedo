@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -10,14 +10,14 @@ import usePanelListFilters from './usePanelListFilters';
 import ObjectsPanelFilters from './ObjectsPanelFilters/ObjectsPanelFilters';
 import ReportObjectsPanel from './ReportObjectsPanel/index';
 import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList';
-import { REPORT_OBJECTS_PANEL_ICONS } from '../../../common/constants/reportDesigner/reportObjectsPanelIcons';
+
 import Structure from './ReportObjectsPanel/Structure';
 import { useDragNDrop } from '../context/DragNDropContext';
 import styles from './ObjectsPanel.module.scss';
 import {getCurrentReport} from '../../ReportDesigner/helpers';
-import { setStructureItem } from '../../../data/reducers/new_reportDesigner';
+import { setMenuItem, setMenu } from '../../../data/reducers/new_reportDesigner';
 
-const ObjectsPanel = ({ modalOpenHandler, showHeader, report, onSelect }) => {
+const ObjectsPanel = ({ modalOpenHandler, showHeader, report, onSelect, isActiveNode }) => {
   const currentLayer = useSelector(state => {
     const {
       data,
@@ -51,26 +51,36 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report, onSelect }) => {
   } = usePanelListFilters(currentLayer?.symLayerData);
   const { handleDragOver, handleTreeDrop } = useDragNDrop();
 
-  const [arr, setArr] = useState(REPORT_OBJECTS_PANEL_ICONS);
+  // const [arr, setArr] = useState(REPORT_OBJECTS_PANEL_ICONS);
   const [showInput, setShowInput] = useState(false);
   
-  const handleToggleIcon = (item) => {
-    const newArr = arr.map(el => el.action === item ? 
-      {...el, enable: true } : {...el, enable: false });
-    setArr(newArr);
-  };
-  
   const dispatch = useDispatch();
-  const structureItem = useSelector(
-    state => state.app.reportDesigner.reportsUi.ui?.structureItem
+  const menuItem = useSelector(
+    state => state.app.reportDesigner.reportsUi.ui?.menuItem
   );
 
+  const menu = useSelector(
+    state => state.app.reportDesigner.reportsUi.ui?.menu
+  );
+
+
+  // useEffect(() =>{
+  //   dispatch(setMenu(REPORT_OBJECTS_PANEL_ICONS));
+  // }, []);
+  
+
+  const handleToggleIcon = (item) => {
+    const newArr = menu.map(el => el.action === item ? 
+      {...el, enable: true } : {...el, enable: false });
+    dispatch(setMenu(newArr)); 
+  };
+
   const actions = {
-    objects: () => { dispatch(setStructureItem('objects')); handleToggleIcon('objects') },
-    structure: () => { dispatch(setStructureItem('structure')); handleToggleIcon('structure') },
-    map: () => { dispatch(setStructureItem('map')); handleToggleIcon('map') },
-    comments: () => { dispatch(setStructureItem('comments')); handleToggleIcon('comments') },
-    properties: () => { dispatch(setStructureItem('properties')); handleToggleIcon('properties') },
+    objects: () => { dispatch(setMenuItem('objects')); handleToggleIcon('objects') },
+    structure: () => { dispatch(setMenuItem('structure')); handleToggleIcon('structure') },
+    map: () => { dispatch(setMenuItem('map')); handleToggleIcon('map') },
+    comments: () => { dispatch(setMenuItem('comments')); handleToggleIcon('comments') },
+    properties: () => { dispatch(setMenuItem('properties')); handleToggleIcon('properties') },
     magnifier: () => setShowInput(!showInput)
   };
 
@@ -92,7 +102,7 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report, onSelect }) => {
           setSearchValue={setSearchValue}
           showInput={showInput}
           setInput={handleSetInput}
-          array={arr}
+          array={menu}
           actions={actions}
         />
       ) : (
@@ -109,12 +119,16 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report, onSelect }) => {
         onDrop={handleTreeDrop}
       >
         {rootFolder && <ObjectsPanelList rootFolder={rootFolder} />}
-        {structureItem === 'objects' && (
+        {report ? menuItem === 'objects' && (
           <ObjectsPanelList variables={variables} />
-        )}
-        {structureItem ==='structure' && (
-          <Structure onSelect={onSelect} currentReport={currentReport} />
-        )}
+        ) : (<ObjectsPanelList variables={variables}  />)}
+        {report ? menuItem ==='structure' && (
+          <Structure
+            onSelect={onSelect}
+            currentReport={currentReport}
+            isActiveNode={isActiveNode}
+          />
+        ) : (<></>)}
       </div>
     </div>
   );
@@ -126,5 +140,6 @@ ObjectsPanel.propTypes = {
   modalOpenHandler: PropTypes.func,
   showHeader: PropTypes.bool,
   onSelect: PropTypes.func,
+  isActiveNode: PropTypes.func,
   report: PropTypes.bool
 };

@@ -1,8 +1,10 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-unused-vars */
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import lodash from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
+import IconButton from '../../common/components/IconButton';
 import {
   reportObject,
   setActiveNodes,
@@ -16,7 +18,8 @@ import {
   reportPageObject,
   setReportDisplayMode
 } from '../../data/reducers/new_reportDesigner';
-import Block from './Block';
+import { BUTTON } from '../../common/constants/common';
+import Button from '../../common/components/Button';
 import styles from './ReportDesigner.module.scss';
 import { createReportElement, getCurrentReport } from './helpers';
 // import SidePanel from '../../common/components/SidePanel';
@@ -36,9 +39,12 @@ import FormulaEditor from '../../common/components/FormulaEditor';
 // import DragNDropProvider from '../QueryPanel/context/DragNDropContext';
 // import { getSymanticLayerData } from '../../data/actions/universes';
 import { ReactComponent as CloseIcon } from '../../layout/assets/close.svg';
-import ReportSidebar from './ReportSidebar';
+import ReportSidebar from './ReportSidebar'; 
 import QueryPanel from '../QueryPanel';
 import ReportContent from './ReportContent';
+import { ReactComponent as MiniFormulaIcon } from '../../layout/assets/reportDesigner/miniFormula.svg';
+import { ReactComponent as OkFormulaIcon } from '../../layout/assets/reportDesigner/okFormula.svg';
+import { ReactComponent as ClearFormulaIcon } from '../../layout/assets/reportDesigner/clearFormula.svg';
 
 
 // const getVariant = (type, tableType, graphType) => {
@@ -57,6 +63,7 @@ function ReportDesigner() {
     id: 165,
     name: 'Клиентская справка'
   });
+  const [activeTab, setActiveTab] = useState(0);
 
   const dispatch = useDispatch();
   const reportDesigner = useSelector(state => state.app.reportDesigner);
@@ -123,7 +130,7 @@ function ReportDesigner() {
       x: event.nativeEvent.offsetX,
       y: event.nativeEvent.offsetY
     });
-  }
+  };
 
   function handleAddBlock(event) {
     event.stopPropagation();
@@ -170,6 +177,33 @@ function ReportDesigner() {
   //   dispatch(setStructure(newStructure));
   // }
 
+  const isShowingPanel = reportDesigner.reportsUi.ui.showConfigPanel;
+
+  const containerStyle = () => {
+
+    if (reportDesigner.reportsUi?.ui.showFormulaEditor && !isShowingPanel) {
+      return styles.container
+    }
+    
+    if (activeTab === 1 && isShowingPanel && !reportDesigner.reportsUi?.ui.showFormulaEditor) {
+      return styles.containerTab1
+    }
+
+    if (activeTab === 1 && reportDesigner.reportsUi?.ui.showFormulaEditor && isShowingPanel) {
+      return styles.containerTab1Formula
+    }
+
+    return styles.containerFull
+  }
+
+  const tabsCompressed = clsx(styles.tabs, {
+    [styles.tabsCompressed]: isShowingPanel
+  });
+
+  const formulaCompressed = clsx(styles.formula, {
+    [styles.formulaCompressed]: isShowingPanel
+  });
+
   function handleChangeMode() {
     let newMode = '';
 
@@ -180,7 +214,7 @@ function ReportDesigner() {
     }
 
     dispatch(setReportDisplayMode(newMode));
-  }
+  };
 
   function handleAddReport() {
     const newReports = [
@@ -245,14 +279,14 @@ function ReportDesigner() {
   //   }
   // };
 
-  // function checkIsActiveNode(id) {
-  //   return !lodash.isEmpty(
-  //     lodash.find(
-  //       reportDesigner.reportsData.present.activeNodes,
-  //       item => item.id === id
-  //     )
-  //   );
-  // }
+  function checkIsActiveNode(id) {
+    return !lodash.isEmpty(
+      lodash.find(
+        reportDesigner.reportsData.present.activeNodes,
+        item => item.id === id
+      )
+    );
+  }
 
   function handleDisableSelection() {
     if (reportDesigner.reportsData.present.activeNodes.length > 0) {
@@ -266,12 +300,15 @@ function ReportDesigner() {
     setSemanticLayer(true);
   };
 
+  const [formula, setFormula] = useState('');
+
+  const handleChange = e => setFormula(e.target.value);
+
   // useEffect(() => {
   //   if (semanticLayer) dispatch(getSymanticLayerData(semanticLayer.id));
   // }, [semanticLayer]);
   // {id: 165, name: "Клиентская справка"}
 
-  // HELLO
   const handleSelectBlock = (structureItem, addItem) => {
     if (
       lodash.find(reportDesigner.reportsData.present.activeNodes, structureItem)
@@ -309,54 +346,50 @@ function ReportDesigner() {
         semanticLayer={semanticLayer}
         onToggleClick={handleShowSelector}
         onSelect={handleSelectBlock}
+        isActiveNode={checkIsActiveNode}
         showHeader={false}
+        setTabNumber={setActiveTab}
       />
-      <div className={styles.content}>
+      <div className={styles.wrapper}>
         {reportDesigner.reportsUi.ui.showFormulaEditor && (
-          <div className={styles.formulaEditor}>
-            <FormulaEditor />
+        <div className={activeTab === 1 ? formulaCompressed : styles.formula}>
+          <MiniFormulaIcon />
+          <textarea 
+            className={styles.formulaTextarea}
+            type="text"
+            name="formula"
+            value={formula}
+            onChange={handleChange}
+          />
+          <div className={styles.formulaIcons}>
+            <IconButton
+              size='small'
+              className={styles.okFormula}
+              icon={<OkFormulaIcon />}
+              onClick={() => {}}
+            />
+            <IconButton
+              size='small'
+              icon={<ClearFormulaIcon />}
+              onClick={() => {}}
+            />
           </div>
-        )}
-        <div className={styles.tabs}>
-          {reportDesigner.reportsData.present.reports &&
-            reportDesigner.reportsData.present.reports.map(report => {
-              const isActive =
-                reportDesigner.reportsData.present.activeReport === report.id;
-              return (
-                <div
-                  key={report.id}
-                  className={clsx(styles.tab, {
-                    [styles.tab_active]: isActive
-                  })}
-                  onClick={handleSelectReport(report.id)}
-                >
-                  {report.name}
-                  {isActive && (
-                    <CloseIcon
-                      onClick={handleDeleteReport(report.id)}
-                      className={styles.closeIcon}
-                    />
-                  )}
-                </div>
-              );
-            })}
-          <button onClick={handleAddReport} type="button">
-            +
-          </button>
-          <button onClick={handleChangeMode} type="button">
-            {displayMode === 'Data' ? 'Структура' : 'Данные'}
-          </button>
         </div>
-        <div className={styles.containerOutline}>
+        )}
+        <div className={containerStyle()}>
           <div
             style={{ zoom: `${zoom}` }}
-            className={clsx(styles.container, styles['container-portrait'])}
+            className={styles.innerContainer}
             onMouseMove={handleMouseMove}
             onClick={handleAddBlock}
             onDoubleClick={handleDisableSelection}
           >
             {currentReport?.structure && (
-              <ReportContent structure={currentReport?.structure} onSelect={handleSelectBlock} />
+              <ReportContent 
+                structure={currentReport?.structure}
+                onSelect={handleSelectBlock}
+                isActiveNode={checkIsActiveNode}
+              />
             )}
             {/* <ReportHeader data={currentReport?.structure?.pgHeader} />
             <ReportBody data={currentReport?.structure?.pgBody} />
@@ -373,22 +406,43 @@ function ReportDesigner() {
             ))}
             <ReportFooter data={currentReport?.structure?.pgFooter} /> */}
           </div>
+          
+        </div>
+        <div className={activeTab === 1 ? tabsCompressed : styles.tabs}>
+          {reportDesigner.reportsData.present.reports &&
+            reportDesigner.reportsData.present.reports.map(report => {
+              const isActive =
+                reportDesigner.reportsData.present.activeReport === report.id;
+              return (
+                <Button
+                  buttonStyle={BUTTON.BLUE}
+                  key={report.id}
+                  className={clsx(styles.tab, {
+                    [styles.tab_active]: isActive
+                  })}
+                  onClick={handleSelectReport(report.id)}
+                >
+                  {report.name}
+                  {isActive && (
+                    <CloseIcon
+                      onClick={handleDeleteReport(report.id)}
+                      className={styles.closeIcon}
+                    />
+                  )}
+                </Button>
+              );
+            })}
+          <Button onClick={handleAddReport} buttonStyle={BUTTON.BLUE} className={styles.plus}>
+            +
+          </Button>
+          <Button onClick={handleChangeMode} buttonStyle={BUTTON.BLUE}>
+            {displayMode === 'Data' ? 'Структура' : 'Данные'}
+          </Button>
         </div>
       </div>
       {isQueryPanelModalOpened && (
         <QueryPanel visible={isQueryPanelModalOpened && true} />
       )}
-      {/* <div className="right">
-        {reportDesigner.reportsUi.ui.showConfigPanel && (
-          <SidePanel
-            navType={SIDE_PANEL_TYPES.BLOCK_MENU}
-            marginRight={reportDesigner.reportsUi.ui.showReportPanel ? 250 : 0}
-          />
-        )}
-        {reportDesigner.reportsUi.ui.showReportPanel && (
-          <SidePanel navType={SIDE_PANEL_TYPES.CONFIG_MENU} />
-        )}
-      </div> */}
     </div>
   );
 }
