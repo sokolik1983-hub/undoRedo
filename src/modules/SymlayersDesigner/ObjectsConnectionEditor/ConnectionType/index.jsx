@@ -30,8 +30,10 @@ const ConnectionType = ({ onSelectExpression, currentExpression }) => {
   const connectionTypeStatusRender = () => {
     if (!left && !right)
       return <span className={styles.connectionTypeText}>Один к одному</span>;
-    if ((!left && right) || (left && !right))
+    if ((!left && right))
       return <span className={styles.connectionTypeText}>Один ко многим</span>;
+      if ((left && !right))
+      return <span className={styles.connectionTypeText}>Многие к одному</span>;
     if (left && right)
       return (
         <span className={styles.connectionTypeText}>Многие ко многим</span>
