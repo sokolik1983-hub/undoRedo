@@ -40,7 +40,7 @@ const SemanticLayerModal = ({ onClick }) => {
     <Formik
       initialValues={semLayerValues}
       onSubmit={data => {
-        navigate(REDIRECT_LINKS.SYMLAEYERS_CREATE)
+        navigate(REDIRECT_LINKS.SYMLAEYERS)
         dispatch(setSemantycLayerDataName(data.name))
       }}
     >

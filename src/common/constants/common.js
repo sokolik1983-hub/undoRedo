@@ -23,8 +23,7 @@ export const EMPTY_STRING = '';
 export const REDIRECT_LINKS = {
   HOME_PAGE: '/dashboard',
   LOGIN_PAGE: '/login',
-  SYMLAEYERS_CREATE: '/symlayers/create',
-  UNIVERSE_SYMLAYERS_CREATE: '/Universe/symlayers/create',
+  SYMLAEYERS: '/symlayers/create',
   REPORT_CREATE: '/report/create/1'
 };
 
