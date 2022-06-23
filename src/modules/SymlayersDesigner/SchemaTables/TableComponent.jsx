@@ -145,9 +145,9 @@ const TableComponent = ({
 
   const [coords, setCoords] = useState({x: 0, y: 0});
 
-  useEffect(() => {
-    setCoords({x: coords.x + 50, y: coords.y + 50});
-  }, [ selectedTables]);
+  // useEffect(() => {
+  //   setCoords({x: coords.x + 50, y: coords.y + 50});
+  // }, [ selectedTables]);
 
   // const refs = useMemo(() => tableRefs[tableId], [tableRefs, tableId]);
   // const [showSynPopup, setShowSynPopup] = useState(false);
@@ -341,9 +341,10 @@ const TableComponent = ({
 
   const onTableDragStart = useCallback(
     event => {
-      event?.stopPropagation();
+      event.stopPropagation();
       const delta = posToCoord(event).dif(ActualPosition);
-      console.log('coord', event, 'delta', delta)
+      console.log(delta)
+      // console.log('coord', event, 'delta', delta)
       const dragCallback = ({ state, commit }, { postition }) => {
         const res = postition.dif(state.dragState.delta);
         const value = { ...position, deltaPosition: res };
@@ -352,7 +353,7 @@ const TableComponent = ({
       };
       startDrag({ event, dragCallback, extra: { delta } });
     },
-    [posToCoord, startDrag, selectedTableColumns]
+    [posToCoord, startDrag]
   );
 
   const tryLinkEnd = ({ field, event }) => {

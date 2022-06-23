@@ -2,11 +2,9 @@ import Vector from '../vector';
 
 export default {
   getTableItem: ({ state }, tableId) => {
-    // console.log('getTableItem', tableId, state)
     return state.tables[tableId];
   },
   getTablePosition: ({ state }, tableId) => {
-    // console.log('getTablePosition', state, state.tablePostition[tableId])
     return state.tablePostition[tableId];
   },
   getRefs: ({ state }, tableId) => {

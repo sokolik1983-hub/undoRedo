@@ -43,6 +43,7 @@ import { getTableIdFromParams } from '../../../data/helpers';
 
 const Provided = props => {
   const [lastUpdTime, forceUpdate] = useReducer(() => new Date(), 0);
+  const tablesPosition = useSelector(state => state.app.schemaDesigner.tablesRefCoord);
 
   // const saveUserData = {};
   // const userData = {};
@@ -69,9 +70,9 @@ const Provided = props => {
       SET_TABLES: setTables,
       SET,
       SET_POSITION,
-      SET_SEARCH_POPUP_VISIBLE
+      SET_SEARCH_POPUP_VISIBLE,
     },
-    { getRefs, getTablePosition }
+    { getRefs, getTablePosition, posToCoord }
   ] = useContext(SymanticLayerContext);
   const classes = useStyles();
 
@@ -93,7 +94,6 @@ const Provided = props => {
         tp.deltaPosition.y + tableRect.height / 2 / mul
       );
 
-      // console.log('reposition', focusedItem, table, tp, tableRect, '->', position)
       SET_POSITION(position);
     }
   }, [focusedItem]);
@@ -151,16 +151,18 @@ const Provided = props => {
   }, []);
 
   useMemo(() => {
-    if (props.tablesPosition) {
-      console.log('45454')
-      setTablesPosition(props.tablesPosition);
-      setTablePositionChangedCallback(props.setTablesPosition);
-    }
-  }, [props.tablesPosition]);
+    const tablePositions = {};
+    tablesPosition?.forEach(tablePosit => {
+      for (let key in tablePosit) {
+        const delta = posToCoord(tablePosit[key]).dif({x: 240, y: 480});
+        tablePositions[key] = {deltaPosition: delta};
+      }
+    })
+    setTablesPosition(tablePositions);
+  }, [tablesPosition]);
 
   useEffect(() => {
     const tablesCurrent = props.tables;
-    // console.log('tablesCurrent', tablesCurrent);
     if (tablesCurrent) {
       setTables(tablesCurrent);
       lodash.keys(props.tablesPosition).forEach(key => {
@@ -225,7 +227,6 @@ const Provided = props => {
   const targetRect = (table, field) => {
     const tableName = getTableId(table).replace(/(_[0-9]+)+/, '').replace(/.+\./, '').replace(new RegExp(`^${table.schema}_`), `${table.schema}\.`);
     const tp = getTablePosition(tableName) || { deltaPosition: { x: 0, y: 0 } };
-    console.log(tp)
     const tr = getRefs(tableName);
 
     if (!tp || !tr || !tr.tableRef || !tr.headerRef) return { tp, tr };
@@ -241,7 +242,6 @@ const Provided = props => {
       tr.tableRef.current && tr.tableRef.current.getBoundingClientRect();
     let rect = port.current && port.current.getBoundingClientRect();
 
-    // console.log(headerRect, tableRect, rect);
     if (!rect) {
       rect = headerRect || tableRect;
       port = tr.headerRef || tr.tableRef;
@@ -266,7 +266,7 @@ const Provided = props => {
     ];
 
     const x =
-      ((rect.x - tableRect.x) * width) / rect.width + tp.deltaPosition.x;
+      ((rect.x - tableRect.x) * height) / rect.height + tp.deltaPosition.x;
     const y =
       ((rect.y - tableRect.y) * height) / rect.height + tp.deltaPosition.y;
 
@@ -306,6 +306,7 @@ const Provided = props => {
               />
             );
           })()}
+
         {links?.map(link => {
           const SourceRect = targetRect(
             link?.object1,

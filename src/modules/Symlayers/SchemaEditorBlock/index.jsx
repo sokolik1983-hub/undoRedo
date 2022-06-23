@@ -16,8 +16,7 @@ import Tooltip from '../../../common/components/Tooltip';
 import IconButton from '../../../common/components/IconButton';
 import CreateCopyModal from './CreateCopyModal';
 import ModalConfirmDeletion  from '../../../common/components/Modal/ModalConfirmDeletion';
-import { SymanticLayerContext } from '../../SymlayersDesigner/SchemaTables/context';
-import { addRefSelectedTables } from '../../../data/reducers/schemaDesigner';
+import { addCoordToTables } from '../../../data/reducers/schemaDesigner';
 
 const items = [
   { text: 'Псевдоним', value: 'copy' },
@@ -52,31 +51,6 @@ const SchemaEditorBlock = ({
   synoName,
   setSynoName
 }) => {
-  const [
-    { linkAnchor},
-    {
-      SET_TABLE_REFS,
-      // SET_TABLE_POSITION,
-      SET_EXPANDED,
-      SET_FILTER,
-      ZOOM_DEFAULT,
-
-      startDrag,
-      onStopDrag: stopDrag,
-
-      initLink
-    },
-    { getTableProps, posToCoord, addLink }
-  ] = useContext(SymanticLayerContext);
-
-  const {
-    // tableItem,
-    // connect_id,
-    expanded,
-    position,
-    filter: columnFilter,
-    ...props
-  } = getTableProps(tableId);
 
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
@@ -87,11 +61,13 @@ const SchemaEditorBlock = ({
   const [isCopy, setIsCopy] = useState(false);
   const [fieldsCount, setFieldsCount] = useState(selectedTableColumns.length);
   const [coorded, setCoorded] = useState(false);
-  const [portsRefs, setPortsRef] = useState([]);
+  const [portsRefs, setPortsRef] = useState(null);
   const [isDeleteWarningModalOpened, setDeleteWarningModalOpened] = useState(false);
   const headerRef = useRef(null);
   const tableRef = useRef(null);
   const fieldRefs = useRef([React.createRef(), React.createRef()]);
+
+  const dispatch = useDispatch();
 
   const updateFieldsCount = (value) => {
     setFieldsCount(value);
@@ -119,15 +95,43 @@ const SchemaEditorBlock = ({
     }
   }, [headerRef]);
 
-  useEffect(() => {
-    // const coord = headerRef.current.getBoundingClientRect(); 
-    // const delta = posToCoord(coord).dif({x: 100, y: 100});
-    // console.log('coord', coord, 'delta', delta);
-    setCoorded(true);
-  }, [])
+  // const refs = useRef({});
+  //   useEffect(() => {
+  //     if (!isShadow) {
+  //       const ports = columns.map(item => ({
+  //         key: item.field,
+  //         ref: React.createRef()
+  //       }));
+
+  //       const value = {
+  //         tableRef: React.createRef(),
+  //         headerRef: React.createRef(),
+  //         ports
+  //       };
+  //       setTablesRefs({ tableId, value });
+  //       refs.current = value;
+  //       return;
+  //     }
+  //     refs.current = {
+  //       tableRef: React.createRef(),
+  //       headerRef: React.createRef(),
+  //       ports: []
+  //     };
+  //   }, [refs]);
 
   useEffect(() => {
-    if (portsRefs.length) {
+    if (headerRef && tableRef) {
+      const tableRefCoord = {};
+      const pageX = window.pageXOffset + headerRef.current.getBoundingClientRect().left;
+      const pageY = window.pageYOffset + headerRef.current.getBoundingClientRect().top;
+      tableRefCoord[tableId] = {pageX, pageY};
+      dispatch(addCoordToTables(tableRefCoord));
+      setCoorded(true);
+    }
+  }, [headerRef, tableRef])
+
+  useEffect(() => {
+    if (portsRefs?.length) {
       addRefToColumns(portsRefs);
     }
   }, [fieldsCount]);
