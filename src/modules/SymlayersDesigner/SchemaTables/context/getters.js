@@ -51,8 +51,8 @@ export default {
     const res = Vector.fromNativeEvent(event)
       .copy()
       .sub(presub)
-      // .div(state.mul)
-      // .sub(state.shift);
+      .div(state.mul)
+      .sub(state.shift);
 
     // console.log('#', Vector.fromNativeEvent(event), '=>', res);
 

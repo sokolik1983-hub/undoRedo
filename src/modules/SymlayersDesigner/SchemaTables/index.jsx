@@ -44,6 +44,7 @@ import { getTableIdFromParams } from '../../../data/helpers';
 const Provided = props => {
   const [lastUpdTime, forceUpdate] = useReducer(() => new Date(), 0);
   const tablesPosition = useSelector(state => state.app.schemaDesigner.tablesRefCoord);
+  const [addCord, setAddCoord] = useState(0);
 
   // const saveUserData = {};
   // const userData = {};
@@ -152,12 +153,14 @@ const Provided = props => {
 
   useMemo(() => {
     const tablePositions = {};
+    setAddCoord(addCord+50);
     tablesPosition?.forEach(tablePosit => {
       for (let key in tablePosit) {
-        const delta = posToCoord(tablePosit[key]).dif({x: 240, y: 480});
+        const delta = posToCoord(tablePosit[key]).dif({x: 20 + addCord, y: 40 + addCord});
         tablePositions[key] = {deltaPosition: delta};
       }
     })
+    console.log(tablePositions)
     setTablesPosition(tablePositions);
   }, [tablesPosition]);
 
@@ -224,12 +227,12 @@ const Provided = props => {
     </div>
   );
 
-  const targetRect = (table, field, canExe) => {
+  const targetRect = (table, field) => {
     const tableName = getTableId(table).replace(/(_[0-9]+)+/, '').replace(/.+\./, '').replace(new RegExp(`^${table.schema}_`), `${table.schema}\.`);
     const tp = getTablePosition(tableName) || { deltaPosition: { x: 0, y: 0 } };
     const tr = getRefs(tableName);
 
-    if (!tp || !tr || !tr.tableRef || !tr.headerRef || !canExe) return { tp, tr };
+    if (!tp || !tr || !tr.tableRef || !tr.headerRef) return { tp, tr };
 
     let port = tr.ports.find(column => column.key === field);
 
@@ -282,8 +285,6 @@ const Provided = props => {
   };
   const links = useSelector(state => state.app.schemaDesigner.links);
   const renderContent = ({ isShadow = false } = {}) => {
-    const canExe = event?.target.tagName === 'DIV' || !event;
-    console.log(canExe)
     return (
       <React.Fragment key="content">
         {linkAnchor &&
@@ -312,12 +313,10 @@ const Provided = props => {
           const SourceRect = targetRect(
             link?.object1,
             !isShadow && link?.object1.selectedColumns[0],
-            canExe
           );
           const TargetRect = targetRect(
             link?.object2,
             !isShadow && link?.object2.selectedColumns[0],
-            canExe
           );
 
           return (

@@ -146,7 +146,7 @@ const TableComponent = ({
   const [coords, setCoords] = useState({x: 0, y: 0});
 
   // useEffect(() => {
-  //   setCoords({x: coords.x + 50, y: coords.y + 50});
+  //   setCoords({x: coords.x + 100, y: coords.y + 100});
   // }, [ selectedTables]);
 
   // const refs = useMemo(() => tableRefs[tableId], [tableRefs, tableId]);
