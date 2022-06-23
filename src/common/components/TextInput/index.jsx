@@ -51,7 +51,7 @@ const TextInput = forwardRef(
         )}
         {props.required && (
           <span className={styles.inputRequired}>
-            {props.required === 'invisible' ? '' : 'Required'}
+            {props.requiredTextVisible ? 'Required' : ''}
           </span>
         )}
         <input
@@ -80,7 +80,8 @@ TextInput.propTypes = {
   onChange: PropTypes.func,
   value: PropTypes.string,
   fullWidth: PropTypes.bool,
-  required: PropTypes.bool
+  required: PropTypes.bool,
+  requiredTextVisible: PropTypes.bool,
 };
 
 TextInput.defaultProps = {

@@ -153,7 +153,7 @@ function Connectors() {
           value={connectName}
           onChange={e => setConnectName(e.target.value)}
           id="connectorName"
-          required='hide'
+          required
           labelClassName={styles.connectorsLabel}
           className={styles.selectInput}
           placeholder="Имя соединения"
@@ -191,7 +191,7 @@ function Connectors() {
                   value={item.value}
                   key={`${item.fieldName}_${index}`}
                   type="text"
-                  required='invisible'
+                  required
                   className={styles.connectorsInput}
                   onChange={e => {
                     newConnector.data.fields[index].value = e.target.value;
