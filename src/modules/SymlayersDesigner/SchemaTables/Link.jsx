@@ -164,7 +164,7 @@ export default props => {
   const onMouseUp = event => {
     if (event.button !== 0) return;
     if (props.handleEdit) event.stopPropagation();
-    if (props.handleEdit) props.handleEdit(props.link);
+    if (props.handleEdit) props.handleEdit(props.link.id);
     if (props.onShowLinkEdit) props.onShowLinkEdit(true);
   };
 
@@ -192,10 +192,6 @@ export default props => {
       className="link-group"
       onMouseDown={e => onMouseDown(e)}
       onMouseUp={e => onMouseUp(e)}
-      {...{
-        'data-linktype': crossClass,
-        'data-rects': JSON.stringify({ SourceRect, TargetRect })
-      }}
     >
       {/* {TargetRect && TargetRect.width && <rect {...TargetRect} fill='rgba(0, 255, 0, 0.5)'></rect>}
             {SourceRect && SourceRect.width && <rect {...SourceRect} fill='rgba(0, 0, 255, 0.5)'></rect>} */}

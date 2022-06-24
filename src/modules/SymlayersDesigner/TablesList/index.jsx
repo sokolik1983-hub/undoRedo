@@ -27,7 +27,7 @@ function TablesList({ title, items, type }) {
           {items?.map((item, i) => (
             <div className={styles.item}>
               <TablesListItem
-                key={item}
+                key={item+Math.random()}
                 name={
                 type === 'links'
                   ? `${item.object1.object_name} - ${item.object2.object_name}`

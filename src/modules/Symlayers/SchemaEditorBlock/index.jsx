@@ -60,7 +60,6 @@ const SchemaEditorBlock = ({
   const [isOpened, setIsOpened] = useState(true);
   const [isCopy, setIsCopy] = useState(false);
   const [fieldsCount, setFieldsCount] = useState(selectedTableColumns.length);
-  const [coorded, setCoorded] = useState(false);
   const [portsRefs, setPortsRef] = useState(null);
   const [isDeleteWarningModalOpened, setDeleteWarningModalOpened] = useState(false);
   const headerRef = useRef(null);
@@ -94,31 +93,7 @@ const SchemaEditorBlock = ({
       addRefToHeader(headerRef);
     }
   }, [headerRef]);
-
-  // const refs = useRef({});
-  //   useEffect(() => {
-  //     if (!isShadow) {
-  //       const ports = columns.map(item => ({
-  //         key: item.field,
-  //         ref: React.createRef()
-  //       }));
-
-  //       const value = {
-  //         tableRef: React.createRef(),
-  //         headerRef: React.createRef(),
-  //         ports
-  //       };
-  //       setTablesRefs({ tableId, value });
-  //       refs.current = value;
-  //       return;
-  //     }
-  //     refs.current = {
-  //       tableRef: React.createRef(),
-  //       headerRef: React.createRef(),
-  //       ports: []
-  //     };
-  //   }, [refs]);
-
+  
   useEffect(() => {
     if (headerRef && tableRef) {
       const tableRefCoord = {};
@@ -126,7 +101,6 @@ const SchemaEditorBlock = ({
       const pageY = window.pageYOffset + headerRef.current.getBoundingClientRect().top;
       tableRefCoord[tableId] = {pageX, pageY};
       dispatch(addCoordToTables(tableRefCoord));
-      setCoorded(true);
     }
   }, [headerRef, tableRef])
 

@@ -49,7 +49,6 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
   );  
 
   useEffect(() => {
-    console.log(leftTable, rightTable)
     if (connectorObjects.length && leftTable && rightTable) {
       connectorObjects?.forEach(schema => {
         if (leftTable.includes(schema.schema)) {

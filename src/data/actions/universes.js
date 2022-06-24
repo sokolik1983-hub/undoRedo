@@ -171,7 +171,6 @@ export const getResultFromQuery = queryParams => {
 };
 
 export const setObjectsConnectionsModal = (open, link) => {
-  console.log(link)
   return dispatch => dispatch(open ? showObjectsConnectionsModal(link) : closeModal());
 };
 

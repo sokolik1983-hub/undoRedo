@@ -21,7 +21,7 @@ import { IconButton } from '@material-ui/core';
 import Tooltip from '../../../common/components/Tooltip/index';
 import { ReactComponent as Plus } from '../../../layout/assets/reportDesigner/plus.svg';
 import { ReactComponent as Minus } from '../../../layout/assets/reportDesigner/minus.svg';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { SymanticLayerContextProvider, SymanticLayerContext } from './context';
 
@@ -40,10 +40,12 @@ import Minimap from './Minimap';
 // import SearchDialog from './SearchDialog';
 import Vector from './vector';
 import { getTableIdFromParams } from '../../../data/helpers';
+import { setObjectsConnectionsModal } from '../../../data/actions/universes';
 
 const Provided = props => {
   const [lastUpdTime, forceUpdate] = useReducer(() => new Date(), 0);
   const tablesPosition = useSelector(state => state.app.schemaDesigner.tablesRefCoord);
+  const dispatch = useDispatch();
   const [addCord, setAddCoord] = useState(0);
 
   // const saveUserData = {};
@@ -160,7 +162,6 @@ const Provided = props => {
         tablePositions[key] = {deltaPosition: delta};
       }
     })
-    console.log(tablePositions)
     setTablesPosition(tablePositions);
   }, [tablesPosition]);
 
@@ -284,6 +285,14 @@ const Provided = props => {
     };
   };
   const links = useSelector(state => state.app.schemaDesigner.links);
+
+  const handleEdit = id => {
+    const result = links.filter(l => {
+      return (l.id === id);
+    });
+    dispatch(setObjectsConnectionsModal(true, ...result));
+  }
+
   const renderContent = ({ isShadow = false } = {}) => {
     return (
       <React.Fragment key="content">
@@ -324,9 +333,8 @@ const Provided = props => {
               link={link}
               TargetRect={TargetRect}
               SourceRect={SourceRect}
-              handleEdit={props.handleEdit}
-              onShowLinkEdit={props.onShowLinkEdit}
-              key={link}
+              handleEdit={handleEdit}
+              key={`${getTableId(link.object1)}-${getTableId(link.object2)}${Math.random()}}`}
               isLoop={
                 getTableId(link.object1) ===
                 getTableId(link.object2)
