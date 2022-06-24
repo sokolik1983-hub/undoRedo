@@ -269,6 +269,7 @@ function Connectors() {
         onSubmit={(e) => addConnector(e)}
         form="createConnectorForm"
         type="text"
+        className={styles.testConnectorButton}
         disabled={newConnector?.data?.fields ? false : true}
       >
         Сохранить
