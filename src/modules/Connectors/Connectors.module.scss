@@ -154,3 +154,10 @@
   justify-content: flex-end;
   align-items: center;
 }
+
+.testOkIcon, .showTestFailed {
+  position: absolute;
+  transform: scale(0.85);
+  margin-left: -55px;
+  margin-top: -4px;
+}

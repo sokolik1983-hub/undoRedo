@@ -10,12 +10,12 @@ import usePanelListFilters from './usePanelListFilters';
 import ObjectsPanelFilters from './ObjectsPanelFilters/ObjectsPanelFilters';
 import ReportObjectsPanel from './ReportObjectsPanel/index';
 import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList';
-
+import { REPORT_OBJECTS_PANEL_ICONS } from '../../../common/constants/reportDesigner/reportObjectsPanelIcons';
 import Structure from './ReportObjectsPanel/Structure';
 import { useDragNDrop } from '../context/DragNDropContext';
 import styles from './ObjectsPanel.module.scss';
 import {getCurrentReport} from '../../ReportDesigner/helpers';
-import { setMenuItem, setMenu } from '../../../data/reducers/new_reportDesigner';
+import { setMenuItem } from '../../../data/reducers/new_reportDesigner';
 
 const ObjectsPanel = ({ modalOpenHandler, showHeader, report, onSelect, isActiveNode }) => {
   const currentLayer = useSelector(state => {
@@ -51,7 +51,7 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report, onSelect, isActive
   } = usePanelListFilters(currentLayer?.symLayerData);
   const { handleDragOver, handleTreeDrop } = useDragNDrop();
 
-  // const [arr, setArr] = useState(REPORT_OBJECTS_PANEL_ICONS);
+  const [iconsArr, setIconsArr] = useState(REPORT_OBJECTS_PANEL_ICONS);
   const [showInput, setShowInput] = useState(false);
   
   const dispatch = useDispatch();
@@ -59,20 +59,10 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report, onSelect, isActive
     state => state.app.reportDesigner.reportsUi.ui?.menuItem
   );
 
-  const menu = useSelector(
-    state => state.app.reportDesigner.reportsUi.ui?.menu
-  );
-
-
-  // useEffect(() =>{
-  //   dispatch(setMenu(REPORT_OBJECTS_PANEL_ICONS));
-  // }, []);
-  
-
   const handleToggleIcon = (item) => {
-    const newArr = menu.map(el => el.action === item ? 
+    const newArr = iconsArr.map(el => el.action === item ? 
       {...el, enable: true } : {...el, enable: false });
-    dispatch(setMenu(newArr)); 
+    setIconsArr(newArr); 
   };
 
   const actions = {
@@ -102,7 +92,8 @@ const ObjectsPanel = ({ modalOpenHandler, showHeader, report, onSelect, isActive
           setSearchValue={setSearchValue}
           showInput={showInput}
           setInput={handleSetInput}
-          array={menu}
+          iconsArr={iconsArr}
+          menuItem={menuItem}
           actions={actions}
         />
       ) : (

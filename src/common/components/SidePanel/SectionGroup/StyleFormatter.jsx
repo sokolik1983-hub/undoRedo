@@ -22,6 +22,8 @@ import PaddingsConfig from './PaddingsConfig';
 import BordersConfig from './BordersConfig';
 
 function StyleFormatter({ onChange, isHeader, formattingElement }) {
+
+  console.log(formattingElement)
   return (
     <div>
       <SectionGroup
@@ -202,6 +204,31 @@ function StyleFormatter({ onChange, isHeader, formattingElement }) {
                 isHeader={isHeader}
                 onChange={params => onChange(params)}
               />
+            )
+          }
+        ]}
+      />
+      <SectionGroup
+        title='Ширина столбца'
+        actions={[
+          {
+            id: 'width',
+            component: (
+              <div style={{display: 'flex'}}>
+                <input
+                  style={{ width: 50 }}
+                  value={formattingElement?.style?.width}
+                  onChange={event => {
+                    onChange({
+                      isHeader,
+                      styles: {
+                        width: `${event.target.value}px`
+                      }
+                    });
+                  }}
+                />
+                <div>&nbsp;px</div>
+              </div>
             )
           }
         ]}

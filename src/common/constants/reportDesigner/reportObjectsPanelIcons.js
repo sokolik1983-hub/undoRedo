@@ -16,7 +16,7 @@ export const REPORT_OBJECTS_PANEL_ICONS = [
     action: 'objects',
     title: 'Объекты',
     icon: <Objects />,
-    enable: true,
+    enable: false,
     disIcon: <DisableObjects />
   },
   {
@@ -55,3 +55,4 @@ export const REPORT_OBJECTS_PANEL_ICONS = [
     disIcon: <DisableMagnifier />
   }
 ];
+

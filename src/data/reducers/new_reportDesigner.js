@@ -5,7 +5,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import lodash, { find } from 'lodash';
 import undoable from 'redux-undo';
 import { deepObjectSearch } from '../helpers';
-import { REPORT_OBJECTS_PANEL_ICONS } from '../../common/constants/reportDesigner/reportObjectsPanelIcons';
 
 // import { deepObjectSearch } from '../helpers';
 // const V_TABLE = {
@@ -2845,7 +2844,6 @@ const reportDesignerUI = createSlice({
       zoom: 1,
       formattingElement: null,
       test: 'test',
-      menu: REPORT_OBJECTS_PANEL_ICONS,
       menuItem: 'objects'
     }
   },
@@ -2892,9 +2890,6 @@ const reportDesignerUI = createSlice({
     setZoom: (state, action) => {
       state.ui.zoom = action.payload;
     },
-    setMenu: (state, action) => {
-      state.ui.menu = action.payload;
-    },
     setMenuItem: (state, action) => {
       state.ui.menuItem = action.payload;
     }
@@ -2929,7 +2924,6 @@ export const {
   setGraphType,
   setZoom,
   setMenuItem,
-  setMenu,
 } = reportDesignerUI.actions;
 
 export default combineReducers({
