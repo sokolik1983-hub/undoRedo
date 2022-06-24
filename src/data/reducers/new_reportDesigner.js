@@ -2648,6 +2648,27 @@ const reportDesigner = createSlice({
         reportNode.styles = { ...reportNode.styles, ...action.payload };
       });
     },
+    setActiveNodeFormula: (state, action) => {
+      const report = lodash.find(
+        state.reports,
+        item => item.id === state.activeReport
+      );
+
+      const targ = deepObjectSearch({
+        target: report.structure,
+        key: 'id',
+        value: state.activeNodes[0]?.id
+      })[0].target;
+
+      if (targ)
+        targ.content = {
+          ...targ.content,
+          expression: {
+            ...targ.content.expression,
+            formula: action.payload
+          }
+        };
+    },
     setTableStyle: (state, action) => {
       const report = lodash.find(
         state.reports,
@@ -2704,9 +2725,9 @@ const reportDesigner = createSlice({
       //   { ...action.payload.object }
       // ];
 
-      bodyZone[0].cells = [ bodyZone[0].cells, ...action.payload.object];
-      headerZone[0].cells = [ headerZone[0].cells, ...action.payload.object];
-   
+      bodyZone[0].cells = [bodyZone[0].cells, ...action.payload.object];
+      headerZone[0].cells = [headerZone[0].cells, ...action.payload.object];
+
       // if(position === 'before') {
       //   bodyZone[0].cells = [ action.payload.object, ...bodyZone[0].cells];
       //   headerZone[0].cells = [ action.payload.object, ...bodyZone[0].cells];
@@ -2716,7 +2737,7 @@ const reportDesigner = createSlice({
       //   bodyZone[0].cells = [ action.payload.object, ...bodyZone[0].cells];
       //   headerZone[0].cells = [ action.payload.object, ...bodyZone[0].cells];
       // }
-      
+
       // if(position === 'center') {
       //   if(bodyZone[0] && bodyZone[0].cells) {
       //     bodyZone[0].cells =  bodyZone[0].cells.map(cell => {
@@ -2724,7 +2745,7 @@ const reportDesigner = createSlice({
       //         return action.payload.object
       //       }
       //       return cell
-      //     }) 
+      //     })
       //   }
 
       //   if(headerZone[0] && headerZone[0].cells) {
@@ -2733,13 +2754,9 @@ const reportDesigner = createSlice({
       //         return action.payload.object
       //       }
       //       return cell
-      //     }) 
+      //     })
       //   }
-        
 
-
-
-    
       // }
 
       // console.log(report, report.structure, targ);
@@ -2850,6 +2867,10 @@ const reportDesignerUI = createSlice({
     }
   },
   reducers: {
+    setFormattingElementFormula: (state, action) => {
+      state.ui.formattingElement.content.expression.formula =
+        action.payload.data;
+    },
     setFormattingElement: (state, action) => {
       if (state.ui.formattingElement?.id === action.payload.item?.id) {
         state.ui.formattingElement = null;
@@ -2910,6 +2931,7 @@ export const {
   setStructure,
   setVariables,
   setActiveNodeStyle,
+  setActiveNodeFormula,
   setTableStyle,
   addTableColumn,
   addSortingField,
@@ -2919,6 +2941,7 @@ export const {
 } = reportDesigner.actions;
 
 export const {
+  setFormattingElementFormula,
   setFormattingElement,
   setCreatingElement,
   setReportPanelVisible,
@@ -2929,7 +2952,7 @@ export const {
   setGraphType,
   setZoom,
   setMenuItem,
-  setMenu,
+  setMenu
 } = reportDesignerUI.actions;
 
 export default combineReducers({

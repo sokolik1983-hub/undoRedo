@@ -16,7 +16,9 @@ import {
   setStructure,
   cellObject,
   reportPageObject,
-  setReportDisplayMode
+  setReportDisplayMode,
+  setFormattingElementFormula,
+  setActiveNodeFormula
 } from '../../data/reducers/new_reportDesigner';
 import { BUTTON } from '../../common/constants/common';
 import Button from '../../common/components/Button';
@@ -39,13 +41,12 @@ import FormulaEditor from '../../common/components/FormulaEditor';
 // import DragNDropProvider from '../QueryPanel/context/DragNDropContext';
 // import { getSymanticLayerData } from '../../data/actions/universes';
 import { ReactComponent as CloseIcon } from '../../layout/assets/close.svg';
-import ReportSidebar from './ReportSidebar'; 
+import ReportSidebar from './ReportSidebar';
 import QueryPanel from '../QueryPanel';
 import ReportContent from './ReportContent';
 import { ReactComponent as MiniFormulaIcon } from '../../layout/assets/reportDesigner/miniFormula.svg';
 import { ReactComponent as OkFormulaIcon } from '../../layout/assets/reportDesigner/okFormula.svg';
 import { ReactComponent as ClearFormulaIcon } from '../../layout/assets/reportDesigner/clearFormula.svg';
-
 
 // const getVariant = (type, tableType, graphType) => {
 //   const types = ['table', 'graph'];
@@ -105,7 +106,7 @@ function ReportDesigner() {
 
   useEffect(async () => {
     // await dispatch(refreshServerResponse());
-    await dispatch(getStreamReceiever({ fileName: 'test.js' }));
+    await dispatch(getStreamReceiever({ fileName: 'testX.js' }));
     await dispatch(getReportStructure({ report_id: 'R1' }));
     await dispatch(getVariables());
 
@@ -130,14 +131,19 @@ function ReportDesigner() {
       x: event.nativeEvent.offsetX,
       y: event.nativeEvent.offsetY
     });
-  };
+  }
 
   function handleAddBlock(event) {
     event.stopPropagation();
 
     if (reportDesigner.reportsUi.ui.creatingElement) {
-      const newStructure = lodash.cloneDeep(currentReport.structure)
-      newStructure.pgBody.content.children.push(createReportElement({type: reportDesigner.reportsUi.ui.creatingElement, mousePosition}))
+      const newStructure = lodash.cloneDeep(currentReport.structure);
+      newStructure.pgBody.content.children.push(
+        createReportElement({
+          type: reportDesigner.reportsUi.ui.creatingElement,
+          mousePosition
+        })
+      );
       // const newStructure = [
       //   ...currentReport.structure,
       //   {
@@ -180,21 +186,28 @@ function ReportDesigner() {
   const isShowingPanel = reportDesigner.reportsUi.ui.showConfigPanel;
 
   const containerStyle = () => {
-
     if (reportDesigner.reportsUi?.ui.showFormulaEditor && !isShowingPanel) {
-      return styles.container
-    }
-    
-    if (activeTab === 1 && isShowingPanel && !reportDesigner.reportsUi?.ui.showFormulaEditor) {
-      return styles.containerTab1
+      return styles.container;
     }
 
-    if (activeTab === 1 && reportDesigner.reportsUi?.ui.showFormulaEditor && isShowingPanel) {
-      return styles.containerTab1Formula
+    if (
+      activeTab === 1 &&
+      isShowingPanel &&
+      !reportDesigner.reportsUi?.ui.showFormulaEditor
+    ) {
+      return styles.containerTab1;
     }
 
-    return styles.containerFull
-  }
+    if (
+      activeTab === 1 &&
+      reportDesigner.reportsUi?.ui.showFormulaEditor &&
+      isShowingPanel
+    ) {
+      return styles.containerTab1Formula;
+    }
+
+    return styles.containerFull;
+  };
 
   const tabsCompressed = clsx(styles.tabs, {
     [styles.tabsCompressed]: isShowingPanel
@@ -214,7 +227,7 @@ function ReportDesigner() {
     }
 
     dispatch(setReportDisplayMode(newMode));
-  };
+  }
 
   function handleAddReport() {
     const newReports = [
@@ -302,6 +315,18 @@ function ReportDesigner() {
 
   const [formula, setFormula] = useState('');
 
+  const activeNode =
+    reportDesigner.reportsData.present.activeNodes &&
+    reportDesigner.reportsData.present.activeNodes[0];
+
+  useEffect(() => {
+    if (activeNode && activeNode.type === 'cell') {
+      setFormula(activeNode?.content?.expression?.formula);
+    } else {
+      setFormula('');
+    }
+  }, [activeNode]);
+
   const handleChange = e => setFormula(e.target.value);
 
   // useEffect(() => {
@@ -352,29 +377,41 @@ function ReportDesigner() {
       />
       <div className={styles.wrapper}>
         {reportDesigner.reportsUi.ui.showFormulaEditor && (
-        <div className={activeTab === 1 ? formulaCompressed : styles.formula}>
-          <MiniFormulaIcon />
-          <textarea 
-            className={styles.formulaTextarea}
-            type="text"
-            name="formula"
-            value={formula}
-            onChange={handleChange}
-          />
-          <div className={styles.formulaIcons}>
-            <IconButton
-              size='small'
-              className={styles.okFormula}
-              icon={<OkFormulaIcon />}
-              onClick={() => {}}
+          <div className={activeTab === 1 ? formulaCompressed : styles.formula}>
+            <MiniFormulaIcon />
+            <textarea
+              className={styles.formulaTextarea}
+              type="text"
+              name="formula"
+              value={formula}
+              onChange={handleChange}
+              disabled={!activeNode}
+              onKeyUp={ev => {
+                if (ev.key === 'Enter') {
+                  dispatch(setActiveNodeFormula(ev.target.value));
+                  dispatch(setActiveNodes([]));
+                  dispatch(setConfigPanelVisible(false));
+                }
+              }}
             />
-            <IconButton
-              size='small'
-              icon={<ClearFormulaIcon />}
-              onClick={() => {}}
-            />
+            <div className={styles.formulaIcons}>
+              <IconButton
+                size="small"
+                className={styles.okFormula}
+                icon={<OkFormulaIcon />}
+                onClick={() => {
+                  dispatch(setActiveNodeFormula(formula));
+                  dispatch(setActiveNodes([]));
+                  dispatch(setConfigPanelVisible(false));
+                }}
+              />
+              <IconButton
+                size="small"
+                icon={<ClearFormulaIcon />}
+                onClick={() => {}}
+              />
+            </div>
           </div>
-        </div>
         )}
         <div className={containerStyle()}>
           <div
@@ -385,7 +422,7 @@ function ReportDesigner() {
             onDoubleClick={handleDisableSelection}
           >
             {currentReport?.structure && (
-              <ReportContent 
+              <ReportContent
                 structure={currentReport?.structure}
                 onSelect={handleSelectBlock}
                 isActiveNode={checkIsActiveNode}
@@ -406,7 +443,6 @@ function ReportDesigner() {
             ))}
             <ReportFooter data={currentReport?.structure?.pgFooter} /> */}
           </div>
-          
         </div>
         <div className={activeTab === 1 ? tabsCompressed : styles.tabs}>
           {reportDesigner.reportsData.present.reports &&
@@ -432,7 +468,11 @@ function ReportDesigner() {
                 </Button>
               );
             })}
-          <Button onClick={handleAddReport} buttonStyle={BUTTON.BLUE} className={styles.plus}>
+          <Button
+            onClick={handleAddReport}
+            buttonStyle={BUTTON.BLUE}
+            className={styles.plus}
+          >
             +
           </Button>
           <Button onClick={handleChangeMode} buttonStyle={BUTTON.BLUE}>
