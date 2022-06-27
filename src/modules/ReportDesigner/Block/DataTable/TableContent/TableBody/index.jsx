@@ -48,7 +48,7 @@ const TableBody = ({
   // }, [displayMode]);
 
   const callback = key => res => {
-    setZoneData(prev => ({ ...prev, [key]: res?.data?.data }));
+    setZoneData(prev => ({ ...prev, [key]: res?.data }));
     setZoneLoadingStatus({
       ...zoneLoadingStatus,
       [key]: false
