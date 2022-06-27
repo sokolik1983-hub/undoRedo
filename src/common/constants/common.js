@@ -22,7 +22,9 @@ export const EMPTY_STRING = '';
 
 export const REDIRECT_LINKS = {
   HOME_PAGE: '/dashboard',
-  LOGIN_PAGE: '/login'
+  LOGIN_PAGE: '/login',
+  SYMLAEYERS: '/symlayers/create',
+  REPORT_CREATE: '/report/create/1'
 };
 
 export const PAGE_TITLES = {
