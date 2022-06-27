@@ -17,7 +17,7 @@ import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import MapIcon from '@material-ui/icons/Map';
 import SearchIcon from '@material-ui/icons/Search';
-import { IconButton } from '@material-ui/core';
+import IconButton from '../../../common/components/IconButton'
 import Tooltip from '../../../common/components/Tooltip/index';
 import { ReactComponent as Plus } from '../../../layout/assets/reportDesigner/plus.svg';
 import { ReactComponent as Minus } from '../../../layout/assets/reportDesigner/minus.svg';
