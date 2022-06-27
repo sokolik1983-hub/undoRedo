@@ -3,12 +3,12 @@
   height: 100vh;
   display: flex;
   gap: 12px;
-  margin-top: 30px;
+  margin-top: 15px;
 }
 
 .container {
   width: 99%;
-  height: 89%;
+  height: 90%;
   outline: 1px solid black;
   position: relative;
   background: white;
@@ -35,14 +35,14 @@
   @extend .container;
 
   left: 234px;
-  height: 95%;
-  width: calc( 99% - 234px);;
+  height: 96%;
+  width: calc( 99% - 234px);
 }
 
 .containerFull {
   @extend .container;
 
-  height: 95%;
+  height: 96%;
 }
 
 .containerTab1Formula {
