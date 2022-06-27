@@ -1,0 +1,1482 @@
+{
+	"header": {
+		"service": "1.0.0.0:12345",
+		"thread": "thread_key",
+		"id": 10040,
+		"guid": "117225AB-1D53-4565-B488-6390F370A67B",
+		"parent_id": 10006,
+		"name": "Test SL 1",
+		"description": "Юниверс из Json",
+		"owner_id": 10001,
+		"createUser_id": 10001,
+		"create_ts": "2022-06-06T17:01:00",
+		"updateUser_id": 10001,
+		"update_ts": "2022-06-06T17:01:00",
+		"version": "0.1.1",
+		"releaseNumber": 1
+	},
+	"data": {
+		"connector_id": 10017,
+		"properties": {
+			"maxTime_sec": 60,
+			"maxRows": 100000,
+			"sqlSettings": [
+				{
+					"name": "PARAM_1",
+					"value": "VALUE_1"
+				},
+				{
+					"name": "PARAM_2",
+					"value": "VALUE_2"
+				}
+			]
+		},
+		"tables": [
+			{
+				"id": 1,
+				"schema": "\"TERN_ANALYTICS\"",
+				"objectName": "pre_maininfo_search",
+				"objectType": "Table",
+				"parentTable_id": null,
+				"sql": null,
+				"position": {
+					"x": 100,
+					"y": 100
+				},
+				"viewType": "All",
+				"viewHeight": 200,
+				"columns": [
+					{
+						"field": "prospect_id",
+						"dataType": "Number"
+					},
+					{
+						"field": "company_name",
+						"dataType": "String"
+					},
+					{
+						"field": "company_full_name",
+						"dataType": "String"
+					},
+					{
+						"field": "company_short_name",
+						"dataType": "String"
+					},
+					{
+						"field": "company_upd_name",
+						"dataType": "String"
+					},
+					{
+						"field": "company_upd_lenght",
+						"dataType": "Number"
+					},
+					{
+						"field": "inn_code",
+						"dataType": "String"
+					},
+					{
+						"field": "ogrn_code",
+						"dataType": "String"
+					},
+					{
+						"field": "kpp_code",
+						"dataType": "String"
+					},
+					{
+						"field": "region_code",
+						"dataType": "String"
+					},
+					{
+						"field": "region_name",
+						"dataType": "String"
+					},
+					{
+						"field": "juridical_address",
+						"dataType": "String"
+					},
+					{
+						"field": "date_ogrn",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "close_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "decision_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "head_last_name",
+						"dataType": "String"
+					},
+					{
+						"field": "head_first_name",
+						"dataType": "String"
+					},
+					{
+						"field": "head_middle_name",
+						"dataType": "String"
+					},
+					{
+						"field": "head_full_name",
+						"dataType": "String"
+					},
+					{
+						"field": "head_inn",
+						"dataType": "String"
+					},
+					{
+						"field": "head_phone",
+						"dataType": "String"
+					},
+					{
+						"field": "head_position_code",
+						"dataType": "String"
+					},
+					{
+						"field": "head_position_type",
+						"dataType": "String"
+					},
+					{
+						"field": "tax_status_code",
+						"dataType": "String"
+					},
+					{
+						"field": "status_name",
+						"dataType": "String"
+					},
+					{
+						"field": "tax_status_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "company_upd_name2",
+						"dataType": "String"
+					},
+					{
+						"field": "company_name_out_space",
+						"dataType": "String"
+					},
+					{
+						"field": "company_shortname_out_space",
+						"dataType": "String"
+					},
+					{
+						"field": "company_finder_name_1",
+						"dataType": "String"
+					},
+					{
+						"field": "company_finder_name_2",
+						"dataType": "String"
+					},
+					{
+						"field": "company_finder_name_3",
+						"dataType": "String"
+					},
+					{
+						"field": "company_finder_name_4",
+						"dataType": "String"
+					},
+					{
+						"field": "company_finder_name_5",
+						"dataType": "String"
+					},
+					{
+						"field": "company_finder_name_6",
+						"dataType": "String"
+					},
+					{
+						"field": "prospect_type",
+						"dataType": "String"
+					},
+					{
+						"field": "company_finder_name_7",
+						"dataType": "String"
+					},
+					{
+						"field": "company_finder_name_8",
+						"dataType": "String"
+					},
+					{
+						"field": "company_finder_name_9",
+						"dataType": "String"
+					},
+					{
+						"field": "managing_name",
+						"dataType": "String"
+					},
+					{
+						"field": "managing_ogrn",
+						"dataType": "String"
+					},
+					{
+						"field": "managing_inn",
+						"dataType": "String"
+					},
+					{
+						"field": "managing_prospect_id",
+						"dataType": "Number"
+					},
+					{
+						"field": "stop_code",
+						"dataType": "String"
+					},
+					{
+						"field": "stop_name",
+						"dataType": "String"
+					},
+					{
+						"field": "stop_grn_id",
+						"dataType": "String"
+					},
+					{
+						"field": "stop_grn_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "sanction_list",
+						"dataType": "String"
+					},
+					{
+						"field": "is_insurance",
+						"dataType": "String"
+					},
+					{
+						"field": "is_bank",
+						"dataType": "String"
+					},
+					{
+						"field": "post_code",
+						"dataType": "String"
+					},
+					{
+						"field": "id_address",
+						"dataType": "Number"
+					},
+					{
+						"field": "numofworkers",
+						"dataType": "Number"
+					},
+					{
+						"field": "city_name",
+						"dataType": "String"
+					},
+					{
+						"field": "purchase_c",
+						"dataType": "String"
+					},
+					{
+						"field": "purchase_s",
+						"dataType": "String"
+					},
+					{
+						"field": "purchase_223",
+						"dataType": "String"
+					},
+					{
+						"field": "purchase_44",
+						"dataType": "String"
+					},
+					{
+						"field": "fssp",
+						"dataType": "String"
+					},
+					{
+						"field": "arbitr_otv",
+						"dataType": "String"
+					},
+					{
+						"field": "arbitr_ist",
+						"dataType": "String"
+					},
+					{
+						"field": "arbitr_bunkrupt",
+						"dataType": "String"
+					},
+					{
+						"field": "disq_executive",
+						"dataType": "String"
+					},
+					{
+						"field": "disq_founder",
+						"dataType": "String"
+					},
+					{
+						"field": "bad_address",
+						"dataType": "String"
+					},
+					{
+						"field": "bad_founder",
+						"dataType": "String"
+					},
+					{
+						"field": "bad_executive",
+						"dataType": "String"
+					},
+					{
+						"field": "finance_pribil",
+						"dataType": "Number"
+					},
+					{
+						"field": "licence_alkogol",
+						"dataType": "String"
+					},
+					{
+						"field": "licence_roszdrav",
+						"dataType": "String"
+					},
+					{
+						"field": "licence_fns",
+						"dataType": "String"
+					},
+					{
+						"field": "line_hash",
+						"dataType": "Number"
+					},
+					{
+						"field": "full_string",
+						"dataType": "String"
+					},
+					{
+						"field": "status_company",
+						"dataType": "String"
+					},
+					{
+						"field": "status_company_flag",
+						"dataType": "String"
+					},
+					{
+						"field": "status_company_v2",
+						"dataType": "String"
+					},
+					{
+						"field": "status_company_flag_v2",
+						"dataType": "String"
+					},
+					{
+						"field": "status_ip",
+						"dataType": "String"
+					},
+					{
+						"field": "status_ip_flag",
+						"dataType": "String"
+					},
+					{
+						"field": "status_ip_flag_v2",
+						"dataType": "String"
+					}
+				]
+			},
+			{
+				"id": 2,
+				"schema": "\"TERN_ANALYTICS\"",
+				"objectName": "v_egrul_executive",
+				"objectType": "Table",
+				"parentTable_id": null,
+				"sql": null,
+				"position": {
+					"x": 200,
+					"y": 100
+				},
+				"viewType": "Head",
+				"viewHeight": 200,
+				"columns": [
+					{
+						"field": "id",
+						"dataType": "Number"
+					},
+					{
+						"field": "egr_id",
+						"dataType": "Number"
+					},
+					{
+						"field": "from_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "to_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "crc",
+						"dataType": "Number"
+					},
+					{
+						"field": "first_grn",
+						"dataType": "String"
+					},
+					{
+						"field": "first_grn_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "position_grn",
+						"dataType": "String"
+					},
+					{
+						"field": "position_grn_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "position_grn_chg",
+						"dataType": "String"
+					},
+					{
+						"field": "position_grn_chg_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "position_kind_code",
+						"dataType": "String"
+					},
+					{
+						"field": "position_kind_name",
+						"dataType": "String"
+					},
+					{
+						"field": "position_name",
+						"dataType": "String"
+					},
+					{
+						"field": "ogrnip",
+						"dataType": "String"
+					},
+					{
+						"field": "phone_grn",
+						"dataType": "String"
+					},
+					{
+						"field": "phone_grn_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "phone_grn_chg",
+						"dataType": "String"
+					},
+					{
+						"field": "phone_grn_chg_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "phone",
+						"dataType": "String"
+					},
+					{
+						"field": "il_grn",
+						"dataType": "String"
+					},
+					{
+						"field": "il_grn_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "il_grn_chg",
+						"dataType": "String"
+					},
+					{
+						"field": "il_grn_chg_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "il_inn",
+						"dataType": "String"
+					},
+					{
+						"field": "il_first_name",
+						"dataType": "String"
+					},
+					{
+						"field": "il_last_name",
+						"dataType": "String"
+					},
+					{
+						"field": "il_middle_name",
+						"dataType": "String"
+					},
+					{
+						"field": "create_dt",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "update_dt",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "mass_leader",
+						"dataType": "String"
+					},
+					{
+						"field": "mass_leader_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "mass_phone",
+						"dataType": "String"
+					},
+					{
+						"field": "executive_full",
+						"dataType": "String"
+					}
+				]
+			},
+			{
+				"id": 3,
+				"schema": "\"TERN_ANALYTICS\"",
+				"objectName": "v_egrul_license",
+				"objectType": "Table",
+				"parentTable_id": null,
+				"sql": null,
+				"position": {
+					"x": 300,
+					"y": 100
+				},
+				"viewType": "Keys",
+				"viewHeight": 200,
+				"columns": [
+					{
+						"field": "id",
+						"dataType": "Number"
+					},
+					{
+						"field": "egr_id",
+						"dataType": "Number"
+					},
+					{
+						"field": "from_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "to_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "sign_ul_ip",
+						"dataType": "String"
+					},
+					{
+						"field": "crc",
+						"dataType": "Number"
+					},
+					{
+						"field": "grn",
+						"dataType": "String"
+					},
+					{
+						"field": "grn_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "grn_chg",
+						"dataType": "String"
+					},
+					{
+						"field": "grn_chg_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "license_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "license_number",
+						"dataType": "String"
+					},
+					{
+						"field": "license_start_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "license_end_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "lic_stop_grn",
+						"dataType": "String"
+					},
+					{
+						"field": "lic_stop_grn_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "lic_stop_grn_chg",
+						"dataType": "String"
+					},
+					{
+						"field": "lic_stop_grn_chg_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "lic_stop_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "lic_stop_org_name",
+						"dataType": "String"
+					},
+					{
+						"field": "is_active",
+						"dataType": "String"
+					},
+					{
+						"field": "create_dt",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "update_dt",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "license_full1",
+						"dataType": "String"
+					},
+					{
+						"field": "license_full2",
+						"dataType": "String"
+					},
+					{
+						"field": "license_full3",
+						"dataType": "String"
+					}
+				]
+			},
+			{
+				"id": 4,
+				"schema": "\"TERN_ANALYTICS\"",
+				"objectName": "v_egrul_unit",
+				"objectType": "Table",
+				"parentTable_id": null,
+				"sql": null,
+				"position": {
+					"x": 400,
+					"y": 100
+				},
+				"viewType": "Keys",
+				"viewHeight": 200,
+				"columns": [
+					{
+						"field": "id",
+						"dataType": "Number"
+					},
+					{
+						"field": "egr_id",
+						"dataType": "Number"
+					},
+					{
+						"field": "from_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "to_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "crc",
+						"dataType": "Number"
+					},
+					{
+						"field": "unit_type",
+						"dataType": "Number"
+					},
+					{
+						"field": "grn",
+						"dataType": "String"
+					},
+					{
+						"field": "grn_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "name_grn",
+						"dataType": "String"
+					},
+					{
+						"field": "name_grn_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "name_grn_chg",
+						"dataType": "String"
+					},
+					{
+						"field": "name_grn_chg_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "full_name",
+						"dataType": "String"
+					},
+					{
+						"field": "addr_grn",
+						"dataType": "String"
+					},
+					{
+						"field": "addr_grn_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "addr_grn_chg",
+						"dataType": "String"
+					},
+					{
+						"field": "addr_grn_chg_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "address_id",
+						"dataType": "Number"
+					},
+					{
+						"field": "reg_grn",
+						"dataType": "String"
+					},
+					{
+						"field": "reg_grn_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "reg_grn_chg",
+						"dataType": "String"
+					},
+					{
+						"field": "reg_grn_chg_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "reg_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "reg_kpp",
+						"dataType": "String"
+					},
+					{
+						"field": "tax_code",
+						"dataType": "String"
+					},
+					{
+						"field": "tax_name",
+						"dataType": "String"
+					},
+					{
+						"field": "fa_grn",
+						"dataType": "String"
+					},
+					{
+						"field": "fa_grn_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "fa_grn_chg",
+						"dataType": "String"
+					},
+					{
+						"field": "fa_grn_chg_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "fa_country_code",
+						"dataType": "String"
+					},
+					{
+						"field": "fa_country_name",
+						"dataType": "String"
+					},
+					{
+						"field": "foreign_address",
+						"dataType": "String"
+					},
+					{
+						"field": "create_dt",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "update_dt",
+						"dataType": "Datetime"
+					}
+				]
+			},
+			{
+				"id": 5,
+				"schema": "\"TERN_ANALYTICS_EGR\"",
+				"objectName": "egr_okved",
+				"objectType": "Table",
+				"parentTable_id": null,
+				"sql": null,
+				"position": {
+					"x": 500,
+					"y": 100
+				},
+				"viewType": "Keys",
+				"viewHeight": 200,
+				"columns": [
+					{
+						"field": "id",
+						"dataType": "Number"
+					},
+					{
+						"field": "egr_id",
+						"dataType": "Number"
+					},
+					{
+						"field": "from_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "to_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "crc",
+						"dataType": "Number"
+					},
+					{
+						"field": "sign_ul_ip",
+						"dataType": "String"
+					},
+					{
+						"field": "okved_type",
+						"dataType": "String"
+					},
+					{
+						"field": "okved_code",
+						"dataType": "String"
+					},
+					{
+						"field": "standard_code",
+						"dataType": "String"
+					},
+					{
+						"field": "okved_name",
+						"dataType": "String"
+					},
+					{
+						"field": "okved_ver",
+						"dataType": "String"
+					},
+					{
+						"field": "okved_spr_id",
+						"dataType": "Number"
+					},
+					{
+						"field": "is_processed",
+						"dataType": "String"
+					},
+					{
+						"field": "processing_id",
+						"dataType": "Number"
+					},
+					{
+						"field": "grn",
+						"dataType": "String"
+					},
+					{
+						"field": "grn_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "grn_chg",
+						"dataType": "String"
+					},
+					{
+						"field": "grn_chg_date",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "create_dt",
+						"dataType": "Datetime"
+					},
+					{
+						"field": "update_dt",
+						"dataType": "Datetime"
+					}
+				]
+			},
+			{
+				"id": 102,
+				"schema": null,
+				"objectName": "alias_to_v_egrul_executive",
+				"objectType": "Alias",
+				"parentTable_id": 2,
+				"sql": null,
+				"position": {
+					"x": 500,
+					"y": 100
+				},
+				"viewType": "Keys",
+				"viewHeight": 200,
+				"columns": [
+				]
+			},
+			{
+				"id": 200,
+				"schema": null,
+				"objectName": "TestDerivedTable1",
+				"objectType": "Derived",
+				"parentTable_id": null,
+				"sql": "select \"TERN_ANALYTICS_EGR\".egr_okved.okved_name, alias_to_v_egrul_executive.il_middle_name||' '||alias_to_v_egrul_executive.il_first_name||' '||alias_to_v_egrul_executive.il_last_name as \"ОИФ\",\"TERN_ANALYTICS\".pre_maininfo_search.company_name,\"TERN_ANALYTICS\".v_egrul_executive.il_last_name||' '||\"TERN_ANALYTICS\".v_egrul_executive.il_first_name||' '||\"TERN_ANALYTICS\".v_egrul_executive.il_middle_name from \"TERN_ANALYTICS\".pre_maininfo_search inner join \"TERN_ANALYTICS\".v_egrul_executive on \"TERN_ANALYTICS\".pre_maininfo_search.prospect_id = \"TERN_ANALYTICS\".v_egrul_executive.egr_id inner join \"TERN_ANALYTICS\".v_egrul_executive as alias_to_v_egrul_executive on \"TERN_ANALYTICS\".pre_maininfo_search.prospect_id = alias_to_v_egrul_executive.egr_id inner join \"TERN_ANALYTICS_EGR\".egr_okved on \"TERN_ANALYTICS\".pre_maininfo_search.prospect_id = \"TERN_ANALYTICS_EGR\".egr_okved.egr_id and  \"TERN_ANALYTICS_EGR\".egr_okved.okved_type='1' where (\"TERN_ANALYTICS_EGR\".egr_okved.okved_type='1') group by 1, 2, 3, 4",
+				"position": {
+					"x": 500,
+					"y": 100
+				},
+				"viewType": "Keys",
+				"viewHeight": 200,
+				"columns": [
+					{
+						"BAD_field": "\"TERN_ANALYTICS_EGR\".egr_okved.okved_name",
+						"field": "okved_name",
+						"dataType": "String"
+					},
+					{
+						"field": "ОИФ",
+						"dataType": "String"
+					},
+					{
+						"BAD_field": "\"TERN_ANALYTICS\".pre_maininfo_search.company_name",
+						"field": "company_name",
+						"dataType": "String"
+					},
+					{
+						"field": "ФИО",
+						"dataType": "String"
+					}				]
+			}
+		],
+		"links": [
+			{
+				"id": 101,
+				"object1": {
+					"table_id": 1,
+					"fields": [
+						{
+							"field": "prospect_id",
+							"type": "Number"
+						}
+					],
+					"cardinality": "one",
+					"outerJoin": false
+				},
+				"object2": {
+					"table_id": 4,
+					"fields": [
+						{
+							"field": "egr_id",
+							"type": "Number"
+						}
+					],
+					"cardinality": "many",
+					"outerJoin": false
+				},
+				"condition": "EQUAL",
+				"expression": "\"TERN_ANALYTICS\".pre_maininfo_search.prospect_id = \"TERN_ANALYTICS\".v_egrul_unit.egr_id",
+				"shortcut": false
+			},
+			{
+				"id": 102,
+				"object1": {
+					"table_id": 1,
+					"fields": [
+						{
+							"field": "prospect_id",
+							"type": "Number"
+						}
+					],
+					"cardinality": "one",
+					"outerJoin": false
+				},
+				"object2": {
+					"table_id": 2,
+					"fields": [
+						{
+							"field": "egr_id",
+							"type": "Number"
+						}
+					],
+					"cardinality": "many",
+					"outerJoin": false
+				},
+				"condition": "EQUAL",
+				"expression": "\"TERN_ANALYTICS\".pre_maininfo_search.prospect_id = \"TERN_ANALYTICS\".v_egrul_executive.egr_id",
+				"shortcut": false
+			},
+			{
+				"id": 2102,
+				"object1": {
+					"table_id": 102,
+					"fields": [
+						{
+							"field": "egr_id",
+							"type": "Number"
+						}
+					],
+					"cardinality": "one",
+					"outerJoin": false
+				},
+				"object2": {
+					"table_id": 2,
+					"fields": [
+						{
+							"field": "egr_id",
+							"type": "Number"
+						}
+					],
+					"cardinality": "one",
+					"outerJoin": false
+				},
+				"condition": "EQUAL",
+				"expression": "alias_to_v_egrul_executive.egr_id = \"TERN_ANALYTICS\".v_egrul_executive.egr_id",
+				"shortcut": false
+			},
+			{
+				"id": 1102,
+				"object1": {
+					"table_id": 1,
+					"fields": [
+						{
+							"field": "prospect_id",
+							"type": "Number"
+						}
+					],
+					"cardinality": "one",
+					"outerJoin": false
+				},
+				"object2": {
+					"table_id": 102,
+					"fields": [
+						{
+							"field": "egr_id",
+							"type": "Number"
+						}
+					],
+					"cardinality": "many",
+					"outerJoin": false
+				},
+				"condition": "EQUAL",
+				"expression": "\"TERN_ANALYTICS\".pre_maininfo_search.prospect_id = alias_to_v_egrul_executive.egr_id",
+				"shortcut": false
+			},
+			{
+				"id": 103,
+				"object1": {
+					"table_id": 1,
+					"fields": [
+						{
+							"field": "prospect_id",
+							"type": "Number"
+						}
+					],
+					"cardinality": "one",
+					"outerJoin": false
+				},
+				"object2": {
+					"table_id": 3,
+					"fields": [
+						{
+							"field": "egr_id",
+							"type": "Number"
+						}
+					],
+					"cardinality": "many",
+					"outerJoin": false
+				},
+				"condition": "EQUAL",
+				"expression": "\"TERN_ANALYTICS\".pre_maininfo_search.prospect_id = \"TERN_ANALYTICS\".v_egrul_license.egr_id",
+				"shortcut": false
+			},
+			{
+				"id": 104,
+				"object1": {
+					"table_id": 1,
+					"fields": [
+						{
+							"field": "prospect_id",
+							"type": "Number"
+						}
+					],
+					"cardinality": "one",
+					"outerJoin": false
+				},
+				"object2": {
+					"table_id": 5,
+					"fields": [
+						{
+							"field": "egr_id",
+							"type": "Number"
+						},
+						{
+							"field": "okved_type",
+							"type": "String"
+						}
+					],
+					"cardinality": "one",
+					"outerJoin": false
+				},
+				"condition": "EQUAL",
+				"expression": "\"TERN_ANALYTICS\".pre_maininfo_search.prospect_id = \"TERN_ANALYTICS_EGR\".egr_okved.egr_id and  \"TERN_ANALYTICS_EGR\".egr_okved.okved_type='1'",
+				"shortcut": false
+			},
+			{
+				"id": 2000,
+				"object1": {
+					"table_id": 5,
+					"fields": [
+						{
+							"field": "okved_name",
+							"type": "String"
+						}
+					],
+					"cardinality": "one",
+					"outerJoin": true
+				},
+				"object2": {
+					"table_id": 200,
+					"fields": [
+						{
+							"field": "okved_name",
+							"type": "String"
+						}
+					],
+					"cardinality": "one",
+					"outerJoin": true
+				},
+				"condition": "EQUAL",
+				"expression": "\"TERN_ANALYTICS_EGR\".egr_okved.okved_name = TestDerivedTable1.okved_name",
+				"shortcut": false
+			}
+		],
+		"contexts": [
+			{
+				"id": 201,
+				"name": "Тестовый контекст 1",
+				"links": [
+					101,
+					102,
+					103,
+					104
+				]
+			},
+			{
+				"id": 202,
+				"name": "Тестовый контекст 2",
+				"links": [
+					101,
+					2102,
+					103,
+					104,
+                    1102,
+                    2000					
+				]
+			}
+		],
+		"objects": [
+			{
+				"id": 1849,
+				"parent_id": null,
+				"name": "Организация",
+				"description": "Объекты, описывающие организацию",
+				"userDataType": null,
+				"dataType": null,
+				"objectType": "Folder",
+				"select": null,
+				"where": null,
+				"tables": null,
+				"aggFunc": null,
+				"aggFuncName": null,
+				"mask": null
+			},
+			{
+				"id": 1850,
+				"parent_id": 1849,
+				"name": "ОКВЕД",
+				"description": "",
+				"userDataType": null,
+				"dataType": null,
+				"objectType": "Folder",
+				"select": null,
+				"where": null,
+				"tables": null,
+				"aggFunc": null,
+				"aggFuncName": null,
+				"mask": null
+			},
+			{
+				"id": 1853,
+				"parent_id": 1849,
+				"name": "Руководители",
+				"description": "",
+				"userDataType": null,
+				"dataType": null,
+				"objectType": "Folder",
+				"select": null,
+				"where": null,
+				"tables": null,
+				"aggFunc": null,
+				"aggFuncName": null,
+				"mask": null
+			},
+			{
+				"id": 56,
+				"parent_id": 1849,
+				"name": "Фильтр56 Название организации: \"ООО Перекрёсток\"",
+				"description": "",
+				"userDataType": "String",
+				"dataType": "String",
+				"objectType": "Filter",
+				"select": null,
+				"where": "\"TERN_ANALYTICS\".pre_maininfo_search.company_name='ООО Перекрёсток'",
+				"tables": [
+					1
+				],
+				"aggFunc": null,
+				"aggFuncName": null,
+				"mask": null
+			},
+			{
+				"id": 1856,
+				"parent_id": 1849,
+				"name": "Название организации",
+				"description": "",
+				"userDataType": "String",
+				"dataType": "String",
+				"objectType": "Dimension",
+				"select": "\"TERN_ANALYTICS\".pre_maininfo_search.company_name",
+				"where": null,
+				"tables": [
+					1
+				],
+				"aggFunc": null,
+				"aggFuncName": null,
+				"mask": null
+			},
+			{
+				"id": 1861,
+				"parent_id": 1849,
+				"name": "Выбор названия организации по маске",
+				"description": "Подьзовательский ввод",
+				"userDataType": "String",
+				"dataType": "String",
+				"objectType": "Dimension",
+				"select": "\"TERN_ANALYTICS\".pre_maininfo_search.company_name like '%'||@Ввод('МАСКА_ИМЕНИ')||'%'",
+				"where": null,
+				"tables": [
+					1
+				],
+				"aggFunc": null,
+				"aggFuncName": null,
+				"mask": null
+			},
+			{
+				"id": 1857,
+				"parent_id": 1849,
+				"name": "ИНН",
+				"description": "",
+				"userDataType": "String",
+				"dataType": "String",
+				"objectType": "Dimension",
+				"select": "\"TERN_ANALYTICS\".pre_maininfo_search.inn_code",
+				"where": null,
+				"tables": [
+					1
+				],
+				"aggFunc": null,
+				"aggFuncName": null,
+				"mask": null
+			},
+			{
+				"id": 1858,
+				"parent_id": 1849,
+				"name": "ОГРН",
+				"description": "",
+				"userDataType": "String",
+				"dataType": "String",
+				"objectType": "Dimension",
+				"select": "\"TERN_ANALYTICS\".pre_maininfo_search.ogrn_code",
+				"where": null,
+				"tables": [
+					1
+				],
+				"aggFunc": null,
+				"aggFuncName": null,
+				"mask": null
+			},
+			{
+				"id": 1859,
+				"parent_id": 1849,
+				"name": "Кол-во лицензий организации",
+				"description": "",
+				"userDataType": "Number",
+				"dataType": "Number",
+				"objectType": "Measure",
+				"select": "count(distinct \"TERN_ANALYTICS\".v_egrul_license.id)",
+				"where": null,
+				"tables": [
+					3
+				],
+				"aggFunc": "SUM",
+				"aggFuncName": "sum",
+				"mask": null
+			},
+			{
+				"id": 1860,
+				"parent_id": 1849,
+				"name": "Кол-во филиалов организации",
+				"description": "",
+				"userDataType": "Number",
+				"dataType": "Number",
+				"objectType": "Measure",
+				"select": "count(distinct \"TERN_ANALYTICS\".v_egrul_unit.id)",
+				"where": null,
+				"tables": [
+					4
+				],
+				"aggFunc": "SUM",
+				"aggFuncName": "sum",
+				"mask": null
+			},
+			{
+				"id": 51,
+				"parent_id": 1850,
+				"name": "Фильтр51 (okved_type='1')",
+				"description": "",
+				"userDataType": "String",
+				"dataType": "String",
+				"objectType": "Filter",
+				"select": null,
+				"where":  "\"TERN_ANALYTICS_EGR\".egr_okved.okved_type='1'",
+				"tables": [
+					5
+				],
+				"aggFunc": null,
+				"aggFuncName": null,
+				"mask": null
+			},
+			{
+				"id": 1851,
+				"parent_id": 1850,
+				"name": "Основной вид деятельности",
+				"description": "",
+				"userDataType": "String",
+				"dataType": "String",
+				"objectType": "Dimension",
+				"select": "\"TERN_ANALYTICS_EGR\".egr_okved.okved_name",
+				"where": null,
+				"tables": [
+					5
+				],
+				"aggFunc": null,
+				"aggFuncName": null,
+				"mask": null
+			},
+			{
+				"id": 2000,
+				"parent_id": 1850,
+				"name": "Отчество Имя Фимилия",
+				"description": "",
+				"userDataType": "String",
+				"dataType": "String",
+				"objectType": "Dimension",
+				"select": "TestDerivedTable1.\"ОИФ\"",
+				"where": null,
+				"tables": [
+					200
+				],
+				"aggFunc": null,
+				"aggFuncName": null,
+				"mask": null
+			},
+			{
+				"id": 1852,
+				"parent_id": 1850,
+				"name": "Код ОКВЕД",
+				"description": "",
+				"userDataType": "String",
+				"dataType": "String",
+				"objectType": "Dimension",
+				"select": "\"TERN_ANALYTICS_EGR\".egr_okved.okved_code",
+				"where": null,
+				"tables": [
+					5
+				],
+				"aggFunc": null,
+				"aggFuncName": null,
+				"mask": null
+			},
+			{
+				"id": 1854,
+				"parent_id": 1853,
+				"name": "ФИО",
+				"description": "",
+				"userDataType": "String",
+				"dataType": "String",
+				"objectType": "Dimension",
+				"select": "\"TERN_ANALYTICS\".v_egrul_executive.il_last_name||' '||\"TERN_ANALYTICS\".v_egrul_executive.il_first_name||' '||\"TERN_ANALYTICS\".v_egrul_executive.il_middle_name",
+				"where": null,
+				"tables": [
+					2
+				],
+				"aggFunc": null,
+				"aggFuncName": null,
+				"mask": null
+			},
+			{
+				"id": 2102,
+				"parent_id": 1853,
+				"name": "ОИФ",
+				"description": "",
+				"userDataType": "String",
+				"dataType": "String",
+				"objectType": "Dimension",
+				"select": "alias_to_v_egrul_executive.il_middle_name||' '||alias_to_v_egrul_executive.il_first_name||' '||alias_to_v_egrul_executive.il_last_name",
+				"where": null,
+				"tables": [
+					102
+				],
+				"aggFunc": null,
+				"aggFuncName": null,
+				"mask": null
+			}
+		],
+		"lists": [
+			{
+				"id": 43,
+				"name": "Лицензии",
+				"items": [
+					{
+						"id": "1",
+						"value": "20"
+					},
+					{
+						"id": "2",
+						"value": "30"
+					},
+					{
+						"id": "3",
+						"value": "40"
+					}
+				]
+			}
+		],
+		"prompts": [
+			{
+				"id": 301,
+				"code": "COUNT_LICENSE",
+				"name": "Введите количество лицензий",
+				"dataType": "Number",
+				"isMultiple": true,
+				"defaultValue": "",
+				"list_id": null,
+				"isSaveLast": false
+			}, 
+			{
+				"id": 302,
+				"code": "МАСКА_ИМЕНИ",
+				"name": "Введите маску названия компании",
+				"dataType": "String",
+				"isMultiple": false,
+				"defaultValue": "%",
+				"list_id": null,
+				"isSaveLast": true
+			}
+		]
+	}
+}

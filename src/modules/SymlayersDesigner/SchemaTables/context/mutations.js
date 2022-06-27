@@ -2,6 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-return-assign */
+import { getTableIdFromParams } from '../../../../data/helpers';
 import Vector from '../vector';
 
 const createSetter = key => ({ state }, val) => (state[key] = val);
@@ -78,7 +79,7 @@ export default {
 
   SET_TABLES: ({ state }, tables = []) => {
     state.tables = tables.reduce(
-      (prev, table) => ({ ...prev, [state.getTableId(table)]: table }),
+      (result, table) => ({ ...result, [getTableIdFromParams({...table, connect_id: 4})]: table }),
       {}
     );
   },

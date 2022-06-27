@@ -7,15 +7,20 @@ import styles from './TabsItem.module.scss';
 const TabsItem = ({ className, idx, tab }) => {
   const { activeTab, setActiveTab } = useTabContext();
 
+  const tabContent = typeof tab === 'string' ? tab : tab(idx === activeTab);
+
   const tabsItem = clsx(styles.tabsItem, className, {
     [styles.active]: idx === activeTab
   });
 
   return (
     <li className={tabsItem}>
-      <button type="button" onClick={() => setActiveTab(idx)}>
-        {tab}
-      </button>
+      <div
+        className={styles.tabItemContainer}
+        onClick={() => setActiveTab(idx)}
+      >
+        {tabContent}
+      </div>
     </li>
   );
 };
@@ -24,6 +29,6 @@ export default TabsItem;
 
 TabsItem.propTypes = {
   className: PropTypes.string,
-  idx: PropTypes.number,
-  tab: PropTypes.string
+  idx: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  tab: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
 };

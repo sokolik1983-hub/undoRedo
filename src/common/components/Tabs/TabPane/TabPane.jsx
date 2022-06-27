@@ -10,6 +10,6 @@ export const TabPane = ({ idx, children }) => {
 export default TabPane;
 
 TabPane.propTypes = {
-  idx: PropTypes.number,
+  idx: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   children: PropTypes.node
 };

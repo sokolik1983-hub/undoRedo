@@ -7,7 +7,7 @@ import styles from './Tabs.module.scss';
 export const ActiveTabContext = createContext();
 export const useTabContext = () => useContext(ActiveTabContext);
 
-export const Tabs = ({ defaultActive, children }) => {
+const Tabs = ({ defaultActive, children }) => {
   const [activeTab, setActiveTab] = useState(defaultActive);
 
   const arrayChildren = Array.isArray(children)
@@ -31,6 +31,8 @@ export const Tabs = ({ defaultActive, children }) => {
     </ActiveTabContext.Provider>
   );
 };
+
+export default Tabs;
 
 Tabs.propTypes = {
   defaultActive: PropTypes.string,

@@ -162,11 +162,11 @@ export const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export const getTableIdFromParams = ({
   schema,
-  object_name,
-  object_type_id,
+  objectName,
+  id,
   connect_id
 }) => {
-  return `${schema}_${object_name}_${object_type_id}_${connect_id}`;
+  return `${schema}_${objectName}_${id}_${connect_id}`;
 };
 
 export const deepObjectSearch = ({ target, key, value, parent = null }) => {
