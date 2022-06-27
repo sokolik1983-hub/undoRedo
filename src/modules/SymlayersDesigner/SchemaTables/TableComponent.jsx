@@ -144,11 +144,11 @@ const TableComponent = ({
     state => state.app.schemaDesigner
   );
 
-  const [coords, setCoords] = useState({x: 0, y: 0});
+  const [coords, setCoords] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    setCoords({x: coords.x + 50, y: coords.y + 50});
-  }, [ selectedTables]);
+    setCoords({ x: coords.x + 50, y: coords.y + 50 });
+  }, [selectedTables]);
 
   // const refs = useMemo(() => tableRefs[tableId], [tableRefs, tableId]);
   // const [showSynPopup, setShowSynPopup] = useState(false);
