@@ -47,7 +47,7 @@ export const createReportElement = ({ type, mousePosition }) => {
   const cell = {
     id: generateId(),
     type: 'cell',
-    name: 'ячейка 1',
+    name: `ячейка ${generateId()}`,
     size: {
       minimalHeight: 10,
       minimalWidth: 120,

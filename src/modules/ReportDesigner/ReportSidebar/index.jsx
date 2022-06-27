@@ -11,35 +11,10 @@ import { SIDE_PANEL_TYPES } from '../../../common/constants/common';
 // import { getSymanticLayerData } from '../../../data/actions/universes';
 import { ReactComponent as Arrow } from '../../../layout/assets/semanticLayerModal/arrow.svg';
 import ReportInfoBlock from '../ReportInfoBlock';
+import { REPORT_OBJECTS_PANEL_ICONS } from '../../../common/constants/reportDesigner/reportObjectsPanelIcons';
 
-const items = [
-  {
-    id: 1,
-    name: 'Объекты'
-  },
-  {
-    id: 2,
-    name: 'Структура'
-  },
-  {
-    id: 3,
-    name: 'Карта'
-  },
-  {
-    id: 4,
-    name: 'Комментарии'
-  },
-  {
-    id: 5,
-    name: 'Свойства'
-  },
-  {
-    id: 6,
-    name: 'Навигация'
-  }
-];
 
-const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
+const ReportSidebar = ({ semanticLayer, handleShowSelector, onSelect, setTabNumber, isActiveNode }) => {
   // const dispatch = useDispatch();
   const reportDesigner = useSelector(state => state.app.reportDesigner);
   const isShowingPanel = reportDesigner.reportsUi.ui.showConfigPanel;
@@ -53,6 +28,7 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
 
   const handleSelectTab = value => () => {
     setActiveTab(value);
+    setTabNumber(value)
   };
 
   const handleChangeEditBlockClass = () => {
@@ -78,9 +54,22 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
     return styles.viewBlockActive
   };
 
+  const menuItem = useSelector(
+    state => state.app.reportDesigner.reportsUi.ui?.menuItem
+  );
+
+  const getName = (item) => {
+    const res = REPORT_OBJECTS_PANEL_ICONS.filter(el => el.action === item);
+    return res[0].title;
+  };
+
   // useEffect(() => {
   //   if (semanticLayer) dispatch(getSymanticLayerData(semanticLayer.id));
   // }, [semanticLayer]);
+
+  const sidePanelStyle = clsx(styles.sidePanel, {
+    [styles.sidePanelVisible]: isShowingPanel
+  });
 
   return (
     <>
@@ -95,7 +84,7 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
               <>
                 <div>
                   <p className={styles.viewActiveText}>просмотр</p>
-                  <p className={styles.viewItem}>{items[5].name}</p>
+                  <p className={styles.viewItem}>{getName(menuItem)}</p>
                 </div>
                 <div className={styles.actions}>
                   <div onClick={handleCollapse}>
@@ -114,7 +103,7 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
               <>
                 <div>
                   <p className={styles.editActiveText}>редактирование</p>
-                  <p className={styles.editableItem}>{items[2].name}</p>
+                  <p className={styles.editableItem}>{getName(menuItem)}</p>
                 </div>
                 <div className={styles.actions}>
                   <div onClick={handleCollapse}>
@@ -139,19 +128,17 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector }) => {
                     <ObjectsPanel
                       symanticLayer={semanticLayer}
                       onToggleClick={handleShowSelector}
+                      onSelect={onSelect}
+                      isActiveNode={isActiveNode}
                       showHeader={false}
                       report
                     />
                   </DragNDropProvider>
                 </div>
-                <div
-                  className={clsx(styles.sidePanel, {
-                    [styles.sidePanelVisible]: isShowingPanel
-                  })}
-                >
+                <div className={sidePanelStyle}>
                   <SidePanel
                     navType={SIDE_PANEL_TYPES.BLOCK_MENU}
-                    marginRight={reportDesigner.reportsUi.ui.showReportPanel ? 250 : 0}
+                    marginRight={isShowingPanel ? 250 : 0}
                   />
                 </div>
               </div>

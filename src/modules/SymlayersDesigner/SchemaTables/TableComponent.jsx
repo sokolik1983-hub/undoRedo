@@ -319,7 +319,7 @@ const TableComponent = ({
   //   props.onNewLinkItem(item);
   // };
 
-  const ActualPosition = (position && position.deltaPosition) || coords;
+  const ActualPosition = (position && position.deltaPosition) || coords
 
   // function handleDropObject(event) {}
 

@@ -6,7 +6,7 @@ import styles from './ReportActions.module.scss';
 import { handleUndo, handleRedo } 
 from '../../../data/actions/newReportDesigner';
 import TextInput from '../../../common/components/TextInput';
-import { setTableType, setGraphType, setCreatingElement } from '../../../data/reducers/new_reportDesigner';
+import { setTableType, setGraphType, setCreatingElement, setFormulaEditorVisible } from '../../../data/reducers/new_reportDesigner';
 import { TABLE_ICONS, GRAPH_ICONS } from '../../../common/constants/reportDesigner/reportDesignerIcons';
 import useClickOutside from '../../../common/helpers/useClickOutside';
 import { setQueryPanelModal } from '../../../data/actions/universes';
@@ -15,7 +15,6 @@ import { ReactComponent as ArrowIcon } from '../../assets/reportDesigner/arrow.s
 import ZoomSlider from './ZoomSlider';
 
 const pages = 27; 
-
 
 const NewReportActions = () => {
   const [isTableOpen, setIsTableOpen] = useState(false);
@@ -51,6 +50,7 @@ const NewReportActions = () => {
     zoom: () => setIsZoomBlockOpen(!isZoomBlockOpen),
     setTable: () => setIsTableOpen(!isTableOpen),
     setGraph: () => setIsGraphOpen(!isGraphOpen),
+    formula: () => dispatch(setFormulaEditorVisible()),
     showQueryPanel: () => dispatch(setQueryPanelModal(true)),
     addCell: () => dispatch(setCreatingElement('cell'))
   };

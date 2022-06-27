@@ -5,6 +5,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import lodash, { find } from 'lodash';
 import undoable from 'redux-undo';
 import { deepObjectSearch } from '../helpers';
+
 // import { deepObjectSearch } from '../helpers';
 // const V_TABLE = {
 //   id: 'R1.B.2',
@@ -2464,7 +2465,7 @@ export const reportPageObject = {
   //   pgHeader: {
   //     id: 'R1.PH',
   //     type: 'pgHeader',
-  //     name: 'заготовок страницы',
+  //     name: 'заголовок страницы',
   //     size: {
   //       minimalHeight: 10
   //     }
@@ -2842,7 +2843,8 @@ const reportDesignerUI = createSlice({
       graphType: 'graph1',
       zoom: 1,
       formattingElement: null,
-      test: 'test'
+      test: 'test',
+      menuItem: 'objects'
     }
   },
   reducers: {
@@ -2887,6 +2889,9 @@ const reportDesignerUI = createSlice({
     },
     setZoom: (state, action) => {
       state.ui.zoom = action.payload;
+    },
+    setMenuItem: (state, action) => {
+      state.ui.menuItem = action.payload;
     }
   }
 });
@@ -2917,7 +2922,8 @@ export const {
   setSelectedColumns,
   setTableType,
   setGraphType,
-  setZoom
+  setZoom,
+  setMenuItem,
 } = reportDesignerUI.actions;
 
 export default combineReducers({
