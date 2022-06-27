@@ -155,7 +155,6 @@ function Connectors() {
           <div>
             <Select
               // fullWidth
-              className={styles.connectionTypeSelect}
               value={connectionType}
               onSelectItem={setConnectionType}
               className={styles.connectionTypeSelect}
