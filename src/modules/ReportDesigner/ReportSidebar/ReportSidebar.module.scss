@@ -1,5 +1,6 @@
 .root {
-  position: absolute;
+  // position: absolute;
+  height: 100%;
   flex: none;
   width: 300px;
 }
@@ -14,8 +15,8 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  height: 745px;
-  box-shadow: 0px 7px 17px rgba(34, 82, 102, 0.75);
+  height: 100%;
+  // box-shadow: 0px 7px 17px rgba(34, 82, 102, 0.75);
 }
 
 .contentData {
@@ -109,7 +110,7 @@
   font-size: 12px;
   line-height: 10px;
   color: #000000;
-  margin: 0;;
+  margin: 0;
 }
 
 .editActiveText {
@@ -173,11 +174,9 @@
 }
 
 .sidePanel {
-  height: 787px;
+  // height: 793px;
+  height: calc(100% + 60px);
   width: 240px;
-  position: absolute;
-  left: 0px;
-  top: -42px;
   z-index: 20;
   visibility: hidden;
   background: linear-gradient(
@@ -185,13 +184,15 @@
     rgba(0, 55, 137, 0.75) 0%,
     rgba(0, 55, 137, 0.375) 100%
   );
-  box-shadow: 0px 4px 4px rgba(34, 82, 102, 0.75);
+  // box-shadow: 0px 4px 4px rgba(34, 82, 102, 0.75);
   backdrop-filter: blur(10px);
-  border-radius: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .sidePanelVisible {
-  transition: left ease-in-out 250ms;
-  left: 300px;
+  transition: margin-left ease-in-out 250ms;
+  margin-left: 300px;
+  margin-top: -42px;
   visibility: visible;
 }

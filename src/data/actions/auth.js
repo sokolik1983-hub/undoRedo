@@ -31,7 +31,7 @@ export const loginUser = queryParams => {
       dispatch
     });
     localStorage.setItem('isAuth', 'true');
-    localStorage.setItem('userInfo', queryParams.username);
+    localStorage.setItem('userInfo', queryParams.userName);
     localStorage.setItem('token', response.token);
     dispatch(login(response));
     dispatch(refreshUserSession(response.token))
