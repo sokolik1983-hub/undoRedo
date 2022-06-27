@@ -4,3 +4,12 @@
   box-shadow: 0px 18px 17px rgba(34, 82, 102, 0.75);
   width: 316px;
 }
+
+.tabItem {
+  font-size: 20px;
+  font-weight: 500;
+  white-space: nowrap;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding-left: 7px;
+}

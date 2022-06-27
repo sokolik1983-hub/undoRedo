@@ -378,7 +378,11 @@ const Provided = props => {
     <React.Fragment key="provided">
       <div
         className={`work-area ${classes.workArea}`}
-        style={{ border: '1px solid lightgray', ...props.style }}
+        style={{
+          border: '1px solid lightgray',
+          height: '100%',
+          ...props.style
+        }}
         key="main"
         ref={workAreaRef}
       >

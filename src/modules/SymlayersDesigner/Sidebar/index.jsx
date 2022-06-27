@@ -123,7 +123,7 @@ const Sidebar = ({ onSelect }) => {
 
   return (
     <div className={styles.root}>
-      <Tabs defaultActive="1">
+      <Tabs defaultActive="1" tabItemClassName={styles.tabItem}>
         <TabPane
           tab={isActive => tab(isActive, 'Таблицы', 'дизайнер схемы данных')}
           idx="1"

@@ -13,12 +13,11 @@ const TabsItem = ({ className, idx, tab }) => {
     [styles.active]: idx === activeTab
   });
 
+  const tabItemContainer = clsx(styles.tabItemContainer, className);
+
   return (
     <li className={tabsItem}>
-      <div
-        className={styles.tabItemContainer}
-        onClick={() => setActiveTab(idx)}
-      >
+      <div className={tabItemContainer} onClick={() => setActiveTab(idx)}>
         {tabContent}
       </div>
     </li>
