@@ -9,7 +9,7 @@ const TabsItem = ({ className, idx, tab }) => {
 
   const tabContent = typeof tab === 'string' ? tab : tab(idx === activeTab);
 
-  const tabsItem = clsx(styles.tabsItem, className, {
+  const tabsItem = clsx(styles.tabsItem, {
     [styles.active]: idx === activeTab
   });
 
