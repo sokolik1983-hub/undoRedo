@@ -244,7 +244,6 @@ const TableComponent = ({
   ]);
   const setPosition = useCallback(
     value => {
-      console.log('callback')
       SET_TABLE_POSITION({ tableId, value })
     },
     [SET_TABLE_POSITION, tableId]

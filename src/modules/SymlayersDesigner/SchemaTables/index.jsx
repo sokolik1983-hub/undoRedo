@@ -251,11 +251,10 @@ const Provided = props => {
       rect = headerRect || tableRect;
       port = tr.headerRef || tr.tableRef;
     }
-
     if (
       tableRect &&
       rect &&
-      (rect.y < tableRect.y || rect.y > tableRect.y + tableRect.height)
+      (rect.y <= tableRect.y || rect.y > tableRect.y + tableRect.height - 30)
     ) {
       port = tr.headerRef;
       rect = port.current && port.current.getBoundingClientRect();
