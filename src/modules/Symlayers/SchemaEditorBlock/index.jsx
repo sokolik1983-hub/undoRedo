@@ -49,6 +49,7 @@ const SchemaEditorBlock = ({
   onFieldDragOver,
   onCreate,
   synoName,
+  forceUpdate,
   setSynoName
 }) => {
 
@@ -120,6 +121,8 @@ const SchemaEditorBlock = ({
   const contentClasses = clsx(styles.content, {
     [styles.contentWithSearch]: isActive
   });
+
+  useEffect(forceUpdate, [isOpened]);
 
   const handleClick = item => {
     if (item.value === 'tablePreview') {

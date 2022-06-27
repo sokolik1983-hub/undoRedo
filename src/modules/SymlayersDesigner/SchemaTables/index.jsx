@@ -229,6 +229,7 @@ const Provided = props => {
   );
 
   const targetRect = (table, field) => {
+    console.log('targetRect')
     const tableName = getTableId(table).replace(/(_[0-9]+)+/, '').replace(/.+\./, '').replace(new RegExp(`^${table.schema}_`), `${table.schema}\.`);
     const tp = getTablePosition(tableName) || { deltaPosition: { x: 0, y: 0 } };
     const tr = getRefs(tableName);
@@ -284,6 +285,7 @@ const Provided = props => {
       tableRect
     };
   };
+
   const links = useSelector(state => state.app.schemaDesigner.links);
 
   const handleEdit = id => {

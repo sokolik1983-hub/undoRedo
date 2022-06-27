@@ -448,6 +448,7 @@ const TableComponent = ({
             tableItem={tableItem}
             onCreate={handleCreateSynonym}
             synoName={synName}
+            forceUpdate={forceUpdate}
             setSynoName={setSynName}
           />
         )}
