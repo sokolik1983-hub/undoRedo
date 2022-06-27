@@ -29,7 +29,7 @@ import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock/index';
 import { SymanticLayerContext } from './context';
 import TablePreview from './TablePreview';
 import { showToast } from '../../../data/actions/app';
-import { TOAST_TYPE } from '../../../Consts';
+import { TOAST_TYPE } from '../../../common/constants/common';
 import { setTablePreviewModal } from '../../../data/actions/universes';
 import { handleCheckMatch } from './helper';
 
@@ -324,7 +324,7 @@ const TableComponent = ({
   //   props.onNewLinkItem(item);
   // };
 
-  const ActualPosition = (position && position.deltaPosition) || coords;
+  const ActualPosition = (position && position.deltaPosition) || coords
 
   // function handleDropObject(event) {}
 

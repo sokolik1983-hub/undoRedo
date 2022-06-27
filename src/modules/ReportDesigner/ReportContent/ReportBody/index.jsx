@@ -11,7 +11,7 @@ import {
   setStructure
 } from '../../../../data/reducers/new_reportDesigner';
 
-const ReportBody = ({ data, props }) => {
+const ReportBody = ({ data, onSelect, isActiveNode }) => {
   const dispatch = useDispatch();
   const reportDesigner = useSelector(state => state.app.reportDesigner);
   const currentReport = getCurrentReport(
@@ -21,14 +21,7 @@ const ReportBody = ({ data, props }) => {
 
   const children = data?.content?.children;
 
-  function checkIsActiveNode(id) {
-    return !lodash.isEmpty(
-      lodash.find(
-        reportDesigner.reportsData.present.activeNodes,
-        item => item.id === id
-      )
-    );
-  }
+  
 
   function handleChangePosition(id, newPosition) {
     const newStructure = lodash.cloneDeep(currentReport.structure);
@@ -64,28 +57,6 @@ const ReportBody = ({ data, props }) => {
     dispatch(setStructure(newStructure));
   }
 
-  const handleSelect = (structureItem, addItem) => {
-    if (
-      lodash.find(reportDesigner.reportsData.present.activeNodes, structureItem)
-    ) {
-      const filteredNodes = reportDesigner.reportsData.present.activeNodes.filter(
-        item => item.id !== structureItem.id
-      );
-      dispatch(setActiveNodes(filteredNodes));
-      dispatch(setConfigPanelVisible(false));
-    } else {
-      let newActiveNodes = [structureItem];
-      if (addItem) {
-        newActiveNodes = [
-          ...reportDesigner.reportsData.present.activeNodes,
-          structureItem
-        ];
-      }
-      dispatch(setActiveNodes(newActiveNodes));
-      dispatch(setConfigPanelVisible(true));
-    }
-  };
-
   return (
     <div className={styles.root}>
       {children?.map(item => {
@@ -96,8 +67,8 @@ const ReportBody = ({ data, props }) => {
             structureItem={item}
             onChangePosition={handleChangePosition}
             onChangeScales={handleChangeScales}
-            onSelect={handleSelect}
-            isActiveNode={checkIsActiveNode(item.id)}
+            onSelect={onSelect}
+            isActiveNode={isActiveNode(item.id)}
           />
         );
       })}

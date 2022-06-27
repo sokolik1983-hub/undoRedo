@@ -97,8 +97,8 @@ export const REPORT_PAGE_ACTIONS = [
     enable: true
   },
   {
-    action: '',
-    title: '',
+    action: 'formula',
+    title: 'показать формулу',
     icon: <Formula />,
     enable: true
   },

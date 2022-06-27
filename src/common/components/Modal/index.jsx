@@ -54,6 +54,8 @@ const Modal = ({
 
   useEffect(() => setIsModal(visible), [visible]);
 
+  const [overlayChecker, setOverlayChecker] = useState(null);
+
   const onKeydown = ({ key }) => {
     switch (key) {
       case 'Escape':
@@ -64,9 +66,11 @@ const Modal = ({
     }
   };
 
-  const handleClose = () => {
-    onClose();
-    setIsModal(false);
+  const handleClose = (e) => {
+    if (overlayChecker.className === e.target.className) {
+      onClose();
+      setIsModal(false);
+    }
   };
 
   useEffect(() => {
@@ -77,7 +81,7 @@ const Modal = ({
   if (!isModal) return null;
 
   return (
-    <div className={modalClasses} onClick={handleClose}>
+    <div className={modalClasses} onMouseDown={(e) => setOverlayChecker(e.target)} onClick={handleClose}>
       <div className={modalDialogClasses} onClick={e => e.stopPropagation()}>
         {!withoutTitle && (
           <div className={headerClasses}>

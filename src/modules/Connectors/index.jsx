@@ -14,6 +14,10 @@ import { ReactComponent as CreateConnector } from '../../layout/assets/createCon
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
 import Gears from '../../common/components/Gears';
+// import TestOk from '../../../src/layout/assets/testOkIcon.svg';
+import { ReactComponent as TestFailed } from '../../../src/layout/assets/testFailedIcon.svg';
+import { ReactComponent as TestOkIcon } from '../../layout/assets/testOkIcon.svg';
+
 import { BUTTON } from '../../common/constants/common';
 
 function Connectors() {
@@ -68,10 +72,27 @@ function Connectors() {
   }));
 
   const [isActive, setIsActive] = useState(false);
+  const [showTestOk, setshowTestOk] = useState(false);
+  const [showTestFailed, setshowTestFailed] = useState(false);
+
+  const testAnimation = () => Math.ceil(Math.random() * 10);
 
   const onClickAction = e => {
     e.preventDefault();
+    setshowTestOk(false);
+    setshowTestFailed(false);
     setIsActive(!isActive);
+    // имитация асинхронного запроса на бек и получение ответа
+    setTimeout(() => {
+      setIsActive(false);
+      if (testAnimation() >= 5) {
+        // Успешно - рисуем галочку
+        setshowTestOk(!showTestOk);
+      } else {
+        // ошибка красим шестерни в красный цвет
+        setshowTestFailed(!showTestFailed);
+      }
+    }, 2000);
   };
 
   // Хэнделры для открытия/закрытия модалки
@@ -176,7 +197,9 @@ function Connectors() {
         </div>
         <div className={styles.testConnectionWrapper}>
           <div className={styles.gearsIconWrapper}>
-            <Gears isSpinning={isActive} />
+            {showTestOk && <TestOkIcon className={styles.testOkIcon} />}
+            {showTestFailed && <TestFailed className={styles.showTestFailed} />}
+            {!showTestOk && !showTestFailed && <Gears isSpinning={isActive} />}
           </div>
           <Button
             className={styles.testConnectionButton}

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 import Modal from '../../../common/components/Modal';
@@ -32,14 +33,15 @@ const SemanticLayerModal = ({ onClick }) => {
   const onClickAction = event => {
     onClick(event);
   };
+  
+  const navigate = useNavigate();
 
   const content = (
     <Formik
       initialValues={semLayerValues}
-      onSubmit={data => {
-        window.location.pathname = '/symlayers/create';
+      onSubmit={(data) => {
+        navigate('/symlayers/create')
         dispatch(setSemantycLayerDataName(data.name))
-        console.log(data);
       }}
     >
       {({ values, handleChange, handleSubmit }) => (

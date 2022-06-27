@@ -6,13 +6,13 @@ import ReportFooter from './ReportFooter';
 import ReportHeader from './ReportHeader';
 
 
-const ReportContent = ({ structure}) => {
+const ReportContent = ({ structure, onSelect, isActiveNode }) => {
   const { pgHeader, pgBody, pgFooter } = structure;
   // console.log(props);
   return (
     <div className={styles.root}>
       {/* <ReportHeader data={pgHeader} /> */}
-      <ReportBody data={pgBody} />
+      <ReportBody data={pgBody} onSelect={onSelect} isActiveNode={isActiveNode} />
       {/* <ReportFooter data={pgFooter} /> */}
     </div>
   );
