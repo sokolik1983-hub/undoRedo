@@ -29,6 +29,7 @@ import { BUTTON } from '../../common/constants/common';
 import { cloneDeep } from 'lodash';
 import { TOAST_TYPE } from '../../common/constants/common';
 import { showToast } from '../../data/actions/app';
+import Preloader from '../../common/components/Preloader/Preloader';
 
 function Connectors() {
   const dispatch = useDispatch();
@@ -59,14 +60,12 @@ function Connectors() {
   // Получаем id текущей папки для добавдения его в parent_id  у нового коннектора
   const folderId = useSelector(state => state.app.data.connectorsFolderId);
 
-  // useEffect(() => {
-  //   dispatch(getConnectorsFolderId({folderType: 'USER_CN'}));
-  // }, [folderId]);
-
   const [connectName, setConnectName] = useState(''); // имя коннектора
   const [connectType, setConnectType] = useState(null); // тип коннектора(База Данных, Тестовый файл)
   const [connectSource, setConnectSource] = useState(null); // источник соединения (csv, json, oracle, postgres)
   const [connectionDescription, setConnectionDescription] = useState(''); // описание коннектора
+  const [showPreloader, setShowPreloader] = useState(false); // показ прелоудера
+  const [connectorFields, setConnectorFields] = useState(false); // показ полей ввода коннектора
 
   // Видима/невидима модалка добавления коннектора
   const [isVisible, setIsVisible] = useState(false);
@@ -116,6 +115,9 @@ function Connectors() {
   const clearEnteredData = () => {
     setConnectName('');
     setConnectionDescription('');
+    setConnectType(false);
+    setConnectSource(false);
+    setConnectorFields(false);
   };
 
   const closeConnectorModalHandler = () => {
@@ -125,12 +127,14 @@ function Connectors() {
 
   useEffect(() => {
     if (connectType && connectSource) {
+      setConnectorFields(true);
       getConnectorObjectFromBack();
     }
   }, [connectType, connectSource]);
 
   // Функция для получения объекта коннектора из бека
   const getConnectorObjectFromBack = () => {
+    setShowPreloader(true);
     dispatch(
       createConnector({
         type_id: connectSource,
@@ -157,7 +161,7 @@ function Connectors() {
   }, [creationResult]);
 
   // Функция для добавления и сохранения нового коннектора на бэке
-  const addConnector = (event) => {
+  const addConnector = event => {
     event.preventDefault();
     newConnector.header.parent_id = folderId;
     setHeaderAndDescription();
@@ -167,7 +171,11 @@ function Connectors() {
 
   // Контент для модалки для добавления коннеткора
   const createConnectorModalContent = (
-    <form className={styles.form} id="createConnectorForm" onSubmit={addConnector}>
+    <form
+      className={styles.form}
+      id="createConnectorForm"
+      onSubmit={addConnector}
+    >
       <div className={styles.connectionWrapper}>
         <TextInput
           label="Введите имя соединения"
@@ -200,7 +208,7 @@ function Connectors() {
           defaultValue={'...'}
         />
       </div>
-      {newConnector?.data?.fields && (
+      {newConnector?.data?.fields && connectorFields && (
         <div className={styles.connectionTypeSection}>
           <div className={styles.connectionTypeWrapper}>
             <div className={styles.connectionTypeInputsWrapper}>
@@ -229,9 +237,15 @@ function Connectors() {
               ></textarea>
             </div>
           </div>
-          {/* <div className={styles.testConnectionWrapper}>
+          <div className={styles.testConnectionWrapper}>
             <div className={styles.gearsIconWrapper}>
-              <Gears isSpinning={isActive} />
+              {showTestOk && <TestOkIcon className={styles.testOkIcon} />}
+              {showTestFailed && (
+                <TestFailed className={styles.showTestFailed} />
+              )}
+              {!showTestOk && !showTestFailed && (
+                <Gears isSpinning={isActive} />
+              )}
             </div>
             <Button
               className={styles.testConnectionButton}
@@ -241,23 +255,9 @@ function Connectors() {
               Тест соединения
             </Button>
           </div>
-        </div> */}
-                <div className={styles.testConnectionWrapper}>
-          <div className={styles.gearsIconWrapper}>
-            {showTestOk && <TestOkIcon className={styles.testOkIcon} />}
-            {showTestFailed && <TestFailed className={styles.showTestFailed} />}
-            {!showTestOk && !showTestFailed && <Gears isSpinning={isActive} />}
-          </div>
-          <Button
-            className={styles.testConnectionButton}
-            buttonStyle={BUTTON.BLUE}
-            onClick={onClickAction}
-          >
-            Тест соединения
-          </Button>
-        </div>
         </div>
       )}
+      {!newConnector?.data?.fields && showPreloader && <Preloader />}
     </form>
   );
 
@@ -266,11 +266,11 @@ function Connectors() {
     <div className={styles.footerButtonsGroup}>
       <Button
         buttonStyle={BUTTON.BIG_ORANGE}
-        onSubmit={(e) => addConnector(e)}
+        onSubmit={e => addConnector(e)}
         form="createConnectorForm"
         type="text"
         className={styles.testConnectorButton}
-        disabled={newConnector?.data?.fields ? false : true}
+        disabled={newConnector?.data?.fields && connectorFields ? false : true}
       >
         Сохранить
       </Button>
