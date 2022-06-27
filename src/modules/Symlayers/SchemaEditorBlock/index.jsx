@@ -230,7 +230,7 @@ const SchemaEditorBlock = ({
         </div>
         )}
       {isOpened && (
-        <div className={contentClasses}>
+        <div className={contentClasses} onScroll={forceUpdate}>
           <ul className={styles.list}>
             <DropdownItem
               item=""
