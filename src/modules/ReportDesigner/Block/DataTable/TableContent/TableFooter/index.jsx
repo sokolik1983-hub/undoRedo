@@ -9,6 +9,7 @@ import { setFormattingElement } from '../../../../../../data/reducers/new_report
 import Cell from '../../../Cell';
 import styles from './TableFooter.module.scss';
 import {getZoneData} from '../helpers'
+import { LoadingRow, renderRow, getStyleFn } from '../../helpers';
 
 
 const TableFooter = ({
@@ -26,7 +27,7 @@ const TableFooter = ({
   );
 
   const callback = key => res => {
-    setZoneData(prev => ({ ...prev, [key]: res?.data?.data }));
+    setZoneData(prev => ({ ...prev, [key]: res?.data }));
     setZoneLoadingStatus({
       ...zoneLoadingStatus,
       [key]: false
@@ -107,61 +108,24 @@ const TableFooter = ({
     });
   };
 
+  const getStyle = getStyleFn(data)
+
   const orderList = ['HF', 'BF', 'FF'];
-  const presorted = Object.keys(zoneData);
 
-  const dataKeys = presorted.reduce((acc, key) => {
-    const keyIndex = orderList.reduce((indexAcc, fragment, index) => {
-      if (key.indexOf(fragment) > -1) indexAcc = index;
-      return indexAcc;
-    }, -1);
-    acc[keyIndex] = key;
-    return acc;
-  }, []);
-
-
-  const renderRow = () => {
-    if (!zoneData) return null;
-
-   
-
-    const getRow = index => {
-      // console.log(zoneData?.[dataKeys[0]][index])
-      // return [ ...zoneData?.[dataKeys[0]][index] ]
-
-      return dataKeys.reduce((acc, key) => {
-        const currentRow = zoneData?.[key];
-        if (!currentRow) return acc;
-        const rowData = currentRow[index] || [];
-        acc.push(
-          rowData.map(cell =>
-            key.indexOf('HF') > -1 ? <th>{cell}</th> : <td>{cell}</td>
-          )
-        );
-        return acc;
-      }, []);
-    };
-
-    const getId = (index, key) => `header-${key}-${index}`;
-    const anchorArray = zoneData?.[dataKeys[0]];
-    if (!anchorArray || anchorArray.length === 0) return null;
-    return anchorArray.map((item, index) => <tr>{getRow(index)}</tr>);
-  };
-
+;
 
   const renderData = () => {
     if (tableType === 'hTable') return null;
-    const getStyle = index => {
-      return data?.[0].cells?.[index] ? data?.[0].cells?.[index].style : {};
-    };
+   
 
     if(tableType === 'xTable') {
-      return renderRow();
+      return renderRow({zoneData, getStyle, orderList});
     }
 
  
     const items = Object.values(zoneData)[0]
 
+    if(!zoneData || !items) return LoadingRow
 
     return (
       items?.map(item => {
@@ -169,7 +133,7 @@ const TableFooter = ({
           <tr key={item} data="data-row">
             {item.map((cell, idx) => {
               return (
-                <td key={cell + idx} style={{ ...getStyle(idx) }}>
+                <td key={cell + idx} style={{ ...getStyle(idx, Object.keys(zoneData)[0]) }}>
                   {cell}
                 </td>
               );
