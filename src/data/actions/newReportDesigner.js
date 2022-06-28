@@ -27,7 +27,7 @@ export const getStreamReceiever = queryParams => {
       dispatch
     });
     if (response) {
-      localStorage.setItem('streamreceiver', response.thread);
+      localStorage.setItem('streamreceiver', response.header.thread);
     }
   };
 };
