@@ -30,9 +30,12 @@ import { SymanticLayerContext } from './context';
 import TablePreview from './TablePreview';
 import { showToast } from '../../../data/actions/app';
 import { TOAST_TYPE } from '../../../common/constants/common';
-import { setTablePreviewModal } from '../../../data/actions/universes';
+import {
+  setObjectsConnectionsModal,
+  setTablePreviewModal
+} from '../../../data/actions/universes';
 import { handleCheckMatch } from './helper';
-import { styles } from './TableComponent.module.scss'
+import { styles } from './TableComponent.module.scss';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -154,6 +157,9 @@ const TableComponent = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isHighlighted, setIsHighlighted] = useState(false);
   const [colorValue, setColorValue] = useState('');
+  const [portsRefs, setPortsRef] = useState([]);
+  const [tableRefState, setTableRef] = useState([]);
+  const [headerRefState, setHeaderRef] = useState(null);
   const contentScrollContainer = useRef();
   const dispatch = useDispatch();
 
@@ -167,14 +173,6 @@ const TableComponent = ({
     return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase());
   };
 
-  // const selectedTableColumns = selectedTables[
-  //   getTableIdFromParams({ ...tableItem, connect_id: 4 })
-  // ]?.map(item => {
-  //   return {
-  //     ...item,
-  //     colored: colorValue && searchStaticMatches(item)
-  //   };
-  // });
   const selectedTableColumns = tables[
     getTableIdFromParams({ ...tableItem, connect_id: 4 })
   ]?.columns.map(item => {
@@ -183,6 +181,18 @@ const TableComponent = ({
       colored: colorValue && searchStaticMatches(item)
     };
   });
+
+  const addRefToColumns = refs => {
+    setPortsRef(refs);
+  };
+
+  const addRefToHeader = ref => {
+    setHeaderRef(ref);
+  };
+
+  const addRefToTable = ref => {
+    setTableRef(ref);
+  };
 
   // eslint-disable-next-line consistent-return
   const getList = obj => {
@@ -269,18 +279,17 @@ const TableComponent = ({
       //   }
       // });
     }
-  }, []);
+  }, [tableItem]);
 
   const { tableRef, headerRef, ports } = useMemo(() => {
     if (!isShadow) {
-      const ports = columns.map(item => ({
+      const ports = selectedTableColumns?.map((item, i) => ({
         key: item.field,
-        ref: React.createRef()
+        ref: portsRefs[i]
       }));
-
       const value = {
-        tableRef: React.createRef(),
-        headerRef: React.createRef(),
+        tableRef: tableRefState,
+        headerRef: headerRefState,
         ports
       };
       SET_TABLE_REFS({ tableId, value });
@@ -325,21 +334,7 @@ const TableComponent = ({
   //   props.onNewLinkItem(item);
   // };
 
-  const ActualPosition = (position && position.deltaPosition) || coords
-
-  // function handleDropObject(event) {}
-
-  // function allowDrop(event) {}
-
-  // const onTableDrag = ({args: [event, pos, shpos]}) => {
-  //   const tablePosition = {
-  //     ...position,
-  //     deltaPosition: { x: shpos.x, y: shpos.y }
-  //   };
-
-  //   setPosition(tablePosition);
-  //   //props.setTablesPosition(tablePosition);
-  // };
+  const ActualPosition = (position && position.deltaPosition) || coords;
 
   const onTableDragStart = useCallback(
     event => {
@@ -382,6 +377,10 @@ const TableComponent = ({
   //   });
   //   startDrag({ event, dragCallback, dragStopCallback });
   // };
+
+  const onFieldDragOver = (event, field) => {
+    // tryLinkEnd({field, event})
+  };
 
   const relatedSearchItems = searchResult.filter(
     elem => tableItem && elem.tableid === tableItem.id
@@ -456,21 +455,26 @@ const TableComponent = ({
         {isActiveSchemaEditorBlock && (
           <SchemaEditorBlock
             isHighlight={isHighlighted}
+            tableId={tableId}
             onTableDragStart={onTableDragStart}
             onFieldDragStart={onFieldDragStart}
+            onFieldDragOver={onFieldDragOver}
             selectedTableColumns={selectedTableColumns}
             selectedTableName={tableItem.objectName}
             selectedTableFullName={`${tableItem.schema}_${tableItem.objectName}_${tableItem.id}_${connect_id}`}
+            addRefToColumns={addRefToColumns}
+            addRefToTable={addRefToTable}
+            addRefToHeader={addRefToHeader}
             onTablePreviewClick={handlePopupShow}
             onCloseSchemaEditorBlock={setActiveSchemaEditorBlock}
             onDeleteTable={onDeleteTable}
             tableItem={tableItem}
             onCreate={handleCreateSynonym}
             synoName={synName}
+            forceUpdate={forceUpdate}
             setSynoName={setSynName}
             isShadow={isShadow}
             columns={columns}
-            tableId={tableId}
             setTablesRefs={SET_TABLE_REFS}
           />
         )}
