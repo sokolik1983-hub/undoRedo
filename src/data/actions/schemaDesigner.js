@@ -4,7 +4,7 @@ import { notificationShown } from '../reducers/notifications';
 import {
   setConnectorObjects,
   setSelectedTables,
-  setConnectorData, unsetTablePreviewData, setSelectedTablesFiltered, setLinksFiltered, setSemantycLayerName
+  setConnectorData, unsetTablePreviewData, setSelectedTablesFiltered, setLinksFiltered, setSemantycLayerName, setSelectedTablesArray
 } from '../reducers/schemaDesigner';
 
 export const getConnectorObjectsList = queryParams => {
@@ -38,6 +38,12 @@ export const getObjectFields = queryParams => {
         dispatch(
           setSelectedTables({
             [getTableIdFromParams(queryParams)]: response.result
+          })
+        );        
+        dispatch(
+          setSelectedTablesArray({
+            name: getTableIdFromParams(queryParams),
+            fields: response.result
           })
         );
       }

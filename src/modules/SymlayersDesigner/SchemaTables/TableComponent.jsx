@@ -33,7 +33,7 @@ import { SymanticLayerContext } from './context';
 import TablePreview from './TablePreview';
 import { showToast } from '../../../data/actions/app';
 import { TOAST_TYPE } from '../../../Consts';
-import { setTablePreviewModal } from '../../../data/actions/universes';
+import { setObjectsConnectionsModal, setTablePreviewModal } from '../../../data/actions/universes';
 import { handleCheckMatch } from './helper';
 
 const useStyles = makeStyles(theme => ({
@@ -117,7 +117,7 @@ const TableComponent = ({
     { linkAnchor, searchResult, focusedItem, mul },
     {
       SET_TABLE_REFS,
-      // SET_TABLE_POSITION,
+      SET_TABLE_POSITION,
       SET_EXPANDED,
       SET_FILTER,
       ZOOM_DEFAULT,
@@ -145,9 +145,9 @@ const TableComponent = ({
 
   const [coords, setCoords] = useState({x: 0, y: 0});
 
-  useEffect(() => {
-    setCoords({x: coords.x + 50, y: coords.y + 50});
-  }, [ selectedTables]);
+  // useEffect(() => {
+  //   setCoords({x: coords.x + 100, y: coords.y + 100});
+  // }, [ selectedTables]);
 
   // const refs = useMemo(() => tableRefs[tableId], [tableRefs, tableId]);
   // const [showSynPopup, setShowSynPopup] = useState(false);
@@ -156,6 +156,9 @@ const TableComponent = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isHighlighted, setIsHighlighted] = useState(false);
   const [colorValue, setColorValue] = useState('');
+  const [portsRefs, setPortsRef] = useState([]);
+  const [tableRefState, setTableRef] = useState([]);
+  const [headerRefState, setHeaderRef] = useState(null);
   const contentScrollContainer = useRef();
   const dispatch = useDispatch();
 
@@ -177,6 +180,18 @@ const TableComponent = ({
       colored: colorValue && searchStaticMatches(item)
     };
   });
+
+  const addRefToColumns = (refs) => {
+    setPortsRef(refs);
+  };
+
+  const addRefToHeader = (ref) => {
+    setHeaderRef(ref);
+  };
+
+  const addRefToTable = (ref) => {
+    setTableRef(ref);
+  }
 
   // eslint-disable-next-line consistent-return
   const getList = obj => {
@@ -227,10 +242,12 @@ const TableComponent = ({
     SET_EXPANDED,
     tableId
   ]);
-  // const setPosition = useCallback(
-  //   value => SET_TABLE_POSITION({ tableId, value }),
-  //   [SET_TABLE_POSITION, tableId]
-  // );
+  const setPosition = useCallback(
+    value => {
+      SET_TABLE_POSITION({ tableId, value })
+    },
+    [SET_TABLE_POSITION, tableId]
+  );
   const setColumnFilter = useCallback(value => SET_FILTER({ tableId, value }), [
     SET_FILTER,
     tableId
@@ -263,18 +280,17 @@ const TableComponent = ({
       //   }
       // });
     }
-  }, []);
+  }, [tableItem]);
 
   const { tableRef, headerRef, ports } = useMemo(() => {
     if (!isShadow) {
-      const ports = columns.map(item => ({
+      const ports = selectedTableColumns?.map((item, i) => ({
         key: item.field,
-        ref: React.createRef()
+        ref: portsRefs[i]
       }));
-
       const value = {
-        tableRef: React.createRef(),
-        headerRef: React.createRef(),
+        tableRef: tableRefState,
+        headerRef: headerRefState,
         ports
       };
       SET_TABLE_REFS({ tableId, value });
@@ -321,20 +337,6 @@ const TableComponent = ({
 
   const ActualPosition = (position && position.deltaPosition) || coords;
 
-  // function handleDropObject(event) {}
-
-  // function allowDrop(event) {}
-
-  // const onTableDrag = ({args: [event, pos, shpos]}) => {
-  //   const tablePosition = {
-  //     ...position,
-  //     deltaPosition: { x: shpos.x, y: shpos.y }
-  //   };
-
-  //   setPosition(tablePosition);
-  //   //props.setTablesPosition(tablePosition);
-  // };
-
   const onTableDragStart = useCallback(
     event => {
       event.stopPropagation();
@@ -352,29 +354,10 @@ const TableComponent = ({
   const onFieldDragStart = (event, field) => {
     event.dataTransfer.setData('field', JSON.stringify(field));
   };
-
-  const tryLinkEnd = ({ item, event }) => {
-    addLink({ table: tableItem, field: item });
-    initLink({});
-    stopDrag(event);
-  };
-  const tryLinkStart = ({ item, event }) => {
-    if (linkAnchor) return;
-    const dragStopCallback = ({ state }) => {
-      state.linkAnchor = null;
-      state.linkDescr = null;
-    };
-
-    const dragCallback = ({ state }, { postition }) => {
-      state.linkAnchor = postition;
-    };
-
-    initLink({
-      descr: { table: tableItem, field: item },
-      pos: posToCoord(event)
-    });
-    startDrag({ event, dragCallback, dragStopCallback });
-  };
+  
+  const onFieldDragOver = (event, field) => {
+    // tryLinkEnd({field, event})
+  }
 
   const relatedSearchItems = searchResult.filter(
     elem => tableItem && elem.tableid === tableItem.id
@@ -448,9 +431,14 @@ const TableComponent = ({
         {isActiveSchemaEditorBlock && (
           <SchemaEditorBlock
             isHighlight={isHighlighted}
+            tableId={tableId}
             onTableDragStart={onTableDragStart}
             onFieldDragStart={onFieldDragStart}
+            onFieldDragOver={onFieldDragOver}
             selectedTableColumns={selectedTableColumns}
+            addRefToColumns={addRefToColumns}
+            addRefToTable={addRefToTable}
+            addRefToHeader={addRefToHeader}
             selectedTableName={tableItem.object_name}
             selectedTableFullName={`${tableItem.schema}_${tableItem.object_name}_${tableItem.object_type_id}_${connect_id}`}
             onTablePreviewClick={handlePopupShow}
@@ -459,6 +447,7 @@ const TableComponent = ({
             tableItem={tableItem}
             onCreate={handleCreateSynonym}
             synoName={synName}
+            forceUpdate={forceUpdate}
             setSynoName={setSynName}
           />
         )}

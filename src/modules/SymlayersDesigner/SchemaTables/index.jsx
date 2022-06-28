@@ -21,6 +21,7 @@ import { IconButton } from '@material-ui/core';
 import Tooltip from '../../../common/components/Tooltip/index';
 import { ReactComponent as Plus } from '../../../layout/assets/reportDesigner/plus.svg';
 import { ReactComponent as Minus } from '../../../layout/assets/reportDesigner/minus.svg';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { SymanticLayerContextProvider, SymanticLayerContext } from './context';
 
@@ -38,9 +39,14 @@ import SymanticLink from './Link';
 import Minimap from './Minimap';
 // import SearchDialog from './SearchDialog';
 import Vector from './vector';
+import { getTableIdFromParams } from '../../../data/helpers';
+import { setObjectsConnectionsModal } from '../../../data/actions/universes';
 
 const Provided = props => {
   const [lastUpdTime, forceUpdate] = useReducer(() => new Date(), 0);
+  const tablesPosition = useSelector(state => state.app.schemaDesigner.tablesRefCoord);
+  const dispatch = useDispatch();
+  const [addCord, setAddCoord] = useState(0);
 
   // const saveUserData = {};
   // const userData = {};
@@ -67,9 +73,9 @@ const Provided = props => {
       SET_TABLES: setTables,
       SET,
       SET_POSITION,
-      SET_SEARCH_POPUP_VISIBLE
+      SET_SEARCH_POPUP_VISIBLE,
     },
-    { getRefs, getTablePosition }
+    { getRefs, getTablePosition, posToCoord }
   ] = useContext(SymanticLayerContext);
   const classes = useStyles();
 
@@ -91,7 +97,6 @@ const Provided = props => {
         tp.deltaPosition.y + tableRect.height / 2 / mul
       );
 
-      // console.log('reposition', focusedItem, table, tp, tableRect, '->', position)
       SET_POSITION(position);
     }
   }, [focusedItem]);
@@ -149,20 +154,25 @@ const Provided = props => {
   }, []);
 
   useMemo(() => {
-    if (props.tablesPosition) {
-      setTablesPosition(props.tablesPosition);
-      setTablePositionChangedCallback(props.setTablesPosition);
-    }
-  }, [props.tablesPosition]);
+    const tablePositions = {};
+    setAddCoord(addCord+50);
+    tablesPosition?.forEach(tablePosit => {
+      for (let key in tablePosit) {
+        const delta = posToCoord(tablePosit[key]).dif({x: 20 + addCord, y: 40 + addCord});
+        tablePositions[key] = {deltaPosition: delta};
+      }
+    })
+    setTablesPosition(tablePositions);
+  }, [tablesPosition]);
 
-  useMemo(() => {
-    if (props.tables) {
-      setTables(props.tables);
-
+  useEffect(() => {
+    const tablesCurrent = props.tables;
+    if (tablesCurrent) {
+      setTables(tablesCurrent);
       lodash.keys(props.tablesPosition).forEach(key => {
         if (
           !lodash.find(
-            props.tables,
+            tablesCurrent,
             table => `${table.schema}.${table.object_name}` === key
           )
         ) {
@@ -219,13 +229,13 @@ const Provided = props => {
   );
 
   const targetRect = (table, field) => {
-    const tableName = getTableId(table);
+    const tableName = getTableId(table).replace(/(_[0-9]+)+/, '').replace(/.+\./, '').replace(new RegExp(`^${table.schema}_`), `${table.schema}\.`);
     const tp = getTablePosition(tableName) || { deltaPosition: { x: 0, y: 0 } };
     const tr = getRefs(tableName);
 
     if (!tp || !tr || !tr.tableRef || !tr.headerRef) return { tp, tr };
 
-    let port = tr.ports.find(column => column.key === field.field);
+    let port = tr.ports.find(column => column.key === field);
 
     if (!port) port = tr.headerRef;
     else port = port.ref;
@@ -240,11 +250,10 @@ const Provided = props => {
       rect = headerRect || tableRect;
       port = tr.headerRef || tr.tableRef;
     }
-
     if (
       tableRect &&
       rect &&
-      (rect.y < tableRect.y || rect.y > tableRect.y + tableRect.height)
+      (rect.y <= tableRect.y || rect.y > tableRect.y + tableRect.height - 30)
     ) {
       port = tr.headerRef;
       rect = port.current && port.current.getBoundingClientRect();
@@ -258,6 +267,7 @@ const Provided = props => {
       port.current.clientWidth,
       port.current.clientHeight
     ];
+
     const x =
       ((rect.x - tableRect.x) * height) / rect.height + tp.deltaPosition.x;
     const y =
@@ -273,6 +283,16 @@ const Provided = props => {
       tableRect
     };
   };
+
+  const links = useSelector(state => state.app.schemaDesigner.links);
+
+  const handleEdit = id => {
+    const result = links.filter(l => {
+      return (l.id === id);
+    });
+    dispatch(setObjectsConnectionsModal(true, ...result));
+  }
+
   const renderContent = ({ isShadow = false } = {}) => {
     return (
       <React.Fragment key="content">
@@ -298,15 +318,14 @@ const Provided = props => {
               />
             );
           })()}
-
-        {props.objectsLinks?.map(link => {
+        {links?.map(link => {
           const SourceRect = targetRect(
-            link.object1.object,
-            !isShadow && link.object1.fields[0]
+            link?.object1,
+            !isShadow && link?.object1.selectedColumns[0],
           );
           const TargetRect = targetRect(
-            link.object2.object,
-            !isShadow && link.object2.fields[0]
+            link?.object2,
+            !isShadow && link?.object2.selectedColumns[0],
           );
 
           return (
@@ -314,12 +333,11 @@ const Provided = props => {
               link={link}
               TargetRect={TargetRect}
               SourceRect={SourceRect}
-              handleEdit={props.handleEdit}
-              onShowLinkEdit={props.onShowLinkEdit}
-              key={link}
+              handleEdit={handleEdit}
+              key={`${getTableId(link.object1)}-${getTableId(link.object2)}${Math.random()}}`}
               isLoop={
-                getTableId(link.object1.object) ===
-                getTableId(link.object2.object)
+                getTableId(link.object1) ===
+                getTableId(link.object2)
               }
               // onCreateSynonym={props.onCreateSynonym}
             />
