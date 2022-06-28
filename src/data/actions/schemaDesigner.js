@@ -6,7 +6,7 @@ import {
   setConnectorObjects,
   setSelectedTables,
   setConnectorData, unsetTablePreviewData, setSelectedTablesFiltered, setLinksFiltered, setSemantycLayerName,
-    setSchemaDesigner
+    setSchemaDesigner, setSelectedTablesArray
 } from '../reducers/schemaDesigner';
 import * as universe from '../../common/constants/universe_10040_v2.json'
 
@@ -41,6 +41,12 @@ export const getObjectFields = queryParams => {
         dispatch(
           setSelectedTables({
             [getTableIdFromParams(queryParams)]: response.result
+          })
+        );        
+        dispatch(
+          setSelectedTablesArray({
+            name: getTableIdFromParams(queryParams),
+            fields: response.result
           })
         );
       }

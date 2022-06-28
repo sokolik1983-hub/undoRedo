@@ -10,8 +10,10 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  useState
+  useState,
+  useContext
 } from 'react';
+import { useDispatch } from 'react-redux';
 import Dropdown from '../../../common/components/Dropdown';
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import TextInput from '../../../common/components/TextInput';
@@ -24,6 +26,7 @@ import Tooltip from '../../../common/components/Tooltip';
 import IconButton from '../../../common/components/IconButton';
 import CreateCopyModal from './CreateCopyModal';
 import ModalConfirmDeletion from '../../../common/components/Modal/ModalConfirmDeletion';
+import { addCoordToTables } from '../../../data/reducers/schemaDesigner';
 
 const items = [
   { text: 'Псевдоним', value: 'copy' },
@@ -42,20 +45,25 @@ const SchemaEditorBlock = ({
   onTableDragStart,
   selectedTableName,
   selectedTableColumns = [],
+  addRefToColumns,
+  addRefToTable,
+  addRefToHeader,
   onTablePreviewClick,
   onCloseSchemaEditorBlock,
   isHighlight,
   selectedTableFullName,
   onDeleteTable,
   tableItem,
+  tableId,
   onFieldDragStart,
+  onFieldDragOver,
   onCreate,
   synoName,
   setSynoName,
   isShadow,
   columns,
-  tableId,
-  setTablesRefs
+  setTablesRefs,
+  forceUpdate
 }) => {
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
@@ -67,8 +75,60 @@ const SchemaEditorBlock = ({
   const [isDeleteWarningModalOpened, setDeleteWarningModalOpened] = useState(
     false
   );
+  const [fieldsCount, setFieldsCount] = useState(selectedTableColumns.length);
+  const [portsRefs, setPortsRef] = useState(null);
+  const headerRef = useRef(null);
+  const tableRef = useRef(null);
+  const fieldRefs = useRef([React.createRef(), React.createRef()]);
+
+  const dispatch = useDispatch();
+
+  const updateFieldsCount = value => {
+    setFieldsCount(value);
+    fieldRefs.current = fieldRefs.current.splice(0, value);
+    for (let i = 0; i < value; i++) {
+      fieldRefs.current[i] = fieldRefs.current[i] || React.createRef();
+    }
+    fieldRefs.current = fieldRefs.current.map(
+      fieldRef => fieldRef || React.createRef()
+    );
+    setPortsRef([...fieldRefs.current]);
+  };
 
   useEffect(() => {
+    fieldRefs?.current[fieldRefs.current.length - 1].current?.focus();
+  }, [fieldsCount]);
+
+  useEffect(() => {
+    if (tableRef) {
+      addRefToTable(tableRef);
+    }
+  }, [tableRef]);
+
+  useEffect(() => {
+    if (headerRef) {
+      addRefToHeader(headerRef);
+    }
+  }, [headerRef]);
+
+  useEffect(() => {
+    const tableRefCoord = {};
+    const pageX =
+      window.pageXOffset + headerRef?.current?.getBoundingClientRect().left;
+    const pageY =
+      window.pageYOffset + headerRef?.current?.getBoundingClientRect().top;
+    tableRefCoord[tableId] = { pageX, pageY };
+    dispatch(addCoordToTables(tableRefCoord));
+  }, [headerRef, tableRef]);
+
+  useEffect(() => {
+    if (portsRefs?.length) {
+      addRefToColumns(portsRefs);
+    }
+  }, [fieldsCount]);
+
+  useEffect(() => {
+    updateFieldsCount(selectedTableColumns.length);
     setTimeout(() => {
       setFilterableFields(selectedTableColumns);
     }, 50);
@@ -77,6 +137,8 @@ const SchemaEditorBlock = ({
   const contentClasses = clsx(styles.content, {
     [styles.contentWithSearch]: isActive
   });
+
+  useEffect(forceUpdate, [isOpened]);
 
   const handleClick = item => {
     if (item.value === 'tablePreview') {
@@ -152,6 +214,7 @@ const SchemaEditorBlock = ({
 
   return (
     <div className={highlightOutline} ref={refs.current.tableRef}>
+      {/* <div className={highlightOutline} ref={tableRef}> */}
       <div
         ref={refs.current.headerRef}
         className={styles.header}
@@ -161,6 +224,7 @@ const SchemaEditorBlock = ({
           onTableDragStart(event);
         }}
         onDoubleClick={() => setIsOpened(prev => !prev)}
+        // ref={headerRef}
       >
         <div className={styles.heading}>{selectedTableName}</div>
         <div className={styles.iconsContainer}>
@@ -207,7 +271,7 @@ const SchemaEditorBlock = ({
         </div>
       )}
       {isOpened && (
-        <div className={contentClasses}>
+        <div className={contentClasses} onScroll={forceUpdate}>
           <ul className={styles.list}>
             <DropdownItem
               item=""
@@ -236,6 +300,22 @@ const SchemaEditorBlock = ({
                 </li>
               );
             })}
+            {/* {filterableFields.map((item, index) => (
+              <li
+                className={
+                  item.colored && isHighlight
+                    ? styles.itemHighlited
+                    : styles.item
+                }
+                key={item.field + item.type}
+                draggable
+                onDragStart={e => onFieldDragStart(e, item)}
+                onDrop={e => onFieldDragOver(e, item)}
+                ref={fieldRefs.current[index]}
+              >
+                {item.field}
+              </li>
+            ))} */}
           </ul>
         </div>
       )}
