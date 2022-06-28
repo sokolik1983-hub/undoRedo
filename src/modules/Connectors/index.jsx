@@ -6,7 +6,8 @@ import {
   saveConnector,
   getConnectorTypesSources,
   createConnector,
-  getConnectorsFolderId
+  getConnectorsFolderId,
+  testConnector
 } from '../../data/actions/connectors';
 import { Field, Form, Formik } from 'formik';
 import styles from './Connectors.module.scss';
@@ -41,6 +42,9 @@ function Connectors() {
   // Получаем из словаря типы, источники, типы соединения
   const types = useSelector(state => state.app.data.dictionaries.source_type);
   const sources = useSelector(state => state.app.data.dictionaries.source);
+  const testConnectorResult = useSelector(
+    state => state.app.data.testConnector
+  );
 
   // Oбъект коннектора из стора
   const connectorObject = useSelector(state => state.app.data.createConnector);
@@ -87,7 +91,58 @@ function Connectors() {
 
   const testAnimation = () => Math.ceil(Math.random() * 10);
 
-  const onClickAction = e => {
+  const testMockData = {
+    data: {
+      class_id: 'db',
+      fields: [
+        {
+          fieldKey: 'SERVER',
+          fieldName: 'Имя или IP сервера',
+          required: true,
+          type: 'string',
+          value: '192.168.4.148'
+        },
+        {
+          fieldKey: 'PORT',
+          fieldName: 'Порт',
+          required: true,
+          type: 'number',
+          value: 5432
+        },
+        {
+          fieldKey: 'DATABASE',
+          fieldName: 'Название Базы, SID, Имя сервиса',
+          required: true,
+          type: 'string',
+          value: 'TA'
+        },
+        {
+          fieldKey: 'UID',
+          fieldName: 'Логин',
+          required: true,
+          type: 'string',
+          value: 'test_usr'
+        },
+        {
+          fieldKey: 'PWD',
+          fieldName: 'Пароль',
+          required: true,
+          type: 'string',
+          value: '1'
+        },
+        {
+          fieldKey: 'external',
+          fieldName: 'Дополнительные параметры',
+          required: false,
+          type: 'string',
+          value: null
+        }
+      ],
+      type_id: 'db-pg'
+    }
+  };
+
+  const testConnection = e => {
     e.preventDefault();
     setshowTestOk(false);
     setshowTestFailed(false);
@@ -103,6 +158,10 @@ function Connectors() {
         setshowTestFailed(!showTestFailed);
       }
     }, 2000);
+
+    newConnector.header.parent_id = folderId;
+    setHeaderAndDescription();
+    dispatch(testConnector({ data: newConnector.data }));
   };
 
   // Хэнделры для открытия/закрытия модалки
@@ -219,7 +278,7 @@ function Connectors() {
                   labelClassName={styles.selectText}
                   value={item.value}
                   key={`${item.fieldName}_${index}`}
-                  type="text"
+                  type={item.type}
                   required
                   className={styles.connectorsInput}
                   onChange={e => {
@@ -250,7 +309,7 @@ function Connectors() {
             <Button
               className={styles.testConnectionButton}
               buttonStyle={BUTTON.BLUE}
-              onClick={onClickAction}
+              onClick={testConnection}
             >
               Тест соединения
             </Button>
