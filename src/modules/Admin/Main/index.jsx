@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import styles from './Roles.module.scss';
-import { setCurrentPage } from '../../data/reducers/ui';
-import { PAGE } from '../../common/constants/pages';
+import styles from './Main.module.scss';
+import { setCurrentPage } from '../../../data/reducers/ui';
+import { PAGE } from '../../../common/constants/pages';
 
-function Roles() {
+function AdminMain() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setCurrentPage(PAGE.ROLES));
+    dispatch(setCurrentPage(PAGE.ADMIN));
   }, []);
   return (
     <div className={styles.root}>
@@ -16,4 +16,4 @@ function Roles() {
   );
 }
 
-export default Roles;
+export default AdminMain;
