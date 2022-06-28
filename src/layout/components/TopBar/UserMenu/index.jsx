@@ -1,22 +1,24 @@
-import { useDispatch } from 'react-redux';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 import Dropdown from '../../../../common/components/Dropdown';
 import DropdownItem from '../../../../common/components/Dropdown/DropdownItem';
+import { DEFAULT_USER_ACTIONS, REDIRECT_LINKS } from '../../../../common/constants/common';
 import { logoutUser } from '../../../../data/actions/auth';
-import { DEFAULT_USER_ACTIONS } from '../../../../common/constants/common';
-// import { ReactComponent as AvatarIcon } from '../../../assets/miniAvatar.svg';
 import { ReactComponent as UserDefault } from '../../../assets/icons/userDefault.svg';
 import { ReactComponent as UserHover } from '../../../assets/icons/userHover.svg';
 import styles from './UserMenu.module.scss';
 
 const UserMenu = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userInfo = window.localStorage.getItem('userInfo');
 
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogoutClick = () => {
     dispatch(logoutUser());
+    navigate(REDIRECT_LINKS.LOGIN_PAGE, { replace: true });
   };
 
   const onVisibleChangeHandler = () => {

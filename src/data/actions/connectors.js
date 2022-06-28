@@ -1,5 +1,5 @@
 import { request } from '../helpers';
-import { setConnectorData, setConnectors, setConnectorsFolderId } from '../reducers/data';
+import { setCreateConnectorResult, setCreateConnector, setConnectorSource, setConnectorData, setConnectors, setConnectorsFolderId, setConnectorsTypes } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
 import { showEditConnectorModal } from '../reducers/ui';
 
@@ -84,11 +84,12 @@ export const getConnector = queryParams => {
 export const saveConnector = queryParams => {
   return async dispatch => {
     try {
-      await request({
-        code: 'CONNECT.SAVE',
+      const response = await request({
+        code: 'CN.SAVE',
         params: queryParams,
         dispatch
       });
+      dispatch(setCreateConnectorResult(response));
     } catch (err) {
       dispatch(
         notificationShown({ message: err.message, messageType: 'error' })
@@ -110,5 +111,28 @@ export const removeConnector = queryParams => {
         notificationShown({ message: err.message, messageType: 'error' })
       );
     }
+  };
+};
+
+export const createConnector = queryParams => {
+  return async dispatch => {
+    const response = await request({
+      code: 'CN.CREATE',
+      params: queryParams,
+      dispatch
+    });
+    dispatch(setCreateConnector(response));
+  };
+};
+
+export const getConnectorTypesSources = queryParams => {
+  return async dispatch => {
+    const response = await request({
+      code: 'CN.GET_TYPES',
+      params: queryParams,
+      dispatch
+    });
+    dispatch(setConnectorsTypes(response?.classes));
+    dispatch(setConnectorSource(response?.types));
   };
 };

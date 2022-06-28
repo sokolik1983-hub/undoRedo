@@ -1,4 +1,4 @@
-import { Tooltip } from '@material-ui/core';
+import Tooltip from '../Tooltip/index';
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -18,7 +18,7 @@ function ActionsGroup({ actions, title, ...props }) {
               onClick={item.action}
               key={item.id}
             >
-              <Tooltip key={item.id} placement="top" title={item.name} arrow>
+              <Tooltip key={item.id} placement="top">
                 {item.icon}
               </Tooltip>
             </div>
