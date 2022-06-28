@@ -16,7 +16,6 @@ import {
   setStructure,
   cellObject,
   reportPageObject,
-  setReportDisplayMode,
   setFormattingElementFormula,
   setActiveNodeFormula
 } from '../../data/reducers/new_reportDesigner';
@@ -24,7 +23,7 @@ import { BUTTON } from '../../common/constants/common';
 import Button from '../../common/components/Button';
 import styles from './ReportDesigner.module.scss';
 import { createReportElement, getCurrentReport } from './helpers';
-// import SidePanel from '../../common/components/SidePanel';
+import PagesNav from '../../layout/components/NewReportActions/PagesNav/index';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
 import {
@@ -64,7 +63,7 @@ function ReportDesigner() {
     id: 165,
     name: 'Клиентская справка'
   });
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(1);
 
   const dispatch = useDispatch();
   const reportDesigner = useSelector(state => state.app.reportDesigner);
@@ -73,7 +72,7 @@ function ReportDesigner() {
     reportDesigner.reportsData.present.reports,
     reportDesigner.reportsData.present.activeReport
   );
-  const { displayMode } = currentReport;
+  
 
   const isQueryPanelModalOpened = useSelector(
     state => state.app.ui.modalVisible
@@ -217,17 +216,7 @@ function ReportDesigner() {
     [styles.formulaCompressed]: isShowingPanel
   });
 
-  function handleChangeMode() {
-    let newMode = '';
-
-    if (displayMode && displayMode === 'Data') {
-      newMode = 'Structure';
-    } else {
-      newMode = 'Data';
-    }
-
-    dispatch(setReportDisplayMode(newMode));
-  }
+  
 
   function handleAddReport() {
     const newReports = [
@@ -269,28 +258,6 @@ function ReportDesigner() {
       dispatch(setReports({ reports: newReports }));
     }
   };
-
-  // const handleSelect = (structureItem, addItem) => {
-  //   if (
-  //     lodash.find(reportDesigner.reportsData.present.activeNodes, structureItem)
-  //   ) {
-  //     const filteredNodes = reportDesigner.reportsData.present.activeNodes.filter(
-  //       item => item.id !== structureItem.id
-  //     );
-  //     dispatch(setActiveNodes(filteredNodes));
-  //     dispatch(setConfigPanelVisible(false));
-  //   } else {
-  //     let newActiveNodes = [structureItem];
-  //     if (addItem) {
-  //       newActiveNodes = [
-  //         ...reportDesigner.reportsData.present.activeNodes,
-  //         structureItem
-  //       ];
-  //     }
-  //     dispatch(setActiveNodes(newActiveNodes));
-  //     dispatch(setConfigPanelVisible(true));
-  //   }
-  // };
 
   function checkIsActiveNode(id) {
     return !lodash.isEmpty(
@@ -358,15 +325,6 @@ function ReportDesigner() {
 
   return (
     <div className={styles.root}>
-      {/* <div className={styles.sidebar}>
-        <DragNDropProvider>
-          <ObjectsPanel
-            symanticLayer={semanticLayer}
-            onToggleClick={handleShowSelector}
-            showHeader={false}
-          />
-        </DragNDropProvider>
-      </div> */}
       <ReportSidebar
         semanticLayer={semanticLayer}
         onToggleClick={handleShowSelector}
@@ -374,6 +332,7 @@ function ReportDesigner() {
         isActiveNode={checkIsActiveNode}
         showHeader={false}
         setTabNumber={setActiveTab}
+        currentReport={currentReport}
       />
       <div className={styles.wrapper}>
         {reportDesigner.reportsUi.ui.showFormulaEditor && (
@@ -459,25 +418,27 @@ function ReportDesigner() {
                   onClick={handleSelectReport(report.id)}
                 >
                   {report.name}
-                  {isActive && (
+                  {/* {isActive && (
                     <CloseIcon
                       onClick={handleDeleteReport(report.id)}
                       className={styles.closeIcon}
                     />
-                  )}
+                  )} */}
                 </Button>
               );
             })}
           <Button
+            disabled
             onClick={handleAddReport}
             buttonStyle={BUTTON.BLUE}
             className={styles.plus}
           >
             +
           </Button>
-          <Button onClick={handleChangeMode} buttonStyle={BUTTON.BLUE}>
+          {/* <Button onClick={handleChangeMode} buttonStyle={BUTTON.BLUE}>
             {displayMode === 'Data' ? 'Структура' : 'Данные'}
-          </Button>
+          </Button> */}
+          <PagesNav />
         </div>
       </div>
       {isQueryPanelModalOpened && (

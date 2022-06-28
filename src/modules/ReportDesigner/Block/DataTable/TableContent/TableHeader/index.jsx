@@ -78,8 +78,6 @@ const TableHeader = ({
       return acc
     }, [])
 
-  
-
 
     const getId = (index, key) => `header-${key}-${index}`;
 

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
 import DragNDropProvider from '../../QueryPanel/context/DragNDropContext';
 import ObjectsPanel from '../../QueryPanel/ObjectsPanel';
@@ -9,26 +9,38 @@ import SidePanel from '../../../common/components/SidePanel';
 import styles from './ReportSidebar.module.scss';
 import { SIDE_PANEL_TYPES } from '../../../common/constants/common';
 // import { getSymanticLayerData } from '../../../data/actions/universes';
+import { setReportDisplayMode } from '../../../data/reducers/new_reportDesigner';
 import { ReactComponent as Arrow } from '../../../layout/assets/semanticLayerModal/arrow.svg';
 import ReportInfoBlock from '../ReportInfoBlock';
 import { REPORT_OBJECTS_PANEL_ICONS } from '../../../common/constants/reportDesigner/reportObjectsPanelIcons';
 
 
-const ReportSidebar = ({ semanticLayer, handleShowSelector, onSelect, setTabNumber, isActiveNode }) => {
-  // const dispatch = useDispatch();
+const ReportSidebar = ({ semanticLayer, handleShowSelector, onSelect, setTabNumber, isActiveNode, currentReport }) => {
   const reportDesigner = useSelector(state => state.app.reportDesigner);
   const isShowingPanel = reportDesigner.reportsUi.ui.showConfigPanel;
 
   const [collapsed, setCollapsed] = useState(false);
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(1);
+
+  const dispatch = useDispatch();
 
   const handleCollapse = () => {
     setCollapsed(!collapsed);
   };
 
-  const handleSelectTab = value => () => {
-    setActiveTab(value);
-    setTabNumber(value)
+  const { displayMode } = currentReport;
+
+  const handleChangeMode = (num) => {
+    let newMode = '';
+
+    if (displayMode && displayMode === 'Data' && num === 1) {
+      newMode = 'Structure';
+    } 
+    if (num === 0) {
+      newMode = 'Data';
+    }
+
+    dispatch(setReportDisplayMode(newMode));
   };
 
   const handleChangeEditBlockClass = () => {
@@ -77,14 +89,15 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector, onSelect, setTabNumb
         <div className={styles.tabs}>
           <div
             className={handleChangeViewBlockClass()}
-            onClick={handleSelectTab(0)}
+            onClick={() => { setActiveTab(0); setTabNumber(0); handleChangeMode(0)}}
           >
             {activeTab === 1 ? <p className={styles.viewText}>Режим просмотра</p> :
             (
               <>
                 <div>
                   <p className={styles.viewActiveText}>просмотр</p>
-                  <p className={styles.viewItem}>{getName(menuItem)}</p>
+                  {/* <p className={styles.viewItem}>{getName(menuItem)}</p> */}
+                  <p className={styles.viewItem}>Структура</p>
                 </div>
                 <div className={styles.actions}>
                   <div onClick={handleCollapse}>
@@ -96,7 +109,7 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector, onSelect, setTabNumb
           </div>
           <div
             className={handleChangeEditBlockClass()}
-            onClick={handleSelectTab(1)}
+            onClick={() => { setActiveTab(1); setTabNumber(1); handleChangeMode(1)}}
           >
             {activeTab === 0 ? <p className={styles.editText}>Режим редактирования</p> :
             (
