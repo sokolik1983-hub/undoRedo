@@ -29,7 +29,7 @@ const navigationMenu = [
   {
     href: '/reports',
     icon: <DesighIcon />,
-    title: 'Дизайнер',
+    title: 'Отчеты',
     id: 'reports'
   },
   {
