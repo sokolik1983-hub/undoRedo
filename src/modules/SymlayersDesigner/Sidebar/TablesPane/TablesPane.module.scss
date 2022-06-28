@@ -1,0 +1,20 @@
+.root{
+  padding: 0 15px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.owner {
+  display: flex;
+  align-items: center;
+  padding-left: 9px;
+  margin: 10px 0 4px 0;
+
+  span {
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: 4px;
+  }
+}

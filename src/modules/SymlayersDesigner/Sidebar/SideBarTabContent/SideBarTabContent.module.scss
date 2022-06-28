@@ -1,0 +1,21 @@
+.description {
+  font-size: 7px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+
+  .title {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .icon {
+    width: fit-content;
+    height: fit-content;
+    margin: 0 0 0 8px;
+  }
+}

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import React from 'react';
@@ -183,6 +184,7 @@ export default props => {
     props && props.link && props.link.object1
       ? objectToMarker(props.link.object1)
       : null;
+
   const endMarker =
     props && props.link && props.link.object2
       ? objectToMarker(props.link.object2)

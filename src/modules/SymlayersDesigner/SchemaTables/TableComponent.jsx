@@ -1,8 +1,5 @@
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-return-assign */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable no-nested-ternary */
 /* eslint-disable no-shadow */
 /* eslint-disable camelcase */
 /* eslint-disable react/prop-types */
@@ -115,10 +112,10 @@ const TableComponent = ({
   onDeleteTable
 }) => {
   const [
-    { linkAnchor, searchResult, focusedItem, mul },
+    { tables, linkAnchor, searchResult, focusedItem, mul },
     {
       SET_TABLE_REFS,
-      // SET_TABLE_POSITION,
+      SET_TABLE_POSITION,
       SET_EXPANDED,
       SET_FILTER,
       ZOOM_DEFAULT,
@@ -170,9 +167,17 @@ const TableComponent = ({
     return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase());
   };
 
-  const selectedTableColumns = selectedTables[
+  // const selectedTableColumns = selectedTables[
+  //   getTableIdFromParams({ ...tableItem, connect_id: 4 })
+  // ]?.map(item => {
+  //   return {
+  //     ...item,
+  //     colored: colorValue && searchStaticMatches(item)
+  //   };
+  // });
+  const selectedTableColumns = tables[
     getTableIdFromParams({ ...tableItem, connect_id: 4 })
-  ]?.map(item => {
+  ]?.columns.map(item => {
     return {
       ...item,
       colored: colorValue && searchStaticMatches(item)
@@ -228,10 +233,10 @@ const TableComponent = ({
     SET_EXPANDED,
     tableId
   ]);
-  // const setPosition = useCallback(
-  //   value => SET_TABLE_POSITION({ tableId, value }),
-  //   [SET_TABLE_POSITION, tableId]
-  // );
+  const setPosition = useCallback(
+    value => SET_TABLE_POSITION({ tableId, value }),
+    [SET_TABLE_POSITION, tableId]
+  );
   const setColumnFilter = useCallback(value => SET_FILTER({ tableId, value }), [
     SET_FILTER,
     tableId
@@ -354,32 +359,34 @@ const TableComponent = ({
     event.dataTransfer.setData('field', JSON.stringify(field));
   };
 
-  const tryLinkEnd = ({ item, event }) => {
-    addLink({ table: tableItem, field: item });
-    initLink({});
-    stopDrag(event);
-  };
-  const tryLinkStart = ({ item, event }) => {
-    if (linkAnchor) return;
-    const dragStopCallback = ({ state }) => {
-      state.linkAnchor = null;
-      state.linkDescr = null;
-    };
+  // const tryLinkEnd = ({ item, event }) => {
+  //   addLink({ table: tableItem, field: item });
+  //   initLink({});
+  //   stopDrag(event);
+  // };
 
-    const dragCallback = ({ state }, { postition }) => {
-      state.linkAnchor = postition;
-    };
+  // const tryLinkStart = ({ item, event }) => {
+  //   if (linkAnchor) return;
+  //   const dragStopCallback = ({ state }) => {
+  //     state.linkAnchor = null;
+  //     state.linkDescr = null;
+  //   };
 
-    initLink({
-      descr: { table: tableItem, field: item },
-      pos: posToCoord(event)
-    });
-    startDrag({ event, dragCallback, dragStopCallback });
-  };
+  //   const dragCallback = ({ state }, { postition }) => {
+  //     state.linkAnchor = postition;
+  //   };
+
+  //   initLink({
+  //     descr: { table: tableItem, field: item },
+  //     pos: posToCoord(event)
+  //   });
+  //   startDrag({ event, dragCallback, dragStopCallback });
+  // };
 
   const relatedSearchItems = searchResult.filter(
     elem => tableItem && elem.tableid === tableItem.id
   );
+
   const focusHere =
     focusedItem && tableItem && focusedItem.tableid === tableItem.id;
 
@@ -404,18 +411,18 @@ const TableComponent = ({
   const [synName, setSynName] = useState('');
 
   const handleCreateSynonym = () => {
-    if (
-      handleCheckMatch(synName)
-    ) {
+    if (handleCheckMatch(synName)) {
       const newSynonym = lodash.cloneDeep(tableItem);
       newSynonym.parent_table = tableItem.parent_table
         ? tableItem.parent_table
-        : tableItem.object_name;
-      newSynonym.object_name = synName;
+        : tableItem.objectName;
+      newSynonym.objectName = synName;
       newSynonym.id = null;
       onCreateSynonym(newSynonym);
     } else {
-      dispatch(showToast(TOAST_TYPE.DANGER, 'Имя синонима введено некорректно!'))
+      dispatch(
+        showToast(TOAST_TYPE.DANGER, 'Имя синонима введено некорректно!')
+      );
     }
   };
 
@@ -434,7 +441,7 @@ const TableComponent = ({
         y={0}
         width="1px"
         height="1px"
-        id={`obj${tableItem.object_name}`}
+        id={`obj${tableItem.objectName}`}
         // width={(tableSize && `${tableSize.width + 2}px`) || '360px'}
         // height={tableSize && `${tableSize.height + 2}px`}
         style={{
@@ -452,8 +459,8 @@ const TableComponent = ({
             onTableDragStart={onTableDragStart}
             onFieldDragStart={onFieldDragStart}
             selectedTableColumns={selectedTableColumns}
-            selectedTableName={tableItem.object_name}
-            selectedTableFullName={`${tableItem.schema}_${tableItem.object_name}_${tableItem.object_type_id}_${connect_id}`}
+            selectedTableName={tableItem.objectName}
+            selectedTableFullName={`${tableItem.schema}_${tableItem.objectName}_${tableItem.id}_${connect_id}`}
             onTablePreviewClick={handlePopupShow}
             onCloseSchemaEditorBlock={setActiveSchemaEditorBlock}
             onDeleteTable={onDeleteTable}
@@ -461,6 +468,10 @@ const TableComponent = ({
             onCreate={handleCreateSynonym}
             synoName={synName}
             setSynoName={setSynName}
+            isShadow={isShadow}
+            columns={columns}
+            tableId={tableId}
+            setTablesRefs={SET_TABLE_REFS}
           />
         )}
       </foreignObject>

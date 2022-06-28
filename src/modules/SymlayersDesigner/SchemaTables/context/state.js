@@ -11,9 +11,9 @@ export default {
 
   tablePostitionChangedCallback: () => {},
   getTableId: tableItem =>
-    tableItem.parent_table
-      ? `${tableItem.object_name}`
-      : `${tableItem.schema}.${tableItem.object_name}`,
+    tableItem.parentTable_id
+      ? `${tableItem.objectName}`
+      : `${tableItem.schema}.${tableItem.objectName}`,
 
   workAreaRef: React.createRef(),
   rndBgRectRef: React.createRef(),

@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
+import { getTableIdFromParams } from '../helpers';
 
 // object_name: "SI_FORMAT_CONVRSNS"
 // object_type_id: 3
@@ -24,9 +26,10 @@ import { createSlice } from '@reduxjs/toolkit';
 const schemaDesigner = createSlice({
   name: 'schemaDesigner',
   initialState: {
+    header: null,
     connectorId: 4, // demo data
-    connectorObjects: [],
     selectedTables: [],
+    connectorObjects: [],
     selectedTablesData: [],
     showDataList: false,
     dataList: [],
@@ -40,6 +43,8 @@ const schemaDesigner = createSlice({
     },
     coloredValue: '',
     semantycLayerName: null,
+
+    newData: null
   },
   reducers: {
     setIsLoading: (state, action) => {
@@ -88,6 +93,7 @@ const schemaDesigner = createSlice({
     },
     addObjectLayer: (state, action) => {
       state.objectsLayerList = [...state.objectsLayerList, action.payload];
+      state.newData.data.objects = [...state.newData.data.objects, action.payload];
     },
     deleteObjectLayer: (state, action) => {
       const id = action.payload;
@@ -121,6 +127,9 @@ const schemaDesigner = createSlice({
     },
     setSemantycLayerName: (state, action) => {
       state.semantycLayerName = action.payload
+    },
+    setSchemaDesigner: (state, action) => {
+      state.newData = {...action.payload.default};
     }
   }
 });
@@ -147,7 +156,8 @@ export const {
   setDataList,
   clearDataList,
   setShowDataList,
-  setSemantycLayerName
+  setSemantycLayerName,
+  setSchemaDesigner
 } = schemaDesigner.actions;
 
 export default schemaDesigner.reducer;

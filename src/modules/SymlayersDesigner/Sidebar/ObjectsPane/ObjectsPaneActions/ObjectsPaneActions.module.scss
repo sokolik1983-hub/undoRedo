@@ -1,0 +1,33 @@
+.root {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  grid-gap: 20px;
+  margin: 10px 0;
+}
+
+.searchGroup {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  grid-gap: 5px;
+}
+
+.filtersGroup {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+
+.input {
+  outline: 1px solid #C4C4C4;
+  transition: outline 0.2s;
+  border-radius: 3px;
+  height: 17px;
+}
+
+.iconBtn {
+  margin: 0;
+  width: fit-content;
+  height: fit-content;
+}
