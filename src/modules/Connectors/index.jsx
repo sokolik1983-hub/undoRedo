@@ -9,7 +9,7 @@ import {
   getConnectorsFolderId,
   testConnector
 } from '../../data/actions/connectors';
-import { Field, Form, Formik } from 'formik';
+import { connect, Field, Form, Formik } from 'formik';
 import styles from './Connectors.module.scss';
 import TreeView from '../../common/components/TreeView/index';
 import Button from '../../common/components/Button';
@@ -22,7 +22,6 @@ import { ReactComponent as CreateConnector } from '../../layout/assets/createCon
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
 import Gears from '../../common/components/Gears';
-// import TestOk from '../../../src/layout/assets/testOkIcon.svg';
 import { ReactComponent as TestFailed } from '../../../src/layout/assets/testFailedIcon.svg';
 import { ReactComponent as TestOkIcon } from '../../layout/assets/testOkIcon.svg';
 
@@ -168,15 +167,24 @@ function Connectors() {
     }
   };
 
+  const createConnectorForm = document.getElementById('createConnectorForm');
+
   const testConnection = e => {
     e.preventDefault();
-    setshowTestOk(false);
-    setshowTestFailed(false);
-    setIsActive(!isActive);
-    newConnector.header.parent_id = folderId;
-    newConnector.data.fields[2].value = newConnector.data.fields[2].value.toUpperCase();
-    setHeaderAndDescription();
-    dispatch(testConnector({ data: newConnector.data }));
+    e.stopPropagation();
+    // проверка на валидность введенных данных
+    if (createConnectorForm.reportValidity()) {
+      setshowTestOk(false);
+      setshowTestFailed(false);
+      setIsActive(!isActive);
+      newConnector.header.parent_id = folderId;
+      if (newConnector?.data?.fields[2]) {
+        newConnector.data.fields[2].value = newConnector?.data?.fields[2]?.value.toUpperCase();
+      }
+      setHeaderAndDescription();
+      // newConnector = trimInputFields(newConnector);
+      dispatch(testConnector({ data: newConnector.data }));
+    }
   };
 
   // Хэнделры для открытия/закрытия модалки
@@ -239,8 +247,11 @@ function Connectors() {
   // Функция для добавления и сохранения нового коннектора на бэке
   const addConnector = event => {
     event.preventDefault();
+    event.stopPropagation();
     newConnector.header.parent_id = folderId;
-    newConnector.data.fields[2].value = newConnector.data.fields[2].value.toUpperCase();
+    if (newConnector?.data?.fields[2]) {
+      newConnector.data.fields[2].value = newConnector.data.fields[2].value.toUpperCase();
+    }
     setHeaderAndDescription();
     dispatch(saveConnector(newConnector));
     closeConnectorModalHandler();
@@ -258,6 +269,7 @@ function Connectors() {
           label="Введите имя соединения"
           value={connectName}
           onChange={e => setConnectName(e.target.value)}
+          onBlur={() => setConnectName(connectName.trim())}
           id="connectorName"
           required
           labelClassName={styles.connectorsLabel}
@@ -297,11 +309,18 @@ function Connectors() {
                   value={item.value}
                   key={`${item.fieldName}_${index}`}
                   type={item.type}
-                  required
+                  required={item.required}
                   uppercase={item.fieldKey === 'DATABASE'}
                   className={styles.connectorsInput}
                   onChange={e => {
-                    newConnector.data.fields[index].value = e.target.value;
+                    newConnector.data.fields[
+                      index
+                    ].value = e.target.value.trim();
+                  }}
+                  onBlur={e => {
+                    if (e.target.value) {
+                      e.target.value = e.target.value.trim();
+                    }
                   }}
                 />
               ))}
@@ -311,6 +330,9 @@ function Connectors() {
                 name="connectorDescription"
                 className={styles.textarea}
                 onChange={e => setConnectionDescription(e.target.value)}
+                onBlur={() =>
+                  setConnectionDescription(connectionDescription.trim())
+                }
                 value={connectionDescription}
               ></textarea>
             </div>
@@ -328,7 +350,8 @@ function Connectors() {
             <Button
               className={styles.testConnectionButton}
               buttonStyle={BUTTON.BLUE}
-              onClick={testConnection}
+              form="createConnectorForm"
+              onClick={e => testConnection(e)}
             >
               Тест соединения
             </Button>

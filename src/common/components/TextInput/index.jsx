@@ -85,6 +85,7 @@ TextInput.propTypes = {
   required: PropTypes.bool,
   requiredTextVisible: PropTypes.bool,
   uppercase: PropTypes.bool,
+  onblur: PropTypes.any
 };
 
 TextInput.defaultProps = {
