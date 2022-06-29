@@ -45,6 +45,34 @@ function Connectors() {
   const testConnectorResult = useSelector(
     state => state.app.data.testConnector
   );
+  const notifications = useSelector(state => state.app.notifications);
+
+  let testResultCopy = cloneDeep(testConnectorResult);
+  let notificationsCopy = cloneDeep(notifications);
+
+  // Отрисовка успешного теста соединения
+  useEffect(() => {
+    testResultCopy = cloneDeep(testConnectorResult);
+    if (testResultCopy) {
+      setIsActive(false);
+      if (testResultCopy.result) {
+        // Успешно - рисуем галочку
+        setshowTestOk(!showTestOk);
+      } else {
+        // ошибка красим шестерни в красный цвет
+        setshowTestFailed(!showTestFailed);
+      }
+    }
+  }, [testConnectorResult]);
+
+  // Отрисовка ошибки теста соединения в случае получения ошибок
+  useEffect(() => {
+    notificationsCopy = cloneDeep(notifications);
+    if (notificationsCopy?.items[0]?.id) {
+      setIsActive(false);
+      setshowTestFailed(!showTestFailed);
+    }
+  }, [notifications]);
 
   // Oбъект коннектора из стора
   const connectorObject = useSelector(state => state.app.data.createConnector);
@@ -88,8 +116,6 @@ function Connectors() {
   const [isActive, setIsActive] = useState(false);
   const [showTestOk, setshowTestOk] = useState(false);
   const [showTestFailed, setshowTestFailed] = useState(false);
-
-  const testAnimation = () => Math.ceil(Math.random() * 10);
 
   const testMockData = {
     data: {
@@ -147,18 +173,6 @@ function Connectors() {
     setshowTestOk(false);
     setshowTestFailed(false);
     setIsActive(!isActive);
-    // имитация асинхронного запроса на бек и получение ответа
-    setTimeout(() => {
-      setIsActive(false);
-      if (testAnimation() >= 5) {
-        // Успешно - рисуем галочку
-        setshowTestOk(!showTestOk);
-      } else {
-        // ошибка красим шестерни в красный цвет
-        setshowTestFailed(!showTestFailed);
-      }
-    }, 2000);
-
     newConnector.header.parent_id = folderId;
     setHeaderAndDescription();
     dispatch(testConnector({ data: newConnector.data }));
@@ -177,6 +191,8 @@ function Connectors() {
     setConnectType(false);
     setConnectSource(false);
     setConnectorFields(false);
+    setshowTestOk(false);
+    setshowTestFailed(false);
   };
 
   const closeConnectorModalHandler = () => {
@@ -280,6 +296,7 @@ function Connectors() {
                   key={`${item.fieldName}_${index}`}
                   type={item.type}
                   required
+                  uppercase={item.fieldKey === 'DATABASE'}
                   className={styles.connectorsInput}
                   onChange={e => {
                     newConnector.data.fields[index].value = e.target.value;
