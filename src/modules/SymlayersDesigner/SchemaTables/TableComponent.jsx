@@ -1,8 +1,5 @@
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-return-assign */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable no-nested-ternary */
 /* eslint-disable no-shadow */
 /* eslint-disable camelcase */
 /* eslint-disable react/prop-types */
@@ -33,8 +30,12 @@ import { SymanticLayerContext } from './context';
 import TablePreview from './TablePreview';
 import { showToast } from '../../../data/actions/app';
 import { TOAST_TYPE } from '../../../common/constants/common';
-import { setTablePreviewModal } from '../../../data/actions/universes';
+import {
+  setObjectsConnectionsModal,
+  setTablePreviewModal
+} from '../../../data/actions/universes';
 import { handleCheckMatch } from './helper';
+import { styles } from './TableComponent.module.scss';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -114,10 +115,10 @@ const TableComponent = ({
   onDeleteTable
 }) => {
   const [
-    { linkAnchor, searchResult, focusedItem, mul },
+    { tables, linkAnchor, searchResult, focusedItem, mul },
     {
       SET_TABLE_REFS,
-      // SET_TABLE_POSITION,
+      SET_TABLE_POSITION,
       SET_EXPANDED,
       SET_FILTER,
       ZOOM_DEFAULT,
@@ -143,11 +144,11 @@ const TableComponent = ({
     state => state.app.schemaDesigner
   );
 
-  const [coords, setCoords] = useState({x: 0, y: 0});
+  const [coords, setCoords] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    setCoords({x: coords.x + 50, y: coords.y + 50});
-  }, [ selectedTables]);
+    setCoords({ x: coords.x + 50, y: coords.y + 50 });
+  }, [selectedTables]);
 
   // const refs = useMemo(() => tableRefs[tableId], [tableRefs, tableId]);
   // const [showSynPopup, setShowSynPopup] = useState(false);
@@ -156,6 +157,9 @@ const TableComponent = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isHighlighted, setIsHighlighted] = useState(false);
   const [colorValue, setColorValue] = useState('');
+  const [portsRefs, setPortsRef] = useState([]);
+  const [tableRefState, setTableRef] = useState([]);
+  const [headerRefState, setHeaderRef] = useState(null);
   const contentScrollContainer = useRef();
   const dispatch = useDispatch();
 
@@ -169,14 +173,26 @@ const TableComponent = ({
     return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase());
   };
 
-  const selectedTableColumns = selectedTables[
+  const selectedTableColumns = tables[
     getTableIdFromParams({ ...tableItem, connect_id: 4 })
-  ]?.map(item => {
+  ]?.columns.map(item => {
     return {
       ...item,
       colored: colorValue && searchStaticMatches(item)
     };
   });
+
+  const addRefToColumns = refs => {
+    setPortsRef(refs);
+  };
+
+  const addRefToHeader = ref => {
+    setHeaderRef(ref);
+  };
+
+  const addRefToTable = ref => {
+    setTableRef(ref);
+  };
 
   // eslint-disable-next-line consistent-return
   const getList = obj => {
@@ -227,10 +243,10 @@ const TableComponent = ({
     SET_EXPANDED,
     tableId
   ]);
-  // const setPosition = useCallback(
-  //   value => SET_TABLE_POSITION({ tableId, value }),
-  //   [SET_TABLE_POSITION, tableId]
-  // );
+  const setPosition = useCallback(
+    value => SET_TABLE_POSITION({ tableId, value }),
+    [SET_TABLE_POSITION, tableId]
+  );
   const setColumnFilter = useCallback(value => SET_FILTER({ tableId, value }), [
     SET_FILTER,
     tableId
@@ -263,18 +279,17 @@ const TableComponent = ({
       //   }
       // });
     }
-  }, []);
+  }, [tableItem]);
 
   const { tableRef, headerRef, ports } = useMemo(() => {
     if (!isShadow) {
-      const ports = columns.map(item => ({
+      const ports = selectedTableColumns?.map((item, i) => ({
         key: item.field,
-        ref: React.createRef()
+        ref: portsRefs[i]
       }));
-
       const value = {
-        tableRef: React.createRef(),
-        headerRef: React.createRef(),
+        tableRef: tableRefState,
+        headerRef: headerRefState,
         ports
       };
       SET_TABLE_REFS({ tableId, value });
@@ -319,21 +334,7 @@ const TableComponent = ({
   //   props.onNewLinkItem(item);
   // };
 
-  const ActualPosition = (position && position.deltaPosition) || coords
-
-  // function handleDropObject(event) {}
-
-  // function allowDrop(event) {}
-
-  // const onTableDrag = ({args: [event, pos, shpos]}) => {
-  //   const tablePosition = {
-  //     ...position,
-  //     deltaPosition: { x: shpos.x, y: shpos.y }
-  //   };
-
-  //   setPosition(tablePosition);
-  //   //props.setTablesPosition(tablePosition);
-  // };
+  const ActualPosition = (position && position.deltaPosition) || coords;
 
   const onTableDragStart = useCallback(
     event => {
@@ -353,32 +354,38 @@ const TableComponent = ({
     event.dataTransfer.setData('field', JSON.stringify(field));
   };
 
-  const tryLinkEnd = ({ item, event }) => {
-    addLink({ table: tableItem, field: item });
-    initLink({});
-    stopDrag(event);
-  };
-  const tryLinkStart = ({ item, event }) => {
-    if (linkAnchor) return;
-    const dragStopCallback = ({ state }) => {
-      state.linkAnchor = null;
-      state.linkDescr = null;
-    };
+  // const tryLinkEnd = ({ item, event }) => {
+  //   addLink({ table: tableItem, field: item });
+  //   initLink({});
+  //   stopDrag(event);
+  // };
 
-    const dragCallback = ({ state }, { postition }) => {
-      state.linkAnchor = postition;
-    };
+  // const tryLinkStart = ({ item, event }) => {
+  //   if (linkAnchor) return;
+  //   const dragStopCallback = ({ state }) => {
+  //     state.linkAnchor = null;
+  //     state.linkDescr = null;
+  //   };
 
-    initLink({
-      descr: { table: tableItem, field: item },
-      pos: posToCoord(event)
-    });
-    startDrag({ event, dragCallback, dragStopCallback });
+  //   const dragCallback = ({ state }, { postition }) => {
+  //     state.linkAnchor = postition;
+  //   };
+
+  //   initLink({
+  //     descr: { table: tableItem, field: item },
+  //     pos: posToCoord(event)
+  //   });
+  //   startDrag({ event, dragCallback, dragStopCallback });
+  // };
+
+  const onFieldDragOver = (event, field) => {
+    // tryLinkEnd({field, event})
   };
 
   const relatedSearchItems = searchResult.filter(
     elem => tableItem && elem.tableid === tableItem.id
   );
+
   const focusHere =
     focusedItem && tableItem && focusedItem.tableid === tableItem.id;
 
@@ -403,18 +410,18 @@ const TableComponent = ({
   const [synName, setSynName] = useState('');
 
   const handleCreateSynonym = () => {
-    if (
-      handleCheckMatch(synName)
-    ) {
+    if (handleCheckMatch(synName)) {
       const newSynonym = lodash.cloneDeep(tableItem);
       newSynonym.parent_table = tableItem.parent_table
         ? tableItem.parent_table
-        : tableItem.object_name;
-      newSynonym.object_name = synName;
+        : tableItem.objectName;
+      newSynonym.objectName = synName;
       newSynonym.id = null;
       onCreateSynonym(newSynonym);
     } else {
-      dispatch(showToast(TOAST_TYPE.DANGER, 'Имя синонима введено некорректно!'))
+      dispatch(
+        showToast(TOAST_TYPE.DANGER, 'Имя синонима введено некорректно!')
+      );
     }
   };
 
@@ -433,7 +440,7 @@ const TableComponent = ({
         y={0}
         width="1px"
         height="1px"
-        id={`obj${tableItem.object_name}`}
+        id={`obj${tableItem.objectName}`}
         // width={(tableSize && `${tableSize.width + 2}px`) || '360px'}
         // height={tableSize && `${tableSize.height + 2}px`}
         style={{
@@ -448,18 +455,27 @@ const TableComponent = ({
         {isActiveSchemaEditorBlock && (
           <SchemaEditorBlock
             isHighlight={isHighlighted}
+            tableId={tableId}
             onTableDragStart={onTableDragStart}
             onFieldDragStart={onFieldDragStart}
+            onFieldDragOver={onFieldDragOver}
             selectedTableColumns={selectedTableColumns}
-            selectedTableName={tableItem.object_name}
-            selectedTableFullName={`${tableItem.schema}_${tableItem.object_name}_${tableItem.object_type_id}_${connect_id}`}
+            selectedTableName={tableItem.objectName}
+            selectedTableFullName={`${tableItem.schema}_${tableItem.objectName}_${tableItem.id}_${connect_id}`}
+            addRefToColumns={addRefToColumns}
+            addRefToTable={addRefToTable}
+            addRefToHeader={addRefToHeader}
             onTablePreviewClick={handlePopupShow}
             onCloseSchemaEditorBlock={setActiveSchemaEditorBlock}
             onDeleteTable={onDeleteTable}
             tableItem={tableItem}
             onCreate={handleCreateSynonym}
             synoName={synName}
+            forceUpdate={forceUpdate}
             setSynoName={setSynName}
+            isShadow={isShadow}
+            columns={columns}
+            setTablesRefs={SET_TABLE_REFS}
           />
         )}
       </foreignObject>

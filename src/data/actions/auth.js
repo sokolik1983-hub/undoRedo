@@ -59,7 +59,6 @@ export const logoutUser = () => {
       localStorage.removeItem('isAuth');
       localStorage.removeItem('token');
       dispatch(logout());
-      window.location.pathname = REDIRECT_LINKS.LOGIN_PAGE;
     }, 3000);
   };
 };

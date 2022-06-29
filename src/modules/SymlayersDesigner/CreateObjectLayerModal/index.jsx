@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import { useDispatch } from 'react-redux';
-
 import Modal from '../../../common/components/Modal';
 import TextFieldItem from './ModalItem/TextFieldItem';
 import PropertiesBlock from './ModalItem/PropertiesBlock';
@@ -71,7 +70,6 @@ const CreateObjectLayerModal = ({ visible }) => {
         handleClose();
         dispatch(addObjectLayer({...values, id: `objLay_${Date.now()}`}));
         event.preventDefault();
-        window.location.pathname = '/Universe/symlayers/create';
       }}
     >
       {({ values, handleChange, handleSubmit }) => (

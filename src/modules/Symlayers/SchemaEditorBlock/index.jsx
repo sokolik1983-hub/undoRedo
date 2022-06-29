@@ -1,7 +1,19 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/prop-types */
 import clsx from 'clsx';
 import ReactDOM from 'react-dom';
-import React, { useEffect, useState } from 'react';
+import React, {
+  createRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useContext
+} from 'react';
+import { useDispatch } from 'react-redux';
 import Dropdown from '../../../common/components/Dropdown';
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import TextInput from '../../../common/components/TextInput';
@@ -13,7 +25,8 @@ import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrow
 import Tooltip from '../../../common/components/Tooltip';
 import IconButton from '../../../common/components/IconButton';
 import CreateCopyModal from './CreateCopyModal';
-import ModalConfirmDeletion  from '../../../common/components/Modal/ModalConfirmDeletion';
+import ModalConfirmDeletion from '../../../common/components/Modal/ModalConfirmDeletion';
+import { addCoordToTables } from '../../../data/reducers/schemaDesigner';
 
 const items = [
   { text: 'Псевдоним', value: 'copy' },
@@ -32,16 +45,25 @@ const SchemaEditorBlock = ({
   onTableDragStart,
   selectedTableName,
   selectedTableColumns = [],
+  addRefToColumns,
+  addRefToTable,
+  addRefToHeader,
   onTablePreviewClick,
   onCloseSchemaEditorBlock,
   isHighlight,
   selectedTableFullName,
   onDeleteTable,
   tableItem,
+  tableId,
   onFieldDragStart,
+  onFieldDragOver,
   onCreate,
   synoName,
-  setSynoName
+  setSynoName,
+  isShadow,
+  columns,
+  setTablesRefs,
+  forceUpdate
 }) => {
   const [filterableFields, setFilterableFields] = useState(
     selectedTableColumns
@@ -50,9 +72,63 @@ const SchemaEditorBlock = ({
   const [isActive, setIsActive] = useState(false);
   const [isOpened, setIsOpened] = useState(true);
   const [isCopy, setIsCopy] = useState(false);
-  const [isDeleteWarningModalOpened, setDeleteWarningModalOpened] = useState(false);
+  const [isDeleteWarningModalOpened, setDeleteWarningModalOpened] = useState(
+    false
+  );
+  const [fieldsCount, setFieldsCount] = useState(selectedTableColumns.length);
+  const [portsRefs, setPortsRef] = useState(null);
+  const headerRef = useRef(null);
+  const tableRef = useRef(null);
+  const fieldRefs = useRef([React.createRef(), React.createRef()]);
+
+  const dispatch = useDispatch();
+
+  const updateFieldsCount = value => {
+    setFieldsCount(value);
+    fieldRefs.current = fieldRefs.current.splice(0, value);
+    for (let i = 0; i < value; i++) {
+      fieldRefs.current[i] = fieldRefs.current[i] || React.createRef();
+    }
+    fieldRefs.current = fieldRefs.current.map(
+      fieldRef => fieldRef || React.createRef()
+    );
+    setPortsRef([...fieldRefs.current]);
+  };
 
   useEffect(() => {
+    fieldRefs?.current[fieldRefs.current.length - 1].current?.focus();
+  }, [fieldsCount]);
+
+  useEffect(() => {
+    if (tableRef) {
+      addRefToTable(tableRef);
+    }
+  }, [tableRef]);
+
+  useEffect(() => {
+    if (headerRef) {
+      addRefToHeader(headerRef);
+    }
+  }, [headerRef]);
+
+  useEffect(() => {
+    const tableRefCoord = {};
+    const pageX =
+      window.pageXOffset + headerRef?.current?.getBoundingClientRect().left;
+    const pageY =
+      window.pageYOffset + headerRef?.current?.getBoundingClientRect().top;
+    tableRefCoord[tableId] = { pageX, pageY };
+    dispatch(addCoordToTables(tableRefCoord));
+  }, [headerRef, tableRef]);
+
+  useEffect(() => {
+    if (portsRefs?.length) {
+      addRefToColumns(portsRefs);
+    }
+  }, [fieldsCount]);
+
+  useEffect(() => {
+    updateFieldsCount(selectedTableColumns.length);
     setTimeout(() => {
       setFilterableFields(selectedTableColumns);
     }, 50);
@@ -62,16 +138,18 @@ const SchemaEditorBlock = ({
     [styles.contentWithSearch]: isActive
   });
 
+  useEffect(forceUpdate, [isOpened]);
+
   const handleClick = item => {
     if (item.value === 'tablePreview') {
       return onTablePreviewClick();
-    };
+    }
     if (item.value === 'copy') {
       return setIsCopy(true);
-    };
+    }
     if (item.value === 'deleteTable') {
       return setDeleteWarningModalOpened(true);
-    };
+    }
     return console.log(item.text);
   };
 
@@ -86,7 +164,9 @@ const SchemaEditorBlock = ({
     );
   };
 
-  const highlightOutline = filterableFields.filter(i => i.colored).length ? styles.wrapperHighlight : styles.wrapper;
+  const highlightOutline = filterableFields.filter(i => i.colored).length
+    ? styles.wrapperHighlight
+    : styles.wrapper;
 
   const onCloseInput = () => {
     setIsActive(!isActive);
@@ -107,22 +187,46 @@ const SchemaEditorBlock = ({
     </div>
   );
 
+  const refs = useRef({});
+
+  useEffect(() => {
+    if (!isShadow) {
+      const ports = columns.map(item => ({
+        key: item.field,
+        ref: React.createRef()
+      }));
+
+      const value = {
+        tableRef: React.createRef(),
+        headerRef: React.createRef(),
+        ports
+      };
+      setTablesRefs({ tableId, value });
+      refs.current = value;
+      return;
+    }
+    refs.current = {
+      tableRef: React.createRef(),
+      headerRef: React.createRef(),
+      ports: []
+    };
+  }, [refs]);
+
   return (
-    <div className={highlightOutline}>
+    <div className={highlightOutline} ref={refs.current.tableRef}>
+      {/* <div className={highlightOutline} ref={tableRef}> */}
       <div
+        ref={refs.current.headerRef}
         className={styles.header}
         onMouseDown={event => {
-              event.stopPropagation();
-              if (event.button !== 0) return;
-              onTableDragStart(event);
-            }}
+          event.stopPropagation();
+          if (event.button !== 0) return;
+          onTableDragStart(event);
+        }}
         onDoubleClick={() => setIsOpened(prev => !prev)}
+        // ref={headerRef}
       >
-        <div
-          className={styles.heading}
-        >
-          {selectedTableName}
-        </div>
+        <div className={styles.heading}>{selectedTableName}</div>
         <div className={styles.iconsContainer}>
           <Tooltip
             placement="bottom"
@@ -131,8 +235,8 @@ const SchemaEditorBlock = ({
             <Arrow
               onClick={() => setIsOpened(prev => !prev)}
               className={
-                  isOpened ? styles.arrowBtnOpened : styles.arrowBtnClosed
-                }
+                isOpened ? styles.arrowBtnOpened : styles.arrowBtnClosed
+              }
             />
           </Tooltip>
           <MagnifierWhite
@@ -143,8 +247,8 @@ const SchemaEditorBlock = ({
             trigger={['click']}
             overlay={menu()}
             align={{
-                offset: [45, -50]
-              }}
+              offset: [45, -50]
+            }}
           >
             <IconButton
               size="small"
@@ -165,9 +269,9 @@ const SchemaEditorBlock = ({
           />
           <CloseInput className={styles.icon} onClick={onCloseInput} />
         </div>
-        )}
+      )}
       {isOpened && (
-        <div className={contentClasses}>
+        <div className={contentClasses} onScroll={forceUpdate}>
           <ul className={styles.list}>
             <DropdownItem
               item=""
@@ -175,23 +279,56 @@ const SchemaEditorBlock = ({
               className={styles.search}
             />
 
-            {filterableFields.map((item, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <li className={item.colored && isHighlight ? styles.itemHighlited : styles.item} key={item.field + item.type + index} draggable onDragStart={e => onFieldDragStart(e, item.field)}>
+            {filterableFields.map((item, index) => {
+              const port = refs?.current?.ports
+                ? refs.current.ports.find(column => column.key === item.field)
+                : {};
+
+              return (
+                <li
+                  ref={port.ref}
+                  className={
+                    item.colored && isHighlight
+                      ? styles.itemHighlited
+                      : styles.item
+                  }
+                  key={item.field + item.type + index}
+                  draggable
+                  onDragStart={e => onFieldDragStart(e, item.field)}
+                >
+                  {item.field}
+                </li>
+              );
+            })}
+            {/* {filterableFields.map((item, index) => (
+              <li
+                className={
+                  item.colored && isHighlight
+                    ? styles.itemHighlited
+                    : styles.item
+                }
+                key={item.field + item.type}
+                draggable
+                onDragStart={e => onFieldDragStart(e, item)}
+                onDrop={e => onFieldDragOver(e, item)}
+                ref={fieldRefs.current[index]}
+              >
                 {item.field}
               </li>
-            ))}
+            ))} */}
           </ul>
         </div>
       )}
-      { isCopy && (
-      <CreateCopyModal 
-        onCancel={() => {setIsCopy(false)}}
-        create={onCreate}
-        newName={synoName}
-        setNewName={setSynoName}
-        oldName={selectedTableName}
-      />
+      {isCopy && (
+        <CreateCopyModal
+          onCancel={() => {
+            setIsCopy(false);
+          }}
+          create={onCreate}
+          newName={synoName}
+          setNewName={setSynoName}
+          oldName={selectedTableName}
+        />
       )}
       {isDeleteWarningModalOpened &&
         ReactDOM.createPortal(

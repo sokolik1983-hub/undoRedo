@@ -7,7 +7,7 @@ import styles from './Tabs.module.scss';
 export const ActiveTabContext = createContext();
 export const useTabContext = () => useContext(ActiveTabContext);
 
-export const Tabs = ({ defaultActive, children }) => {
+const Tabs = ({ defaultActive, children, tabItemClassName }) => {
   const [activeTab, setActiveTab] = useState(defaultActive);
 
   const arrayChildren = Array.isArray(children)
@@ -20,6 +20,7 @@ export const Tabs = ({ defaultActive, children }) => {
         <ul className={styles.tabsHeader}>
           {arrayChildren.map(child => (
             <TabsItem
+              className={tabItemClassName}
               key={child.props.tab}
               idx={child.props.idx}
               tab={child.props.tab}
@@ -32,7 +33,10 @@ export const Tabs = ({ defaultActive, children }) => {
   );
 };
 
+export default Tabs;
+
 Tabs.propTypes = {
   defaultActive: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
+  tabItemClassName: PropTypes.string
 };

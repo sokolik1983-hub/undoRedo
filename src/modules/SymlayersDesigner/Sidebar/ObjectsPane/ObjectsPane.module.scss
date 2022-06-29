@@ -1,0 +1,29 @@
+.root{
+  padding: 0 15px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.contentData {
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  height: calc(100% - 60px);
+  padding: 0px 12px 0px 19px;
+}
+
+.owner {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  padding-left: 9px;
+  margin-bottom: 4px;
+
+  .ownerText {
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: 4px;
+  }
+}

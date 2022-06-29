@@ -1,8 +1,12 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable prefer-const */
+/* eslint-disable guard-for-in */
+/* eslint-disable consistent-return */
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
-/* eslint-disable */
 import React, {
   useContext,
   useEffect,
@@ -10,18 +14,18 @@ import React, {
   useReducer,
   useState
 } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
-import styles from './SchemaTables.module.scss'
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import MapIcon from '@material-ui/icons/Map';
 import SearchIcon from '@material-ui/icons/Search';
-import { IconButton } from '@material-ui/core';
+import IconButton from '../../../common/components/IconButton';
 import Tooltip from '../../../common/components/Tooltip/index';
 import { ReactComponent as Plus } from '../../../layout/assets/reportDesigner/plus.svg';
 import { ReactComponent as Minus } from '../../../layout/assets/reportDesigner/minus.svg';
-
+import styles from './SchemaTables.module.scss';
 import { SymanticLayerContextProvider, SymanticLayerContext } from './context';
 
 // import {
@@ -38,9 +42,16 @@ import SymanticLink from './Link';
 import Minimap from './Minimap';
 // import SearchDialog from './SearchDialog';
 import Vector from './vector';
+import { getTableIdFromParams } from '../../../data/helpers';
+import { setObjectsConnectionsModal } from '../../../data/actions/universes';
 
 const Provided = props => {
   const [lastUpdTime, forceUpdate] = useReducer(() => new Date(), 0);
+  // const tablesPosition = useSelector(
+  //   state => state.app.schemaDesigner.tablesRefCoord
+  // );
+  const dispatch = useDispatch();
+  const [addCord, setAddCoord] = useState(0);
 
   // const saveUserData = {};
   // const userData = {};
@@ -69,7 +80,7 @@ const Provided = props => {
       SET_POSITION,
       SET_SEARCH_POPUP_VISIBLE
     },
-    { getRefs, getTablePosition }
+    { getRefs, getTablePosition, posToCoord }
   ] = useContext(SymanticLayerContext);
   const classes = useStyles();
 
@@ -91,7 +102,6 @@ const Provided = props => {
         tp.deltaPosition.y + tableRect.height / 2 / mul
       );
 
-      // console.log('reposition', focusedItem, table, tp, tableRect, '->', position)
       SET_POSITION(position);
     }
   }, [focusedItem]);
@@ -155,15 +165,14 @@ const Provided = props => {
     }
   }, [props.tablesPosition]);
 
-  useMemo(() => {
+  useEffect(() => {
     if (props.tables) {
       setTables(props.tables);
-
       lodash.keys(props.tablesPosition).forEach(key => {
         if (
           !lodash.find(
             props.tables,
-            table => `${table.schema}.${table.object_name}` === key
+            table => `${table.schema}.${table.objectName}` === key
           )
         ) {
           delete props.tablesPosition[key];
@@ -173,8 +182,6 @@ const Provided = props => {
       setTables([]);
     }
   }, [props.tables]);
-
- 
 
   const renderZoomBtn = () => (
     <div
@@ -219,9 +226,11 @@ const Provided = props => {
   );
 
   const targetRect = (table, field) => {
-    const tableName = getTableId(table);
-    const tp = getTablePosition(tableName) || { deltaPosition: { x: 0, y: 0 } };
-    const tr = getRefs(tableName);
+    const tableName = getTableIdFromParams({ ...table, connect_id: 4 });
+    const tp = getTablePosition(tableName) || {
+      deltaPosition: { x: 0, y: 0 }
+    };
+    const tr = getRefs(getTableIdFromParams({ ...table, connect_id: 4 }));
 
     if (!tp || !tr || !tr.tableRef || !tr.headerRef) return { tp, tr };
 
@@ -240,11 +249,10 @@ const Provided = props => {
       rect = headerRect || tableRect;
       port = tr.headerRef || tr.tableRef;
     }
-
     if (
       tableRect &&
       rect &&
-      (rect.y < tableRect.y || rect.y > tableRect.y + tableRect.height)
+      (rect.y <= tableRect.y || rect.y > tableRect.y + tableRect.height - 30)
     ) {
       port = tr.headerRef;
       rect = port.current && port.current.getBoundingClientRect();
@@ -258,6 +266,7 @@ const Provided = props => {
       port.current.clientWidth,
       port.current.clientHeight
     ];
+
     const x =
       ((rect.x - tableRect.x) * height) / rect.height + tp.deltaPosition.x;
     const y =
@@ -267,12 +276,21 @@ const Provided = props => {
       portRect: {
         x,
         y,
+        // width,
         width: tr.tableRef.current.clientWidth,
         height
       },
       tableRect
     };
   };
+
+  const handleEdit = id => {
+    const result = props.objectsLinks.filter(l => {
+      return l.id === id;
+    });
+    dispatch(setObjectsConnectionsModal(true, ...result));
+  };
+
   const renderContent = ({ isShadow = false } = {}) => {
     return (
       <React.Fragment key="content">
@@ -299,32 +317,47 @@ const Provided = props => {
             );
           })()}
 
-        {props.objectsLinks?.map(link => {
-          const SourceRect = targetRect(
-            link.object1.object,
-            !isShadow && link.object1.fields[0]
-          );
-          const TargetRect = targetRect(
-            link.object2.object,
-            !isShadow && link.object2.fields[0]
-          );
+        {Object.keys(tables).length &&
+          props.objectsLinks?.map(link => {
+            const SourceRect = targetRect(
+              Object.values(tables)?.find(
+                table => table.id === link.object1.table_id
+              ),
+              !isShadow && link.object2.fields[0]
+            );
+            const TargetRect = targetRect(
+              Object.values(tables)?.find(
+                table => table.id === link.object2.table_id
+              ),
+              !isShadow && link.object2.fields[0]
+            );
 
-          return (
-            <SymanticLink
-              link={link}
-              TargetRect={TargetRect}
-              SourceRect={SourceRect}
-              handleEdit={props.handleEdit}
-              onShowLinkEdit={props.onShowLinkEdit}
-              key={link}
-              isLoop={
-                getTableId(link.object1.object) ===
-                getTableId(link.object2.object)
-              }
-              // onCreateSynonym={props.onCreateSynonym}
-            />
-          );
-        })}
+            return (
+              <SymanticLink
+                link={link}
+                TargetRect={TargetRect}
+                SourceRect={SourceRect}
+                handleEdit={handleEdit}
+                key={`${getTableId(link.object1)}-${getTableId(
+                  link.object2
+                )}${Math.random()}}`}
+                // isLoop={getTableId(link.object1) === getTableId(link.object2)}
+                // onCreateSynonym={props.onCreateSynonym}
+                isLoop={
+                  getTableId(
+                    Object.values(tables)?.find(
+                      table => table.id === link.object1.table_id
+                    )
+                  ) ===
+                  getTableId(
+                    Object.values(tables)?.find(
+                      table => table.id === link.object2.table_id
+                    )
+                  )
+                }
+              />
+            );
+          })}
 
         {Object.keys(tables)?.map(tableId => {
           return (
@@ -354,13 +387,19 @@ const Provided = props => {
     <React.Fragment key="provided">
       <div
         className={`work-area ${classes.workArea}`}
-        style={{ border: '1px solid lightgray', ...props.style }}
+        style={{
+          border: '1px solid lightgray',
+          height: '100%',
+          ...props.style
+        }}
         key="main"
         ref={workAreaRef}
       >
         {renderZoomBtn()}
         <RNDZone>{renderContent()}</RNDZone>
-        <div className={styles.scaleValueWrapper}>{Math.round((mul / 1) * 100)}%</div>
+        <div className={styles.scaleValueWrapper}>
+          {Math.round((mul / 1) * 100)}%
+        </div>
       </div>
 
       {showMinimap && (

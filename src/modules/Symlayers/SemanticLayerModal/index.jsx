@@ -14,6 +14,7 @@ import BusinessObjects from './ModalItem/BusinessObjects';
 import Control from './ModalItem/Control';
 import TextFieldItem from './ModalItem/TextFieldItem';
 import { setSemantycLayerDataName } from '../../../data/actions/schemaDesigner';
+import { REDIRECT_LINKS } from '../../../common/constants/common'
 
 const semLayerValues = {
   name: 'Новый семантический слой 1',
@@ -30,17 +31,16 @@ const semLayerValues = {
 
 const SemanticLayerModal = ({ onClick }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const onClickAction = event => {
     onClick(event);
   };
-  
-  const navigate = useNavigate();
 
   const content = (
     <Formik
       initialValues={semLayerValues}
-      onSubmit={(data) => {
-        navigate('/symlayers/create')
+      onSubmit={data => {
+        navigate(REDIRECT_LINKS.SYMLAEYERS)
         dispatch(setSemantycLayerDataName(data.name))
       }}
     >
