@@ -9,7 +9,9 @@ export const refreshUserSession = queryParams => {
   return async (dispatch, getState) => {
     const timer = setInterval(async () => {
       const { isAuth } = getState().app.auth;
-      if (!isAuth) {clearInterval(timer)}
+      if (!isAuth) {
+        clearInterval(timer);
+      }
       const response = await requestWithoutResponse({
         code: 'CMS.ALIVE',
         params: queryParams,
@@ -34,7 +36,7 @@ export const loginUser = queryParams => {
     localStorage.setItem('userInfo', queryParams.userName);
     localStorage.setItem('token', response.token);
     dispatch(login(response));
-    dispatch(refreshUserSession(response.token))
+    dispatch(refreshUserSession(response.token));
   };
 };
 
@@ -50,7 +52,7 @@ export const logoutUser = () => {
     });
     delay(async () => {
       await requestWithoutResponse({
-        code: 'CMS.UNLOGIN',
+        code: 'CMS.LOGOUT',
         token: localStorage.getItem('token'),
         params: null,
         dispatch
@@ -58,8 +60,8 @@ export const logoutUser = () => {
       localStorage.removeItem('userInfo');
       localStorage.removeItem('isAuth');
       localStorage.removeItem('token');
+      window.location.pathname = REDIRECT_LINKS.LOGIN_PAGE;
       dispatch(logout());
-    }, 3000);
+    }, 1000);
   };
 };
-
