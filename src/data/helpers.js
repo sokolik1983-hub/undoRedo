@@ -34,15 +34,17 @@ export const requestReady = async ({ id, dispatch }) => {
     if (response.data.result === 0 && response.data.errors) {
       response.data.errors.forEach(item => {
         // eslint-disable-next-line camelcase
-        const { err_text, err_recommend, err_reason } = item;
-        dispatch(
-          notificationShown({
-            message: err_text,
-            messageType: 'error',
-            reason: err_reason,
-            advice: err_recommend
-          })
-        );
+        const { errText, errRecommend, errReason, isVisible } = item;
+        if (isVisible !== 0) {
+          dispatch(
+            notificationShown({
+              message: errText,
+              messageType: 'error',
+              reason: errReason,
+              advice: errRecommend
+            })
+          );
+        }
         // err_category: 1
         // err_code: "040.00001"
         // err_group: "Центральный"
