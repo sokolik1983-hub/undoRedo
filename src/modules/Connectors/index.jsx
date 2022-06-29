@@ -174,6 +174,7 @@ function Connectors() {
     setshowTestFailed(false);
     setIsActive(!isActive);
     newConnector.header.parent_id = folderId;
+    newConnector.data.fields[2].value = newConnector.data.fields[2].value.toUpperCase();
     setHeaderAndDescription();
     dispatch(testConnector({ data: newConnector.data }));
   };
@@ -239,6 +240,7 @@ function Connectors() {
   const addConnector = event => {
     event.preventDefault();
     newConnector.header.parent_id = folderId;
+    newConnector.data.fields[2].value = newConnector.data.fields[2].value.toUpperCase();
     setHeaderAndDescription();
     dispatch(saveConnector(newConnector));
     closeConnectorModalHandler();
