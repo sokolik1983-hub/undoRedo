@@ -13,6 +13,7 @@ import TabPane from '../../../common/components/Tabs/TabPane/TabPane';
 import TablesPane from './TablesPane/TablesPane';
 import ObjectsPane from './ObjectsPane/ObjectsPane';
 import SideBarTabContent from './SideBarTabContent/SideBarTabContent';
+import { EMPTY_STRING } from '../../../common/constants/common';
 
 const Sidebar = ({ onSelect }) => {
   const { selectedTables, coloredValue, dataList } = useSelector(
@@ -24,10 +25,13 @@ const Sidebar = ({ onSelect }) => {
   const [showingDataList, setShowingDataList] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [selectedSchemes, setSelectedSchemes] = useState([]);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(EMPTY_STRING);
+  const [searchMod, setSearchMod] = useState(false);
+  const [searchObjValue, setSearchObjValue] = useState(EMPTY_STRING);
+  // eslint-disable-next-line no-unused-vars
   const [tables, setTables] = useState(selectedTables);
-  const [selectObjectLayer, setSelectObjectLayer] = useState('');
-  const [filterObjectsMode, setFilterObjectMode] = useState(null);
+  const [selectObjectLayer, setSelectObjectLayer] = useState(EMPTY_STRING);
+  const [filterObjectModes, setFilterObjectModes] = useState([]);
 
   const connectorObjects = useSelector(
     state => state.app.schemaDesigner.connectorObjects
@@ -36,12 +40,13 @@ const Sidebar = ({ onSelect }) => {
   const objectsLayers = useSelector(
     state => state.app.schemaDesigner.objectsLayerList
   );
+
   const [objectsList, setObjectsList] = useState([]);
 
   useEffect(() => {
     if (objectsLayers.length) {
       setObjectsList(objectsLayers);
-      setFilterObjectMode(null);
+      setFilterObjectModes([]);
     }
   }, [objectsLayers]);
 
@@ -103,12 +108,21 @@ const Sidebar = ({ onSelect }) => {
     }
   };
 
+  // const searchObject = event => {
+  //   if (event.key === 'Enter' && searchValue.length) {
+  //     const result = JSON.parse(
+  //       JSON.stringify(
+  //         objectsLayers.filter(object =>
+  //           object.name.toUpperCase().includes(searchValue.toUpperCase())
+  //         )
+  //       )
+  //     );
   const searchObject = event => {
-    if (event.key === 'Enter' && searchValue.length) {
+    if (event.key === 'Enter' && searchObjValue.length) {
       const result = JSON.parse(
         JSON.stringify(
           objectsLayers.filter(object =>
-            object.name.toUpperCase().includes(searchValue.toUpperCase())
+            object.name.toUpperCase().includes(searchObjValue.toUpperCase())
           )
         )
       );

@@ -1,3 +1,6 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable prefer-const */
+/* eslint-disable guard-for-in */
 /* eslint-disable consistent-return */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-unused-vars */
@@ -11,19 +14,18 @@ import React, {
   useReducer,
   useState
 } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import MapIcon from '@material-ui/icons/Map';
 import SearchIcon from '@material-ui/icons/Search';
-import IconButton from '../../../common/components/IconButton'
+import IconButton from '../../../common/components/IconButton';
 import Tooltip from '../../../common/components/Tooltip/index';
 import { ReactComponent as Plus } from '../../../layout/assets/reportDesigner/plus.svg';
 import { ReactComponent as Minus } from '../../../layout/assets/reportDesigner/minus.svg';
 import styles from './SchemaTables.module.scss';
-
 import { SymanticLayerContextProvider, SymanticLayerContext } from './context';
 
 // import {
@@ -41,9 +43,15 @@ import Minimap from './Minimap';
 // import SearchDialog from './SearchDialog';
 import Vector from './vector';
 import { getTableIdFromParams } from '../../../data/helpers';
+import { setObjectsConnectionsModal } from '../../../data/actions/universes';
 
 const Provided = props => {
   const [lastUpdTime, forceUpdate] = useReducer(() => new Date(), 0);
+  // const tablesPosition = useSelector(
+  //   state => state.app.schemaDesigner.tablesRefCoord
+  // );
+  const dispatch = useDispatch();
+  const [addCord, setAddCoord] = useState(0);
 
   // const saveUserData = {};
   // const userData = {};
@@ -72,7 +80,7 @@ const Provided = props => {
       SET_POSITION,
       SET_SEARCH_POPUP_VISIBLE
     },
-    { getRefs, getTablePosition }
+    { getRefs, getTablePosition, posToCoord }
   ] = useContext(SymanticLayerContext);
   const classes = useStyles();
 
@@ -94,7 +102,6 @@ const Provided = props => {
         tp.deltaPosition.y + tableRect.height / 2 / mul
       );
 
-      // console.log('reposition', focusedItem, table, tp, tableRect, '->', position)
       SET_POSITION(position);
     }
   }, [focusedItem]);
@@ -158,10 +165,9 @@ const Provided = props => {
     }
   }, [props.tablesPosition]);
 
-  useMemo(() => {
+  useEffect(() => {
     if (props.tables) {
       setTables(props.tables);
-
       lodash.keys(props.tablesPosition).forEach(key => {
         if (
           !lodash.find(
@@ -220,7 +226,8 @@ const Provided = props => {
   );
 
   const targetRect = (table, field) => {
-    const tp = getTablePosition(getTableId(table)) || {
+    const tableName = getTableIdFromParams({ ...table, connect_id: 4 });
+    const tp = getTablePosition(tableName) || {
       deltaPosition: { x: 0, y: 0 }
     };
     const tr = getRefs(getTableIdFromParams({ ...table, connect_id: 4 }));
@@ -242,11 +249,10 @@ const Provided = props => {
       rect = headerRect || tableRect;
       port = tr.headerRef || tr.tableRef;
     }
-
     if (
       tableRect &&
       rect &&
-      (rect.y < tableRect.y || rect.y > tableRect.y + tableRect.height)
+      (rect.y <= tableRect.y || rect.y > tableRect.y + tableRect.height - 30)
     ) {
       port = tr.headerRef;
       rect = port.current && port.current.getBoundingClientRect();
@@ -260,6 +266,7 @@ const Provided = props => {
       port.current.clientWidth,
       port.current.clientHeight
     ];
+
     const x =
       ((rect.x - tableRect.x) * height) / rect.height + tp.deltaPosition.x;
     const y =
@@ -275,6 +282,13 @@ const Provided = props => {
       },
       tableRect
     };
+  };
+
+  const handleEdit = id => {
+    const result = props.objectsLinks.filter(l => {
+      return l.id === id;
+    });
+    dispatch(setObjectsConnectionsModal(true, ...result));
   };
 
   const renderContent = ({ isShadow = false } = {}) => {
@@ -306,14 +320,12 @@ const Provided = props => {
         {Object.keys(tables).length &&
           props.objectsLinks?.map(link => {
             const SourceRect = targetRect(
-              // link.object1.object,
               Object.values(tables)?.find(
                 table => table.id === link.object1.table_id
               ),
-              !isShadow && link.object1.fields[0]
+              !isShadow && link.object2.fields[0]
             );
             const TargetRect = targetRect(
-              // link.object2.object,
               Object.values(tables)?.find(
                 table => table.id === link.object2.table_id
               ),
@@ -325,13 +337,12 @@ const Provided = props => {
                 link={link}
                 TargetRect={TargetRect}
                 SourceRect={SourceRect}
-                handleEdit={props.handleEdit}
-                onShowLinkEdit={props.onShowLinkEdit}
-                key={link}
-                // isLoop={
-                //   getTableId(link.object1.object) ===
-                //   getTableId(link.object2.object)
-                // }
+                handleEdit={handleEdit}
+                key={`${getTableId(link.object1)}-${getTableId(
+                  link.object2
+                )}${Math.random()}}`}
+                // isLoop={getTableId(link.object1) === getTableId(link.object2)}
+                // onCreateSynonym={props.onCreateSynonym}
                 isLoop={
                   getTableId(
                     Object.values(tables)?.find(
@@ -344,8 +355,6 @@ const Provided = props => {
                     )
                   )
                 }
-                // isLoop={false}
-                // onCreateSynonym={props.onCreateSynonym}
               />
             );
           })}
