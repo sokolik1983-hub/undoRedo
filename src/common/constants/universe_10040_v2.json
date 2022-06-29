@@ -51,6 +51,10 @@
 						"dataType": "Number"
 					},
 					{
+						"field": "egr_id",
+						"dataType": "Number"
+					},
+					{
 						"field": "company_name",
 						"dataType": "String"
 					},

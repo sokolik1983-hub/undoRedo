@@ -40,7 +40,7 @@ export default {
     return props;
   },
 
-  posToCoord: ({ state }, event) => {
+  posToCoord: ({state},  event) => {
     const container = state.workAreaRef.current;
 
     const presub = (container && container.getBoundingClientRect()) || {

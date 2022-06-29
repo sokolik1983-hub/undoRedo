@@ -30,7 +30,10 @@ const schemaDesigner = createSlice({
     connectorId: 4, // demo data
     selectedTables: [],
     connectorObjects: [],
+    // selectedTables: {},
+    selectedTablesArray: [],
     selectedTablesData: [],
+    tablesRefCoord: [],
     showDataList: false,
     dataList: [],
     links: [],
@@ -65,8 +68,14 @@ const schemaDesigner = createSlice({
     setSelectedTables: (state, action) => {
       state.selectedTables = { ...state.selectedTables, ...action.payload };
     },
+    setSelectedTablesArray: (state, action) => {
+      state.selectedTablesArray = [...state.selectedTablesArray, {...action.payload}]
+    },
     setSelectedTablesFiltered: (state, action) => {
       state.selectedTables = action.payload
+    },
+    addCoordToTables: (state, action) => {
+      state.tablesRefCoord = [...state.tablesRefCoord, action.payload];
     },
     setSelectedTablesData: (state, action) => {
       state.selectedTablesData = {
@@ -141,6 +150,7 @@ export const {
   setConnectorObjects,
   setConnectorData,
   setSelectedTables,
+  setSelectedTablesArray,
   setSelectedTablesData,
   addLink,
   setLinks,
@@ -150,6 +160,7 @@ export const {
   deleteObjectLayer,
   setLinksFiltered,
   setContexts,
+  addCoordToTables,
   unsetTablePreviewData,
   setSelectedTablesFiltered,
   setColoredValue,
