@@ -116,57 +116,6 @@ function Connectors() {
   const [showTestOk, setshowTestOk] = useState(false);
   const [showTestFailed, setshowTestFailed] = useState(false);
 
-  const testMockData = {
-    data: {
-      class_id: 'db',
-      fields: [
-        {
-          fieldKey: 'SERVER',
-          fieldName: 'Имя или IP сервера',
-          required: true,
-          type: 'string',
-          value: '192.168.4.148'
-        },
-        {
-          fieldKey: 'PORT',
-          fieldName: 'Порт',
-          required: true,
-          type: 'number',
-          value: 5432
-        },
-        {
-          fieldKey: 'DATABASE',
-          fieldName: 'Название Базы, SID, Имя сервиса',
-          required: true,
-          type: 'string',
-          value: 'TA'
-        },
-        {
-          fieldKey: 'UID',
-          fieldName: 'Логин',
-          required: true,
-          type: 'string',
-          value: 'test_usr'
-        },
-        {
-          fieldKey: 'PWD',
-          fieldName: 'Пароль',
-          required: true,
-          type: 'string',
-          value: '1'
-        },
-        {
-          fieldKey: 'external',
-          fieldName: 'Дополнительные параметры',
-          required: false,
-          type: 'string',
-          value: null
-        }
-      ],
-      type_id: 'db-pg'
-    }
-  };
-
   const createConnectorForm = document.getElementById('createConnectorForm');
 
   const testConnection = e => {
