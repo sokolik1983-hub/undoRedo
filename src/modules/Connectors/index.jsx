@@ -198,8 +198,8 @@ function Connectors() {
     event.preventDefault();
     event.stopPropagation();
     newConnector.header.parent_id = folderId;
-    if (newConnector?.data?.fields[2]) {
-      newConnector.data.fields[2].value = newConnector.data.fields[2].value.toUpperCase();
+    if (newConnector?.data?.fields[2]?.value) {
+      newConnector.data.fields[2].value = newConnector?.data?.fields[2]?.value.toUpperCase();
     }
     setHeaderAndDescription();
     dispatch(saveConnector(newConnector));
