@@ -1,0 +1,51 @@
+.groupsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.groupItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ddecf1;
+  border: 1px solid black;
+  border-radius: 8px;
+  margin: 10px 0;
+  padding: 7px;
+}
+
+.listInput {
+  min-width: 100px;
+}
+
+.itemHeader {
+  display: flex;
+  flex-direction: column;
+}
+
+.itemDescription {
+  font-size: 10px
+}
+
+.itemName {
+  font-size: 14px;
+}
+
+.groupName {
+
+}
+
+
+// Убирает стрелки у инпутов
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
