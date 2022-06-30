@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import { createSlice } from '@reduxjs/toolkit';
 
 const data = createSlice({
@@ -63,6 +64,16 @@ const data = createSlice({
     },
     setQueryPanelSymlayersData: (state, action) => {
       const {payload} = action;
+      console.log(payload);
+
+      const rootFolder = payload
+        .map(i => i.objectType === "Folder" ? {...i, children: []} : i)
+        .map((item, idx, data) => {
+          const parent = data.find(i => item.parent_id === i.id);
+          if(parent) parent.children.push(item);
+          return item;
+        })[0]
+      console.log(rootFolder)
 
       let index = 1;
 
@@ -75,13 +86,21 @@ const data = createSlice({
       getIndex(index);
 
       state.queryPanelSymlayersData.data.push({
-        symLayerData: payload.data.structure[0],
-        symLayerName: payload.name,
-        symlayer_id: payload.symlayer_id,
+        symLayerData: rootFolder,
+        symLayerName: rootFolder.name,
+        symlayer_id: rootFolder.id,
         objects: [],
         filters: null,
         queryTitle: `Новый запрос (${index})`,
       })
+      // state.queryPanelSymlayersData.data.push({
+      //   symLayerData: payload.data.structure[0],
+      //   symLayerName: payload.name,
+      //   symlayer_id: payload.symlayer_id,
+      //   objects: [],
+      //   filters: null,
+      //   queryTitle: `Новый запрос (${index})`,
+      // })
     },
     setCurrentQueryPanelSymlayer: (state, action) => {
       state.queryPanelSymlayersData.currentLayerTitle = action.payload;

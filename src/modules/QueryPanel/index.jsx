@@ -8,6 +8,7 @@ import {
   createQuery,
   getQueryPanelSymanticLayerData,
   getUniverses,
+  getUniversesLocal,
   setConfirmModal,
   setQueryPanelModal
 } from '../../data/actions/universes';
@@ -28,8 +29,9 @@ import { TOAST_TYPE } from '../../common/constants/common';
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
-  const [semanticLayerModalOpened, setSemanticLayerModalOpened] =
-    useState(false);
+  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(
+    false
+  );
   const [isQueryExecute, setQueryExecute] = useState(false);
   const [isChanged, setIsChanged] = useState(false);
   const [isSqlPopupOpened, setSqlPopupOpened] = useState(false);
@@ -38,14 +40,16 @@ const QueryPanel = ({ visible }) => {
   const [filters, setFilters] = useState([]);
   const [errorText, setError] = useState('');
 
-  const symLayerData = useSelector((state) => state.app?.data?.symLayersData);
+  const symLayerData = useSelector(state => state.app?.data?.symLayersData);
 
   const confirmModalOpened = useSelector(
-    (state) => state.app.ui.confirmModalVisible
+    state => state.app.ui.confirmModalVisible
   );
 
   useEffect(() => {
     dispatch(getUniverses());
+
+    dispatch(getUniversesLocal());
   }, []);
 
   const handleClose = () => {
@@ -78,13 +82,13 @@ const QueryPanel = ({ visible }) => {
     return setSemanticLayerModalOpened(false);
   };
 
-  const onSelectSemanticLayer = (symLayer) => {
+  const onSelectSemanticLayer = symLayer => {
     dispatch(getQueryPanelSymanticLayerData(symLayer.id));
     setSemanticLayerModalOpened(false);
     setIsChanged(true);
   };
 
-  const handleQueryText = (text) => {
+  const handleQueryText = text => {
     setQueryText(text);
   };
 
@@ -99,7 +103,7 @@ const QueryPanel = ({ visible }) => {
       dispatch(
         createQuery({
           symlayer_id: symLayerData.symlayer_id,
-          data: objects.map((item) => `${item.parent_folder}.${item.field}`),
+          data: objects.map(item => `${item.parent_folder}.${item.field}`),
           conditions: filters ? getCondition([filters]) : {}
         })
       );
@@ -127,7 +131,7 @@ const QueryPanel = ({ visible }) => {
         <DragNDropProvider>
           <div className={styles.content}>
             <div className={styles.leftPanel}>
-              <ObjectsPanel modalOpenHandler={handleShowSelector} showHeader />
+              <ObjectsPanel modalOpenHandler={handleShowSelector} />
             </div>
             <div className={styles.rightPanel}>
               <Objects className={styles.section} />

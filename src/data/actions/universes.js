@@ -3,6 +3,12 @@ import { request } from '../helpers';
 import { setQueryData, setSymanticLayerData, setUniverses, setSymanticLayerQueryResult, setQueryResult, setListReports, setQueryPanelSymlayersData, setUniversesFolderId, setReportsFolderId } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
 import { showObjectsConnectionsModal, closeModal, showQueryPanelModal, showSemanticLayerModal, showTablePreviewModal, showCreateObjectModal, closeCreateObjectModal,showEditObjectModal, closeEditObjectModal, showConfirmModal, closeConfirmModal } from '../reducers/ui';
+import symLayerPanelUniverse from '../../common/constants/symLayerPanelUniverse.json'
+
+export const getUniversesLocal = () => async dispatch => {
+  const response = await Promise.resolve(JSON.parse(JSON.stringify(symLayerPanelUniverse)));
+  dispatch(setQueryPanelSymlayersData(response.qpData.objects));
+}
 
 export const getUniverses = queryParams => {
   return async dispatch => {

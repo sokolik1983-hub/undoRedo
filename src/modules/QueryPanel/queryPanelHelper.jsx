@@ -35,7 +35,7 @@ export const getIconByItemType = key => {
       return <GaugeIcon />;
     case 'Measure':
       return <MeasurementIcon />;
-    case 3:
+    case 'Filter':
       return <AttributeIcon />;
     default:
       return null;
