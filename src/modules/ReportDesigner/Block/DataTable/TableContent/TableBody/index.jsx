@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setFormattingElement } from '../../../../../../data/reducers/new_reportDesigner';
-import Cell from '../../../Cell';
+import Cell from '../../../TableCell';
 
 import { getZoneData } from '../helpers';
 import { LoadingRow, renderRow, getStyleFn } from '../../helpers';
@@ -72,6 +72,7 @@ const TableBody = ({
         headerField && (
           <th onClick={() => handleClick(headerField)}>
             <Cell
+              tableType={tableType}
               displayMode={displayMode}
               blockStyles={headerField.styles}
               structureItem={headerField}
@@ -93,6 +94,7 @@ const TableBody = ({
         footerField && (
           <td onClick={() => handleClick(footerField)}>
             <Cell
+              tableType={tableType}
               displayMode={displayMode}
               blockStyles={footerField.styles}
               structureItem={footerField}
@@ -116,6 +118,7 @@ const TableBody = ({
               {tableType === 'hTable' ? renderHTableHeader(item.col) : null}
               <td onClick={() => handleClick(item)}>
                 <Cell
+                  tableType={tableType}
                   displayMode={displayMode}
                   blockStyles={item.style}
                   structureItem={item}
@@ -141,6 +144,7 @@ const TableBody = ({
             return (
               <td key={item.id} onClick={() => handleClick(item)}>
                 <Cell
+                  tableType={tableType}
                   displayMode={displayMode}
                   blockStyles={item.style}
                   structureItem={item}
@@ -170,6 +174,7 @@ const TableBody = ({
           return (
             <th key={item.id} onClick={() => handleClick(item)}>
               <Cell
+                tableType={tableType}
                 displayMode={displayMode}
                 blockStyles={item.style}
                 structureItem={item}
@@ -183,6 +188,7 @@ const TableBody = ({
         return (
           <td key={item.id} onClick={() => handleClick(item)}>
             <Cell
+              tableType={tableType}
               displayMode={displayMode}
               blockStyles={item.style}
               structureItem={item}
@@ -204,7 +210,7 @@ const TableBody = ({
       key => key[key.length - 1] === 'B'
     );
 
-    if(!zoneData || !zoneData[bodyKey]) return LoadingRow
+    if (!zoneData || !zoneData[bodyKey]) return LoadingRow;
     return zoneData?.[bodyKey]?.map(item => {
       return (
         <tr key={item} data="data-row">
@@ -297,11 +303,7 @@ const TableBody = ({
     }
   };
 
-  return (
-    <tbody>
-      {displayMode === 'Data' ? renderData() : renderCells()}
-    </tbody>
-  );
+  return <tbody>{displayMode === 'Data' ? renderData() : renderCells()}</tbody>;
 };
 
 export default TableBody;

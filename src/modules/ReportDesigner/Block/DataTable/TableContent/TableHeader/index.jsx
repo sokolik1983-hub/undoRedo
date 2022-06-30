@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getElementData } from '../../../../../../data/actions/newReportDesigner';
 import { setFormattingElement } from '../../../../../../data/reducers/new_reportDesigner';
-import Cell from '../../../Cell';
+import Cell from '../../../TableCell';
 import styles from './TableHeader.module.scss';
 import {getZoneData, selectCell} from '../helpers'
 import { LoadingRow, renderRow, getStyleFn } from '../../helpers';
@@ -107,6 +107,7 @@ const TableHeader = ({
             return (
               <th key={item.id} onClick={() => handleClick(item)}>
                 <Cell
+                  tableType={tableType}
                   displayMode={displayMode}
                   blockStyles={item.style}
                   structureItem={item}
@@ -130,6 +131,7 @@ const TableHeader = ({
             return (
               <th key={item.id} onClick={() => handleClick(item)}>
                 <Cell
+                  tableType={tableType}
                   displayMode={displayMode}
                   blockStyles={item.style}
                   structureItem={item}

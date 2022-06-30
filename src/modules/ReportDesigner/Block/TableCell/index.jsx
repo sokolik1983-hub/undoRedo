@@ -11,7 +11,7 @@ import {
 } from '../../../../data/reducers/new_reportDesigner';
 import { setReportStructure } from '../../../../data/actions/newReportDesigner';
 
-import * as dropHelpers from './helpers';
+import modify from './helpers';
 
 const Cell = ({
   id,
@@ -20,6 +20,7 @@ const Cell = ({
   displayMode = 'Structure',
   selected = false,
   independent = false,
+  tableType,
   originalItem = {}
 }) => {
   const dispatch = useDispatch();
@@ -84,18 +85,49 @@ const Cell = ({
 
     const structure = cloneDeep(currentReport);
 
-    const mapper = {
-      before: dropHelpers.handleAddBefore,
-      after: dropHelpers.handleAddAfter,
-      center: dropHelpers.handleReplace,
-      above: dropHelpers.handleAddAbove,
-      below: dropHelpers.handleAddBelow
+    const vTable = {
+      before: modify({addIndexCoeff: 0, axis: 'x', needReplace: false}),
+      after: modify({addIndexCoeff: 1, axis: 'x', needReplace: false}),
+      center: modify({addIndexCoeff: 0, axis: 'x', needReplace: true}),
+      // to do
+      above: modify({addIndexCoeff: 0, axis: 'y', needReplace: false}),
+      below: modify({addIndexCoeff: 1, axis: 'y', needReplace: false}),
+      // end to do
     };
-    const { type, dataType, formula, parsedFormula, id, name } = payload
-    const modified = mapper[position]({
+
+    const hTable = {
+      // to do
+      before: modify({addIndexCoeff: 0, axis: 'x', needReplace: false}),
+      after: modify({addIndexCoeff: 1, axis: 'x', needReplace: false}),
+      // end to do
+      center:  modify({addIndexCoeff: 0, axis: 'y', needReplace: true}),
+      above: modify({addIndexCoeff: 0, axis: 'y', needReplace: false}),
+      below: modify({addIndexCoeff: 1, axis: 'y', needReplace: false}),
+    };
+
+    const xTable = {
+      // to do
+      before: modify({addIndexCoeff: 0, axis: 'x', needReplace: false}),
+      after: modify({addIndexCoeff: 1, axis: 'x', needReplace: false}),
+      center: modify({addIndexCoeff: 0, axis: 'x', needReplace: true}),
+
+      above: modify({addIndexCoeff: -1, axis: 'y', needReplace: false}),
+      below: modify({addIndexCoeff: 1, axis: 'y', needReplace: false}),
+      // end to do
+    };
+
+    const mapper = {
+      vTable,
+      hTable,
+      xTable
+    };
+
+    const { type, dataType, formula, parsedFormula, id, name } = payload;
+    console.log(tableType, position)
+    const modified = mapper[tableType][position]({
       structure,
       target,
-      payload: {type, dataType, formula, parsedFormula, variable_id:id, name }
+      payload: { type, dataType, formula, parsedFormula, variable_id: id, name }
     });
 
     dispatch(
@@ -181,8 +213,28 @@ const Cell = ({
           }}
         />
       </div>
-      
-
+      <div
+        style={{
+          position: 'absolute',
+          left: '0px',
+          bottom: '0px',
+          width: '100%',
+          height: '10px'
+        }}
+        onDragEnter={e => handleDragEnter(e, 'bottom')}
+        onDragOver={handleDragOver}
+        onDrop={e => handleDrop(e, 'before')}
+      >
+        <div
+          onDragLeave={handleDragLeave}
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(124,124,255,0.5)',
+            visibility: dragStatus.bottom ? 'visible' : 'hidden'
+          }}
+        />
+      </div>
       <div
         style={{
           position: 'absolute',

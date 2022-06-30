@@ -11,9 +11,9 @@ export const getStreamReceiever = queryParams => {
       dispatch
     });
     if (response) {
-
-      if (response.result === true) {
-        localStorage.setItem('streamreceiver', response.thread);
+      console.log(response)
+      if (response.result === 1) {
+        localStorage.setItem('streamreceiver', response.header.thread);
 
       }
 

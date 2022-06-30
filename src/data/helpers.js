@@ -268,7 +268,7 @@ export const deepObjectSearch = ({
   for (let i = 0; i < keys.length; i++) {
     const objectKey = keys[i];
 
-    if (typeof target[objectKey] === 'object') {
+    if (target[objectKey] !== null && typeof target[objectKey] === 'object') {
       result = result.concat(
         deepObjectSearch({
           target: target[objectKey],
