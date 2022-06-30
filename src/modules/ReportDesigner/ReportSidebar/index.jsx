@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
 import DragNDropProvider from '../../QueryPanel/context/DragNDropContext';
-import ObjectsPanel from '../../QueryPanel/ObjectsPanel';
+import ReportObjectsPanel from '../ReportObjectsPanel/index';
 import SidePanel from '../../../common/components/SidePanel';
 import styles from './ReportSidebar.module.scss';
 import { SIDE_PANEL_TYPES } from '../../../common/constants/common';
@@ -138,13 +138,12 @@ const ReportSidebar = ({ semanticLayer, handleShowSelector, onSelect, setTabNumb
               <div className={styles.contentData}>
                 <div className={styles.objects}>
                   <DragNDropProvider>
-                    <ObjectsPanel
+                    <ReportObjectsPanel
                       symanticLayer={semanticLayer}
                       onToggleClick={handleShowSelector}
                       onSelect={onSelect}
                       isActiveNode={isActiveNode}
                       showHeader={false}
-                      report
                     />
                   </DragNDropProvider>
                 </div>
