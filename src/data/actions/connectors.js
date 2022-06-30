@@ -1,5 +1,5 @@
 import { request } from '../helpers';
-import { setCreateConnectorResult, setCreateConnector, setConnectorSource, setConnectorData, setConnectors, setConnectorsFolderId, setConnectorsTypes } from '../reducers/data';
+import { setCreateConnectorResult, setCreateConnector, setConnectorSource, setConnectorData, setConnectors, setConnectorsFolderId, setConnectorsTypes, setTestConnector } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
 import { showEditConnectorModal } from '../reducers/ui';
 
@@ -134,5 +134,16 @@ export const getConnectorTypesSources = queryParams => {
     });
     dispatch(setConnectorsTypes(response?.classes));
     dispatch(setConnectorSource(response?.types));
+  };
+};
+
+export const testConnector = queryParams => {
+  return async dispatch => {
+    const response = await request({
+      code: 'CN.TEST',
+      params: queryParams,
+      dispatch
+    });
+    dispatch(setTestConnector(response));
   };
 };
