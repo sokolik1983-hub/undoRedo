@@ -28,7 +28,7 @@ import { getConnectorFolderChildren, getConnectorsFolderId, getConnector, getObj
 import { FOLDER_TYPE } from './types';
 import EditConnectorModal from './EditConnectorModal';
 import { closeEditConnectorModal, showEditConnectorModal } from '../../../data/reducers/ui';
-import { setConnectorData } from '../../../data/reducers/data';
+import { setConnectorData, setConnectorId } from '../../../data/reducers/data';
 import SemanticLayerModal from '../../Symlayers/SemanticLayerModal';
 import { createSampleUniverse } from '../../../data/actions/universes';
 
@@ -236,6 +236,7 @@ const ConnectorsList = () => {
       case 'create universe':
         setIsCreateUnvModalOpened(true); 
         setSelectedConnectorId(id);
+        dispatch(setConnectorId(id));
         break;
       default:
       console.log(action);

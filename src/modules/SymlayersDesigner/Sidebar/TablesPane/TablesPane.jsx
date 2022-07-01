@@ -14,7 +14,7 @@ const TablesPane = ({ onSelect }) => {
     state => state.app.schemaDesigner.connectorObjects
   );
 
-  if (connectorObjects?.tables?.length === 0) {
+  if (connectorObjects?.length === 0) {
  const tempTables = [
     {
         "catalog": "TA",
@@ -236,7 +236,6 @@ const TablesPane = ({ onSelect }) => {
 ]
   dispatch(setConnectorObjects(tempTables));
   }
-
   const [selectedSchemes, setSelectedSchemes] = useState([]);
 
   return (

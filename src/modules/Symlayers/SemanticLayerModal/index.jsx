@@ -49,8 +49,9 @@ const SemanticLayerModal = ({ onClick, onSave, onClose, isVisible, ...props }) =
   const unvRootFolderId = useSelector(state => state.app.data.universesFolderId);
 
   useEffect(() => {
-    if (lodash.isEmpty(unvRootFolderId))
+    if (lodash.isEmpty(unvRootFolderId)) {
       dispatch(getUniversesFolderId({folderType: 'USER_UNV'}));
+    }
   }, [unvRootFolderId]);
 
   useEffect(() => {

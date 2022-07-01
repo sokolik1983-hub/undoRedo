@@ -30,6 +30,7 @@ const schemaDesigner = createSlice({
     connectorId: 4, // demo data
     selectedTables: [],
     connectorObjects: [],
+    connectorData: {},
     // selectedTables: {},
     selectedTablesArray: [],
     selectedTablesData: [],

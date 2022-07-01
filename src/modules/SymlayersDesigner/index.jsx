@@ -11,6 +11,7 @@ import SchemaTables from './SchemaTables';
 import ObjectsConnectionEditor from './ObjectsConnectionEditor';
 import {
   getConnectorObjectsList,
+  getObjectFields,
   getObjectsList,
   getObjectsListLocal
 } from '../../data/actions/schemaDesigner';
@@ -27,6 +28,8 @@ function SymlayersDesigner() {
   const [folders, setFolders] = useState([]);
   const [objectsLinks, setObjectsLinks] = useState([]);
   const [tablesPosition, setTablesPosition] = useState({});
+
+  const connectorId = useSelector(state => state.app.data.selectedConnectorId); 
 
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.SEMANTIC));
@@ -68,6 +71,7 @@ function SymlayersDesigner() {
   );
 
   useEffect(() => {
+    console.log(selectedTablesArray)
     if (selectedTablesArray.length) {
       const tables = checked.map(table => {
         const { schema, object_name, object_type_id } = table;
@@ -83,7 +87,9 @@ function SymlayersDesigner() {
   }, [selectedTablesArray]);
 
   const handleSelectTable = (selected, event) => {
-    console.log(selected)
+    const {schema, objectName } = selected;
+    const id = connectorId;
+    dispatch(getObjectFields({id, schema, objectName}));
     if (event) {
       setChecked([...checked, selected]);
     } else {

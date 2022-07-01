@@ -163,8 +163,7 @@ const TableComponent = ({
   const contentScrollContainer = useRef();
   const dispatch = useDispatch();
 
-  const connect_id = useSelector(state => state.app.schemaDesigner.connectorId);
-
+  const connect_id = useSelector(state => state.app.data.selectedConnectorId);
   const searchMatches = item => {
     return item?.field.toLowerCase()?.includes(coloredValue.toLowerCase());
   };
@@ -172,10 +171,10 @@ const TableComponent = ({
   const searchStaticMatches = item => {
     return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase());
   };
-  console.log(tables)
-  const selectedTableColumns = tables[
-    getTableIdFromParams({ ...tableItem, connect_id: 4 })
-  ]?.columns.map(item => {
+  console.log(selectedTables)
+  const selectedTableColumns = selectedTables[
+    getTableIdFromParams({...tableItem})
+  ]?.map(item => {
     return {
       ...item,
       colored: colorValue && searchStaticMatches(item)
@@ -193,6 +192,10 @@ const TableComponent = ({
   const addRefToTable = ref => {
     setTableRef(ref);
   };
+
+  useEffect(() => {
+    console.log(portsRefs)
+  }, [portsRefs])
 
   // eslint-disable-next-line consistent-return
   const getList = obj => {
@@ -318,7 +321,8 @@ const TableComponent = ({
 
   const handlePopupShow = () => {
     dispatch(setTablePreviewModal(true));
-    dispatch(getObjectData({ ...tableItem, connect_id }));
+    const {type, catalog, schema, objectName} = tableItem;
+    // dispatch(getObjectData({ id: connect_id, dataType: type, catalog, schema, objectName }));
     //   .then(
     //   response => {
     //     if (response && response.success) {

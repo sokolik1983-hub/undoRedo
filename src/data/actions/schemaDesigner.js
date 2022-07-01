@@ -31,49 +31,37 @@ export const getConnectorObjectsList = queryParams => {
 
 export const getObjectFields = queryParams => {
   return async dispatch => {
-    try {
       const response = await request({
-        func: 'CONNECT.GET_OBJECT_FIELDS',
+        code: 'CN.GET_OBJECT_FIELDS',
         params: queryParams, // {"schema":"TA_APP","object_name":"MR_D_OPTIONS","object_type_id":1,"connect_id":4}
         dispatch
       });
-      if (response?.success) {
+      if (response?.result) {
         dispatch(
           setSelectedTables({
-            [getTableIdFromParams(queryParams)]: response.result
+            [getTableIdFromParams(queryParams)]: response.data
           })
         );        
         dispatch(
           setSelectedTablesArray({
             name: getTableIdFromParams(queryParams),
-            fields: response.result
+            fields: response.data
           })
         );
       }
-    } catch (err) {
-      dispatch(
-        notificationShown({ message: err.message, messageType: 'error' })
-      );
-    }
   };
 };
 
 export const getObjectData = queryParams => {
   return async dispatch => {
-    try {
       const response = await request({
-        func: 'CONNECT.GET_OBJECT_DATA',
+        func: 'CN.GET_OBJECT_DATA',
         params: queryParams, // {"schema":"TA_APP","object_name":"MR_D_OPTIONS","object_type_id":1,"connect_id":4}
         dispatch
       });
       if (response?.success) {
-        dispatch(setConnectorData(response.result));
+        dispatch(setConnectorData(response.description));
       }
-    } catch (err) {
-      dispatch(
-        notificationShown({ message: err.message, messageType: 'error' })
-      );
-    }
   };
 };
 
