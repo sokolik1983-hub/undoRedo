@@ -18,7 +18,7 @@ const ObjectsPane = () => {
   const [selectObjectLayer, setSelectObjectLayer] = useState(EMPTY_STRING);
 
   useEffect(() => {
-    if (objectsLayers.length) {
+    if (objectsLayers?.length) {
       setObjectsList(objectsLayers);
       setFilterObjectMode(null);
     }

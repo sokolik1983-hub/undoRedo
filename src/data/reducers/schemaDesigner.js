@@ -48,7 +48,11 @@ const schemaDesigner = createSlice({
     coloredValue: '',
     semantycLayerName: null,
 
-    newData: null
+    newData: {
+      data: {
+        objects: []
+      }
+    }
   },
   reducers: {
     setIsLoading: (state, action) => {
@@ -70,10 +74,13 @@ const schemaDesigner = createSlice({
       state.selectedTables = { ...state.selectedTables, ...action.payload };
     },
     setSelectedTablesArray: (state, action) => {
-      state.selectedTablesArray = [...state.selectedTablesArray, {...action.payload}]
+      state.selectedTablesArray = [
+        ...state.selectedTablesArray,
+        { ...action.payload }
+      ];
     },
     setSelectedTablesFiltered: (state, action) => {
-      state.selectedTables = action.payload
+      state.selectedTables = action.payload;
     },
     addCoordToTables: (state, action) => {
       state.tablesRefCoord = [...state.tablesRefCoord, action.payload];
@@ -98,21 +105,26 @@ const schemaDesigner = createSlice({
         return link;
       });
     },
-    setLinksFiltered:  (state, action) => { 
+    setLinksFiltered: (state, action) => {
       state.links = action.payload;
     },
     addObjectLayer: (state, action) => {
       state.objectsLayerList = [...state.objectsLayerList, action.payload];
-      state.newData.data.objects = [...state.newData.data.objects, action.payload];
+      state.newData.data.objects = [
+        ...state.newData.data.objects,
+        action.payload
+      ];
     },
     deleteObjectLayer: (state, action) => {
       const id = action.payload;
-      state.objectsLayerList = state.objectsLayerList.filter(object => object.id !== id);
+      state.objectsLayerList = state.objectsLayerList.filter(
+        object => object.id !== id
+      );
     },
     setObjectLayer: (state, action) => {
       state.objectsLayerList = state.objectsLayerList.map(object => {
         if (object.id === action?.payload.id) {
-          object = action?.payload; 
+          object = action?.payload;
         }
         return object;
       });
@@ -120,27 +132,27 @@ const schemaDesigner = createSlice({
     setContexts: (state, action) => {
       state.contexts = [...state.contexts, ...action.payload];
     },
-    unsetTablePreviewData: (state) => {
+    unsetTablePreviewData: state => {
       state.connectorData = null;
     },
     setColoredValue: (state, action) => {
-      state.coloredValue = action.payload
+      state.coloredValue = action.payload;
     },
     setDataList: (state, action) => {
       state.dataList = action.payload;
     },
-    clearDataList: (state) => {
-      state.dataList = []
+    clearDataList: state => {
+      state.dataList = [];
     },
     setShowDataList: state => {
       state.showDataList = !state.showDataList;
     },
     setSemantycLayerName: (state, action) => {
-      state.semantycLayerName = action.payload
+      state.semantycLayerName = action.payload;
     },
     setSchemaDesigner: (state, action) => {
-      state.newData = {...action.payload.default};
-    },
+      state.newData = { ...action.payload.default };
+    }
   }
 });
 
