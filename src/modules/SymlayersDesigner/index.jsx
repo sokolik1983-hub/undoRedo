@@ -32,25 +32,25 @@ function SymlayersDesigner() {
     dispatch(setCurrentPage(PAGE.SEMANTIC));
     // dispatch(getConnectorObjectsList({ connect_id: 4 }));
 
-    dispatch(getObjectsList());
+    // dispatch(getObjectsList());
 
-    getObjectsListLocal().then(response => {
-      const { data } = response.default;
+    // getObjectsListLocal().then(response => {
+    //   const { data } = response.default;
 
-      setObjectsLinks(data.links || []);
-      setChecked(data.tables || []);
-      setTablesPosition(
-        data.tables.reduce(
-          (result, table) => ({
-            ...result,
-            [getTableIdFromParams({ ...table, connect_id: 4 })]: {
-              deltaPosition: table.position
-            }
-          }),
-          {}
-        ) || {}
-      );
-    });
+    //   setObjectsLinks(data.links || []);
+    //   setChecked(data.tables || []);
+    //   setTablesPosition(
+    //     data.tables.reduce(
+    //       (result, table) => ({
+    //         ...result,
+    //         [getTableIdFromParams({ ...table, connect_id: 4 })]: {
+    //           deltaPosition: table.position
+    //         }
+    //       }),
+    //       {}
+    //     ) || {}
+    //   );
+    // });
   }, []);
 
   const isObjectsConnectionsModalOpened = useSelector(

@@ -9,8 +9,9 @@ import styles from './TablesPane.module.scss';
 
 const TablesPane = ({ onSelect }) => {
   const connectorObjects = useSelector(
-    state => state.app.schemaDesigner.connectorObjects
+    state => state.app.data.connectorObjects
   );
+  console.log(connectorObjects)
   const [selectedSchemes, setSelectedSchemes] = useState([]);
 
   return (
@@ -22,7 +23,7 @@ const TablesPane = ({ onSelect }) => {
         <span>Owner</span>
       </div>
       <HierTreeView
-        data={selectedSchemes.length ? selectedSchemes : connectorObjects}
+        data={selectedSchemes.length ? selectedSchemes : connectorObjects.tables}
         onSelect={onSelect}
         isOpen={!!selectedSchemes?.length}
       />

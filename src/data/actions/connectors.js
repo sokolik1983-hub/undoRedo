@@ -1,5 +1,5 @@
 import { request } from '../helpers';
-import { setCreateConnectorResult, setCreateConnector, setConnectorSource, setConnectorData, setConnectors, setConnectorsFolderId, setConnectorsTypes } from '../reducers/data';
+import { setCreateConnectorResult, setCreateConnector, setConnectorSource, setConnectorData, setConnectors, setConnectorsFolderId, setConnectorsTypes, setConnectorObjects } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
 import { showEditConnectorModal } from '../reducers/ui';
 
@@ -94,6 +94,19 @@ export const saveConnector = queryParams => {
       dispatch(
         notificationShown({ message: err.message, messageType: 'error' })
       );
+    }
+  };
+};
+
+export const getObjectFromConnector = queryParams => {
+  return async dispatch => {
+    const response = await request({
+      code: 'CN.GET_OBJECTS',
+      params: queryParams,
+      dispatch
+    });
+    if (response?.result) {
+      dispatch(setConnectorObjects({tables: response.data, result: response.result}));
     }
   };
 };

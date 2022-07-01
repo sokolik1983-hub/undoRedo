@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { request } from '../helpers';
-import { setQueryData, setSymanticLayerData, setUniverses, setSymanticLayerQueryResult, setQueryResult, setListReports, setQueryPanelSymlayersData, setUniversesFolderId, setReportsFolderId } from '../reducers/data';
+import { setQueryData, setSymanticLayerData, setUniverses, setSymanticLayerQueryResult, setQueryResult, setListReports, setQueryPanelSymlayersData, setUniversesFolderId, setReportsFolderId, setSampleUniverseObject, setUniverseIsCreated } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
 import { showObjectsConnectionsModal, closeModal, showQueryPanelModal, showSemanticLayerModal, showTablePreviewModal, showCreateObjectModal, closeCreateObjectModal,showEditObjectModal, closeEditObjectModal, showConfirmModal, closeConfirmModal } from '../reducers/ui';
 
@@ -57,6 +57,38 @@ export const getUniversesFolderId = queryParams => {
       dispatch(
         notificationShown({ message: err.message, messageType: 'error' })
       );
+    }
+  }
+}
+
+export const createSampleUniverse = queryParams => {
+  return async dispatch => {
+    try {
+      const response = await request({
+        code: 'UNV.CREATE',
+        params: queryParams,
+        dispatch
+      });
+      if (response?.result) {
+        dispatch(setSampleUniverseObject({header: response.header, data: response.data}));
+      }
+    } catch (err) {
+      dispatch(
+        notificationShown({ message: err.message, messageType: 'error' })
+      );
+    }
+  }
+}
+
+export const createUniverse = queryParams => {
+  return async dispatch => {
+    const response = await request({
+      code: 'UNV.SAVE',
+      params: queryParams,
+      dispatch
+    });
+    if (response?.result) {
+      dispatch(setUniverseIsCreated(true));
     }
   }
 }

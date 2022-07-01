@@ -9,15 +9,16 @@ import ObjectsPanel from '../../QueryPanel/ObjectsPanel';
 import SidePanel from '../../../common/components/SidePanel';
 import styles from './Sidebar.module.scss';
 import { SIDE_PANEL_TYPES } from '../../../common/constants/common';
-import { getSymanticLayerData } from '../../../data/actions/universes';
+// import { getSymanticLayerData } from '../../../data/actions/universes';
 
 const Sidebar = ({ semanticLayer, handleShowSelector }) => {
   const dispatch = useDispatch();
   const reportDesigner = useSelector(state => state.app.reportDesigner);
   const isShowingPanel = reportDesigner.reportsUi.ui.showConfigPanel;
+  console.log(dispatch)
 
   useEffect(() => {
-    if (semanticLayer) dispatch(getSymanticLayerData(semanticLayer.id));
+    // if (semanticLayer) dispatch(getSymanticLayerData(semanticLayer.id));
   }, [semanticLayer]);
 
   return (

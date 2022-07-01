@@ -1,7 +1,9 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
+import lodash from 'lodash';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import Modal from '../../../common/components/Modal';
 import Button from '../../../common/components/Button';
@@ -15,6 +17,8 @@ import Control from './ModalItem/Control';
 import TextFieldItem from './ModalItem/TextFieldItem';
 import { setSemantycLayerDataName } from '../../../data/actions/schemaDesigner';
 import { REDIRECT_LINKS } from '../../../common/constants/common'
+import { createUniverse, getUniversesFolderId } from '../../../data/actions/universes';
+import { setConnectorObjects, setUniverseIsCreated } from '../../../data/reducers/data';
 
 const semLayerValues = {
   name: 'Новый семантический слой 1',
@@ -27,20 +31,74 @@ const semLayerValues = {
 
 /**
  * @param onClick - функция, которая сработает, когда зароется модальное окно
+ * @param onSave - функция, которая сработает, при нажатитии кнопки Сохранить
+ * @param onClose - допольная функция, которая сработает, при закрытии окна
+ * @param isVisible - булевое значение, которое определяет видимость модального окна
  */
 
-const SemanticLayerModal = ({ onClick }) => {
+const SemanticLayerModal = ({ onClick, onSave, onClose, isVisible, ...props }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onClickAction = event => {
     onClick(event);
   };
+  const [modalData, setModalData] = useState(null);
+  const [universe, setUniverse] = useState({});
+  const sampleUnvObject = useSelector(state => state.app.data.sampleUnvObject);
+  const objectsFromConnector = useSelector(state => state.app.data.connectorObjects); 
+  const isUniverseCreated = useSelector(state => state.app.data.isUniverseCreated);  
+  const unvRootFolderId = useSelector(state => state.app.data.universesFolderId);
+
+  useEffect(() => {
+    if (lodash.isEmpty(unvRootFolderId))
+      dispatch(getUniversesFolderId({folderType: 'USER_UNV'}));
+  }, [unvRootFolderId]);
+
+  useEffect(() => {
+    if (!lodash.isEmpty(sampleUnvObject) && modalData) {
+      const unvObject = JSON.parse(JSON.stringify({...sampleUnvObject}));
+      unvObject.header.name = modalData.name;
+      unvObject.header.description = modalData.description;
+      unvObject.header.parent_id = unvRootFolderId;
+      setUniverse(unvObject);
+    }
+  }, [sampleUnvObject]);
+
+  useEffect(() => {
+    if (objectsFromConnector.result && !lodash.isEmpty(universe)) {
+      const tables = objectsFromConnector.tables.filter(object => object.type === 'TABLE');
+      const unvObjWithTables = {...universe};
+      unvObjWithTables.data.tables = tables; 
+      setUniverse(unvObjWithTables);
+    }
+  }, [objectsFromConnector]);
+
+  useEffect(() => {
+    if (objectsFromConnector.result) {
+      console.log(objectsFromConnector)
+      const {header, data} = universe;
+      dispatch(createUniverse({header, data}));
+      dispatch(setConnectorObjects({...objectsFromConnector, result: 0}));
+    }
+  }, [universe]);
+
+  useEffect(() => {
+    if (isUniverseCreated) {
+      navigate(REDIRECT_LINKS.SYMLAEYERS);
+      dispatch(setUniverseIsCreated(false));
+    }
+  }, [isUniverseCreated]);
 
   const content = (
     <Formik
       initialValues={semLayerValues}
       onSubmit={data => {
-        navigate(REDIRECT_LINKS.SYMLAEYERS)
+        if(!onSave) {
+          navigate(REDIRECT_LINKS.SYMLAEYERS)
+        } else {
+          setModalData(data);
+          onSave();
+        }
         dispatch(setSemantycLayerDataName(data.name))
       }}
     >
@@ -63,7 +121,7 @@ const SemanticLayerModal = ({ onClick }) => {
             value={values.description}
             isTextarea
           />
-          <Connect title="Cоединение" />
+          <Connect title="Cоединение" connectorName={props.connectorName} />
           {/* <Stats
               title='Статистика'
             /> */}
@@ -83,7 +141,7 @@ const SemanticLayerModal = ({ onClick }) => {
             <Button type="submit" className={styles.save}>
               Сохранить
             </Button>
-            <Button className={styles.cancel} onClick={onClickAction}>
+            <Button type="button" className={styles.cancel} onClick={onClose}>
               Отмена
             </Button>
           </div>
@@ -95,13 +153,13 @@ const SemanticLayerModal = ({ onClick }) => {
     <div>
       <Modal
         title="Создать семантический слой"
-        visible
+        visible={isVisible}
         content={content}
         withScroll={false}
         titleClassName={styles.title}
         dialogClassName={styles.dialog}
         headerClassName={styles.header}
-        onClose={onClickAction}
+        onClose={onClose || onClickAction}
       />
     </div>
   );
@@ -110,7 +168,12 @@ const SemanticLayerModal = ({ onClick }) => {
 export default SemanticLayerModal;
 
 SemanticLayerModal.propTypes = {
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  onSave: PropTypes.func,
+  onClose: PropTypes.func,
+  isVisible: PropTypes.bool,
+  connectorName: PropTypes.string,
+  connectorId: PropTypes.number,
 };
 
 SemanticLayerModal.defaultProps = {
