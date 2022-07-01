@@ -156,14 +156,6 @@ function Connectors() {
     setIsVisible(false);
     clearEnteredData();
   };
-
-  useEffect(() => {
-    if (connectType && connectSource) {
-      setConnectorFields(true);
-      getConnectorObjectFromBack();
-    }
-  }, [connectType, connectSource]);
-
   // Функция для получения объекта коннектора из бека
   const getConnectorObjectFromBack = () => {
     setShowPreloader(true);
