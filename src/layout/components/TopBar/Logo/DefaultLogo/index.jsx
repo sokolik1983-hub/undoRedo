@@ -3,6 +3,7 @@ import { ReactComponent as LogoDefault } from '../../../../assets/defaultLogo.sv
 import { ReactComponent as SemanticLogo } from '../../../../assets/semanticLogo.svg';
 import { ReactComponent as ConnectorsLogo } from '../../../../assets/connectorsLogo.svg';
 import { ReactComponent as DesignerLogo } from '../../../../assets/designerLogo.svg';
+import { ReactComponent as AdminLogo } from '../../../../assets/adminHeader.svg';
 import styles from '../Logo.module.scss';
 import { PAGE } from '../../../../../common/constants/pages';
 import { PAGE_TITLES } from '../../../../../common/constants/common';
@@ -40,6 +41,8 @@ const DefaultLogo = ({ currentPage }) => {
         return <ConnectorsLogo />;
       case PAGE.REPORT_DESIGNER:
         return <DesignerLogo />;
+      case PAGE.ADMIN:
+        return <AdminLogo />;
       default:
         return null;
     }

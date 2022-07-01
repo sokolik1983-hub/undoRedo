@@ -38,7 +38,7 @@ export const PAGE_TITLES = {
   CONNECTORS: 'Коннекторы',
   REPORTS: 'Отчеты',
   QUERY_PANEL: 'Панель запросов',
-  ADMIN: 'Администрирование'
+  ADMIN: 'Управление'
 };
 
 export const FONT_LIST = [

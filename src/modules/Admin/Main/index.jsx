@@ -8,6 +8,7 @@ import TabPane from '../../../common/components/Tabs/TabPane/TabPane';
 import Tabs from '../../../common/components/Tabs/Tabs';
 import Roles from '../Roles';
 import Users from '../Users';
+import Services from '../Services';
 
 function AdminMain() {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ function AdminMain() {
         tabsContentClass={styles.tabsContent}
       >
         <TabPane tab={isActive => tab(isActive, 'Сервисы')} idx="1">
-          Сервисы
+          <Services />
         </TabPane>
         <TabPane tab={active => tab(active, 'Роли')} idx="2">
           <Roles />
