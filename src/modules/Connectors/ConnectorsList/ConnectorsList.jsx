@@ -25,13 +25,12 @@ import styles from './ConnectorsList.module.scss';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import Tooltip from '../../../common/components/Tooltip';
 import { getConnectorFolderChildren, getConnectorsFolderId, getConnector, getObjectFromConnector } from '../../../data/actions/connectors';
-import { FOLDER_TYPE } from './types';
+import { FOLDER_TYPE, FILE_TYPE } from './types';
 import EditConnectorModal from './EditConnectorModal';
 import { closeEditConnectorModal, showEditConnectorModal } from '../../../data/reducers/ui';
 import { setConnectorData, setConnectorId } from '../../../data/reducers/data';
 import SemanticLayerModal from '../../Symlayers/SemanticLayerModal';
 import { createSampleUniverse } from '../../../data/actions/universes';
-import { FILE_TYPE } from './types';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
