@@ -58,25 +58,39 @@
   width: 100%;
 }
 
-.tabs {
+.footer {
   display: flex;
   margin-left: -1px;
+  width: 100%;
 
-  .tab {
-    margin-right: 15px;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 14px;
+  .tabs {
+    display: flex;
+    width: 88%;
+    overflow: hidden;
+    overflow-x: scroll;
 
-    &_active {
+    .tab {
+      margin-right: 15px;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 14px;
+      opacity: .5;
+      max-width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .activeTab {
+      @extend .tab;
       display: flex;
-      font-weight: 900;
+      font-weight: 700;
+      opacity: 1;
     }
   }
 }
 
-.tabsCompressed {
-  @extend .tabs;
+.footerCompressed {
+  @extend .footer;
   margin-left: 233px;
 }
 
@@ -132,4 +146,27 @@
 .formulaIcons {
   display: flex;
   margin-right: 10px;
+}
+
+.dropdownItem {
+  background: linear-gradient(199.32deg, #1ae3d7 -13.92%, #0945df 111.71%);
+  padding: 4px 4px 0 4px;
+  font-size: 11px;
+  font-weight: 700;
+
+  &:hover {
+    opacity: .8;
+  }
+}
+
+.tooltip {
+  height: 10px;
+  margin: -4px 0 2px 0;
+  font-size: 11px;
+}
+
+.addBtn {
+  margin: 12px 0 0 4px;
+  width: 0;
+  height: 0;
 }
