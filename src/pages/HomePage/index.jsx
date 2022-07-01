@@ -10,6 +10,7 @@ import { REDIRECT_LINKS } from '../../common/constants/common'
 import navigationMenu from '../../navigation';
 import { ReactComponent as ExplorerIcon } from '../../layout/assets/icons/buttonPlus.svg';
 import FloatingButton from '../../common/components/FloatingButton';
+import { getDocumentsFavorites } from '../../data/actions/newReportDesigner';
 
 const RECENTS = [
   { id: 1, title: 'Отчет 1 о проделанной работе с мая месяца текущего года' },
@@ -28,6 +29,7 @@ function HomePage() {
 
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.DASHBOARD));
+    dispatch(getDocumentsFavorites())
   }, []);
 
   const handleClick = () => {
