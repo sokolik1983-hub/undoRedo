@@ -23,15 +23,20 @@ import styles from './SymlayersList.module.scss';
 import Preloader from '../../../common/components/Preloader/Preloader';
 // import { getUniverses } from '../../../data/actions/universes';
 import Tooltip from '../../../common/components/Tooltip';
-import { getUniversesFolderChildren, getUniversesFolderId } from '../../../data/actions/universes';
+import {
+  getUniversesFolderChildren,
+  getUniversesFolderId
+} from '../../../data/actions/universes';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
   const universes = useSelector(state => state.app.data.universes);
-  const unvRootFolderId = useSelector(state => state.app.data.universesFolderId);
+  const unvRootFolderId = useSelector(
+    state => state.app.data.universesFolderId
+  );
 
   useEffect(() => {
-    dispatch(getUniversesFolderId({folderType: 'USER_UNV'}));
+    dispatch(getUniversesFolderId({ folderType: 'USER_UNV' }));
   }, []);
 
   const [foldersIdHistory, setFoldersIdHistory] = useState([]);
@@ -48,7 +53,7 @@ const ConnectorsList = () => {
   const [editListItemId, setEditListItemId] = useState();
 
   const goToRootFolder = () => {
-    dispatch(getUniversesFolderChildren({id: unvRootFolderId}));
+    dispatch(getUniversesFolderChildren({ id: unvRootFolderId }));
     setFoldersIdHistory([unvRootFolderId]);
     setFoldersNameHistory([BREADCRUMBS_ROOT]);
     setCurrentFolderIndex(0);
@@ -64,21 +69,24 @@ const ConnectorsList = () => {
     if (currentFolderIndex === 0 && unvRootFolderId) {
       goToRootFolder();
     } else if (unvRootFolderId) {
-      dispatch(getUniversesFolderChildren({id: foldersIdHistory[currentFolderIndex]}));
+      dispatch(
+        getUniversesFolderChildren({ id: foldersIdHistory[currentFolderIndex] })
+      );
     }
-  }, [currentFolderIndex])
+  }, [currentFolderIndex]);
 
   useEffect(() => {
-      if (unvRootFolderId) {
-        goToRootFolder();
-      }
-  }, [unvRootFolderId])
-
+    if (unvRootFolderId) {
+      goToRootFolder();
+    }
+  }, [unvRootFolderId]);
 
   useEffect(() => {
     setActionButtonIsDisable({
       prev: !currentFolderIndex,
-      next: currentFolderIndex === foldersIdHistory.length - 1 || currentFolderIndex === 0,
+      next:
+        currentFolderIndex === foldersIdHistory.length - 1 ||
+        currentFolderIndex === 0,
       up: !currentFolderIndex
     });
   }, [currentFolderIndex]);
@@ -94,7 +102,7 @@ const ConnectorsList = () => {
       .map(i => i)
       .slice(0, currentFolderIndex + 1)
       .join(` / `);
-  }
+  };
 
   const moveToRootFolder = () => {
     setCurrentFolderIndex(0);
@@ -172,64 +180,68 @@ const ConnectorsList = () => {
     </div>
   );
 
-  const listItemsWithDropdown = sortedItems?.filter(item => item.name !== 'Корзина').map(item => {
-    const isFolder = item.kind === 'FLD';
+  const listItemsWithDropdown = sortedItems
+    ?.filter(item => item.name !== 'Корзина')
+    .map(item => {
+      const isFolder = item.kind === 'FLD';
 
-    const currentId = isFolder ? `folder_${item.id}` : item.id;
+      const currentId = isFolder ? `folder_${item.id}` : item.id;
 
-    const menu = isFolder
-      ? getFolderDropdownItems(`folder_${item.id}`)
-      : getUniverseDropdownItems(item.id);
+      const menu = isFolder
+        ? getFolderDropdownItems(`folder_${item.id}`)
+        : getUniverseDropdownItems(item.id);
 
-    return (
-      <Fragment key={isFolder ? `folder_${item.id}` : item.id}>
-        {editListItemId === currentId ? (
-          <ListItemEdit
-            key={isFolder ? `folder_${item.id}` : item.id}
-            value={item.name || item.name}
-            // TODO: implement submit function
-            // onSubmit={onItemEditSubmit}
-            onBlur={() => setEditListItemId(null)}
-          />
-        ) : (
-          <ListItem
-            className={styles.folderItemsColumnView}
-            name={isFolder ? item.name : item.name}
-            onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
-            icon={isFolder ? <FolderIcon /> : <UniverseIcon />}
-            menu={menu}
-          />
-        )}
-      </Fragment>
-    );
-  });
+      return (
+        <Fragment key={isFolder ? `folder_${item.id}` : item.id}>
+          {editListItemId === currentId ? (
+            <ListItemEdit
+              key={isFolder ? `folder_${item.id}` : item.id}
+              value={item.name || item.name}
+              // TODO: implement submit function
+              // onSubmit={onItemEditSubmit}
+              onBlur={() => setEditListItemId(null)}
+            />
+          ) : (
+            <ListItem
+              className={styles.folderItemsColumnView}
+              name={isFolder ? item.name : item.name}
+              onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
+              icon={isFolder ? <FolderIcon /> : <UniverseIcon />}
+              menu={menu}
+            />
+          )}
+        </Fragment>
+      );
+    });
 
   const tableHeader = connectorsTableHeader.map(i => (
     <th key={i.name}>{i.name}</th>
   ));
-  const tableRows = sortedItems?.filter(item => item.name !== 'Корзина').map(item => {
-    const isFolder = item.kind === 'FLD';
+  const tableRows = sortedItems
+    ?.filter(item => item.name !== 'Корзина')
+    .map(item => {
+      const isFolder = item.kind === 'FLD';
 
-    const currentId = isFolder ? `folder_${item.id}` : item.id;
+      const currentId = isFolder ? `folder_${item.id}` : item.id;
 
-    const menu = isFolder
-      ? getFolderDropdownItems(`folder_${item.id}`)
-      : getUniverseDropdownItems(item.id);
+      const menu = isFolder
+        ? getFolderDropdownItems(`folder_${item.id}`)
+        : getUniverseDropdownItems(item.id);
 
-    return (
-      <ListTableRow
-        key={currentId}
-        onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
-        isEditMode={editListItemId === currentId}
-        onEditEnd={() => setEditListItemId(null)}
-        icon={isFolder ? <FolderIcon /> : <UniverseIcon />}
-        name={item.name}
-        menu={menu}
-        connectType={TABLE_CELL_EMPTY_VALUE}
-        symlayerCount={null}
-      />
-    );
-  });
+      return (
+        <ListTableRow
+          key={currentId}
+          onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
+          isEditMode={editListItemId === currentId}
+          onEditEnd={() => setEditListItemId(null)}
+          icon={isFolder ? <FolderIcon /> : <UniverseIcon />}
+          name={item.name}
+          menu={menu}
+          connectType={item.desc || TABLE_CELL_EMPTY_VALUE}
+          symlayerCount={null}
+        />
+      );
+    });
 
   return (
     <div className={styles.root}>
