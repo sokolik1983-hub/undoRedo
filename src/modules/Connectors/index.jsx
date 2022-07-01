@@ -131,7 +131,6 @@ function Connectors() {
         newConnector.data.fields[2].value = newConnector?.data?.fields[2]?.value.toUpperCase();
       }
       setHeaderAndDescription();
-      // newConnector = trimInputFields(newConnector);
       dispatch(testConnector({ data: newConnector.data }));
     }
   };

@@ -185,12 +185,7 @@ const ConnectorsList = () => {
   };
 
   const editConnectorModalHandler = id => {
-    // dispatch(getConnector({id}));
-    return Promise.resolve(mockObj)
-      .then(obj => {
-        dispatch(setConnectorData(obj));
-        dispatch(showEditConnectorModal());
-      });
+    dispatch(getConnector({'id' : id}));
   };
 
   const closeConnectorModalHandler = () => {

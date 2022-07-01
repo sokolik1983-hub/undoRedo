@@ -3,6 +3,12 @@
   flex-direction: column;
 }
 
+.root {
+  position: relative;
+  padding: 32px 64px;
+  height: calc(100% - 75px);
+}
+
 .createButton {
   margin: 0;
   height: max-content;
@@ -22,6 +28,13 @@
   margin-bottom: 5px;
 }
 
+.connectionTypeSection {
+  display: flex;
+  background: rgba(0, 0, 0, 0.5);
+  margin-top: 10px;
+  padding-top: 10px;
+}
+
 .selectText {
   font-style: normal;
   font-weight: 400;
@@ -32,10 +45,24 @@
   margin-left: -4px;
 }
 
+.textAreaName {
+  @extend .selectText;
+  margin-top: 0px;
+}
+
 .connectorsInput {
   margin-bottom: 10px;
   padding-left: 6px;
   font-size: 10px;
+}
+
+.textarea {
+  @extend .connectorsInput;
+  width: 100%;
+  min-height: 50px;
+  border: none;
+  outline: none;
+  resize: none;
 }
 
 .testConnectionWrapper {
@@ -67,19 +94,17 @@
 
 .connectionTypeInputsWrapper {
   padding-left: 21px;
-  padding-top: 15px;
+}
 
+.connectionTypeSelect {
+  border: none;
+  width: 100%;
+  padding-left: 6px;
+  margin: 0 0 25px 0px;
 }
 
 .testConnectionButton {
-  margin-top: 126px;
-}
-
-.connectionTypeSection {
-  display: flex;
-  background: rgba(0, 0, 0, 0.5);
-  margin-top: 10px;
-  padding-bottom: 20px;
+  margin-top: 146px;
 }
 
 .gearsIconWrapper {
@@ -95,7 +120,7 @@
   font-size: 14px;
   line-height: 16px;
   color: #ffffff;
-  margin-left:-4px;
+  margin-left: -4px;
 }
 
 .selectInput {
@@ -131,27 +156,6 @@
   align-items: center;
 }
 
-.textAreaName {
-  @extend .selectText;
-  margin-top: 0px;
-}
-
-.textarea {
-  @extend .connectorsInput;
-  width: 100%;
-  min-height: 50px;
-  border: none;
-  outline: none;
-  resize: none;
-}
-
-.gearsIconWrapper {
-  position: relative;
-  top: 40px;
-  margin-left: 85px;
-  transform: scale(1.5);
-}
-
 .testOkIcon, .showTestFailed {
   position: absolute;
   transform: scale(0.85);
@@ -159,3 +163,20 @@
   margin-top: -4px;
 }
 
+.testConnectorButton:disabled {
+pointer-events: none;
+cursor: none;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
