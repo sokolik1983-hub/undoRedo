@@ -172,7 +172,7 @@ const TableComponent = ({
   const searchStaticMatches = item => {
     return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase());
   };
-
+  console.log(tables)
   const selectedTableColumns = tables[
     getTableIdFromParams({ ...tableItem, connect_id: 4 })
   ]?.columns.map(item => {
