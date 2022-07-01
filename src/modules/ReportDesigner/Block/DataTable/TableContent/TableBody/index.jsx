@@ -22,6 +22,7 @@ const TableBody = ({
   displayMode,
   variables,
   tableType,
+  needRefresh,
   ...props
 }) => {
   const dispatch = useDispatch();
@@ -44,8 +45,17 @@ const TableBody = ({
     });
   };
 
+  const isDataEmpty = () => Object.values(zoneData).filter(item => (item && item.length > 0)).length === 0
+
+  const getRefreshStatus = () => {
+    if(isDataEmpty()) return true
+    return needRefresh
+  }
+
   useEffect(async () => {
     if (displayMode === 'Data') {
+    
+      if(getRefreshStatus() === false) return
       setZoneData({});
 
       const resetFn = key => {
@@ -60,7 +70,7 @@ const TableBody = ({
         resetFn
       });
     }
-  }, [displayMode]);
+  }, [displayMode, needRefresh]);
 
   const handleClick = item => dispatch(setFormattingElement({ item }));
 

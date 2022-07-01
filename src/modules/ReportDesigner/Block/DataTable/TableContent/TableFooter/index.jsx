@@ -17,6 +17,7 @@ const TableFooter = ({
   displayMode,
   reportData,
   tableType,
+  needRefresh,
   ...props
 }) => {
   const dispatch = useDispatch();
@@ -39,8 +40,17 @@ const TableFooter = ({
         setZoneLoadingStatus({ ...zoneLoadingStatus, [key]: true });
   }
 
+  const isDataEmpty = () => Object.values(zoneData).filter(item => (item && item.length > 0)).length === 0
+  
+  const getRefreshStatus = () => {
+    if(isDataEmpty()) return true
+    return needRefresh
+  }
+
+
   useEffect(() => {
     if (displayMode === 'Data') {
+      if(getRefreshStatus() === false) return
       getZoneData({
         zones: data,
         dispatch,
