@@ -6,9 +6,10 @@ import {
   saveConnector,
   getConnectorTypesSources,
   createConnector,
-  getConnectorsFolderId
+  getConnectorsFolderId,
+  testConnector
 } from '../../data/actions/connectors';
-import { Field, Form, Formik } from 'formik';
+import { connect, Field, Form, Formik } from 'formik';
 import styles from './Connectors.module.scss';
 import TreeView from '../../common/components/TreeView/index';
 import Button from '../../common/components/Button';
@@ -21,7 +22,6 @@ import { ReactComponent as CreateConnector } from '../../layout/assets/createCon
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
 import Gears from '../../common/components/Gears';
-// import TestOk from '../../../src/layout/assets/testOkIcon.svg';
 import { ReactComponent as TestFailed } from '../../../src/layout/assets/testFailedIcon.svg';
 import { ReactComponent as TestOkIcon } from '../../layout/assets/testOkIcon.svg';
 
@@ -41,6 +41,37 @@ function Connectors() {
   // Получаем из словаря типы, источники, типы соединения
   const types = useSelector(state => state.app.data.dictionaries.source_type);
   const sources = useSelector(state => state.app.data.dictionaries.source);
+  const testConnectorResult = useSelector(
+    state => state.app.data.testConnector
+  );
+  const notifications = useSelector(state => state.app.notifications);
+
+  let testResultCopy = cloneDeep(testConnectorResult);
+  let notificationsCopy = cloneDeep(notifications);
+
+  // Отрисовка успешного теста соединения
+  useEffect(() => {
+    testResultCopy = cloneDeep(testConnectorResult);
+    if (testResultCopy) {
+      setIsActive(false);
+      if (testResultCopy.result) {
+        // Успешно - рисуем галочку
+        setshowTestOk(!showTestOk);
+      } else {
+        // ошибка красим шестерни в красный цвет
+        setshowTestFailed(!showTestFailed);
+      }
+    }
+  }, [testConnectorResult]);
+
+  // Отрисовка ошибки теста соединения в случае получения ошибок
+  useEffect(() => {
+    notificationsCopy = cloneDeep(notifications);
+    if (notificationsCopy?.items[0]?.id) {
+      setIsActive(false);
+      setshowTestFailed(!showTestFailed);
+    }
+  }, [notifications]);
 
   // Oбъект коннектора из стора
   const connectorObject = useSelector(state => state.app.data.createConnector);
@@ -85,24 +116,24 @@ function Connectors() {
   const [showTestOk, setshowTestOk] = useState(false);
   const [showTestFailed, setshowTestFailed] = useState(false);
 
-  const testAnimation = () => Math.ceil(Math.random() * 10);
+  const createConnectorForm = document.getElementById('createConnectorForm');
 
-  const onClickAction = e => {
+  const testConnection = e => {
     e.preventDefault();
-    setshowTestOk(false);
-    setshowTestFailed(false);
-    setIsActive(!isActive);
-    // имитация асинхронного запроса на бек и получение ответа
-    setTimeout(() => {
-      setIsActive(false);
-      if (testAnimation() >= 5) {
-        // Успешно - рисуем галочку
-        setshowTestOk(!showTestOk);
-      } else {
-        // ошибка красим шестерни в красный цвет
-        setshowTestFailed(!showTestFailed);
+    e.stopPropagation();
+    // проверка на валидность введенных данных
+    if (createConnectorForm.reportValidity()) {
+      setshowTestOk(false);
+      setshowTestFailed(false);
+      setIsActive(!isActive);
+      newConnector.header.parent_id = folderId;
+      if (newConnector?.data?.fields[2]) {
+        newConnector.data.fields[2].value = newConnector?.data?.fields[2]?.value.toUpperCase();
       }
-    }, 2000);
+      setHeaderAndDescription();
+      // newConnector = trimInputFields(newConnector);
+      dispatch(testConnector({ data: newConnector.data }));
+    }
   };
 
   // Хэнделры для открытия/закрытия модалки
@@ -118,6 +149,8 @@ function Connectors() {
     setConnectType(false);
     setConnectSource(false);
     setConnectorFields(false);
+    setshowTestOk(false);
+    setshowTestFailed(false);
   };
 
   const closeConnectorModalHandler = () => {
@@ -163,7 +196,11 @@ function Connectors() {
   // Функция для добавления и сохранения нового коннектора на бэке
   const addConnector = event => {
     event.preventDefault();
+    event.stopPropagation();
     newConnector.header.parent_id = folderId;
+    if (newConnector?.data?.fields[2]?.value) {
+      newConnector.data.fields[2].value = newConnector?.data?.fields[2]?.value.toUpperCase();
+    }
     setHeaderAndDescription();
     dispatch(saveConnector(newConnector));
     closeConnectorModalHandler();
@@ -181,6 +218,7 @@ function Connectors() {
           label="Введите имя соединения"
           value={connectName}
           onChange={e => setConnectName(e.target.value)}
+          onBlur={() => setConnectName(connectName.trim())}
           id="connectorName"
           required
           labelClassName={styles.connectorsLabel}
@@ -219,11 +257,19 @@ function Connectors() {
                   labelClassName={styles.selectText}
                   value={item.value}
                   key={`${item.fieldName}_${index}`}
-                  type="text"
-                  required
+                  type={item.type}
+                  required={item.required}
+                  uppercase={item.fieldKey === 'DATABASE'}
                   className={styles.connectorsInput}
                   onChange={e => {
-                    newConnector.data.fields[index].value = e.target.value;
+                    newConnector.data.fields[
+                      index
+                    ].value = e.target.value.trim();
+                  }}
+                  onBlur={e => {
+                    if (e.target.value) {
+                      e.target.value = e.target.value.trim();
+                    }
                   }}
                 />
               ))}
@@ -233,6 +279,9 @@ function Connectors() {
                 name="connectorDescription"
                 className={styles.textarea}
                 onChange={e => setConnectionDescription(e.target.value)}
+                onBlur={() =>
+                  setConnectionDescription(connectionDescription.trim())
+                }
                 value={connectionDescription}
               ></textarea>
             </div>
@@ -250,7 +299,8 @@ function Connectors() {
             <Button
               className={styles.testConnectionButton}
               buttonStyle={BUTTON.BLUE}
-              onClick={onClickAction}
+              form="createConnectorForm"
+              onClick={e => testConnection(e)}
             >
               Тест соединения
             </Button>
