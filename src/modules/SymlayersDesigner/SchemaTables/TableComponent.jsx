@@ -171,7 +171,6 @@ const TableComponent = ({
   const searchStaticMatches = item => {
     return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase());
   };
-  console.log(selectedTables)
   const selectedTableColumns = selectedTables[
     getTableIdFromParams({...tableItem})
   ]?.map(item => {
@@ -192,10 +191,6 @@ const TableComponent = ({
   const addRefToTable = ref => {
     setTableRef(ref);
   };
-
-  useEffect(() => {
-    console.log(portsRefs)
-  }, [portsRefs])
 
   // eslint-disable-next-line consistent-return
   const getList = obj => {

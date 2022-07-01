@@ -71,7 +71,6 @@ function SymlayersDesigner() {
   );
 
   useEffect(() => {
-    console.log(selectedTablesArray)
     if (selectedTablesArray.length) {
       const tables = checked.map(table => {
         const { schema, object_name, object_type_id } = table;
