@@ -5,12 +5,15 @@
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   border: none;
+  color: #eee;
+}
+
+.btn:hover {
+  box-shadow: -2px -2px 5px rgba(255, 255, 255, 0.5), 2px 2px 5px rgba(0, 0, 0, 0.7);
 }
 
 .btn:active {
-  background-color: #333;
-  border-color: #333;
-  color: #eee;
+  box-shadow: inset -2px -2px 5px rgba(187, 187, 187, 0.75), inset 2px 2px 5px rgba(77, 77, 77, 0.66)
 }
 
 .bigButtonFont {
@@ -33,32 +36,25 @@
 
 .bigBlue {
   height: 29px;
-  background: linear-gradient(199.32deg, #1ae3d7 -13.92%, #0945df 111.71%);
+  background: linear-gradient(199.32deg, #1AE3D7 -13.92%, #0945DF 111.71%);
   @extend .bigButtonFont;
 }
 
 .bigOrange {
   height: 29px;
-  background: linear-gradient(
-    180deg,
-    #ffefc5 0%,
-    #ffd35a 9.9%,
-    #ff8b2b 40.1%,
-    #e14a13 100%
-  );
+  background: linear-gradient(200.5deg, #FFC700 0.98%, #DF0909 107.73%);
   @extend .bigButtonFont;
 }
 
 .bigGray {
   height: 29px;
-  background: linear-gradient(180deg, #b0c5d9 0%, rgba(196, 196, 196, 0) 100%),
-    #011a31;
+  background: linear-gradient(198.54deg, #8B9DAF -3.47%, #031B32 93.64%, #031B32 93.64%);
   @extend .bigButtonFont;
 }
 
 .brown {
   height: 22px;
-  background: linear-gradient(180deg, #b69056 0%, #734e12 100%), #312101;
+  background: linear-gradient(194.73deg, #DDB881 -5.47%, #322101 100.34%);
   @extend .smallButtonFont;
 }
 
@@ -84,15 +80,13 @@
 
 .red {
   height: 22px;
-  background: linear-gradient(180deg, #eebbbb 0%, rgba(48, 0, 0, 0) 100%),
-    #960000;
+  background: linear-gradient(187.22deg, #ECBFBF -7.22%, #6C0000 94.44%);
   @extend .smallButtonFont;
 }
 
 .bigRed {
   height: 29px;
-  background: linear-gradient(180deg, #eebbbb 0%, rgba(48, 0, 0, 0) 100%),
-    #960000;
+  background: linear-gradient(187.22deg, #ECBFBF -7.22%, #6C0000 94.44%);
   @extend .bigButtonFont;
 }
 
@@ -105,6 +99,5 @@
 }
 
 .disabled {
-  background: linear-gradient(180deg, #d1d1d1 0%, rgba(48, 0, 0, 0) 100%),
-    #424242;
+    opacity: 0.3;
 }

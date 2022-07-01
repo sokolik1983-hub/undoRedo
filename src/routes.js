@@ -6,8 +6,7 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import Connectors from './modules/Connectors';
 import Audit from './modules/Audit';
-import Users from './modules/Users';
-import Roles from './modules/Roles';
+import AdminMain from './modules/Admin/Main';
 import RecycleBin from './modules/RecycleBin';
 import ReportDesigner from './modules/ReportDesigner';
 import SymlayersDesigner from './modules/SymlayersDesigner';
@@ -25,9 +24,7 @@ const routes = [
       { path: 'dashboard', element: <HomePage /> },
       { path: 'login', element: <LoginPage /> },
       { path: 'audit', element: <Audit /> },
-      { path: 'users', element: <Users /> },
       { path: 'explorer', element: <Explorer /> },
-      { path: 'roles', element: <Roles /> },
       { path: 'connectors', element: <Connectors /> },
       { path: 'symlayers', element: <Symlayers /> },
       { path: 'symlayers/create', element: <SymlayersDesigner /> },
@@ -36,6 +33,7 @@ const routes = [
       { path: 'report/:report_id/show', element: <ReportDesigner /> },
       { path: 'report/:report_id', element: <ReportDesigner /> },
       { path: 'reports', element: <Reports /> },
+      { path: 'administrator', element: <AdminMain /> }
     ]
   },
   {

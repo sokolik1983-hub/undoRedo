@@ -46,6 +46,9 @@ const data = createSlice({
     setCreateConnector: (state, action) => {
       state.createConnector = action.payload;
     },
+    setTestConnector: (state, action) => {
+      state.testConnector = action.payload;
+    },
     setCreateConnectorResult: (state, action) => {
       state.createConnectorResult = action.payload;
     },
@@ -165,6 +168,7 @@ export const {
   setConnectorsTypes,
   setConnectorSource,
   setCreateConnector,
+  setTestConnector,
   setCreateConnectorResult,
   setUniverses,
   setUniversesFolderId,

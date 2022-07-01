@@ -13,4 +13,5 @@ export const PAGE = {
   USERS: 'USERS',
   EXPLORER: 'EXPLORER',
   REPORTS: 'REPORTS',
+  ADMIN: 'ADMIN'
 };
