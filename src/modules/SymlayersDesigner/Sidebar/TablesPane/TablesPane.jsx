@@ -6,12 +6,12 @@ import TablesPaneActions from './TablesPaneActions/TablesPaneActions';
 import HierTreeView from '../HierTreeView';
 import { ReactComponent as OwnerIcon } from '../../../../layout/assets/icons/ownerIcon.svg';
 import styles from './TablesPane.module.scss';
-import { setConnectorObjects } from '../../../../data/reducers/data';
+import { setConnectorObjects } from '../../../../data/reducers/schemaDesigner';
 
 const TablesPane = ({ onSelect }) => {
   const dispatch = useDispatch();
   const connectorObjects = useSelector(
-    state => state.app.data.connectorObjects
+    state => state.app.schemaDesigner.connectorObjects
   );
 
   if (connectorObjects?.tables?.length === 0) {
@@ -234,10 +234,9 @@ const TablesPane = ({ onSelect }) => {
         "type": "TABLE"
     }
 ]
-  dispatch(setConnectorObjects({tables: tempTables, result: 0}));
+  dispatch(setConnectorObjects(tempTables));
   }
 
-  console.log(connectorObjects)
   const [selectedSchemes, setSelectedSchemes] = useState([]);
 
   return (
@@ -249,7 +248,7 @@ const TablesPane = ({ onSelect }) => {
         <span>Owner</span>
       </div>
       <HierTreeView
-        data={selectedSchemes.length ? selectedSchemes : connectorObjects.tables}
+        data={selectedSchemes.length ? selectedSchemes : connectorObjects}
         onSelect={onSelect}
         isOpen={!!selectedSchemes?.length}
       />

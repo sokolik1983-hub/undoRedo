@@ -5,7 +5,6 @@ import style from './Sidebar.module.scss';
 
 const TreeBranch = ({treeData, idx, name, onSelect, opened}) => {
   const [isActive, setActive] = useState(false);
-  console.log(treeData)
 
   useEffect(() => {
     setActive(opened)

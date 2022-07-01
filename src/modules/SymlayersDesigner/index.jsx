@@ -83,7 +83,7 @@ function SymlayersDesigner() {
   }, [selectedTablesArray]);
 
   const handleSelectTable = (selected, event) => {
-    console.log(selected, event)
+    console.log(selected)
     if (event) {
       setChecked([...checked, selected]);
     } else {

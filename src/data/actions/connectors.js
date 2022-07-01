@@ -1,5 +1,6 @@
 import { request } from '../helpers';
-import { setCreateConnectorResult, setCreateConnector, setConnectorSource, setConnectorData, setConnectors, setConnectorsFolderId, setConnectorsTypes, setTestConnector, setConnectorObjects } from '../reducers/data';
+import { setCreateConnectorResult, setCreateConnector, setConnectorSource, setConnectorData, setConnectors, setConnectorsFolderId, setConnectorsTypes, setTestConnector } from '../reducers/data';
+import { setConnectorObjects } from '../reducers/schemaDesigner'; 
 import { notificationShown } from '../reducers/notifications';
 import { showEditConnectorModal } from '../reducers/ui';
 
@@ -106,7 +107,7 @@ export const getObjectFromConnector = queryParams => {
       dispatch
     });
     if (response?.result) {
-      dispatch(setConnectorObjects({tables: response.data, result: response.result}));
+      dispatch(setConnectorObjects(response.data));
     }
   };
 };

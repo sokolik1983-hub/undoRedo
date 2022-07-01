@@ -18,7 +18,7 @@ import TextFieldItem from './ModalItem/TextFieldItem';
 import { setSemantycLayerDataName } from '../../../data/actions/schemaDesigner';
 import { REDIRECT_LINKS } from '../../../common/constants/common'
 import { createUniverse, getUniversesFolderId } from '../../../data/actions/universes';
-import { setConnectorObjects, setUniverseIsCreated } from '../../../data/reducers/data';
+import { setUniverseIsCreated } from '../../../data/reducers/data';
 
 const semLayerValues = {
   name: 'Новый семантический слой 1',
@@ -45,7 +45,6 @@ const SemanticLayerModal = ({ onClick, onSave, onClose, isVisible, ...props }) =
   const [modalData, setModalData] = useState(null);
   const [universe, setUniverse] = useState({});
   const sampleUnvObject = useSelector(state => state.app.data.sampleUnvObject);
-  const objectsFromConnector = useSelector(state => state.app.data.connectorObjects); 
   const isUniverseCreated = useSelector(state => state.app.data.isUniverseCreated);  
   const unvRootFolderId = useSelector(state => state.app.data.universesFolderId);
 
@@ -65,20 +64,9 @@ const SemanticLayerModal = ({ onClick, onSave, onClose, isVisible, ...props }) =
   }, [sampleUnvObject]);
 
   useEffect(() => {
-    if (objectsFromConnector.result && !lodash.isEmpty(universe)) {
-      const tables = objectsFromConnector.tables.filter(object => object.type === 'TABLE');
-      const unvObjWithTables = {...universe};
-      unvObjWithTables.data.tables = tables; 
-      setUniverse(unvObjWithTables);
-    }
-  }, [objectsFromConnector]);
-
-  useEffect(() => {
-    if (objectsFromConnector.result) {
-      console.log(objectsFromConnector)
-      const {header, data} = universe;
+    if (!lodash.isEmpty(universe)) {
+      const {header, data} = universe
       dispatch(createUniverse({header, data}));
-      dispatch(setConnectorObjects({...objectsFromConnector, result: 0}));
     }
   }, [universe]);
 

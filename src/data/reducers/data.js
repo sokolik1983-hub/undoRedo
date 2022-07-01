@@ -152,10 +152,6 @@ const data = createSlice({
     setSampleUniverseObject: (state, action) => {
       state.sampleUnvObject = action.payload;
     }, 
-    setConnectorObjects: (state, action) => {
-      const {tables, result} = action.payload;
-      state.connectorObjects = {tables, result};
-    },
     setUniverseIsCreated: (state, action) => {
       state.isUniverseCreated = action.payload;
     }
@@ -191,7 +187,6 @@ export const {
   setReposFolderId,
   setReposChildren,
   setConnectorData,
-  setConnectorObjects,
   setSampleUniverseObject,
   setUniverseIsCreated
 } = data.actions;

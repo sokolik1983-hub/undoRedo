@@ -77,6 +77,19 @@ export const getObjectData = queryParams => {
   };
 };
 
+export const getObjectTables = queryParams => {
+  return async dispatch => {
+      const response = await request({
+        func: 'CONNECT.GET_OBJECT_FIELDS',
+        params: queryParams, // {"schema":"TA_APP","object_name":"MR_D_OPTIONS","object_type_id":1,"connect_id":4}
+        dispatch
+      });
+      if (response?.success) {
+        // setSelectedTables
+      }
+  };
+};
+
 export const clearTablePreview = () => {
   return dispatch => dispatch(unsetTablePreviewData());
 }

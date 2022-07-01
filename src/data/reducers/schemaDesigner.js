@@ -139,7 +139,7 @@ const schemaDesigner = createSlice({
     },
     setSchemaDesigner: (state, action) => {
       state.newData = {...action.payload.default};
-    }
+    },
   }
 });
 
