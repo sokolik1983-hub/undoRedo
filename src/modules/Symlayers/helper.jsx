@@ -68,4 +68,4 @@ export const FOLDER_DROPDOWN_ACTIONS = [
   }
 ];
 
-export const connectorsTableHeader = [{ name: 'Имя' }, { name: 'Соединение' }];
+export const connectorsTableHeader = [{ name: 'Имя' }, { name: 'Описание' }];
