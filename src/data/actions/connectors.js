@@ -70,7 +70,8 @@ export const getConnector = queryParams => {
         dispatch
       });
       if (response?.result) {
-        dispatch(setConnectorData(response.data));
+        dispatch(setConnectorData(response));
+        console.log(response.data);
         dispatch(showEditConnectorModal());
       }
     } catch (err) {
