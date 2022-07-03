@@ -68,13 +68,12 @@ export const getElementData = (queryParams, callback) => {
   //   dispatch(setStructure(REP_GET_ELEMENT_DATA.data));
   // };
   return async dispatch => {
-
     const response = await request({
       code: 'REP.GET_ELEMENT_DATA',
       params: queryParams,
       dispatch
     });
-    
+
     if (response) {
       callback(response);
       // dispatch(setStructure(response.structure));
@@ -104,38 +103,4 @@ export const handleUndo = () => {
 
 export const handleRedo = () => {
   return dispatch => dispatch(ActionCreators.redo());
-};
-
-/**
- * Получение документов, добавленных в Избранные.
- */
- export const getDocumentsFavorites = () => {
-  return async dispatch => {
-    const response = await request({
-      code: 'CMS.USER.GET_FAVORITES',
-      params: {user_id: 10001},
-      dispatch
-    });
-    if (response) {
-      console.log('response', response)
-    }
-  };
-};
-
-/**
- * Добавление документы в Избранные.
- *
- * @prop queryParams Параметры (id добавляемого документа).
- */
-export const setDocumentToFavorites = userId => {
-  return async dispatch => {
-    const response = await request({
-      code: 'CMS.USER.SET_FAVORITE',
-      params: userId,
-      dispatch
-    });
-    if (response) {
-      console.log('response', response)
-    }
-  };
 };
