@@ -264,7 +264,7 @@ const ConnectorsList = () => {
           icon={isFolder ? <FolderIcon /> : <UniverseIcon />}
           name={item.name}
           menu={menu}
-          connectType={TABLE_CELL_EMPTY_VALUE}
+          connectType={item.desc || TABLE_CELL_EMPTY_VALUE}
           symlayerCount={null}
         />
       );
