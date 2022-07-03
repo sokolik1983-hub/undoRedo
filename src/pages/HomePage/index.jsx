@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 import clsx from 'clsx';
 import HomePageButton from './HomePageButton/HomePageButton';
 import styles from './HomePage.module.scss';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
+import { REDIRECT_LINKS } from '../../common/constants/common'
 import navigationMenu from '../../navigation';
 import { ReactComponent as ExplorerIcon } from '../../layout/assets/icons/buttonPlus.svg';
 import FloatingButton from '../../common/components/FloatingButton';
@@ -22,13 +24,14 @@ const FAVORITES = [
 
 function HomePage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.DASHBOARD));
   }, []);
 
   const handleClick = () => {
-    window.location.pathname = '/report/create/1';
+    navigate(REDIRECT_LINKS.REPORT_CREATE)
   };
 
   return (

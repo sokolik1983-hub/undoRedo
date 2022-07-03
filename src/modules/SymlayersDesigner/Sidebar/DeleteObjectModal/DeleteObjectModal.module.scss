@@ -1,22 +1,28 @@
-.message {
-  color: white;
-  font-size: 14px;
-  padding-left: 18px;
-}
-
-.footer {
-  
-  button {
-    margin: 0px 6px;
-  }
+.root {
+  display: grid;
+  grid-gap: 15px;
 }
 
 .title {
   display: flex;
-  span {
+  align-items: center;
+
+  .titleText {
     margin-left: 9px;
     font-weight: bold;
     font-size: 24px;
     color: white;
   }
+}
+
+.message {
+  color: white;
+  font-size: 14px;
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  justify-items: end;
+  grid-gap: 20px;
 }

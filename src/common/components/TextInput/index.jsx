@@ -27,6 +27,7 @@ const TextInput = forwardRef(
       onChange,
       value,
       fullWidth,
+      uppercase,
       ...props
     },
     ref
@@ -35,7 +36,8 @@ const TextInput = forwardRef(
       styles.input,
       className,
       { [styles.error]: error },
-      { [styles.fullWidth]: className ? false : fullWidth }
+      { [styles.fullWidth]: className ? false : fullWidth },
+      { [styles.uppercase] : uppercase },
     );
 
     const wrapperClasses = clsx(styles.inputWrapper, wrapperClassName);
@@ -50,7 +52,9 @@ const TextInput = forwardRef(
           </label>
         )}
         {props.required && (
-          <span className={styles.inputRequired}>Required</span>
+          <span className={styles.inputRequired}>
+            {props.requiredTextVisible ? 'Required' : ''}
+          </span>
         )}
         <input
           ref={ref}
@@ -78,7 +82,10 @@ TextInput.propTypes = {
   onChange: PropTypes.func,
   value: PropTypes.string,
   fullWidth: PropTypes.bool,
-  required: PropTypes.bool
+  required: PropTypes.bool,
+  requiredTextVisible: PropTypes.bool,
+  uppercase: PropTypes.bool,
+  onblur: PropTypes.any
 };
 
 TextInput.defaultProps = {

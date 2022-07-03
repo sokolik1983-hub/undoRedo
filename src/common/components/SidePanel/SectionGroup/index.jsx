@@ -1,7 +1,7 @@
-import { Tooltip } from '@material-ui/core';
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import Tooltip from '../../Tooltip/index'
 import styles from './SectionGroup.module.scss';
 
 function SectionGroup({ actions, title, ...props }) {
@@ -21,7 +21,7 @@ function SectionGroup({ actions, title, ...props }) {
               {item.component ? (
                 item.component
               ) : (
-                <Tooltip key={item.id} placement="top" title={item.name} arrow>
+                <Tooltip key={item.id} placement="top" overlay={item.name}>
                   {item.icon}
                 </Tooltip>
               )}

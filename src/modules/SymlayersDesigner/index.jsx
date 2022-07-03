@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentPage } from '../../data/reducers/ui';
@@ -7,22 +9,48 @@ import Sidebar from './Sidebar';
 import TablesList from './TablesList';
 import SchemaTables from './SchemaTables';
 import ObjectsConnectionEditor from './ObjectsConnectionEditor';
-import { getConnectorObjectsList } from '../../data/actions/schemaDesigner';
+import {
+  getConnectorObjectsList,
+  getObjectsList,
+  getObjectsListLocal
+} from '../../data/actions/schemaDesigner';
 import {
   OBJECTS_CONNECTIONS_MODAL,
   TABLE_PREVIEW_MODAL
 } from '../../common/constants/popups';
 import TablePreview from './SchemaTables/TablePreview';
+import { getTableIdFromParams } from '../../data/helpers';
 
 function SymlayersDesigner() {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState([]);
   const [folders, setFolders] = useState([]);
   const [objectsLinks, setObjectsLinks] = useState([]);
+  const [tablesPosition, setTablesPosition] = useState({});
 
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.SEMANTIC));
-    dispatch(getConnectorObjectsList({ connect_id: 4 }));
+    // dispatch(getConnectorObjectsList({ connect_id: 4 }));
+
+    dispatch(getObjectsList());
+
+    getObjectsListLocal().then(response => {
+      const { data } = response.default;
+
+      setObjectsLinks(data.links || []);
+      setChecked(data.tables || []);
+      setTablesPosition(
+        data.tables.reduce(
+          (result, table) => ({
+            ...result,
+            [getTableIdFromParams({ ...table, connect_id: 4 })]: {
+              deltaPosition: table.position
+            }
+          }),
+          {}
+        ) || {}
+      );
+    });
   }, []);
 
   const isObjectsConnectionsModalOpened = useSelector(
@@ -35,22 +63,39 @@ function SymlayersDesigner() {
   const isTablePreviewModalOpened = useSelector(
     state => state.app.ui.modalVisible === TABLE_PREVIEW_MODAL
   );
+  const selectedTablesArray = useSelector(
+    state => state.app.schemaDesigner.selectedTablesArray
+  );
+
+  useEffect(() => {
+    if (selectedTablesArray.length) {
+      const tables = checked.map(table => {
+        const { schema, object_name, object_type_id } = table;
+        const findTable = [...selectedTablesArray].find(
+          selTable =>
+            selTable.name === `${schema}_${object_name}_${object_type_id}_${4}`
+        );
+        table = { ...table, columns: findTable?.fields };
+        return table;
+      });
+      setChecked(tables);
+    }
+  }, [selectedTablesArray]);
 
   const handleSelectTable = (selected, event) => {
     if (event) {
       setChecked([...checked, selected]);
     } else {
       setChecked(
-        checked.filter(item => item.object_name !== selected.object_name)
+        checked.filter(item => item.objectName !== selected.objectName)
       );
     }
   };
 
-  const handleAddSynonym = (table) => {
+  const handleAddSynonym = table => {
     setChecked([...checked, table]);
   };
 
-  
   const handleDeleteTable = table => {
     // удаление связей и полей уаленной таблицы
 
@@ -117,12 +162,22 @@ function SymlayersDesigner() {
           <div
             className={styles.tables}
             onDrop={e => {
-            if(e.dataTransfer.getData("item")) 
-              handleSelectTable(JSON.parse(e.dataTransfer.getData("item")), e)
+              if (e.dataTransfer.getData('item'))
+                handleSelectTable(
+                  JSON.parse(e.dataTransfer.getData('item')),
+                  e
+                );
             }}
-            onDragOver={(e) => {e.preventDefault()}}
+            onDragOver={e => e.preventDefault()}
           >
-            <SchemaTables onCreateSynonym={handleAddSynonym} onDeleteTable={handleDeleteTable} tables={checked} />
+            <SchemaTables
+              onCreateSynonym={handleAddSynonym}
+              onDeleteTable={handleDeleteTable}
+              tables={checked}
+              objectsLinks={objectsLinks}
+              tablesPosition={tablesPosition}
+              setTablesPosition={setTablesPosition}
+            />
           </div>
         </div>
         <Sidebar onSelect={handleSelectTable} />

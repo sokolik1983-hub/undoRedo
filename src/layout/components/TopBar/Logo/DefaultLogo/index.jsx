@@ -3,13 +3,13 @@ import { ReactComponent as LogoDefault } from '../../../../assets/defaultLogo.sv
 import { ReactComponent as SemanticLogo } from '../../../../assets/semanticLogo.svg';
 import { ReactComponent as ConnectorsLogo } from '../../../../assets/connectorsLogo.svg';
 import { ReactComponent as DesignerLogo } from '../../../../assets/designerLogo.svg';
+import { ReactComponent as AdminLogo } from '../../../../assets/adminHeader.svg';
 import styles from '../Logo.module.scss';
 import { PAGE } from '../../../../../common/constants/pages';
 import { PAGE_TITLES } from '../../../../../common/constants/common';
 
 // eslint-disable-next-line react/prop-types
 const DefaultLogo = ({ currentPage }) => {
-
   const getPageName = () => {
     switch (currentPage) {
       case PAGE.AUDIT:
@@ -23,8 +23,11 @@ const DefaultLogo = ({ currentPage }) => {
       case PAGE.SEMANTIC_LIST:
         return PAGE_TITLES.SEMANTIC;
       case PAGE.REPORT_DESIGNER:
-        return PAGE_TITLES.REPORT_DESIGNER
-      default: return null;
+        return PAGE_TITLES.REPORT_DESIGNER;
+      case PAGE.ADMIN:
+        return PAGE_TITLES.ADMIN;
+      default:
+        return null;
     }
   };
 
@@ -38,7 +41,10 @@ const DefaultLogo = ({ currentPage }) => {
         return <ConnectorsLogo />;
       case PAGE.REPORT_DESIGNER:
         return <DesignerLogo />;
-      default: return null;
+      case PAGE.ADMIN:
+        return <AdminLogo />;
+      default:
+        return null;
     }
   };
 
@@ -46,20 +52,15 @@ const DefaultLogo = ({ currentPage }) => {
     <div className={styles.defaultLogoWrapper}>
       <div className={styles.logoContainer}>
         <LogoDefault />
-        <div className={styles.pageTitle}>
-          {getPageName()}
-        </div>
+        <div className={styles.pageTitle}>{getPageName()}</div>
       </div>
-      <div className={styles.pageLogo}>
-        {getPageIcon()}
-      </div>
+      <div className={styles.pageLogo}>{getPageIcon()}</div>
     </div>
-  )
+  );
 };
 
 export default DefaultLogo;
 
-
 DefaultLogo.prototype = {
-  currentPage: PropTypes.string,
-}
+  currentPage: PropTypes.string
+};

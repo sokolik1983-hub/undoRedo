@@ -106,6 +106,6 @@ ConnectionTable.propTypes = {
   tables: PropTypes.array,
   currentLeftTable: PropTypes.string,
   currentRightTable: PropTypes.string,
-  currentLeftColumns: PropTypes.string,
-  currentRightColumns: PropTypes.string,
+  currentLeftColumns: PropTypes.array,
+  currentRightColumns: PropTypes.array,
 }

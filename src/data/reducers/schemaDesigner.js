@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
+import { getTableIdFromParams } from '../helpers';
 
 // object_name: "SI_FORMAT_CONVRSNS"
 // object_type_id: 3
@@ -24,10 +26,14 @@ import { createSlice } from '@reduxjs/toolkit';
 const schemaDesigner = createSlice({
   name: 'schemaDesigner',
   initialState: {
+    header: null,
     connectorId: 4, // demo data
-    connectorObjects: [],
     selectedTables: [],
+    connectorObjects: [],
+    // selectedTables: {},
+    selectedTablesArray: [],
     selectedTablesData: [],
+    tablesRefCoord: [],
     showDataList: false,
     dataList: [],
     links: [],
@@ -40,6 +46,8 @@ const schemaDesigner = createSlice({
     },
     coloredValue: '',
     semantycLayerName: null,
+
+    newData: null
   },
   reducers: {
     setIsLoading: (state, action) => {
@@ -60,8 +68,14 @@ const schemaDesigner = createSlice({
     setSelectedTables: (state, action) => {
       state.selectedTables = { ...state.selectedTables, ...action.payload };
     },
+    setSelectedTablesArray: (state, action) => {
+      state.selectedTablesArray = [...state.selectedTablesArray, {...action.payload}]
+    },
     setSelectedTablesFiltered: (state, action) => {
       state.selectedTables = action.payload
+    },
+    addCoordToTables: (state, action) => {
+      state.tablesRefCoord = [...state.tablesRefCoord, action.payload];
     },
     setSelectedTablesData: (state, action) => {
       state.selectedTablesData = {
@@ -88,6 +102,7 @@ const schemaDesigner = createSlice({
     },
     addObjectLayer: (state, action) => {
       state.objectsLayerList = [...state.objectsLayerList, action.payload];
+      state.newData.data.objects = [...state.newData.data.objects, action.payload];
     },
     deleteObjectLayer: (state, action) => {
       const id = action.payload;
@@ -121,6 +136,9 @@ const schemaDesigner = createSlice({
     },
     setSemantycLayerName: (state, action) => {
       state.semantycLayerName = action.payload
+    },
+    setSchemaDesigner: (state, action) => {
+      state.newData = {...action.payload.default};
     }
   }
 });
@@ -132,6 +150,7 @@ export const {
   setConnectorObjects,
   setConnectorData,
   setSelectedTables,
+  setSelectedTablesArray,
   setSelectedTablesData,
   addLink,
   setLinks,
@@ -141,13 +160,15 @@ export const {
   deleteObjectLayer,
   setLinksFiltered,
   setContexts,
+  addCoordToTables,
   unsetTablePreviewData,
   setSelectedTablesFiltered,
   setColoredValue,
   setDataList,
   clearDataList,
   setShowDataList,
-  setSemantycLayerName
+  setSemantycLayerName,
+  setSchemaDesigner
 } = schemaDesigner.actions;
 
 export default schemaDesigner.reducer;

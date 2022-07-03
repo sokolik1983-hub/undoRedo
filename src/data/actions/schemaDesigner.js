@@ -1,11 +1,14 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 import { getTableIdFromParams, request } from '../helpers';
 import { notificationShown } from '../reducers/notifications';
 import {
   setConnectorObjects,
   setSelectedTables,
-  setConnectorData, unsetTablePreviewData, setSelectedTablesFiltered, setLinksFiltered, setSemantycLayerName
+  setConnectorData, unsetTablePreviewData, setSelectedTablesFiltered, setLinksFiltered, setSemantycLayerName,
+    setSchemaDesigner, setSelectedTablesArray
 } from '../reducers/schemaDesigner';
+import * as universe from '../../common/constants/universe_10040_v2.json'
 
 export const getConnectorObjectsList = queryParams => {
   return async dispatch => {
@@ -38,6 +41,12 @@ export const getObjectFields = queryParams => {
         dispatch(
           setSelectedTables({
             [getTableIdFromParams(queryParams)]: response.result
+          })
+        );        
+        dispatch(
+          setSelectedTablesArray({
+            name: getTableIdFromParams(queryParams),
+            fields: response.result
           })
         );
       }
@@ -83,3 +92,12 @@ export const filterTablesLinks = (filteredLinks) => {
 export const setSemantycLayerDataName = (name) => {
   return dispatch => dispatch(setSemantycLayerName(name));
 }
+export const getObjectsList = () => {
+  return async dispatch => {
+    // TODO: удалить файл universe_10040_v2.json когда будет готов бэкенд
+    const response = await Promise.resolve(JSON.parse(JSON.stringify(universe)));
+    dispatch(setSchemaDesigner(response));
+  }
+};
+export const getObjectsListLocal = () => Promise.resolve(JSON.parse(JSON.stringify(universe)))
+

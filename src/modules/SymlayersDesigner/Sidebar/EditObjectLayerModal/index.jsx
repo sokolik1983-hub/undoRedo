@@ -1,9 +1,7 @@
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-
 import styles from './EditObjectLayerModal.module.scss';
 import { CREATE_OBJECT_MODAL_VALUES } from '../../CreateObjectLayerModal/createObjectModalConstants';
 import { setObjectLayer } from '../../../../data/reducers/schemaDesigner';
@@ -74,7 +72,6 @@ const EditObjectLayerModal = ({ visible }) => {
         dispatch(setObjectLayer({...values, id: data.id}));
         dispatch(showToast('success', 'Объект сохранен'));
         event.preventDefault();
-        window.location.pathname = '/Universe/symlayers/create';
       }}
     >
       {({ values, handleChange, handleSubmit }) => (

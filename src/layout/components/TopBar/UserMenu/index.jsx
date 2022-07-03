@@ -1,10 +1,9 @@
-import { useDispatch } from 'react-redux';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Dropdown from '../../../../common/components/Dropdown';
 import DropdownItem from '../../../../common/components/Dropdown/DropdownItem';
-import { logoutUser } from '../../../../data/actions/auth';
 import { DEFAULT_USER_ACTIONS } from '../../../../common/constants/common';
-// import { ReactComponent as AvatarIcon } from '../../../assets/miniAvatar.svg';
+import { logoutUser } from '../../../../data/actions/auth';
 import { ReactComponent as UserDefault } from '../../../assets/icons/userDefault.svg';
 import { ReactComponent as UserHover } from '../../../assets/icons/userHover.svg';
 import styles from './UserMenu.module.scss';

@@ -17,12 +17,14 @@ import { ReactComponent as DisableDefineConnections } from '../../layout/assets/
 import { ReactComponent as DisableRefreshStructure } from '../../layout/assets/semanticActionsIcons/disRefreshStructure.svg';
 
 export const TABLE_CELL_EMPTY_VALUE = '-';
-export const BREADCRUMBS_ROOT = '..'
+export const BREADCRUMBS_ROOT = '..';
 export const EMPTY_STRING = '';
 
 export const REDIRECT_LINKS = {
   HOME_PAGE: '/dashboard',
-  LOGIN_PAGE: '/login'
+  LOGIN_PAGE: '/login',
+  SYMLAEYERS: '/symlayers/create',
+  REPORT_CREATE: '/report/create/1'
 };
 
 export const PAGE_TITLES = {
@@ -36,6 +38,7 @@ export const PAGE_TITLES = {
   CONNECTORS: 'Коннекторы',
   REPORTS: 'Отчеты',
   QUERY_PANEL: 'Панель запросов',
+  ADMIN: 'Управление'
 };
 
 export const FONT_LIST = [
@@ -96,43 +99,42 @@ export const SIDE_PANEL_TYPES = {
   BLOCK_MENU: 'BLOCK_MENU'
 };
 
-
 export const DEFAULT_USER_ACTIONS = [
   {
     action: 'user',
     title: 'Профиль',
     text: 'Профиль',
-    icon: <FaceIcon />,
+    icon: <FaceIcon />
   },
   {
     action: 'print',
     title: 'Печать',
     text: 'Печать',
-    icon: <PrinterIcon />,
+    icon: <PrinterIcon />
   },
   {
     action: 'metadata',
     title: 'Обмен метаданными',
     text: 'Обмен метаданными',
-    icon: <ExchangeDataIcon />,
+    icon: <ExchangeDataIcon />
   },
   {
     action: 'settings',
     title: 'Настройки',
     text: 'Настройки',
-    icon: <GearIcon />,
+    icon: <GearIcon />
   },
   {
     action: 'exit',
     title: 'Смена пользователя',
     text: 'Смена пользователя',
-    icon: <ChangeUserIcon />,
+    icon: <ChangeUserIcon />
   },
   {
     action: 'logout',
     title: 'Выход',
     text: 'Выход',
-    icon: <LogoutIcon />,
+    icon: <LogoutIcon />
   }
 ];
 
@@ -199,17 +201,17 @@ export const BUTTON = {
   BROWN_DARKER: 'BROWN_DARKER',
   RED: 'RED',
   BIG_RED: 'BIG_RED',
-  SMALL_ORANGE: 'SMALL_ORANGE',
-}
+  SMALL_ORANGE: 'SMALL_ORANGE'
+};
 
 export const DRAG_PARENT_SECTION = {
   TREE: 'TREE',
   OBJECTS: 'OBJECTS',
   FILTERS: 'FILTERS'
-}
+};
 
 // Значения типов временных уведомлений.
 export const TOAST_TYPE = {
   SUCCESS: 'success',
-  DANGER: 'danger',
-}
+  DANGER: 'danger'
+};

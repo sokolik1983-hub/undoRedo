@@ -1,0 +1,78 @@
+.root {
+    // background-color: theme.palette.background.dark;
+    min-height: 100%;
+    // padding-bottom: theme.spacing(3);
+    // padding-top: theme.spacing(3);
+  }
+
+  .selected {
+    border: 1px solid grey;
+    width: 100%;
+    height: 500px;
+  }
+
+  .tablesList {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .tableItem {
+    position: absolute;
+    border: 1px solid grey;
+    background-color: #f5f6f8;
+  }
+
+  .tableContent {
+    max-height: 400;
+    background-color: #f5f6f8;
+    z-index: 1;
+  }
+
+  .tableRow {
+    border-top: 1px solid grey
+  }
+
+  .list {
+    overflow-y: auto;
+    max-height: 80vh;
+  }
+
+  .workZone {
+    border: 1px solid grey;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .tableHead {
+    background-color: #d4d4d4
+  }
+
+  .tableActions {
+    display: flex;
+    align-items: center;
+    justify-content: 'flex-start'
+  }
+
+  .tableCheckbox {
+    display: flex;
+    align-items: center;
+    padding: 4
+  }
+
+  .checkBox {
+    margin-right: 5
+  }
+
+  .tableType {
+    align-self: end;
+    font-size: 10;
+    font-style: italic;
+    border: none;
+    text-align: right;
+    padding: 4
+  }
+
+  .tableContainer {
+    width: 330;
+    height: auto;
+  }

@@ -24,20 +24,21 @@ function TablesList({ title, items, type }) {
       </div>
       <div className={styles.content}>
         <div className={styles.list}>
-          {items?.map((item, i) => (
-            <div className={styles.item}>
-              <TablesListItem
-                key={item}
-                name={
+          {items?.map((item, i) => {
+            return (
+              <div className={styles.item}>
+                <TablesListItem
+                  key={item+item.id}
+                  name={
                 type === 'links'
-                  ? `${item.object1.object} - ${item.object2.object}`
+                  ? `${item.object1.object_name} - ${item.object2.object_name}`
                   : null
               }
-                onDoubleClick={handleClick}
-                id={i}
-              />
-            </div>
-          ))}
+                  onDoubleClick={handleClick}
+                  id={i}
+                />
+              </div>
+          )})}
         </div>
       </div>
     </div>

@@ -1,0 +1,69 @@
+.root {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  grid-gap: 5px;
+  padding: 2px 0px;
+  padding-left: 15px;
+  cursor: pointer;
+  color: #000;
+
+  &.active {
+    background-color: #2b6dd0;
+    border-radius: 3px;
+    color: #fff;
+    transition: all 0.2s;
+
+    svg path {
+      fill: white;
+    }
+  }
+}
+
+.menuContainer {
+  width: fit-content;
+  display: flex;
+  background: linear-gradient(
+    152.97deg,
+    rgba(47, 137, 187, 0.208) 0%,
+    rgba(21, 21, 21, 0) 100%
+  );
+  filter: drop-shadow(0px 4px 4px rgba(34, 82, 102, 0.25));
+  backdrop-filter: blur(7px);
+  border-radius: 7.5px;
+}
+
+.menuItem {
+  padding: 0;
+
+  &:hover {
+    background-color: transparent;
+  }
+
+  &:hover svg {
+    fill: #0078bb;
+    transition: all 0.2s;
+  }
+
+  & div {
+    margin: 0;
+    padding: 8px 6px;
+  }
+}
+
+.text {
+  font-size: 12px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+}
+
+.icon {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
