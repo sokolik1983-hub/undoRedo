@@ -12,7 +12,6 @@ import ListColumnsView from './ListColumnsView/ListColumnsView';
  */
 
 const List = ({ listItems, multiColumnView, tableHeader, tableRows }) => {
-  console.log('listItems', listItems)
   return multiColumnView ? (
     <ListColumnsView listItems={listItems} />
   ) : (

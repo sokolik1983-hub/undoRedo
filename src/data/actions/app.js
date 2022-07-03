@@ -108,13 +108,10 @@ export const getFavoriteObjects = () => {
  */
 export const setObjectToFavorites = queryParams => {
   return async dispatch => {
-    const response = await request({
+    await request({
       code: 'CMS.USER.SET_FAVORITE',
       params: queryParams,
       dispatch
     });
-    if (response) {
-      console.log('response', response);
-    }
   };
 };
