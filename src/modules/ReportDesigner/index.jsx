@@ -133,10 +133,12 @@ function ReportDesigner() {
   }, []);
 
   function handleMouseMove(event) {
-    setMousePosition({
-      x: event.nativeEvent.offsetX,
-      y: event.nativeEvent.offsetY
-    });
+    if (reportDesigner.reportsUi.ui.creatingElement) {
+      setMousePosition({
+        x: event.nativeEvent.offsetX,
+        y: event.nativeEvent.offsetY
+      });
+    }
   }
 
   function handleAddBlock(event) {

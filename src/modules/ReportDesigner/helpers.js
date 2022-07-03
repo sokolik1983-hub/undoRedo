@@ -42,7 +42,7 @@ export const createReportElement = ({ type, mousePosition }) => {
   const defaultCellStyle = {
     width: 100,
     height: 40
-  }
+  };
 
   const cell = {
     id: generateId(),
@@ -107,9 +107,7 @@ export const createReportElement = ({ type, mousePosition }) => {
             vType: 'body'
           },
           {
-            cells: [
-
-            ],
+            cells: [],
             hType: 'header',
             id: generateId(),
             shown: false,
@@ -172,9 +170,7 @@ export const createReportElement = ({ type, mousePosition }) => {
             vType: 'body'
           },
           {
-            cells: [
-
-            ],
+            cells: [],
             hType: 'header',
             id: generateId(),
             shown: false,

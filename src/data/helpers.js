@@ -134,7 +134,6 @@ const requesterTimeout = ({ id, dispatch }) =>
 export const request = async ({ params, code, dispatch }) => {
   const token = localStorage.getItem('token');
   const streamreceiver = localStorage.getItem('streamreceiver');
-
   try {
     const response = await axios({
       method: 'post',
@@ -271,7 +270,7 @@ export const deepObjectSearch = ({
   for (let i = 0; i < keys.length; i++) {
     const objectKey = keys[i];
 
-    if (typeof target[objectKey] === 'object') {
+    if (target[objectKey] !== null && typeof target[objectKey] === 'object') {
       result = result.concat(
         deepObjectSearch({
           target: target[objectKey],
