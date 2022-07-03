@@ -86,7 +86,10 @@ const Services = () => {
                   handleBlur
                 )
               ) : (
-                <span>{groupElement.value}</span>
+                <>
+                  <span>{groupElement.name}</span>
+                  <span>{groupElement.value}</span>
+                </>
               )}
               <span className={styles.itemDescription}>
                 {groupElement.description}
