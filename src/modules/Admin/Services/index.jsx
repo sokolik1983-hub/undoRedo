@@ -29,6 +29,7 @@ const Services = () => {
           required
           name={path}
           onChange={handleChange}
+          placeholder={`Предыдущее значение: ${value}`}
         />
       );
     }
@@ -45,6 +46,7 @@ const Services = () => {
           required
           name={path}
           onChange={handleChange}
+          placeholder={`Предыдущее значение: ${value}`}
         />
       );
     }
