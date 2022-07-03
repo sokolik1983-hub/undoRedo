@@ -23,7 +23,6 @@ import BordersConfig from './BordersConfig';
 
 function StyleFormatter({ onChange, isHeader, formattingElement }) {
 
-  console.log(formattingElement)
   return (
     <div>
       <SectionGroup

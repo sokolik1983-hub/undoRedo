@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import Tooltip from '../../Tooltip/index'
 import styles from './NavItem.module.scss';
 
-function NavItem({ id, onClick, active, icon }) {
+function NavItem({ id, onClick, active, icon, title }) {
   function handleClick() {
     onClick(id);
   }
@@ -15,7 +15,10 @@ function NavItem({ id, onClick, active, icon }) {
 
   return (
     <div className={itemClass} onClick={handleClick}>
-      <Tooltip placement="top">
+      <Tooltip
+        placement="top"
+        overlay={<div className={styles.tooltip}>{title || ''}</div>}
+      >
         {icon}
       </Tooltip>
     </div>

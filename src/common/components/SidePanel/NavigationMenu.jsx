@@ -14,6 +14,7 @@ export default function NavigationMenu({ onClick, menu = [], activePage }) {
         menu.map(item => (
           <NavItem
             key={item.id}
+            title={item.title}
             {...item}
             onClick={handleClick}
             active={activePage === item.id}
