@@ -100,7 +100,7 @@ const Cell = ({
       before: modify({addIndexCoeff: 0, axis: 'x', needReplace: false}),
       after: modify({addIndexCoeff: 1, axis: 'x', needReplace: false}),
       // end to do
-      center:  modify({addIndexCoeff: 0, axis: 'y', needReplace: true}),
+      center:  modify({addIndexCoeff: 0, axis: 'x', needReplace: true}),
       above: modify({addIndexCoeff: 0, axis: 'y', needReplace: false}),
       below: modify({addIndexCoeff: 1, axis: 'y', needReplace: false}),
     };
