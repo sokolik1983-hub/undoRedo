@@ -298,7 +298,7 @@ const TableComponent = ({
       headerRef: React.createRef(),
       ports: []
     };
-  }, [isShadow, columns]);
+  }, [isShadow, columns, portsRefs]);
 
   const updateTableSize = () => {
     const ref = tableRef;

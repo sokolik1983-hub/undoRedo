@@ -159,6 +159,7 @@ const Provided = props => {
   }, []);
 
   useMemo(() => {
+    console.log(props.tablesPosition);
     if (props.tablesPosition) {
       setTablesPosition(props.tablesPosition);
       setTablePositionChangedCallback(props.setTablesPosition);
@@ -226,15 +227,16 @@ const Provided = props => {
   );
 
   const targetRect = (table, field) => {
-    const tableName = getTableIdFromParams({ ...table, connect_id: 4 });
+    const { schema, objectName } = table;
+    const tableName = getTableIdFromParams({schema, objectName});
     const tp = getTablePosition(tableName) || {
       deltaPosition: { x: 0, y: 0 }
     };
-    const tr = getRefs(getTableIdFromParams({ ...table, connect_id: 4 }));
+    const tr = getRefs(getTableIdFromParams({schema, objectName}));
 
     if (!tp || !tr || !tr.tableRef || !tr.headerRef) return { tp, tr };
 
-    let port = tr.ports.find(column => column.key === field.field);
+    let port = tr.ports.find(column => column.key === field);
 
     if (!port) port = tr.headerRef;
     else port = port.ref;
@@ -321,15 +323,15 @@ const Provided = props => {
           props.objectsLinks?.map(link => {
             const SourceRect = targetRect(
               Object.values(tables)?.find(
-                table => table.id === link.object1.table_id
+                table => `${table.schema}_${table.objectName}` === link.object1.object_name
               ),
-              !isShadow && link.object2.fields[0]
+              !isShadow && link.object1.selectedColumns[0]
             );
             const TargetRect = targetRect(
               Object.values(tables)?.find(
-                table => table.id === link.object2.table_id
+                table => `${table.schema}_${table.objectName}` === link.object2.object_name
               ),
-              !isShadow && link.object2.fields[0]
+              !isShadow && link.object2.selectedColumns[0]
             );
 
             return (
