@@ -80,7 +80,6 @@ const SchemaEditorBlock = ({
   const headerRef = useRef(null);
   const tableRef = useRef(null);
   const fieldRefs = useRef([React.createRef(), React.createRef()]);
-  console.log(tableId, tableItem)
 
   const dispatch = useDispatch();
 
