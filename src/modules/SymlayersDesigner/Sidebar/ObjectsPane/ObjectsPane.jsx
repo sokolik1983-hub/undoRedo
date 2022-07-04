@@ -49,12 +49,10 @@ const ObjectsPane = () => {
         setFilterObjectMode={setFilterObjectMode}
       />
       <Divider color="#0D6CDD" />
-
       <div className={styles.owner}>
         <FolderIcon />
         <span className={styles.ownerText}>Новый семантический слой</span>
       </div>
-
       <div className={styles.contentData}>
         <div className={styles.objectsData}>
           {objectsList?.map(object => {
