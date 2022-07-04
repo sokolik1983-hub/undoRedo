@@ -32,8 +32,11 @@ function HomePage() {
     state => state.app.data.favoriteObjects
   );
 
+  console.log('favoriteObjectsData', favoriteObjectsData);
+
   const isFavoritesLoading = favoriteObjectsStatus === 'LOADING';
   const isFavoritesFailed = favoriteObjectsStatus === 'FAILED';
+  const isFavoritesEmpty = !favoriteObjectsData.length;
 
   const handleClick = () => {
     navigate(REDIRECT_LINKS.REPORT_CREATE);
@@ -71,19 +74,22 @@ function HomePage() {
       >
         <div className={clsx(styles.whiteLine2)} />
         <p className={styles.rowTitle}>Избранное</p>
-        <div className={styles.section}>
-          {favoriteObjectsData.map(item => (
-            <HomePageButton
-              key={item.id}
-              title={item.name}
-              isDocument
-              hasTooltip
-            />
-          ))}
-        </div>
-        {isFavoritesLoading && <InlinePreloader />}
+        {isFavoritesLoading ? (
+          <InlinePreloader />
+        ) : (
+          <div className={styles.section}>
+            {favoriteObjectsData.map(item => (
+              <HomePageButton
+                key={item.id}
+                title={item.name}
+                isDocument
+                hasTooltip
+              />
+            ))}
+          </div>
+        )}
         {isFavoritesFailed && <div>Невозможно получить список избранного</div>}
-        {!isFavoritesFailed && !isFavoritesLoading && (
+        {!isFavoritesFailed && !isFavoritesLoading && isFavoritesEmpty && (
           <div>Вы пока ничего не добавили в избранное...</div>
         )}
       </div>

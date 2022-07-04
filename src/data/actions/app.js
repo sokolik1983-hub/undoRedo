@@ -87,17 +87,14 @@ export const getFavoriteObjects = () => {
       dispatch
     })
       .then(response => {
-        if (response?.data) {
-          dispatch(successFavoriteObjects());
+        if (response?.objects) {
           dispatch(setFavoriteObjects(response.objects[0]));
+          dispatch(successFavoriteObjects());
         }
       })
       .catch(() => {
         dispatch(failedFavoriteObjects());
       })
-      .finally(() => {
-        dispatch(failedFavoriteObjects());
-      });
   };
 };
 
