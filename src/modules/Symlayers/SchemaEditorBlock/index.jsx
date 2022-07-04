@@ -80,6 +80,7 @@ const SchemaEditorBlock = ({
   const headerRef = useRef(null);
   const tableRef = useRef(null);
   const fieldRefs = useRef([React.createRef(), React.createRef()]);
+  console.log(tableId, tableItem)
 
   const dispatch = useDispatch();
 
@@ -309,8 +310,8 @@ const SchemaEditorBlock = ({
                 }
                 key={item.field + item.type}
                 draggable
-                onDragStart={e => onFieldDragStart(e, item)}
-                onDrop={e => onFieldDragOver(e, item)}
+                onDragStart={e => onFieldDragStart(e, item, tableItem)}
+                onDrop={e => onFieldDragOver(e, item, tableItem)}
                 ref={fieldRefs.current[index]}
               >
                 {item.field}

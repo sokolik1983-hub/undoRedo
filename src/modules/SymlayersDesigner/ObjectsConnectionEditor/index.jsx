@@ -37,8 +37,8 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
     state => state.app.ui.modalData 
   );
 
-  const [resultExpression, setResultExpression] = useState(currentObjLink ? currentObjLink.expression : null);
-  const [condition, setCondition] = useState(currentObjLink ? currentObjLink.condition : '=');
+  const [resultExpression, setResultExpression] = useState(currentObjLink?.expression ? currentObjLink.expression : null);
+  const [condition, setCondition] = useState(currentObjLink?.condition ? currentObjLink.condition : '=');
 
   const selectedTables = useSelector(
     state => state.app.schemaDesigner.selectedTables
@@ -122,9 +122,33 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
           }
         })
       );
-    } else {
+    } else if (!currentObjLink.newLink) {
       dispatch(
         setLink({
+            id: currentObjLink.id,
+            condition,
+            expression: resultExpression,
+            object1: {
+              cardinality: 'one',
+              object_name: leftTable,
+              schema: leftSchema,
+              columns: leftColumns,
+              selectedColumns: leftSelected || currentObjLink.object1.selectedColumns,
+              outerJoin: null
+            },
+            object2: {
+              cardinality: 'one',
+              object_name: rightTable,
+              schema: rightSchema,
+              columns: rightColumns,
+              selectedColumns: rightSelected || currentObjLink.object2.selectedColumns,
+              outerJoin: null
+            }
+        })
+      )
+    } else if (currentObjLink.newLink) {
+      dispatch(
+        addLink({
             id: currentObjLink.id,
             condition,
             expression: resultExpression,

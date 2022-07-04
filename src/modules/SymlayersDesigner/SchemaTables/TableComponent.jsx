@@ -36,6 +36,8 @@ import {
 } from '../../../data/actions/universes';
 import { handleCheckMatch } from './helper';
 import { styles } from './TableComponent.module.scss';
+import { OBJECTS_CONNECTIONS_MODAL } from '../../../common/constants/popups';
+import ObjectsConnectionEditor from '../ObjectsConnectionEditor';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -143,6 +145,11 @@ const TableComponent = ({
   const { selectedTables, coloredValue, showDataList } = useSelector(
     state => state.app.schemaDesigner
   );
+
+  const isObjectsConnectionsModalOpened = useSelector(
+    state => state.app.ui.modalVisible === OBJECTS_CONNECTIONS_MODAL
+  );
+  const links = useSelector(state => state.app.schemaDesigner.links);
 
   const [coords, setCoords] = useState({ x: 0, y: 0 });
 
@@ -349,8 +356,16 @@ const TableComponent = ({
     [posToCoord, startDrag]
   );
 
-  const onFieldDragStart = (event, field) => {
-    event.dataTransfer.setData('field', JSON.stringify(field));
+  const onFieldDragStart = (event, field, table) => {
+    const object1 = {
+      cardinality: 'one',
+      fields: table.columns,
+      object_name: `${table.schema}_${table.objectName}`,
+      outerJoin: null,
+      schema: `${table.schema}`,
+      selectedColumns: [field.field]
+    }
+    event.dataTransfer.setData('object1', JSON.stringify(object1));
   };
 
   // const tryLinkEnd = ({ item, event }) => {
@@ -377,7 +392,19 @@ const TableComponent = ({
   //   startDrag({ event, dragCallback, dragStopCallback });
   // };
 
-  const onFieldDragOver = (event, field) => {
+  const onFieldDragOver = (event, field, table) => {   
+    const object1 = JSON.parse(event.dataTransfer.getData('object1'));
+    const object2 = {
+      cardinality: 'one',
+      fields: table.columns,
+      object_name: `${table.schema}_${table.objectName}`,
+      outerJoin: null,
+      schema: `${table.schema}`,
+      selectedColumns: [field.field]
+    }
+
+    if (object1.object_name !== object2.object_name)
+      dispatch(setObjectsConnectionsModal(true, {id: links.length, newLink: true, object1, object2}));
     // tryLinkEnd({field, event})
   };
 
@@ -475,6 +502,12 @@ const TableComponent = ({
             isShadow={isShadow}
             columns={columns}
             setTablesRefs={SET_TABLE_REFS}
+          />
+        )}
+        {isObjectsConnectionsModalOpened && (
+          <ObjectsConnectionEditor
+            id={links.length}
+            visible={isObjectsConnectionsModalOpened && true}
           />
         )}
       </foreignObject>
