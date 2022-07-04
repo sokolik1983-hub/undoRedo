@@ -64,8 +64,10 @@ function HomePage() {
           styles.favoritesBG,
           styles.whiteLineShadow,
           isFavoritesLoading ? styles.inlinePreloaderWrapper : null,
-          !isFavoritesLoading && isFavoritesFailed ? styles.favoritesPlaceholderWrapper : null,
-        )}  
+          !isFavoritesLoading && isFavoritesFailed
+            ? styles.favoritesPlaceholderWrapper
+            : null
+        )}
       >
         <div className={clsx(styles.whiteLine2)} />
         <p className={styles.rowTitle}>Избранное</p>
@@ -80,8 +82,10 @@ function HomePage() {
           ))}
         </div>
         {isFavoritesLoading && <InlinePreloader />}
-        {isFavoritesFailed && <div>Ошибка на сервере...</div>}
-        {!isFavoritesFailed && !isFavoritesLoading && <div>Вы пока ничего не добавили в Избранное...</div>}
+        {isFavoritesFailed && <div>Невозможно получить список избранного</div>}
+        {!isFavoritesFailed && !isFavoritesLoading && (
+          <div>Вы пока ничего не добавили в Избранное...</div>
+        )}
       </div>
 
       <div className={clsx(styles.row, styles.appsBG, styles.whiteLineShadow)}>
