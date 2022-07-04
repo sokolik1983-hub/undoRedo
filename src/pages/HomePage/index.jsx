@@ -32,11 +32,13 @@ function HomePage() {
     state => state.app.data.favoriteObjects
   );
 
-  console.log('favoriteObjectsData', favoriteObjectsData);
+  console.log('favoriteObjectsData', favoriteObjectsData, InlinePreloader);
 
   const isFavoritesLoading = favoriteObjectsStatus === 'LOADING';
-  const isFavoritesFailed = favoriteObjectsStatus === 'FAILED';
-  const isFavoritesEmpty = !favoriteObjectsData.length;
+  const isFavoritesFailed = favoriteObjectsStatus === 'FAILED' && !favoriteObjectsData.length;
+  const isFavoritesEmpty = !isFavoritesLoading && !favoriteObjectsData.length;
+
+  console.log('isFavoritesEmpty', isFavoritesEmpty, isFavoritesFailed);
 
   const handleClick = () => {
     navigate(REDIRECT_LINKS.REPORT_CREATE);
@@ -66,32 +68,26 @@ function HomePage() {
           styles.row,
           styles.favoritesBG,
           styles.whiteLineShadow,
-          isFavoritesLoading ? styles.inlinePreloaderWrapper : null,
-          !isFavoritesLoading && isFavoritesFailed
-            ? styles.favoritesPlaceholderWrapper
-            : null
+          // isFavoritesLoading ? styles.inlinePreloaderWrapper : null,
+          // !isFavoritesLoading && isFavoritesFailed
+          //   ? styles.favoritesPlaceholderWrapper
+          //   : null
         )}
       >
         <div className={clsx(styles.whiteLine2)} />
         <p className={styles.rowTitle}>Избранное</p>
-        {isFavoritesLoading ? (
-          <InlinePreloader />
-        ) : (
-          <div className={styles.section}>
-            {favoriteObjectsData.map(item => (
-              <HomePageButton
-                key={item.id}
-                title={item.name}
-                isDocument
-                hasTooltip
-              />
-            ))}
-          </div>
-        )}
-        {isFavoritesFailed && <div>Невозможно получить список избранного</div>}
-        {!isFavoritesFailed && !isFavoritesLoading && isFavoritesEmpty && (
-          <div>Вы пока ничего не добавили в избранное...</div>
-        )}
+        <div className={styles.section}>
+          {favoriteObjectsData.map(item => (
+            <HomePageButton
+              key={item.id}
+              title={item.name}
+              isDocument
+              hasTooltip
+            />
+          ))}
+        </div>
+        {isFavoritesEmpty && <div>Вы пока ничего не добавили в Избранное...</div>}
+        {isFavoritesLoading && !favoriteObjectsData.length && <InlinePreloader />}
       </div>
 
       <div className={clsx(styles.row, styles.appsBG, styles.whiteLineShadow)}>
