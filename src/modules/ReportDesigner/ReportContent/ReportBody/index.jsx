@@ -10,6 +10,7 @@ import {
   setConfigPanelVisible,
   setStructure
 } from '../../../../data/reducers/new_reportDesigner';
+import { setReportStructure } from '../../../../data/actions/newReportDesigner';
 
 const ReportBody = ({ data, onSelect, isActiveNode }) => {
   const dispatch = useDispatch();
@@ -34,6 +35,12 @@ const ReportBody = ({ data, onSelect, isActiveNode }) => {
     }
 
     dispatch(setStructure(newStructure));
+    dispatch(
+      setReportStructure({
+        report_id: currentReport.id,
+        structure: newStructure
+      })
+    );
   }
 
   function handleChangeScales(id, newScales) {
@@ -55,6 +62,12 @@ const ReportBody = ({ data, onSelect, isActiveNode }) => {
     }
 
     dispatch(setStructure(newStructure));
+    dispatch(
+      setReportStructure({
+        report_id: currentReport.id,
+        structure: newStructure
+      })
+    );
   }
 
   return (

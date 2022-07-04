@@ -27,7 +27,12 @@ export const sortFoldersAndItems = folderChildren => {
 
 export const FOLDER_ITEM_DROPDOWN_ACTIONS = [
   {
-    title: 'Редактировать',
+    title: 'Просмотр',
+    icon: <EditIcon />,
+    action: 'open'
+  },
+  {
+    title: 'Редактировать имя',
     icon: <EditIcon />,
     action: 'edit'
   },

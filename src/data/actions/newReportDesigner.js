@@ -1,7 +1,18 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-unused-vars */
 import { ActionCreators } from 'redux-undo';
 import { request } from '../helpers';
-import { setStructure, setVariables } from '../reducers/new_reportDesigner';
+import {
+  setReportHeader,
+  setReports,
+  setStructure,
+  setVariables
+} from '../reducers/new_reportDesigner';
+import {
+  REP_GET_REPORT_STRUCTURE,
+  REP_SET_DP_PARAMS,
+  REP_SET_STRUCTURE_PARAMS
+} from './response_const';
 
 export const refreshServerResponse = queryParams => {
   return async dispatch => {
@@ -40,7 +51,7 @@ export const getReportStructure = queryParams => {
   };
 };
 
-export const createReport = queryParams => {
+export const createReport = (queryParams, onSuccess) => {
   return async dispatch => {
     const response = await request({
       code: 'REP.CREATE',
@@ -48,8 +59,69 @@ export const createReport = queryParams => {
       dispatch
     });
     if (response) {
-      console.log(response);
-      // dispatch(getReportStructure({ report_id: queryParams.report_id }));
+      localStorage.setItem('streamreceiver', response.header.thread);
+      await dispatch(
+        setReportDp({
+          dp_id: 'DP0',
+          dp: {
+            dpConnect_id: 'TA',
+            dpName: 'SQL Запрос 1',
+            dpObjects: [
+              {
+                dataType: 'Number',
+                id: 'DP0.D1',
+                name: 'Id',
+                type: 'Dimension'
+              },
+              {
+                dataType: 'Number',
+                id: 'DP0.D7',
+                name: 'egr_id (что бы это ни было)',
+                type: 'Dimension'
+              },
+              {
+                dataType: 'String',
+                id: 'DP0.D2',
+                name: 'Тип учредителя',
+                type: 'Dimension'
+              },
+              {
+                dataType: 'String',
+                id: 'DP0.D3',
+                name: 'Наименование учредителя',
+                type: 'Dimension'
+              },
+              {
+                aggFunc: 'SUM',
+                dataType: 'Number',
+                id: 'DP0.M4',
+                name: 'Доля(руб)',
+                type: 'Measure'
+              },
+              {
+                aggFunc: 'SUM',
+                dataType: 'Number',
+                id: 'DP0.M5',
+                name: 'Доля(%)',
+                type: 'Measure'
+              },
+              {
+                dataType: 'Datetime',
+                id: 'DP0.D6',
+                name: 'Дата',
+                type: 'Dimension'
+              }
+            ],
+            dpProperties: {},
+            dpSql:
+              "select id, egr_id, founder_type, trim(replace(src_key, '#', ' ')) as name, share_value_rub, share_percent, from_date\n  from tern_analytics_egr.egrul_founder f  where share_value_rub is not null limit 50000",
+            dpType: 'directSql',
+            dp_id: 'DP0'
+          }
+        })
+      );
+      dispatch(getVariables());
+      // dispatch(setReportStructure(REP_SET_STRUCTURE_PARAMS));
     }
   };
 };
@@ -74,8 +146,11 @@ export const openReport = queryParams => {
       dispatch
     });
     if (response) {
-      console.log(response);
-      // dispatch(getReportStructure({ report_id: queryParams.report_id }));
+      localStorage.setItem('streamreceiver', response.header.thread);
+
+      dispatch(setReportHeader(response.header));
+      dispatch(getReportTabs());
+      dispatch(getVariables());
     }
   };
 };
@@ -83,18 +158,69 @@ export const getReportTabs = queryParams => {
   return async dispatch => {
     const response = await request({
       code: 'REP.GET_ALL_OBJECT',
-      params: queryParams, // {"id": 10106}
+      params: queryParams,
       dispatch
     });
     if (response) {
+      debugger;
+      dispatch(
+        setReports({
+          reports: response.object.data.reports.map(report => {
+            return {
+              ...report,
+              paginationMode: 'Quick', // Quick | ?
+              displayMode: 'Structure', // Data | Structure
+              pageSettings: {
+                margins: {
+                  left: 100,
+                  right: 100,
+                  top: 100,
+                  bottom: 100
+                },
+                orientation: 'Landscape', // Landscape | Portrait
+                height: 1024,
+                width: 768,
+                recordsHeight: 100,
+                recordsWidth: 25,
+                scale: 100
+              }
+            };
+          })
+        })
+      );
+
       console.log(response);
       // dispatch(getReportStructure({ report_id: queryParams.report_id }));
     }
   };
 };
+export const setReportDp = queryParams => {
+  return async dispatch => {
+    const response = await request({
+      code: 'REP.SET_DP',
+      params: queryParams,
+      dispatch
+    });
+    if (response) {
+      dispatch(setReportDpRefreshed());
+    }
+  };
+};
+export const setReportDpRefreshed = queryParams => {
+  return async dispatch => {
+    const response = await request({
+      code: 'REP.REFRESH',
+      params: queryParams,
+      dispatch
+    });
+    if (response) {
+      console.log(response);
+    }
+  };
+};
 
 export const setReportStructure = queryParams => {
-  console.log(queryParams)
+  console.log(queryParams);
   return async dispatch => {
     const response = await request({
       code: 'REP.SET_STRUCTURE',

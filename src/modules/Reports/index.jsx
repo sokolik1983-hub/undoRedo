@@ -1,7 +1,7 @@
 import { useEffect, useState, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ListNavBar from '../../common/components/ListNavBar/ListNavBar';
 import List from '../../common/components/List/List';
 import ListItem from '../../common/components/List/ListItem/ListItem';
@@ -18,6 +18,7 @@ import { ReactComponent as FolderIcon } from '../../layout/assets/folderIcon.svg
 import { ReactComponent as ConnectorIcon } from '../../layout/assets/connectorIcon.svg';
 import {
   BREADCRUMBS_ROOT,
+  REDIRECT_LINKS,
   TABLE_CELL_EMPTY_VALUE
 } from '../../common/constants/common';
 import Preloader from '../../common/components/Preloader/Preloader';
@@ -27,16 +28,23 @@ import FloatingButton from '../../common/components/FloatingButton';
 import { ReactComponent as CreateConnector } from '../../layout/assets/createConnector.svg';
 import styles from './Reports.module.scss';
 import Tooltip from '../../common/components/Tooltip';
-import { getReportsFolderChildren, getReportsFolderId } from '../../data/actions/universes';
+import {
+  getReportsFolderChildren,
+  getReportsFolderId
+} from '../../data/actions/universes';
+// import { openReport } from '../../data/actions/newReportDesigner';
 
 const Reports = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const reports = useSelector(state => state.app.data.listReports);
-  const reportsRootFolderId = useSelector(state => state.app.data.reportsFolderId); 
+  const reportsRootFolderId = useSelector(
+    state => state.app.data.reportsFolderId
+  );
 
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.REPORTS));
-    dispatch(getReportsFolderId({folderType: 'USER_REP'}));
+    dispatch(getReportsFolderId({ folderType: 'USER_REP' }));
   }, []);
 
   const [foldersIdHistory, setFoldersIdHistory] = useState([]);
@@ -53,7 +61,7 @@ const Reports = () => {
   const [editListItemId, setEditListItemId] = useState();
 
   const goToRootFolder = () => {
-    dispatch(getReportsFolderChildren({id: reportsRootFolderId}));
+    dispatch(getReportsFolderChildren({ id: reportsRootFolderId }));
     setFoldersIdHistory([reportsRootFolderId]);
     setFoldersNameHistory([BREADCRUMBS_ROOT]);
     setCurrentFolderIndex(0);
@@ -69,20 +77,24 @@ const Reports = () => {
     if (currentFolderIndex === 0 && reportsRootFolderId) {
       goToRootFolder();
     } else if (reportsRootFolderId) {
-      dispatch(getReportsFolderChildren({id: foldersIdHistory[currentFolderIndex]}));
+      dispatch(
+        getReportsFolderChildren({ id: foldersIdHistory[currentFolderIndex] })
+      );
     }
-  }, [currentFolderIndex])
-    
+  }, [currentFolderIndex]);
+
   useEffect(() => {
-      if (reportsRootFolderId) {
-        goToRootFolder();
-      } 
-  }, [reportsRootFolderId])
+    if (reportsRootFolderId) {
+      goToRootFolder();
+    }
+  }, [reportsRootFolderId]);
 
   useEffect(() => {
     setActionButtonIsDisable({
       prev: !currentFolderIndex,
-      next: currentFolderIndex === foldersIdHistory.length - 1 || currentFolderIndex === 0,
+      next:
+        currentFolderIndex === foldersIdHistory.length - 1 ||
+        currentFolderIndex === 0,
       up: !currentFolderIndex
     });
   }, [currentFolderIndex]);
@@ -98,7 +110,7 @@ const Reports = () => {
       .map(i => i)
       .slice(0, currentFolderIndex + 1)
       .join(` / `);
-  }
+  };
 
   const moveToRootFolder = () => {
     setCurrentFolderIndex(0);
@@ -120,8 +132,15 @@ const Reports = () => {
     setEditListItemId(id);
   };
 
+  const handleOpenClick = id => {
+    navigate(`${REDIRECT_LINKS.REPORT_SHOW}/${id}`, { replace: true });
+  };
+
   const handleItemClick = (id, action) => {
     switch (action) {
+      case 'open':
+        handleOpenClick(id);
+        break;
       case 'edit':
         handleEditClick(id);
         break;
@@ -168,64 +187,68 @@ const Reports = () => {
     </div>
   );
 
-  const listItemsWithDropdown = sortedItems?.filter(item => item.name !== 'Корзина').map(item => {
-    const isFolder = item.kind === 'FLD';
+  const listItemsWithDropdown = sortedItems
+    ?.filter(item => item.name !== 'Корзина')
+    .map(item => {
+      const isFolder = item.kind === 'FLD';
 
-    const currentId = item.id;
+      const currentId = item.id;
 
-    const menu = isFolder
-      ? getFolderDropdownItems(`folder_${item.id}`)
-      : getUniverseDropdownItems(item.id);
+      const menu = isFolder
+        ? getFolderDropdownItems(`folder_${item.id}`)
+        : getUniverseDropdownItems(item.id);
 
-    return (
-      <Fragment key={isFolder ? `folder_${item.id}` : item.id}>
-        {editListItemId === currentId ? (
-          <ListItemEdit
-            key={isFolder ? `folder_${item.id}` : item.id}
-            value={item.name}
-            // TODO: implement submit function
-            // onSubmit={onItemEditSubmit}
-            onBlur={() => setEditListItemId(null)}
-          />
-        ) : (
-          <ListItem
-            className={styles.folderItemsColumnView}
-            name={item.name}
-            onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
-            icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
-            menu={menu}
-          />
-        )}
-      </Fragment>
-    );
-  });
+      return (
+        <Fragment key={isFolder ? `folder_${item.id}` : item.id}>
+          {editListItemId === currentId ? (
+            <ListItemEdit
+              key={isFolder ? `folder_${item.id}` : item.id}
+              value={item.name}
+              // TODO: implement submit function
+              // onSubmit={onItemEditSubmit}
+              onBlur={() => setEditListItemId(null)}
+            />
+          ) : (
+            <ListItem
+              className={styles.folderItemsColumnView}
+              name={item.name}
+              onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
+              icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
+              menu={menu}
+            />
+          )}
+        </Fragment>
+      );
+    });
 
   const tableHeader = connectorsTableHeader.map(i => (
     <th key={i.name}>{i.name}</th>
   ));
-  const tableRows = sortedItems?.filter(item => item.name !== 'Корзина').map(item => {
-    const isFolder = item.kind === 'FLD';
+  const tableRows = sortedItems
+    ?.filter(item => item.name !== 'Корзина')
+    .map(item => {
+      const isFolder = item.kind === 'FLD';
 
-    const currentId = isFolder ? `folder_${item.id}` : item.id;
+      const currentId = isFolder ? `folder_${item.id}` : item.id;
 
-    const menu = isFolder
-      ? getFolderDropdownItems(`folder_${item.id}`)
-      : getUniverseDropdownItems(item.id);
+      const menu = isFolder
+        ? getFolderDropdownItems(`folder_${item.id}`)
+        : getUniverseDropdownItems(item.id);
 
-    return (
-      <ListTableRow
-        key={currentId}
-        onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
-        isEditMode={editListItemId === currentId}
-        onEditEnd={() => setEditListItemId(null)}
-        icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
-        name={item.name}
-        menu={menu}
-        connectType={item.kind || TABLE_CELL_EMPTY_VALUE}
-        symlayerCount={item.symlayer_count || TABLE_CELL_EMPTY_VALUE}
-      />
-    );
-  });
+      return (
+        <ListTableRow
+          key={currentId}
+          onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
+          isEditMode={editListItemId === currentId}
+          onEditEnd={() => setEditListItemId(null)}
+          icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
+          name={item.name}
+          menu={menu}
+          connectType={item.kind || TABLE_CELL_EMPTY_VALUE}
+          symlayerCount={item.symlayer_count || TABLE_CELL_EMPTY_VALUE}
+        />
+      );
+    });
 
   return (
     <div className={styles.report}>

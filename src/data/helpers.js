@@ -141,10 +141,7 @@ export const request = async ({ params, code, dispatch }) => {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      data: `code=${code}&token=${encodeURI(token) ||
-        null}&format=JSON&params=${
-        params ? JSON.stringify(params) : ''
-      }&streamreceiver=${streamreceiver || null}`
+      data: `code=${code}&token=${encodeURI(token) || null}&format=JSON${streamreceiver ? `&streamreceiver=${streamreceiver}` : ''}${params ? `&params=${encodeURIComponent(JSON.stringify(params))}` : ''}`
     });
 
     if (response && response.status === 200) {

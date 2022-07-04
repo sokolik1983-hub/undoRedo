@@ -6,7 +6,7 @@ import HomePageButton from './HomePageButton/HomePageButton';
 import styles from './HomePage.module.scss';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
-import { REDIRECT_LINKS } from '../../common/constants/common'
+import { REDIRECT_LINKS } from '../../common/constants/common';
 import navigationMenu from '../../navigation';
 import { ReactComponent as ExplorerIcon } from '../../layout/assets/icons/buttonPlus.svg';
 import FloatingButton from '../../common/components/FloatingButton';
@@ -31,7 +31,7 @@ function HomePage() {
   }, []);
 
   const handleClick = () => {
-    navigate(REDIRECT_LINKS.REPORT_CREATE)
+    navigate(REDIRECT_LINKS.REPORT_CREATE);
   };
 
   return (
