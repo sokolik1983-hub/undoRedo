@@ -84,7 +84,7 @@ function HomePage() {
         {isFavoritesLoading && <InlinePreloader />}
         {isFavoritesFailed && <div>Невозможно получить список избранного</div>}
         {!isFavoritesFailed && !isFavoritesLoading && (
-          <div>Вы пока ничего не добавили в Избранное...</div>
+          <div>Вы пока ничего не добавили в избранное...</div>
         )}
       </div>
 
