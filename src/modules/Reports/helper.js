@@ -1,5 +1,7 @@
 import { ReactComponent as EditIcon } from '../../layout/assets/folderItemEdit.svg';
 import { ReactComponent as BinIcon } from '../../layout/assets/folderItemBin.svg';
+import { ReactComponent as FavoriteIcon } from '../../layout/assets/favoriteIcon.svg';
+import { ReactComponent as RemoveFromFavoritesIcon } from '../../layout/assets/removeFromFavorites.svg'
 
 export const sortFoldersAndItems = folderChildren => {
   if (!folderChildren) return null;
@@ -35,6 +37,16 @@ export const FOLDER_ITEM_DROPDOWN_ACTIONS = [
     title: 'Удалить',
     icon: <BinIcon />,
     action: 'delete'
+  },
+  {
+    title: 'Добавить в Избранное',
+    icon: <FavoriteIcon />,
+    action: 'addToFavorites'
+  },
+  {
+    title: 'Удалить из Избранных',
+    icon: <RemoveFromFavoritesIcon />,
+    action: 'removeFromFavorites'
   },
 ];
 

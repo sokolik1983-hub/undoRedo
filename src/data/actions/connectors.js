@@ -14,7 +14,7 @@ export const getStreamReceiever = queryParams => {
     if (response) {
 
       if (response.result === true) {
-        localStorage.setItem('streamreceiver', response.thread);
+        localStorage.setItem('streamreceiver', response.header.thread);
 
       }
 
@@ -71,7 +71,8 @@ export const getConnector = queryParams => {
         dispatch
       });
       if (response?.result) {
-        dispatch(setConnectorData(response.data));
+        dispatch(setConnectorData(response));
+        console.log(response.data);
         dispatch(showEditConnectorModal());
       }
     } catch (err) {

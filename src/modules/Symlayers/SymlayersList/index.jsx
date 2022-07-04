@@ -27,6 +27,7 @@ import {
   getUniversesFolderChildren,
   getUniversesFolderId
 } from '../../../data/actions/universes';
+import { setObjectToFavorites } from '../../../data/actions/app'
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
@@ -124,6 +125,26 @@ const ConnectorsList = () => {
     setEditListItemId(id);
   };
 
+  /**
+   * Хэндлер для добавления слоя в Избранное.
+   *
+   * @prop id слоя которого хотим добавить в Избранное.
+   */
+  const handleAddToFavorites = id => {
+    dispatch(setObjectToFavorites({ user_id: 10001, id, kind: 'REP' }));
+  };
+
+  /**
+   * Хэндлер для удаления слоя из Избранного.
+   *
+   * @prop id слоя которого хотим удалить из Избранных.
+   */
+  const handleRemoveFromFavorites = id => {
+    dispatch(
+      setObjectToFavorites({ user_id: 10001, id, kind: 'REP', isExclude: 1 })
+    );
+  };
+
   const handleItemClick = (id, action) => {
     switch (action) {
       case 'edit':
@@ -138,6 +159,12 @@ const ConnectorsList = () => {
       case 'connection check':
         break;
       case 'create universe':
+        break;
+      case 'addToFavorites':
+        handleAddToFavorites(id);
+        break;
+      case 'removeFromFavorites':
+        handleRemoveFromFavorites(id);
         break;
       default:
         console.log(action);

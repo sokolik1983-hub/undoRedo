@@ -16,15 +16,14 @@ import {
   setStructure,
   cellObject,
   reportPageObject,
-  setReportDisplayMode,
   setFormattingElementFormula,
   setActiveNodeFormula
 } from '../../data/reducers/new_reportDesigner';
 import { BUTTON } from '../../common/constants/common';
 import Button from '../../common/components/Button';
 import styles from './ReportDesigner.module.scss';
-import { createReportElement, getCurrentReport } from './helpers';
-// import SidePanel from '../../common/components/SidePanel';
+import { createReportElement, generateId, getCurrentReport } from './helpers';
+import PagesNav from '../../layout/components/NewReportActions/PagesNav/index';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
 import {
@@ -34,19 +33,24 @@ import {
   refreshServerResponse,
   getElementData
 } from '../../data/actions/newReportDesigner';
-// import { SIDE_PANEL_TYPES } from '../../common/constants/common';
+import { REPORT_ACTIONS } from '../../common/constants/reportDesigner/reportActions';
 import FormulaEditor from '../../common/components/FormulaEditor';
 // import Sidebar from '../SymlayersDesigner/Sidebar';
 // import ObjectsPanel from '../QueryPanel/ObjectsPanel';
 // import DragNDropProvider from '../QueryPanel/context/DragNDropContext';
 // import { getSymanticLayerData } from '../../data/actions/universes';
-import { ReactComponent as CloseIcon } from '../../layout/assets/close.svg';
 import ReportSidebar from './ReportSidebar';
 import QueryPanel from '../QueryPanel';
 import ReportContent from './ReportContent';
 import { ReactComponent as MiniFormulaIcon } from '../../layout/assets/reportDesigner/miniFormula.svg';
 import { ReactComponent as OkFormulaIcon } from '../../layout/assets/reportDesigner/okFormula.svg';
 import { ReactComponent as ClearFormulaIcon } from '../../layout/assets/reportDesigner/clearFormula.svg';
+import { ReactComponent as PlusIcon } from '../../layout/assets/queryPanel/plus.svg';
+import Tooltip from '../../common/components/Tooltip';
+import Dropdown from '../../common/components/Dropdown';
+import RenameModal from './ReportModals/RenameModal';
+import DeleteModal from './ReportModals/DeleteModal';
+import DropdownItem from '../../common/components/Dropdown/DropdownItem';
 
 // const getVariant = (type, tableType, graphType) => {
 //   const types = ['table', 'graph'];
@@ -64,7 +68,7 @@ function ReportDesigner() {
     id: 165,
     name: 'Клиентская справка'
   });
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(1);
 
   const dispatch = useDispatch();
   const reportDesigner = useSelector(state => state.app.reportDesigner);
@@ -73,7 +77,6 @@ function ReportDesigner() {
     reportDesigner.reportsData.present.reports,
     reportDesigner.reportsData.present.activeReport
   );
-  const { displayMode } = currentReport;
 
   const isQueryPanelModalOpened = useSelector(
     state => state.app.ui.modalVisible
@@ -81,6 +84,9 @@ function ReportDesigner() {
   const zoom = useSelector(
     state => state.app.reportDesigner.reportsUi.ui?.zoom
   );
+  const [reportName, setNewReportName] = useState('');
+  const [isDeleteModalActive, setIsDeleteModalActive] = useState(false);
+  const [isRenameModalActive, setIsRenameModalActive] = useState(false);
 
   function handleKeyUp(event) {
     // event.stopPropagation();
@@ -209,33 +215,23 @@ function ReportDesigner() {
     return styles.containerFull;
   };
 
-  const tabsCompressed = clsx(styles.tabs, {
-    [styles.tabsCompressed]: isShowingPanel
+  const footerCompressed = clsx(styles.footer, {
+    [styles.footerCompressed]: isShowingPanel
   });
 
   const formulaCompressed = clsx(styles.formula, {
     [styles.formulaCompressed]: isShowingPanel
   });
 
-  function handleChangeMode() {
-    let newMode = '';
-
-    if (displayMode && displayMode === 'Data') {
-      newMode = 'Structure';
-    } else {
-      newMode = 'Data';
-    }
-
-    dispatch(setReportDisplayMode(newMode));
-  }
-
   function handleAddReport() {
     const newReports = [
       ...reportDesigner.reportsData.present.reports,
       {
         ...reportPageObject,
-        id: reportDesigner.reportsData.present.reports.length + 1,
-        name: `Отчет ${reportDesigner.reportsData.present.reports.length + 1}`
+        // id: reportDesigner.reportsData.present.reports.length + 1,
+        // name: `Отчет ${reportDesigner.reportsData.present.reports.length + 1}`
+        id: generateId(),
+        name: `Отчет ${generateId()}`
       }
     ];
     dispatch(
@@ -244,53 +240,92 @@ function ReportDesigner() {
         activeReport: reportDesigner.reportsData.present.reports.length + 1
       })
     );
-  }
+  };
+
   const handleSelectReport = reportId => event => {
     event.stopPropagation();
     dispatch(setActiveReport(reportId));
   };
+
+    // const handleDeleteReport = reportId => event => {
+    // event.stopPropagation();
+    // const reportIdx = lodash.findIndex(
+    //   reportDesigner.reportsData.present.reports,
+    //   item => item.id === reportId
+    // );
+    // if (reportDesigner.reportsData.present.reports?.length > 1) {
+    //   const newReports = reportDesigner.reportsData.present.reports.filter(
+    //     report => report.id !== reportId
+    //   );
+    //   if (reportDesigner.reportsData.present.activeReport === reportId) {
+    //     dispatch(
+    //       setActiveReport(
+    //         reportDesigner.reportsData.present.reports[reportIdx - 1]?.id
+    //       )
+    //     );
+    //   }
+    //   dispatch(setReports({ reports: newReports }));
+
+// -------------------начало: действия с отчетом внизу страницы---------------------------------
+
+  const handleRenameReport = (repName) => {
+    const editedReport = {...currentReport, name: repName};
+    const newReports = lodash.cloneDeep(reportDesigner?.reportsData?.present?.reports);
+    const reportIdx = reportDesigner?.reportsData?.present?.reports.indexOf(currentReport);
+    newReports.splice(reportIdx, 1, editedReport);
+    dispatch(setReports({reports: newReports}));
+    setIsRenameModalActive(false);
+  };
+
+  const handleCopyReport = () => {
+    const copyReport = {...currentReport, name: `${currentReport.name} (копия)`, id: generateId()};
+    const newReports = lodash.cloneDeep(reportDesigner?.reportsData?.present?.reports);
+    const reportIdx = reportDesigner?.reportsData?.present?.reports.indexOf(currentReport);
+    newReports.splice(reportIdx + 1, 0, copyReport);
+    dispatch(setActiveReport(reportDesigner.reportsData.present.reports[reportIdx]?.id));
+    dispatch(setReports({reports: newReports}));
+  };
+
   const handleDeleteReport = reportId => event => {
     event.stopPropagation();
-    const reportIdx = lodash.findIndex(
-      reportDesigner.reportsData.present.reports,
-      item => item.id === reportId
-    );
-    if (reportDesigner.reportsData.present.reports?.length > 1) {
-      const newReports = reportDesigner.reportsData.present.reports.filter(
-        report => report.id !== reportId
-      );
-      if (reportDesigner.reportsData.present.activeReport === reportId) {
-        dispatch(
-          setActiveReport(
-            reportDesigner.reportsData.present.reports[reportIdx - 1]?.id
-          )
-        );
-      }
-      dispatch(setReports({ reports: newReports }));
+    const newReports = lodash.cloneDeep(reportDesigner?.reportsData?.present?.reports);
+    const reportIdx = reportDesigner?.reportsData?.present?.reports.indexOf(currentReport);
+    newReports.splice(reportIdx, 1);
+    dispatch(setActiveReport(reportDesigner.reportsData.present.reports[reportIdx - 1]?.id));
+    dispatch(setReports({reports: newReports}));
+    setIsDeleteModalActive(false);
+  };
+
+  const handleClick = (action) => {
+    switch (action) {
+      case 'rename':
+        setIsRenameModalActive(true);
+        break;
+      case 'copy':
+        handleCopyReport();
+        break;
+      case 'delete':
+        setIsDeleteModalActive(true);
+        break;
+      default:
+        console.log(action);
     }
   };
 
-  // const handleSelect = (structureItem, addItem) => {
-  //   if (
-  //     lodash.find(reportDesigner.reportsData.present.activeNodes, structureItem)
-  //   ) {
-  //     const filteredNodes = reportDesigner.reportsData.present.activeNodes.filter(
-  //       item => item.id !== structureItem.id
-  //     );
-  //     dispatch(setActiveNodes(filteredNodes));
-  //     dispatch(setConfigPanelVisible(false));
-  //   } else {
-  //     let newActiveNodes = [structureItem];
-  //     if (addItem) {
-  //       newActiveNodes = [
-  //         ...reportDesigner.reportsData.present.activeNodes,
-  //         structureItem
-  //       ];
-  //     }
-  //     dispatch(setActiveNodes(newActiveNodes));
-  //     dispatch(setConfigPanelVisible(true));
-  //   }
-  // };
+  const menu = () => (
+    <div className={styles.itemsWrapper}>
+      {REPORT_ACTIONS.map(item => (
+        <DropdownItem
+          key={item.title}
+          className={styles.dropdownItem}
+          onClick={action => handleClick(action)}
+          item={item}
+        />
+      ))}
+    </div>
+  );
+
+// -------------------конец: действия с отчетом внизу страницы---------------------------------
 
   function checkIsActiveNode(id) {
     return !lodash.isEmpty(
@@ -358,15 +393,6 @@ function ReportDesigner() {
 
   return (
     <div className={styles.root}>
-      {/* <div className={styles.sidebar}>
-        <DragNDropProvider>
-          <ObjectsPanel
-            symanticLayer={semanticLayer}
-            onToggleClick={handleShowSelector}
-            showHeader={false}
-          />
-        </DragNDropProvider>
-      </div> */}
       <ReportSidebar
         semanticLayer={semanticLayer}
         onToggleClick={handleShowSelector}
@@ -374,6 +400,7 @@ function ReportDesigner() {
         isActiveNode={checkIsActiveNode}
         showHeader={false}
         setTabNumber={setActiveTab}
+        currentReport={currentReport}
       />
       <div className={styles.wrapper}>
         {reportDesigner.reportsUi.ui.showFormulaEditor && (
@@ -444,40 +471,57 @@ function ReportDesigner() {
             <ReportFooter data={currentReport?.structure?.pgFooter} /> */}
           </div>
         </div>
-        <div className={activeTab === 1 ? tabsCompressed : styles.tabs}>
-          {reportDesigner.reportsData.present.reports &&
-            reportDesigner.reportsData.present.reports.map(report => {
-              const isActive =
-                reportDesigner.reportsData.present.activeReport === report.id;
-              return (
-                <Button
-                  buttonStyle={BUTTON.BLUE}
-                  key={report.id}
-                  className={clsx(styles.tab, {
-                    [styles.tab_active]: isActive
-                  })}
-                  onClick={handleSelectReport(report.id)}
-                >
-                  {report.name}
-                  {isActive && (
-                    <CloseIcon
-                      onClick={handleDeleteReport(report.id)}
-                      className={styles.closeIcon}
+        <div className={activeTab === 1 ? footerCompressed : styles.footer}>
+          <div className={styles.tabs}>
+            {reportDesigner.reportsData.present.reports &&
+              reportDesigner.reportsData.present.reports.map(report => {
+                const isActive =
+                  reportDesigner.reportsData.present.activeReport === report.id;
+                return (
+                  <div>
+                    <Dropdown
+                      trigger={isActive ? ['contextMenu'] : ''}
+                      overlay={menu()}
+                    >
+                      <Button
+                        buttonStyle={BUTTON.BLUE}
+                        key={report.id}
+                        className={clsx(styles.tab, {[styles.activeTab]: isActive })}
+                        onClick={handleSelectReport(report.id)}
+                      >
+                        {report.name}
+                      </Button>
+                    </Dropdown>
+                    
+                    <DeleteModal
+                      isOpen={isDeleteModalActive}
+                      onConfirm={handleDeleteReport()}
+                      onCancel={() => setIsDeleteModalActive(false)}
                     />
-                  )}
-                </Button>
-              );
+                    <RenameModal
+                      isOpen={isRenameModalActive}
+                      onRename={handleRenameReport}
+                      onCancel={() => setIsRenameModalActive(false)}
+                      setNewName={setNewReportName}
+                      oldName={report.name}
+                      name={reportName}
+                    />
+                  </div>
+                );
             })}
-          <Button
-            onClick={handleAddReport}
-            buttonStyle={BUTTON.BLUE}
-            className={styles.plus}
-          >
-            +
-          </Button>
-          <Button onClick={handleChangeMode} buttonStyle={BUTTON.BLUE}>
-            {displayMode === 'Data' ? 'Структура' : 'Данные'}
-          </Button>
+            <Tooltip
+              placement="topLeft"
+              overlay={<div className={styles.tooltip}>Добавить отчет</div>}
+              align={{offset: [15, 8]}}
+            >
+              <IconButton
+                className={styles.addBtn}
+                onClick={handleAddReport}
+                icon={<PlusIcon />}
+              />
+            </Tooltip>
+          </div>
+          <div style={{width: '10%', marginLeft: 'auto'}}><PagesNav /></div>
         </div>
       </div>
       {isQueryPanelModalOpened && (

@@ -27,6 +27,11 @@ const data = createSlice({
       currentLayerTitle: null,
       data: []
     },
+    favoriteObjects: {
+      favoriteObjectsData: [],
+      favoriteObjectsStatus: null,
+      error: null
+    },
   },
   reducers: {
     setConnectors: (state, action) => {
@@ -158,6 +163,19 @@ const data = createSlice({
     },
     setConnectorId: (state, action) => {
       state.selectedConnectorId = action.payload;
+    },
+    setFavoriteObjects: (state, action) => {
+      console.log('action', action)
+      state.favoriteObjects.favoriteObjectsData = action.payload;
+    },
+    loadingFavoriteObjects: (state) => {
+      state.favoriteObjects.favoriteObjectsStatus = 'LOADING';
+    },
+    successFavoriteObjects: (state) => {
+      state.favoriteObjects.favoriteObjectsStatus = 'SUCCESS';
+    },
+    failedFavoriteObjects: (state) => {
+      state.favoriteObjects.favoriteObjectsStatus = 'FAILED';
     }
   },
 });
@@ -193,7 +211,11 @@ export const {
   setConnectorData,
   setSampleUniverseObject,
   setUniverseIsCreated,
-  setConnectorId
+  setConnectorId,
+  setFavoriteObjects,
+  loadingFavoriteObjects,
+  successFavoriteObjects,
+  failedFavoriteObjects,
 } = data.actions;
 
 export default data.reducer;
