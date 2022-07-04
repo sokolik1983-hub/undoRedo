@@ -37,6 +37,7 @@ function HomePage() {
   const isFavoritesLoading = favoriteObjectsStatus === 'LOADING';
   const isFavoritesFailed = favoriteObjectsStatus === 'FAILED' && !favoriteObjectsData.length;
   const isFavoritesEmpty = !isFavoritesLoading && !favoriteObjectsData.length;
+  const noDataFetching = isFavoritesLoading && !favoriteObjectsData.length
 
   console.log('isFavoritesEmpty', isFavoritesEmpty, isFavoritesFailed);
 
@@ -68,10 +69,10 @@ function HomePage() {
           styles.row,
           styles.favoritesBG,
           styles.whiteLineShadow,
-          // isFavoritesLoading ? styles.inlinePreloaderWrapper : null,
-          // !isFavoritesLoading && isFavoritesFailed
-          //   ? styles.favoritesPlaceholderWrapper
-          //   : null
+          noDataFetching ? styles.inlinePreloaderWrapper : null,
+          !noDataFetching && isFavoritesFailed
+            ? styles.favoritesPlaceholderWrapper
+            : null
         )}
       >
         <div className={clsx(styles.whiteLine2)} />
