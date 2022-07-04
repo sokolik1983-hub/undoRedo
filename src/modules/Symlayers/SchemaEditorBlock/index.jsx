@@ -123,7 +123,6 @@ const SchemaEditorBlock = ({
 
   useEffect(() => {
     if (portsRefs?.length) {
-      console.log(portsRefs)
       addRefToColumns(portsRefs);
     }
   }, [fieldsCount]);

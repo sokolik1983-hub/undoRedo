@@ -58,7 +58,6 @@ const ObjectsPane = () => {
       <div className={styles.contentData}>
         <div className={styles.objectsData}>
           {objectsList?.map(object => {
-            console.log(objectsList, object)
             if (
               filterObjectsMode === 'GAUGE' &&
               object.objectType === 'Показатель'

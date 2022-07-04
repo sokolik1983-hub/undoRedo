@@ -70,10 +70,6 @@ function SymlayersDesigner() {
     const selectedTablesArray = useSelector(
       state => state.app.schemaDesigner.selectedTablesArray
     );
-
-    useEffect(() => {
-      console.log('*')
-    }, [selectedTablesArray]);
         
   useEffect(() => {
     if (selectedTablesArray.length) {
