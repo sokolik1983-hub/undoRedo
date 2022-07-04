@@ -110,10 +110,6 @@ const schemaDesigner = createSlice({
     },
     addObjectLayer: (state, action) => {
       state.objectsLayerList = [...state.objectsLayerList, action.payload];
-      state.newData.data.objects = [
-        ...state.newData.data.objects,
-        action.payload
-      ];
     },
     deleteObjectLayer: (state, action) => {
       const id = action.payload;

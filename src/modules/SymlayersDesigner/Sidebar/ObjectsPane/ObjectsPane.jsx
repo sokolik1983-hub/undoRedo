@@ -11,17 +11,14 @@ import styles from './ObjectsPane.module.scss';
 const ObjectsPane = () => {
   const dispatch = useDispatch();
   const objectsLayers = useSelector(
-    state => state.app.schemaDesigner.newData.data.objects
+    state => state.app.schemaDesigner.objectsLayerList
   );
   const [objectsList, setObjectsList] = useState([]);
   const [filterObjectsMode, setFilterObjectMode] = useState(null);
   const [selectObjectLayer, setSelectObjectLayer] = useState(EMPTY_STRING);
-
   useEffect(() => {
-    if (objectsLayers?.length) {
-      setObjectsList(objectsLayers);
-      setFilterObjectMode(null);
-    }
+    setObjectsList(objectsLayers);
+    setFilterObjectMode(null);
   }, [objectsLayers]);
 
   const handleObjectDrop = () => {
@@ -61,6 +58,7 @@ const ObjectsPane = () => {
       <div className={styles.contentData}>
         <div className={styles.objectsData}>
           {objectsList?.map(object => {
+            console.log(objectsList, object)
             if (
               filterObjectsMode === 'GAUGE' &&
               object.objectType === 'Показатель'

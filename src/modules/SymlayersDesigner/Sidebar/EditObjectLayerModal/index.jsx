@@ -69,6 +69,7 @@ const EditObjectLayerModal = ({ visible }) => {
       initialValues={editObjectModalValues}
       onSubmit={(values, event) => {
         handleClose();
+        console.log(values, data.id)
         dispatch(setObjectLayer({...values, id: data.id}));
         dispatch(showToast('success', 'Объект сохранен'));
         event.preventDefault();
