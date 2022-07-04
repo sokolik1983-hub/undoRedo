@@ -357,6 +357,7 @@ const TableComponent = ({
   );
 
   const onFieldDragStart = (event, field, table) => {
+    event.dataTransfer.setData('field', JSON.stringify(field));
     const object1 = {
       cardinality: 'one',
       fields: table.columns,
