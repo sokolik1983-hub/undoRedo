@@ -140,8 +140,7 @@ const Cell = ({
 
   const getCellStyle = () => {
     const result = {
-      minHeight: '30px',
-      maxWidth: '150px'
+      minHeight: '30px'
     };
     return { ...blockStyles, ...result };
   };

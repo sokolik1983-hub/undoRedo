@@ -80,7 +80,7 @@ const TableBody = ({
 
       return (
         headerField && (
-          <th onClick={() => handleClick(headerField)}>
+          <td onClick={() => handleClick(headerField)}>
             <Cell
               tableType={tableType}
               displayMode={displayMode}
@@ -91,7 +91,7 @@ const TableBody = ({
                 formattingElement && formattingElement.id === headerField.id
               }
             />
-          </th>
+          </td>
         )
       );
     });
