@@ -103,7 +103,8 @@
   padding-bottom: 644px;
 }
 
-.requestWrapper span, .requestWrapper input {
+.requestWrapper span,
+.requestWrapper input {
   margin: 8px 0;
 }
 
@@ -134,4 +135,17 @@
   display: flex;
   align-items: center;
   padding-left: 145px;
+}
+
+.homePageButtonDropdownWrapper {
+  padding: 3px;
+  background: linear-gradient(
+    152.97deg,
+    rgba(21, 21, 21, 0.208) 0%,
+    rgba(21, 21, 21, 0) 100%
+  );
+  filter: drop-shadow(0px 4px 4px rgba(34, 82, 102, 0.25));
+  backdrop-filter: blur(7px);
+  border-radius: 7.5px;
+  box-shadow: 0 4px 4px rgba(34, 82, 102, 0.25);
 }

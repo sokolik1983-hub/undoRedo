@@ -38,6 +38,19 @@ export const FOLDER_ITEM_DROPDOWN_ACTIONS = [
     icon: <BinIcon />,
     action: 'delete'
   },
+];
+
+export const FOLDER_ITEM_DROPDOWN_ACTIONS_REPORTS = [
+  {
+    title: 'Редактировать',
+    icon: <EditIcon />,
+    action: 'edit'
+  },
+  {
+    title: 'Удалить',
+    icon: <BinIcon />,
+    action: 'delete'
+  },
   {
     title: 'Добавить в Избранное',
     icon: <FavoriteIcon />,

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -10,38 +11,77 @@ import { REDIRECT_LINKS } from '../../common/constants/common';
 import navigationMenu from '../../navigation';
 import { ReactComponent as ExplorerIcon } from '../../layout/assets/icons/buttonPlus.svg';
 import FloatingButton from '../../common/components/FloatingButton';
+import Dropdown from '../../common/components/Dropdown/index';
+import DropdownItem from '../../common/components/Dropdown/DropdownItem';
 import InlinePreloader from '../../common/components/InlinePreloader/index';
 import { getFavoriteObjects } from '../../data/actions/app';
+import { HOME_PAGE_BUTTON_ACTIONS } from '../../common/constants/common';
+import { setObjectToFavorites } from '../../data/actions/app';
 
 const RECENTS = [
-  { id: 1, title: 'Отчет 1 о проделанной работе с мая месяца текущего года' },
-  { id: 2, title: 'Отчет 2' },
-  { id: 3, title: 'Отчет 3' }
+  { id: 1, title: 'Отчет 1 о проделанной работе с мая месяца текущего года', kind: 'SL' },
+  { id: 2, title: 'Отчет 2', kind: 'REP' },
+  { id: 3, title: 'Отчет 3', kind: 'REP' }
 ];
 
 function HomePage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { favoriteObjectsStatus, favoriteObjectsData } = useSelector(
+    state => state.app.data.favoriteObjects
+  );
+
+  console.log('favoriteObjectsData', favoriteObjectsData)
+
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.DASHBOARD));
     dispatch(getFavoriteObjects());
   }, []);
 
-  const { favoriteObjectsData, favoriteObjectsStatus } = useSelector(
-    state => state.app.data.favoriteObjects
+  const isFavoritesEmpty = !favoriteObjectsData.length;
+  const isFavoritesLoading = favoriteObjectsStatus === 'LOADING';
+  const isFavoritesFailed = favoriteObjectsStatus === 'FAILED';
+
+  /**
+   * Хэндлер для удаления документа из Избранного.
+   *
+   * @prop id документа которого хотим удалить из Избранных.
+   */
+  const handleRemoveFromFavorites = id => {
+    dispatch(
+      setObjectToFavorites({ user_id: 10001, id, kind: 'REP', isExclude: 1 })
+    );
+    dispatch(getFavoriteObjects());
+  };
+
+  const handleSetActionClick = (id, action) => {
+    switch (action) {
+      case 'removeFromFavorites':
+        handleRemoveFromFavorites(id);
+        break;
+      case 'open':
+        () => {};
+        break;
+      default:
+        return null;
+    }
+  };
+
+  const renderDropdownMenu = id => (
+    <div className={styles.homePageButtonDropdownWrapper}>
+      {HOME_PAGE_BUTTON_ACTIONS.map(item => (
+        <DropdownItem
+          key={item.title}
+          onClick={action => handleSetActionClick(id, action)}
+          className={styles.menuItem}
+          item={item}
+        />
+      ))}
+    </div>
   );
 
-  console.log('favoriteObjectsData', favoriteObjectsData, InlinePreloader);
-
-  const isFavoritesLoading = favoriteObjectsStatus === 'LOADING';
-  const isFavoritesFailed = favoriteObjectsStatus === 'FAILED' && !favoriteObjectsData.length;
-  const isFavoritesEmpty = !isFavoritesLoading && !favoriteObjectsData.length;
-  const noDataFetching = isFavoritesLoading && !favoriteObjectsData.length
-
-  console.log('isFavoritesEmpty', isFavoritesEmpty, isFavoritesFailed);
-
-  const handleClick = () => {
+  const handleReportCreate = () => {
     navigate(REDIRECT_LINKS.REPORT_CREATE);
   };
 
@@ -57,38 +97,37 @@ function HomePage() {
             <HomePageButton
               key={item.id}
               title={item.title}
-              isDocument
               hasTooltip
+              kind={item.kind}
             />
           ))}
         </div>
       </div>
 
       <div
-        className={clsx(
-          styles.row,
-          styles.favoritesBG,
-          styles.whiteLineShadow,
-          noDataFetching ? styles.inlinePreloaderWrapper : null,
-          !noDataFetching && isFavoritesFailed
-            ? styles.favoritesPlaceholderWrapper
-            : null
-        )}
+        className={clsx(styles.row, styles.favoritesBG, styles.whiteLineShadow)}
       >
         <div className={clsx(styles.whiteLine2)} />
         <p className={styles.rowTitle}>Избранное</p>
         <div className={styles.section}>
           {favoriteObjectsData.map(item => (
-            <HomePageButton
-              key={item.id}
-              title={item.name}
-              isDocument
-              hasTooltip
-            />
+            <Dropdown trigger={['click']} overlay={renderDropdownMenu(item.id)}>
+              <div>
+                <HomePageButton
+                  key={item.id}
+                  title={item.name}
+                  kind={item.kind}
+                  hasTooltip
+                />
+              </div>
+            </Dropdown>
           ))}
+          {isFavoritesEmpty && isFavoritesLoading && <InlinePreloader />}
+          {isFavoritesFailed && <div>Невозможно получить данные...</div>}
+          {isFavoritesEmpty && !isFavoritesLoading && (
+            <div>Вы пока ничего не добавилии в Избранное...</div>
+          )}
         </div>
-        {isFavoritesEmpty && <div>Вы пока ничего не добавили в Избранное...</div>}
-        {isFavoritesLoading && !favoriteObjectsData.length && <InlinePreloader />}
       </div>
 
       <div className={clsx(styles.row, styles.appsBG, styles.whiteLineShadow)}>
@@ -113,7 +152,7 @@ function HomePage() {
       <FloatingButton
         icon={<ExplorerIcon />}
         text="Создать отчет"
-        onClick={handleClick}
+        onClick={handleReportCreate}
       />
     </div>
   );
