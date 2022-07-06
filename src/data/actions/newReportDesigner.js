@@ -178,15 +178,16 @@ export const openReport = queryParams => {
     }
   };
 };
-export const deleteReport = queryParams => {
+export const deleteReport = (queryParams, onSuccess) => {
   return async dispatch => {
     const response = await request({
-      code: 'REP.DEL_USER_OBJ',
+      code: 'REPOS.DEL_USER_OBJ',
       params: queryParams, // {"name" : "сложное уникальное имя", "parent_id' : 15}
       dispatch
     });
     if (response) {
       dispatch(showToast(TOAST_TYPE.SUCCESS, 'Отчет успешно удален!'));
+      onSuccess();
     }
   };
 };

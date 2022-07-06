@@ -138,7 +138,12 @@ const Reports = () => {
   };
 
   const handleDeleteClick = id => {
-    dispatch(deleteReport({ id }));
+    dispatch(
+      deleteReport({ id }, () => {
+        dispatch(getReportsFolderId({ folderType: 'USER_REP' }));
+        dispatch(getReportsFolderChildren({ id: reportsRootFolderId }));
+      })
+    );
   };
 
   const handleItemClick = (id, action) => {
