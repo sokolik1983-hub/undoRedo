@@ -2,6 +2,8 @@ import { ReactComponent as EditIcon } from '../../layout/assets/folderItemEdit.s
 import { ReactComponent as BinIcon } from '../../layout/assets/folderItemBin.svg';
 import { ReactComponent as CreateCopyIcon } from '../../layout/assets/folderItemCreateCopy.svg';
 import { ReactComponent as SettingsIcon } from '../../layout/assets/folderItemSettings.svg';
+import { ReactComponent as FavoriteIcon } from '../../layout/assets/favoriteIcon.svg'
+import { ReactComponent as RemoveFromFavoritesIcon } from '../../layout/assets/removeFromFavorites.svg'
 
 export const sortFoldersAndItems = folderChildren => {
   if (!folderChildren) return null;
@@ -47,7 +49,17 @@ export const FOLDER_ITEM_DROPDOWN_ACTIONS = [
     title: 'Настройки',
     icon: <SettingsIcon />,
     action: 'settings'
-  }
+  },
+  {
+    title: 'Добавить в Избранное',
+    icon: <FavoriteIcon />,
+    action: 'addToFavorites'
+  },
+  {
+    title: 'Удалить из Избранных',
+    icon: <RemoveFromFavoritesIcon />,
+    action: 'removeFromFavorites'
+  },
 ];
 
 export const FOLDER_DROPDOWN_ACTIONS = [
@@ -68,4 +80,4 @@ export const FOLDER_DROPDOWN_ACTIONS = [
   }
 ];
 
-export const connectorsTableHeader = [{ name: 'Имя' }, { name: 'Соединение' }];
+export const connectorsTableHeader = [{ name: 'Имя' }, { name: 'Описание' }];

@@ -21,10 +21,10 @@ const ObjectsPanelList = ({ rootFolder }) => {
           onClick={() => setIsOpen(prev => !prev)}
           name={rootFolder?.name}
           icon={<RootIcon />}
+          isFolder={rootFolder.isFolder}
           draggable
           onDragStart={e => handleDragStart(e, rootFolder)}
         />
-
         {isOpen && hasChildren && (
           <ul className={styles.innerListNode}>
             {rootFolder?.children?.map(item => (

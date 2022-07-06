@@ -27,7 +27,7 @@ export const getStreamReceiever = queryParams => {
       dispatch
     });
     if (response) {
-      localStorage.setItem('streamreceiver', response.thread);
+      localStorage.setItem('streamreceiver', response.header.thread);
     }
   };
 };
@@ -68,13 +68,12 @@ export const getElementData = (queryParams, callback) => {
   //   dispatch(setStructure(REP_GET_ELEMENT_DATA.data));
   // };
   return async dispatch => {
-
     const response = await request({
       code: 'REP.GET_ELEMENT_DATA',
       params: queryParams,
       dispatch
     });
-    
+
     if (response) {
       callback(response);
       // dispatch(setStructure(response.structure));

@@ -5,7 +5,7 @@ import { ReactComponent as Magnifier } from '../../../../layout/assets/reportObj
 import styles from './ReportObjectsPanel.module.scss';
 import TextInput from '../../../../common/components/TextInput';
  
-const ReportObjectsPanel = ({
+const ReportObjectsPanelIcons = ({
   searchValue,
   setSearchValue,
   actions,
@@ -49,9 +49,9 @@ const ReportObjectsPanel = ({
   );
 };
 
-export default ReportObjectsPanel;
+export default ReportObjectsPanelIcons;
 
-ReportObjectsPanel.propTypes = {
+ReportObjectsPanelIcons.propTypes = {
   iconsArr: PropTypes.array,
   menuItem: PropTypes.string,
   actions: PropTypes.object,

@@ -28,6 +28,7 @@ import { ReactComponent as CreateConnector } from '../../layout/assets/createCon
 import styles from './Reports.module.scss';
 import Tooltip from '../../common/components/Tooltip';
 import { getReportsFolderChildren, getReportsFolderId } from '../../data/actions/universes';
+import { setObjectToFavorites } from '../../data/actions/app'
 
 const Reports = () => {
   const dispatch = useDispatch();
@@ -120,6 +121,24 @@ const Reports = () => {
     setEditListItemId(id);
   };
 
+/**
+ * Хэндлер для добавления документа в Избранное.
+ *
+ * @prop id документа которого хотим добавить в Избранное.
+ */
+  const handleAddToFavorites = (id) => {
+    dispatch(setObjectToFavorites({user_id: 10001, id, kind: 'REP'}))
+  }
+
+  /**
+ * Хэндлер для удаления документа из Избранного.
+ *
+ * @prop id документа которого хотим удалить из Избранных.
+ */
+   const handleRemoveFromFavorites = (id) => {
+    dispatch(setObjectToFavorites({user_id: 10001, id, kind: 'REP', isExclude: 1}))
+  }
+
   const handleItemClick = (id, action) => {
     switch (action) {
       case 'edit':
@@ -127,7 +146,13 @@ const Reports = () => {
         break;
       case 'delete':
         break;
-      default:
+      case 'addToFavorites':
+        handleAddToFavorites(id)
+        break;
+      case 'removeFromFavorites':
+        handleRemoveFromFavorites(id)
+        break;
+     default:
         console.log(action);
     }
   };

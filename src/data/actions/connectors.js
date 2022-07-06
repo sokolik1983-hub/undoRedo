@@ -1,5 +1,5 @@
 import { request } from '../helpers';
-import { setCreateConnectorResult, setCreateConnector, setConnectorSource, setConnectorData, setConnectors, setConnectorsFolderId, setConnectorsTypes } from '../reducers/data';
+import { setCreateConnectorResult, setCreateConnector, setConnectorSource, setConnectorData, setConnectors, setConnectorsFolderId, setConnectorsTypes, setTestConnector } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
 import { showEditConnectorModal } from '../reducers/ui';
 
@@ -13,7 +13,7 @@ export const getStreamReceiever = queryParams => {
     if (response) {
 
       if (response.result === true) {
-        localStorage.setItem('streamreceiver', response.thread);
+        localStorage.setItem('streamreceiver', response.header.thread);
 
       }
 
@@ -70,7 +70,8 @@ export const getConnector = queryParams => {
         dispatch
       });
       if (response?.result) {
-        dispatch(setConnectorData(response.data));
+        dispatch(setConnectorData(response));
+        console.log(response.data);
         dispatch(showEditConnectorModal());
       }
     } catch (err) {
@@ -134,5 +135,16 @@ export const getConnectorTypesSources = queryParams => {
     });
     dispatch(setConnectorsTypes(response?.classes));
     dispatch(setConnectorSource(response?.types));
+  };
+};
+
+export const testConnector = queryParams => {
+  return async dispatch => {
+    const response = await request({
+      code: 'CN.TEST',
+      params: queryParams,
+      dispatch
+    });
+    dispatch(setTestConnector(response));
   };
 };

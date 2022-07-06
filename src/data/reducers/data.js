@@ -26,8 +26,11 @@ const data = createSlice({
       currentLayerTitle: null,
       data: []
     },
-    queryData: null,
-    queryResult: null
+    favoriteObjects: {
+      favoriteObjectsData: [],
+      favoriteObjectsStatus: null,
+      error: null
+    }
   },
   reducers: {
     setConnectors: (state, action) => {
@@ -47,6 +50,9 @@ const data = createSlice({
     },
     setCreateConnector: (state, action) => {
       state.createConnector = action.payload;
+    },
+    setTestConnector: (state, action) => {
+      state.testConnector = action.payload;
     },
     setCreateConnectorResult: (state, action) => {
       state.createConnectorResult = action.payload;
@@ -181,6 +187,19 @@ const data = createSlice({
     },
     setConnectorData: (state, action) => {
       state.connectorData = action.payload;
+    },
+    setFavoriteObjects: (state, action) => {
+      console.log('action', action);
+      state.favoriteObjects.favoriteObjectsData = action.payload;
+    },
+    loadingFavoriteObjects: state => {
+      state.favoriteObjects.favoriteObjectsStatus = 'LOADING';
+    },
+    successFavoriteObjects: state => {
+      state.favoriteObjects.favoriteObjectsStatus = 'SUCCESS';
+    },
+    failedFavoriteObjects: state => {
+      state.favoriteObjects.favoriteObjectsStatus = 'FAILED';
     }
   }
 });
@@ -191,6 +210,7 @@ export const {
   setConnectorsTypes,
   setConnectorSource,
   setCreateConnector,
+  setTestConnector,
   setCreateConnectorResult,
   setUniverses,
   setUniversesFolderId,
@@ -212,7 +232,11 @@ export const {
   setRequestId,
   setReposFolderId,
   setReposChildren,
-  setConnectorData
+  setConnectorData,
+  setFavoriteObjects,
+  loadingFavoriteObjects,
+  successFavoriteObjects,
+  failedFavoriteObjects
 } = data.actions;
 
 export default data.reducer;
