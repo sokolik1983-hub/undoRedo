@@ -1,3 +1,6 @@
+/* eslint-disable camelcase */
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,8 +10,8 @@ import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.modu
 import {
   createQuery,
   getQueryPanelSymanticLayerData,
+  getResultFromQuery,
   getUniverses,
-  getUniversesLocal,
   setConfirmModal,
   setQueryPanelModal
 } from '../../data/actions/universes';
@@ -25,7 +28,7 @@ import ModalConfirm from '../../common/components/Modal/ModalConfirm';
 import { getCondition } from './helper';
 import { setSymanticLayerData } from '../../data/reducers/data';
 import { showToast } from '../../data/actions/app';
-import { TOAST_TYPE } from '../../common/constants/common';
+import { EMPTY_STRING, TOAST_TYPE } from '../../common/constants/common';
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
@@ -35,22 +38,26 @@ const QueryPanel = ({ visible }) => {
   const [isQueryExecute, setQueryExecute] = useState(false);
   const [isChanged, setIsChanged] = useState(false);
   const [isSqlPopupOpened, setSqlPopupOpened] = useState(false);
-  const [queryText, setQueryText] = useState('');
+  const [queryText, setQueryText] = useState(EMPTY_STRING);
   const [objects, setObjects] = useState([]);
   const [filters, setFilters] = useState([]);
-  const [errorText, setError] = useState('');
+  const [errorText, setError] = useState(EMPTY_STRING);
 
-  const symLayerData = useSelector(state => state.app?.data?.symLayersData);
+  const { symLayerName, connectorId, dpSql } = useSelector(state => {
+    const dpSql = state?.app?.data?.queryData?.dpSql;
+    const { currentTitle, data } = state?.app?.data?.queryPanelSymlayersData;
+    const currentLayer = data?.find(i => i.queryTitle === currentTitle);
+
+    return {
+      symLayerName: currentLayer?.symLayerName || null,
+      connectorId: currentLayer?.connector_id || null,
+      dpSql: dpSql || null
+    };
+  });
 
   const confirmModalOpened = useSelector(
     state => state.app.ui.confirmModalVisible
   );
-
-  useEffect(() => {
-    dispatch(getUniverses());
-
-    dispatch(getUniversesLocal());
-  }, []);
 
   const handleClose = () => {
     return isChanged
@@ -64,10 +71,21 @@ const QueryPanel = ({ visible }) => {
   };
 
   const handleQueryExecute = () => {
-    setQueryExecute(true);
-    setTimeout(() => {
-      setQueryExecute(false);
-    }, 1000);
+    dispatch(
+      getResultFromQuery({
+        // TODO: id заменить на connectorId
+        id: 'TA',
+        // id: connectorId,
+        dataType: 'Query',
+        // catalog,
+        // schema,
+        // objectName,: 'Query'
+        // fieldName,
+        query: dpSql,
+        // isDistinct,
+        maxRows: 100
+      })
+    );
   };
 
   const handleShowSqlPopup = () => {
@@ -102,9 +120,31 @@ const QueryPanel = ({ visible }) => {
     if (objects) {
       dispatch(
         createQuery({
-          symlayer_id: symLayerData.symlayer_id,
-          data: objects.map(item => `${item.parent_folder}.${item.field}`),
-          conditions: filters ? getCondition([filters]) : {}
+          // TODO: правильный dpUniverse_id
+          dpUniverse_id: 10692,
+          dpSpec: {
+            queryType: 'Query',
+            querySetType: null,
+            queries: [],
+            select: objects.map(object => ({
+              id: object.id,
+              folder_id: object.parent_id,
+              parentDimension_id: null,
+              name: object.name,
+              folderName: symLayerName,
+              parentDimensionName: null,
+              dataType: object.dataType,
+              objectType: object.objectType
+            })),
+            filter: {}
+          },
+          dpProperties: {
+            maxRows: -1,
+            maxTime_sec: -1,
+            lastConetxt_id: -1,
+            keepLastContext: 0
+          },
+          context_id: -1
         })
       );
     }
@@ -118,10 +158,10 @@ const QueryPanel = ({ visible }) => {
       );
       setError(' ');
     } else if (isSqlPopupOpened) {
-      setError('');
+      setError(EMPTY_STRING);
       createQueryText();
     } else {
-      setQueryText('');
+      setQueryText(EMPTY_STRING);
     }
   }, [isSqlPopupOpened]);
 

@@ -20,7 +20,7 @@ const ObjectsPanel = ({ modalOpenHandler }) => {
 
   const {
     rootFolder,
-    filterTypeId,
+    filterType,
     handleFiltersSwitch,
     searchValue,
     setSearchValue
@@ -35,7 +35,7 @@ const ObjectsPanel = ({ modalOpenHandler }) => {
       <ObjectsPanelFilters
         searchValue={searchValue}
         setSearchValue={setSearchValue}
-        filterId={filterTypeId}
+        filterType={filterType}
         onFiltersSwitch={handleFiltersSwitch}
       />
       <div
