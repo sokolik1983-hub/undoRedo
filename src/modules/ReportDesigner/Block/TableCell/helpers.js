@@ -2,12 +2,19 @@
 import { deepObjectSearch } from '../../../../data/helpers';
 import { generateId } from '../../helpers';
 
+const defaultExpression =  {
+  dataType: 'String',
+  formula: '',
+  type: 'Const'
+}
+
 const makeCellObject = ({ parent, expression }) => {
   const obj = {
     id: `${parent.id}.${generateId()}`,
     col: 0,
     row: 0,
-    style: {}
+    style: {},
+    expression: defaultExpression
   };
   if (!expression) return obj;
   return {
