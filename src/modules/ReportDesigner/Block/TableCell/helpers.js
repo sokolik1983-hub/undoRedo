@@ -208,13 +208,21 @@ export default ({ addIndexCoeff, axis, needReplace }) => ({
       ) {
         for (let i = 0; i < neighbours.length; i++) {
           const neighbour = neighbours[i];
-
-          const cell =
-            neighbour.cells[index] ||
-            makeCellObject({
+          let cell;
+          if (needReplace) {
+            cell =
+              neighbour.cells[index] ||
+              makeCellObject({
+                parent: neighbour,
+                expression: { dataType, formula, variable_id, type }
+              });
+          } else {
+            cell = makeCellObject({
               parent: neighbour,
               expression: { dataType, formula, variable_id, type }
             });
+          }
+
           modifyHeader({
             neighbour,
             cell,
@@ -246,12 +254,20 @@ export default ({ addIndexCoeff, axis, needReplace }) => ({
         for (let i = 0; i < neighbours.length; i++) {
           const neighbour = neighbours[i];
 
-          const cell =
-            neighbour.cells[index] ||
-            makeCellObject({
+          let cell;
+          if (needReplace) {
+            cell =
+              neighbour.cells[index] ||
+              makeCellObject({
+                parent: neighbour,
+                expression: { dataType, formula, variable_id, type }
+              });
+          } else {
+            cell = makeCellObject({
               parent: neighbour,
               expression: { dataType, formula, variable_id, type }
             });
+          }
           modifyHeader({
             neighbour,
             cell,
