@@ -168,7 +168,7 @@ function Symlayers() {
         text='Создать семантический слой'
         onClick={createConnectorModalHandler}
       />
-      {isVisible && <SemanticLayerModal onClick={closeConnectorModalHandler} />}
+      <SemanticLayerModal onClick={closeConnectorModalHandler} isVisible={isVisible} />
     </div>
   );
 }

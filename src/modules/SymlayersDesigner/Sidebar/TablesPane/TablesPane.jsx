@@ -11,21 +11,24 @@ const TablesPane = ({ onSelect }) => {
   const connectorObjects = useSelector(
     state => state.app.schemaDesigner.connectorObjects
   );
+
   const [selectedSchemes, setSelectedSchemes] = useState([]);
 
   return (
     <div className={styles.root}>
       <TablesPaneActions setSelectedSchemes={setSelectedSchemes} />
       <Divider color="#0D6CDD" />
-      <div className={styles.owner}>
-        <OwnerIcon />
-        <span>Owner</span>
+      <div className={styles.tables}>
+        <div className={styles.owner}>
+          <OwnerIcon />
+          <span>Owner</span>
+        </div>
+        <HierTreeView
+          data={selectedSchemes.length ? selectedSchemes : connectorObjects}
+          onSelect={onSelect}
+          isOpen={!!selectedSchemes?.length}
+        />
       </div>
-      <HierTreeView
-        data={selectedSchemes.length ? selectedSchemes : connectorObjects}
-        onSelect={onSelect}
-        isOpen={!!selectedSchemes?.length}
-      />
     </div>
   );
 };

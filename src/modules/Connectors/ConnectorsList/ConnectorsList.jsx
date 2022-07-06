@@ -18,23 +18,19 @@ import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.
 import { ReactComponent as ConnectorIcon } from '../../../layout/assets/connectorIcon.svg';
 import {
   BREADCRUMBS_ROOT,
+  EMPTY_STRING,
   TABLE_CELL_EMPTY_VALUE
 } from '../../../common/constants/common';
 import styles from './ConnectorsList.module.scss';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import Tooltip from '../../../common/components/Tooltip';
-import {
-  getConnectorFolderChildren,
-  getConnectorsFolderId,
-  getConnector
-} from '../../../data/actions/connectors';
-import { FILE_TYPE, FOLDER_TYPE } from './types';
+import { getConnectorFolderChildren, getConnectorsFolderId, getConnector, getObjectFromConnector } from '../../../data/actions/connectors';
+import { FOLDER_TYPE, FILE_TYPE } from './types';
 import EditConnectorModal from './EditConnectorModal';
-import {
-  closeEditConnectorModal,
-  showEditConnectorModal
-} from '../../../data/reducers/ui';
-import { setConnectorData } from '../../../data/reducers/data';
+import { closeEditConnectorModal, showEditConnectorModal } from '../../../data/reducers/ui';
+import { setConnectorData, setConnectorId } from '../../../data/reducers/data';
+import SemanticLayerModal from '../../Symlayers/SemanticLayerModal';
+import { createSampleUniverse } from '../../../data/actions/universes';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
@@ -127,6 +123,9 @@ const ConnectorsList = () => {
   const [multiColumnView, setMultiColumnView] = useState(true);
   const [searchValue, setSearchValue] = useState();
   const [editListItemId, setEditListItemId] = useState();
+  const [isCreateUnvModalVisible, setIsCreateUnvModalOpened] = useState(false);
+  const [selectedConnectorId, setSelectedConnectorId] = useState(null);
+  const [selectedConnectorName, setSelectedConnectorName] = useState(EMPTY_STRING);
 
   const goToRootFolder = () => {
     dispatch(getConnectorFolderChildren({ id: connectorRootFolderId }));
@@ -136,11 +135,27 @@ const ConnectorsList = () => {
   };
 
   useEffect(() => {
+    if (selectedConnectorId) {
+      const selCon = connectors.list.find(con => con.id === selectedConnectorId);
+      setSelectedConnectorName(selCon.name);
+    }
+  }, [selectedConnectorId]);
+
+  const createUnvHandler = () => {
+    dispatch(createSampleUniverse({}));
+    dispatch(getObjectFromConnector({id: selectedConnectorId}));
+  }
+  
+  const closeCreateUnvModalHandler = () => {
+    setIsCreateUnvModalOpened(false);
+  }
+  
+  useEffect(() => {
     if (connectors) {
       setSortedItems(sortFoldersAndItems(connectors.list));
     }
   }, [connectors]);
-
+  
   useEffect(() => {
     if (currentFolderIndex === 0 && connectorRootFolderId) {
       goToRootFolder();
@@ -183,31 +198,31 @@ const ConnectorsList = () => {
   const moveToRootFolder = () => {
     setCurrentFolderIndex(0);
   };
-
+  
   const moveToPrevFolder = () => {
     setCurrentFolderIndex(prev => (prev === 0 ? 0 : prev - 1));
   };
-
+  
   const moveToNextFolder = () => {
     setCurrentFolderIndex(prev =>
       prev === foldersIdHistory.length ? prev : prev + 1
-    );
+      );
+    };
+    
+    const onSearch = async () => {};
+    
+    const handleEditClick = id => {
+      setEditListItemId(id);
   };
-
-  const onSearch = async () => {};
-
-  const handleEditClick = id => {
-    setEditListItemId(id);
-  };
-
+  
   const editConnectorModalHandler = id => {
     dispatch(getConnector({'id' : id}));
   };
-
+  
   const closeConnectorModalHandler = () => {
     dispatch(closeEditConnectorModal());
   };
-
+  
   const handleItemClick = (id, action) => {
     switch (action) {
       case 'edit':
@@ -223,28 +238,31 @@ const ConnectorsList = () => {
       case 'connection check':
         break;
       case 'create universe':
+        setIsCreateUnvModalOpened(true); 
+        setSelectedConnectorId(id);
+        dispatch(setConnectorId(id));
         break;
       default:
-        console.log(action);
-    }
-  };
-
-  const getUniverseDropdownItems = id => (
-    <div className={styles.itemsWrapper}>
-      {FOLDER_ITEM_DROPDOWN_ACTIONS.map(item => (
-        <Tooltip
-          key={item.title}
-          overlay={<div className={styles.tooltip}>{item.title}</div>}
-          trigger={['hover']}
-        >
-          <DropdownItem
-            className={styles.dropdownItem}
-            onClick={action => handleItemClick(id, action)}
-            item={item}
-          />
-        </Tooltip>
+      console.log(action);
+      }
+    };
+    
+    const getUniverseDropdownItems = id => (
+      <div className={styles.itemsWrapper}>
+        {FOLDER_ITEM_DROPDOWN_ACTIONS.map(item => (
+          <Tooltip
+            key={item.title}
+            overlay={<div className={styles.tooltip}>{item.title}</div>}
+            trigger={['hover']}
+          >
+            <DropdownItem
+              className={styles.dropdownItem}
+              onClick={action => handleItemClick(id, action)}
+              item={item}
+            />
+          </Tooltip>
       ))}
-    </div>
+      </div>
   );
 
   const getFolderDropdownItems = id => (
@@ -353,10 +371,14 @@ const ConnectorsList = () => {
       ) : (
         <Preloader />
       )}
-      <EditConnectorModal
-        visible={isEditConnModalVisible}
-        onClose={closeConnectorModalHandler}
-      />
+      <SemanticLayerModal 
+        isVisible={isCreateUnvModalVisible} 
+        onSave={createUnvHandler} 
+        onClose={closeCreateUnvModalHandler} 
+        connectorName={selectedConnectorName}
+        connectorId={selectedConnectorId}
+      /> 
+      <EditConnectorModal visible={isEditConnModalVisible} onClose={closeConnectorModalHandler} />
     </div>
   );
 };
