@@ -29,7 +29,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const unvRootFolderId = useSelector(
     state => state.app.data.universesFolderId
   );
-  console.log(universes);
+
   useEffect(() => {
     dispatch(getUniversesFolderId({ folderType: 'USER_UNV' }));
   }, []);
