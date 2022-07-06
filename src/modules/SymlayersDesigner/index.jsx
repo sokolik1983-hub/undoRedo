@@ -11,6 +11,7 @@ import SchemaTables from './SchemaTables';
 import ObjectsConnectionEditor from './ObjectsConnectionEditor';
 import {
   getConnectorObjectsList,
+  getObjectFields,
   getObjectsList,
   getObjectsListLocal
 } from '../../data/actions/schemaDesigner';
@@ -28,52 +29,55 @@ function SymlayersDesigner() {
   const [objectsLinks, setObjectsLinks] = useState([]);
   const [tablesPosition, setTablesPosition] = useState({});
 
+  const connectorId = useSelector(state => state.app.data.selectedConnectorId); 
+
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.SEMANTIC));
     // dispatch(getConnectorObjectsList({ connect_id: 4 }));
 
-    dispatch(getObjectsList());
+    // dispatch(getObjectsList());
 
-    getObjectsListLocal().then(response => {
-      const { data } = response.default;
+    // getObjectsListLocal().then(response => {
+    //   const { data } = response.default;
 
-      setObjectsLinks(data.links || []);
-      setChecked(data.tables || []);
-      setTablesPosition(
-        data.tables.reduce(
-          (result, table) => ({
-            ...result,
-            [getTableIdFromParams({ ...table, connect_id: 4 })]: {
-              deltaPosition: table.position
-            }
-          }),
-          {}
-        ) || {}
-      );
-    });
+    //   setObjectsLinks(data.links || []);
+    //   setChecked(data.tables || []);
+    //   setTablesPosition(
+    //     data.tables.reduce(
+    //       (result, table) => ({
+    //         ...result,
+    //         [getTableIdFromParams({ ...table, connect_id: 4 })]: {
+    //           deltaPosition: table.position
+    //         }
+    //       }),
+    //       {}
+    //     ) || {}
+    //   );
+    // });
   }, []);
 
+  
   const isObjectsConnectionsModalOpened = useSelector(
     state => state.app.ui.modalVisible === OBJECTS_CONNECTIONS_MODAL
   );
-
-  const schemaDesignerUi = useSelector(state => state.app.schemaDesigner.ui);
-  const links = useSelector(state => state.app.schemaDesigner.links);
-  const contexts = useSelector(state => state.app.schemaDesigner.contexts);
-  const isTablePreviewModalOpened = useSelector(
-    state => state.app.ui.modalVisible === TABLE_PREVIEW_MODAL
-  );
-  const selectedTablesArray = useSelector(
-    state => state.app.schemaDesigner.selectedTablesArray
-  );
-
+    
+    const schemaDesignerUi = useSelector(state => state.app.schemaDesigner.ui);
+    const links = useSelector(state => state.app.schemaDesigner.links);
+    const contexts = useSelector(state => state.app.schemaDesigner.contexts);
+    const isTablePreviewModalOpened = useSelector(
+      state => state.app.ui.modalVisible === TABLE_PREVIEW_MODAL
+    );
+    const selectedTablesArray = useSelector(
+      state => state.app.schemaDesigner.selectedTablesArray
+    );
+        
   useEffect(() => {
     if (selectedTablesArray.length) {
       const tables = checked.map(table => {
-        const { schema, object_name, object_type_id } = table;
+        const { schema, objectName } = table;
         const findTable = [...selectedTablesArray].find(
           selTable =>
-            selTable.name === `${schema}_${object_name}_${object_type_id}_${4}`
+            selTable.name === `${schema}_${objectName}`
         );
         table = { ...table, columns: findTable?.fields };
         return table;
@@ -83,6 +87,9 @@ function SymlayersDesigner() {
   }, [selectedTablesArray]);
 
   const handleSelectTable = (selected, event) => {
+    const {schema, objectName } = selected;
+    const id = connectorId;
+    dispatch(getObjectFields({id, schema, objectName}));
     if (event) {
       setChecked([...checked, selected]);
     } else {
@@ -174,7 +181,7 @@ function SymlayersDesigner() {
               onCreateSynonym={handleAddSynonym}
               onDeleteTable={handleDeleteTable}
               tables={checked}
-              objectsLinks={objectsLinks}
+              objectsLinks={objectsLinks.length ? objectsLinks : links}
               tablesPosition={tablesPosition}
               setTablesPosition={setTablesPosition}
             />

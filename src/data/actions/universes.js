@@ -9,7 +9,9 @@ import {
   setListReports,
   setQueryPanelSymlayersData,
   setUniversesFolderId,
-  setReportsFolderId
+  setReportsFolderId,
+  setSampleUniverseObject,
+  setUniverseIsCreated
 } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
 import {
@@ -84,6 +86,43 @@ export const getQueryPanelSymanticLayerData = id => async dispatch => {
   } catch (err) {
     dispatch(notificationShown({ message: err.message, messageType: 'error' }));
   }
+};
+
+export const createSampleUniverse = queryParams => {
+  return async dispatch => {
+    try {
+      const response = await request({
+        code: 'UNV.CREATE',
+        params: queryParams,
+        dispatch
+      });
+      if (response?.result) {
+        dispatch(
+          setSampleUniverseObject({
+            header: response.header,
+            data: response.data
+          })
+        );
+      }
+    } catch (err) {
+      dispatch(
+        notificationShown({ message: err.message, messageType: 'error' })
+      );
+    }
+  };
+};
+
+export const createUniverse = queryParams => {
+  return async dispatch => {
+    const response = await request({
+      code: 'UNV.SAVE',
+      params: queryParams,
+      dispatch
+    });
+    if (response?.result) {
+      dispatch(setUniverseIsCreated(true));
+    }
+  };
 };
 
 export const saveConnector = queryParams => {

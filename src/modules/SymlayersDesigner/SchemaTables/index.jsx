@@ -47,9 +47,9 @@ import { setObjectsConnectionsModal } from '../../../data/actions/universes';
 
 const Provided = props => {
   const [lastUpdTime, forceUpdate] = useReducer(() => new Date(), 0);
-  // const tablesPosition = useSelector(
-  //   state => state.app.schemaDesigner.tablesRefCoord
-  // );
+  const tablesPosition = useSelector(
+    state => state.app.schemaDesigner.tablesRefCoord
+  );
   const dispatch = useDispatch();
   const [addCord, setAddCoord] = useState(0);
 
@@ -158,12 +158,17 @@ const Provided = props => {
     setTimeout(() => handleZoomDefault(), 500); // знаю что костыль -- гоните меня, насмехайтесь надо мной
   }, []);
 
-  useMemo(() => {
-    if (props.tablesPosition) {
-      setTablesPosition(props.tablesPosition);
-      setTablePositionChangedCallback(props.setTablesPosition);
-    }
-  }, [props.tablesPosition]);
+useMemo(() => {
+    const tablePositions = {};
+    setAddCoord(addCord+50);
+    tablesPosition?.forEach(tablePosit => {
+      for (let key in tablePosit) {
+        const delta = posToCoord(tablePosit[key]).dif({x: 20 + addCord, y: 40 + addCord});
+        tablePositions[key] = {deltaPosition: delta};
+      }
+    })
+    setTablesPosition(tablePositions);
+  }, [tablesPosition]);
 
   useEffect(() => {
     if (props.tables) {
@@ -226,15 +231,16 @@ const Provided = props => {
   );
 
   const targetRect = (table, field) => {
-    const tableName = getTableIdFromParams({ ...table, connect_id: 4 });
+    const { schema, objectName } = table;
+    const tableName = getTableIdFromParams({schema, objectName});
     const tp = getTablePosition(tableName) || {
       deltaPosition: { x: 0, y: 0 }
     };
-    const tr = getRefs(getTableIdFromParams({ ...table, connect_id: 4 }));
+    const tr = getRefs(getTableIdFromParams({schema, objectName}));
 
     if (!tp || !tr || !tr.tableRef || !tr.headerRef) return { tp, tr };
 
-    let port = tr.ports.find(column => column.key === field.field);
+    let port = tr.ports.find(column => column.key === field);
 
     if (!port) port = tr.headerRef;
     else port = port.ref;
@@ -321,15 +327,15 @@ const Provided = props => {
           props.objectsLinks?.map(link => {
             const SourceRect = targetRect(
               Object.values(tables)?.find(
-                table => table.id === link.object1.table_id
+                table => `${table.schema}_${table.objectName}` === link.object1.object_name
               ),
-              !isShadow && link.object2.fields[0]
+              !isShadow && link.object1.selectedColumns[0]
             );
             const TargetRect = targetRect(
               Object.values(tables)?.find(
-                table => table.id === link.object2.table_id
+                table => `${table.schema}_${table.objectName}` === link.object2.object_name
               ),
-              !isShadow && link.object2.fields[0]
+              !isShadow && link.object2.selectedColumns[0]
             );
 
             return (
@@ -346,12 +352,12 @@ const Provided = props => {
                 isLoop={
                   getTableId(
                     Object.values(tables)?.find(
-                      table => table.id === link.object1.table_id
+                      table => `${table.schema}_${table.objectName}` === link.object1.object_name
                     )
                   ) ===
                   getTableId(
                     Object.values(tables)?.find(
-                      table => table.id === link.object2.table_id
+                      table => `${table.schema}_${table.objectName}` === link.object2.object_name
                     )
                   )
                 }
