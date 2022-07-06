@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import clsx from 'clsx';
 import HomePageButton from './HomePageButton/HomePageButton';
@@ -10,16 +10,13 @@ import { REDIRECT_LINKS } from '../../common/constants/common';
 import navigationMenu from '../../navigation';
 import { ReactComponent as ExplorerIcon } from '../../layout/assets/icons/buttonPlus.svg';
 import FloatingButton from '../../common/components/FloatingButton';
+import InlinePreloader from '../../common/components/InlinePreloader/index';
+import { getFavoriteObjects } from '../../data/actions/app';
 
 const RECENTS = [
   { id: 1, title: 'Отчет 1 о проделанной работе с мая месяца текущего года' },
   { id: 2, title: 'Отчет 2' },
   { id: 3, title: 'Отчет 3' }
-];
-
-const FAVORITES = [
-  { id: 1, title: 'Избранный Отчет 1' },
-  { id: 2, title: 'Избранный Отчет 2' }
 ];
 
 function HomePage() {
@@ -28,7 +25,21 @@ function HomePage() {
 
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.DASHBOARD));
+    dispatch(getFavoriteObjects());
   }, []);
+
+  const { favoriteObjectsData, favoriteObjectsStatus } = useSelector(
+    state => state.app.data.favoriteObjects
+  );
+
+  console.log('favoriteObjectsData', favoriteObjectsData, InlinePreloader);
+
+  const isFavoritesLoading = favoriteObjectsStatus === 'LOADING';
+  const isFavoritesFailed = favoriteObjectsStatus === 'FAILED' && !favoriteObjectsData.length;
+  const isFavoritesEmpty = !isFavoritesLoading && !favoriteObjectsData.length;
+  const noDataFetching = isFavoritesLoading && !favoriteObjectsData.length
+
+  console.log('isFavoritesEmpty', isFavoritesEmpty, isFavoritesFailed);
 
   const handleClick = () => {
     navigate(REDIRECT_LINKS.REPORT_CREATE);
@@ -54,20 +65,30 @@ function HomePage() {
       </div>
 
       <div
-        className={clsx(styles.row, styles.favoritesBG, styles.whiteLineShadow)}
+        className={clsx(
+          styles.row,
+          styles.favoritesBG,
+          styles.whiteLineShadow,
+          noDataFetching ? styles.inlinePreloaderWrapper : null,
+          !noDataFetching && isFavoritesFailed
+            ? styles.favoritesPlaceholderWrapper
+            : null
+        )}
       >
         <div className={clsx(styles.whiteLine2)} />
         <p className={styles.rowTitle}>Избранное</p>
         <div className={styles.section}>
-          {FAVORITES.map(item => (
+          {favoriteObjectsData.map(item => (
             <HomePageButton
               key={item.id}
-              title={item.title}
+              title={item.name}
               isDocument
               hasTooltip
             />
           ))}
         </div>
+        {isFavoritesEmpty && <div>Вы пока ничего не добавили в Избранное...</div>}
+        {isFavoritesLoading && !favoriteObjectsData.length && <InlinePreloader />}
       </div>
 
       <div className={clsx(styles.row, styles.appsBG, styles.whiteLineShadow)}>

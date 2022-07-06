@@ -20,11 +20,12 @@ const ObjectsPanel = ({ modalOpenHandler }) => {
 
   const {
     rootFolder,
-    filterTypeId,
+    filterType,
     handleFiltersSwitch,
     searchValue,
     setSearchValue
   } = usePanelListFilters(currentLayer?.symLayerData);
+
   const { handleDragOver, handleTreeDrop } = useDragNDrop();
 
   return (
@@ -34,7 +35,7 @@ const ObjectsPanel = ({ modalOpenHandler }) => {
       <ObjectsPanelFilters
         searchValue={searchValue}
         setSearchValue={setSearchValue}
-        filterId={filterTypeId}
+        filterId={filterType}
         onFiltersSwitch={handleFiltersSwitch}
       />
       <div

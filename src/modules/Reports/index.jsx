@@ -34,6 +34,7 @@ import {
 } from '../../data/actions/universes';
 import { deleteReport } from '../../data/actions/newReportDesigner';
 // import { openReport } from '../../data/actions/newReportDesigner';
+import { setObjectToFavorites } from '../../data/actions/app'
 
 const Reports = () => {
   const navigate = useNavigate();
@@ -145,6 +146,23 @@ const Reports = () => {
       })
     );
   };
+/**
+ * Хэндлер для добавления документа в Избранное.
+ *
+ * @prop id документа которого хотим добавить в Избранное.
+ */
+  const handleAddToFavorites = (id) => {
+    dispatch(setObjectToFavorites({user_id: 10001, id, kind: 'REP'}))
+  }
+
+  /**
+ * Хэндлер для удаления документа из Избранного.
+ *
+ * @prop id документа которого хотим удалить из Избранных.
+ */
+   const handleRemoveFromFavorites = (id) => {
+    dispatch(setObjectToFavorites({user_id: 10001, id, kind: 'REP', isExclude: 1}))
+  }
 
   const handleItemClick = (id, action) => {
     switch (action) {
@@ -157,7 +175,13 @@ const Reports = () => {
       case 'delete':
         handleDeleteClick(id);
         break;
-      default:
+      case 'addToFavorites':
+        handleAddToFavorites(id)
+        break;
+      case 'removeFromFavorites':
+        handleRemoveFromFavorites(id)
+        break;
+     default:
         console.log(action);
     }
   };

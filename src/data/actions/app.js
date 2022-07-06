@@ -1,33 +1,19 @@
 /* eslint-disable */
 /* eslint-disable import/prefer-default-export */
 // eslint-disable-next-line import/no-cycle
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import { request } from '../helpers';
-import { setDictionaries, setReposChildren, setReposFolderId } from '../reducers/data';
+import { setReposChildren, setReposFolderId } from '../reducers/data';
 import { setToastList } from '../reducers/ui';
 // eslint-disable-next-line import/no-cycle
 import { notificationShown } from '../reducers/notifications';
+import {
+  setFavoriteObjects,
+  loadingFavoriteObjects,
+  successFavoriteObjects,
+  failedFavoriteObjects
+} from '../reducers/data';
 
 let toastProperties = null;
-
-export const getDictionaries = queryParams => {
-  return async dispatch => {
-    try {
-      const response = await request({
-        code: 'CMS.LOGIN',
-        params: queryParams,
-        dispatch
-      });
-      if (response) {
-        dispatch(setDictionaries(response));
-      }
-    } catch (err) {
-      dispatch(
-        notificationShown({ message: err.message, messageType: 'error' })
-      );
-    }
-  };
-};
 
 export const getReposChildren = queryParams => {
   return async dispatch => {
@@ -45,8 +31,8 @@ export const getReposChildren = queryParams => {
         notificationShown({ message: err.message, messageType: 'error' })
       );
     }
-  }
-}
+  };
+};
 
 export const getReposSpecFolder = queryParams => {
   return async dispatch => {
@@ -67,17 +53,62 @@ export const getReposSpecFolder = queryParams => {
   };
 };
 
+/**
+ * Показывает компонент временных уведомлений.
+ *
+ * @prop type Тип - danger или success.
+ * @prop title Текст заголовка.
+ * @prop description Текст описания.
+ */
 export const showToast = (type, title, description) => {
   return (dispatch, getState) => {
-    const state = getState()
-    const toastList = state.app.ui.toastList
+    const state = getState();
+    const toastList = state.app.ui.toastList;
 
     const toastProperties = {
-          id: Math.random(),
-          title,
-          description,
-          type,
-    }
+      id: Math.random(),
+      title,
+      description,
+      type
+    };
     dispatch(setToastList([...toastList, toastProperties]));
-  }
-}
+  };
+};
+
+/**
+ * Получение объектов, добавленных в Избранные.
+ */
+export const getFavoriteObjects = () => {
+  return async dispatch => {
+    dispatch(loadingFavoriteObjects());
+    await request({
+      code: 'CMS.USER.GET_FAVORITES',
+      params: { user_id: 10001 },
+      dispatch
+    })
+      .then(response => {
+        if (response?.objects) {
+          dispatch(setFavoriteObjects(response.objects[0]));
+          dispatch(successFavoriteObjects());
+        }
+      })
+      .catch(() => {
+        dispatch(failedFavoriteObjects());
+      })
+  };
+};
+
+/**
+ * Добавление/удаление объектов в Избранные.
+ *
+ * @prop queryParams Параметры.
+ */
+export const setObjectToFavorites = queryParams => {
+  return async dispatch => {
+    await request({
+      code: 'CMS.USER.SET_FAVORITE',
+      params: queryParams,
+      dispatch
+    });
+  };
+};

@@ -66,66 +66,66 @@ export const createReport = (queryParams, onSuccess) => {
     });
     if (response) {
       localStorage.setItem('streamreceiver', response.header.thread);
-      await dispatch(
-        setReportDp({
-          dp_id: 'DP0',
-          dp: {
-            dpConnect_id: 'TA',
-            dpName: 'SQL Запрос 1',
-            dpObjects: [
-              {
-                dataType: 'Number',
-                id: 'DP0.D1',
-                name: 'Id',
-                type: 'Dimension'
-              },
-              {
-                dataType: 'Number',
-                id: 'DP0.D7',
-                name: 'egr_id (что бы это ни было)',
-                type: 'Dimension'
-              },
-              {
-                dataType: 'String',
-                id: 'DP0.D2',
-                name: 'Тип учредителя',
-                type: 'Dimension'
-              },
-              {
-                dataType: 'String',
-                id: 'DP0.D3',
-                name: 'Наименование учредителя',
-                type: 'Dimension'
-              },
-              {
-                aggFunc: 'SUM',
-                dataType: 'Number',
-                id: 'DP0.M4',
-                name: 'Доля(руб)',
-                type: 'Measure'
-              },
-              {
-                aggFunc: 'SUM',
-                dataType: 'Number',
-                id: 'DP0.M5',
-                name: 'Доля(%)',
-                type: 'Measure'
-              },
-              {
-                dataType: 'Datetime',
-                id: 'DP0.D6',
-                name: 'Дата',
-                type: 'Dimension'
-              }
-            ],
-            dpProperties: {},
-            dpSql:
-              "select id, egr_id, founder_type, trim(replace(src_key, '#', ' ')) as name, share_value_rub, share_percent, from_date\n  from tern_analytics_egr.egrul_founder f  where share_value_rub is not null limit 50000",
-            dpType: 'directSql',
-            dp_id: 'DP0'
-          }
-        })
-      );
+      // await dispatch(
+      //   setReportDp({
+      //     dp_id: 'DP0',
+      //     dp: {
+      //       dpConnect_id: 'TA',
+      //       dpName: 'SQL Запрос 1',
+      //       dpObjects: [
+      //         {
+      //           dataType: 'Number',
+      //           id: 'DP0.D1',
+      //           name: 'Id',
+      //           type: 'Dimension'
+      //         },
+      //         {
+      //           dataType: 'Number',
+      //           id: 'DP0.D7',
+      //           name: 'egr_id (что бы это ни было)',
+      //           type: 'Dimension'
+      //         },
+      //         {
+      //           dataType: 'String',
+      //           id: 'DP0.D2',
+      //           name: 'Тип учредителя',
+      //           type: 'Dimension'
+      //         },
+      //         {
+      //           dataType: 'String',
+      //           id: 'DP0.D3',
+      //           name: 'Наименование учредителя',
+      //           type: 'Dimension'
+      //         },
+      //         {
+      //           aggFunc: 'SUM',
+      //           dataType: 'Number',
+      //           id: 'DP0.M4',
+      //           name: 'Доля(руб)',
+      //           type: 'Measure'
+      //         },
+      //         {
+      //           aggFunc: 'SUM',
+      //           dataType: 'Number',
+      //           id: 'DP0.M5',
+      //           name: 'Доля(%)',
+      //           type: 'Measure'
+      //         },
+      //         {
+      //           dataType: 'Datetime',
+      //           id: 'DP0.D6',
+      //           name: 'Дата',
+      //           type: 'Dimension'
+      //         }
+      //       ],
+      //       dpProperties: {},
+      //       dpSql:
+      //         "select id, egr_id, founder_type, trim(replace(src_key, '#', ' ')) as name, share_value_rub, share_percent, from_date\n  from tern_analytics_egr.egrul_founder f  where share_value_rub is not null limit 50000",
+      //       dpType: 'directSql',
+      //       dp_id: 'DP0'
+      //     }
+      //   })
+      // );
       dispatch(getVariables());
       // dispatch(setReportStructure(REP_SET_STRUCTURE_PARAMS));
     }
@@ -251,6 +251,7 @@ export const setReportDpRefreshed = queryParams => {
     });
     if (response) {
       console.log(response);
+      dispatch(getVariables())
     }
   };
 };

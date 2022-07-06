@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import PanelListNode from '../../../QueryPanel/ObjectsPanel/ObjectsPanelList/PanelListNode/PanelListNode';
-import styles from '../../../QueryPanel/ObjectsPanel/ObjectsPanelList/ObjectsPanelList.module.scss';
+import PanelListNode from './PanelListNode/PanelListNode';
+import styles from './PanelListNode/PanelListNode.module.scss';
 
 const ReportObjectsPanelList = ({ variables }) => {
 

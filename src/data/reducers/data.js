@@ -1,3 +1,6 @@
+/* eslint-disable camelcase */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-shadow */
 import { createSlice } from '@reduxjs/toolkit';
 
 const data = createSlice({
@@ -23,6 +26,11 @@ const data = createSlice({
       currentLayerTitle: null,
       data: []
     },
+    favoriteObjects: {
+      favoriteObjectsData: [],
+      favoriteObjectsStatus: null,
+      error: null
+    }
   },
   reducers: {
     setConnectors: (state, action) => {
@@ -62,42 +70,81 @@ const data = createSlice({
       state.dictionaries = action.payload;
     },
     setSymanticLayerData: (state, action) => {
-      state.symLayersData = action.payload
+      state.symLayersData = action.payload;
     },
     setQueryPanelSymlayersData: (state, action) => {
-      const {payload} = action;
+      const {
+        connector_id,
+        lists,
+        objects,
+        prompts,
+        properties
+      } = action.payload;
+
+      const rootFolder = objects
+        .map(i => (i.objectType === 'Folder' ? { ...i, children: [] } : i))
+        .map((item, idx, data) => {
+          const parent = data.find(i => item.parent_id === i.id);
+          if (parent) parent.children.push(item);
+          return item;
+        })[0];
 
       let index = 1;
+      let dpIdx = 0;
 
-      const getIndex = (idx) => {
-        if (state.queryPanelSymlayersData.data.find(i => i.queryTitle === `Новый запрос (${idx})`)) {
+      const getIndex = idx => {
+        if (
+          state.queryPanelSymlayersData.data.find(
+            i => i.queryTitle === `Новый запрос (${idx})`
+          )
+        ) {
           getIndex(idx + 1);
         } else index = idx;
-      }
+      };
+
+      const getDpIdx = idx => {
+        if (
+          state.queryPanelSymlayersData.data.find(i => i.dpId === `DP${idx})`)
+        ) {
+          getDpIdx(idx + 1);
+        } else dpIdx = idx;
+      };
 
       getIndex(index);
+      getDpIdx(dpIdx);
 
       state.queryPanelSymlayersData.data.push({
-        symLayerData: payload.data.structure[0],
-        symLayerName: payload.name,
-        symlayer_id: payload.symlayer_id,
+        symLayerData: rootFolder,
+        symLayerName: rootFolder.name,
+        symlayer_id: rootFolder.id,
         objects: [],
         filters: null,
         queryTitle: `Новый запрос (${index})`,
-      })
+        dpId: `DP${index}`,
+        connector_id
+      });
     },
     setCurrentQueryPanelSymlayer: (state, action) => {
       state.queryPanelSymlayersData.currentLayerTitle = action.payload;
     },
     editSymlayer: (state, action) => {
-      const {currentTitle, newTitle} = action.payload;
-      if (state.queryPanelSymlayersData.data.find(i => i.queryTitle === newTitle)) return;
-      const currentLayer = state.queryPanelSymlayersData.data.find(i => i.queryTitle === currentTitle);
+      const { currentTitle, newTitle } = action.payload;
+      if (
+        state.queryPanelSymlayersData.data.find(i => i.queryTitle === newTitle)
+      )
+        return;
+      const currentLayer = state.queryPanelSymlayersData.data.find(
+        i => i.queryTitle === currentTitle
+      );
       currentLayer.queryTitle = newTitle;
     },
     copySymlayer: (state, action) => {
-      const symLayerToCopy = state.queryPanelSymlayersData.data.find(i => i.queryTitle === action.payload);
-      const symLayerToCopyIdx = state.queryPanelSymlayersData.data.indexOf(symLayerToCopy);
+      const symLayerToCopy = state.queryPanelSymlayersData.data.find(
+        i => i.queryTitle === action.payload
+      );
+      const symLayerToCopyIdx = state.queryPanelSymlayersData.data.indexOf(
+        symLayerToCopy
+      );
       state.queryPanelSymlayersData.data = [
         ...state.queryPanelSymlayersData.data.slice(0, symLayerToCopyIdx + 1),
         {
@@ -105,34 +152,41 @@ const data = createSlice({
           queryTitle: `${symLayerToCopy.queryTitle} (копия)`
         },
         ...state.queryPanelSymlayersData.data.slice(symLayerToCopyIdx + 1)
-      ]
+      ];
     },
     deleteSymlayer: (state, action) => {
-      state.queryPanelSymlayersData.data = state.queryPanelSymlayersData.data.filter(i => i.queryTitle !== action.payload)
+      state.queryPanelSymlayersData.data = state.queryPanelSymlayersData.data.filter(
+        i => i.queryTitle !== action.payload
+      );
     },
     setQueryPanelSymlayerFilters: (state, action) => {
-      const {objects, filters} = action.payload;
+      const { objects, filters } = action.payload;
       const currentTitle = state.queryPanelSymlayersData.currentLayerTitle;
-      const currentLayer = state.queryPanelSymlayersData.data.find(i => i.queryTitle === currentTitle);
-      const currentLayerIdx = state.queryPanelSymlayersData.data.indexOf(currentLayer);
+      const currentLayer = state.queryPanelSymlayersData.data.find(
+        i => i.queryTitle === currentTitle
+      );
+      const currentLayerIdx = state.queryPanelSymlayersData.data.indexOf(
+        currentLayer
+      );
       const stateCopy = state.queryPanelSymlayersData.data.concat();
-      stateCopy[currentLayerIdx] = {...currentLayer, objects, filters}
-      state.queryPanelSymlayersData.data = stateCopy
+      stateCopy[currentLayerIdx] = { ...currentLayer, objects, filters };
+      state.queryPanelSymlayersData.data = stateCopy;
     },
     setQueryData: (state, action) => {
-      state.queryData = action.payload
+      state.queryData = action.payload;
     },
     setSymanticLayerQueryResult: (state, action) => {
-      state.symanticLayerQueryResult = action.payload
+      state.symanticLayerQueryResult = action.payload;
     },
     setQueryResult: (state, action) => {
-      state.queryResult = action.payload
+      const { data, description } = action.payload;
+      state.queryResult = { data, description };
     },
     setListReports: (state, action) => {
-      state.listReports = action.payload
+      state.listReports = action.payload;
     },
     setReportsFolderId: (state, action) => {
-      state.reportsFolderId = action.payload
+      state.reportsFolderId = action.payload;
     },
     setRequestId: (state, action) => {
       state.requestId = action.payload;
@@ -145,8 +199,21 @@ const data = createSlice({
     },
     setConnectorData: (state, action) => {
       state.connectorData = action.payload;
+    },
+    setFavoriteObjects: (state, action) => {
+      console.log('action', action);
+      state.favoriteObjects.favoriteObjectsData = action.payload;
+    },
+    loadingFavoriteObjects: state => {
+      state.favoriteObjects.favoriteObjectsStatus = 'LOADING';
+    },
+    successFavoriteObjects: state => {
+      state.favoriteObjects.favoriteObjectsStatus = 'SUCCESS';
+    },
+    failedFavoriteObjects: state => {
+      state.favoriteObjects.favoriteObjectsStatus = 'FAILED';
     }
-  },
+  }
 });
 
 export const {
@@ -177,7 +244,11 @@ export const {
   setRequestId,
   setReposFolderId,
   setReposChildren,
-  setConnectorData
+  setConnectorData,
+  setFavoriteObjects,
+  loadingFavoriteObjects,
+  successFavoriteObjects,
+  failedFavoriteObjects
 } = data.actions;
 
 export default data.reducer;

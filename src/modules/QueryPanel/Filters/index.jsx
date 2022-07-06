@@ -48,8 +48,8 @@ const Filters = () => {
     ) : (
       <FiltersDeskItem
         id={filtersDesk.id}
-        title={filtersDesk.fieldItem.field}
-        type={filtersDesk.fieldItem.objectType_id}
+        title={filtersDesk.fieldItem.name}
+        type={filtersDesk.fieldItem.objectType}
         onItemClick={() => setFocused(filtersDesk)}
         onDeleteItem={() => deleteFiltersDeskItem(filtersDesk.id)}
         onEditItem={handleEditFiltersItem}
