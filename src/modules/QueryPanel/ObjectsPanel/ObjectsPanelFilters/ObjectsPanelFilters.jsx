@@ -31,19 +31,19 @@ const ObjectsPanelFilters = ({
         onClick={() => onFiltersSwitch('Dimension')}
         className={styles.iconBtn}
         icon={<GaugeIcon />}
-        active={filterType.includes('Dimension')}
+        active={filterType?.includes('Dimension')}
       />
       <IconButton
         onClick={() => onFiltersSwitch('Filter')}
         className={styles.iconBtn}
         icon={<AttributeIcon />}
-        active={filterType.includes('Filter')}
+        active={filterType?.includes('Filter')}
       />
       <IconButton
         onClick={() => onFiltersSwitch('Measure')}
         className={styles.iconBtn}
         icon={<MeasurementIcon />}
-        active={filterType.includes('Measure')}
+        active={filterType?.includes('Measure')}
       />
     </div>
   );

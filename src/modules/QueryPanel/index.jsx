@@ -12,6 +12,7 @@ import {
   getQueryPanelSymanticLayerData,
   getResultFromQuery,
   getUniverses,
+  postQueryPanelTab,
   setConfirmModal,
   setQueryPanelModal
 } from '../../data/actions/universes';
@@ -26,7 +27,7 @@ import DragNDropProvider from './context/DragNDropContext';
 
 import ModalConfirm from '../../common/components/Modal/ModalConfirm';
 import { getCondition } from './helper';
-import { setSymanticLayerData } from '../../data/reducers/data';
+import data, { setSymanticLayerData } from '../../data/reducers/data';
 import { showToast } from '../../data/actions/app';
 import { EMPTY_STRING, TOAST_TYPE } from '../../common/constants/common';
 
@@ -43,15 +44,28 @@ const QueryPanel = ({ visible }) => {
   const [filters, setFilters] = useState([]);
   const [errorText, setError] = useState(EMPTY_STRING);
 
-  const { symLayerName, connectorId, dpSql } = useSelector(state => {
+  const {
+    dpObjects,
+    symLayerName,
+    connectorId,
+    dpSql,
+    dpId,
+    layerTitle
+  } = useSelector(state => {
     const dpSql = state?.app?.data?.queryData?.dpSql;
-    const { currentTitle, data } = state?.app?.data?.queryPanelSymlayersData;
-    const currentLayer = data?.find(i => i.queryTitle === currentTitle);
+    const {
+      currentLayerTitle,
+      data
+    } = state?.app?.data?.queryPanelSymlayersData;
+    const currentLayer = data?.find(i => i.queryTitle === currentLayerTitle);
 
     return {
+      dpObjects: currentLayer?.objects || [],
       symLayerName: currentLayer?.symLayerName || null,
       connectorId: currentLayer?.connector_id || null,
-      dpSql: dpSql || null
+      dpId: currentLayer?.dpId || null,
+      dpSql: dpSql || null,
+      layerTitle: currentLayerTitle || EMPTY_STRING
     };
   });
 
@@ -165,6 +179,28 @@ const QueryPanel = ({ visible }) => {
     }
   }, [isSqlPopupOpened]);
 
+  const handleApply = () => {
+    dispatch(
+      postQueryPanelTab({
+        dp_id: dpId,
+        dp: {
+          dpConnect_id: 'TA',
+          dpName: layerTitle,
+          dpObjects: dpObjects.map(i => ({
+            dataType: i.dataType,
+            id: `${i.id}`,
+            name: i.name,
+            type: i.objectType
+          })),
+          dpProperties: {},
+          dpSql,
+          dpType: 'directSql',
+          dp_id: dpId
+        }
+      })
+    );
+  };
+
   const modalContent = () => {
     return (
       <div className={styles.root}>
@@ -187,7 +223,7 @@ const QueryPanel = ({ visible }) => {
               <QueryPanelControls
                 onRun={handleQueryExecute}
                 onSql={handleShowSqlPopup}
-                onApply={handleClose} // todo применить функционал переноса в отчет
+                onApply={handleApply} // todo применить функционал переноса в отчет
                 onCancel={handleClose}
               />
             </div>

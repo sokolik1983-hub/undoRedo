@@ -90,6 +90,7 @@ const data = createSlice({
         })[0];
 
       let index = 1;
+      let dpIdx = 0;
 
       const getIndex = idx => {
         if (
@@ -101,7 +102,16 @@ const data = createSlice({
         } else index = idx;
       };
 
+      const getDpIdx = idx => {
+        if (
+          state.queryPanelSymlayersData.data.find(i => i.dpId === `DP${idx})`)
+        ) {
+          getDpIdx(idx + 1);
+        } else dpIdx = idx;
+      };
+
       getIndex(index);
+      getDpIdx(dpIdx);
 
       state.queryPanelSymlayersData.data.push({
         symLayerData: rootFolder,
@@ -110,6 +120,7 @@ const data = createSlice({
         objects: [],
         filters: null,
         queryTitle: `Новый запрос (${index})`,
+        dpId: `DP${index}`,
         connector_id
       });
     },
@@ -168,7 +179,8 @@ const data = createSlice({
       state.symanticLayerQueryResult = action.payload;
     },
     setQueryResult: (state, action) => {
-      state.queryResult = action.payload;
+      const { data, description } = action.payload;
+      state.queryResult = { data, description };
     },
     setListReports: (state, action) => {
       state.listReports = action.payload;

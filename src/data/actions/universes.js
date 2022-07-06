@@ -213,11 +213,19 @@ export const getResultFromQuery = queryParams => async dispatch => {
     dispatch
   });
 
-  console.log(response);
-
   if (response) {
     dispatch(setQueryResult(response));
   }
+};
+
+export const postQueryPanelTab = queryParams => async dispatch => {
+  const response = await request({
+    code: 'REP.SET_DP',
+    params: queryParams,
+    dispatch
+  });
+
+  console.log(response);
 };
 
 export const setObjectsConnectionsModal = (open, link) => {

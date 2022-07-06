@@ -22,9 +22,6 @@ const Results = ({
   onObjFilEdit
 }) => {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
-  const [queryResult, setQueryResult] = useState(null);
-  const [timerValue, setTimerValue] = useState(null);
   const [errorText, setError] = useState(EMPTY_STRING);
 
   const symLayerData = useSelector(state => state.app?.data?.symLayersData);
@@ -37,7 +34,8 @@ const Results = ({
     const currentLayer = data.find(i => i.queryTitle === currentLayerTitle);
     return currentLayer?.connector_id || null;
   });
-  const fetchingDataResult = useSelector(state => state.app?.data?.queryResult);
+
+  const queryResult = useSelector(state => state.app?.data?.queryResult);
 
   const { objectsDesk, filtersDesk } = useDragNDrop();
 
@@ -62,33 +60,24 @@ const Results = ({
     // }
   }, [queryData]);
 
-  useEffect(() => {
-    if (fetchingDataResult) {
-      setQueryResult({ ...fetchingDataResult });
-    }
-    clearInterval(timerValue);
-    setTimerValue(null);
-    setIsLoading(false);
-  }, [fetchingDataResult]);
-
-  useEffect(() => {
-    if (connectorId) {
-      dispatch(
-        getResultFromQuery({
-          // TODO: id заменить на connectorId
-          id: 'TA',
-          dataType: 'Query',
-          // catalog,
-          // schema,
-          // objectName,: 'Query'
-          // fieldName,
-          // query,
-          // isDistinct,
-          maxRows: 100
-        })
-      );
-    }
-  }, [connectorId]);
+  // useEffect(() => {
+  //   if (connectorId) {
+  //     dispatch(
+  //       getResultFromQuery({
+  //         // TODO: id заменить на connectorId
+  //         id: 'TA',
+  //         dataType: 'Query',
+  //         // catalog,
+  //         // schema,
+  //         // objectName,: 'Query'
+  //         // fieldName,
+  //         // query,
+  //         // isDistinct,
+  //         maxRows: 100
+  //       })
+  //     );
+  //   }
+  // }, [connectorId]);
 
   const handleExecute = () => {
     const resultConditions = filtersDesk ? getCondition([filtersDesk]) : {};
@@ -110,7 +99,6 @@ const Results = ({
   useEffect(() => {
     if (isQueryExecute) {
       handleExecute();
-      setIsLoading(true);
     }
   }, [isQueryExecute]);
 
@@ -133,7 +121,7 @@ const Results = ({
           <ResultsTable
             size="small"
             className={styles.table}
-            headersArr={queryResult.fields}
+            headersArr={queryResult.description}
             bodyArr={queryResult.data}
           />
         )}
