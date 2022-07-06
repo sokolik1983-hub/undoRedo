@@ -3,7 +3,12 @@ import { deepObjectSearch } from '../../../../data/helpers';
 import { generateId } from '../../helpers';
 
 const makeCellObject = ({ parent, expression }) => {
-  const obj = { id: `${parent.id}.${generateId()}`, col: 0, row: 0, style: {} };
+  const obj = {
+    id: `${parent.id}.${generateId()}`,
+    col: 0,
+    row: 0,
+    style: {}
+  };
   if (!expression) return obj;
   return {
     ...obj,
@@ -197,7 +202,10 @@ export default ({ addIndexCoeff, axis, needReplace }) => ({
     const { dataType, formula, variable_id, type } = payload;
 
     if (axis === 'x') {
-      if (parentNodes[1][axisType] === 'header') {
+      if (
+        parentNodes[1][reverseAxisType] === 'header' &&
+        parentNodes[1][axisType] === 'header'
+      ) {
         for (let i = 0; i < neighbours.length; i++) {
           const neighbour = neighbours[i];
 
@@ -216,44 +224,66 @@ export default ({ addIndexCoeff, axis, needReplace }) => ({
             reverseAxisType
           });
         }
+        return structure;
       }
 
-      if (parentNodes[1][axisType] === 'body') {
-        const cell = dropTarget[0].target;
+      if (
+        parentNodes[1][reverseAxisType] === 'body' &&
+        parentNodes[1][axisType] === 'header'
+      ) {
+        // const cell = dropTarget[0].target;
 
-        placeCell({
-          cell,
-          structure,
-          parent: parentNodes[1],
-          index,
-          expression: { dataType, formula, variable_id, type },
-          needReplace,
-          addIndexCoeff
-        });
+        // placeCell({
+        //   cell,
+        //   structure,
+        //   parent: parentNodes[1],
+        //   index,
+        //   expression: { dataType, formula, variable_id, type },
+        //   needReplace,
+        //   addIndexCoeff
+        // });
+
+        for (let i = 0; i < neighbours.length; i++) {
+          const neighbour = neighbours[i];
+
+          const cell =
+            neighbour.cells[index] ||
+            makeCellObject({
+              parent: neighbour,
+              expression: { dataType, formula, variable_id, type }
+            });
+          modifyHeader({
+            neighbour,
+            cell,
+            index,
+            expression: payload,
+            addIndexCoeff,
+            reverseAxisType
+          });
+        }
+        return structure;
       }
 
-      if (parentNodes[1][axisType] === 'footer') {
-        const cell = dropTarget[0].target;
-        placeCell({
-          cell,
-          structure,
-          parent: parentNodes[1],
-          index,
-          expression: { dataType, formula, variable_id, type },
-          needReplace,
-          addIndexCoeff
-        });
-      }
+      // if (parentNodes[1][reverseAxisType] === 'footer') {
+      const cell = dropTarget[0].target;
+      placeCell({
+        cell,
+        structure,
+        parent: parentNodes[1],
+        index,
+        expression: { dataType, formula, variable_id, type },
+        needReplace,
+        addIndexCoeff
+      });
     }
+    // }
 
     if (axis === 'y') {
-      console.log('hNeighbours',  hNeighbours)
-      console.log('vNeighbours',  vNeighbours)
+      console.log('hNeighbours', hNeighbours);
+      console.log('vNeighbours', vNeighbours);
 
       // в vNeighbours - не трогать
       // в hNeighbours - запихнут
-
-      
 
       if (parentNodes[1][axisType] === 'header') {
         for (let i = 0; i < neighbours.length; i++) {
@@ -307,7 +337,6 @@ export default ({ addIndexCoeff, axis, needReplace }) => ({
           addIndexCoeff
         });
       }
-
     }
   }
   return structure;

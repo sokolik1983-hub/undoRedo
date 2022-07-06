@@ -158,12 +158,12 @@ export default function SidePanel({ navType }) {
     );
     dispatch(setStructure(cloneReport.structure));
 
-    dispatch(
-      setReportStructure({
-        report_id: currentReport.id,
-        structure: cloneReport.structure
-      })
-    );
+    // dispatch(
+    //   setReportStructure({
+    //     report_id: currentReport.id,
+    //     structure: cloneReport.structure
+    //   })
+    // );
 
     dispatch(setActiveNodes([]));
     dispatch(setConfigPanelVisible(false));
@@ -182,12 +182,12 @@ export default function SidePanel({ navType }) {
       item => item.col !== object.col
     );
 
-    dispatch(
-      setReportStructure({
-        report_id: 'R1',
-        structure: newStructureReport?.structure
-      })
-    );
+    // dispatch(
+    //   setReportStructure({
+    //     report_id: currentReport.id,
+    //     structure: newStructureReport?.structure
+    //   })
+    // );
 
     dispatch(
       removeTableColumn({
@@ -285,12 +285,12 @@ export default function SidePanel({ navType }) {
     );
     currNode.type = variant;
 
-    dispatch(
-      setReportStructure({
-        report_id: 'R1',
-        structure: newStructureReport?.structure
-      })
-    );
+    // dispatch(
+    //   setReportStructure({
+    //     report_id: currentReport.id,
+    //     structure: newStructureReport?.structure
+    //   })
+    // );
   };
 
   function renderBlockPanelContent() {

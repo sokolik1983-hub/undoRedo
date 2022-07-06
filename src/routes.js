@@ -29,8 +29,8 @@ const routes = [
       { path: 'symlayers', element: <Symlayers /> },
       { path: 'symlayers/create', element: <SymlayersDesigner /> },
       { path: 'trash', element: <RecycleBin /> },
-      { path: 'report/show/:report_id', element: <ReportDesigner /> },
-      { path: 'report/create', element: <ReportDesigner /> },
+      { path: 'report/:report_id', element: <ReportDesigner /> },
+      { path: 'report', element: <ReportDesigner /> },
       { path: 'reports', element: <Reports /> },
       { path: 'administrator', element: <AdminMain /> }
     ]

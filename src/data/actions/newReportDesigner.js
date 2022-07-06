@@ -1,13 +1,19 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-unused-vars */
+import { useNavigate } from 'react-router';
 import { ActionCreators } from 'redux-undo';
+import { REDIRECT_LINKS, TOAST_TYPE } from '../../common/constants/common';
+import { getCurrentReport } from '../../modules/ReportDesigner/helpers';
 import { request } from '../helpers';
 import {
+  setReportDisplayMode,
   setReportHeader,
   setReports,
   setStructure,
   setVariables
 } from '../reducers/new_reportDesigner';
+import { notificationShown } from '../reducers/notifications';
+import { showToast } from './app';
 import {
   REP_GET_REPORT_STRUCTURE,
   REP_SET_DP_PARAMS,
@@ -125,16 +131,33 @@ export const createReport = (queryParams, onSuccess) => {
     }
   };
 };
-export const saveReport = queryParams => {
-  return async dispatch => {
+export const saveReport = (queryParams, onSuccess) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const { reportDesigner } = state.app;
+    const currentReport = getCurrentReport(
+      reportDesigner.reportsData.present.reports,
+      reportDesigner.reportsData.present.activeReport
+    );
+
+    await dispatch(
+      setReportStructure({
+        report_id: currentReport.id,
+        structure: currentReport.structure
+      })
+    );
+
     const response = await request({
       code: 'REP.SAVE',
       params: queryParams, // {"name" : "сложное уникальное имя", "parent_id' : 15}
       dispatch
     });
     if (response) {
-      console.log(response);
-      // dispatch(getReportStructure({ report_id: queryParams.report_id }));
+      dispatch(showToast(TOAST_TYPE.SUCCESS, 'Отчет успешно сохранен!'));
+      if (queryParams.folder_id) {
+        // onSuccess(response.header.id);
+        await dispatch(setReportHeader(response.header));
+      }
     }
   };
 };
@@ -148,9 +171,22 @@ export const openReport = queryParams => {
     if (response) {
       localStorage.setItem('streamreceiver', response.header.thread);
 
-      dispatch(setReportHeader(response.header));
-      dispatch(getReportTabs());
-      dispatch(getVariables());
+      dispatch(setReportDpRefreshed());
+      await dispatch(setReportHeader(response.header));
+      await dispatch(getReportTabs());
+      await dispatch(getVariables());
+    }
+  };
+};
+export const deleteReport = queryParams => {
+  return async dispatch => {
+    const response = await request({
+      code: 'REP.DEL_USER_OBJ',
+      params: queryParams, // {"name" : "сложное уникальное имя", "parent_id' : 15}
+      dispatch
+    });
+    if (response) {
+      dispatch(showToast(TOAST_TYPE.SUCCESS, 'Отчет успешно удален!'));
     }
   };
 };
@@ -162,7 +198,6 @@ export const getReportTabs = queryParams => {
       dispatch
     });
     if (response) {
-      debugger;
       dispatch(
         setReports({
           reports: response.object.data.reports.map(report => {
@@ -230,6 +265,12 @@ export const setReportStructure = queryParams => {
     if (response) {
       dispatch(getReportStructure({ report_id: queryParams.report_id }));
     }
+  };
+};
+export const setStructureBeforeGetData = queryParams => {
+  return async dispatch => {
+    await dispatch(setReportStructure(queryParams.structure));
+    dispatch(setReportDisplayMode(queryParams.mode));
   };
 };
 

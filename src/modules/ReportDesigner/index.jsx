@@ -94,12 +94,12 @@ function ReportDesigner() {
           item => !activeNodeIds.includes(item.id)
         );
         dispatch(setStructure(filteredStructure));
-        dispatch(
-          setReportStructure({
-            report_id: currentReport.id,
-            structure: filteredStructure
-          })
-        );
+        // dispatch(
+        //   setReportStructure({
+        //     report_id: currentReport.id,
+        //     structure: filteredStructure
+        //   })
+        // );
         dispatch(setActiveNodes([]));
       }
     }
@@ -169,12 +169,12 @@ function ReportDesigner() {
 
       dispatch(setCreatingElement(null));
       dispatch(setStructure(newStructure));
-      dispatch(
-        setReportStructure({
-          report_id: currentReport.id,
-          structure: newStructure
-        })
-      );
+      // dispatch(
+      //   setReportStructure({
+      //     report_id: currentReport.id,
+      //     structure: newStructure
+      //   })
+      // );
     }
   }
 
@@ -298,7 +298,7 @@ function ReportDesigner() {
     const copyReport = {
       ...currentReport,
       name: `${currentReport.name} (копия)`,
-      id: generateId()
+      id: `R${reportDesigner?.reportsData?.present?.reports.length + 1}`
     };
     const newReports = lodash.cloneDeep(
       reportDesigner?.reportsData?.present?.reports
@@ -347,16 +347,18 @@ function ReportDesigner() {
     }
   };
 
-  const menu = () => (
+  const menu = isLast => (
     <div className={styles.itemsWrapper}>
-      {REPORT_ACTIONS.map(item => (
-        <DropdownItem
-          key={item.title}
-          className={styles.dropdownItem}
-          onClick={action => handleClick(action)}
-          item={item}
-        />
-      ))}
+      {REPORT_ACTIONS.filter(item => !(isLast && item.action === 'delete')).map(
+        item => (
+          <DropdownItem
+            key={item.title}
+            className={styles.dropdownItem}
+            onClick={action => handleClick(action)}
+            item={item}
+          />
+        )
+      )}
     </div>
   );
 
@@ -512,11 +514,14 @@ function ReportDesigner() {
               reportDesigner.reportsData.present.reports.map(report => {
                 const isActive =
                   reportDesigner.reportsData.present.activeReport === report.id;
+                const isLast =
+                  reportDesigner.reportsData.present.reports.length === 1;
+
                 return (
                   <div>
                     <Dropdown
                       trigger={isActive ? ['contextMenu'] : ''}
-                      overlay={menu()}
+                      overlay={menu(isLast)}
                     >
                       <Button
                         buttonStyle={BUTTON.BLUE}
@@ -530,11 +535,13 @@ function ReportDesigner() {
                       </Button>
                     </Dropdown>
 
-                    <DeleteModal
-                      isOpen={isDeleteModalActive}
-                      onConfirm={handleDeleteReport()}
-                      onCancel={() => setIsDeleteModalActive(false)}
-                    />
+                    {!isLast && (
+                      <DeleteModal
+                        isOpen={isDeleteModalActive}
+                        onConfirm={handleDeleteReport()}
+                        onCancel={() => setIsDeleteModalActive(false)}
+                      />
+                    )}
                     <RenameModal
                       isOpen={isRenameModalActive}
                       onRename={handleRenameReport}

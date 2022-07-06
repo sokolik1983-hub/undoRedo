@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getElementData } from '../../../../../../data/actions/newReportDesigner';
 import { setFormattingElement } from '../../../../../../data/reducers/new_reportDesigner';
-import Cell from '../../../Cell';
+import Cell from '../../../TableCell';
 import styles from './TableFooter.module.scss';
 import {getZoneData} from '../helpers'
 import { LoadingRow, renderRow, getStyleFn } from '../../helpers';
@@ -79,6 +79,7 @@ const TableFooter = ({
             return (
               <td key={item.id} onClick={() => handleClick('footerZone', item)}>
                 <Cell
+                  tableType={tableType}
                   displayMode={displayMode}
                   blockStyles={item.style}
                   structureItem={item}
@@ -102,6 +103,7 @@ const TableFooter = ({
             return (
               <td key={item.id} onClick={() => handleClick('footerZone', item)}>
                 <Cell
+                  tableType={tableType}
                   displayMode={displayMode}
                   blockStyles={item.style}
                   structureItem={item}

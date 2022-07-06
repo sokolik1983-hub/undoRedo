@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useRef, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { useParams, useNavigate } from 'react-router';
 import { REPORT_PAGE_ACTIONS } from '../../../common/constants/reportDesigner/reportDesignerMenuIcons';
 import styles from './ReportActions.module.scss';
 import {
@@ -24,6 +24,7 @@ import useClickOutside from '../../../common/helpers/useClickOutside';
 import { setQueryPanelModal } from '../../../data/actions/universes';
 import ZoomSlider from './ZoomSlider';
 import SaveReportModal from './SaveReportModal';
+import { REDIRECT_LINKS, TOAST_TYPE } from '../../../common/constants/common';
 
 const NewReportActions = () => {
   const [isSaveReportOpen, setIsSaveReportOpen] = useState(false);
@@ -31,6 +32,7 @@ const NewReportActions = () => {
   const [isGraphOpen, setIsGraphOpen] = useState(false);
   const [isZoomBlockOpen, setIsZoomBlockOpen] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const reportName = useSelector(
     state => state.app.reportDesigner?.reportsData?.present?.header?.name
@@ -131,10 +133,15 @@ const NewReportActions = () => {
           isOpen={isSaveReportOpen}
           onSave={name => {
             dispatch(
-              saveReport({
-                name: name || 'Произвольный отчет',
-                folder_id: '10003'
-              })
+              saveReport(
+                {
+                  name: name || 'Произвольный отчет',
+                  folder_id: '10003'
+                }
+                // id => {
+                //   window.location.pathname = `${REDIRECT_LINKS.REPORT_SHOW}/${id}`;
+                // }
+              )
             ); // тестовая папка рутова
             setIsSaveReportOpen(false);
           }}

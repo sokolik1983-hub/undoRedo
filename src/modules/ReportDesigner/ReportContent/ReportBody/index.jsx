@@ -35,12 +35,12 @@ const ReportBody = ({ data, onSelect, isActiveNode }) => {
     }
 
     dispatch(setStructure(newStructure));
-    dispatch(
-      setReportStructure({
-        report_id: currentReport.id,
-        structure: newStructure
-      })
-    );
+    // dispatch(
+    //   setReportStructure({
+    //     report_id: currentReport.id,
+    //     structure: newStructure
+    //   })
+    // );
   }
 
   function handleChangeScales(id, newScales) {
@@ -62,12 +62,12 @@ const ReportBody = ({ data, onSelect, isActiveNode }) => {
     }
 
     dispatch(setStructure(newStructure));
-    dispatch(
-      setReportStructure({
-        report_id: currentReport.id,
-        structure: newStructure
-      })
-    );
+    // dispatch(
+    //   setReportStructure({
+    //     report_id: currentReport.id,
+    //     structure: newStructure
+    //   })
+    // );
   }
 
   return (

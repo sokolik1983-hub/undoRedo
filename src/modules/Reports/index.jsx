@@ -11,7 +11,7 @@ import ListTableRow from '../../common/components/List/ListTableView/ListTableRo
 import {
   connectorsTableHeader,
   FOLDER_DROPDOWN_ACTIONS,
-  FOLDER_ITEM_DROPDOWN_ACTIONS,
+  REPORT_STRUCTURE_DROPDOWN_ACTIONS,
   sortFoldersAndItems
 } from './helper';
 import { ReactComponent as FolderIcon } from '../../layout/assets/folderIcon.svg';
@@ -32,6 +32,7 @@ import {
   getReportsFolderChildren,
   getReportsFolderId
 } from '../../data/actions/universes';
+import { deleteReport } from '../../data/actions/newReportDesigner';
 // import { openReport } from '../../data/actions/newReportDesigner';
 
 const Reports = () => {
@@ -136,6 +137,10 @@ const Reports = () => {
     navigate(`${REDIRECT_LINKS.REPORT_SHOW}/${id}`, { replace: true });
   };
 
+  const handleDeleteClick = id => {
+    dispatch(deleteReport({ id }));
+  };
+
   const handleItemClick = (id, action) => {
     switch (action) {
       case 'open':
@@ -145,6 +150,7 @@ const Reports = () => {
         handleEditClick(id);
         break;
       case 'delete':
+        handleDeleteClick(id);
         break;
       default:
         console.log(action);
@@ -153,7 +159,7 @@ const Reports = () => {
 
   const getUniverseDropdownItems = id => (
     <div className={styles.itemsWrapper}>
-      {FOLDER_ITEM_DROPDOWN_ACTIONS.map(item => (
+      {REPORT_STRUCTURE_DROPDOWN_ACTIONS.map(item => (
         <Tooltip
           key={item.title}
           overlay={<div className={styles.tooltip}>{item.title}</div>}
@@ -276,7 +282,7 @@ const Reports = () => {
         ) : (
           <Preloader />
         )}
-        <Link to="/report/create/">
+        <Link to="/report">
           <FloatingButton icon={<CreateConnector />} text="Создать отчет" />
         </Link>
       </div>
