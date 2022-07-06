@@ -1,3 +1,8 @@
+@keyframes moving-gradient {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
+
 .active_col {
   background-color: sandybrown !important;
 }
@@ -17,7 +22,7 @@ table {
     border:  1px solid #E4E4E4;
     // background: linear-gradient(180deg, #1AE3D7 -20%, #0945DF 120%);
     // color: white;
-    height: 19px;
+    // height: 19px;
     font-style: normal;
     font-weight: 700;
   }
@@ -30,4 +35,17 @@ table {
 .table-container {
   width: 100%;
   overflow: auto;
+}
+
+.loading-row {
+  min-width: 200px;
+  min-height:  19px;
+  background: linear-gradient(to right, rgba(30, 142, 245, 0.29) 20%, rgba(11, 34, 55, 0) 50%, rgba(30, 142, 245, 0.29) 80%);
+  background-size: 600px 19px;
+  animation-name: moving-gradient;
+  animation-duration:2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  border: none!important
 }

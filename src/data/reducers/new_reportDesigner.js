@@ -224,20 +224,20 @@ export const variableObject = {
 export const reportObject = {
   header: {
     // report header
-    service: '1.1.1.1:22333',
-    thread: '<thread_id>',
-    id: 100009,
-    guid: 'BE287C4B-B9AC-432E-9502-ECDEF82D8DAD',
-    parent_id: 100007,
-    name: 'Тестовый СС 1',
-    description: '',
-    owner_id: 10002,
-    createUser_id: 10002,
-    create_ts: '2022-05-02 20:18:00.0',
-    updateUser_id: 10002,
-    update_ts: '2022-05-02 20:18:00.0',
-    version: '0.0.1',
-    releaseNumber: 1
+    // service: '1.1.1.1:22333',
+    // thread: '<thread_id>',
+    // id: 100009,
+    // guid: 'BE287C4B-B9AC-432E-9502-ECDEF82D8DAD',
+    // parent_id: 100007,
+    // name: 'Тестовый СС',
+    // description: '',
+    // owner_id: 10002,
+    // createUser_id: 10002,
+    // create_ts: '2022-05-02 20:18:00.0',
+    // updateUser_id: 10002,
+    // update_ts: '2022-05-02 20:18:00.0',
+    // version: '0.0.1',
+    // releaseNumber: 1
   },
   data: {
     properties: {
@@ -2442,7 +2442,7 @@ export const section = {
   }
 };
 export const reportPageObject = {
-  id: 1,
+  id: 'R1',
   name: 'Отчет 1',
   paginationMode: 'Quick', // Quick | ?
   displayMode: 'Structure', // Data | Structure
@@ -2460,37 +2460,36 @@ export const reportPageObject = {
     recordsWidth: 25,
     scale: 100
   },
-  structure: {},
-  // structure: {
-  //   pgHeader: {
-  //     id: 'R1.PH',
-  //     type: 'pgHeader',
-  //     name: 'заголовок страницы',
-  //     size: {
-  //       minimalHeight: 10
-  //     }
-  //   },
-  //   pgBody: {
-  //     id: 'R1',
-  //     type: 'pgBody',
-  //     name: 'тело',
-  //     size: {
-  //       minimalHeight: 10
-  //     },
-  //     content: {
-  //       children: []
-  //       // children: [V_TABLE]
-  //     }
-  //   },
-  //   pgFooter: {
-  //     id: 'R1.PF',
-  //     type: 'pgFooter',
-  //     name: 'нижний колонтитул',
-  //     size: {
-  //       minimalHeight: 15
-  //     }
-  //   }
-  // },
+  // structure: {},
+  structure: {
+    pgHeader: {
+      id: 'R1.PH',
+      type: 'pgHeader',
+      name: 'заголовок страницы',
+      size: {
+        minimalHeight: 10
+      }
+    },
+    pgBody: {
+      id: 'R1',
+      type: 'pgBody',
+      name: 'тело',
+      size: {
+        minimalHeight: 10
+      },
+      content: {
+        children: []
+      }
+    },
+    pgFooter: {
+      id: 'R1.PF',
+      type: 'pgFooter',
+      name: 'нижний колонтитул',
+      size: {
+        minimalHeight: 15
+      }
+    }
+  },
   alerters: []
 };
 
@@ -2595,11 +2594,14 @@ const reportDesigner = createSlice({
   name: 'reportDesigner',
   initialState: {
     ...reportObject,
-    reports: [reportPageObject],
-    activeReport: 1,
+    reports: [reportPageObject], // remove for test reportPageObject
+    activeReport: 'R1',
     activeNodes: []
   },
   reducers: {
+    setReportHeader: (state, action) => {
+      state.header = action.payload;
+    },
     setReportDisplayMode: (state, action) => {
       const report = lodash.find(
         state.reports,
@@ -2913,11 +2915,12 @@ const reportDesignerUI = createSlice({
     },
     setMenuItem: (state, action) => {
       state.ui.menuItem = action.payload;
-    }
+    },
   }
 });
 
 export const {
+  setReportHeader,
   removeTableColumn,
   setReportDisplayMode,
   setActiveReport,

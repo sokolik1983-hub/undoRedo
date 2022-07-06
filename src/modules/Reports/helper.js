@@ -1,7 +1,6 @@
 import { ReactComponent as EditIcon } from '../../layout/assets/folderItemEdit.svg';
 import { ReactComponent as BinIcon } from '../../layout/assets/folderItemBin.svg';
-import { ReactComponent as FavoriteIcon } from '../../layout/assets/favoriteIcon.svg';
-import { ReactComponent as RemoveFromFavoritesIcon } from '../../layout/assets/removeFromFavorites.svg'
+import { ReactComponent as ShowIcon } from '../../layout/assets/showIcon.svg';
 
 export const sortFoldersAndItems = folderChildren => {
   if (!folderChildren) return null;
@@ -29,7 +28,7 @@ export const sortFoldersAndItems = folderChildren => {
 
 export const FOLDER_ITEM_DROPDOWN_ACTIONS = [
   {
-    title: 'Редактировать',
+    title: 'Редактировать имя',
     icon: <EditIcon />,
     action: 'edit'
   },
@@ -37,17 +36,25 @@ export const FOLDER_ITEM_DROPDOWN_ACTIONS = [
     title: 'Удалить',
     icon: <BinIcon />,
     action: 'delete'
+  }
+];
+
+export const REPORT_STRUCTURE_DROPDOWN_ACTIONS = [
+  {
+    title: 'Просмотр',
+    icon: <ShowIcon />,
+    action: 'open'
   },
   {
-    title: 'Добавить в Избранное',
-    icon: <FavoriteIcon />,
-    action: 'addToFavorites'
+    title: 'Редактировать имя',
+    icon: <EditIcon />,
+    action: 'edit'
   },
   {
-    title: 'Удалить из Избранных',
-    icon: <RemoveFromFavoritesIcon />,
-    action: 'removeFromFavorites'
-  },
+    title: 'Удалить',
+    icon: <BinIcon />,
+    action: 'delete'
+  }
 ];
 
 export const FOLDER_DROPDOWN_ACTIONS = [
@@ -60,9 +67,7 @@ export const FOLDER_DROPDOWN_ACTIONS = [
     title: 'Удалить',
     icon: <BinIcon />,
     action: 'delete'
-  },
+  }
 ];
 
-export const connectorsTableHeader = [
-  { name: 'Имя' },
-];
+export const connectorsTableHeader = [{ name: 'Имя' }];
