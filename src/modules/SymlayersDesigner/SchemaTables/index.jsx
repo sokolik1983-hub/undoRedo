@@ -322,20 +322,20 @@ useMemo(() => {
               />
             );
           })()}
-
         {Object.keys(tables).length &&
           props.objectsLinks?.map(link => {
+            console.log(tables);
             const SourceRect = targetRect(
               Object.values(tables)?.find(
                 table => `${table.schema}_${table.objectName}` === link.object1.object_name
               ),
-              !isShadow && link.object1.selectedColumns[0]
+              !isShadow && link.object1.fields[0]
             );
             const TargetRect = targetRect(
               Object.values(tables)?.find(
                 table => `${table.schema}_${table.objectName}` === link.object2.object_name
               ),
-              !isShadow && link.object2.selectedColumns[0]
+              !isShadow && link.object2.fields[0]
             );
 
             return (

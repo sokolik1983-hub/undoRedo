@@ -61,15 +61,17 @@ function SymlayersDesigner() {
     state => state.app.ui.modalVisible === OBJECTS_CONNECTIONS_MODAL
   );
     
-    const schemaDesignerUi = useSelector(state => state.app.schemaDesigner.ui);
-    const links = useSelector(state => state.app.schemaDesigner.links);
-    const contexts = useSelector(state => state.app.schemaDesigner.contexts);
-    const isTablePreviewModalOpened = useSelector(
-      state => state.app.ui.modalVisible === TABLE_PREVIEW_MODAL
-    );
-    const selectedTablesArray = useSelector(
-      state => state.app.schemaDesigner.selectedTablesArray
-    );
+  const isTablePreviewModalOpened = useSelector(
+    state => state.app.ui.modalVisible === TABLE_PREVIEW_MODAL
+  );
+  
+  const selectedTablesArray = useSelector(
+    state => state.app.schemaDesigner.selectedTablesArray
+  );
+
+  const schemaDesignerUi = useSelector(state => state.app.schemaDesigner.ui);
+  const links = useSelector(state => state.app.schemaDesigner.links);
+  const contexts = useSelector(state => state.app.schemaDesigner.contexts);
         
   useEffect(() => {
     if (selectedTablesArray.length) {
@@ -108,17 +110,17 @@ function SymlayersDesigner() {
 
     const filteredTables = checked.filter(
       item =>
-        `${item.schema}.${item.object_name}` !==
-        `${table.schema}.${table.object_name}`
+        `${item.schema}.${item.objectName}` !==
+        `${table.schema}.${table.objectName}`
     );
     setChecked(filteredTables);
 
     const filteredLinks = objectsLinks.filter(link => {
       if (
         `${link.object1.object.schema}.${link.object1.object.object_name}` ===
-          `${table.schema}.${table.object_name}` ||
+          `${table.schema}.${table.objectName}` ||
         `${link.object2.object.schema}.${link.object2.object.object_name}` ===
-          `${table.schema}.${table.object_name}`
+          `${table.schema}.${table.objectName}`
       ) {
         return false;
       }
@@ -133,7 +135,7 @@ function SymlayersDesigner() {
         childrenCheck(item);
       }
 
-      return item && item.tableName !== `${table.schema}.${table.object_name}`;
+      return item && item.tableName !== `${table.schema}.${table.objectName}`;
     }
 
     const newFolders = folders.map(folder => {
@@ -143,7 +145,7 @@ function SymlayersDesigner() {
             return childrenCheck(child);
           }
           return (
-            child && child.tableName !== `${table.schema}.${table.object_name}`
+            child && child.tableName !== `${table.schema}.${table.objectName}`
           );
         });
       }

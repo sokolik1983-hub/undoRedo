@@ -11,6 +11,7 @@ import {
   setIsShowingLinks
 } from '../../../../data/reducers/schemaDesigner';
 import EditObjectLayerModal from '../../../../modules/SymlayersDesigner/Sidebar/EditObjectLayerModal';
+import Button from '../../../../common/components/Button';
 // import TextInput from '../../../../common/components/TextInput';
 
 const SemanticActions = () => {
@@ -65,6 +66,22 @@ const SemanticActions = () => {
   );
   /* удалить когда перенесем кнопку открытия Создать  */
 
+  const links = useSelector(
+    state => state.app.schemaDesigner.links
+  );  
+  
+  const objectsLayers = useSelector(
+    state => state.app.schemaDesigner.objectsLayerList
+  );  
+  
+  const selectedTablesData = useSelector(
+    state => state.app.schemaDesigner.selectedTablesData
+  );  
+
+  const saveUniverse = () => {
+    console.log(links, objectsLayers, selectedTablesData);
+  }
+
   return (
     <div className={styles.actionsContainer}>
       {newArr.map(item => {
@@ -84,6 +101,7 @@ const SemanticActions = () => {
           </div>
         );
       })}
+      {<Button style={{color: 'black', marginLeft: '5px'}} onClick={saveUniverse}>Сохранить юниверс</Button>}
       {isCreateObjectModalOpened && (
         <CreateObjectLayerModal visible={isCreateObjectModalOpened && true} />
       )}

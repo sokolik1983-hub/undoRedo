@@ -27,12 +27,13 @@ const ConnectionTable = ({tableName, tables, onSelectColumn, onSelectTable, tabl
   // возвращает выбранную таблицу
   const getTableData = value => {
     const table = tables.filter(item => {
-      return item.id.toString() === value
+      return item.name.toString() === value
     });
     setSelectedTable(table[0]);
   };
-
+  
   useEffect(() => {
+    console.log(props.currentLeftTable)
     if (props.currentLeftTable) {
       getTableData(props.currentLeftTable);
     }

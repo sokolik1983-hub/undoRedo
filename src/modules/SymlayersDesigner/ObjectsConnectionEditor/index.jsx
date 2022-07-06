@@ -24,29 +24,31 @@ import { addLink, setLink } from '../../../data/reducers/schemaDesigner';
 const ObjectsConnectionEditor = ({ id, visible }) => {
   const dispatch = useDispatch();
   const [sqlEditorOpened, setSqlEditorOpened] = useState(false); // показывает модалку с редактированиемм SQL
-  const [leftTable, setLeftTable] = useState(null); // name левой таблицы
-  const [rightTable, setRightTable] = useState(null); // name правой таблицы
   const [leftSelected, setLeftSelected] = useState([]);
   const [rightSelected, setRightSelected] = useState([]);
   const [leftSchema, setLeftSchema] = useState([]);
   const [rightSchema, setRightSchema] = useState([]);
+  const [rightTable, setRightTable] = useState(null); // name правой таблицы
+  const [leftTable, setLeftTable] = useState(null); // name левой таблицы
   const [leftColumns, setLeftColumns] = useState([]);
   const [rightColumns, setRightColumns] = useState([]);
-
+  
   const currentObjLink = useSelector(
     state => state.app.ui.modalData 
   );
-
+    
   const [resultExpression, setResultExpression] = useState(currentObjLink?.expression ? currentObjLink.expression : null);
   const [condition, setCondition] = useState(currentObjLink?.condition ? currentObjLink.condition : '=');
 
-  const selectedTables = useSelector(
-    state => state.app.schemaDesigner.selectedTables
+  const selectedTablesData = useSelector(
+    state => state.app.schemaDesigner.selectedTablesData
   );  
 
   const connectorObjects = useSelector(
     state => state.app.schemaDesigner.connectorObjects
   );  
+
+  console.log(currentObjLink)
 
   useEffect(() => {
     if (connectorObjects.length && leftTable && rightTable) {
@@ -59,15 +61,17 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
         }
       })
     } 
-  }, [connectorObjects, leftTable, rightTable])
+  }, [connectorObjects, leftTable, rightTable]);
 
   const convertedData = useMemo(() => {
-    return Object.keys(selectedTables).map(table => ({
-      id: table,
-      name: table,
-      columns: selectedTables[table]
+    return selectedTablesData.map((table, idx) => ({
+      id: idx,
+      name: `${table.schema}_${table.objectName}`,
+      columns: table.columns
     }));
-  }, [selectedTables]);
+  }, [selectedTablesData]);
+
+  console.log(convertedData, selectedTablesData)
 
   useEffect(() => {
     convertedData.forEach(table => {
@@ -84,8 +88,8 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
   useEffect(() => {
     setResultExpression(
       createExpression(
-        leftSelected || currentObjLink?.object1.selectedColumns,
-        rightSelected || currentObjLink?.object2.selectedColumns,
+        leftSelected || currentObjLink?.object1.fields,
+        rightSelected || currentObjLink?.object2.fields,
         condition, 
         leftTable || currentObjLink?.object1.object_name,
         rightTable || currentObjLink?.object2.object_name
@@ -108,16 +112,14 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
             cardinality: 'one',
             object_name: leftTable,
             schema: leftSchema,
-            fields: leftColumns,
-            selectedColumns: leftSelected,
+            fields: leftSelected,
             outerJoin: null
           },
           object2: {
             cardinality: 'one',
             object_name: rightTable,
             schema: rightSchema,
-            fields: rightColumns,
-            selectedColumns: rightSelected,
+            fields: rightSelected,
             outerJoin: null
           }
         })
@@ -132,16 +134,14 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
               cardinality: 'one',
               object_name: leftTable,
               schema: leftSchema,
-              columns: leftColumns,
-              selectedColumns: leftSelected || currentObjLink.object1.selectedColumns,
+              fields: leftSelected || currentObjLink.object1.fields,
               outerJoin: null
             },
             object2: {
               cardinality: 'one',
               object_name: rightTable,
               schema: rightSchema,
-              columns: rightColumns,
-              selectedColumns: rightSelected || currentObjLink.object2.selectedColumns,
+              fields: rightSelected || currentObjLink.object2.fields,
               outerJoin: null
             }
         })
@@ -156,16 +156,14 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
               cardinality: 'one',
               object_name: leftTable,
               schema: leftSchema,
-              columns: leftColumns,
-              selectedColumns: leftSelected || currentObjLink.object1.selectedColumns,
+              fields: leftSelected || currentObjLink.object1.fields,
               outerJoin: null
             },
             object2: {
               cardinality: 'one',
               object_name: rightTable,
               schema: rightSchema,
-              columns: rightColumns,
-              selectedColumns: rightSelected || currentObjLink.object2.selectedColumns,
+              fields: rightSelected || currentObjLink.object2.fields,
               outerJoin: null
             }
         })
@@ -214,7 +212,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
             onSelectTable={handleSelectTable}
             tableSelected={getTableSelected()}
             currentLeftTable={currentObjLink?.object1.object_name}
-            currentLeftColumns={currentObjLink?.object1.selectedColumns}
+            currentLeftColumns={currentObjLink?.object1.fields}
           />
           <ConnectionType onSelectExpression={setSelectedCondition} currentExpression={currentObjLink?.condition} />
           <ConnectionTable
@@ -224,7 +222,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
             onSelectTable={handleSelectTable}
             tableSelected={getTableSelected()}
             currentLeftTable={currentObjLink?.object2.object_name}
-            currentRightColumns={currentObjLink?.object2.selectedColumns}
+            currentRightColumns={currentObjLink?.object2.fields}
           />
         </div>
         <FormulaBlock
