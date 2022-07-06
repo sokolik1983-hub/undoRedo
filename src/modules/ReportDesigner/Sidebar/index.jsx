@@ -1,24 +1,18 @@
 /* eslint-disable react/prop-types */
 // import { useState } from 'react';
 
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 import DragNDropProvider from '../../QueryPanel/context/DragNDropContext';
 import ObjectsPanel from '../../QueryPanel/ObjectsPanel';
 import SidePanel from '../../../common/components/SidePanel';
 import styles from './Sidebar.module.scss';
 import { SIDE_PANEL_TYPES } from '../../../common/constants/common';
-import { getSymanticLayerData } from '../../../data/actions/universes';
+// import { getSymanticLayerData } from '../../../data/actions/universes';
 
 const Sidebar = ({ semanticLayer, handleShowSelector }) => {
-  const dispatch = useDispatch();
   const reportDesigner = useSelector(state => state.app.reportDesigner);
   const isShowingPanel = reportDesigner.reportsUi.ui.showConfigPanel;
-
-  useEffect(() => {
-    if (semanticLayer) dispatch(getSymanticLayerData(semanticLayer.id));
-  }, [semanticLayer]);
 
   return (
     <div className={styles.root}>

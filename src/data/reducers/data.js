@@ -19,6 +19,10 @@ const data = createSlice({
     reposFolderId: 0,
     reposChildren: [],
     connectorData: {},
+    selectedConnectorId: null,
+    sampleUnvObject: {},
+    isUniverseCreated: false,
+    connectorObjects: {tables: [], result: 0},
     queryPanelSymlayersData: {
       currentLayerTitle: null,
       data: []
@@ -151,6 +155,15 @@ const data = createSlice({
     setConnectorData: (state, action) => {
       state.connectorData = action.payload;
     },
+    setSampleUniverseObject: (state, action) => {
+      state.sampleUnvObject = action.payload;
+    }, 
+    setUniverseIsCreated: (state, action) => {
+      state.isUniverseCreated = action.payload;
+    },
+    setConnectorId: (state, action) => {
+      state.selectedConnectorId = action.payload;
+    },
     setFavoriteObjects: (state, action) => {
       console.log('action', action)
       state.favoriteObjects.favoriteObjectsData = action.payload;
@@ -196,6 +209,9 @@ export const {
   setReposFolderId,
   setReposChildren,
   setConnectorData,
+  setSampleUniverseObject,
+  setUniverseIsCreated,
+  setConnectorId,
   setFavoriteObjects,
   loadingFavoriteObjects,
   successFavoriteObjects,

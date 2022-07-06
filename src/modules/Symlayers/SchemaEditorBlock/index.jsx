@@ -187,36 +187,36 @@ const SchemaEditorBlock = ({
     </div>
   );
 
-  const refs = useRef({});
+  // const refs = useRef({});
 
-  useEffect(() => {
-    if (!isShadow) {
-      const ports = columns.map(item => ({
-        key: item.field,
-        ref: React.createRef()
-      }));
+  // useEffect(() => {
+  //   if (!isShadow) {
+  //     const ports = columns.map(item => ({
+  //       key: item.field,
+  //       ref: React.createRef()
+  //     }));
 
-      const value = {
-        tableRef: React.createRef(),
-        headerRef: React.createRef(),
-        ports
-      };
-      setTablesRefs({ tableId, value });
-      refs.current = value;
-      return;
-    }
-    refs.current = {
-      tableRef: React.createRef(),
-      headerRef: React.createRef(),
-      ports: []
-    };
-  }, [refs]);
+  //     const value = {
+  //       tableRef: React.createRef(),
+  //       headerRef: React.createRef(),
+  //       ports
+  //     };
+  //     setTablesRefs({ tableId, value });
+  //     refs.current = value;
+  //     return;
+  //   }
+  //   refs.current = {
+  //     tableRef: React.createRef(),
+  //     headerRef: React.createRef(),
+  //     ports: []
+  //   };
+  // }, [refs]);
 
   return (
-    <div className={highlightOutline} ref={refs.current.tableRef}>
-      {/* <div className={highlightOutline} ref={tableRef}> */}
+    // <div className={highlightOutline} ref={refs.current.tableRef}>
+    <div className={highlightOutline} ref={tableRef}> 
       <div
-        ref={refs.current.headerRef}
+        // ref={refs.current.headerRef}
         className={styles.header}
         onMouseDown={event => {
           event.stopPropagation();
@@ -224,7 +224,7 @@ const SchemaEditorBlock = ({
           onTableDragStart(event);
         }}
         onDoubleClick={() => setIsOpened(prev => !prev)}
-        // ref={headerRef}
+        ref={headerRef}
       >
         <div className={styles.heading}>{selectedTableName}</div>
         <div className={styles.iconsContainer}>
@@ -279,7 +279,7 @@ const SchemaEditorBlock = ({
               className={styles.search}
             />
 
-            {filterableFields.map((item, index) => {
+            {/* {filterableFields?.map((item, index) => {
               const port = refs?.current?.ports
                 ? refs.current.ports.find(column => column.key === item.field)
                 : {};
@@ -299,8 +299,8 @@ const SchemaEditorBlock = ({
                   {item.field}
                 </li>
               );
-            })}
-            {/* {filterableFields.map((item, index) => (
+            })} */}
+            {filterableFields.map((item, index) => (
               <li
                 className={
                   item.colored && isHighlight
@@ -309,13 +309,13 @@ const SchemaEditorBlock = ({
                 }
                 key={item.field + item.type}
                 draggable
-                onDragStart={e => onFieldDragStart(e, item)}
-                onDrop={e => onFieldDragOver(e, item)}
+                onDragStart={e => onFieldDragStart(e, item, tableItem)}
+                onDrop={e => onFieldDragOver(e, item, tableItem)}
                 ref={fieldRefs.current[index]}
               >
                 {item.field}
               </li>
-            ))} */}
+            ))}
           </ul>
         </div>
       )}
