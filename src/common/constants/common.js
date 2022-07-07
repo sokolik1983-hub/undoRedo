@@ -15,6 +15,8 @@ import { ReactComponent as DisableConnectionsPanel } from '../../layout/assets/s
 import { ReactComponent as DisableContextPanel } from '../../layout/assets/semanticActionsIcons/disContextPanel.svg';
 import { ReactComponent as DisableDefineConnections } from '../../layout/assets/semanticActionsIcons/disDefineConnections.svg';
 import { ReactComponent as DisableRefreshStructure } from '../../layout/assets/semanticActionsIcons/disRefreshStructure.svg';
+import { ReactComponent as RemoveFromFavoritesIcon} from '../../layout/assets/removeFromFavorites.svg'
+import { ReactComponent as EditIcon } from '../../layout/assets/folderItemEdit.svg';
 
 export const TABLE_CELL_EMPTY_VALUE = '-';
 export const BREADCRUMBS_ROOT = '..';
@@ -216,3 +218,18 @@ export const TOAST_TYPE = {
   SUCCESS: 'success',
   DANGER: 'danger'
 };
+
+export const HOME_PAGE_BUTTON_ACTIONS = [
+  {
+    title: 'Открыть',
+    text: 'Открыть',
+    icon: <EditIcon />,
+    action: 'open'
+  },
+  {
+    title: 'Удалить из избранного',
+    text: 'Удалить из избранного',
+    icon: <RemoveFromFavoritesIcon />,
+    action: 'removeFromFavorites'
+  },
+];

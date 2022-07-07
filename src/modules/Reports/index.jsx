@@ -12,6 +12,7 @@ import {
   connectorsTableHeader,
   FOLDER_DROPDOWN_ACTIONS,
   REPORT_STRUCTURE_DROPDOWN_ACTIONS,
+  FOLDER_ITEM_DROPDOWN_ACTIONS_REPORTS,
   sortFoldersAndItems
 } from './helper';
 import { ReactComponent as FolderIcon } from '../../layout/assets/folderIcon.svg';
@@ -146,23 +147,16 @@ const Reports = () => {
       })
     );
   };
-/**
- * Хэндлер для добавления документа в Избранное.
- *
- * @prop id документа которого хотим добавить в Избранное.
- */
+
   const handleAddToFavorites = (id) => {
     dispatch(setObjectToFavorites({user_id: 10001, id, kind: 'REP'}))
   }
 
-  /**
- * Хэндлер для удаления документа из Избранного.
- *
- * @prop id документа которого хотим удалить из Избранных.
- */
-   const handleRemoveFromFavorites = (id) => {
-    dispatch(setObjectToFavorites({user_id: 10001, id, kind: 'REP', isExclude: 1}))
-  }
+  const handleRemoveFromFavorites = id => {
+    dispatch(
+      setObjectToFavorites({ user_id: 10001, id, kind: 'REP', isExclude: 1 })
+    );
+  };
 
   const handleItemClick = (id, action) => {
     switch (action) {
@@ -176,12 +170,12 @@ const Reports = () => {
         handleDeleteClick(id);
         break;
       case 'addToFavorites':
-        handleAddToFavorites(id)
+        handleAddToFavorites(id);
         break;
       case 'removeFromFavorites':
-        handleRemoveFromFavorites(id)
+        handleRemoveFromFavorites(id);
         break;
-     default:
+      default:
         console.log(action);
     }
   };
