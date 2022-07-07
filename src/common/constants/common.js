@@ -24,7 +24,8 @@ export const REDIRECT_LINKS = {
   HOME_PAGE: '/dashboard',
   LOGIN_PAGE: '/login',
   SYMLAEYERS: '/symlayers/create',
-  REPORT_CREATE: '/report/create/1'
+  REPORT_CREATE: '/report',
+  REPORT_SHOW: '/report'
 };
 
 export const PAGE_TITLES = {

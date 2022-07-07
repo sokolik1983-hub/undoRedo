@@ -31,9 +31,9 @@ export const flat = arr => {
 
 export const getIconByItemType = key => {
   switch (key) {
-    case 'Dimension':
-      return <GaugeIcon />;
     case 'Measure':
+      return <GaugeIcon />;
+    case 'Dimension':
       return <MeasurementIcon />;
     case 'Filter':
       return <AttributeIcon />;

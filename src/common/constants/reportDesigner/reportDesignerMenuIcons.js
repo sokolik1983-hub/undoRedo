@@ -23,7 +23,7 @@ export const REPORT_PAGE_ACTIONS = [
     enable: true
   },
   {
-    // action: 'save',
+    action: 'save',
     title: 'сохранить [Ctrl+S]',
     icon: <Save />,
     enable: true

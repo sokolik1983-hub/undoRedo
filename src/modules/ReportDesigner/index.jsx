@@ -2,8 +2,9 @@
 /* eslint-disable no-unused-vars */
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
-import lodash from 'lodash';
+import lodash, { cloneDeep } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router';
 import IconButton from '../../common/components/IconButton';
 import {
   reportObject,
@@ -31,7 +32,11 @@ import {
   getReportStructure,
   getVariables,
   refreshServerResponse,
-  getElementData
+  getElementData,
+  createReport,
+  openReport,
+  getReportTabs,
+  setReportStructure
 } from '../../data/actions/newReportDesigner';
 import { REPORT_ACTIONS } from '../../common/constants/reportDesigner/reportActions';
 import FormulaEditor from '../../common/components/FormulaEditor';
@@ -51,16 +56,6 @@ import Dropdown from '../../common/components/Dropdown';
 import RenameModal from './ReportModals/RenameModal';
 import DeleteModal from './ReportModals/DeleteModal';
 import DropdownItem from '../../common/components/Dropdown/DropdownItem';
-
-// const getVariant = (type, tableType, graphType) => {
-//   const types = ['table', 'graph'];
-
-//   if (types.includes(type)) {
-//     return type === 'table' ? tableType : graphType;
-//   }
-
-//   return type;
-// };
 
 function ReportDesigner() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -99,22 +94,32 @@ function ReportDesigner() {
           item => !activeNodeIds.includes(item.id)
         );
         dispatch(setStructure(filteredStructure));
+        // dispatch(
+        //   setReportStructure({
+        //     report_id: currentReport.id,
+        //     structure: filteredStructure
+        //   })
+        // );
         dispatch(setActiveNodes([]));
       }
     }
   }
 
-  useEffect(() => {
-    dispatch(setCurrentPage(PAGE.REPORT_DESIGNER));
-
-    document.body.addEventListener('keyup', handleKeyUp);
-  }, []);
+  const pageParams = useParams();
+  console.log(pageParams, 'pageParams');
 
   useEffect(async () => {
+    if (pageParams && pageParams.report_id) {
+      await dispatch(openReport({ id: pageParams.report_id }));
+    } else {
+      dispatch(createReport());
+    }
     // await dispatch(refreshServerResponse());
-    await dispatch(getStreamReceiever({ fileName: 'testX.js' }));
-    await dispatch(getReportStructure({ report_id: 'R1' }));
-    await dispatch(getVariables());
+
+    // TODO: test to open report
+    // await dispatch(getStreamReceiever({ fileName: 'testX.js' }));
+    // await dispatch(getReportStructure({ report_id: 'R1' }));
+    // await dispatch(getVariables());
 
     // await dispatch(getElementData({ report_id: 'R1', element_id: 'R1.B.2.B' }));
   }, []);
@@ -133,10 +138,12 @@ function ReportDesigner() {
   }, []);
 
   function handleMouseMove(event) {
-    setMousePosition({
-      x: event.nativeEvent.offsetX,
-      y: event.nativeEvent.offsetY
-    });
+    if (reportDesigner.reportsUi.ui.creatingElement) {
+      setMousePosition({
+        x: event.nativeEvent.offsetX,
+        y: event.nativeEvent.offsetY
+      });
+    }
   }
 
   function handleAddBlock(event) {
@@ -162,6 +169,12 @@ function ReportDesigner() {
 
       dispatch(setCreatingElement(null));
       dispatch(setStructure(newStructure));
+      // dispatch(
+      //   setReportStructure({
+      //     report_id: currentReport.id,
+      //     structure: newStructure
+      //   })
+      // );
     }
   }
 
@@ -240,63 +253,85 @@ function ReportDesigner() {
         activeReport: reportDesigner.reportsData.present.reports.length + 1
       })
     );
-  };
+  }
 
   const handleSelectReport = reportId => event => {
     event.stopPropagation();
     dispatch(setActiveReport(reportId));
   };
 
-    // const handleDeleteReport = reportId => event => {
-    // event.stopPropagation();
-    // const reportIdx = lodash.findIndex(
-    //   reportDesigner.reportsData.present.reports,
-    //   item => item.id === reportId
-    // );
-    // if (reportDesigner.reportsData.present.reports?.length > 1) {
-    //   const newReports = reportDesigner.reportsData.present.reports.filter(
-    //     report => report.id !== reportId
-    //   );
-    //   if (reportDesigner.reportsData.present.activeReport === reportId) {
-    //     dispatch(
-    //       setActiveReport(
-    //         reportDesigner.reportsData.present.reports[reportIdx - 1]?.id
-    //       )
-    //     );
-    //   }
-    //   dispatch(setReports({ reports: newReports }));
+  // const handleDeleteReport = reportId => event => {
+  // event.stopPropagation();
+  // const reportIdx = lodash.findIndex(
+  //   reportDesigner.reportsData.present.reports,
+  //   item => item.id === reportId
+  // );
+  // if (reportDesigner.reportsData.present.reports?.length > 1) {
+  //   const newReports = reportDesigner.reportsData.present.reports.filter(
+  //     report => report.id !== reportId
+  //   );
+  //   if (reportDesigner.reportsData.present.activeReport === reportId) {
+  //     dispatch(
+  //       setActiveReport(
+  //         reportDesigner.reportsData.present.reports[reportIdx - 1]?.id
+  //       )
+  //     );
+  //   }
+  //   dispatch(setReports({ reports: newReports }));
 
-// -------------------начало: действия с отчетом внизу страницы---------------------------------
+  // -------------------начало: действия с отчетом внизу страницы---------------------------------
 
-  const handleRenameReport = (repName) => {
-    const editedReport = {...currentReport, name: repName};
-    const newReports = lodash.cloneDeep(reportDesigner?.reportsData?.present?.reports);
-    const reportIdx = reportDesigner?.reportsData?.present?.reports.indexOf(currentReport);
+  const handleRenameReport = repName => {
+    const editedReport = { ...currentReport, name: repName };
+    const newReports = lodash.cloneDeep(
+      reportDesigner?.reportsData?.present?.reports
+    );
+    const reportIdx = reportDesigner?.reportsData?.present?.reports.indexOf(
+      currentReport
+    );
     newReports.splice(reportIdx, 1, editedReport);
-    dispatch(setReports({reports: newReports}));
+    dispatch(setReports({ reports: newReports }));
     setIsRenameModalActive(false);
   };
 
   const handleCopyReport = () => {
-    const copyReport = {...currentReport, name: `${currentReport.name} (копия)`, id: generateId()};
-    const newReports = lodash.cloneDeep(reportDesigner?.reportsData?.present?.reports);
-    const reportIdx = reportDesigner?.reportsData?.present?.reports.indexOf(currentReport);
+    const copyReport = {
+      ...currentReport,
+      name: `${currentReport.name} (копия)`,
+      id: `R${reportDesigner?.reportsData?.present?.reports.length + 1}`
+    };
+    const newReports = lodash.cloneDeep(
+      reportDesigner?.reportsData?.present?.reports
+    );
+    const reportIdx = reportDesigner?.reportsData?.present?.reports.indexOf(
+      currentReport
+    );
     newReports.splice(reportIdx + 1, 0, copyReport);
-    dispatch(setActiveReport(reportDesigner.reportsData.present.reports[reportIdx]?.id));
-    dispatch(setReports({reports: newReports}));
+    dispatch(
+      setActiveReport(reportDesigner.reportsData.present.reports[reportIdx]?.id)
+    );
+    dispatch(setReports({ reports: newReports }));
   };
 
   const handleDeleteReport = reportId => event => {
     event.stopPropagation();
-    const newReports = lodash.cloneDeep(reportDesigner?.reportsData?.present?.reports);
-    const reportIdx = reportDesigner?.reportsData?.present?.reports.indexOf(currentReport);
+    const newReports = lodash.cloneDeep(
+      reportDesigner?.reportsData?.present?.reports
+    );
+    const reportIdx = reportDesigner?.reportsData?.present?.reports.indexOf(
+      currentReport
+    );
     newReports.splice(reportIdx, 1);
-    dispatch(setActiveReport(reportDesigner.reportsData.present.reports[reportIdx - 1]?.id));
-    dispatch(setReports({reports: newReports}));
+    dispatch(
+      setActiveReport(
+        reportDesigner.reportsData.present.reports[reportIdx - 1]?.id
+      )
+    );
+    dispatch(setReports({ reports: newReports }));
     setIsDeleteModalActive(false);
   };
 
-  const handleClick = (action) => {
+  const handleClick = action => {
     switch (action) {
       case 'rename':
         setIsRenameModalActive(true);
@@ -312,20 +347,22 @@ function ReportDesigner() {
     }
   };
 
-  const menu = () => (
+  const menu = isLast => (
     <div className={styles.itemsWrapper}>
-      {REPORT_ACTIONS.map(item => (
-        <DropdownItem
-          key={item.title}
-          className={styles.dropdownItem}
-          onClick={action => handleClick(action)}
-          item={item}
-        />
-      ))}
+      {REPORT_ACTIONS.filter(item => !(isLast && item.action === 'delete')).map(
+        item => (
+          <DropdownItem
+            key={item.title}
+            className={styles.dropdownItem}
+            onClick={action => handleClick(action)}
+            item={item}
+          />
+        )
+      )}
     </div>
   );
 
-// -------------------конец: действия с отчетом внизу страницы---------------------------------
+  // -------------------конец: действия с отчетом внизу страницы---------------------------------
 
   function checkIsActiveNode(id) {
     return !lodash.isEmpty(
@@ -477,27 +514,34 @@ function ReportDesigner() {
               reportDesigner.reportsData.present.reports.map(report => {
                 const isActive =
                   reportDesigner.reportsData.present.activeReport === report.id;
+                const isLast =
+                  reportDesigner.reportsData.present.reports.length === 1;
+
                 return (
                   <div>
                     <Dropdown
                       trigger={isActive ? ['contextMenu'] : ''}
-                      overlay={menu()}
+                      overlay={menu(isLast)}
                     >
                       <Button
                         buttonStyle={BUTTON.BLUE}
                         key={report.id}
-                        className={clsx(styles.tab, {[styles.activeTab]: isActive })}
+                        className={clsx(styles.tab, {
+                          [styles.activeTab]: isActive
+                        })}
                         onClick={handleSelectReport(report.id)}
                       >
                         {report.name}
                       </Button>
                     </Dropdown>
-                    
-                    <DeleteModal
-                      isOpen={isDeleteModalActive}
-                      onConfirm={handleDeleteReport()}
-                      onCancel={() => setIsDeleteModalActive(false)}
-                    />
+
+                    {!isLast && (
+                      <DeleteModal
+                        isOpen={isDeleteModalActive}
+                        onConfirm={handleDeleteReport()}
+                        onCancel={() => setIsDeleteModalActive(false)}
+                      />
+                    )}
                     <RenameModal
                       isOpen={isRenameModalActive}
                       onRename={handleRenameReport}
@@ -508,11 +552,11 @@ function ReportDesigner() {
                     />
                   </div>
                 );
-            })}
+              })}
             <Tooltip
               placement="topLeft"
               overlay={<div className={styles.tooltip}>Добавить отчет</div>}
-              align={{offset: [15, 8]}}
+              align={{ offset: [15, 8] }}
             >
               <IconButton
                 className={styles.addBtn}
@@ -521,7 +565,9 @@ function ReportDesigner() {
               />
             </Tooltip>
           </div>
-          <div style={{width: '10%', marginLeft: 'auto'}}><PagesNav /></div>
+          <div style={{ width: '10%', marginLeft: 'auto' }}>
+            <PagesNav />
+          </div>
         </div>
       </div>
       {isQueryPanelModalOpened && (

@@ -91,16 +91,16 @@ const Cell = ({
       above: dropHelpers.handleAddAbove,
       below: dropHelpers.handleAddBelow
     };
-    const { type, dataType, formula, parsedFormula, id, name } = payload
+    const { type, dataType, formula, parsedFormula, id, name } = payload;
     const modified = mapper[position]({
       structure,
       target,
-      payload: {type, dataType, formula, parsedFormula, variable_id:id, name }
+      payload: { type, dataType, formula, parsedFormula, variable_id: id, name }
     });
 
     dispatch(
       setReportStructure({
-        report_id: 'R1',
+        report_id: currentReport.id,
         structure: modified.structure
       })
     );
@@ -109,6 +109,7 @@ const Cell = ({
   const getCellStyle = () => {
     const result = {
       minHeight: '30px',
+      minWidth: '100px'
       // maxWidth: '150px'
     };
     return { ...blockStyles, ...result };
@@ -181,7 +182,6 @@ const Cell = ({
           }}
         />
       </div>
-      
 
       <div
         style={{

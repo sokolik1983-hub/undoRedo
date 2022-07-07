@@ -27,6 +27,7 @@ import {
   showConfirmModal,
   closeConfirmModal
 } from '../reducers/ui';
+import { setReportDpRefreshed } from './newReportDesigner';
 
 export const getUniverses = queryParams => async dispatch => {
   try {
@@ -263,6 +264,10 @@ export const postQueryPanelTab = queryParams => async dispatch => {
     params: queryParams,
     dispatch
   });
+
+  if (response) {
+    dispatch(setReportDpRefreshed());
+  }
 
   console.log(response);
 };

@@ -22,7 +22,6 @@ import PaddingsConfig from './PaddingsConfig';
 import BordersConfig from './BordersConfig';
 
 function StyleFormatter({ onChange, isHeader, formattingElement }) {
-
   return (
     <div>
       <SectionGroup
