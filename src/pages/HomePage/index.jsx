@@ -19,7 +19,11 @@ import { HOME_PAGE_BUTTON_ACTIONS } from '../../common/constants/common';
 import { setObjectToFavorites } from '../../data/actions/app';
 
 const RECENTS = [
-  { id: 1, title: 'Отчет 1 о проделанной работе с мая месяца текущего года', kind: 'SL' },
+  {
+    id: 1,
+    title: 'Отчет 1 о проделанной работе с мая месяца текущего года',
+    kind: 'SL'
+  },
   { id: 2, title: 'Отчет 2', kind: 'REP' },
   { id: 3, title: 'Отчет 3', kind: 'REP' }
 ];
@@ -32,8 +36,6 @@ function HomePage() {
     state => state.app.data.favoriteObjects
   );
 
-  console.log('favoriteObjectsData', favoriteObjectsData)
-
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.DASHBOARD));
     dispatch(getFavoriteObjects());
@@ -42,6 +44,8 @@ function HomePage() {
   const isFavoritesEmpty = !favoriteObjectsData.length;
   const isFavoritesLoading = favoriteObjectsStatus === 'LOADING';
   const isFavoritesFailed = favoriteObjectsStatus === 'FAILED';
+  const withoutData =
+    isFavoritesEmpty || isFavoritesLoading || isFavoritesFailed;
 
   /**
    * Хэндлер для удаления документа из Избранного.
@@ -88,7 +92,11 @@ function HomePage() {
   return (
     <div className={styles.root}>
       <div
-        className={clsx(styles.row, styles.recentBG, styles.whiteLineShadow)}
+        className={clsx(
+          styles.row,
+          styles.recentBG,
+          styles.whiteLineShadow,
+        )}
       >
         <div className={clsx(styles.whiteLine)} />
         <p className={styles.rowTitle}>Недавние</p>
@@ -105,11 +113,11 @@ function HomePage() {
       </div>
 
       <div
-        className={clsx(styles.row, styles.favoritesBG, styles.whiteLineShadow)}
+        className={clsx(styles.row, styles.favoritesBG, styles.whiteLineShadow, styles.rowWithoutData)}
       >
         <div className={clsx(styles.whiteLine2)} />
         <p className={styles.rowTitle}>Избранное</p>
-        <div className={styles.section}>
+        <div className={clsx(styles.section)}>
           {favoriteObjectsData.map(item => (
             <Dropdown trigger={['click']} overlay={renderDropdownMenu(item.id)}>
               <div>
@@ -122,12 +130,12 @@ function HomePage() {
               </div>
             </Dropdown>
           ))}
-          {isFavoritesEmpty && isFavoritesLoading && <InlinePreloader />}
-          {isFavoritesFailed && <div>Невозможно получить данные...</div>}
-          {isFavoritesEmpty && !isFavoritesLoading && (
-            <div>Вы пока ничего не добавилии в Избранное...</div>
-          )}
         </div>
+        {isFavoritesEmpty && isFavoritesLoading && <InlinePreloader />}
+        {isFavoritesFailed && <p className={styles.noDataTitle}>Невозможно получить данные...</p>}
+        {isFavoritesEmpty && !isFavoritesLoading && (
+          <p className={styles.noDataTitle}>Вы пока ничего не добавилии в Избранное...</p>
+        )}
       </div>
 
       <div className={clsx(styles.row, styles.appsBG, styles.whiteLineShadow)}>
