@@ -76,17 +76,12 @@ export const getUniversesFolderId = queryParams => {
 };
 
 export const getQueryPanelSymanticLayerData = id => async dispatch => {
-  try {
-    const response = await request({
-      code: 'UNV.GET_DATA_QP',
-      params: { id },
-      dispatch
-    });
-
-    if (response) dispatch(setQueryPanelSymlayersData(response.qpData));
-  } catch (err) {
-    dispatch(notificationShown({ message: err.message, messageType: 'error' }));
-  }
+  const response = await request({
+    code: 'UNV.GET_DATA_QP',
+    params: { id },
+    dispatch
+  });
+  if (response) dispatch(setQueryPanelSymlayersData(response.qpData));
 };
 
 export const createSampleUniverse = queryParams => {

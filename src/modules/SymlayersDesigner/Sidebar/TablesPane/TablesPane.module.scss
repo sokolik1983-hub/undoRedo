@@ -21,4 +21,6 @@
 
 .tables {
   overflow-y: auto;
+  overflow-x: hidden;
+  height: 715px; // TODO: исправить. сделано для показа
 }

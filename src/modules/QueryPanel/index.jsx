@@ -30,6 +30,10 @@ import { getCondition } from './helper';
 import data, { setSymanticLayerData } from '../../data/reducers/data';
 import { showToast } from '../../data/actions/app';
 import { EMPTY_STRING, TOAST_TYPE } from '../../common/constants/common';
+import {
+  FILTER_TYPES,
+  FILTER_TYPES_ARR
+} from './Filters/FiltersDeskItem/constants';
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
@@ -46,6 +50,7 @@ const QueryPanel = ({ visible }) => {
 
   const {
     dpObjects,
+    dpFilter,
     symLayerName,
     connectorId,
     dpSql,
@@ -61,6 +66,7 @@ const QueryPanel = ({ visible }) => {
 
     return {
       dpObjects: currentLayer?.objects || [],
+      dpFilter: currentLayer?.filters || null,
       symLayerName: currentLayer?.symLayerName || null,
       connectorId: currentLayer?.connector_id || null,
       dpId: currentLayer?.dpId || null,
@@ -130,6 +136,11 @@ const QueryPanel = ({ visible }) => {
     dispatch(setSymanticLayerData(null));
   };
 
+  const getFilterOperator = filterName => {
+    const filterType = FILTER_TYPES_ARR.find(item => item.text === filterName);
+    return filterType.value;
+  };
+
   const createQueryText = () => {
     if (objects) {
       dispatch(
@@ -150,7 +161,21 @@ const QueryPanel = ({ visible }) => {
               dataType: object.dataType,
               objectType: object.objectType
             })),
-            filter: {}
+            // TODO: хардкод одного фильтра
+            filter: dpFilter
+              ? {
+                  type: 'filter',
+                  filterTarget: {
+                    id: dpFilter.fieldItem.id,
+                    dataType: dpFilter.fieldItem.dataType
+                  },
+                  filterOperator: getFilterOperator(dpFilter.itemCondition),
+                  filterOperand1: {
+                    type: 'const',
+                    valueConst: dpFilter.inputValue
+                  }
+                }
+              : {}
           },
           dpProperties: {
             maxRows: -1,
@@ -195,7 +220,23 @@ const QueryPanel = ({ visible }) => {
           dpProperties: {},
           dpSql,
           dpType: 'directSql',
-          dp_id: dpId
+          dp_id: dpId,
+          dpSpec: {
+            filter: dpFilter
+              ? {
+                  type: 'filter',
+                  filterTarget: {
+                    id: dpFilter.fieldItem.id,
+                    dataType: dpFilter.fieldItem.dataType
+                  },
+                  filterOperator: getFilterOperator(dpFilter.itemCondition),
+                  filterOperand1: {
+                    type: 'const',
+                    valueConst: dpFilter.inputValue
+                  }
+                }
+              : {}
+          }
         }
       })
     );
