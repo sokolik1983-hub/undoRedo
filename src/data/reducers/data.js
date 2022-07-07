@@ -25,7 +25,7 @@ const data = createSlice({
     selectedConnectorId: null,
     sampleUnvObject: {},
     isUniverseCreated: false,
-    connectorObjects: {tables: [], result: 0},
+    connectorObjects: { tables: [], result: 0 },
     queryPanelSymlayersData: {
       currentLayerTitle: null,
       data: []
@@ -84,12 +84,15 @@ const data = createSlice({
         prompts,
         properties
       } = action.payload;
-
       const rootFolder = objects
-        .map(i => (i.objectType === 'Folder' ? { ...i, children: [] } : i))
+        .map(i =>
+          i.objectType === 'Folder' || i.objectType === 'Dimension'
+            ? { ...i, children: [] }
+            : i
+        )
         .map((item, idx, data) => {
           const parent = data.find(i => item.parent_id === i.id);
-          if (parent) parent.children.push(item);
+          if (parent) parent.children.push(item); // TODO добавил костыль, чтобы не выкидывало. Объекты в себе могут содержать не только Folder, но и Dimension
           return item;
         })[0];
 
@@ -206,7 +209,7 @@ const data = createSlice({
     },
     setSampleUniverseObject: (state, action) => {
       state.sampleUnvObject = action.payload;
-    }, 
+    },
     setUniverseIsCreated: (state, action) => {
       state.isUniverseCreated = action.payload;
     },
