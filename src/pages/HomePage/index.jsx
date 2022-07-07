@@ -59,13 +59,17 @@ function HomePage() {
     dispatch(getFavoriteObjects());
   };
 
+  const handleOpenClick = id => {
+    navigate(`${REDIRECT_LINKS.REPORT_SHOW}/${id}`, { replace: true });
+  };
+
   const handleSetActionClick = (id, action) => {
     switch (action) {
       case 'removeFromFavorites':
         handleRemoveFromFavorites(id);
         break;
       case 'open':
-        () => {};
+        handleOpenClick(id);
         break;
       default:
         return null;
@@ -92,11 +96,7 @@ function HomePage() {
   return (
     <div className={styles.root}>
       <div
-        className={clsx(
-          styles.row,
-          styles.recentBG,
-          styles.whiteLineShadow,
-        )}
+        className={clsx(styles.row, styles.recentBG, styles.whiteLineShadow)}
       >
         <div className={clsx(styles.whiteLine)} />
         <p className={styles.rowTitle}>Недавние</p>
@@ -113,7 +113,12 @@ function HomePage() {
       </div>
 
       <div
-        className={clsx(styles.row, styles.favoritesBG, styles.whiteLineShadow, styles.rowWithoutData)}
+        className={clsx(
+          styles.row,
+          styles.favoritesBG,
+          styles.whiteLineShadow,
+          styles.rowWithoutData
+        )}
       >
         <div className={clsx(styles.whiteLine2)} />
         <p className={styles.rowTitle}>Избранное</p>
@@ -132,9 +137,13 @@ function HomePage() {
           ))}
         </div>
         {isFavoritesEmpty && isFavoritesLoading && <InlinePreloader />}
-        {isFavoritesFailed && <p className={styles.noDataTitle}>Невозможно получить данные...</p>}
+        {isFavoritesFailed && (
+          <p className={styles.noDataTitle}>Невозможно получить данные...</p>
+        )}
         {isFavoritesEmpty && !isFavoritesLoading && (
-          <p className={styles.noDataTitle}>Вы пока ничего не добавилии в Избранное...</p>
+          <p className={styles.noDataTitle}>
+            Вы пока ничего не добавилии в Избранное...
+          </p>
         )}
       </div>
 

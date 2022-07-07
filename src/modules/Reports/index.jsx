@@ -11,7 +11,7 @@ import ListTableRow from '../../common/components/List/ListTableView/ListTableRo
 import {
   connectorsTableHeader,
   FOLDER_DROPDOWN_ACTIONS,
-  REPORT_STRUCTURE_DROPDOWN_ACTIONS,
+  // REPORT_STRUCTURE_DROPDOWN_ACTIONS,
   FOLDER_ITEM_DROPDOWN_ACTIONS_REPORTS,
   sortFoldersAndItems
 } from './helper';
@@ -35,7 +35,7 @@ import {
 } from '../../data/actions/universes';
 import { deleteReport } from '../../data/actions/newReportDesigner';
 // import { openReport } from '../../data/actions/newReportDesigner';
-import { setObjectToFavorites } from '../../data/actions/app'
+import { setObjectToFavorites } from '../../data/actions/app';
 
 const Reports = () => {
   const navigate = useNavigate();
@@ -148,9 +148,9 @@ const Reports = () => {
     );
   };
 
-  const handleAddToFavorites = (id) => {
-    dispatch(setObjectToFavorites({user_id: 10001, id, kind: 'REP'}))
-  }
+  const handleAddToFavorites = id => {
+    dispatch(setObjectToFavorites({ user_id: 10001, id, kind: 'REP' }));
+  };
 
   const handleRemoveFromFavorites = id => {
     dispatch(
@@ -182,7 +182,7 @@ const Reports = () => {
 
   const getUniverseDropdownItems = id => (
     <div className={styles.itemsWrapper}>
-      {REPORT_STRUCTURE_DROPDOWN_ACTIONS.map(item => (
+      {FOLDER_ITEM_DROPDOWN_ACTIONS_REPORTS.map(item => (
         <Tooltip
           key={item.title}
           overlay={<div className={styles.tooltip}>{item.title}</div>}
