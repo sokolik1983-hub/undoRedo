@@ -49,6 +49,7 @@ const NewReportActions = () => {
     setIsGraphOpen(!isGraphOpen);
     dispatch(setCreatingElement(type));
   };
+  
   const actions = {
     save: () =>
       !reportName

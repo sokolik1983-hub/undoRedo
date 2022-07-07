@@ -17,10 +17,10 @@ const AuditFilters = ({ audit, actions, handleSetFilters }) => {
   const [actionFilter, setActionFilter] = useState([]);
 
   useEffect(() => {
+    // eslint-disable-next-line no-unused-vars
     const a = actionFilter.map(action => {
       return { action_name: action };
     });
-    console.log('a', a);
   }, [actionFilter]);
 
   const handleChangeFilters = name => value => {

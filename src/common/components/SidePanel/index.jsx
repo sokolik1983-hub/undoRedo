@@ -4,18 +4,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash, { cloneDeep, find } from 'lodash';
 
-import TuneIcon from '@material-ui/icons/Tune';
-import BrushIcon from '@material-ui/icons/Brush';
-import ExtensionIcon from '@material-ui/icons/Extension';
-import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import ForumIcon from '@material-ui/icons/Forum';
-import InfoIcon from '@material-ui/icons/Info';
-// import FilterListIcon from '@material-ui/icons/FilterList';
-import SortIcon from '@material-ui/icons/Sort';
-
+import Button from '../Button';
 import styles from './SidePanel.module.scss';
 import NavigationMenu from './NavigationMenu';
-import { SIDE_PANEL_TYPES } from '../../constants/common';
+import { SIDE_PANEL_TYPES, BUTTON } from '../../constants/common';
 import StyleFormatter from './SectionGroup/StyleFormatter';
 import {
   addSortingField,
@@ -35,26 +27,10 @@ import SortingField from './SortingField';
 import { ReactComponent as CloseIcon } from '../../../layout/assets/close.svg';
 import { TABLE_ICONS } from '../../constants/reportDesigner/reportDesignerIcons';
 import { setReportStructure } from '../../../data/actions/newReportDesigner';
+import { GraphSettingsData } from './GraphSettingsData';
+import { GraphSettingsFormat } from './GraphSettingsFormat';
+import { NAV_MENU_TABLE, getNavMenu } from '../../constants/reportDesigner/reportDesignerMenu';
 // import { deepObjectSearch } from '../../../data/helpers';
-
-const NAV_MENU_REPORT = [
-  { id: 1, title: 'Данные', icon: <ExtensionIcon /> },
-  { id: 2, title: 'Структура', icon: <AccountTreeIcon /> },
-  { id: 3, title: 'Комментарии', icon: <ForumIcon /> },
-  { id: 4, title: 'Экспорт', icon: <InfoIcon /> }
-];
-
-const NAV_MENU_BLOCK = [
-  { id: 1, title: 'Данные', icon: <TuneIcon /> },
-  // { id: 2, title: 'Filters', icon: <FilterListIcon /> },
-  // { id: 3, title: 'Сортировка', icon: <SortIcon /> },
-  { id: 4, title: 'Форматирование', icon: <BrushIcon /> }
-];
-
-const NAV_MENU_TABLE = [
-  { id: 1, title: 'Заголовок', icon: <>Заголовок</> },
-  { id: 2, title: 'Ячейки', icon: <>Ячейки</> }
-];
 
 // eslint-disable-next-line react/prop-types
 export default function SidePanel({ navType }) {
@@ -88,17 +64,6 @@ export default function SidePanel({ navType }) {
   const footerZone = currentNode?.content?.layout?.zones?.filter(
     item => item.vType === 'footer'
   );
-
-  function getNavMenu() {
-    switch (navType) {
-      case SIDE_PANEL_TYPES.CONFIG_MENU:
-        return NAV_MENU_REPORT;
-      case SIDE_PANEL_TYPES.BLOCK_MENU:
-        return NAV_MENU_BLOCK;
-      default:
-        return [];
-    }
-  }
 
   function renderReportConfigContent() {
     switch (activePage) {
@@ -297,157 +262,169 @@ export default function SidePanel({ navType }) {
     switch (activePage) {
       case 1:
         return (
-          <div>
-            <div>
-              <p>Преобразовать в</p>
-              <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                {TABLE_ICONS.slice(1, 4).map(i => (
-                  <div
-                    className={styles.icon}
-                    onClick={() => handleSetVariant(i.type)}
-                    key={i.text}
-                  >
-                    {i.icon}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div
-              onDrop={handleDropObjectColumn}
-              onDragOver={allowDrop}
-              style={{ minHeight: 100, minWidth: 100 }}
-            >
-              <p>Колонки</p>
-              {/* TODO  headerZone */}
-              {headerZone?.map(zone =>
-                zone.cells?.map(object => {
-                  return (
-                    <p
-                      className={styles.objectItem}
-                      key={object.id}
-                      draggable
-                      onDragStart={event => {
-                        event.dataTransfer.setData(
-                          'text/plain',
-                          JSON.stringify({
-                            object,
-                            source: 'columns'
-                          })
-                        );
-                      }}
-                    >
-                      {object.expression.formula}
-                      <CloseIcon
-                        onClick={handleRemoveColumn(object)}
-                        className={styles.closeIcon}
-                      />
-                    </p>
-                  );
-                })
-              )}
-              {/* {currentNode?.columns?.map(column => (
-                <p
-                  className={styles.objectItem}
-                  key={column.object.id}
-                  draggable
-                  onDragStart={event => {
-                    event.dataTransfer.setData(
-                      'text/plain',
-                      JSON.stringify({
-                        object: column.object,
-                        source: 'columns'
-                      })
-                    );
-                  }}
-                >
-                  {column.object.field}
-                  <CloseIcon
-                    onClick={handleRemoveColumn(column.object.id)}
-                    className={styles.closeIcon}
-                  />
-                </p>
-              ))} */}
-            </div>
-            {/* 
-            {currentNode?.variant === 'table_cross' && (
+          <>
+            {activeNode?.type.includes('Chart') && (
+              <GraphSettingsData setVariant={handleSetVariant} />
+            )}
+            {activeNode?.type.includes('Table') && (
               <>
-                <div
-                  onDrop={handleDropObjectRow}
-                  onDragOver={allowDrop}
-                  style={{ minHeight: 100, minWidth: 100 }}
-                >
-                  <p>Строки</p>
-                  {currentNode?.rows?.map(row => (
-                    <p
-                      className={styles.objectItem}
-                      key={row.object.id}
-                      draggable
-                      onDragStart={event => {
-                        event.dataTransfer.setData(
-                          'text/plain',
-                          JSON.stringify({ object: row.object, source: 'rows' })
-                        );
-                      }}
-                    >
-                      {row.object.field}
-
-                      <CloseIcon
-                        onClick={handleRemoveColumn(row.object.id)}
-                        className={styles.closeIcon}
-                      />
-                    </p>
-                  ))}
+                <div>
+                  <p className={styles.heading}>Преобразовать в</p>
+                  <div className={styles.iconsContainer}>
+                    {TABLE_ICONS.map(i => (
+                      <div
+                        className={styles.icon}
+                        onClick={() => handleSetVariant(i.type)}
+                        key={i.text}
+                      >
+                        {i.icon}
+                      </div>
+                      ))}
+                  </div>
                 </div>
                 <div
-                  onDrop={handleDropObjectValue}
+                  onDrop={handleDropObjectColumn}
                   onDragOver={allowDrop}
-                  style={{ minHeight: 100, minWidth: 100 }}
+                  className={styles.dropBlock}
                 >
-                  <p>Значения</p>
-                  {currentNode?.values?.map(val => (
-                    <p
-                      className={styles.objectItem}
-                      key={val.object.id}
-                      draggable
-                      onDragStart={event => {
-                        event.dataTransfer.setData(
-                          'text/plain',
-                          JSON.stringify({
-                            object: val.object,
-                            source: 'values'
-                          })
+                  <p className={styles.heading}>Колонки</p>
+                  {/* TODO  headerZone */}
+                  {headerZone?.map(zone =>
+                      zone.cells?.map(object => {
+                        return (
+                          <div
+                            className={styles.objectItem}
+                            key={object.id}
+                            draggable
+                            onDragStart={event => {
+                              event.dataTransfer.setData(
+                                'text/plain',
+                                JSON.stringify({
+                                  object,
+                                  source: 'columns'
+                                })
+                              );
+                            }}
+                          >
+                            {object?.expression?.formula}
+                            <CloseIcon 
+                              fill='white'
+                              onClick={handleRemoveColumn(object)}
+                              className={styles.closeIcon}
+                            />
+                          </div>
                         );
-                      }}
-                    >
-                      {val.object.field}
+                      })
+                    )}
+                  {/* {currentNode?.columns?.map(column => (
+                      <p
+                        className={styles.objectItem}
+                        key={column.object.id}
+                        draggable
+                        onDragStart={event => {
+                          event.dataTransfer.setData(
+                            'text/plain',
+                            JSON.stringify({
+                              object: column.object,
+                              source: 'columns'
+                            })
+                          );
+                        }}
+                      >
+                        {column.object.field}
+                        <CloseIcon
+                          onClick={handleRemoveColumn(column.object.id)}
+                          className={styles.closeIcon}
+                        />
+                      </p>
+                    ))} */}
+                  {/* 
+                    {currentNode?.variant === 'table_cross' && (
+                      <>
+                        <div
+                          onDrop={handleDropObjectRow}
+                          onDragOver={allowDrop}
+                          style={{ minHeight: 100, minWidth: 100 }}
+                        >
+                          <p>Строки</p>
+                          {currentNode?.rows?.map(row => (
+                            <p
+                              className={styles.objectItem}
+                              key={row.object.id}
+                              draggable
+                              onDragStart={event => {
+                                event.dataTransfer.setData(
+                                  'text/plain',
+                                  JSON.stringify({ object: row.object, source: 'rows' })
+                                );
+                              }}
+                            >
+                              {row.object.field}
 
-                      <CloseIcon
-                        onClick={handleRemoveValue(val.object.id)}
-                        className={styles.closeIcon}
-                      />
-                    </p>
-                  ))}
+                              <CloseIcon
+                                onClick={handleRemoveColumn(row.object.id)}
+                                className={styles.closeIcon}
+                              />
+                            </p>
+                          ))}
+                        </div>
+                        <div
+                          onDrop={handleDropObjectValue}
+                          onDragOver={allowDrop}
+                          style={{ minHeight: 100, minWidth: 100 }}
+                        >
+                          <p>Значения</p>
+                          {currentNode?.values?.map(val => (
+                            <p
+                              className={styles.objectItem}
+                              key={val.object.id}
+                              draggable
+                              onDragStart={event => {
+                                event.dataTransfer.setData(
+                                  'text/plain',
+                                  JSON.stringify({
+                                    object: val.object,
+                                    source: 'values'
+                                  })
+                                );
+                              }}
+                            >
+                              {val.object.field}
+
+                              <CloseIcon
+                                onClick={handleRemoveValue(val.object.id)}
+                                className={styles.closeIcon}
+                              />
+                            </p>
+                          ))}
+                        </div>
+                      </>
+                    )} */}
                 </div>
               </>
-            )} */}
-
-            <button type="button" onClick={handleRemoveNode}>
+                )
+              }
+            <Button
+              className={styles.button}
+              buttonStyle={BUTTON.BLUE}
+              onClick={handleRemoveNode}
+            >
               Удалить элемент
-            </button>
-          </div>
-        );
+            </Button>
+          </> 
+        ) 
       // case 2:
       //   return (
       //     <div>
       //       <p>Filters</p>
       //       <p>drop objects from obkects list</p>
       //     </div>
-      //   );
+      //   ); 
       case 3:
         return (
           <div>
-            <p>Сортировка</p>
-            <button type="button">Добавить сортировку</button>
+            <p className={styles.heading}>Сортировка</p>
+            <Button buttonStyle={BUTTON.BLUE}>Добавить сортировку</Button>
             {currentNode?.sorting?.map(item => (
               <SortingField
                 onChange={handleChangeSortingField}
@@ -464,24 +441,39 @@ export default function SidePanel({ navType }) {
       case 4:
         return (
           <div>
-            {activeNode?.type === 'table' && (
-              <NavigationMenu
-                menu={NAV_MENU_TABLE}
-                onClick={setActiveSubMenu}
-                activePage={activeSubMenu}
-              />
+            {activeNode?.type.includes('Table') && (
+              <>
+                <NavigationMenu
+                  menu={NAV_MENU_TABLE}
+                  onClick={setActiveSubMenu}
+                  activePage={activeSubMenu}
+                />
+            
+                <StyleFormatter
+                  key={formattingElement?.id}
+                  isHeader={activeSubMenu === 1}
+                  onChange={params =>
+                    dispatch(setTableStyle({ ...params, formattingElement }))
+                  }
+                  formattingElement={formattingElement}
+                />
+              </>
             )}
-            <StyleFormatter
-              key={formattingElement?.id}
-              isHeader={activeSubMenu === 1}
-              onChange={params =>
+            {activeNode?.type.includes('Chart') && (
+              <GraphSettingsFormat />
+            )}
+            {activeNode?.type === 'cell' && (
+              <StyleFormatter
+                key={formattingElement?.id}
+                isHeader={activeSubMenu === 1}
+                onChange={params =>
                 dispatch(setTableStyle({ ...params, formattingElement }))
               }
-              formattingElement={formattingElement}
-            />
+                formattingElement={formattingElement}
+              />
+            )}
           </div>
         );
-
       default:
         return null;
     }
@@ -501,14 +493,9 @@ export default function SidePanel({ navType }) {
   }
 
   return (
-    <div
-      className={styles.root}
-      // style={{
-      //   right: marginRight
-      // }}
-    >
+    <div className={styles.root}>
       <NavigationMenu
-        menu={getNavMenu()}
+        menu={getNavMenu(navType)}
         onClick={setActivePage}
         activePage={activePage}
       />

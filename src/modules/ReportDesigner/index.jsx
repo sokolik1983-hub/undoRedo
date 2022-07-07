@@ -106,7 +106,6 @@ function ReportDesigner() {
   }
 
   const pageParams = useParams();
-  console.log(pageParams, 'pageParams');
 
   useEffect(async () => {
     if (pageParams && pageParams.report_id) {

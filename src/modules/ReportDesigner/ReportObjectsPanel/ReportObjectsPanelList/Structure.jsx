@@ -12,7 +12,7 @@ import DropdownItem from '../../../../common/components/Dropdown/DropdownItem';
 import Tooltip from '../../../../common/components/Tooltip';
 import ListItem from '../../../../common/components/List/ListItem/ListItem';
 import ListItemEditReport from '../../../../common/components/List/ListItemEdit/ListItemEditReport';
-import { FOLDER_ITEM_DROPDOWN_ACTIONS } from '../../../Reports/helper';
+import { FOLDER_DROPDOWN_ACTIONS } from '../../../Reports/helper';
 import { setStructure } from '../../../../data/reducers/new_reportDesigner';
 import { deepObjectSearch } from '../../../../data/helpers';
 // import { setReportStructure } from '../../../../data/actions/newReportDesigner';
@@ -85,7 +85,7 @@ const Structure = ({currentReport, onSelect, isActiveNode}) => {
 
   const getDropdownItems = id => (
     <div className={styles.itemsWrapper}>
-      {FOLDER_ITEM_DROPDOWN_ACTIONS.map(item => (
+      {FOLDER_DROPDOWN_ACTIONS.map(item => (
         <Tooltip
           key={item.title}
           overlay={<div className={styles.tooltip}>{item.title}</div>}

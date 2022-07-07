@@ -165,7 +165,6 @@ const data = createSlice({
       state.selectedConnectorId = action.payload;
     },
     setFavoriteObjects: (state, action) => {
-      console.log('action', action)
       state.favoriteObjects.favoriteObjectsData = action.payload;
     },
     loadingFavoriteObjects: (state) => {

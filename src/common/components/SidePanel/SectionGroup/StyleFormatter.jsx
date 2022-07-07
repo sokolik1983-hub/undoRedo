@@ -207,7 +207,7 @@ function StyleFormatter({ onChange, isHeader, formattingElement }) {
         ]}
       />
       <SectionGroup
-        title='Ширина столбца'
+        title='Ширина столбца/ячейки'
         actions={[
           {
             id: 'width',

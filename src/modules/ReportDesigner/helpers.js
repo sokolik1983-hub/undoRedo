@@ -379,11 +379,59 @@ export const createReportElement = ({ type, mousePosition }) => {
     type: 'xTable'
   };
 
+  const barChart = {
+    id: generateId(),
+    type: 'barChart',
+    name: `столбчатый график ${generateId()}`,
+    size: {
+      minimalHeight: 250,
+      minimalWidth: 250,
+      autofitWidth: false,
+      autofitHeight: false
+    },
+    position: {
+      xType: 'Absolute',
+      yType: 'Absolute',
+      x,
+      y
+    },
+    content: {}
+  };
+
+  const lineChart = {
+    id: generateId(),
+    type: 'lineChart',
+    name: `линейный график ${generateId()}`,
+    position: {
+      xType: 'Absolute',
+      yType: 'Absolute',
+      x,
+      y
+    },
+    content: {}
+  };
+
+  const pieChart = {
+    id: generateId(),
+    type: 'pieChart',
+    name: `круговая диаграмма ${generateId()}`,
+    position: {
+      xType: 'Absolute',
+      yType: 'Absolute',
+      x,
+      y
+    },
+    content: {}
+  };
+
   const mapper = {
     cell,
     hTable,
     vTable,
-    xTable
+    xTable,
+    barChart,
+    lineChart,
+    pieChart
   };
 
   return mapper[type];

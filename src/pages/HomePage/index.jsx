@@ -32,14 +32,10 @@ function HomePage() {
     state => state.app.data.favoriteObjects
   );
 
-  console.log('favoriteObjectsData', favoriteObjectsData, InlinePreloader);
-
   const isFavoritesLoading = favoriteObjectsStatus === 'LOADING';
   const isFavoritesFailed = favoriteObjectsStatus === 'FAILED' && !favoriteObjectsData.length;
   const isFavoritesEmpty = !isFavoritesLoading && !favoriteObjectsData.length;
   const noDataFetching = isFavoritesLoading && !favoriteObjectsData.length
-
-  console.log('isFavoritesEmpty', isFavoritesEmpty, isFavoritesFailed);
 
   const handleClick = () => {
     navigate(REDIRECT_LINKS.REPORT_CREATE);
