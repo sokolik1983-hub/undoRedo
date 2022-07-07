@@ -199,6 +199,7 @@ const QueryPanel = ({ visible }) => {
         }
       })
     );
+    handleClose();
   };
 
   const modalContent = () => {
