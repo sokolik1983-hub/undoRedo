@@ -33,6 +33,17 @@
   }
 }
 
+.homePageSemanticLayerButton {
+  width: 77px;
+  height: 102px;
+  background: url(../../../layout/assets/homePageSemanticLayerButton.svg);
+  cursor: pointer;
+  &:hover {
+    background: url(../../../layout/assets/reportScaled.svg);
+    transform: scale(1.2);
+  }
+}
+
 .homePageButtonWrapper {
   display: flex;
   flex-direction: column;

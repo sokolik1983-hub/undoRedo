@@ -68,9 +68,9 @@ const FiltersDeskNode = ({
     setItemsBlockActive(false);
   };
 
-  const conditionToggler = (cond) => {
-    const newCond = handleChangeCondition(cond)
-    setNewCondition(newCond)
+  const conditionToggler = cond => {
+    const newCond = handleChangeCondition(cond);
+    setNewCondition(newCond);
   };
 
   const render = item =>
@@ -78,8 +78,8 @@ const FiltersDeskNode = ({
       <FiltersDeskItem
         key={item.id}
         id={item.id}
-        type={item.fieldItem.objectType_id}
-        title={item.fieldItem.field}
+        type={item.fieldItem.objectType}
+        title={item.fieldItem.name}
         onItemClick={() => setFocused(item)}
         onDeleteItem={() => deleteFiltersDeskItem(item.id)}
         onEditItem={handleEditFiltersItem}
@@ -111,7 +111,12 @@ const FiltersDeskNode = ({
         onDragLeave={() => setConditionBlockActive(false)}
         onDrop={handeDropOnConditionBlock}
       >
-        <Button buttonStyle={BUTTON.SMALL_ORANGE} onDoubleClick={() => {conditionToggler(newCondition)}}>
+        <Button
+          buttonStyle={BUTTON.SMALL_ORANGE}
+          onDoubleClick={() => {
+            conditionToggler(newCondition);
+          }}
+        >
           {newCondition}
         </Button>
       </div>

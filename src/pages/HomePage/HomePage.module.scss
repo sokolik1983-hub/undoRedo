@@ -49,7 +49,7 @@
 .recentBG {
   background-image: url('../../layout/assets/images/recentWithoutShadow.png');
   background-repeat: no-repeat;
-  margin-top: 15px;
+  margin-top: 22px;
 }
 
 .favoritesBG {
@@ -72,13 +72,21 @@
     text-decoration: none;
     display: flex;
     flex-direction: column;
-    font-size: 12px;
 
     &:visited {
       color: inherit;
     }
   }
 }
+  .rowWithoutData {
+    display: flex;
+    height: 88px;
+    align-items: center;
+    padding-left: 145px;
+    .noDataTitle {
+      font-size: 12px;
+    }
+  }
 
 .apps {
   gap: 24px;
@@ -103,7 +111,8 @@
   padding-bottom: 644px;
 }
 
-.requestWrapper span, .requestWrapper input {
+.requestWrapper span,
+.requestWrapper input {
   margin: 8px 0;
 }
 
@@ -121,4 +130,30 @@
   margin: 12px;
   padding: 12px;
   width: 80%;
+}
+
+.inlinePreloaderWrapper {
+  display: flex;
+  height: 88px;
+  align-items: center;
+  padding-left: 145px;
+}
+
+.favoritesPlaceholderWrapper {
+  display: flex;
+  align-items: center;
+  padding-left: 145px;
+}
+
+.homePageButtonDropdownWrapper {
+  padding: 3px;
+  background: linear-gradient(
+    152.97deg,
+    rgba(21, 21, 21, 0.208) 0%,
+    rgba(21, 21, 21, 0) 100%
+  );
+  filter: drop-shadow(0px 4px 4px rgba(34, 82, 102, 0.25));
+  backdrop-filter: blur(7px);
+  border-radius: 7.5px;
+  box-shadow: 0 4px 4px rgba(34, 82, 102, 0.25);
 }

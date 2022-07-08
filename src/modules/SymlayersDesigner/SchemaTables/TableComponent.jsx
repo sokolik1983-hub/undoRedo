@@ -36,6 +36,8 @@ import {
 } from '../../../data/actions/universes';
 import { handleCheckMatch } from './helper';
 import { styles } from './TableComponent.module.scss';
+import { OBJECTS_CONNECTIONS_MODAL } from '../../../common/constants/popups';
+import ObjectsConnectionEditor from '../ObjectsConnectionEditor';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -144,6 +146,11 @@ const TableComponent = ({
     state => state.app.schemaDesigner
   );
 
+  const isObjectsConnectionsModalOpened = useSelector(
+    state => state.app.ui.modalVisible === OBJECTS_CONNECTIONS_MODAL
+  );
+  const links = useSelector(state => state.app.schemaDesigner.links);
+
   const [coords, setCoords] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -163,8 +170,7 @@ const TableComponent = ({
   const contentScrollContainer = useRef();
   const dispatch = useDispatch();
 
-  const connect_id = useSelector(state => state.app.schemaDesigner.connectorId);
-
+  const connect_id = useSelector(state => state.app.data.selectedConnectorId);
   const searchMatches = item => {
     return item?.field.toLowerCase()?.includes(coloredValue.toLowerCase());
   };
@@ -172,10 +178,9 @@ const TableComponent = ({
   const searchStaticMatches = item => {
     return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase());
   };
-
-  const selectedTableColumns = tables[
-    getTableIdFromParams({ ...tableItem, connect_id: 4 })
-  ]?.columns.map(item => {
+  const selectedTableColumns = selectedTables[
+    getTableIdFromParams({...tableItem})
+  ]?.map(item => {
     return {
       ...item,
       colored: colorValue && searchStaticMatches(item)
@@ -300,7 +305,7 @@ const TableComponent = ({
       headerRef: React.createRef(),
       ports: []
     };
-  }, [isShadow, columns]);
+  }, [isShadow, columns, portsRefs]);
 
   const updateTableSize = () => {
     const ref = tableRef;
@@ -318,7 +323,8 @@ const TableComponent = ({
 
   const handlePopupShow = () => {
     dispatch(setTablePreviewModal(true));
-    dispatch(getObjectData({ ...tableItem, connect_id }));
+    const {type, catalog, schema, objectName} = tableItem;
+    // dispatch(getObjectData({ id: connect_id, dataType: type, catalog, schema, objectName }));
     //   .then(
     //   response => {
     //     if (response && response.success) {
@@ -350,8 +356,17 @@ const TableComponent = ({
     [posToCoord, startDrag]
   );
 
-  const onFieldDragStart = (event, field) => {
+  const onFieldDragStart = (event, field, table) => {
     event.dataTransfer.setData('field', JSON.stringify(field));
+    const object1 = {
+      cardinality: 'one',
+      fields: table.columns,
+      object_name: `${table.schema}_${table.objectName}`,
+      outerJoin: null,
+      schema: `${table.schema}`,
+      selectedColumns: [field.field]
+    }
+    event.dataTransfer.setData('object1', JSON.stringify(object1));
   };
 
   // const tryLinkEnd = ({ item, event }) => {
@@ -378,7 +393,19 @@ const TableComponent = ({
   //   startDrag({ event, dragCallback, dragStopCallback });
   // };
 
-  const onFieldDragOver = (event, field) => {
+  const onFieldDragOver = (event, field, table) => {   
+    const object1 = JSON.parse(event.dataTransfer.getData('object1'));
+    const object2 = {
+      cardinality: 'one',
+      fields: table.columns,
+      object_name: `${table.schema}_${table.objectName}`,
+      outerJoin: null,
+      schema: `${table.schema}`,
+      selectedColumns: [field.field]
+    }
+
+    if (object1.object_name !== object2.object_name)
+      dispatch(setObjectsConnectionsModal(true, {id: links.length, newLink: true, object1, object2}));
     // tryLinkEnd({field, event})
   };
 
@@ -476,6 +503,12 @@ const TableComponent = ({
             isShadow={isShadow}
             columns={columns}
             setTablesRefs={SET_TABLE_REFS}
+          />
+        )}
+        {isObjectsConnectionsModalOpened && (
+          <ObjectsConnectionEditor
+            id={links.length}
+            visible={isObjectsConnectionsModalOpened && true}
           />
         )}
       </foreignObject>

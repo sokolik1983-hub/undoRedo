@@ -67,7 +67,7 @@ const TreeItem = ({ name, isSchema, table, onSelect, isOpen }) => {
           placement="bottomLeft"
           overlay={
             <>
-              {table.object_name}
+              {table.objectName}
             </>
           }
         >
@@ -91,7 +91,7 @@ const TreeItem = ({ name, isSchema, table, onSelect, isOpen }) => {
                 {!isActive && <FolderIcon className={styles.folderIcon} />}
                 <TableIcon className={isActive && styles.iconActive} />
               </div>
-              <span>{table.object_name}</span>
+              <span>{table.objectName}</span>
             </button>
             {isActive && (
               <div className={styles.tableFields}>

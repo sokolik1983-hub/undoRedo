@@ -1,46 +1,60 @@
 /* eslint-disable no-unused-vars */
 import { request } from '../helpers';
-import { setQueryData, setSymanticLayerData, setUniverses, setSymanticLayerQueryResult, setQueryResult, setListReports, setQueryPanelSymlayersData, setUniversesFolderId, setReportsFolderId } from '../reducers/data';
+import {
+  setQueryData,
+  setSymanticLayerData,
+  setUniverses,
+  setSymanticLayerQueryResult,
+  setQueryResult,
+  setListReports,
+  setQueryPanelSymlayersData,
+  setUniversesFolderId,
+  setReportsFolderId,
+  setSampleUniverseObject,
+  setUniverseIsCreated
+} from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
-import { showObjectsConnectionsModal, closeModal, showQueryPanelModal, showSemanticLayerModal, showTablePreviewModal, showCreateObjectModal, closeCreateObjectModal,showEditObjectModal, closeEditObjectModal, showConfirmModal, closeConfirmModal } from '../reducers/ui';
+import {
+  showObjectsConnectionsModal,
+  closeModal,
+  showQueryPanelModal,
+  showSemanticLayerModal,
+  showTablePreviewModal,
+  showCreateObjectModal,
+  closeCreateObjectModal,
+  showEditObjectModal,
+  closeEditObjectModal,
+  showConfirmModal,
+  closeConfirmModal
+} from '../reducers/ui';
+import { setReportDpRefreshed } from './newReportDesigner';
 
-export const getUniverses = queryParams => {
-  return async dispatch => {
-    try {
-      const response = await request({
-        func: 'SYMLAYER.LIST.READ',
-        params: queryParams,
-        dispatch
-      });
-      if (response?.success) {
-        dispatch(setUniverses(response.result));
-      }
-    } catch (err) {
-      dispatch(
-        notificationShown({ message: err.message, messageType: 'error' })
-      );
+export const getUniverses = queryParams => async dispatch => {
+  try {
+    const response = await request({
+      func: 'SYMLAYER.LIST.READ',
+      params: queryParams,
+      dispatch
+    });
+    if (response?.success) {
+      dispatch(setUniverses(response.result));
     }
-  };
+  } catch (err) {
+    dispatch(notificationShown({ message: err.message, messageType: 'error' }));
+  }
 };
 
-export const getUniversesFolderChildren = queryParams => {
-  return async dispatch => {
-    try {
-      const response = await request({
-        code: 'REPOS.GET_CHILDREN',
-        params: queryParams,
-        dispatch
-      });
-      if (response?.result) {
-        dispatch(setUniverses(response.data));
-      }
-    } catch (err) {
-      dispatch(
-        notificationShown({ message: err.message, messageType: 'error' })
-      );
-    }
+export const getUniversesFolderChildren = queryParams => async dispatch => {
+  const response = await request({
+    code: 'REPOS.GET_CHILDREN',
+    params: queryParams,
+    dispatch
+  });
+
+  if (response?.result) {
+    dispatch(setUniverses(response.data));
   }
-}
+};
 
 export const getUniversesFolderId = queryParams => {
   return async dispatch => {
@@ -58,28 +72,54 @@ export const getUniversesFolderId = queryParams => {
         notificationShown({ message: err.message, messageType: 'error' })
       );
     }
-  }
-}
+  };
+};
 
-export const getQueryPanelSymanticLayerData = id => {
-  /* return async dispatch => {
+export const getQueryPanelSymanticLayerData = id => async dispatch => {
+  const response = await request({
+    code: 'UNV.GET_DATA_QP',
+    params: { id },
+    dispatch
+  });
+  if (response) dispatch(setQueryPanelSymlayersData(response.qpData));
+};
+
+export const createSampleUniverse = queryParams => {
+  return async dispatch => {
     try {
-      const response = await requestSymLayerData({
-        id,
+      const response = await request({
+        code: 'UNV.CREATE',
+        params: queryParams,
         dispatch
       });
-
-      if (response?.success) {
-        dispatch(setQueryPanelSymlayersData(response.result));
+      if (response?.result) {
+        dispatch(
+          setSampleUniverseObject({
+            header: response.header,
+            data: response.data
+          })
+        );
       }
     } catch (err) {
       dispatch(
         notificationShown({ message: err.message, messageType: 'error' })
       );
     }
-  } */
-  return null;
-}
+  };
+};
+
+export const createUniverse = queryParams => {
+  return async dispatch => {
+    const response = await request({
+      code: 'UNV.SAVE',
+      params: queryParams,
+      dispatch
+    });
+    if (response?.result) {
+      dispatch(setUniverseIsCreated(true));
+    }
+  };
+};
 
 export const saveConnector = queryParams => {
   return async dispatch => {
@@ -113,24 +153,16 @@ export const removeConnector = queryParams => {
   };
 };
 
-export const createQuery = queryParams => {
-  return async dispatch => {
-    try {
-      const response = await request({
-        func: 'QUERY.CREATE',
-        params: queryParams,
-        dispatch
-      });
+export const createQuery = queryParams => async dispatch => {
+  const response = await request({
+    code: 'UNV.GET_SQL',
+    params: queryParams,
+    dispatch
+  });
 
-      if (response?.success) {
-        dispatch(setQueryData(response.result));
-      }
-    } catch (err) {
-      dispatch(
-        notificationShown({ message: err.message, messageType: 'error' })
-      );
-    }
-  };
+  if (response) {
+    dispatch(setQueryData(response));
+  }
 };
 
 export const semanticLayerDataQuery = queryParams => {
@@ -169,7 +201,7 @@ export const getListReports = queryParams => {
       );
     }
   };
-}
+};
 
 export const getReportsFolderChildren = queryParams => {
   return async dispatch => {
@@ -187,8 +219,8 @@ export const getReportsFolderChildren = queryParams => {
         notificationShown({ message: err.message, messageType: 'error' })
       );
     }
-  }
-}
+  };
+};
 
 export const getReportsFolderId = queryParams => {
   return async dispatch => {
@@ -209,50 +241,59 @@ export const getReportsFolderId = queryParams => {
   };
 };
 
-export const getResultFromQuery = queryParams => {
-  return async dispatch => {
-    try {
-      const response = await request({
-        func: 'CONNECT.GET_RESULT_SQL',
-        params: queryParams,
-        dispatch
-      });
-      if (response?.success) {
-        dispatch(setQueryResult(response.result));
-      }
-    } catch (err) {
-      dispatch(
-        notificationShown({ message: err.message, messageType: 'error' })
-      );
-    }
-  };
+export const getResultFromQuery = queryParams => async dispatch => {
+  const response = await request({
+    code: 'CN.GET_DATA',
+    params: queryParams,
+    dispatch
+  });
+
+  if (response) {
+    dispatch(setQueryResult(response));
+  }
+};
+
+export const postQueryPanelTab = queryParams => async dispatch => {
+  const response = await request({
+    code: 'REP.SET_DP',
+    params: queryParams,
+    dispatch
+  });
+
+  if (response) {
+    dispatch(setReportDpRefreshed());
+  }
+
+  console.log(response);
 };
 
 export const setObjectsConnectionsModal = (open, link) => {
-  return dispatch => dispatch(open ? showObjectsConnectionsModal(link) : closeModal());
+  return dispatch =>
+    dispatch(open ? showObjectsConnectionsModal(link) : closeModal());
 };
 
-export const setQueryPanelModal = (open) => {
+export const setQueryPanelModal = open => {
   return dispatch => dispatch(open ? showQueryPanelModal() : closeModal());
 };
 
-export const setTablePreviewModal = (open) => {
-  return dispatch => dispatch(open ? showTablePreviewModal() : closeModal())
-}
+export const setTablePreviewModal = open => {
+  return dispatch => dispatch(open ? showTablePreviewModal() : closeModal());
+};
 
-export const setSemanticLayerModal = (open) => {
+export const setSemanticLayerModal = open => {
   return dispatch => dispatch(open ? showSemanticLayerModal() : closeModal());
 };
 
-export const setConfirmModal = (open) => {
+export const setConfirmModal = open => {
   return dispatch => dispatch(open ? showConfirmModal() : closeConfirmModal());
 };
 
-export const setCreateObjectModal = (open) => {
-  return dispatch => dispatch(open ? showCreateObjectModal() : closeCreateObjectModal());
+export const setCreateObjectModal = open => {
+  return dispatch =>
+    dispatch(open ? showCreateObjectModal() : closeCreateObjectModal());
 };
 
-export const setEditObjectModal = (object) => {
-  return dispatch => dispatch(object ? showEditObjectModal(object) : closeEditObjectModal());
+export const setEditObjectModal = object => {
+  return dispatch =>
+    dispatch(object ? showEditObjectModal(object) : closeEditObjectModal());
 };
-

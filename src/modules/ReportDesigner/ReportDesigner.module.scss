@@ -8,8 +8,8 @@
 
 .container {
   width: 99%;
-  height: 90%;
-  outline: 1px solid black;
+  height: 93%;
+  // outline: 1px solid rgba(0, 55, 137, 0.75);
   position: relative;
   background: white;
   overflow: scroll;
@@ -35,21 +35,21 @@
   @extend .container;
 
   left: 234px;
-  height: 96%;
+  height: 97%;
   width: calc( 99% - 234px);
 }
 
 .containerFull {
   @extend .container;
 
-  height: 96%;
+  height: 97%;
 }
 
 .containerTab1Formula {
   @extend .container;
 
   width: calc( 99% - 234px);
-  left: 234px;
+  left: 233px;
 }
 
 .wrapper {
@@ -58,26 +58,39 @@
   width: 100%;
 }
 
-.tabs {
+.footer {
   display: flex;
-  margin-top: 7px;
+  width: 95%;
 
-  .tab {
-    margin-right: 15px;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 14px;
+  .tabs {
+    display: flex;
+    width: 88%;
+    overflow: hidden;
+    overflow-x: scroll;
 
-    &_active {
+    .tab {
+      margin-right: 15px;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 14px;
+      opacity: .5;
+      max-width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .activeTab {
+      @extend .tab;
       display: flex;
-      font-weight: 900;
+      font-weight: 700;
+      opacity: 1;
     }
   }
 }
 
-.tabsCompressed {
-  @extend .tabs;
-  margin-left: 234px;
+.footerCompressed {
+  @extend .footer;
+  margin-left: 233px;
 }
 
 .closeIcon {
@@ -91,19 +104,21 @@
 
 .formula {
   display: flex;
+  align-items: center;
   width: 100%;
-  padding: 0 0 5px 7px;
+  padding: 0 7px 5px 7px;
 }
 
 .formulaCompressed {
   @extend .formula;
 
-  margin-left: 234px;
+  width: calc(100% - 233px);
+  margin-left: auto;
 }
 
 .formulaTextarea {
   background: #FFFFFF;
-  margin: 0 11px;
+  margin: 0 5px 0 11px;
   font-weight: 400;
   font-size: 12px;
   line-height: 14px;
@@ -111,8 +126,8 @@
   width: 100%;
   border: none;
   border-radius: 4px;
-  height: 48px;
-  padding: 5px 5px 1px 5px;
+  height: 22px;
+  padding: 4px 4px 1px 4px;
   resize: none;
 
   &:focus {
@@ -128,10 +143,29 @@
 }
 
 .formulaIcons {
-  margin-top: 4px;
   display: flex;
+  margin-right: 10px;
 }
 
-.okFormula {
-  margin-right: 17px;
+.dropdownItem {
+  background: linear-gradient(199.32deg, #1ae3d7 -13.92%, #0945df 111.71%);
+  padding: 4px 4px 0 4px;
+  font-size: 11px;
+  font-weight: 700;
+
+  &:hover {
+    opacity: .8;
+  }
+}
+
+.tooltip {
+  height: 10px;
+  margin: -4px 0 2px 0;
+  font-size: 11px;
+}
+
+.addBtn {
+  margin: 12px 0 0 4px;
+  width: 0;
+  height: 0;
 }

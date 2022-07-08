@@ -6,45 +6,45 @@ import { useDebounce } from '../../../common/hooks/useDebounce';
 
 const usePanelListFilters = rootFolder => {
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
-  const [filterTypeId, setFilterTypeId] = useState([]);
+  const [filterType, setFilterType] = useState([]);
   const [filteredData, setFilteredData] = useState();
 
   const debouncedSearchValue = useDebounce(searchValue, 500);
 
-  const handleFiltersSwitch = id => {
-    if (!filterTypeId.includes(id)) {
-      setFilterTypeId([...filterTypeId, id]);
+  const handleFiltersSwitch = type => {
+    if (!filterType.includes(type)) {
+      setFilterType([...filterType, type]);
     } else {
-      setFilterTypeId(prevState =>
-        prevState.filter(objectTypeId => objectTypeId !== id)
+      setFilterType(prevState =>
+        prevState.filter(objectTypeId => objectTypeId !== type)
       );
     }
   };
 
   const filterByType = (result, item) => {
-    if (item.isFolder) {
+    if (item.objectType === 'Folder') {
       const folder = {
         ...item,
         children: item?.children?.reduce(filterByType, [])
       };
       if (folder?.children?.length) result.push(folder);
-    } else if (filterTypeId.includes(item.objectType_id)) {
+    } else if (filterType.includes(item.objectType)) {
       result.push(item);
     }
     return result;
   };
 
   const filterBySearchValue = (result, item) => {
-    if (item.isFolder) {
+    if (item.objectType === 'Folder') {
       const folder = {
         ...item,
         children: item.children.reduce(filterBySearchValue, [])
       };
       if (folder.children.length) result.push(folder);
     } else {
-      const itemField = item.field.toLowerCase();
+      const itemName = item.name.toLowerCase();
       const value = debouncedSearchValue.toLowerCase().trim();
-      if (itemField.includes(value)) {
+      if (itemName.includes(value)) {
         result.push(item);
       }
     }
@@ -54,7 +54,7 @@ const usePanelListFilters = rootFolder => {
   useEffect(() => {
     let filteredChildren = rootFolder?.children;
 
-    if (filterTypeId.length) {
+    if (filterType.length) {
       filteredChildren = filteredChildren?.reduce(filterByType, []);
     }
 
@@ -66,15 +66,15 @@ const usePanelListFilters = rootFolder => {
       ...rootFolder,
       children: filteredChildren
     });
-  }, [rootFolder, filterTypeId, debouncedSearchValue]);
+  }, [rootFolder, filterType, debouncedSearchValue]);
 
   return {
     rootFolder: rootFolder ? filteredData : null,
-    filterTypeId,
+    filterType,
     handleFiltersSwitch,
     searchValue,
     setSearchValue
   };
 };
 
-export default usePanelListFilters; 
+export default usePanelListFilters;

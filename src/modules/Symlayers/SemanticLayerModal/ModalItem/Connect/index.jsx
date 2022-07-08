@@ -9,9 +9,10 @@ import Button from '../../../../../common/components/Button';
 
 /**
  * @param title - строка для заголовка
+ * @param connectorName - строка с названием коннектора
  */
 
-const Connect = ({ title }) => {
+const Connect = ({ title, connectorName }) => {
 
   const [isActive, setIsActive] = useState(false);
 
@@ -32,7 +33,7 @@ const Connect = ({ title }) => {
           </div>
         </div>
         <Select
-          defaultValue='Соединение 01 проба'
+          defaultValue={connectorName || 'Соединение 01 проба'}
           name='name1'
           options={[{ value: '1', text: 'Соединение 02 проба' }]}
         />
@@ -52,7 +53,8 @@ const Connect = ({ title }) => {
 export default Connect;
 
 Connect.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
+  connectorName: PropTypes.string
 };
 
 Connect.defaultProps = {

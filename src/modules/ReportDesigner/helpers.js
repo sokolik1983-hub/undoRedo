@@ -36,13 +36,16 @@ export function setTableStyles(reportStructure, reportsUi, style) {
   });
 }
 
+const defaultExpression =  {
+      dataType: 'String',
+      formula: '',
+      type: 'Const'
+    }
+
 export const createReportElement = ({ type, mousePosition }) => {
   const { x, y } = mousePosition;
 
-  const defaultCellStyle = {
-    width: 100,
-    height: 40
-  }
+  const defaultCellStyle = {};
 
   const cell = {
     id: generateId(),
@@ -72,7 +75,7 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-                expression: {},
+                expression: defaultExpression,
                 id: `${generateId()}.H.1`,
                 row: 1,
                 size: {
@@ -83,7 +86,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               }
             ],
             hType: 'header',
-            id: generateId(),
+            id: `${generateId()}.H`,
             shown: true,
             vType: 'header'
           },
@@ -91,9 +94,9 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-                expression: {},
+                expression: defaultExpression,
                 id: `${generateId()}.B.1`,
-                row: 2,
+                row: 1,
                 size: {
                   minimalHeight: 12,
                   minimalWidth: 100
@@ -102,16 +105,26 @@ export const createReportElement = ({ type, mousePosition }) => {
               }
             ],
             hType: 'header',
-            id: generateId(),
+            id: `${generateId()}.B`,
             shown: true,
             vType: 'body'
           },
           {
             cells: [
-
+              {
+                col: 1,
+                expression: defaultExpression,
+                id: `${generateId()}.F.1`,
+                row: 1,
+                size: {
+                  minimalHeight: 12,
+                  minimalWidth: 100
+                },
+                style: defaultCellStyle
+              }
             ],
             hType: 'header',
-            id: generateId(),
+            id: `${generateId()}.F`,
             shown: false,
             vType: 'footer'
           }
@@ -137,7 +150,7 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-                expression: {},
+                expression: defaultExpression,
                 id: `${generateId()}.H.1`,
                 row: 1,
                 size: {
@@ -148,7 +161,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               }
             ],
             hType: 'header',
-            id: generateId(),
+            id: `${generateId()}.H`,
             shown: true,
             vType: 'header'
           },
@@ -156,9 +169,28 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-                expression: {},
+                expression: defaultExpression,
                 id: `${generateId()}.B.1`,
-                row: 2,
+                row: 1,
+                size: {
+                  minimalHeight: 12,
+                  minimalWidth: 100
+                },
+                style: defaultCellStyle,
+              }
+            ],
+            hType: 'header',
+            id: `${generateId()}.B`,
+            shown: true,
+            vType: 'body'
+          },
+          {
+            cells: [
+              {
+                col: 1,
+                expression: defaultExpression,
+                id: `${generateId()}.F.1`,
+                row: 1,
                 size: {
                   minimalHeight: 12,
                   minimalWidth: 100
@@ -167,23 +199,14 @@ export const createReportElement = ({ type, mousePosition }) => {
               }
             ],
             hType: 'header',
-            id: generateId(),
-            shown: true,
-            vType: 'body'
-          },
-          {
-            cells: [
-
-            ],
-            hType: 'header',
-            id: generateId(),
+            id: `${generateId()}.F`,
             shown: false,
             vType: 'footer'
           }
         ]
       }
     },
-    id: generateId(),
+    id: `${generateId()}`,
     name: 'вертикальная таблица',
     position: { x, xType: 'Absolute', y, yType: 'Absolute' },
     size: {
@@ -199,24 +222,154 @@ export const createReportElement = ({ type, mousePosition }) => {
       layout: {
         zones: [
           {
-            cells: [],
+            cells: [
+              {
+                col: 1,
+                expression: defaultExpression,
+                id: `${generateId()}.HH.1_1`,
+                row: 1,
+                size: {
+                  minimalHeight: 12,
+                  minimalWidth: 100
+                },
+                style: defaultCellStyle
+              }
+            ],
             hType: 'header',
-            id: generateId(),
-            shown: true,
+            id: `${generateId()}.HH`,
+            shown: 1,
             vType: 'header'
           },
           {
-            cells: [],
+            cells: [
+              {
+                col: 1,
+                expression: defaultExpression,
+                id: `${generateId()}.BH.1_1`,
+                row: 1,
+                size: {
+                  minimalWidth: 70
+                },
+                style: defaultCellStyle
+              }
+            ],
+            hType: 'body',
+            id: `${generateId()}.BH`,
+            shown: 1,
+            vType: 'header'
+          },
+          {
+            cells: [
+              {
+                col: 1,
+                expression: defaultExpression,
+                id: `${generateId()}.FH.1_1`,
+                row: 1,
+                style: defaultCellStyle
+              }
+            ],
+            hType: 'footer',
+            id: `${generateId()}.FH`,
+            shown: 1,
+            vType: 'header'
+          },
+          {
+            cells: [
+              {
+                col: 1,
+                expression: defaultExpression,
+                id: `${generateId()}.HB.1_1`,
+                row: 1,
+                size: {
+                  minimalHeight: 12
+                },
+                style: defaultCellStyle
+              }
+            ],
             hType: 'header',
-            id: generateId(),
-            shown: true,
+            id: `${generateId()}.HB`,
+            shown: 1,
             vType: 'body'
           },
           {
-            cells: [],
+            cells: [
+              {
+                col: 1,
+                expression: defaultExpression,
+                id: `${generateId()}.BB.1_1`,
+                row: 1,
+                size: {
+                  minimalWidth: 70
+                },
+                style: defaultCellStyle
+              }
+            ],
+            hType: 'body',
+            id: `${generateId()}.BB`,
+            shown: 1,
+            vType: 'body'
+          },
+          {
+            cells: [
+              {
+                col: 1,
+                expression: defaultExpression,
+                id: `${generateId()}.FB.1_1`,
+                row: 1,
+                style: defaultCellStyle
+              }
+            ],
+            hType: 'footer',
+            id: `${generateId()}.FB`,
+            shown: 1,
+            vType: 'body'
+          },
+          {
+            cells: [
+              {
+                col: 1,
+                expression: defaultExpression,
+                id: `${generateId()}.HF.1_1`,
+                row: 1,
+                size: {
+                  minimalHeight: 12
+                },
+                style: defaultCellStyle
+              }
+            ],
             hType: 'header',
-            id: generateId(),
-            shown: false,
+            id: `${generateId()}.HF`,
+            shown: 1,
+            vType: 'footer'
+          },
+          {
+            cells: [
+              {
+                col: 1,
+                id: `${generateId()}.BF.1_1`,
+                row: 1,
+                style: defaultCellStyle,
+                expression: defaultExpression,
+              }
+            ],
+            hType: 'body',
+            id: `${generateId()}.BF`,
+            shown: 1,
+            vType: 'footer'
+          },
+          {
+            cells: [
+              {
+                col: 1,
+                expression: defaultExpression,
+                id: `${generateId()}.FF.1_1`,
+                row: 1,
+                style: defaultCellStyle
+              }
+            ],
+            hType: 'footer',
+            id: `${generateId()}.FF`,
+            shown: 1,
             vType: 'footer'
           }
         ]
@@ -230,7 +383,7 @@ export const createReportElement = ({ type, mousePosition }) => {
       autofitWidth: false,
       minimalHeight: 10
     },
-    type: 'vTable'
+    type: 'xTable'
   };
 
   const mapper = {

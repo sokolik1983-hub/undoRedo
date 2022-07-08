@@ -108,15 +108,6 @@ const Sidebar = ({ onSelect }) => {
     }
   };
 
-  // const searchObject = event => {
-  //   if (event.key === 'Enter' && searchValue.length) {
-  //     const result = JSON.parse(
-  //       JSON.stringify(
-  //         objectsLayers.filter(object =>
-  //           object.name.toUpperCase().includes(searchValue.toUpperCase())
-  //         )
-  //       )
-  //     );
   const searchObject = event => {
     if (event.key === 'Enter' && searchObjValue.length) {
       const result = JSON.parse(

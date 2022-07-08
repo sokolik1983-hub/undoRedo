@@ -8,16 +8,17 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getElementData } from '../../../../../../data/actions/newReportDesigner';
 import { setFormattingElement } from '../../../../../../data/reducers/new_reportDesigner';
-import Cell from '../../../Cell';
+import Cell from '../../../TableCell';
 import styles from './TableHeader.module.scss';
-import {getZoneData, selectCell} from '../helpers'
-
+import { getZoneData, selectCell } from '../helpers';
+import { LoadingRow, renderRow, getStyleFn } from '../../helpers';
 
 const TableHeader = ({
   data,
   displayMode,
   reportData,
   tableType,
+  needRefresh,
   ...props
 }) => {
   const dispatch = useDispatch();
@@ -30,99 +31,93 @@ const TableHeader = ({
     state => state.app.reportDesigner?.reportsUi?.ui?.formattingElement
   );
 
-  const callback = key => (res) => {
+  const callback = key => res => {
     setZoneData(prev => ({ ...prev, [key]: res?.data }));
     setZoneLoadingStatus({
       ...zoneLoadingStatus,
       [key]: false
     });
-  }
+  };
 
   const resetFn = key => {
     setZoneData({ ...zoneData, [key]: null });
     setZoneLoadingStatus({ ...zoneLoadingStatus, [key]: true });
-}
+  };
 
-  const zones = data
+  const zones = data;
 
+  const isDataEmpty = () =>
+    Object.values(zoneData).filter(item => item && item.length > 0).length ===
+    0;
+
+  const getRefreshStatus = () => {
+    if (isDataEmpty()) return true;
+    return needRefresh;
+  };
 
   useEffect(() => {
     if (displayMode === 'Data') {
+      if (getRefreshStatus() === false) return;
       getZoneData({
         zones,
         dispatch,
         callback,
         resetFn
-      })
+      });
     }
   }, [displayMode]);
 
   if (tableType === 'hTable') return null;
 
-  const handleClick = selectCell(dispatch)
+  const handleClick = selectCell(dispatch);
 
-  const getStyle = (index, key) => {
-    return data?.[0].cells?.[index] ? data?.[0].cells?.[index].style : {};
-  };
+  const getStyle = getStyleFn(data);
 
-  const renderRow = () => {
-    if (!zoneData) return null;
-    const orderList = ['HH', 'BH', 'FH']
-    const presorted = Object.keys(zoneData)
-    const dataKeys = presorted.reduce((acc,key) => {
-      const keyIndex = orderList.reduce((indexAcc,fragment, index) => {
-        if(key.indexOf(fragment) > -1) indexAcc = index
-        return indexAcc
-      }, -1)
-      acc[keyIndex] = key
-      return acc
-    }, [])
+  //   const getId = (index, key) => `header-${key}-${index}`;
 
-  
+  //   return (
+  //     <tr>
+  //       {dataKeys.map(key =>
+  //         zoneData?.[key]?.map(item =>
+  //           item.map((cell, index) => (
+  //             <th key={getId(index, key)} style={{ ...getStyle(index) }}>
+  //               {cell}
+  //             </th>
+  //           ))
+  //         )
+  //       )}
+  //     </tr>
+  //   );
+  // };
 
-
-    const getId = (index, key) => `header-${key}-${index}`;
-
-    return (
-      <tr>
-        {dataKeys.map(key =>
-          zoneData?.[key]?.map(item =>
-            item.map((cell, index) => (
-              <th key={getId(index, key)} style={{ ...getStyle(index) }}>
-                {cell}
-              </th>
-            ))
-          )
-        )}
-      </tr>
-    );
-  };
+  const orderList = ['HH', 'BH', 'FH'];
 
   const renderData = () => {
     if (tableType === 'hTable') return null;
 
     if (tableType === 'xTable') {
-      return renderRow();
+      return renderRow({ zoneData, getStyle, orderList });
     }
 
-    const items = Object.values(zoneData)[0]
-
-/* eslint-disable react/no-array-index-key   */
-    return (
-      items?.map(item => {
-        return (
-          <tr key={item} data="data-row">
-            {item.map((cell, idx) => {
-              return (
-                <th key={cell + idx} style={{ ...getStyle(idx) }}>
-                  {cell}
-                </th>
-              );
-            })}
-          </tr>
-        );
-      })
-    );
+    const items = Object.values(zoneData)[0];
+    if (!zoneData || !items) return LoadingRow;
+    /* eslint-disable react/no-array-index-key   */
+    return items?.map(item => {
+      return (
+        <tr key={item} data="data-row">
+          {item.map((cell, idx) => {
+            return (
+              <th
+                key={cell + idx}
+                style={{ ...getStyle(idx, Object.keys(zoneData)[0]) }}
+              >
+                {cell}
+              </th>
+            );
+          })}
+        </tr>
+      );
+    });
   };
 
   const renderCells = () => {
@@ -140,6 +135,7 @@ const TableHeader = ({
             return (
               <th key={item.id} onClick={() => handleClick(item)}>
                 <Cell
+                  tableType={tableType}
                   displayMode={displayMode}
                   blockStyles={item.style}
                   structureItem={item}
@@ -163,6 +159,7 @@ const TableHeader = ({
             return (
               <th key={item.id} onClick={() => handleClick(item)}>
                 <Cell
+                  tableType={tableType}
                   displayMode={displayMode}
                   blockStyles={item.style}
                   structureItem={item}

@@ -41,6 +41,8 @@
 .testConnectionWrapper {
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
+  margin-bottom: 25px;
   align-items: center;
   width: 125px;
 }
@@ -128,3 +130,32 @@
   justify-content: flex-end;
   align-items: center;
 }
+
+.textAreaName {
+  @extend .selectText;
+  margin-top: 0px;
+}
+
+.textarea {
+  @extend .connectorsInput;
+  width: 100%;
+  min-height: 50px;
+  border: none;
+  outline: none;
+  resize: none;
+}
+
+.gearsIconWrapper {
+  position: relative;
+  top: 40px;
+  margin-left: 85px;
+  transform: scale(1.5);
+}
+
+.testOkIcon, .showTestFailed {
+  position: absolute;
+  transform: scale(0.85);
+  margin-left: -55px;
+  margin-top: -4px;
+}
+

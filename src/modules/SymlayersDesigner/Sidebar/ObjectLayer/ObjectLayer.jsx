@@ -54,6 +54,7 @@ const ObjectLayer = ({ field, onSelect }) => {
   const handleDeleteObject = () => {
     dispatch(deleteObjectLayer(id));
     dispatch(showToast('success', 'Объект удален'));
+    setDelModelOpened(false)
   };
 
   const handleObjectClick = action => {

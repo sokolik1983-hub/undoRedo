@@ -15,11 +15,12 @@ const NotificationsList = () => {
   return (
     <Portal container={document.body}>
       <div className={styles.root}>
-        {notifications?.map(item => (
+        {notifications?.map((item, idx) => (
           <NotificationItem
             key={item.id}
             notification={item}
             onClose={handleClose}
+            index={idx}
           />
         ))}
       </div>

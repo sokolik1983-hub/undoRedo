@@ -98,6 +98,13 @@ function Connectors() {
   const [showPreloader, setShowPreloader] = useState(false); // показ прелоудера
   const [connectorFields, setConnectorFields] = useState(false); // показ полей ввода коннектора
 
+  useEffect(() => {
+    if (connectType && connectSource) {
+      setConnectorFields(true);
+      getConnectorObjectFromBack();
+    }
+  }, [connectType, connectSource]);
+
   // Видима/невидима модалка добавления коннектора
   const [isVisible, setIsVisible] = useState(false);
 
@@ -131,7 +138,6 @@ function Connectors() {
         newConnector.data.fields[2].value = newConnector?.data?.fields[2]?.value.toUpperCase();
       }
       setHeaderAndDescription();
-      // newConnector = trimInputFields(newConnector);
       dispatch(testConnector({ data: newConnector.data }));
     }
   };
@@ -157,14 +163,6 @@ function Connectors() {
     setIsVisible(false);
     clearEnteredData();
   };
-
-  useEffect(() => {
-    if (connectType && connectSource) {
-      setConnectorFields(true);
-      getConnectorObjectFromBack();
-    }
-  }, [connectType, connectSource]);
-
   // Функция для получения объекта коннектора из бека
   const getConnectorObjectFromBack = () => {
     setShowPreloader(true);

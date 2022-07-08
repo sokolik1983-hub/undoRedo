@@ -60,6 +60,7 @@ export const logoutUser = () => {
       localStorage.removeItem('userInfo');
       localStorage.removeItem('isAuth');
       localStorage.removeItem('token');
+      localStorage.removeItem('streamreceiver');
       window.location.pathname = REDIRECT_LINKS.LOGIN_PAGE;
       dispatch(logout());
     }, 1000);

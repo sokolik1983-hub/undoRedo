@@ -134,7 +134,6 @@ const requesterTimeout = ({ id, dispatch }) =>
 export const request = async ({ params, code, dispatch }) => {
   const token = localStorage.getItem('token');
   const streamreceiver = localStorage.getItem('streamreceiver');
-
   try {
     const response = await axios({
       method: 'post',
@@ -142,10 +141,7 @@ export const request = async ({ params, code, dispatch }) => {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      data: `code=${code}&token=${encodeURI(token) ||
-        null}&format=JSON&params=${
-        params ? JSON.stringify(params) : ''
-      }&streamreceiver=${streamreceiver || null}`
+      data: `code=${code}&token=${encodeURI(token) || null}&format=JSON${streamreceiver ? `&streamreceiver=${streamreceiver}` : ''}${params ? `&params=${encodeURIComponent(JSON.stringify(params))}` : ''}`
     });
 
     if (response && response.status === 200) {
@@ -211,10 +207,8 @@ export const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 export const getTableIdFromParams = ({
   schema,
   objectName,
-  id,
-  connect_id
 }) => {
-  return `${schema}_${objectName}_${id}_${connect_id}`;
+  return `${schema}_${objectName}`;
 };
 
 // export const deepObjectSearch = ({ target, key, value, parent = null, grandParent = null }) => {
@@ -271,7 +265,7 @@ export const deepObjectSearch = ({
   for (let i = 0; i < keys.length; i++) {
     const objectKey = keys[i];
 
-    if (typeof target[objectKey] === 'object') {
+    if (target[objectKey] !== null && typeof target[objectKey] === 'object') {
       result = result.concat(
         deepObjectSearch({
           target: target[objectKey],
