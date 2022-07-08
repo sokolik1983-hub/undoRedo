@@ -28,6 +28,7 @@ const TextInput = forwardRef(
       value,
       fullWidth,
       uppercase,
+      defaultValue,
       ...props
     },
     ref
@@ -37,7 +38,7 @@ const TextInput = forwardRef(
       className,
       { [styles.error]: error },
       { [styles.fullWidth]: className ? false : fullWidth },
-      { [styles.uppercase] : uppercase },
+      { [styles.uppercase]: uppercase }
     );
 
     const wrapperClasses = clsx(styles.inputWrapper, wrapperClassName);
@@ -62,6 +63,7 @@ const TextInput = forwardRef(
           name={id}
           className={classes}
           value={value}
+          defaultValue={defaultValue}
           {...props}
         />
         {error && <span className={styles.textError}>{error}</span>}
@@ -85,7 +87,8 @@ TextInput.propTypes = {
   required: PropTypes.bool,
   requiredTextVisible: PropTypes.bool,
   uppercase: PropTypes.bool,
-  onblur: PropTypes.any
+  onblur: PropTypes.any,
+  defaultValue: PropTypes.string
 };
 
 TextInput.defaultProps = {
