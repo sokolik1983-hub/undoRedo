@@ -41,9 +41,10 @@ const NotificationItem = ({
     message,
     buttonText,
     reason,
-    advice,
+    advice
   },
-  onClose
+  onClose,
+  index
 }) => {
   const [reasonHidden, setReasonHidden] = useState(true);
   const [adviseHidden, setAdviseHidden] = useState(true);
@@ -66,19 +67,25 @@ const NotificationItem = ({
   const handleAlertClose = () => onClose(id);
 
   return (
-    <div className={cn(styles.root, styles[variant])}>
+    <div
+      className={cn(styles.root, styles[variant])}
+      style={{
+        top: `${20 * index}px`,
+        transform: `translate(${20 * index}px, 0px)`
+      }}
+    >
       <div className={styles.title}>
-        {icon
-          ? ICONS[icon]
-          : <img src={WarnIcon} className={styles.topIcon} alt="WarningIcon" />}
+        {icon ? (
+          ICONS[icon]
+        ) : (
+          <img src={WarnIcon} className={styles.topIcon} alt="WarningIcon" />
+        )}
         <span>{title || 'Внимание, ошибка'}</span>
       </div>
       {message && (
         <div className={styles.message}>
           {(reason || advice) && (
-            <span className={styles.messageHeader}>
-              Что произошло
-            </span>
+            <span className={styles.messageHeader}>Что произошло</span>
           )}
           <span className={styles.messageText}>{message}</span>
         </div>
@@ -87,12 +94,16 @@ const NotificationItem = ({
         <div className={styles.reason}>
           <div
             className={styles.reasonHeaderBox}
-            onClick={() => {setReasonHidden(!reasonHidden)}}
+            onClick={() => {
+              setReasonHidden(!reasonHidden);
+            }}
           >
-            <span className={styles.reasonHeader}>
-              Почему это произошло
-            </span>
-            <img src={CollapseIcon} className={reasonHidden && styles.reasonArrowDown} alt="Arrow" />
+            <span className={styles.reasonHeader}>Почему это произошло</span>
+            <img
+              src={CollapseIcon}
+              className={reasonHidden && styles.reasonArrowDown}
+              alt="Arrow"
+            />
           </div>
 
           {!reasonHidden && <span className={styles.reasonText}>{reason}</span>}
@@ -102,22 +113,23 @@ const NotificationItem = ({
         <div className={styles.advice}>
           <div
             className={styles.adviseHeaderBox}
-            onClick={() => {setAdviseHidden(!adviseHidden)}}
+            onClick={() => {
+              setAdviseHidden(!adviseHidden);
+            }}
           >
-            <span className={styles.adviceHeader}>
-              Что мне делать
-            </span>
-            <img src={CollapseIcon} className={adviseHidden && styles.adviseArrowDown} alt="Arrow" />
+            <span className={styles.adviceHeader}>Что мне делать</span>
+            <img
+              src={CollapseIcon}
+              className={adviseHidden && styles.adviseArrowDown}
+              alt="Arrow"
+            />
           </div>
 
           {!adviseHidden && <span className={styles.adviseText}>{advice}</span>}
         </div>
       )}
       {!autoHide && (
-        <div
-          className={styles.button}
-          onClick={handleAlertClose}
-        >
+        <div className={styles.button} onClick={handleAlertClose}>
           {buttonText || 'OK'}
         </div>
       )}
@@ -129,10 +141,12 @@ export default NotificationItem;
 
 NotificationItem.propTypes = {
   notification: PropTypes.object,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  index: PropTypes.number
 };
 
 NotificationItem.defaultProps = {
   notification: {},
-  onClose: () => {}
+  onClose: () => {},
+  index: 0
 };

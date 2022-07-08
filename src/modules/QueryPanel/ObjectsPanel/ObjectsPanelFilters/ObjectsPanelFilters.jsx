@@ -10,7 +10,7 @@ import styles from './ObjectsPanelFilters.module.scss';
 const ObjectsPanelFilters = ({
   searchValue,
   setSearchValue,
-  filterId,
+  filterType,
   onFiltersSwitch
 }) => {
   return (
@@ -28,22 +28,22 @@ const ObjectsPanelFilters = ({
         active={Boolean(searchValue.length)}
       />
       <IconButton
-        onClick={() => onFiltersSwitch(1)}
+        onClick={() => onFiltersSwitch('Dimension')}
         className={styles.iconBtn}
         icon={<GaugeIcon />}
-        active={filterId.includes(1)}
+        active={filterType.includes('Dimension')}
       />
       <IconButton
-        onClick={() => onFiltersSwitch(3)}
+        onClick={() => onFiltersSwitch('Filter')}
         className={styles.iconBtn}
         icon={<AttributeIcon />}
-        active={filterId.includes(3)}
+        active={filterType.includes('Filter')}
       />
       <IconButton
-        onClick={() => onFiltersSwitch(2)}
+        onClick={() => onFiltersSwitch('Measure')}
         className={styles.iconBtn}
         icon={<MeasurementIcon />}
-        active={filterId.includes(2)}
+        active={filterType.includes('Measure')}
       />
     </div>
   );
@@ -54,6 +54,6 @@ export default ObjectsPanelFilters;
 ObjectsPanelFilters.propTypes = {
   setSearchValue: PropTypes.func,
   searchValue: PropTypes.string,
-  filterId: PropTypes.arrayOf(PropTypes.number),
+  filterType: PropTypes.arrayOf(PropTypes.number),
   onFiltersSwitch: PropTypes.func
 };

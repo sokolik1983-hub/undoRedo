@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
@@ -5,7 +6,10 @@ import PropTypes from 'prop-types';
 import selectModalStyles from './SelectSemanticLayer.module.scss';
 import Modal from '../../../common/components/Modal';
 import IconButton from '../../../common/components/IconButton';
-import { getUniverses } from '../../../data/actions/universes';
+import {
+  getUniversesFolderChildren,
+  getUniversesFolderId
+} from '../../../data/actions/universes';
 import { sortFoldersAndItems } from '../../Symlayers/helper';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import ListItem from '../../../common/components/List/ListItem/ListItem';
@@ -17,32 +21,64 @@ import { ReactComponent as ReloadIcon } from '../../../layout/assets/queryPanel/
 import Search from '../../../common/components/Search';
 import { ICON_POSITION } from '../../../common/components/Search/constant';
 import Tooltip from '../../../common/components/Tooltip';
+import { EMPTY_STRING } from '../../../common/constants/common';
 
 const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const dispatch = useDispatch();
   const universes = useSelector(state => state.app.data.universes);
+  const unvRootFolderId = useSelector(
+    state => state.app.data.universesFolderId
+  );
 
   useEffect(() => {
-    dispatch(getUniverses());
+    dispatch(getUniversesFolderId({ folderType: 'USER_UNV' }));
   }, []);
 
-  const rootFolder = useMemo(() => {
-    if (!universes.children) return universes;
-    const sortedConnectorsChildren = sortFoldersAndItems(universes.children);
+  useEffect(() => {
+    dispatch(getUniversesFolderChildren({ id: unvRootFolderId }));
+  }, [unvRootFolderId]);
 
-    return {
-      ...universes,
-      children: sortedConnectorsChildren
-    };
-  }, [universes]);
+  // const rootFolder = useMemo(() => {
+  //   if (!universes.children) return universes;
+  //   const sortedConnectorsChildren = sortFoldersAndItems(universes.children);
 
-  const [foldersHistory, setFoldersHistory] = useState([rootFolder]);
+  //   return {
+  //     ...universes,
+  //     children: sortedConnectorsChildren
+  //   };
+  // }, [universes]);
+
+  // const [foldersHistory, setFoldersHistory] = useState([rootFolder]);
+  const [foldersIdHistory, setFoldersIdHistory] = useState([]);
+  const [sortedItems, setSortedItems] = useState([]);
   const [currentFolderIndex, setCurrentFolderIndex] = useState(0);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(EMPTY_STRING);
   const [resArr, setResArr] = useState([]);
   const [searchExec, setSearchExec] = useState(false);
   const [navActive, setNavActive] = useState(false);
   const [tempArr, setTempArr] = useState([]);
+
+  const goToRootFolder = () => {
+    dispatch(getUniversesFolderChildren({ id: unvRootFolderId }));
+    setFoldersIdHistory([unvRootFolderId]);
+    setCurrentFolderIndex(0);
+  };
+
+  useEffect(() => {
+    if (universes) {
+      setSortedItems(sortFoldersAndItems(universes.list));
+    }
+  }, [universes]);
+
+  useEffect(() => {
+    if (currentFolderIndex === 0 && unvRootFolderId) {
+      goToRootFolder();
+    } else if (unvRootFolderId) {
+      dispatch(
+        getUniversesFolderChildren({ id: foldersIdHistory[currentFolderIndex] })
+      );
+    }
+  }, [currentFolderIndex]);
 
   let interArr = [];
 
@@ -82,59 +118,58 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     }
   };
 
-  useEffect(() => {
-    if (!searchExec) {
-      setResArr([]);
-      setFoldersHistory([rootFolder]);
-    }
-  }, [searchExec]);
+  // useEffect(() => {
+  //   if (!searchExec) {
+  //     setResArr([]);
+  //     setFoldersHistory([rootFolder]);
+  //   }
+  // }, [searchExec]);
 
-  useEffect(() => {
-    setFoldersHistory([rootFolder]);
-  }, [universes]);
+  // useEffect(() => {
+  //   setFoldersHistory([rootFolder]);
+  // }, [universes]);
 
   const onFolderDoubleClick = folder => {
-    const folderWithSortedChildren = {
-      ...folder,
-      children: sortFoldersAndItems(folder.children)
-    };
-
-    setFoldersHistory([
-      ...foldersHistory.slice(0, currentFolderIndex + 1),
-      folderWithSortedChildren
-    ]);
-    setCurrentFolderIndex(prev => prev + 1);
+    // const folderWithSortedChildren = {
+    //   ...folder,
+    //   children: sortFoldersAndItems(folder.children)
+    // };
+    // setFoldersHistory([
+    //   ...foldersHistory.slice(0, currentFolderIndex + 1),
+    //   folderWithSortedChildren
+    // ]);
+    // setCurrentFolderIndex(prev => prev + 1);
   };
 
   const moveToPrevFolder = () => {
     setCurrentFolderIndex(prev => (prev === 0 ? 0 : prev - 1));
   };
 
-  const moveToRootFolder = () => {
-    setCurrentFolderIndex(0);
-    setFoldersHistory([rootFolder]);
-  };
+  // const moveToRootFolder = () => {
+  //   setCurrentFolderIndex(0);
+  //   setFoldersHistory([rootFolder]);
+  // };
 
-  const result = searchExec
-    ? resArr
-    : foldersHistory[currentFolderIndex]?.children;
+  // const result = searchExec
+  //   ? resArr
+  //   : foldersHistory[currentFolderIndex]?.children;
 
-  useEffect(() => {
-    setNavActive(!!currentFolderIndex);
-    if (currentFolderIndex && searchExec) {
-      setResArr(foldersHistory[currentFolderIndex]?.children);
-    }
-    if (!currentFolderIndex && searchExec) {
-      setResArr(tempArr);
-    }
-  }, [currentFolderIndex]);
+  // useEffect(() => {
+  //   setNavActive(!!currentFolderIndex);
+  //   if (currentFolderIndex && searchExec) {
+  //     setResArr(foldersHistory[currentFolderIndex]?.children);
+  //   }
+  //   if (!currentFolderIndex && searchExec) {
+  //     setResArr(tempArr);
+  //   }
+  // }, [currentFolderIndex]);
 
-  const listItems = result?.map(item => {
-    const { isFolder } = item;
+  const listItems = sortedItems?.map(item => {
+    const isFolder = item.kind === 'FLD';
     return (
-      <div key={isFolder ? `folder_${item.folder_id}` : item.id}>
+      <div key={item.id}>
         <ListItem
-          name={isFolder ? item.folder_name : item.name}
+          name={item.name}
           icon={isFolder ? <FolderIcon /> : <UniverseIcon />}
           className={selectModalStyles.semanticItem}
           onDoubleClick={
@@ -147,17 +182,13 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
     );
   });
 
-  const handleClose = () => {
-    return onClose();
-  };
-
   const onReload = () => {
     setSearchExec(false);
     setResArr([]);
     interArr = [];
-    setSearchValue('');
+    setSearchValue(EMPTY_STRING);
     setCurrentFolderIndex(0);
-    setFoldersHistory([rootFolder]);
+    // setFoldersHistory([rootFolder]);
   };
 
   const modalContent = () => {
@@ -176,11 +207,11 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
           />
           <IconButton
             icon={<ArrowUpIcon />}
-            onClick={navActive && moveToRootFolder}
+            // onClick={navActive && moveToRootFolder}
           />
           <Search
             className={selectModalStyles.search}
-            onSubmit={e => onSearch(e, result)}
+            // onSubmit={e => onSearch(e, result)}
             value={searchValue}
             onChange={e => setSearchValue(e.target.value)}
             iconButtonPosition={ICON_POSITION.RIGHT}
@@ -207,7 +238,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
       content={modalContent()}
       withScroll
       visible={visible}
-      onClose={handleClose}
+      onClose={onClose}
       titleClassName={selectModalStyles.title}
       dialogClassName={selectModalStyles.dialog}
       headerClassName={selectModalStyles.header}

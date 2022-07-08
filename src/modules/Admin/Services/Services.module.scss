@@ -7,10 +7,8 @@
 .groupItem {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: space-between;
   background-color: #ddecf1;
-  border: 1px solid black;
   border-radius: 8px;
   margin: 10px 0;
   padding: 7px;
@@ -26,7 +24,8 @@
 }
 
 .itemDescription {
-  font-size: 10px
+  font-size: 10px;
+  margin-top: 8px;
 }
 
 .itemName {
@@ -34,7 +33,7 @@
 }
 
 .groupName {
-
+  font-weight: bold;
 }
 
 
@@ -48,4 +47,11 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
 }
