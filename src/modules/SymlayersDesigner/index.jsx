@@ -90,10 +90,10 @@ function SymlayersDesigner() {
 
   const handleSelectTable = (selected, event) => {
     const {schema, objectName } = selected;
-    const id = connectorId;
-    dispatch(getObjectFields({id, schema, objectName}));
+    dispatch(getObjectFields({id: connectorId, schema, objectName}));
+    const table_id = selectedTablesArray.length > 0 ? selectedTablesArray.length - 1 : 0;
     if (event) {
-      setChecked([...checked, selected]);
+      setChecked([...checked, {table_id, ...selected}]);
     } else {
       setChecked(
         checked.filter(item => item.objectName !== selected.objectName)

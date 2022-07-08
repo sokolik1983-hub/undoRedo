@@ -9,6 +9,7 @@ function TablesList({ title, items, type }) {
   const dispatch = useDispatch();
 
   const links = useSelector(state => state.app.schemaDesigner.links);
+  const selectedTablesData = useSelector(state => state.app.schemaDesigner.selectedTablesData); 
 
   const handleClick = id => {
     const result = links.filter(l => {
@@ -16,6 +17,18 @@ function TablesList({ title, items, type }) {
     });
     dispatch(setObjectsConnectionsModal(true, ...result));
   };
+
+  const createObjectName = (id1, id2) => {
+    const tableName1 = selectedTablesData?.find(tableData => tableData.id === id1);
+    const tableName2 = selectedTablesData?.find(tableData => tableData.id === id2);
+    const schema1 = tableName1?.schema;
+    const objectName1 = tableName1?.objectName;
+    const objectFullName1 = `${schema1}_${objectName1}`;
+    const schema2 = tableName2?.schema;
+    const objectName2 = tableName2?.objectName;
+    const objectFullName2 = `${schema2}_${objectName2}`;
+    return `${objectFullName1} - ${objectFullName2}`;
+  }
 
   return (
     <div className={styles.root}>
@@ -31,7 +44,7 @@ function TablesList({ title, items, type }) {
                   key={item+item.id}
                   name={
                 type === 'links'
-                  ? `${item.object1.object_name} - ${item.object2.object_name}`
+                  ? createObjectName(item.object1.table_id, item.object2.table_id)
                   : null
               }
                   onDoubleClick={handleClick}

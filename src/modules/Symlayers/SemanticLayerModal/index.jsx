@@ -18,7 +18,7 @@ import TextFieldItem from './ModalItem/TextFieldItem';
 import { setSemantycLayerDataName } from '../../../data/actions/schemaDesigner';
 import { REDIRECT_LINKS } from '../../../common/constants/common'
 import { createUniverse, getUniversesFolderId } from '../../../data/actions/universes';
-import { setUniverseIsCreated } from '../../../data/reducers/data';
+import { setCurrentUniverse, setUniverseIsCreated } from '../../../data/reducers/data';
 
 const semLayerValues = {
   name: 'Новый семантический слой 1',
@@ -60,13 +60,14 @@ const SemanticLayerModal = ({ onClick, onSave, onClose, isVisible, ...props }) =
       unvObject.header.name = modalData.name;
       unvObject.header.description = modalData.description;
       unvObject.header.parent_id = unvRootFolderId;
+      dispatch(setCurrentUniverse(unvObject));
       setUniverse(unvObject);
     }
   }, [sampleUnvObject]);
 
   useEffect(() => {
     if (!lodash.isEmpty(universe)) {
-      const {header, data} = universe
+      const {header, data} = universe;
       dispatch(createUniverse({header, data}));
     }
   }, [universe]);

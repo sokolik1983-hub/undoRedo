@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const data = createSlice({
   name: 'data',
   initialState: {
+    currentUniverse: {},
     connectors: {},
     connectorsFolderId: 0,
     connectorsTree: [],
@@ -176,6 +177,9 @@ const data = createSlice({
     },
     failedFavoriteObjects: (state) => {
       state.favoriteObjects.favoriteObjectsStatus = 'FAILED';
+    },
+    setCurrentUniverse: (state, action) => {
+      state.currentUniverse = action.payload;
     }
   },
 });
@@ -216,6 +220,7 @@ export const {
   loadingFavoriteObjects,
   successFavoriteObjects,
   failedFavoriteObjects,
+  setCurrentUniverse
 } = data.actions;
 
 export default data.reducer;

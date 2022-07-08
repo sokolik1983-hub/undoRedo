@@ -26,10 +26,14 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
   const [sqlEditorOpened, setSqlEditorOpened] = useState(false); // показывает модалку с редактированиемм SQL
   const [leftSelected, setLeftSelected] = useState([]);
   const [rightSelected, setRightSelected] = useState([]);
-  const [leftSchema, setLeftSchema] = useState([]);
-  const [rightSchema, setRightSchema] = useState([]);
+  // const [leftSchema, setLeftSchema] = useState([]);
+  // const [rightSchema, setRightSchema] = useState([]);
   const [rightTable, setRightTable] = useState(null); // name правой таблицы
   const [leftTable, setLeftTable] = useState(null); // name левой таблицы
+  const [leftTableFields, setLeftTableFields] = useState(null);
+  const [rightTableFields, setRightTableFields] = useState(null);
+  const [leftTableId, setLeftTableId] = useState(null);
+  const [rightTableId, setRightTableId] = useState(null);
   const [leftColumns, setLeftColumns] = useState([]);
   const [rightColumns, setRightColumns] = useState([]);
   
@@ -48,30 +52,53 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
     state => state.app.schemaDesigner.connectorObjects
   );  
 
-  console.log(currentObjLink)
-
-  useEffect(() => {
-    if (connectorObjects.length && leftTable && rightTable) {
-      connectorObjects?.forEach(schema => {
-        if (leftTable.includes(schema.schema)) {
-          setLeftSchema(schema.schema)
-        }
-        if (rightTable.includes(schema.schema)) {
-          setRightSchema(schema.schema);
-        }
-      })
-    } 
-  }, [connectorObjects, leftTable, rightTable]);
+  // useEffect(() => {
+  //   if (connectorObjects.length && leftTable && rightTable) {
+  //     connectorObjects?.forEach(schema => {
+  //       if (leftTable.includes(schema.schema)) {
+  //         setLeftSchema(schema.schema)
+  //       }
+  //       if (rightTable.includes(schema.schema)) {
+  //         setRightSchema(schema.schema);
+  //       }
+  //     })
+  //   } 
+  // }, [connectorObjects, leftTable, rightTable]);
 
   const convertedData = useMemo(() => {
     return selectedTablesData.map((table, idx) => ({
-      id: idx,
+      table_id: idx,
       name: `${table.schema}_${table.objectName}`,
       columns: table.columns
     }));
   }, [selectedTablesData]);
 
-  console.log(convertedData, selectedTablesData)
+  const searchField = (field, tableNum) => {
+      console.log(field)
+      if (tableNum === 'left') {
+        const selectTable = selectedTablesData?.find(table => table.id === leftTableId);
+        const findField = selectTable?.columns?.find(col => col.field === field);
+        setLeftTableFields([findField]);
+        return findField;
+      }
+      if (tableNum === 'right') {
+        const selectTable = selectedTablesData?.find(table => table.id === rightTableId);
+        const findField = selectTable?.columns.find(col => col.field === field);
+        setRightTableFields([findField]);
+        return findField;
+      }
+      return null
+  }
+
+  useEffect(() => {
+    if (leftSelected) 
+      searchField(leftSelected[0], 'left');
+    
+    if (rightSelected) 
+      searchField(rightSelected[0], 'right');
+  }, [leftSelected, rightSelected]);
+
+  // console.log(convertedData, selectedTablesData)
 
   useEffect(() => {
     convertedData.forEach(table => {
@@ -82,26 +109,76 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
         setRightColumns(table.columns);
       }
     })
-  }, [convertedData, leftTable, rightTable])
+  }, [convertedData, leftTable, rightTable]);
 
+  const createObjectName = tableId => {
+    const finded = selectedTablesData?.find(tableData => tableData.id === tableId);
+    const schema = finded?.schema;
+    const objectName = finded?.objectName;
+    const objectFullName = `${schema}_${objectName}`;
+    return objectFullName;
+  };
+
+  useEffect(() => {
+    if (leftTableId >= 0 && !leftTable) {
+      setLeftTable(createObjectName(leftTableId)); 
+    }
+    if (rightTableId >= 0 && !rightTable) {
+      setRightTable(createObjectName(rightTableId)); 
+    }
+  }, [leftTableId, rightTableId]);
+
+  const switchCondition = cond => {
+    switch (cond) {
+      case '=' :
+        return 'EQUAL';
+      case '!=' :
+        return 'NOT EQUAL';
+      case '<' :
+        return 'LESS THAN';
+      case '>' :
+        return 'MORE THAN';
+      case 'EQUAL' :
+        return '=';
+      case 'NO_EQUAL' :
+        return '!=';
+      case 'LESS_THAN' :
+        return '<';
+      case 'MORE_THAN' :
+        return '>';
+      default :
+        return null;
+    }
+  }
 
   useEffect(() => {
     setResultExpression(
       createExpression(
+        // leftSelected || currentObjLink?.object1.fields || currentObjLink?.object1.tempField,
         leftSelected || currentObjLink?.object1.fields,
-        rightSelected || currentObjLink?.object2.fields,
-        condition, 
-        leftTable || currentObjLink?.object1.object_name,
-        rightTable || currentObjLink?.object2.object_name
+        rightSelected ||  currentObjLink?.object2.fields,
+        // rightSelected ||  currentObjLink?.object2.fields || currentObjLink?.object2.tempField,
+        switchCondition(condition), 
+        leftTable || createObjectName(currentObjLink?.object1.table_id),
+        rightTable || createObjectName(currentObjLink?.object2.table_id)
       )
     );
-  }, [rightSelected, leftSelected, condition]);
+  }, [rightSelected, leftSelected, leftTable, rightTable, leftTableFields, rightTableFields, condition]);
 
   const closeHandler = () => {
     return dispatch(setObjectsConnectionsModal(false));
   };  
 
   const saveHandler = () => {
+    let leftFields = leftTableFields[0] ? leftTableFields[0] : searchField(currentObjLink.object1.fields[0], 'left');
+    let rightFields = rightTableFields[0] ? rightTableFields[0] : searchField(currentObjLink.object2.fields[0], 'right');
+    if(!Array.isArray(leftFields) && !Array.isArray(rightFields)) {
+      leftFields = [leftFields];
+      rightFields = [rightFields]
+    }
+    console.log(leftTableFields, leftTableFields[0] ? 'NOT EXEC' : 'EXEC')
+    console.log(rightTableFields, rightTableFields[0] ? 'NOT EXEC' : 'EXEC')
+
     if (!currentObjLink) {
       dispatch(
         addLink({
@@ -110,17 +187,17 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
           expression: resultExpression,
           object1: {
             cardinality: 'one',
-            object_name: leftTable,
-            schema: leftSchema,
-            fields: leftSelected,
-            outerJoin: null
+            table_id: leftTableId,
+            fields: leftTableFields,
+            // fields: leftSelected,
+            outerJoin: 0
           },
           object2: {
             cardinality: 'one',
-            object_name: rightTable,
-            schema: rightSchema,
-            fields: rightSelected,
-            outerJoin: null
+            table_id: rightTableId,
+            fields: rightTableFields,
+            // fields: rightSelected,
+            outerJoin: 0
           }
         })
       );
@@ -132,17 +209,17 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
             expression: resultExpression,
             object1: {
               cardinality: 'one',
-              object_name: leftTable,
-              schema: leftSchema,
-              fields: leftSelected || currentObjLink.object1.fields,
-              outerJoin: null
+              table_id: leftTableId,
+              fields: leftFields,
+              // fields: leftSelected || currentObjLink.object1.fields,
+              outerJoin: 0
             },
             object2: {
               cardinality: 'one',
-              object_name: rightTable,
-              schema: rightSchema,
-              fields: rightSelected || currentObjLink.object2.fields,
-              outerJoin: null
+              table_id: rightTableId,
+              fields: rightFields,
+              // fields: rightSelected || currentObjLink.object2.fields,
+              outerJoin: 0
             }
         })
       )
@@ -154,17 +231,17 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
             expression: resultExpression,
             object1: {
               cardinality: 'one',
-              object_name: leftTable,
-              schema: leftSchema,
-              fields: leftSelected || currentObjLink.object1.fields,
-              outerJoin: null
+              table_id: leftTableId,
+              fields: leftFields,
+              // fields: leftSelected || currentObjLink.object1.fields,
+              outerJoin: 0
             },
             object2: {
               cardinality: 'one',
-              object_name: rightTable,
-              schema: rightSchema,
-              fields: rightSelected || currentObjLink.object2.fields,
-              outerJoin: null
+              table_id: rightTableId,
+              fields: rightFields,
+              // fields: rightSelected || currentObjLink.object2.fields,
+              outerJoin: 0
             }
         })
       )
@@ -181,12 +258,15 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
     }
   };
 
-  const handleSelectTable = (table, tableName) => {
+  const handleSelectTable = (tableId, tableName) => {
+    const objectFullName = createObjectName(tableId);
     if (tableName === TABLES_NAME_FOR_CONNECT.TABLE_A) {
-      setLeftTable(table);
+      setLeftTableId(tableId);
+      setLeftTable(objectFullName);
     }
     if (tableName === TABLES_NAME_FOR_CONNECT.TABLE_B) {
-      setRightTable(table);
+      setRightTableId(tableId);
+      setRightTable(objectFullName);
     }
   };
 
@@ -211,7 +291,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
             onSelectColumn={setSelectedColumns}
             onSelectTable={handleSelectTable}
             tableSelected={getTableSelected()}
-            currentLeftTable={currentObjLink?.object1.object_name}
+            currentLeftTable={createObjectName(currentObjLink?.object1.table_id)}
             currentLeftColumns={currentObjLink?.object1.fields}
           />
           <ConnectionType onSelectExpression={setSelectedCondition} currentExpression={currentObjLink?.condition} />
@@ -221,7 +301,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
             onSelectColumn={setSelectedColumns}
             onSelectTable={handleSelectTable}
             tableSelected={getTableSelected()}
-            currentLeftTable={currentObjLink?.object2.object_name}
+            currentLeftTable={createObjectName(currentObjLink?.object2.table_id)}
             currentRightColumns={currentObjLink?.object2.fields}
           />
         </div>

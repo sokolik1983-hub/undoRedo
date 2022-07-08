@@ -185,14 +185,16 @@ const TableComponent = ({
       deltaPosition: { x: 0, y: 0 }
     };
     if (tableItem?.columns && !repeat) {
-      console.log(props)
-      dispatch(setSelectedTablesData({id: selectedTablesData.length,
+      const tempTable = {...tableItem};
+      delete tempTable.table_id;
+      dispatch(setSelectedTablesData({
+        id: selectedTablesData.length,
         "parentTable_id": null,
         "sql": null,
         "viewType": "Head",
         "viewHeight": 200,  
         "position": position.deltaPosition,
-      ...tableItem}));
+      ...tempTable}));
     }
   }, [tableItem]);
 
@@ -382,8 +384,8 @@ const TableComponent = ({
     const object1 = {
       cardinality: 'one',
       object_name: `${table.schema}_${table.objectName}`,
+      table_id: table.table_id,
       outerJoin: null,
-      schema: `${table.schema}`,
       fields: [field.field]
     }
     event.dataTransfer.setData('object1', JSON.stringify(object1));
@@ -418,8 +420,8 @@ const TableComponent = ({
     const object2 = {
       cardinality: 'one',
       object_name: `${table.schema}_${table.objectName}`,
+      table_id: table.table_id,
       outerJoin: null,
-      schema: `${table.schema}`,
       fields: [field.field]
     }
 
