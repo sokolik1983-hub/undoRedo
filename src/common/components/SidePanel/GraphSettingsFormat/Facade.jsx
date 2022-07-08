@@ -20,6 +20,7 @@ const Facade = ({ onChange }) => {
             <div className={styles.grad}>Gradient</div>
           </div>
           <ColorPicker
+            className={styles.colorPicker}
             icon={<FormatColorFillIcon />}
             onChangeColor={color =>
               onChange({
@@ -27,14 +28,15 @@ const Facade = ({ onChange }) => {
               })}
           />
         </div>
-        <BordersConfig
-          onChange={params => onChange(params)}
-        />
       </SimpleDropDown>
       <SimpleDropDown
         title='Граница'
         titleClassName={styles.heading}
-      />
+      >
+        <BordersConfig
+          onChange={params => onChange(params)}
+        />
+      </SimpleDropDown>
     </div>
   )
 }

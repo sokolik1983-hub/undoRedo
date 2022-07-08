@@ -8,7 +8,9 @@ const Styles = () => {
       <SimpleDropDown
         title='Стиль показателя'
         titleClassName={styles.heading}
-      />
+      >
+        <div className={styles.text}>Ось значений 1</div>
+      </SimpleDropDown>
       <SimpleDropDown
         title='Палитры'
         titleClassName={styles.heading}

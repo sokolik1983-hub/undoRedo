@@ -26,7 +26,7 @@ const View = () => {
               <CheckboxField
                 key={item.value}
                 id={item.value}
-                name="viewValues"
+                name='viewValues'
                 label={item.label}
                 value={item.value}
                 wrapperClass={styles.checkBoxWrapper}
@@ -49,7 +49,7 @@ const View = () => {
                     <CheckboxField
                       key={item.value}
                       id={item.value}
-                      name="viewValues"
+                      name='categoryAxisValues'
                       label={item.label}
                       value={item.value}
                       wrapperClass={styles.checkBoxWrapper}
@@ -68,7 +68,7 @@ const View = () => {
                     <CheckboxField
                       key={item.value}
                       id={item.value}
-                      name="viewValues"
+                      name='valueAxisValues'
                       label={item.label}
                       value={item.value}
                       wrapperClass={styles.checkBoxWrapper}
@@ -87,7 +87,7 @@ const View = () => {
                     <CheckboxField
                       key={item.value}
                       id={item.value}
-                      name="viewValues"
+                      name='hideValues'
                       label={item.label}
                       value={item.value}
                       wrapperClass={styles.checkBoxWrapper}
@@ -106,7 +106,7 @@ const View = () => {
                     <CheckboxField
                       key={item.value}
                       id={item.value}
-                      name="viewValues"
+                      name='measureGaugeValues'
                       label={item.label}
                       value={item.value}
                       wrapperClass={styles.checkBoxWrapper}
@@ -120,7 +120,17 @@ const View = () => {
         <SimpleDropDown
           title='Ошибки и предупреждения'
           titleClassName={styles.heading}
-        />
+        >
+          <div className={styles.checkBox}>
+            <CheckboxField
+              id={155}
+              name='viewValues'
+              label='Показать предупреждение при наличии несовместимых данных'
+              value='showIncompatibleDataWarning'
+              wrapperClass={styles.checkBoxWrapper}
+            />
+          </div>
+        </SimpleDropDown>
       </div>
     </Formik>
   )

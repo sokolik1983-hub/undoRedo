@@ -27,6 +27,18 @@ export const MeasureGaugeItems = [
   { value: 'showGaugeValuesWithSumOfZeroValues', label: 'Показывать значения показателя, для которых сумма значений = 0' }
 ];
 
+export const FormatVerticalItems = [
+  { value: 'avoidPageBreaks', label: 'Избегать разрывов страниц' },
+  { value: 'startOnNewPage', label: 'Начало на новой странице' },
+  { value: 'repeatOnEveryPage', label: 'Повторять на каждой странице' }
+];
+
+export const FormatHorizontalItems = [
+  { value: 'avoidPageBreaks', label: 'Избегать разрывов страниц' },
+  { value: 'startOnNewPage', label: 'Начало на новой странице' },
+  { value: 'repeatOnEveryPage', label: 'Повторять на каждой странице' }
+];
+
 export const values = {
   name: '',
   value: '',
