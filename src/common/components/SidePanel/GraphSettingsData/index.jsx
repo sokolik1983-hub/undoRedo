@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable import/prefer-default-export */
 import { GRAPH_ICONS } from '../../../constants/reportDesigner/reportDesignerIcons';
 import styles from '../SidePanel.module.scss';
+import SimpleDropDown from '../../SimpleDropDown';
 
-export const GraphSettingsData = ({ setVariant }) => {
+const GraphSettingsData = ({ setVariant }) => {
 
   const graphItems = [{
     id: 1
@@ -32,10 +32,10 @@ export const GraphSettingsData = ({ setVariant }) => {
       <div className={styles.heading}>
         Присвоение данных
         <div className={styles.itemsWrapper}>
-          <details>
-            <summary className={styles.text}>
-              Ось значений
-            </summary>
+          <SimpleDropDown
+            title='Ось значений'
+            titleClassName={styles.text}
+          >
             {graphItems?.map(object => {
             return (
               <div 
@@ -55,11 +55,11 @@ export const GraphSettingsData = ({ setVariant }) => {
                 Перетащите объект из списка объектов
               </div>
           )})}
-          </details>
-          <details>
-            <summary className={styles.text}>
-              Ось категории
-            </summary>
+          </SimpleDropDown>
+          <SimpleDropDown
+            title='Ось категории'
+            titleClassName={styles.text}
+          >
             {graphItems?.map(object => {
             return (
               <div 
@@ -79,11 +79,11 @@ export const GraphSettingsData = ({ setVariant }) => {
                 Перетащите объект из списка объектов
               </div>
           )})}
-          </details>
-          <details>
-            <summary className={styles.text}>
-              Цвет
-            </summary>
+          </SimpleDropDown>
+          <SimpleDropDown
+            title='Цвет'
+            titleClassName={styles.text}
+          >
             {graphItems?.map(object => {
             return (
               <div 
@@ -102,10 +102,12 @@ export const GraphSettingsData = ({ setVariant }) => {
               >
                 Перетащите объект из списка объектов
               </div>
-              )})}
-          </details>
+          )})}
+          </SimpleDropDown>
         </div>
       </div>
     </>
   )
 }
+
+export default GraphSettingsData;

@@ -89,16 +89,7 @@ function HomePage() {
     </div>
   );
 
-<<<<<<< HEAD
-  const isFavoritesLoading = favoriteObjectsStatus === 'LOADING';
-  const isFavoritesFailed = favoriteObjectsStatus === 'FAILED' && !favoriteObjectsData.length;
-  const isFavoritesEmpty = !isFavoritesLoading && !favoriteObjectsData.length;
-  const noDataFetching = isFavoritesLoading && !favoriteObjectsData.length
-
-  const handleClick = () => {
-=======
   const handleReportCreate = () => {
->>>>>>> develop
     navigate(REDIRECT_LINKS.REPORT_CREATE);
   };
 

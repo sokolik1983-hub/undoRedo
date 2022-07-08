@@ -35,10 +35,7 @@ import {
 } from '../../data/actions/universes';
 import { deleteReport } from '../../data/actions/newReportDesigner';
 // import { openReport } from '../../data/actions/newReportDesigner';
-<<<<<<< HEAD
-=======
-import { setObjectToFavorites } from '../../data/actions/app';
->>>>>>> develop
+import { setObjectToFavorites } from '../../data/actions/app'
 
 const Reports = () => {
   const navigate = useNavigate();
@@ -150,8 +147,6 @@ const Reports = () => {
       })
     );
   };
-<<<<<<< HEAD
-=======
 
   const handleAddToFavorites = id => {
     dispatch(setObjectToFavorites({ user_id: 10001, id, kind: 'REP' }));
@@ -162,7 +157,6 @@ const Reports = () => {
       setObjectToFavorites({ user_id: 10001, id, kind: 'REP', isExclude: 1 })
     );
   };
->>>>>>> develop
 
   const handleItemClick = (id, action) => {
     switch (action) {
@@ -175,15 +169,6 @@ const Reports = () => {
       case 'delete':
         handleDeleteClick(id);
         break;
-<<<<<<< HEAD
-      // case 'addToFavorites':
-      //   handleAddToFavorites(id)
-      //   break;
-      // case 'removeFromFavorites':
-      //   handleRemoveFromFavorites(id)
-        // break;
-     default:
-=======
       case 'addToFavorites':
         handleAddToFavorites(id);
         break;
@@ -191,7 +176,6 @@ const Reports = () => {
         handleRemoveFromFavorites(id);
         break;
       default:
->>>>>>> develop
         console.log(action);
     }
   };

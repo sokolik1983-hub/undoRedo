@@ -1,55 +1,129 @@
-/* eslint-disable import/prefer-default-export */
+import { Formik } from 'formik';
 import styles from '../SidePanel.module.scss';
+import SimpleDropDown from '../../SimpleDropDown';
+import CheckboxField from '../../formikFields/checkboxField';
+import {
+  values,
+  ViewItems,
+  CategoryAxisItems,
+  ValueAxisItems,
+  HideItems,
+  MeasureGaugeItems
+} from '../../../constants/reportDesigner/viewGraphOptions';
 
-export const View = () => {
-
-  // const graphItems = [{
-  //   id: 1
-  // }, {
-  //   id: 2
-  // },{
-  //   id: 3
-  // }]
+const View = () => {
 
   return (
-    <div className={styles.itemsWrapper}>
-      <details>
-        <summary className={styles.heading}>
-          Просмотр
-        </summary>
-        <div className={styles.indents}>
-          <details>
-            <summary className={styles.text}>
-              Условные обозначения
-            </summary>
-          </details>
-          <details>
-            <summary className={styles.text}>
-              Ось категории
-            </summary>
-          </details>
-          <details>
-            <summary className={styles.text}>
-              Ось значений
-            </summary>
-          </details>
-          <details>
-            <summary className={styles.text}>
-              Скрыть диаграмму
-            </summary>
-          </details>
-          <details>
-            <summary className={styles.text}>
-              Измерения и показатели
-            </summary>
-          </details>
-        </div>
-      </details>
-      <details>
-        <summary className={styles.heading}>
-          Ошибки и предупреждения
-        </summary>
-      </details>
-    </div>
+    <Formik initialValues={values}>
+      <div className={styles.itemsWrapper}>
+        <SimpleDropDown
+          title='Просмотр'
+          titleClassName={styles.heading}
+        >
+          <div className={styles.checkBox}>
+            {ViewItems.map(item => {
+            return (
+              <CheckboxField
+                key={item.value}
+                id={item.value}
+                name="viewValues"
+                label={item.label}
+                value={item.value}
+                wrapperClass={styles.checkBoxWrapper}
+              />
+            );
+          })}
+          </div>
+          <div className={styles.indents}>
+            <SimpleDropDown
+              title='Условные обозначения'
+              titleClassName={styles.text}
+            />
+            <SimpleDropDown
+              title='Ось категории'
+              titleClassName={styles.text}
+            >
+              <div className={styles.checkBox}>
+                {CategoryAxisItems.map(item => {
+                  return (
+                    <CheckboxField
+                      key={item.value}
+                      id={item.value}
+                      name="viewValues"
+                      label={item.label}
+                      value={item.value}
+                      wrapperClass={styles.checkBoxWrapper}
+                    />
+                  );
+                })}
+              </div>
+            </SimpleDropDown>
+            <SimpleDropDown
+              title='Ось значений'
+              titleClassName={styles.text}
+            >
+              <div className={styles.checkBox}>
+                {ValueAxisItems.map(item => {
+                  return (
+                    <CheckboxField
+                      key={item.value}
+                      id={item.value}
+                      name="viewValues"
+                      label={item.label}
+                      value={item.value}
+                      wrapperClass={styles.checkBoxWrapper}
+                    />
+                  );
+                })}
+              </div>
+            </SimpleDropDown>
+            <SimpleDropDown
+              title='Скрыть диаграмму'
+              titleClassName={styles.text}
+            >
+              <div className={styles.checkBox}>
+                {HideItems.map(item => {
+                  return (
+                    <CheckboxField
+                      key={item.value}
+                      id={item.value}
+                      name="viewValues"
+                      label={item.label}
+                      value={item.value}
+                      wrapperClass={styles.checkBoxWrapper}
+                    />
+                  );
+                })}
+              </div>
+            </SimpleDropDown>
+            <SimpleDropDown
+              title='Измерения и показатели'
+              titleClassName={styles.text}
+            >
+              <div className={styles.checkBox}>
+                {MeasureGaugeItems.map(item => {
+                  return (
+                    <CheckboxField
+                      key={item.value}
+                      id={item.value}
+                      name="viewValues"
+                      label={item.label}
+                      value={item.value}
+                      wrapperClass={styles.checkBoxWrapper}
+                    />
+                  );
+                })}
+              </div>
+            </SimpleDropDown>
+          </div>
+        </SimpleDropDown>
+        <SimpleDropDown
+          title='Ошибки и предупреждения'
+          titleClassName={styles.heading}
+        />
+      </div>
+    </Formik>
   )
 }
+
+export default View;

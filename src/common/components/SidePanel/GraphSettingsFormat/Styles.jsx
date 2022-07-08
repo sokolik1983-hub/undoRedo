@@ -1,60 +1,47 @@
-/* eslint-disable import/prefer-default-export */
 import styles from '../SidePanel.module.scss';
+import SimpleDropDown from '../../SimpleDropDown';
 
-export const Styles = () => {
-
-  // const graphItems = [{
-  //   id: 1
-  // }, {
-  //   id: 2
-  // },{
-  //   id: 3
-  // }]
-
+const Styles = () => {
+  
   return (
     <div className={styles.itemsWrapper}>
-      <details>
-        <summary className={styles.heading}>
-          Стиль показателя
-        </summary>
-      </details>
-      <details>
-        <summary className={styles.heading}>
-          Палитры
-        </summary>
-      </details>
-      <details>
-        <summary className={styles.heading}>
-          Маркеры
-        </summary>
+      <SimpleDropDown
+        title='Стиль показателя'
+        titleClassName={styles.heading}
+      />
+      <SimpleDropDown
+        title='Палитры'
+        titleClassName={styles.heading}
+      />
+      <SimpleDropDown
+        title='Маркеры'
+        titleClassName={styles.heading}
+      >
         <div className={styles.indents}>
-          <details>
-            <summary className={styles.text}>
-              Граница символа
-            </summary>
-          </details>
-          <details>
-            <summary className={styles.text}>
-              Палитра символа
-            </summary>
-          </details>
+          <SimpleDropDown
+            title='Граница символа'
+            titleClassName={styles.text}
+          />
+          <SimpleDropDown
+            title='Палитра символа'
+            titleClassName={styles.text}
+          />
         </div>
-      </details>
-      <details>
-        <summary className={styles.heading}>
-          Гистограмма
-        </summary>
-      </details>
-      <details>
-        <summary className={styles.heading}>
-          3D
-        </summary>
-      </details>
-      <details>
-        <summary className={styles.heading}>
-          Эффекты света и тени
-        </summary>
-      </details>
+      </SimpleDropDown>
+      <SimpleDropDown
+        title='Гистограмма'
+        titleClassName={styles.heading}
+      />
+      <SimpleDropDown
+        title='3D'
+        titleClassName={styles.heading}
+      />
+      <SimpleDropDown
+        title='Эффекты света и тени'
+        titleClassName={styles.heading}
+      />
     </div>
   )
 }
+
+export default Styles;

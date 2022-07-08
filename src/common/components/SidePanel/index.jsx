@@ -27,8 +27,8 @@ import SortingField from './SortingField';
 import { ReactComponent as CloseIcon } from '../../../layout/assets/close.svg';
 import { TABLE_ICONS } from '../../constants/reportDesigner/reportDesignerIcons';
 import { setReportStructure } from '../../../data/actions/newReportDesigner';
-import { GraphSettingsData } from './GraphSettingsData';
-import { GraphSettingsFormat } from './GraphSettingsFormat';
+import GraphSettingsData from './GraphSettingsData';
+import GraphSettingsFormat from './GraphSettingsFormat';
 import { NAV_MENU_TABLE, getNavMenu } from '../../constants/reportDesigner/reportDesignerMenu';
 // import { deepObjectSearch } from '../../../data/helpers';
 
@@ -460,7 +460,7 @@ export default function SidePanel({ navType }) {
               </>
             )}
             {activeNode?.type.includes('Chart') && (
-              <GraphSettingsFormat />
+              <GraphSettingsFormat formattingElement={formattingElement} />
             )}
             {activeNode?.type === 'cell' && (
               <StyleFormatter

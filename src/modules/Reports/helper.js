@@ -1,11 +1,8 @@
 import { ReactComponent as EditIcon } from '../../layout/assets/folderItemEdit.svg';
 import { ReactComponent as BinIcon } from '../../layout/assets/folderItemBin.svg';
 import { ReactComponent as ShowIcon } from '../../layout/assets/showIcon.svg';
-<<<<<<< HEAD
-=======
 import { ReactComponent as FavoriteIcon } from '../../layout/assets/favoriteIcon.svg';
-import { ReactComponent as RemoveFromFavoritesIcon } from '../../layout/assets/removeFromFavorites.svg'
->>>>>>> develop
+import { ReactComponent as RemoveFromFavoritesIcon } from '../../layout/assets/removeFromFavorites.svg';
 
 export const sortFoldersAndItems = folderChildren => {
   if (!folderChildren) return null;

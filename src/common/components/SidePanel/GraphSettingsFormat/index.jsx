@@ -1,16 +1,18 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable import/prefer-default-export */
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { NAV_MENU_GRAPH } from '../../../constants/reportDesigner/reportDesignerMenu';
+import { setTableStyle } from '../../../../data/reducers/new_reportDesigner';
 import NavigationMenu from '../NavigationMenu';
-import { View } from './View';
-import { Facade } from './Facade';
-import { Styles } from './Styles';
-import { Format } from './Format';
+import View from './View';
+import Facade from './Facade';
+import Styles from './Styles';
+import Format from './Format';
 
-export const GraphSettingsFormat = () => {
+const GraphSettingsFormat = ({ formattingElement }) => {
   const [activeSubMenu, setActiveSubMenu] = useState(1);
-
+  const dispatch = useDispatch();
+  
   return (
     <div>
       <NavigationMenu
@@ -22,7 +24,10 @@ export const GraphSettingsFormat = () => {
         <View />
         )}
       {activeSubMenu === 2 && (
-        <Facade />
+        <Facade
+          onChange={params =>
+          dispatch(setTableStyle({ ...params, formattingElement }))}
+        />
         )}
       {activeSubMenu === 3 && (
         <Styles />
@@ -33,3 +38,5 @@ export const GraphSettingsFormat = () => {
     </div>
   )
 }
+
+export default GraphSettingsFormat;

@@ -1,7 +1,7 @@
-/* eslint-disable import/prefer-default-export */
 import styles from '../SidePanel.module.scss';
+import SimpleDropDown from '../../SimpleDropDown';
 
-export const Format = () => {
+const Format = () => {
   // const graphItems = [{
   //   id: 1
   // }, {
@@ -12,21 +12,20 @@ export const Format = () => {
 
   return (
     <div className={styles.itemsWrapper}>
-      <details>
-        <summary className={styles.heading}>
-          Размер
-        </summary>
-      </details>
-      <details>
-        <summary className={styles.heading}>
-          Относительная позиция
-        </summary>
-      </details>
-      <details>
-        <summary className={styles.heading}>
-          Формат
-        </summary>
-      </details>
+      <SimpleDropDown
+        title='Размер'
+        titleClassName={styles.heading}
+      />
+      <SimpleDropDown
+        title='Относительная позиция'
+        titleClassName={styles.heading}
+      />
+      <SimpleDropDown
+        title='Формат'
+        titleClassName={styles.heading}
+      />
     </div>
   )
 }
+
+export default Format;
