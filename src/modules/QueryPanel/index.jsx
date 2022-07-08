@@ -146,7 +146,7 @@ const QueryPanel = ({ visible }) => {
       dispatch(
         createQuery({
           // TODO: правильный dpUniverse_id
-          dpUniverse_id: 10692,
+          dpUniverse_id: 10870,
           dpSpec: {
             queryType: 'Query',
             querySetType: null,
