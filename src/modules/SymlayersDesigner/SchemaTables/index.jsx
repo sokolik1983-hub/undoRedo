@@ -334,7 +334,6 @@ useMemo(() => {
           props.objectsLinks?.map(link => {
             const objectFullName1 = createObjectName(link.object1.table_id);
             const objectFullName2 = createObjectName(link.object2.table_id);
-            console.log(link.object1)
             const SourceRect = targetRect(
               Object.values(tables)?.find(
                 table => `${table.schema}_${table.objectName}` === objectFullName1
