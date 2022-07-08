@@ -36,6 +36,12 @@ export function setTableStyles(reportStructure, reportsUi, style) {
   });
 }
 
+const defaultExpression =  {
+      dataType: 'String',
+      formula: '',
+      type: 'Const'
+    }
+
 export const createReportElement = ({ type, mousePosition }) => {
   const { x, y } = mousePosition;
 
@@ -69,7 +75,7 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-                expression: {},
+                expression: defaultExpression,
                 id: `${generateId()}.H.1`,
                 row: 1,
                 size: {
@@ -88,7 +94,7 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-                expression: {},
+                expression: defaultExpression,
                 id: `${generateId()}.B.1`,
                 row: 1,
                 size: {
@@ -107,7 +113,7 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-                expression: {},
+                expression: defaultExpression,
                 id: `${generateId()}.F.1`,
                 row: 1,
                 size: {
@@ -144,7 +150,7 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-
+                expression: defaultExpression,
                 id: `${generateId()}.H.1`,
                 row: 1,
                 size: {
@@ -163,14 +169,14 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-
+                expression: defaultExpression,
                 id: `${generateId()}.B.1`,
                 row: 1,
                 size: {
                   minimalHeight: 12,
                   minimalWidth: 100
                 },
-                style: defaultCellStyle
+                style: defaultCellStyle,
               }
             ],
             hType: 'header',
@@ -182,7 +188,7 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-
+                expression: defaultExpression,
                 id: `${generateId()}.F.1`,
                 row: 1,
                 size: {
@@ -219,7 +225,7 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-                expression: {},
+                expression: defaultExpression,
                 id: `${generateId()}.HH.1_1`,
                 row: 1,
                 size: {
@@ -238,7 +244,7 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-                expression: {},
+                expression: defaultExpression,
                 id: `${generateId()}.BH.1_1`,
                 row: 1,
                 size: {
@@ -256,7 +262,7 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-                expression: {},
+                expression: defaultExpression,
                 id: `${generateId()}.FH.1_1`,
                 row: 1,
                 style: defaultCellStyle
@@ -271,7 +277,7 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-                expression: {},
+                expression: defaultExpression,
                 id: `${generateId()}.HB.1_1`,
                 row: 1,
                 size: {
@@ -289,7 +295,7 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-                expression: {},
+                expression: defaultExpression,
                 id: `${generateId()}.BB.1_1`,
                 row: 1,
                 size: {
@@ -307,7 +313,7 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-                expression: {},
+                expression: defaultExpression,
                 id: `${generateId()}.FB.1_1`,
                 row: 1,
                 style: defaultCellStyle
@@ -322,7 +328,7 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-                expression: {},
+                expression: defaultExpression,
                 id: `${generateId()}.HF.1_1`,
                 row: 1,
                 size: {
@@ -342,7 +348,8 @@ export const createReportElement = ({ type, mousePosition }) => {
                 col: 1,
                 id: `${generateId()}.BF.1_1`,
                 row: 1,
-                style: defaultCellStyle
+                style: defaultCellStyle,
+                expression: defaultExpression,
               }
             ],
             hType: 'body',
@@ -354,7 +361,7 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-                expression: {},
+                expression: defaultExpression,
                 id: `${generateId()}.FF.1_1`,
                 row: 1,
                 style: defaultCellStyle

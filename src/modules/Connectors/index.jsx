@@ -98,6 +98,13 @@ function Connectors() {
   const [showPreloader, setShowPreloader] = useState(false); // показ прелоудера
   const [connectorFields, setConnectorFields] = useState(false); // показ полей ввода коннектора
 
+  useEffect(() => {
+    if (connectType && connectSource) {
+      setConnectorFields(true);
+      getConnectorObjectFromBack();
+    }
+  }, [connectType, connectSource]);
+
   // Видима/невидима модалка добавления коннектора
   const [isVisible, setIsVisible] = useState(false);
 

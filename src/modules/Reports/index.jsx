@@ -11,7 +11,8 @@ import ListTableRow from '../../common/components/List/ListTableView/ListTableRo
 import {
   connectorsTableHeader,
   FOLDER_DROPDOWN_ACTIONS,
-  REPORT_STRUCTURE_DROPDOWN_ACTIONS,
+  // REPORT_STRUCTURE_DROPDOWN_ACTIONS,
+  FOLDER_ITEM_DROPDOWN_ACTIONS_REPORTS,
   sortFoldersAndItems
 } from './helper';
 import { ReactComponent as FolderIcon } from '../../layout/assets/folderIcon.svg';
@@ -34,6 +35,10 @@ import {
 } from '../../data/actions/universes';
 import { deleteReport } from '../../data/actions/newReportDesigner';
 // import { openReport } from '../../data/actions/newReportDesigner';
+<<<<<<< HEAD
+=======
+import { setObjectToFavorites } from '../../data/actions/app';
+>>>>>>> develop
 
 const Reports = () => {
   const navigate = useNavigate();
@@ -138,8 +143,26 @@ const Reports = () => {
   };
 
   const handleDeleteClick = id => {
-    dispatch(deleteReport({ id }));
+    dispatch(
+      deleteReport({ id }, () => {
+        dispatch(getReportsFolderId({ folderType: 'USER_REP' }));
+        dispatch(getReportsFolderChildren({ id: reportsRootFolderId }));
+      })
+    );
   };
+<<<<<<< HEAD
+=======
+
+  const handleAddToFavorites = id => {
+    dispatch(setObjectToFavorites({ user_id: 10001, id, kind: 'REP' }));
+  };
+
+  const handleRemoveFromFavorites = id => {
+    dispatch(
+      setObjectToFavorites({ user_id: 10001, id, kind: 'REP', isExclude: 1 })
+    );
+  };
+>>>>>>> develop
 
   const handleItemClick = (id, action) => {
     switch (action) {
@@ -152,6 +175,7 @@ const Reports = () => {
       case 'delete':
         handleDeleteClick(id);
         break;
+<<<<<<< HEAD
       // case 'addToFavorites':
       //   handleAddToFavorites(id)
       //   break;
@@ -159,13 +183,22 @@ const Reports = () => {
       //   handleRemoveFromFavorites(id)
         // break;
      default:
+=======
+      case 'addToFavorites':
+        handleAddToFavorites(id);
+        break;
+      case 'removeFromFavorites':
+        handleRemoveFromFavorites(id);
+        break;
+      default:
+>>>>>>> develop
         console.log(action);
     }
   };
 
   const getUniverseDropdownItems = id => (
     <div className={styles.itemsWrapper}>
-      {REPORT_STRUCTURE_DROPDOWN_ACTIONS.map(item => (
+      {FOLDER_ITEM_DROPDOWN_ACTIONS_REPORTS.map(item => (
         <Tooltip
           key={item.title}
           overlay={<div className={styles.tooltip}>{item.title}</div>}

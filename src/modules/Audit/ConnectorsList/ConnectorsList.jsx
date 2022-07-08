@@ -58,6 +58,7 @@ const ConnectorsList = ({ audit, auditHeaders }) => {
     setFoldersHistory([rootFolder]);
   }, [connectors]);
 
+
   useEffect(() => {
     setActionButtonIsDisable({
       prev: !currentFolderIndex,

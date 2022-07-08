@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import PanelListItem from '../PanelListItem/PanelListItem';
 import { ReactComponent as FolderIcon } from '../../../../../layout/assets/folderIcon.svg';
 import { ReactComponent as FolderOpenIcon } from '../../../../../layout/assets/folderOpenIcon.svg';
-import { getIconByItemType } from '../../../queryPanelHelper';
 import { DRAG_PARENT_SECTION } from '../../../../../common/constants/common';
 import styles from './PanelListNode.module.scss';
+import { getIconByItemType } from '../../../../QueryPanel/queryPanelHelper';
 
 const PanelListNode = ({ item }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +45,7 @@ const PanelListNode = ({ item }) => {
     <li className={styles.listNode}>
       <PanelListItem
         name={item?.name}
-        icon={getIconByItemType(item.objectType) || <FolderIcon />}
+        icon={getIconByItemType(item.type) || <FolderIcon />}
         isFolder={isFolder}
         draggable
         onDragStart={e => handleDragStart(e, item, DRAG_PARENT_SECTION.TREE)}
