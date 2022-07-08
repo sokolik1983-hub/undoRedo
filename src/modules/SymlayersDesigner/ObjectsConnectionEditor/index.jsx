@@ -74,7 +74,6 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
   }, [selectedTablesData]);
 
   const searchField = (field, tableNum) => {
-      console.log(field)
       if (tableNum === 'left') {
         const selectTable = selectedTablesData?.find(table => table.id === leftTableId);
         const findField = selectTable?.columns?.find(col => col.field === field);
@@ -176,8 +175,6 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
       leftFields = [leftFields];
       rightFields = [rightFields]
     }
-    console.log(leftTableFields, leftTableFields[0] ? 'NOT EXEC' : 'EXEC')
-    console.log(rightTableFields, rightTableFields[0] ? 'NOT EXEC' : 'EXEC')
 
     if (!currentObjLink) {
       dispatch(

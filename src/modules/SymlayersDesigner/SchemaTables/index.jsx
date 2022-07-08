@@ -231,7 +231,6 @@ useMemo(() => {
   );
 
   const targetRect = (table, field) => {
-    console.log(field)
     const { schema, objectName } = table;
     const tableName = getTableIdFromParams({schema, objectName});
     const tp = getTablePosition(tableName) || {

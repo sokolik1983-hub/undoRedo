@@ -153,7 +153,6 @@ const SemanticActions = () => {
   }, [objectsLayers]);
 
   const saveUniverse = () => {
-    console.log(links, formattedObjectLayer, selectedTablesData);
     const universe = JSON.parse(JSON.stringify(currentUniverse));
     universe.data.tables = selectedTablesData;
     universe.data.links = links;
