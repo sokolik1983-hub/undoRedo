@@ -6,19 +6,24 @@ import styles from './HomePageButton.module.scss';
 
 const HomePageButton = ({
   title,
+  kind,
   href,
   icon,
-  isDocument,
   appNameText,
   hasTooltip
 }) => {
+
+  const getStyles = () => {
+    if (kind === 'SL') return styles.homePageSemanticLayerButton
+    if (kind === 'REP') return styles.homePageDocumentButton
+    return styles.homePageButton
+  }
+
   return (
     <div className={styles.homePageButtonWrapper}>
       <RouterLink to={href || ''}>
         <div
-          className={
-            isDocument ? styles.homePageDocumentButton : styles.homePageButton
-          }
+          className={getStyles()}
         >
           {icon}
         </div>
@@ -48,9 +53,9 @@ HomePageButton.propTypes = {
   title: PropTypes.string,
   href: PropTypes.string,
   icon: PropTypes.node,
-  isDocument: PropTypes.bool,
   appNameText: PropTypes.bool,
-  hasTooltip: PropTypes.bool
+  hasTooltip: PropTypes.bool,
+  kind: PropTypes.string,
 };
 
 export default HomePageButton;

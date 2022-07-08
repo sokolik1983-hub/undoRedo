@@ -23,7 +23,7 @@ function Block({
   const refContent = useRef();
   const dispatch = useDispatch();
   const reportsUi = useSelector(state => state.app.reportDesigner.reportsUi.ui);
-
+ 
   const handleSelectColumn = columnId => event => {
     event.stopPropagation();
     if (isActiveNode) {

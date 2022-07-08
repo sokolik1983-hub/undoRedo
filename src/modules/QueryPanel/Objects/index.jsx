@@ -30,8 +30,8 @@ const Objects = () => {
           <ObjectItem
             key={item.id}
             id={item.id}
-            title={item.field}
-            type={item.objectType_id}
+            title={item.name}
+            type={item.objectType}
             onDeleteItem={() => onDeleteObjectItem(item.id)}
             draggable
             onDragStart={e =>

@@ -1,3 +1,6 @@
+/* eslint-disable camelcase */
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +10,9 @@ import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.modu
 import {
   createQuery,
   getQueryPanelSymanticLayerData,
+  getResultFromQuery,
   getUniverses,
+  postQueryPanelTab,
   setConfirmModal,
   setQueryPanelModal
 } from '../../data/actions/universes';
@@ -22,31 +27,57 @@ import DragNDropProvider from './context/DragNDropContext';
 
 import ModalConfirm from '../../common/components/Modal/ModalConfirm';
 import { getCondition } from './helper';
-import { setSymanticLayerData } from '../../data/reducers/data';
+import data, { setSymanticLayerData } from '../../data/reducers/data';
 import { showToast } from '../../data/actions/app';
-import { TOAST_TYPE } from '../../common/constants/common';
+import { EMPTY_STRING, TOAST_TYPE } from '../../common/constants/common';
+import {
+  FILTER_TYPES,
+  FILTER_TYPES_ARR
+} from './Filters/FiltersDeskItem/constants';
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
-  const [semanticLayerModalOpened, setSemanticLayerModalOpened] =
-    useState(false);
+  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(
+    false
+  );
   const [isQueryExecute, setQueryExecute] = useState(false);
   const [isChanged, setIsChanged] = useState(false);
   const [isSqlPopupOpened, setSqlPopupOpened] = useState(false);
-  const [queryText, setQueryText] = useState('');
+  const [queryText, setQueryText] = useState(EMPTY_STRING);
   const [objects, setObjects] = useState([]);
   const [filters, setFilters] = useState([]);
-  const [errorText, setError] = useState('');
+  const [errorText, setError] = useState(EMPTY_STRING);
 
-  const symLayerData = useSelector((state) => state.app?.data?.symLayersData);
+  const {
+    dpObjects,
+    dpFilter,
+    symLayerName,
+    connectorId,
+    dpSql,
+    dpId,
+    layerTitle
+  } = useSelector(state => {
+    const dpSql = state?.app?.data?.queryData?.dpSql;
+    const {
+      currentLayerTitle,
+      data
+    } = state?.app?.data?.queryPanelSymlayersData;
+    const currentLayer = data?.find(i => i.queryTitle === currentLayerTitle);
+
+    return {
+      dpObjects: currentLayer?.objects || [],
+      dpFilter: currentLayer?.filters || null,
+      symLayerName: currentLayer?.symLayerName || null,
+      connectorId: currentLayer?.connector_id || null,
+      dpId: currentLayer?.dpId || null,
+      dpSql: dpSql || null,
+      layerTitle: currentLayerTitle || EMPTY_STRING
+    };
+  });
 
   const confirmModalOpened = useSelector(
-    (state) => state.app.ui.confirmModalVisible
+    state => state.app.ui.confirmModalVisible
   );
-
-  useEffect(() => {
-    dispatch(getUniverses());
-  }, []);
 
   const handleClose = () => {
     return isChanged
@@ -60,10 +91,21 @@ const QueryPanel = ({ visible }) => {
   };
 
   const handleQueryExecute = () => {
-    setQueryExecute(true);
-    setTimeout(() => {
-      setQueryExecute(false);
-    }, 1000);
+    dispatch(
+      getResultFromQuery({
+        // TODO: id заменить на connectorId
+        id: 'TA',
+        // id: connectorId,
+        dataType: 'Query',
+        // catalog,
+        // schema,
+        // objectName,: 'Query'
+        // fieldName,
+        query: dpSql,
+        // isDistinct,
+        maxRows: 100
+      })
+    );
   };
 
   const handleShowSqlPopup = () => {
@@ -78,13 +120,13 @@ const QueryPanel = ({ visible }) => {
     return setSemanticLayerModalOpened(false);
   };
 
-  const onSelectSemanticLayer = (symLayer) => {
+  const onSelectSemanticLayer = symLayer => {
     dispatch(getQueryPanelSymanticLayerData(symLayer.id));
     setSemanticLayerModalOpened(false);
     setIsChanged(true);
   };
 
-  const handleQueryText = (text) => {
+  const handleQueryText = text => {
     setQueryText(text);
   };
 
@@ -94,13 +136,54 @@ const QueryPanel = ({ visible }) => {
     dispatch(setSymanticLayerData(null));
   };
 
+  const getFilterOperator = filterName => {
+    const filterType = FILTER_TYPES_ARR.find(item => item.text === filterName);
+    return filterType.value;
+  };
+
   const createQueryText = () => {
     if (objects) {
       dispatch(
         createQuery({
-          symlayer_id: symLayerData.symlayer_id,
-          data: objects.map((item) => `${item.parent_folder}.${item.field}`),
-          conditions: filters ? getCondition([filters]) : {}
+          // TODO: правильный dpUniverse_id
+          dpUniverse_id: 10870,
+          dpSpec: {
+            queryType: 'Query',
+            querySetType: null,
+            queries: [],
+            select: objects.map(object => ({
+              id: object.id,
+              folder_id: object.parent_id,
+              parentDimension_id: null,
+              name: object.name,
+              folderName: symLayerName,
+              parentDimensionName: null,
+              dataType: object.dataType,
+              objectType: object.objectType
+            })),
+            // TODO: хардкод одного фильтра
+            filter: dpFilter
+              ? {
+                  type: 'filter',
+                  filterTarget: {
+                    id: dpFilter.fieldItem.id,
+                    dataType: dpFilter.fieldItem.dataType
+                  },
+                  filterOperator: getFilterOperator(dpFilter.itemCondition),
+                  filterOperand1: {
+                    type: 'const',
+                    valueConst: dpFilter.inputValue
+                  }
+                }
+              : {}
+          },
+          dpProperties: {
+            maxRows: -1,
+            maxTime_sec: -1,
+            lastConetxt_id: -1,
+            keepLastContext: 0
+          },
+          context_id: -1
         })
       );
     }
@@ -114,12 +197,51 @@ const QueryPanel = ({ visible }) => {
       );
       setError(' ');
     } else if (isSqlPopupOpened) {
-      setError('');
+      setError(EMPTY_STRING);
       createQueryText();
     } else {
-      setQueryText('');
+      setQueryText(EMPTY_STRING);
     }
   }, [isSqlPopupOpened]);
+
+  const handleApply = () => {
+    dispatch(
+      postQueryPanelTab({
+        dp_id: dpId,
+        dp: {
+          dpConnect_id: 'TA',
+          dpName: layerTitle,
+          dpObjects: dpObjects.map(i => ({
+            dataType: i.dataType,
+            id: `${i.id}`,
+            name: i.name,
+            type: i.objectType
+          })),
+          dpProperties: {},
+          dpSql,
+          dpType: 'directSql',
+          dp_id: dpId,
+          dpSpec: {
+            filter: dpFilter
+              ? {
+                  type: 'filter',
+                  filterTarget: {
+                    id: dpFilter.fieldItem.id,
+                    dataType: dpFilter.fieldItem.dataType
+                  },
+                  filterOperator: getFilterOperator(dpFilter.itemCondition),
+                  filterOperand1: {
+                    type: 'const',
+                    valueConst: dpFilter.inputValue
+                  }
+                }
+              : {}
+          }
+        }
+      })
+    );
+    handleClose();
+  };
 
   const modalContent = () => {
     return (
@@ -127,7 +249,7 @@ const QueryPanel = ({ visible }) => {
         <DragNDropProvider>
           <div className={styles.content}>
             <div className={styles.leftPanel}>
-              <ObjectsPanel modalOpenHandler={handleShowSelector} showHeader />
+              <ObjectsPanel modalOpenHandler={handleShowSelector} />
             </div>
             <div className={styles.rightPanel}>
               <Objects className={styles.section} />
@@ -143,7 +265,7 @@ const QueryPanel = ({ visible }) => {
               <QueryPanelControls
                 onRun={handleQueryExecute}
                 onSql={handleShowSqlPopup}
-                onApply={handleClose} // todo применить функционал переноса в отчет
+                onApply={handleApply} // todo применить функционал переноса в отчет
                 onCancel={handleClose}
               />
             </div>

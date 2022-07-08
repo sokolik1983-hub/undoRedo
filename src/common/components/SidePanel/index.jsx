@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-newline */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,7 +47,7 @@ const NAV_MENU_REPORT = [
 const NAV_MENU_BLOCK = [
   { id: 1, title: 'Данные', icon: <TuneIcon /> },
   // { id: 2, title: 'Filters', icon: <FilterListIcon /> },
-  { id: 3, title: 'Сортировка', icon: <SortIcon /> },
+  // { id: 3, title: 'Сортировка', icon: <SortIcon /> },
   { id: 4, title: 'Форматирование', icon: <BrushIcon /> }
 ];
 
@@ -151,11 +152,19 @@ export default function SidePanel({ navType }) {
   }
 
   function handleRemoveNode() {
-    dispatch(
-      setStructure(
-        currentReport?.structure?.filter(item => item.id !== currentNode.id)
-      )
+    const cloneReport = lodash.cloneDeep(currentReport);
+    cloneReport.structure.pgBody.content.children = currentReport?.structure?.pgBody?.content?.children?.filter(
+      item => item.id !== currentNode.id
     );
+    dispatch(setStructure(cloneReport.structure));
+
+    // dispatch(
+    //   setReportStructure({
+    //     report_id: currentReport.id,
+    //     structure: cloneReport.structure
+    //   })
+    // );
+
     dispatch(setActiveNodes([]));
     dispatch(setConfigPanelVisible(false));
   }
@@ -173,12 +182,12 @@ export default function SidePanel({ navType }) {
       item => item.col !== object.col
     );
 
-    dispatch(
-      setReportStructure({
-        report_id: 'R1',
-        structure: newStructureReport?.structure
-      })
-    );
+    // dispatch(
+    //   setReportStructure({
+    //     report_id: currentReport.id,
+    //     structure: newStructureReport?.structure
+    //   })
+    // );
 
     dispatch(
       removeTableColumn({
@@ -276,12 +285,12 @@ export default function SidePanel({ navType }) {
     );
     currNode.type = variant;
 
-    dispatch(
-      setReportStructure({
-        report_id: 'R1',
-        structure: newStructureReport?.structure
-      })
-    );
+    // dispatch(
+    //   setReportStructure({
+    //     report_id: currentReport.id,
+    //     structure: newStructureReport?.structure
+    //   })
+    // );
   };
 
   function renderBlockPanelContent() {
@@ -466,7 +475,8 @@ export default function SidePanel({ navType }) {
               key={formattingElement?.id}
               isHeader={activeSubMenu === 1}
               onChange={params =>
-                dispatch(setTableStyle({ ...params, formattingElement }))}
+                dispatch(setTableStyle({ ...params, formattingElement }))
+              }
               formattingElement={formattingElement}
             />
           </div>

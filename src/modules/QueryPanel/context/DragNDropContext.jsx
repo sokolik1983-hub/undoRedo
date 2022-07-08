@@ -83,7 +83,7 @@ const DragNDropProvider = ({ children }) => {
 
     const currentItem = JSON.parse(e.dataTransfer.getData('text'));
 
-    const { isFolder } = currentItem;
+    const isFolder = currentItem.objectType === 'Folder';
 
     if (isFolder) {
       const items = flat(currentItem.children);
@@ -104,7 +104,7 @@ const DragNDropProvider = ({ children }) => {
 
     if (parentSection.current === DRAG_PARENT_SECTION.FILTERS) return;
 
-    const { isFolder } = dropped;
+    const isFolder = dropped.objectType === 'Folder';
 
     if (isFolder) {
       const items = flat(dropped.children);
@@ -136,7 +136,7 @@ const DragNDropProvider = ({ children }) => {
     if (
       dropped.type === 'filter-node' ||
       dropped.type === 'filter-item' ||
-      dropped.isFolder
+      dropped.objectType === 'Folder'
     )
       return;
 
@@ -154,6 +154,7 @@ const DragNDropProvider = ({ children }) => {
   };
 
   const getParent = (obj, id) => {
+    // debugger;
     let result = null;
     let idx = null;
 
@@ -189,7 +190,9 @@ const DragNDropProvider = ({ children }) => {
     e.stopPropagation();
 
     let dropped = JSON.parse(e.dataTransfer.getData('text'));
-    if (dropped.isFolder) return;
+    console.log(dropped);
+    console.log(target);
+    if (dropped.objectType === 'Folder') return;
 
     if (parentSection.current !== DRAG_PARENT_SECTION.FILTERS) {
       dropped = createItem(dropped);
@@ -204,6 +207,7 @@ const DragNDropProvider = ({ children }) => {
       dropped.id
     );
     const [targetParent, targetIndex] = getParent(filtersDeskClone, target.id);
+    console.log(targetParent, droppedParent);
 
     /* если дроп айтема на айтем */
     if (target.type === 'filter-item' && dropped.type === 'filter-item') {
@@ -293,7 +297,7 @@ const DragNDropProvider = ({ children }) => {
     e.stopPropagation();
 
     let dropped = JSON.parse(e.dataTransfer.getData('text'));
-    if (dropped.isFolder) return;
+    if (dropped.objectType === 'Folder') return;
 
     if (parentSection.current !== DRAG_PARENT_SECTION.FILTERS) {
       dropped = createItem(dropped);

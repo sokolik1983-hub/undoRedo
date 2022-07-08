@@ -15,6 +15,7 @@ import ListItemEditReport from '../../../../common/components/List/ListItemEdit/
 import { FOLDER_ITEM_DROPDOWN_ACTIONS } from '../../../Reports/helper';
 import { setStructure } from '../../../../data/reducers/new_reportDesigner';
 import { deepObjectSearch } from '../../../../data/helpers';
+// import { setReportStructure } from '../../../../data/actions/newReportDesigner';
 
 const Structure = ({currentReport, onSelect, isActiveNode}) => {
 
@@ -48,12 +49,24 @@ const Structure = ({currentReport, onSelect, isActiveNode}) => {
     
     targ.name= value;
     dispatch(setStructure(newStructure));
+    // dispatch(
+    //   setReportStructure({
+    //     report_id: currentReport.id,
+    //     structure: newStructure
+    //   })
+    // );
   };
 
   const handleDeleteBlock = id => {
     const newStructure = cloneDeep(currentReport.structure);
     const newChildren = newStructure.pgBody?.content?.children.filter(item => item?.id !== id);
     dispatch(setStructure({...newStructure, ...newStructure.pgBody.content.children = newChildren}))
+    // dispatch(
+    //   setReportStructure({
+    //     report_id: currentReport.id,
+    //     structure: newStructure
+    //   })
+    // );
   };
 
 
