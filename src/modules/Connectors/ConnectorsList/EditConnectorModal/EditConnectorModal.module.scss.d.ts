@@ -19,8 +19,12 @@ declare namespace EditConnectorModalModuleScssNamespace {
         selectInput: string;
         selectText: string;
         selectTypeConnection: string;
+        showTestFailed: string;
         testConnectionButton: string;
         testConnectionWrapper: string;
+        testOkIcon: string;
+        textAreaName: string;
+        textarea: string;
     }
 }
 

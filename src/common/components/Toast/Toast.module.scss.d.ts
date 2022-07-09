@@ -7,10 +7,10 @@ declare namespace ToastModuleScssNamespace {
         danger: string;
         modalClose: string;
         notification: string;
+        success: string;
         title: string;
         titleWrapper: string;
         toastInRight: string;
-        warning: string;
     }
 }
 

@@ -1,13 +1,12 @@
 import React from 'react';
 
+import AdminIcon from './layout/assets/adminDashboardButton.svg';
 import AuditIcon from './layout/assets/auditIcon.svg';
 import ConnectorsIcon from './layout/assets/connectorsIcon.svg';
 import DesighIcon from './layout/assets/designIcon.svg';
 import BinIcon from './layout/assets/icons/bin.svg';
 import ExplorerIcon from './layout/assets/icons/explorer.svg';
 import LayersIcon from './layout/assets/layersIcon.svg';
-import RolesIcon from './layout/assets/rolesIcon.svg';
-import UsersIcon from './layout/assets/usersIcon.svg';
 
 const navigationMenu = [
     {
@@ -31,20 +30,14 @@ const navigationMenu = [
     {
         href: '/reports',
         icon: <DesighIcon />,
-        title: 'Дизайнер',
+        title: 'Отчеты',
         id: 'reports',
     },
     {
-        href: '/roles',
-        icon: <RolesIcon />,
-        title: 'Роли',
+        href: '/administrator',
+        icon: <AdminIcon />,
+        title: 'Управление',
         id: 'roles',
-    },
-    {
-        href: '/users',
-        icon: <UsersIcon />,
-        title: 'Пользователи',
-        id: 'users',
     },
     {
         href: '/explorer',

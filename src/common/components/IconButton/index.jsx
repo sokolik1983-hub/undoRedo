@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import styles from './IconButton.module.scss';
@@ -59,26 +58,26 @@ const IconButton = ({
 };
 
 export default IconButton;
-
-IconButton.propTypes = {
-    children: PropTypes.node,
-    onClick: PropTypes.func,
-    size: PropTypes.string,
-    color: PropTypes.string,
-    disabled: PropTypes.bool,
-    active: PropTypes.bool,
-    className: PropTypes.string,
-    href: PropTypes.string,
-    icon: PropTypes.node,
-};
-
-IconButton.defaultProps = {
-    children: null,
-    onClick: () => {
-        // something
-    },
-    size: 'medium',
-    color: '',
-    disabled: false,
-    icon: null,
-};
+//
+// IconButton.propTypes = {
+//     children: PropTypes.node,
+//     onClick: PropTypes.func,
+//     size: PropTypes.string,
+//     color: PropTypes.string,
+//     disabled: PropTypes.bool,
+//     active: PropTypes.bool,
+//     className: PropTypes.string,
+//     href: PropTypes.string,
+//     icon: PropTypes.node,
+// };
+//
+// IconButton.defaultProps = {
+//     children: null,
+//     onClick: () => {
+//         // something
+//     },
+//     size: 'medium',
+//     color: '',
+//     disabled: false,
+//     icon: null,
+// };

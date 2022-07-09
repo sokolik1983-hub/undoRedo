@@ -4,7 +4,9 @@ declare namespace DeleteObjectModalModuleScssNamespace {
     export interface IDeleteObjectModalModuleScss {
         footer: string;
         message: string;
+        root: string;
         title: string;
+        titleText: string;
     }
 }
 

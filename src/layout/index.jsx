@@ -1,5 +1,5 @@
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Outlet} from 'react-router-dom';
 
 import Notifications from '../common/components/Notifications';
@@ -13,17 +13,12 @@ function Layout() {
     const notifications = useSelector((state) => state.app.notifications.items);
     const isLoginPage = useSelector((state) => state.app.ui.currentPage) === '';
     const toastList = useSelector((state) => state.app.ui.toastList);
-    const dispatch = useDispatch();
 
     return (
         <div className={styles.root}>
-            <div className={styles.backgroundImage} />
+            <div className={styles.background_image} />
             <main className={styles.content}>
-                <Toast
-                    toastlist={toastList}
-                    setList={setToastList}
-                    dispatch={dispatch}
-                />
+                <Toast toastList={toastList} setList={setToastList} />
                 {!isLoginPage && <TopBar />}
                 <Outlet />
             </main>

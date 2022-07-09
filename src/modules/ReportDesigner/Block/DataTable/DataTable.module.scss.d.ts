@@ -3,6 +3,8 @@
 declare namespace DataTableModuleScssNamespace {
     export interface IDataTableModuleScss {
         activeCol: string;
+        loadingRow: string;
+        movingGradient: string;
         table: string;
         tableContainer: string;
     }

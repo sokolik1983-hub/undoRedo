@@ -20,8 +20,13 @@ declare namespace ConnectorsModuleScssNamespace {
         selectInput: string;
         selectText: string;
         selectTypeConnection: string;
+        showTestFailed: string;
         testConnectionButton: string;
         testConnectionWrapper: string;
+        testConnectorButton: string;
+        testOkIcon: string;
+        textAreaName: string;
+        textarea: string;
     }
 }
 

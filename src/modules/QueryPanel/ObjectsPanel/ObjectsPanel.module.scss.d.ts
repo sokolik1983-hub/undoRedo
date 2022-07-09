@@ -3,7 +3,6 @@
 declare namespace ObjectsPanelModuleScssNamespace {
     export interface IObjectsPanelModuleScss {
         panelListContainer: string;
-        report: string;
         root: string;
     }
 }

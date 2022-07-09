@@ -7,6 +7,7 @@ declare namespace HomePageButtonModuleScssNamespace {
         homePageButton: string;
         homePageButtonWrapper: string;
         homePageDocumentButton: string;
+        homePageSemanticLayerButton: string;
     }
 }
 

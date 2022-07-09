@@ -6,6 +6,7 @@ declare namespace SchemaTablesModuleScssNamespace {
         tablePreviewContent: string;
         tablePreviewModal: string;
         tablePreviewTable: string;
+        workArea: string;
     }
 }
 

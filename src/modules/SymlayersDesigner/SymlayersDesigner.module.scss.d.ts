@@ -10,6 +10,7 @@ declare namespace SymlayersDesignerModuleScssNamespace {
         root: string;
         schema: string;
         sidebar: string;
+        tables: string;
     }
 }
 

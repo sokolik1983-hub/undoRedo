@@ -9,6 +9,7 @@ declare namespace TextInputModuleScssNamespace {
         inputRequired: string;
         inputWrapper: string;
         textError: string;
+        uppercase: string;
     }
 }
 

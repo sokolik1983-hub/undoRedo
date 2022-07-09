@@ -2,15 +2,28 @@
 // Please do not change this file!
 declare namespace ReportDesignerModuleScssNamespace {
     export interface IReportDesignerModuleScss {
+        activeTab: string;
+        addBtn: string;
         closeIcon: string;
         container: string;
-        containerOutline: string;
-        content: string;
-        formulaEditor: string;
+        containerFull: string;
+        containerTab1: string;
+        containerTab1Formula: string;
+        dropdownItem: string;
+        footer: string;
+        footerCompressed: string;
+        formula: string;
+        formulaCompressed: string;
+        formulaIcons: string;
+        formulaTextarea: string;
+        iconBtn: string;
+        innerContainer: string;
+        plus: string;
         root: string;
         tab: string;
-        tabActive: string;
         tabs: string;
+        tooltip: string;
+        wrapper: string;
     }
 }
 
