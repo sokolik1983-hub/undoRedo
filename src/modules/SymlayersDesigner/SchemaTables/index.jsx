@@ -336,6 +336,9 @@ useMemo(() => {
             const objectFullName1 = createObjectName(link.object1.table_id);
             const objectFullName2 = createObjectName(link.object2.table_id);
             console.log(tables)
+              Object.values(tables)?.find(
+                table => console.log(`${table.schema}_${table.objectName}, ${objectFullName1}, ${objectFullName2}`)
+              )
             const SourceRect = targetRect(
               Object.values(tables)?.find(
                 table => `${table.schema}_${table.objectName}` === objectFullName1
