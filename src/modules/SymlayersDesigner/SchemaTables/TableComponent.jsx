@@ -383,7 +383,7 @@ const TableComponent = ({
     event.dataTransfer.setData('field', JSON.stringify(field));
     const object1 = {
       cardinality: 'one',
-      object_name: `${table.schema}_${table.objectName}`,
+      objectName: `${table.schema}_${table.objectName}`,
       table_id: table.table_id,
       outerJoin: null,
       fields: [field.field]
@@ -419,7 +419,7 @@ const TableComponent = ({
     const object1 = JSON.parse(event.dataTransfer.getData('object1'));
     const object2 = {
       cardinality: 'one',
-      object_name: `${table.schema}_${table.objectName}`,
+      objectName: `${table.schema}_${table.objectName}`,
       table_id: table.table_id,
       outerJoin: null,
       fields: [field.field]

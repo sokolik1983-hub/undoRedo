@@ -101,6 +101,7 @@ const schemaDesigner = createSlice({
         table.position.deltaPosition = {...table.position};
         return table;
       });
+      state.selectedTablesArray = tables;
       state.selectedTablesData = tables;
     },
     addLink: (state, action) => {

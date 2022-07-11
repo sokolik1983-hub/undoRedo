@@ -156,6 +156,8 @@ function SymlayersDesigner() {
     setFolders(newFolders);
   };
 
+  console.log(checked, selectedTablesArray)
+
   return (
     <div className={styles.root}>
       <div className={styles.content}>
