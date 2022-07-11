@@ -28,6 +28,7 @@ import {
   showConfirmModal,
   closeConfirmModal
 } from '../reducers/ui';
+import { getObjectFromConnector } from './connectors';
 import { setReportDpRefreshed } from './newReportDesigner';
 
 export const getUniverses = queryParams => async dispatch => {
@@ -117,10 +118,11 @@ export const openUniverse = queryParams => {
       dispatch
     });
     if (response?.result) {
-      // console.log(response)
+      console.log(response)
       dispatch(loadSelectedTablesData(response.data.tables));
       dispatch(setLinks(response.data.links));
       dispatch(setLoadedUniverse(true));
+      dispatch(getObjectFromConnector({id: response.data.connector_id}));
     }
   };
 };

@@ -87,6 +87,10 @@ const SemanticActions = () => {
     state => state.app.data.currentUniverse
   );
 
+  const selectedConnectorId = useSelector(
+    state => state.app.data.selectedConnectorId
+  );
+
   const translitNames = word => {
     switch (word) {
       case 'Символ':
@@ -157,6 +161,7 @@ const SemanticActions = () => {
     universe.data.tables = selectedTablesData;
     universe.data.links = links;
     universe.data.objects = formattedObjectLayer;
+    universe.data.connector_id = selectedConnectorId;
     dispatch(createUniverse(universe));
   }
 

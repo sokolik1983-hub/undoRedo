@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
@@ -114,6 +115,7 @@ const ConnectorsList = () => {
   };
 
   const onSymLayerDoubleClick = item => {
+    console.log(item)
     dispatch(openUniverse({id: item.id, getData: 1}));
   }
 
