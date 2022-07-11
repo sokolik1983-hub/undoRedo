@@ -125,6 +125,15 @@ function Connectors() {
 
   const createConnectorForm = document.getElementById('createConnectorForm');
 
+  // Запись текущих значений инпутов формы в объект коннектора
+  const setInputValues = () => {
+    let inputs = createConnectorForm.elements;
+
+    newConnector.data.fields?.map(item => {
+      item.value = inputs[item.fieldName].value;
+    });
+  };
+
   const testConnection = e => {
     e.preventDefault();
     e.stopPropagation();
@@ -134,10 +143,8 @@ function Connectors() {
       setshowTestFailed(false);
       setIsActive(!isActive);
       newConnector.header.parent_id = folderId;
-      if (newConnector?.data?.fields[2]) {
-        newConnector.data.fields[2].value = newConnector?.data?.fields[2]?.value.toUpperCase();
-      }
       setHeaderAndDescription();
+      setInputValues();
       dispatch(testConnector({ data: newConnector.data }));
     }
   };
@@ -157,6 +164,7 @@ function Connectors() {
     setConnectorFields(false);
     setshowTestOk(false);
     setshowTestFailed(false);
+    dispatch(testConnector(null));
   };
 
   const closeConnectorModalHandler = () => {
@@ -196,10 +204,8 @@ function Connectors() {
     event.preventDefault();
     event.stopPropagation();
     newConnector.header.parent_id = folderId;
-    if (newConnector?.data?.fields[2]?.value) {
-      newConnector.data.fields[2].value = newConnector?.data?.fields[2]?.value.toUpperCase();
-    }
     setHeaderAndDescription();
+    setInputValues();
     dispatch(saveConnector(newConnector));
     closeConnectorModalHandler();
   };
@@ -257,7 +263,6 @@ function Connectors() {
                   key={`${item.fieldName}_${index}`}
                   type={item.type}
                   required={item.required}
-                  uppercase={item.fieldKey === 'DATABASE'}
                   className={styles.connectorsInput}
                   onChange={e => {
                     newConnector.data.fields[
