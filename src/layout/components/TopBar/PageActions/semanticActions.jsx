@@ -11,7 +11,6 @@ import {
   setIsShowingLinks
 } from '../../../../data/reducers/schemaDesigner';
 import EditObjectLayerModal from '../../../../modules/SymlayersDesigner/Sidebar/EditObjectLayerModal';
-import Button from '../../../../common/components/Button';
 
 
 
@@ -27,23 +26,6 @@ const SemanticActions = () => {
   // );
 
   // const [isFilter, setIsFilter] = useState(false);
-
-  const getAction = action => {
-    switch (action) {
-      case 'defineConnections':
-        return dispatch(setObjectsConnectionsModal(true));
-      case 'addConnection':
-        return dispatch(setObjectsConnectionsModal(true));
-      case 'contextPanel':
-        return dispatch(setIsShowingContexts());
-      case 'connectionsPanel':
-        return dispatch(setIsShowingLinks());
-      case 'commonSearch':
-        return null
-      default:
-        return null;
-    }
-  };
 
   const location = useLocation();
 
@@ -108,7 +90,6 @@ const SemanticActions = () => {
     }
   };
   
-
   useEffect(() => {
     let objects = [...objectsLayers];
     objects = objects.map(object => {
@@ -160,6 +141,25 @@ const SemanticActions = () => {
     dispatch(createUniverse(universe));
   }
 
+  const getAction = action => {
+    switch (action) {
+      case 'defineConnections':
+        return dispatch(setObjectsConnectionsModal(true));
+      case 'addConnection':
+        return dispatch(setObjectsConnectionsModal(true));
+      case 'contextPanel':
+        return dispatch(setIsShowingContexts());
+      case 'connectionsPanel':
+        return dispatch(setIsShowingLinks());
+      case 'commonSearch':
+        return null;
+      case 'saveSymLayer':
+        return saveUniverse();
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className={styles.actionsContainer}>
       {newArr.map(item => {
@@ -179,7 +179,6 @@ const SemanticActions = () => {
           </div>
         );
       })}
-      {<Button style={{color: 'black', marginLeft: '5px'}} onClick={saveUniverse}>Сохранить юниверс</Button>}
       {isCreateObjectModalOpened && (
         <CreateObjectLayerModal visible={isCreateObjectModalOpened && true} />
       )}

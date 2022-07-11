@@ -5,6 +5,7 @@ import { ReactComponent as GearIcon } from '../../layout/assets/gear.svg';
 import { ReactComponent as LogoutIcon } from '../../layout/assets/logout.svg';
 import { ReactComponent as PrinterIcon } from '../../layout/assets/printer.svg';
 import { ReactComponent as AddConnection } from '../../layout/assets/semanticActionsIcons/addConnection.svg';
+import { ReactComponent as SaveSymLayer } from '../../layout/assets/semanticActionsIcons/saveSemantic.svg';
 import { ReactComponent as ConnectionsPanel } from '../../layout/assets/semanticActionsIcons/connectionsPanel.svg';
 import { ReactComponent as ContextPanel } from '../../layout/assets/semanticActionsIcons/contextPanel.svg';
 import { ReactComponent as DefineConnections } from '../../layout/assets/semanticActionsIcons/defineConnections.svg';
@@ -142,6 +143,14 @@ export const DEFAULT_USER_ACTIONS = [
 ];
 
 export const SEMANTIC_PAGE_ACTIONS = [
+  {
+    action: 'saveSymLayer',
+    title: 'Сохранить сем. слой',
+    text: 'Сохранить сем. слой',
+    icon: <SaveSymLayer />,
+    enable: true,
+    disIcon: <DisableAddConnection />
+  },
   {
     action: 'contextPanel',
     title: 'Панель контекстов',
