@@ -189,11 +189,11 @@ const TableComponent = ({
       delete tempTable.table_id;
       dispatch(setSelectedTablesData({
         id: selectedTablesData.length,
-        "parentTable_id": null,
-        "sql": null,
-        "viewType": "Head",
-        "viewHeight": 200,  
-        "position": position.deltaPosition,
+        parentTable_id: null,
+        sql: null,
+        viewType: "Head",
+        viewHeight: 200,  
+        position: position.deltaPosition,
       ...tempTable}));
     }
   }, [tableItem]);
