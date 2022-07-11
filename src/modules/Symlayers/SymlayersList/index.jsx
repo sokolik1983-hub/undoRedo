@@ -1,6 +1,7 @@
 import { useEffect, useState, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
+import { useNavigate } from 'react-router';
 import ListNavBar from '../../../common/components/ListNavBar/ListNavBar';
 import List from '../../../common/components/List/List';
 import ListItem from '../../../common/components/List/ListItem/ListItem';
@@ -17,6 +18,7 @@ import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.
 import { ReactComponent as UniverseIcon } from '../../../layout/assets/icons/universeIcon.svg';
 import {
   BREADCRUMBS_ROOT,
+  REDIRECT_LINKS,
   TABLE_CELL_EMPTY_VALUE
 } from '../../../common/constants/common';
 import styles from './SymlayersList.module.scss';
@@ -25,20 +27,33 @@ import Preloader from '../../../common/components/Preloader/Preloader';
 import Tooltip from '../../../common/components/Tooltip';
 import {
   getUniversesFolderChildren,
-  getUniversesFolderId
+  getUniversesFolderId,
+  openUniverse
 } from '../../../data/actions/universes';
 import { setObjectToFavorites } from '../../../data/actions/app'
+import { setLoadedUniverse } from '../../../data/reducers/schemaDesigner';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
   const universes = useSelector(state => state.app.data.universes);
+  const navigate = useNavigate();
   const unvRootFolderId = useSelector(
     state => state.app.data.universesFolderId
+  );
+  const isUnvLoaded = useSelector(
+    state => state.app.schemaDesigner.isUnvLoaded
   );
 
   useEffect(() => {
     dispatch(getUniversesFolderId({ folderType: 'USER_UNV' }));
   }, []);
+
+  useEffect(() => {
+    if (isUnvLoaded) {
+      navigate(REDIRECT_LINKS.SYMLAEYERS);
+      dispatch(setLoadedUniverse(false));
+    }
+  }, [isUnvLoaded]);
 
   const [foldersIdHistory, setFoldersIdHistory] = useState([]);
   const [foldersNameHistory, setFoldersNameHistory] = useState([]);
@@ -97,6 +112,10 @@ const ConnectorsList = () => {
     setFoldersNameHistory([...foldersNameHistory, folder.name]);
     setCurrentFolderIndex(prev => prev + 1);
   };
+
+  const onSymLayerDoubleClick = item => {
+    dispatch(openUniverse({id: item.id, getData: 1}));
+  }
 
   const getBreadcrumbs = () => {
     return foldersNameHistory
@@ -232,7 +251,7 @@ const ConnectorsList = () => {
             <ListItem
               className={styles.folderItemsColumnView}
               name={isFolder ? item.name : item.name}
-              onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
+              onDoubleClick={isFolder ? () => onFolderDoubleClick(item) :() => onSymLayerDoubleClick(item)}
               icon={isFolder ? <FolderIcon /> : <UniverseIcon />}
               menu={menu}
             />
@@ -258,7 +277,7 @@ const ConnectorsList = () => {
       return (
         <ListTableRow
           key={currentId}
-          onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
+          onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : () => onSymLayerDoubleClick(item)}
           isEditMode={editListItemId === currentId}
           onEditEnd={() => setEditListItemId(null)}
           icon={isFolder ? <FolderIcon /> : <UniverseIcon />}

@@ -14,6 +14,7 @@ import {
   setUniverseIsCreated
 } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
+import { loadSelectedTablesData, setLinks, setLoadedUniverse } from '../reducers/schemaDesigner';
 import {
   showObjectsConnectionsModal,
   closeModal,
@@ -104,6 +105,22 @@ export const createSampleUniverse = queryParams => {
       dispatch(
         notificationShown({ message: err.message, messageType: 'error' })
       );
+    }
+  };
+};
+
+export const openUniverse = queryParams => {
+  return async dispatch => {
+    const response = await request({
+      code: 'UNV.OPEN',
+      params: queryParams,
+      dispatch
+    });
+    if (response?.result) {
+      // console.log(response)
+      dispatch(loadSelectedTablesData(response.data.tables));
+      dispatch(setLinks(response.data.links));
+      dispatch(setLoadedUniverse(true));
     }
   };
 };

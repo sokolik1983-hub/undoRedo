@@ -46,24 +46,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
 
   const selectedTablesData = useSelector(
     state => state.app.schemaDesigner.selectedTablesData
-  );  
-
-  const connectorObjects = useSelector(
-    state => state.app.schemaDesigner.connectorObjects
-  );  
-
-  // useEffect(() => {
-  //   if (connectorObjects.length && leftTable && rightTable) {
-  //     connectorObjects?.forEach(schema => {
-  //       if (leftTable.includes(schema.schema)) {
-  //         setLeftSchema(schema.schema)
-  //       }
-  //       if (rightTable.includes(schema.schema)) {
-  //         setRightSchema(schema.schema);
-  //       }
-  //     })
-  //   } 
-  // }, [connectorObjects, leftTable, rightTable]);
+    );  
 
   const convertedData = useMemo(() => {
     return selectedTablesData.map((table, idx) => ({

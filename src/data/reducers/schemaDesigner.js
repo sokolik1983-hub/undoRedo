@@ -47,6 +47,7 @@ const schemaDesigner = createSlice({
     },
     coloredValue: '',
     semantycLayerName: null,
+    isUnvLoaded: false,
 
     newData: {
       data: {
@@ -94,6 +95,13 @@ const schemaDesigner = createSlice({
         ...state.selectedTablesData,
         action.payload
       ];
+    },
+    loadSelectedTablesData: (state, action) => {
+      const tables = action.payload.map(table => {
+        table.position.deltaPosition = {...table.position};
+        return table;
+      });
+      state.selectedTablesData = tables;
     },
     addLink: (state, action) => {
       state.links = [...state.links, action.payload];
@@ -152,6 +160,9 @@ const schemaDesigner = createSlice({
     },
     setSchemaDesigner: (state, action) => {
       state.newData = { ...action.payload.default };
+    },
+    setLoadedUniverse: (state, action) => {
+      state.isUnvLoaded = action.payload;
     }
   }
 });
@@ -181,7 +192,9 @@ export const {
   clearDataList,
   setShowDataList,
   setSemantycLayerName,
-  setSchemaDesigner
+  setSchemaDesigner,
+  loadSelectedTablesData,
+  setLoadedUniverse
 } = schemaDesigner.actions;
 
 export default schemaDesigner.reducer;
