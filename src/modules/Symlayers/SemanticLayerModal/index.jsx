@@ -16,9 +16,15 @@ import BusinessObjects from './ModalItem/BusinessObjects';
 import Control from './ModalItem/Control';
 import TextFieldItem from './ModalItem/TextFieldItem';
 import { setSemantycLayerDataName } from '../../../data/actions/schemaDesigner';
-import { REDIRECT_LINKS } from '../../../common/constants/common'
-import { createUniverse, getUniversesFolderId } from '../../../data/actions/universes';
-import { setCurrentUniverse, setUniverseIsCreated } from '../../../data/reducers/data';
+import { REDIRECT_LINKS } from '../../../common/constants/common';
+import {
+  createUniverse,
+  getUniversesFolderId
+} from '../../../data/actions/universes';
+import {
+  setCurrentUniverse,
+  setUniverseIsCreated
+} from '../../../data/reducers/data';
 
 const semLayerValues = {
   name: 'Новый семантический слой 1',
@@ -36,27 +42,39 @@ const semLayerValues = {
  * @param isVisible - булевое значение, которое определяет видимость модального окна
  */
 
-const SemanticLayerModal = ({ onClick, onSave, onClose, isVisible, ...props }) => {
+const SemanticLayerModal = ({
+  onClick,
+  onSave,
+  onClose,
+  isVisible,
+  ...props
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const onClickAction = event => {
+  const onClickAction = (event) => {
     onClick(event);
   };
   const [modalData, setModalData] = useState(null);
   const [universe, setUniverse] = useState({});
-  const sampleUnvObject = useSelector(state => state.app.data.sampleUnvObject);
-  const isUniverseCreated = useSelector(state => state.app.data.isUniverseCreated);  
-  const unvRootFolderId = useSelector(state => state.app.data.universesFolderId);
+  const sampleUnvObject = useSelector(
+    (state) => state.app.data.sampleUnvObject
+  );
+  const isUniverseCreated = useSelector(
+    (state) => state.app.data.isUniverseCreated
+  );
+  const unvRootFolderId = useSelector(
+    (state) => state.app.data.universesFolderId
+  );
 
   useEffect(() => {
     if (lodash.isEmpty(unvRootFolderId)) {
-      dispatch(getUniversesFolderId({folderType: 'USER_UNV'}));
+      dispatch(getUniversesFolderId({ folderType: 'USER_UNV' }));
     }
   }, [unvRootFolderId]);
 
   useEffect(() => {
     if (!lodash.isEmpty(sampleUnvObject) && modalData) {
-      const unvObject = JSON.parse(JSON.stringify({...sampleUnvObject}));
+      const unvObject = JSON.parse(JSON.stringify({ ...sampleUnvObject }));
       unvObject.header.name = modalData.name;
       unvObject.header.description = modalData.description;
       unvObject.header.parent_id = unvRootFolderId;
@@ -67,8 +85,8 @@ const SemanticLayerModal = ({ onClick, onSave, onClose, isVisible, ...props }) =
 
   useEffect(() => {
     if (!lodash.isEmpty(universe)) {
-      const {header, data} = universe;
-      dispatch(createUniverse({header, data}));
+      const { header, data } = universe;
+      dispatch(createUniverse({ header, data }, header.name));
     }
   }, [universe]);
 
@@ -82,14 +100,14 @@ const SemanticLayerModal = ({ onClick, onSave, onClose, isVisible, ...props }) =
   const content = (
     <Formik
       initialValues={semLayerValues}
-      onSubmit={data => {
-        if(!onSave) {
-          navigate(REDIRECT_LINKS.SYMLAEYERS)
+      onSubmit={(data) => {
+        if (!onSave) {
+          navigate(REDIRECT_LINKS.SYMLAEYERS);
         } else {
           setModalData(data);
           onSave();
         }
-        dispatch(setSemantycLayerDataName(data.name))
+        dispatch(setSemantycLayerDataName(data.name));
       }}
     >
       {({ values, handleChange, handleSubmit }) => (
@@ -163,7 +181,7 @@ SemanticLayerModal.propTypes = {
   onClose: PropTypes.func,
   isVisible: PropTypes.bool,
   connectorName: PropTypes.string,
-  connectorId: PropTypes.number,
+  connectorId: PropTypes.number
 };
 
 SemanticLayerModal.defaultProps = {

@@ -1,18 +1,19 @@
 /* eslint-disable no-nested-ternary */
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { SEMANTIC_PAGE_ACTIONS } from '../../../../common/constants/common';
 import styles from './PageActions.module.scss';
 import CreateObjectLayerModal from '../../../../modules/SymlayersDesigner/CreateObjectLayerModal/index';
-import { createUniverse, setObjectsConnectionsModal } from '../../../../data/actions/universes';
+import {
+  createUniverse,
+  setObjectsConnectionsModal
+} from '../../../../data/actions/universes';
 import {
   setIsShowingContexts,
   setIsShowingLinks
 } from '../../../../data/reducers/schemaDesigner';
 import EditObjectLayerModal from '../../../../modules/SymlayersDesigner/Sidebar/EditObjectLayerModal';
-
-
 
 // import TextInput from '../../../../common/components/TextInput';
 
@@ -29,13 +30,13 @@ const SemanticActions = () => {
 
   const location = useLocation();
 
-  const filterIcons = arr => {
+  const filterIcons = (arr) => {
     if (!location.pathname.endsWith('create')) {
       return arr
-        .map(item =>
+        .map((item) =>
           item.action !== 'commonSearch' ? { ...item, enable: false } : item
         )
-        .filter(item => item.type !== 'divider');
+        .filter((item) => item.type !== 'divider');
     }
     return arr;
   };
@@ -44,32 +45,30 @@ const SemanticActions = () => {
 
   /* удалить когда перенесем кнопку открытия Создать  */
   const isCreateObjectModalOpened = useSelector(
-    state => state.app.ui.modalCreateObjectVisible
+    (state) => state.app.ui.modalCreateObjectVisible
   );
   /* удалить когда перенесем кнопку открытия Создать  */
   /* удалить когда перенесем кнопку открытия Создать  */
   const isEditObjectModalOpened = useSelector(
-    state => state.app.ui.modalEditObjectVisible
+    (state) => state.app.ui.modalEditObjectVisible
   );
   /* удалить когда перенесем кнопку открытия Создать  */
 
-  const links = useSelector(
-    state => state.app.schemaDesigner.links
-  );  
-  
-  const objectsLayers = useSelector(
-    state => state.app.schemaDesigner.objectsLayerList
-  );  
-  
-  const selectedTablesData = useSelector(
-    state => state.app.schemaDesigner.selectedTablesData
-  );  
+  const links = useSelector((state) => state.app.schemaDesigner.links);
 
-  const currentUniverse = useSelector(
-    state => state.app.data.currentUniverse
+  const objectsLayers = useSelector(
+    (state) => state.app.schemaDesigner.objectsLayerList
   );
 
-  const translitNames = word => {
+  const selectedTablesData = useSelector(
+    (state) => state.app.schemaDesigner.selectedTablesData
+  );
+
+  const currentUniverse = useSelector(
+    (state) => state.app.data.currentUniverse
+  );
+
+  const translitNames = (word) => {
     switch (word) {
       case 'Символ':
         return 'Symbol';
@@ -84,16 +83,16 @@ const SemanticActions = () => {
       case 'Измерение':
         return 'Dimension';
       case 'Атрибут':
-        return 'Attribute'
+        return 'Attribute';
       default:
         return null;
     }
   };
-  
+
   useEffect(() => {
     let objects = [...objectsLayers];
-    objects = objects.map(object => {
-      const tempObj = {...object}
+    objects = objects.map((object) => {
+      const tempObj = { ...object };
       delete tempObj.refreshBeforeUsageCheckBox;
       delete tempObj.searchDelegetionCheckBox;
       delete tempObj.showHierarchyCheckBox;
@@ -113,7 +112,7 @@ const SemanticActions = () => {
       delete tempObj.usagePermission;
       tempObj.dataType = 'Symbol';
       tempObj.aggFunc = 'SUM';
-      tempObj.aggFuncName = 'SUM'; 
+      tempObj.aggFuncName = 'SUM';
       delete tempObj.objectFunction;
       tempObj.description = tempObj.objectDescription;
       delete tempObj.objectDescription;
@@ -138,10 +137,10 @@ const SemanticActions = () => {
     universe.data.tables = selectedTablesData;
     universe.data.links = links;
     universe.data.objects = formattedObjectLayer;
-    dispatch(createUniverse(universe));
-  }
+    dispatch(createUniverse(universe, currentUniverse.header.name));
+  };
 
-  const getAction = action => {
+  const getAction = (action) => {
     switch (action) {
       case 'defineConnections':
         return dispatch(setObjectsConnectionsModal(true));
@@ -162,7 +161,7 @@ const SemanticActions = () => {
 
   return (
     <div className={styles.actionsContainer}>
-      {newArr.map(item => {
+      {newArr.map((item) => {
         return (
           <div
             key={item.title}
@@ -191,4 +190,3 @@ const SemanticActions = () => {
 };
 
 export default SemanticActions;
-
