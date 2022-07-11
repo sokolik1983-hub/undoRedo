@@ -68,7 +68,7 @@ const CreateObjectLayerModal = ({ visible }) => {
       initialValues={createObjectModalValues}
       onSubmit={(values, event) => {
         handleClose();
-        dispatch(addObjectLayer({ ...values, id: `objLay_${Date.now()}` }));
+        dispatch(addObjectLayer({ ...values, id: Date.now()}));
         event.preventDefault();
       }}
     >

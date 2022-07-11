@@ -16,6 +16,7 @@ const values = [
 const ConnectionType = ({ onSelectExpression, currentExpression }) => {
   const [left, setLeft] = useState(false);
   const [right, setRight] = useState(false);
+  currentExpression = values?.find(value => value.name === currentExpression)?.value;
 
   // меняет значение 1 к N слева
   const handleLeftSideClick = () => {
@@ -56,7 +57,7 @@ const ConnectionType = ({ onSelectExpression, currentExpression }) => {
         <Select
           className={styles.connectionSelect}
           options={values}
-          onSelectItem={onSelectExpression}
+          onSelectItem={(expr) => onSelectExpression(values.find(value => value.value === expr).name)}
           defaultValue={currentExpression || '='}
         />
         <div onClick={() => handleRightSideClick()}>
