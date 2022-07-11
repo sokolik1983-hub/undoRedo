@@ -30,6 +30,7 @@ import { cloneDeep } from 'lodash';
 import { TOAST_TYPE } from '../../common/constants/common';
 import { showToast } from '../../data/actions/app';
 import Preloader from '../../common/components/Preloader/Preloader';
+import { logRoles } from '@testing-library/react';
 
 function Connectors() {
   const dispatch = useDispatch();
@@ -143,8 +144,8 @@ function Connectors() {
       setshowTestFailed(false);
       setIsActive(!isActive);
       newConnector.header.parent_id = folderId;
-      setHeaderAndDescription();
       setInputValues();
+      setHeaderAndDescription();
       dispatch(testConnector({ data: newConnector.data }));
     }
   };
@@ -185,7 +186,7 @@ function Connectors() {
   // Запись в коннектор имени, описания
   const setHeaderAndDescription = () => {
     newConnector.header.name = connectName;
-    newConnector.header.description = connectionDescription;
+    newConnector.header.desc = connectionDescription;
   };
 
   // Показ уведомления в зависимости от результат с бэка
@@ -204,8 +205,8 @@ function Connectors() {
     event.preventDefault();
     event.stopPropagation();
     newConnector.header.parent_id = folderId;
-    setHeaderAndDescription();
     setInputValues();
+    setHeaderAndDescription();
     dispatch(saveConnector(newConnector));
     closeConnectorModalHandler();
   };
