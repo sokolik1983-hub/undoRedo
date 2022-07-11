@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React from 'react';
+import React, {FC, ReactEventHandler, ReactNode} from 'react';
 
 import styles from './IconButton.module.scss';
 
@@ -14,7 +14,31 @@ import styles from './IconButton.module.scss';
  * @param icon - иконка для кнопки
  */
 
-const IconButton = ({
+interface IconButtonProps {
+    children?: ReactNode;
+    onClick?: (event: React.MouseEvent) => void;
+    size?: string;
+    color?: string;
+    disabled?: boolean;
+    className?: string;
+    active?: boolean;
+    icon?: ReactNode;
+    href?: string;
+    type?: string;
+}
+
+const defaultProps = {
+    children: null,
+    onClick: () => {
+        // some action
+    },
+    size: 'medium',
+    color: '',
+    disabled: false,
+    icon: null,
+};
+
+const IconButton: FC<IconButtonProps> = ({
     children,
     onClick,
     size,
@@ -23,39 +47,42 @@ const IconButton = ({
     className,
     active,
     icon,
-    ...props
+    href,
 }) => {
     const classes = clsx(
         styles.iconButton,
         className,
         {[styles.active]: active},
+        // @ts-ignore
         [styles[size]],
     );
 
-    const onClickAction = (event) => {
+    const onClickAction = (event: React.MouseEvent) => {
         if (disabled) {
             event.preventDefault();
         } else {
-            onClick(event);
+            if (onClick) {
+                onClick(event);
+            }
         }
     };
 
-    const Tag = props.href ? 'a' : 'button';
+    const Tag = href ? 'a' : 'button';
 
     return (
         <Tag
-            {...props}
             disabled={disabled}
             type="button"
             className={classes}
             onClick={onClickAction}
         >
-            <span className={styles.icon} color={color} size={size}>
+            <span className={styles.icon} color={color}>
                 {icon}
             </span>
         </Tag>
     );
 };
+IconButton.defaultProps = defaultProps;
 
 export default IconButton;
 //

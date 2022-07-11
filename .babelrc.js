@@ -1,7 +1,3 @@
-/**
- * Created by: Andrey Polyakov (andrey@polyakov.im)
- */
-
 module.exports = (api) => {
     const mode = process.env.NODE_ENV ?? 'production';
 
@@ -22,6 +18,7 @@ module.exports = (api) => {
                 },
             ],
             ['@babel/preset-react', {runtime: 'automatic'}],
+            ['@babel/preset-typescript'],
         ],
         plugins: [
             '@babel/plugin-syntax-dynamic-import',

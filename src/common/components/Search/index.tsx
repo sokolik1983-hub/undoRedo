@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import React, {FC} from 'react';
 
 import Magnifier from '../../../layout/assets/magnifier.svg';
 import IconButton from '../IconButton';
@@ -8,12 +9,26 @@ import Tooltip from '../Tooltip';
 import {ICON_POSITION} from './constant';
 import styles from './Search.module.scss';
 
-const Search = ({className, onSubmit, value, onChange, iconButtonPosition}) => {
+interface SearchProps {
+    className: string;
+    onSubmit: () => void;
+    value: string;
+    onChange: () => void;
+    iconButtonPosition: string;
+}
+
+const Search: FC<SearchProps> = ({
+    className,
+    onSubmit,
+    value,
+    onChange,
+    iconButtonPosition,
+}) => {
     const classes = clsx(styles.searchForm, className);
 
     const getIconButton = () => {
         return (
-            <Tooltip placement="topLeft" overlay="Поиск">
+            <Tooltip placement="topLeft" overlay="Поиск" className={undefined}>
                 <IconButton
                     className={styles.btn}
                     icon={<Magnifier />}
@@ -27,6 +42,7 @@ const Search = ({className, onSubmit, value, onChange, iconButtonPosition}) => {
         <form className={classes} onSubmit={onSubmit}>
             {iconButtonPosition === ICON_POSITION.LEFT && getIconButton()}
             <TextInput
+                // @ts-ignore
                 className={styles.searchInput}
                 id="search"
                 value={value}
@@ -39,15 +55,15 @@ const Search = ({className, onSubmit, value, onChange, iconButtonPosition}) => {
 
 export default Search;
 
-Search.propTypes = {
-    className: PropTypes.string,
-    onSubmit: PropTypes.func,
-    value: PropTypes.string,
-    onChange: PropTypes.func,
-    iconButtonPosition: PropTypes.string,
-};
+// Search.propTypes = {
+//     className: PropTypes.string,
+//     onSubmit: PropTypes.func,
+//     value: PropTypes.string,
+//     onChange: PropTypes.func,
+//     iconButtonPosition: PropTypes.string,
+// };
 
-Search.defaultProps = {
-    className: '',
-    iconButtonPosition: ICON_POSITION.LEFT,
-};
+// Search.defaultProps = {
+//     className: '',
+//     iconButtonPosition: ICON_POSITION.LEFT,
+// };
