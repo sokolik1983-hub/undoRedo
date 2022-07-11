@@ -86,10 +86,14 @@ const schemaDesigner = createSlice({
       state.tablesRefCoord = [...state.tablesRefCoord, action.payload];
     },
     setSelectedTablesData: (state, action) => {
-      state.selectedTablesData = {
+      action.payload.objectType = action.payload.type;
+      delete action.payload.type;
+      delete action.payload.catalog;
+      delete action.payload.comment;
+      state.selectedTablesData = [
         ...state.selectedTablesData,
-        ...action.payload
-      };
+        action.payload
+      ];
     },
     addLink: (state, action) => {
       state.links = [...state.links, action.payload];

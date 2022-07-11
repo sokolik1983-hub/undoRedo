@@ -5,11 +5,11 @@ import { ReactComponent as SettingsIcon } from '../../layout/assets/folderItemSe
 import { ReactComponent as CheckConnectionIcon } from '../../layout/assets/folderItemConnectionCheck.svg';
 import { ReactComponent as CreateUniverseIcon } from '../../layout/assets/folderItemCreateUniverse.svg';
 
-export const sortFoldersAndItems = folderChildren => {
+export const sortFoldersAndItems = (folderChildren) => {
   if (!folderChildren) return null;
 
   const folders = folderChildren
-    ?.filter(i => i.kind === 'FLD')
+    ?.filter((i) => i.kind === 'FLD')
     .sort((a, b) =>
       a.name.localeCompare(b.name, {
         ignorePunctuation: true,
@@ -18,7 +18,7 @@ export const sortFoldersAndItems = folderChildren => {
     );
 
   const items = folderChildren
-    ?.filter(i => i.kind !== 'FLD')
+    ?.filter((i) => i.kind !== 'FLD')
     .sort((a, b) =>
       a.name.localeCompare(b.name, {
         ignorePunctuation: true,
@@ -56,7 +56,7 @@ export const FOLDER_ITEM_DROPDOWN_ACTIONS = [
     action: 'connection check'
   },
   {
-    title: 'Создать юниверс',
+    title: 'Создать семантический слой',
     icon: <CreateUniverseIcon />,
     action: 'create universe'
   }

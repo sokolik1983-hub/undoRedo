@@ -52,7 +52,7 @@ const Provided = props => {
   );
   const dispatch = useDispatch();
   const [addCord, setAddCoord] = useState(0);
-
+  const selectedTablesData = useSelector(state => state.app.schemaDesigner.selectedTablesData);
   // const saveUserData = {};
   // const userData = {};
   // const { saveUserData } = useApplicationActions();
@@ -297,6 +297,14 @@ useMemo(() => {
     dispatch(setObjectsConnectionsModal(true, ...result));
   };
 
+  const createObjectName = id => {
+    const finded = selectedTablesData?.find(tableData => tableData.id === id);
+    const schema = finded?.schema;
+    const objectName = finded?.objectName;
+    const objectFullName = `${schema}_${objectName}`;
+    return objectFullName;
+  }
+
   const renderContent = ({ isShadow = false } = {}) => {
     return (
       <React.Fragment key="content">
@@ -322,20 +330,21 @@ useMemo(() => {
               />
             );
           })()}
-
         {Object.keys(tables).length &&
           props.objectsLinks?.map(link => {
+            const objectFullName1 = createObjectName(link.object1.table_id);
+            const objectFullName2 = createObjectName(link.object2.table_id);
             const SourceRect = targetRect(
               Object.values(tables)?.find(
-                table => `${table.schema}_${table.objectName}` === link.object1.object_name
+                table => `${table.schema}_${table.objectName}` === objectFullName1
               ),
-              !isShadow && link.object1.selectedColumns[0]
+              !isShadow && link.object1.fields[0]?.field
             );
             const TargetRect = targetRect(
               Object.values(tables)?.find(
-                table => `${table.schema}_${table.objectName}` === link.object2.object_name
+                table => `${table.schema}_${table.objectName}` === objectFullName2
               ),
-              !isShadow && link.object2.selectedColumns[0]
+              !isShadow && link.object2.fields[0]?.field
             );
 
             return (
@@ -352,12 +361,12 @@ useMemo(() => {
                 isLoop={
                   getTableId(
                     Object.values(tables)?.find(
-                      table => `${table.schema}_${table.objectName}` === link.object1.object_name
+                      table => `${table.schema}_${table.objectName}` === objectFullName1
                     )
                   ) ===
                   getTableId(
                     Object.values(tables)?.find(
-                      table => `${table.schema}_${table.objectName}` === link.object2.object_name
+                      table => `${table.schema}_${table.objectName}` === objectFullName2
                     )
                   )
                 }

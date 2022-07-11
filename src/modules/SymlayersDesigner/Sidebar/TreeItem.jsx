@@ -25,7 +25,7 @@ const TreeItem = ({ name, isSchema, table, onSelect, isOpen }) => {
   }, [isOpen])
 
   const selectedTableColumns =
-    selectedTables[getTableIdFromParams({ ...table, connect_id: 4 })];
+    selectedTables[getTableIdFromParams({...table})];
 
   useEffect(() => {
     if (!isSchema && isActive) {
