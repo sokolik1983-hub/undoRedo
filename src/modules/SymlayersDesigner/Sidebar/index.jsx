@@ -92,7 +92,7 @@ const Sidebar = ({ onSelect }) => {
       let result = JSON.parse(
         JSON.stringify(
           connectorObjects.filter(connector =>
-            connector.object_name
+            connector.objectName
               .toUpperCase()
               .includes(searchValue.toUpperCase())
           )

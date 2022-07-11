@@ -13,7 +13,7 @@ const ConnectionTable = ({tableName, tables, onSelectColumn, onSelectTable, tabl
   
   // убирает возможность выбора таблицы, если она уже выбрана для использования
   useEffect(() => {
-    setEnabledTables(tables.map(item => {return {value: item.id.toString(), text: item.name}}).filter(item => {
+    setEnabledTables(tables.map(item => {return {value: item.table_id.toString(), text: item.name}}).filter(item => {
       if (tableName === TABLES_NAME_FOR_CONNECT.TABLE_A) {
         return item.text !== tableSelected['rightTable']
       }
@@ -27,11 +27,11 @@ const ConnectionTable = ({tableName, tables, onSelectColumn, onSelectTable, tabl
   // возвращает выбранную таблицу
   const getTableData = value => {
     const table = tables.filter(item => {
-      return item.id.toString() === value
+      return item.name.toString() === value
     });
     setSelectedTable(table[0]);
   };
-
+  
   useEffect(() => {
     if (props.currentLeftTable) {
       getTableData(props.currentLeftTable);
@@ -46,7 +46,7 @@ const ConnectionTable = ({tableName, tables, onSelectColumn, onSelectTable, tabl
   }, [selectedColumn]);
 
   useEffect(() => {
-    onSelectTable(selectedTable && selectedTable.name, tableName);
+    onSelectTable(selectedTable?.table_id, tableName);
   }, [selectedTable])
 
   // возвращает выбранные столбцы в виде массива

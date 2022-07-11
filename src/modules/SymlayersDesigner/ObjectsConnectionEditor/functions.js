@@ -2,6 +2,14 @@
 export const createExpression = (leftSelected, rightSelected, expression, leftTable, rightTable) => {
   let expressionSet = '';
 
+  if (leftSelected && !Array.isArray(leftSelected)) {
+    leftSelected = leftSelected.map(field => field.field);
+  }
+
+  if (rightSelected && !Array.isArray(rightSelected)) {
+    rightSelected = rightSelected.map(field => field.field);
+  }
+
   if (leftSelected && leftSelected.length > 0) {
     if (leftSelected.length === 1) {
       expressionSet = `${leftTable}.${leftSelected[0]}`;
