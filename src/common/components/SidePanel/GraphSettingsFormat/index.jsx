@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+import { PropTypes } from 'prop-types';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { NAV_MENU_GRAPH } from '../../../constants/reportDesigner/reportDesignerMenu';
@@ -40,3 +40,7 @@ const GraphSettingsFormat = ({ formattingElement }) => {
 }
 
 export default GraphSettingsFormat;
+
+GraphSettingsFormat.propTypes = {
+  formattingElement: PropTypes.object
+};

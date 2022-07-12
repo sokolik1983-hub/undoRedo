@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+import { PropTypes } from 'prop-types';
 import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
 import styles from '../SidePanel.module.scss';
 import SimpleDropDown from '../../SimpleDropDown';
@@ -42,3 +42,7 @@ const Facade = ({ onChange }) => {
 }
 
 export default Facade;
+
+Facade.propTypes = {
+  onChange: PropTypes.func
+};

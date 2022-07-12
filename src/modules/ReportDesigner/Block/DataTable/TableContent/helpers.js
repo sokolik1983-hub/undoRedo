@@ -12,7 +12,7 @@ export const structureUpdatedChecker = () => {
       oldZones = newZones?.slice();
       return bool;
     };
-    console.log(oldZones, newZones);
+    
     if (!oldZones) {
       return end(true);
     }

@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+import { PropTypes } from 'prop-types';
 import { useEffect, useRef } from 'react';
 import Button from '../../../common/components/Button';
 import ModalPortal from '../../../common/components/ModalPortal/Modal';
@@ -52,3 +52,11 @@ const CreateCopyModal = ({ create, newName, oldName, setNewName, onCancel}) => {
 };
 
 export default CreateCopyModal;
+
+CreateCopyModal.propTypes = {
+  create: PropTypes.func,
+  setNewName: PropTypes.func,
+  onCancel: PropTypes.func,
+  newName: PropTypes.string, 
+  oldName: PropTypes.string
+};

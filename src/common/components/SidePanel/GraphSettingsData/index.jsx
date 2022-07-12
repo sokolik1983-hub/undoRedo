@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+import { PropTypes } from 'prop-types';
 import { GRAPH_ICONS } from '../../../constants/reportDesigner/reportDesignerIcons';
 import styles from '../SidePanel.module.scss';
 import SimpleDropDown from '../../SimpleDropDown';
@@ -111,3 +111,7 @@ const GraphSettingsData = ({ setVariant }) => {
 }
 
 export default GraphSettingsData;
+
+GraphSettingsData.propTypes = {
+  setVariant: PropTypes.func
+};

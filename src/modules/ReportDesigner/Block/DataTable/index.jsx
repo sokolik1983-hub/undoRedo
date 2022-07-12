@@ -40,7 +40,6 @@ function DataTable({
     );
   }
 
-
   function getSortedData() {
     if (currentReport?.dataset && structureItem?.sorting?.length > 0) {
       const { data, fields } = currentReport?.dataset;

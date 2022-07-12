@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './Block.module.scss';
 import DataTable from './DataTable';
 import Cell from './Cell';
-import { BarGraph } from '../Charts/BarChart/index';
+import BarGraph from '../Charts/BarChart/index';
 import { LineGraph } from '../Charts/LineChart/index';
 import { Diagramm } from '../Charts/PieChart/index';
 import { setSelectedColumns } from '../../../data/reducers/new_reportDesigner';
@@ -72,12 +72,18 @@ function Block({
             refContent={refContent}
           />
         );
-      case 'barChart':
-        return <div><BarGraph /></div>;
+      case 'barChart': 
+        return (
+          <BarGraph 
+            id={id}
+            structureItem={structureItem}
+            refContent={refContent}
+          />
+)
       case 'lineChart':
-        return <div><LineGraph /></div>;
+        return <LineGraph />;
       case 'pieChart':
-        return <div><Diagramm /></div>;
+        return <Diagramm />;
       case 'cell':
         return (
           <Cell

@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+import { PropTypes } from 'prop-types';
 import { useEffect, useRef } from 'react';
 import Button from '../../../common/components/Button';
 import Modal from '../../../common/components/ModalPortal/Modal';
@@ -50,3 +50,12 @@ const RenameModal = ({ isOpen, onRename, onCancel, setNewName, name, oldName }) 
 };
 
 export default RenameModal;
+
+RenameModal.propTypes = {
+  isOpen: PropTypes.bool,
+  onRename: PropTypes.func,
+  setNewName: PropTypes.func,
+  onCancel: PropTypes.func,
+  name: PropTypes.string, 
+  oldName: PropTypes.string
+};
