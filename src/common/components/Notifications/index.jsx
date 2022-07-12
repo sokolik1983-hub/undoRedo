@@ -2,13 +2,13 @@ import Portal from '@material-ui/core/Portal';
 import { useDispatch, useSelector } from 'react-redux';
 import { notificationClosed } from '../../../data/reducers/notifications';
 import NotificationItem from '../NotificationItem';
-import styles from "./Notification.module.scss";
+import styles from './Notification.module.scss';
 
 const NotificationsList = () => {
-  const notifications = useSelector(state => state.app.notifications.items);
+  const notifications = useSelector((state) => state.app.notifications.items);
   const dispatch = useDispatch();
 
-  const handleClose = id => {
+  const handleClose = (id) => {
     dispatch(notificationClosed({ id }));
   };
 

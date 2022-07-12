@@ -2,10 +2,11 @@
 /* eslint-disable no-unused-vars */
 import { delay } from 'lodash';
 import { REDIRECT_LINKS } from '../../common/constants/common';
+// eslint-disable-next-line import/no-cycle
 import { request, requestWithoutResponse } from '../helpers';
 import { login, logout } from '../reducers/auth';
 
-export const refreshUserSession = queryParams => {
+export const refreshUserSession = (queryParams) => {
   return async (dispatch, getState) => {
     const timer = setInterval(async () => {
       const { isAuth } = getState().app.auth;
@@ -25,8 +26,8 @@ export const refreshUserSession = queryParams => {
   };
 };
 
-export const loginUser = queryParams => {
-  return async dispatch => {
+export const loginUser = (queryParams) => {
+  return async (dispatch) => {
     const response = await request({
       code: 'CMS.LOGIN',
       params: queryParams,
@@ -41,7 +42,7 @@ export const loginUser = queryParams => {
 };
 
 export const logoutUser = () => {
-  return async dispatch => {
+  return async (dispatch) => {
     await requestWithoutResponse({
       code: 'REP.REBOOT',
       token: localStorage.getItem('token'),
