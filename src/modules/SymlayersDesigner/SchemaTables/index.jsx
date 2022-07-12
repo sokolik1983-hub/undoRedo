@@ -171,6 +171,14 @@ useMemo(() => {
   }, [tablesPosition]);
 
   useEffect(() => {
+    if (!selectedTablesData.length) {
+      setTables(selectedTablesData);
+    } else {
+      setTables([]);
+    }
+  }, [selectedTablesData]);
+
+  useEffect(() => {
     if (props.tables) {
       setTables(props.tables);
       lodash.keys(props.tablesPosition).forEach(key => {
@@ -375,7 +383,7 @@ useMemo(() => {
               />
             );
           })}
-        {selectedTablesData.map(tableId => {
+        {Object.values(tables)?.map(tableId => {
           return (
             <Table
               tableId={tableId}
