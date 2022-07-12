@@ -14,7 +14,7 @@ import {
   setUniverseIsCreated
 } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
-import { loadSelectedTablesData, setLinks, setLoadedUniverse } from '../reducers/schemaDesigner';
+import { loadSelectedTablesArray, loadSelectedTablesData, setLinks, setLoadedUniverse } from '../reducers/schemaDesigner';
 import {
   showObjectsConnectionsModal,
   closeModal,
@@ -120,6 +120,7 @@ export const openUniverse = queryParams => {
     if (response?.result) {
       console.log(response)
       dispatch(loadSelectedTablesData(response.data.tables));
+      dispatch(loadSelectedTablesArray(response.data.tables));
       dispatch(setLinks(response.data.links));
       dispatch(setLoadedUniverse(true));
       dispatch(getObjectFromConnector({id: response.data.connector_id}));

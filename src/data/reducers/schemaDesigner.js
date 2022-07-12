@@ -96,12 +96,29 @@ const schemaDesigner = createSlice({
         action.payload
       ];
     },
+    loadSelectedTablesArray: (state, action) => {
+      state.selectedTablesArray = action.payload.map(table => {
+        const tempTable = {...table};
+        tempTable.name = `${tempTable.schema}_${tempTable.objectName}`;
+        tempTable.fields = tempTable.columns;
+        delete tempTable.columns;
+        delete tempTable.id;
+        delete tempTable.objectName;
+        delete tempTable.objectType;
+        delete tempTable.parentTable_id;
+        delete tempTable.position;
+        delete tempTable.schema;
+        delete tempTable.sql;
+        delete tempTable.viewHeight;
+        delete tempTable.viewType;
+        return tempTable;
+      });
+    },
     loadSelectedTablesData: (state, action) => {
-      const tables = action.payload.map(table => {
+      const tables = [...action.payload].map(table => {
         table.position.deltaPosition = {...table.position};
         return table;
       });
-      state.selectedTablesArray = tables;
       state.selectedTablesData = tables;
     },
     addLink: (state, action) => {
@@ -195,7 +212,8 @@ export const {
   setSemantycLayerName,
   setSchemaDesigner,
   loadSelectedTablesData,
-  setLoadedUniverse
+  setLoadedUniverse,
+  loadSelectedTablesArray
 } = schemaDesigner.actions;
 
 export default schemaDesigner.reducer;

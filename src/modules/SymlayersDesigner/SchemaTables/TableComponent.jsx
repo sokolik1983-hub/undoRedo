@@ -142,6 +142,7 @@ const TableComponent = ({
     filter: columnFilter,
     ...props
   } = getTableProps(tableId);
+  console.log(props)
 
   const { selectedTables, coloredValue, showDataList } = useSelector(
     state => state.app.schemaDesigner
@@ -476,6 +477,7 @@ const TableComponent = ({
   const [isActiveSchemaEditorBlock, setActiveSchemaEditorBlock] = useState(
     true
   );
+  console.log(tableItem)
 
   return (
     <g

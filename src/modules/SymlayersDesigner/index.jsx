@@ -28,9 +28,17 @@ function SymlayersDesigner() {
   const [folders, setFolders] = useState([]);
   const [objectsLinks, setObjectsLinks] = useState([]);
   const [tablesPosition, setTablesPosition] = useState({});
-
+  
   const connectorId = useSelector(state => state.app.data.selectedConnectorId); 
+  
+  const selectedTablesData = useSelector(
+    state => state.app.schemaDesigner.selectedTablesData
+  );
 
+  const isUnvLoaded = useSelector(
+    state => state.app.schemaDesigner.isUnvLoaded
+  );
+    
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.SEMANTIC));
     // dispatch(getConnectorObjectsList({ connect_id: 4 }));
@@ -68,6 +76,10 @@ function SymlayersDesigner() {
   const selectedTablesArray = useSelector(
     state => state.app.schemaDesigner.selectedTablesArray
   );
+
+  // useEffect(() => {
+  //   console.log(selectedTablesArray, selectedTablesData, checked)
+  // }, [checked, selectedTablesArray])
 
   const schemaDesignerUi = useSelector(state => state.app.schemaDesigner.ui);
   const links = useSelector(state => state.app.schemaDesigner.links);

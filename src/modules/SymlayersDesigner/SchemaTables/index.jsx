@@ -304,7 +304,9 @@ useMemo(() => {
     const objectName = finded?.objectName;
     const objectFullName = `${schema}_${objectName}`;
     return objectFullName;
-  }
+  };
+
+  const links = useSelector(state => state.app.schemaDesigner.links);
 
   const renderContent = ({ isShadow = false } = {}) => {
     return (
@@ -331,26 +333,29 @@ useMemo(() => {
               />
             );
           })()}
-        {Object.keys(tables).length &&
-          props.objectsLinks?.map(link => {
+        {links.map(link => {
             const objectFullName1 = createObjectName(link.object1.table_id);
             const objectFullName2 = createObjectName(link.object2.table_id);
-            console.log(tables)
-              Object.values(tables)?.find(
-                table => console.log(`${table.schema}_${table.objectName}, ${objectFullName1}, ${objectFullName2}`)
-              )
-            const SourceRect = targetRect(
-              Object.values(tables)?.find(
+            Object.values(tables)?.find(
+              table => console.log(`${table.schema}_${table.objectName}, ${objectFullName1}, ${objectFullName2}`)
+            );
+            let objectTable1 = Object.values(tables)?.find(
                 table => `${table.schema}_${table.objectName}` === objectFullName1
-              ),
-              !isShadow && link.object1.fields[0]?.field
             );
-            const TargetRect = targetRect(
-              Object.values(tables)?.find(
-                table => `${table.schema}_${table.objectName}` === objectFullName2
-              ),
-              !isShadow && link.object2.fields[0]?.field
+            let objectTable2 = Object.values(tables)?.find(
+                table => `${table.schema}_${table.objectName}` === objectFullName1
             );
+            let SourceRect; let TargetRect;
+            console.log(objectTable1, objectTable2)
+            if (objectTable1 && objectTable2) {
+              SourceRect = targetRect(objectTable1, !isShadow && link.object1.fields[0]?.field);
+              TargetRect = targetRect(objectTable2, !isShadow && link.object2.fields[0]?.field);
+            } else {
+              objectTable1 = selectedTablesData.find(table => `${table.schema}_${table.objectName}` === objectFullName1);
+              objectTable2 = selectedTablesData.find(table => `${table.schema}_${table.objectName}` === objectFullName2);
+              SourceRect = targetRect(objectTable1, !isShadow && link.object1.fields[0]?.field);
+              TargetRect = targetRect(objectTable2, !isShadow && link.object2.fields[0]?.field);
+            }
 
             return (
               <SymanticLink
@@ -364,22 +369,13 @@ useMemo(() => {
                 // isLoop={getTableId(link.object1) === getTableId(link.object2)}
                 // onCreateSynonym={props.onCreateSynonym}
                 isLoop={
-                  getTableId(
-                    Object.values(tables)?.find(
-                      table => `${table.schema}_${table.objectName}` === objectFullName1
-                    )
-                  ) ===
-                  getTableId(
-                    Object.values(tables)?.find(
-                      table => `${table.schema}_${table.objectName}` === objectFullName2
-                    )
-                  )
+                  getTableId(objectTable1) ===
+                  getTableId(objectTable2)
                 }
               />
             );
           })}
-
-        {Object.keys(tables)?.map(tableId => {
+        {selectedTablesData.map(tableId => {
           return (
             <Table
               tableId={tableId}
@@ -439,6 +435,7 @@ useMemo(() => {
 };
 
 function SchemaTables(props) {
+  console.log(props)
   return (
     <SymanticLayerContextProvider>
       {/* <SearchDialog /> */}
