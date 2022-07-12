@@ -3,22 +3,22 @@
   height: 100vh;
   position: relative;
   z-index: 1;
-  background: linear-gradient(192.95deg, #bceeeb -58.31%, #cbe6fa 90.65%);
+  background: linear-gradient(193.54deg, #F0F7F9 -0.64%, #DBEEFC 90.3%);
 }
 
-.backgroundImage {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  filter: blur(25px);
-  z-index: -1;
-  background-image: url('./assets/homeBGWhite.png');
-  fill: #fff;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
+//.backgroundImage {
+//  position: absolute;
+//  top: 0;
+//  bottom: 0;
+//  left: 0;
+//  right: 0;
+//  filter: blur(25px);
+//  z-index: -1;
+//  background-image: url('./assets/homeBGWhite.png');
+//  fill: #fff;
+//  background-repeat: no-repeat;
+//  background-size: cover;
+//}
 
 .content {
   // padding: 64px;

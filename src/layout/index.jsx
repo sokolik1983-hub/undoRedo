@@ -16,7 +16,6 @@ function Layout() {
 
     return (
         <div className={styles.root}>
-            <div className={styles.background_image} />
             <main className={styles.content}>
                 <Toast toastList={toastList} setList={setToastList} />
                 {!isLoginPage && <TopBar />}

@@ -76,15 +76,7 @@ const NotificationItem = ({
             }}
         >
             <div className={styles.title}>
-                {icon ? (
-                    ICONS[icon]
-                ) : (
-                    <img
-                        src={WarnIcon}
-                        className={styles.topIcon}
-                        alt="WarningIcon"
-                    />
-                )}
+                {icon ? ICONS[icon] : <WarnIcon className={styles.topIcon} />}
                 <span>{title || 'Внимание, ошибка'}</span>
             </div>
             {message && (
@@ -108,10 +100,8 @@ const NotificationItem = ({
                         <span className={styles.reasonHeader}>
                             Почему это произошло
                         </span>
-                        <img
-                            src={CollapseIcon}
+                        <CollapseIcon
                             className={reasonHidden && styles.reasonArrowDown}
-                            alt="Arrow"
                         />
                     </div>
 
@@ -131,10 +121,8 @@ const NotificationItem = ({
                         <span className={styles.adviceHeader}>
                             Что мне делать
                         </span>
-                        <img
-                            src={CollapseIcon}
+                        <CollapseIcon
                             className={adviseHidden && styles.adviseArrowDown}
-                            alt="Arrow"
                         />
                     </div>
 

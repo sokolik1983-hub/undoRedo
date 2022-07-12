@@ -2,7 +2,6 @@
 // Please do not change this file!
 declare namespace LayoutModuleScssNamespace {
     export interface ILayoutModuleScss {
-        backgroundImage: string;
         content: string;
         root: string;
     }
