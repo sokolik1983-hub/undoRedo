@@ -1,17 +1,13 @@
-/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import lodash from 'lodash';
+import { cloneDeep } from 'lodash';
 import {
   saveConnector,
   getConnectorTypesSources,
   createConnector,
-  getConnectorsFolderId,
   testConnector
 } from '../../data/actions/connectors';
-import { connect, Field, Form, Formik } from 'formik';
 import styles from './Connectors.module.scss';
-import TreeView from '../../common/components/TreeView/index';
 import Button from '../../common/components/Button';
 import Modal from '../../common/components/Modal';
 import TextInput from '../../common/components/TextInput';
@@ -22,15 +18,12 @@ import { ReactComponent as CreateConnector } from '../../layout/assets/createCon
 import { setCurrentPage } from '../../data/reducers/ui';
 import { PAGE } from '../../common/constants/pages';
 import Gears from '../../common/components/Gears';
-import { ReactComponent as TestFailed } from '../../../src/layout/assets/testFailedIcon.svg';
+import { ReactComponent as TestFailed } from '../../layout/assets/testFailedIcon.svg';
 import { ReactComponent as TestOkIcon } from '../../layout/assets/testOkIcon.svg';
 
-import { BUTTON } from '../../common/constants/common';
-import { cloneDeep } from 'lodash';
-import { TOAST_TYPE } from '../../common/constants/common';
+import { BUTTON, TOAST_TYPE } from '../../common/constants/common';
 import { showToast } from '../../data/actions/app';
 import Preloader from '../../common/components/Preloader/Preloader';
-import { logRoles } from '@testing-library/react';
 
 function Connectors() {
   const dispatch = useDispatch();
@@ -46,6 +39,12 @@ function Connectors() {
     state => state.app.data.testConnector
   );
   const notifications = useSelector(state => state.app.notifications);
+
+  const [isActive, setIsActive] = useState(false);
+  const [showTestOk, setshowTestOk] = useState(false);
+  const [showTestFailed, setshowTestFailed] = useState(false);
+
+  const createConnectorForm = document.getElementById('createConnectorForm');
 
   let testResultCopy = cloneDeep(testConnectorResult);
   let notificationsCopy = cloneDeep(notifications);
@@ -84,7 +83,7 @@ function Connectors() {
     newConnector = cloneDeep(connectorObject);
   }, [connectorObject]);
 
-  //Ответ сервера на запрос создания коннектора
+  // Ответ сервера на запрос создания коннектора
   const creationResult = useSelector(
     state => state.app.data.createConnectorResult
   );
@@ -98,6 +97,17 @@ function Connectors() {
   const [connectionDescription, setConnectionDescription] = useState(''); // описание коннектора
   const [showPreloader, setShowPreloader] = useState(false); // показ прелоудера
   const [connectorFields, setConnectorFields] = useState(false); // показ полей ввода коннектора
+
+  // Функция для получения объекта коннектора из бека
+  const getConnectorObjectFromBack = () => {
+    setShowPreloader(true);
+    dispatch(
+      createConnector({
+        type_id: connectSource,
+        id: connectType
+      })
+    );
+  };
 
   useEffect(() => {
     if (connectType && connectSource) {
@@ -120,19 +130,20 @@ function Connectors() {
     value: String(item.id)
   }));
 
-  const [isActive, setIsActive] = useState(false);
-  const [showTestOk, setshowTestOk] = useState(false);
-  const [showTestFailed, setshowTestFailed] = useState(false);
-
-  const createConnectorForm = document.getElementById('createConnectorForm');
-
   // Запись текущих значений инпутов формы в объект коннектора
   const setInputValues = () => {
-    let inputs = createConnectorForm.elements;
+    const inputs = createConnectorForm.elements;
 
     newConnector.data.fields?.map(item => {
       item.value = inputs[item.fieldName].value;
+      return item.value;
     });
+  };
+
+  // Запись в коннектор имени, описания
+  const setHeaderAndDescription = () => {
+    newConnector.header.name = connectName;
+    newConnector.header.desc = connectionDescription;
   };
 
   const testConnection = e => {
@@ -171,22 +182,6 @@ function Connectors() {
   const closeConnectorModalHandler = () => {
     setIsVisible(false);
     clearEnteredData();
-  };
-  // Функция для получения объекта коннектора из бека
-  const getConnectorObjectFromBack = () => {
-    setShowPreloader(true);
-    dispatch(
-      createConnector({
-        type_id: connectSource,
-        id: connectType
-      })
-    );
-  };
-
-  // Запись в коннектор имени, описания
-  const setHeaderAndDescription = () => {
-    newConnector.header.name = connectName;
-    newConnector.header.desc = connectionDescription;
   };
 
   // Показ уведомления в зависимости от результат с бэка
@@ -238,7 +233,7 @@ function Connectors() {
           value={connectType}
           options={typeOptions}
           onSelectItem={setConnectType}
-          defaultValue={'...'}
+          defaultValue="..."
         />
       </div>
       <div className={styles.connectionWrapper}>
@@ -248,7 +243,7 @@ function Connectors() {
           value={connectSource}
           onSelectItem={setConnectSource}
           options={sourceOptions}
-          defaultValue={'...'}
+          defaultValue="..."
         />
       </div>
       {newConnector?.data?.fields && connectorFields && (
@@ -261,6 +256,7 @@ function Connectors() {
                   label={item.fieldName}
                   labelClassName={styles.selectText}
                   value={item.value}
+                  // eslint-disable-next-line react/no-array-index-key
                   key={`${item.fieldName}_${index}`}
                   type={item.type}
                   required={item.required}
@@ -284,10 +280,9 @@ function Connectors() {
                 className={styles.textarea}
                 onChange={e => setConnectionDescription(e.target.value)}
                 onBlur={() =>
-                  setConnectionDescription(connectionDescription.trim())
-                }
+                  setConnectionDescription(connectionDescription.trim())}
                 value={connectionDescription}
-              ></textarea>
+              />
             </div>
           </div>
           <div className={styles.testConnectionWrapper}>
@@ -324,7 +319,7 @@ function Connectors() {
         form="createConnectorForm"
         type="text"
         className={styles.testConnectorButton}
-        disabled={newConnector?.data?.fields && connectorFields ? false : true}
+        disabled={!(newConnector?.data?.fields && connectorFields)}
       >
         Сохранить
       </Button>

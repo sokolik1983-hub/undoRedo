@@ -61,6 +61,19 @@ const EditConnectorModal = ({ visible, onClose }) => {
     }
   }, [connector]);
 
+  // Обнуление состояния предыдущего тестирования при загрузке модуля
+
+  const cleanTestResultSVG = () => {
+    setIsActive(false);
+    setshowTestOk(false);
+    setshowTestFailed(false);
+  }
+
+  const handleClose = () => {
+    onClose();
+    cleanTestResultSVG();
+  }
+
   const typeOptions = types?.map(item => ({
     text: item.name,
     value: String(item.id)
@@ -127,7 +140,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
       connectorData.data.fields[2].value = connectorData?.data?.fields[2]?.value.toUpperCase();
     }
     dispatch(saveConnector(connectorData));
-    onClose();
+    handleClose();
   };
 
   // Контент для модалки для добавления коннектора
@@ -254,7 +267,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
       <Button
         buttonStyle={BUTTON.BIG_BLUE}
         className={styles.cancelButton}
-        onClick={onClose}
+        onClick={handleClose}
       >
         Отмена
       </Button>
@@ -265,7 +278,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
     <Modal
       className={styles.modalContent}
       visible={visible}
-      onClose={onClose}
+      onClose={handleClose}
       title="Редактировать соединение"
       content={createConnectorModalContent}
       footer={createConnectorModalFooter}
