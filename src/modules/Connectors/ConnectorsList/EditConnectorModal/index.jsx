@@ -67,12 +67,12 @@ const EditConnectorModal = ({ visible, onClose }) => {
     setIsActive(false);
     setshowTestOk(false);
     setshowTestFailed(false);
-  }
+  };
 
   const handleClose = () => {
     onClose();
     cleanTestResultSVG();
-  }
+  };
 
   const typeOptions = types?.map(item => ({
     text: item.name,
