@@ -171,13 +171,13 @@ useMemo(() => {
     setTablesPosition(tablePositions);
   }, [tablesPosition]);
 
-  // useEffect(() => {
-  //   if (!selectedTables.length) {
-  //     setTables(selectedTables);
-  //   } else {
-  //     setTables([]);
-  //   }
-  // }, [selectedTables]);
+  useEffect(() => {
+    if (!selectedTables.length) {
+      setTables(selectedTables);
+    } else {
+      setTables([]);
+    }
+  }, [selectedTables]);
 
   useEffect(() => {
     if (props.tables) {
@@ -384,7 +384,7 @@ useMemo(() => {
               />
             );
           })}
-        {Object.values(tables)?.map(tableId => {
+        {Object.keys(tables)?.map(tableId => {
           return (
             <Table
               tableId={tableId}
