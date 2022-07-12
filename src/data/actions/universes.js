@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { request } from '../helpers';
+import { getTableIdFromParams, request } from '../helpers';
 import {
   setQueryData,
   setSymanticLayerData,
@@ -14,7 +14,7 @@ import {
   setUniverseIsCreated
 } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
-import { loadSelectedTablesArray, loadSelectedTablesData, setLinks, setLoadedUniverse } from '../reducers/schemaDesigner';
+import { loadSelectedTablesArray, loadSelectedTablesData, setLinks, setLoadedUniverse, setSelectedTables } from '../reducers/schemaDesigner';
 import {
   showObjectsConnectionsModal,
   closeModal,
@@ -124,6 +124,13 @@ export const openUniverse = queryParams => {
       dispatch(setLinks(response.data.links));
       dispatch(setLoadedUniverse(true));
       dispatch(getObjectFromConnector({id: response.data.connector_id}));
+      response.data.tables.forEach(table => {
+        dispatch(
+          setSelectedTables({
+            [getTableIdFromParams(table)]: table
+          })
+        );        
+      })
     }
   };
 };

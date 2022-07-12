@@ -53,6 +53,7 @@ const Provided = props => {
   const dispatch = useDispatch();
   const [addCord, setAddCoord] = useState(0);
   const selectedTablesData = useSelector(state => state.app.schemaDesigner.selectedTablesData);
+  const selectedTables = useSelector(state => state.app.schemaDesigner.selectedTables);
   // const saveUserData = {};
   // const userData = {};
   // const { saveUserData } = useApplicationActions();
@@ -170,13 +171,13 @@ useMemo(() => {
     setTablesPosition(tablePositions);
   }, [tablesPosition]);
 
-  useEffect(() => {
-    if (!selectedTablesData.length) {
-      setTables(selectedTablesData);
-    } else {
-      setTables([]);
-    }
-  }, [selectedTablesData]);
+  // useEffect(() => {
+  //   if (!selectedTables.length) {
+  //     setTables(selectedTables);
+  //   } else {
+  //     setTables([]);
+  //   }
+  // }, [selectedTables]);
 
   useEffect(() => {
     if (props.tables) {
