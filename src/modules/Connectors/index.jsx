@@ -134,9 +134,9 @@ function Connectors() {
       setshowTestFailed(false);
       setIsActive(!isActive);
       newConnector.header.parent_id = folderId;
-      if (newConnector?.data?.fields[2]) {
-        newConnector.data.fields[2].value = newConnector?.data?.fields[2]?.value.toUpperCase();
-      }
+      // if (newConnector?.data?.fields[2]) {
+      //   newConnector.data.fields[2].value = newConnector?.data?.fields[2]?.value.toUpperCase();
+      // }
       setHeaderAndDescription();
       dispatch(testConnector({ data: newConnector.data }));
     }
