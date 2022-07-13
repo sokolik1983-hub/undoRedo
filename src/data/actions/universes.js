@@ -28,6 +28,8 @@ import {
   closeConfirmModal
 } from '../reducers/ui';
 import { setReportDpRefreshed } from './newReportDesigner';
+import { showToast } from './app';
+import { TOAST_TYPE } from '../../common/constants/common';
 
 export const getUniverses = queryParams => async dispatch => {
   try {
@@ -116,7 +118,7 @@ export const createSampleUniverse = queryParams => {
   };
 };
 
-export const createUniverse = queryParams => {
+export const createUniverse = (queryParams, layerName) => {
   return async dispatch => {
     const response = await request({
       code: 'UNV.SAVE',
@@ -125,6 +127,12 @@ export const createUniverse = queryParams => {
     });
     if (response?.result) {
       dispatch(setUniverseIsCreated(true));
+      dispatch(
+        showToast(
+          TOAST_TYPE.SUCCESS,
+          `Семантический слой ${layerName} сохранен`
+        )
+      );
     }
   };
 };

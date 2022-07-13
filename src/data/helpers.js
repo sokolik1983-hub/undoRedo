@@ -5,10 +5,13 @@ import {
   PENDING_RESPONSE,
   ATTEMPTS,
   PENDING_SERVER_TIMER,
-  SERVER_API_URL
+  SERVER_API_URL,
+  SESSION_EXPIRED_MSG
 } from '../common/constants/config';
 // eslint-disable-next-line import/no-cycle
 import { notificationShown } from './reducers/notifications';
+// eslint-disable-next-line import/no-cycle
+import { logoutUser } from './actions/auth';
 
 // это запрос готовности данных
 export const requestReady = async ({ id, dispatch }) => {
@@ -32,9 +35,9 @@ export const requestReady = async ({ id, dispatch }) => {
     }
 
     if (response.data.result === 0 && response.data.errors) {
-      response.data.errors.forEach(item => {
+      response.data.errors.forEach((item) => {
         // eslint-disable-next-line camelcase
-        const { errText, errRecommend, errReason, isVisible } = item;
+        const { errText, errRecommend, errReason, isVisible, errorCode } = item;
         if (isVisible !== 0) {
           dispatch(
             notificationShown({
@@ -44,6 +47,9 @@ export const requestReady = async ({ id, dispatch }) => {
               advice: errRecommend
             })
           );
+          if (errorCode === SESSION_EXPIRED_MSG) {
+            dispatch(logoutUser());
+          }
         }
         // err_category: 1
         // err_code: "040.00001"
@@ -141,7 +147,9 @@ export const request = async ({ params, code, dispatch }) => {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      data: `code=${code}&token=${encodeURI(token) || null}&format=JSON${streamreceiver ? `&streamreceiver=${streamreceiver}` : ''}${params ? `&params=${encodeURIComponent(JSON.stringify(params))}` : ''}`
+      data: `code=${code}&token=${encodeURI(token) || null}&format=JSON${
+        streamreceiver ? `&streamreceiver=${streamreceiver}` : ''
+      }${params ? `&params=${encodeURIComponent(JSON.stringify(params))}` : ''}`
     });
 
     if (response && response.status === 200) {
@@ -175,8 +183,9 @@ export const requestWithoutResponse = async ({
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      data: `code=${code}&token=${encodeURI(token) ||
-        null}&format=JSON&params=${params ? JSON.stringify(params) : ''}`
+      data: `code=${code}&token=${
+        encodeURI(token) || null
+      }&format=JSON&params=${params ? JSON.stringify(params) : ''}`
     });
     if (response && response.status === 200) {
       return null;
@@ -194,20 +203,15 @@ export const requestWithoutResponse = async ({
   return null;
 };
 
-export const prefixLS = str => `tby:md:${str}`;
+export const prefixLS = (str) => `tby:md:${str}`;
 
 export const getSimpleID = () => {
-  return Math.random()
-    .toString(16)
-    .slice(2);
+  return Math.random().toString(16).slice(2);
 };
 
-export const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export const getTableIdFromParams = ({
-  schema,
-  objectName,
-}) => {
+export const getTableIdFromParams = ({ schema, objectName }) => {
   return `${schema}_${objectName}`;
 };
 

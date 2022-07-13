@@ -21,7 +21,8 @@ import {
 import {
   setDataList,
   clearDataList,
-  setShowDataList
+  setShowDataList,
+  setSelectedTablesData
 } from '../../../data/reducers/schemaDesigner';
 import { getTableIdFromParams } from '../../../data/helpers';
 import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock/index';
@@ -130,7 +131,7 @@ const TableComponent = ({
 
       initLink
     },
-    { getTableProps, posToCoord, addLink }
+    { getTableProps, posToCoord, addLink, getTablePosition }
   ] = useContext(SymanticLayerContext);
 
   const {
@@ -174,6 +175,28 @@ const TableComponent = ({
   const searchMatches = item => {
     return item?.field.toLowerCase()?.includes(coloredValue.toLowerCase());
   };
+  const selectedTablesData = useSelector(state => state.app.schemaDesigner.selectedTablesData);
+
+  useEffect(() => {
+    const repeat = selectedTablesData.find(table => table.objectName === tableItem.objectName );    
+    const {schema, objectName} = tableItem;
+    const tableName = getTableIdFromParams({schema, objectName});
+    const position = getTablePosition(tableName) || {
+      deltaPosition: { x: 0, y: 0 }
+    };
+    if (tableItem?.columns && !repeat) {
+      const tempTable = {...tableItem};
+      delete tempTable.table_id;
+      dispatch(setSelectedTablesData({
+        id: selectedTablesData.length,
+        parentTable_id: null,
+        sql: null,
+        viewType: "Head",
+        viewHeight: 200,  
+        position: position.deltaPosition,
+      ...tempTable}));
+    }
+  }, [tableItem]);
 
   const searchStaticMatches = item => {
     return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase());
@@ -360,11 +383,10 @@ const TableComponent = ({
     event.dataTransfer.setData('field', JSON.stringify(field));
     const object1 = {
       cardinality: 'one',
-      fields: table.columns,
       object_name: `${table.schema}_${table.objectName}`,
+      table_id: table.table_id,
       outerJoin: null,
-      schema: `${table.schema}`,
-      selectedColumns: [field.field]
+      fields: [field.field]
     }
     event.dataTransfer.setData('object1', JSON.stringify(object1));
   };
@@ -397,11 +419,10 @@ const TableComponent = ({
     const object1 = JSON.parse(event.dataTransfer.getData('object1'));
     const object2 = {
       cardinality: 'one',
-      fields: table.columns,
       object_name: `${table.schema}_${table.objectName}`,
+      table_id: table.table_id,
       outerJoin: null,
-      schema: `${table.schema}`,
-      selectedColumns: [field.field]
+      fields: [field.field]
     }
 
     if (object1.object_name !== object2.object_name)
