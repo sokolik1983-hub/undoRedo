@@ -6,15 +6,11 @@ import { ReactComponent as FolderOpenIcon } from '../../../../../layout/assets/f
 import { getIconByItemType } from '../../../queryPanelHelper';
 import { DRAG_PARENT_SECTION } from '../../../../../common/constants/common';
 import styles from './PanelListNode.module.scss';
+import { useDragNDrop } from '../../../context/DragNDropContext';
 
 const PanelListNode = ({ item }) => {
+  const { handleDragStart } = useDragNDrop();
   const [isOpen, setIsOpen] = useState(false);
-
-  const handleDragStart = (e, obj) => {
-    e.stopPropagation();
-    e.dataTransfer.setData('text', JSON.stringify(obj));
-    e.dataTransfer.setDragImage(e.target, -10, 10);
-  };
 
   const hasChildren = !!item?.children?.length;
   const isFolder = item?.objectType === 'Folder';

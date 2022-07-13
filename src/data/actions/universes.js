@@ -81,7 +81,15 @@ export const getQueryPanelSymanticLayerData = id => async dispatch => {
     params: { id },
     dispatch
   });
-  if (response) dispatch(setQueryPanelSymlayersData(response.qpData));
+
+  if (response) {
+    dispatch(
+      setQueryPanelSymlayersData({
+        universeId: id,
+        data: response.qpData
+      })
+    );
+  }
 };
 
 export const createSampleUniverse = queryParams => {
@@ -241,6 +249,7 @@ export const getReportsFolderId = queryParams => {
   };
 };
 
+// TODO: удалить getResultFromQuery если нигде не используется
 export const getResultFromQuery = queryParams => async dispatch => {
   const response = await request({
     code: 'CN.GET_DATA',
@@ -253,6 +262,32 @@ export const getResultFromQuery = queryParams => async dispatch => {
   }
 };
 
+export const createQueryAndGetResult = (
+  createQueryParams,
+  getResultParams
+) => async dispatch => {
+  const createQueryResponse = await request({
+    code: 'UNV.GET_SQL',
+    params: createQueryParams,
+    dispatch
+  });
+
+  if (createQueryResponse) {
+    dispatch(setQueryData(createQueryResponse));
+
+    const getResultResponse = await request({
+      code: 'CN.GET_DATA',
+      params: { ...getResultParams, query: createQueryResponse.dpSql },
+      dispatch
+    });
+
+    if (getResultResponse) {
+      dispatch(setQueryResult(getResultResponse));
+    }
+  }
+};
+
+// TODO: удалить postQueryPanelTab если больше нигде не используется
 export const postQueryPanelTab = queryParams => async dispatch => {
   const response = await request({
     code: 'REP.SET_DP',
@@ -265,6 +300,34 @@ export const postQueryPanelTab = queryParams => async dispatch => {
   }
 
   console.log(response);
+};
+
+export const createQueryAndPostQueryPanelTab = (
+  createQueryParams,
+  postParams
+) => async dispatch => {
+  const createQueryResponse = await request({
+    code: 'UNV.GET_SQL',
+    params: createQueryParams,
+    dispatch
+  });
+
+  if (createQueryResponse) {
+    dispatch(setQueryData(createQueryResponse));
+
+    const postQueryPanelTabResponse = await request({
+      code: 'REP.SET_DP',
+      params: {
+        ...postParams,
+        dp: { ...postParams.dp, dpSql: createQueryResponse.dpSql }
+      },
+      dispatch
+    });
+
+    if (postQueryPanelTabResponse) {
+      dispatch(setReportDpRefreshed());
+    }
+  }
 };
 
 export const setObjectsConnectionsModal = (open, link) => {

@@ -190,8 +190,7 @@ const DragNDropProvider = ({ children }) => {
     e.stopPropagation();
 
     let dropped = JSON.parse(e.dataTransfer.getData('text'));
-    console.log(dropped);
-    console.log(target);
+
     if (dropped.objectType === 'Folder') return;
 
     if (parentSection.current !== DRAG_PARENT_SECTION.FILTERS) {
@@ -207,7 +206,6 @@ const DragNDropProvider = ({ children }) => {
       dropped.id
     );
     const [targetParent, targetIndex] = getParent(filtersDeskClone, target.id);
-    console.log(targetParent, droppedParent);
 
     /* если дроп айтема на айтем */
     if (target.type === 'filter-item' && dropped.type === 'filter-item') {

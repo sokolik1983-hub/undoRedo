@@ -77,13 +77,8 @@ const data = createSlice({
       state.symLayersData = action.payload;
     },
     setQueryPanelSymlayersData: (state, action) => {
-      const {
-        connector_id,
-        lists,
-        objects,
-        prompts,
-        properties
-      } = action.payload;
+      const { universeId, data } = action.payload;
+      const { connector_id, lists, objects, prompts, properties } = data;
       const rootFolder = objects
         .map(i =>
           i.objectType === 'Folder' || i.objectType === 'Dimension'
@@ -128,7 +123,8 @@ const data = createSlice({
         filters: null,
         queryTitle: `Новый запрос (${index})`,
         dpId: `DP${index}`,
-        connector_id
+        connector_id,
+        universeId
       });
     },
     setCurrentQueryPanelSymlayer: (state, action) => {
