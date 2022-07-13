@@ -41,8 +41,13 @@ const EditConnectorModal = ({ visible, onClose }) => {
   );
   const [isActive, setIsActive] = useState(false);
   const [showPreloader, setShowPreloader] = useState(false); // показ прелоудера
-  const [showTestOk, setshowTestOk] = useState(false);
-  const [showTestFailed, setshowTestFailed] = useState(false);
+  const [showTestOk, setShowTestOk] = useState(false);
+  const [showTestFailed, setShowTestFailed] = useState(false);
+
+  useEffect(() => {
+    setShowTestOk(false);
+    setShowTestFailed(false);
+  });
   // Ответ сервера на запрос создания коннектора
   const creationResult = useSelector(
     state => state.app.data.createConnectorResult
@@ -61,17 +66,10 @@ const EditConnectorModal = ({ visible, onClose }) => {
     }
   }, [connector]);
 
-  // Обнуление состояния предыдущего тестирования при загрузке модуля
-
-  const cleanTestResultSVG = () => {
-    setIsActive(false);
-    setshowTestOk(false);
-    setshowTestFailed(false);
-  };
-
   const handleClose = () => {
+    setShowTestOk(false);
+    setShowTestFailed(false);
     onClose();
-    cleanTestResultSVG();
   };
 
   const typeOptions = types?.map(item => ({
@@ -99,10 +97,10 @@ const EditConnectorModal = ({ visible, onClose }) => {
       setIsActive(false);
       if (testResultCopy.result) {
         // Успешно - рисуем галочку
-        setshowTestOk(!showTestOk);
+        setShowTestOk(!showTestOk);
       } else {
         // ошибка красим шестерни в красный цвет
-        setshowTestFailed(!showTestFailed);
+        setShowTestFailed(!showTestFailed);
       }
     }
   }, [testConnectorResult]);
@@ -112,7 +110,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
     notificationsCopy = cloneDeep(notifications);
     if (notificationsCopy?.items[0]?.id) {
       setIsActive(false);
-      setshowTestFailed(!showTestFailed);
+      setShowTestFailed(!showTestFailed);
     }
   }, [notifications]);
 
@@ -121,8 +119,6 @@ const EditConnectorModal = ({ visible, onClose }) => {
     e.stopPropagation();
     setHeaderAndDescription();
     if (document.getElementById('createConnectorForm').reportValidity()) {
-      setshowTestOk(false);
-      setshowTestFailed(false);
       setIsActive(!isActive);
       if (connectorData?.data?.fields[2]) {
         connectorData.data.fields[2].value = connectorData?.data?.fields[2]?.value.toUpperCase();

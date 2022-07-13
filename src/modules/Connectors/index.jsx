@@ -169,19 +169,19 @@ function Connectors() {
 
   // Чистим введенныю данные при закрытии модалки создания нового коннектора
   const clearEnteredData = () => {
+    setshowTestOk(false);
+    setshowTestFailed(false);
     setConnectName('');
     setConnectionDescription('');
     setConnectType(false);
     setConnectSource(false);
     setConnectorFields(false);
-    setshowTestOk(false);
-    setshowTestFailed(false);
     dispatch(testConnector(null));
   };
 
   const closeConnectorModalHandler = () => {
-    setIsVisible(false);
     clearEnteredData();
+    setIsVisible(false);
   };
 
   // Показ уведомления в зависимости от результат с бэка
@@ -280,7 +280,9 @@ function Connectors() {
                 className={styles.textarea}
                 onChange={e => setConnectionDescription(e.target.value)}
                 onBlur={() =>
-                  setConnectionDescription(connectionDescription.trim())}
+                  setConnectionDescription(connectionDescription.trim())
+                // eslint-disable-next-line react/jsx-curly-newline
+                }
                 value={connectionDescription}
               />
             </div>
