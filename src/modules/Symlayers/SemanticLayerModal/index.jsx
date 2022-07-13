@@ -167,7 +167,7 @@ const SemanticLayerModal = ({
         titleClassName={styles.title}
         dialogClassName={styles.dialog}
         headerClassName={styles.header}
-        onClose={onClose || onClickAction}
+        onClose={onClose}
       />
     </div>
   );
