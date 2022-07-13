@@ -1,5 +1,6 @@
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { memo } from 'react';
+import { useSelector } from 'react-redux';
 import ObjectsPanelHeader from './ObjectsPanelHeader/ObjectsPanelHeader';
 import Divider from '../../../common/components/Divider';
 import usePanelListFilters from './usePanelListFilters';
@@ -49,7 +50,7 @@ const ObjectsPanel = ({ modalOpenHandler }) => {
   );
 };
 
-export default ObjectsPanel;
+export default memo(ObjectsPanel);
 
 ObjectsPanel.propTypes = {
   modalOpenHandler: PropTypes.func

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {
   Children,
   createContext,
+  memo,
   useContext,
   useEffect,
   useState
@@ -94,7 +95,7 @@ const Select = ({ children, className, value, onChange }) => {
   );
 };
 
-export default Select;
+export default memo(Select);
 
 Select.propTypes = {
   children: PropTypes.node.isRequired,

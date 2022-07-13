@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   copySymlayer,
@@ -165,7 +165,7 @@ const ObjectsPanelHeader = ({ modalOpenHandler }) => {
   );
 };
 
-export default ObjectsPanelHeader;
+export default memo(ObjectsPanelHeader);
 
 ObjectsPanelHeader.propTypes = {
   modalOpenHandler: PropTypes.func
