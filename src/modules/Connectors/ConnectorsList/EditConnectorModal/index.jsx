@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { cloneDeep } from 'lodash';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -9,8 +8,7 @@ import Modal from '../../../../common/components/Modal';
 import Preloader from '../../../../common/components/Preloader/Preloader';
 import Select from '../../../../common/components/Select';
 import TextInput from '../../../../common/components/TextInput';
-import { BUTTON, TOAST_TYPE } from '../../../../common/constants/common';
-import { showToast } from '../../../../data/actions/app';
+import { BUTTON } from '../../../../common/constants/common';
 import {
   getConnectorTypesSources,
   saveConnector,
@@ -40,13 +38,16 @@ const EditConnectorModal = ({ visible, onClose }) => {
     connectorData?.header?.desc
   );
   const [isActive, setIsActive] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [showPreloader, setShowPreloader] = useState(false); // показ прелоудера
-  const [showTestOk, setshowTestOk] = useState(false);
-  const [showTestFailed, setshowTestFailed] = useState(false);
-  // Ответ сервера на запрос создания коннектора
-  const creationResult = useSelector(
-    state => state.app.data.createConnectorResult
-  );
+  const [showTestOk, setShowTestOk] = useState(false);
+  const [showTestFailed, setShowTestFailed] = useState(false);
+
+  useEffect(() => {
+    setShowTestOk(false);
+    setShowTestFailed(false);
+  }, [visible]);
+
   const testConnectorResult = useSelector(
     state => state.app.data.testConnector
   );
@@ -60,6 +61,13 @@ const EditConnectorModal = ({ visible, onClose }) => {
       setConnectionDescription(connectorData.header.desc);
     }
   }, [connector]);
+
+  const handleClose = () => {
+    setShowTestOk(false);
+    setShowTestFailed(false);
+    dispatch(testConnector({ data: null }));
+    onClose();
+  };
 
   const typeOptions = types?.map(item => ({
     text: item.name,
@@ -86,10 +94,10 @@ const EditConnectorModal = ({ visible, onClose }) => {
       setIsActive(false);
       if (testResultCopy.result) {
         // Успешно - рисуем галочку
-        setshowTestOk(!showTestOk);
+        setShowTestOk(!showTestOk);
       } else {
         // ошибка красим шестерни в красный цвет
-        setshowTestFailed(!showTestFailed);
+        setShowTestFailed(!showTestFailed);
       }
     }
   }, [testConnectorResult]);
@@ -99,21 +107,18 @@ const EditConnectorModal = ({ visible, onClose }) => {
     notificationsCopy = cloneDeep(notifications);
     if (notificationsCopy?.items[0]?.id) {
       setIsActive(false);
-      setshowTestFailed(!showTestFailed);
+      setShowTestFailed(!showTestFailed);
     }
   }, [notifications]);
 
   const testConnection = e => {
     e.preventDefault();
     e.stopPropagation();
+    setShowTestOk(false);
+    setShowTestFailed(false);
     setHeaderAndDescription();
     if (document.getElementById('createConnectorForm').reportValidity()) {
-      setshowTestOk(false);
-      setshowTestFailed(false);
       setIsActive(!isActive);
-      if (connectorData?.data?.fields[2]) {
-        connectorData.data.fields[2].value = connectorData?.data?.fields[2]?.value.toUpperCase();
-      }
       setHeaderAndDescription();
       dispatch(testConnector({ data: connectorData.data }));
     }
@@ -123,11 +128,8 @@ const EditConnectorModal = ({ visible, onClose }) => {
     event.preventDefault();
     event.stopPropagation();
     setHeaderAndDescription();
-    if (connectorData?.data?.fields[2]?.value) {
-      connectorData.data.fields[2].value = connectorData?.data?.fields[2]?.value.toUpperCase();
-    }
     dispatch(saveConnector(connectorData));
-    onClose();
+    handleClose();
   };
 
   // Контент для модалки для добавления коннектора
@@ -183,7 +185,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
                   onFocus={item.value}
                   // eslint-disable-next-line react/no-array-index-key
                   key={`${item.fieldName}_${index}`}
-                  type={item.type}
+                  type={item.fieldKey === 'PWD' ? 'password' : item.type}
                   required={item.required}
                   uppercase={item.fieldKey === 'DATABASE'}
                   className={styles.connectorsInput}
@@ -254,7 +256,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
       <Button
         buttonStyle={BUTTON.BIG_BLUE}
         className={styles.cancelButton}
-        onClick={onClose}
+        onClick={handleClose}
       >
         Отмена
       </Button>
@@ -265,7 +267,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
     <Modal
       className={styles.modalContent}
       visible={visible}
-      onClose={onClose}
+      onClose={handleClose}
       title="Редактировать соединение"
       content={createConnectorModalContent}
       footer={createConnectorModalFooter}
