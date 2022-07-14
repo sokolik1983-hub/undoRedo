@@ -245,7 +245,7 @@ const CreateConnectorModal = ({ isVisible, onClose }) => {
                   value={item.value}
                   // eslint-disable-next-line react/no-array-index-key
                   key={`${item.fieldName}_${index}`}
-                  type={item.type}
+                  type={item.fieldKey === 'PWD' ? 'password' : item.type}
                   required={item.required}
                   className={styles.connectorsInput}
                   onChange={e => {
