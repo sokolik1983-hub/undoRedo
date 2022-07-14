@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { cloneDeep } from 'lodash';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -9,8 +8,7 @@ import Modal from '../../../../common/components/Modal';
 import Preloader from '../../../../common/components/Preloader/Preloader';
 import Select from '../../../../common/components/Select';
 import TextInput from '../../../../common/components/TextInput';
-import { BUTTON, TOAST_TYPE } from '../../../../common/constants/common';
-import { showToast } from '../../../../data/actions/app';
+import { BUTTON } from '../../../../common/constants/common';
 import {
   getConnectorTypesSources,
   saveConnector,
@@ -40,6 +38,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
     connectorData?.header?.desc
   );
   const [isActive, setIsActive] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [showPreloader, setShowPreloader] = useState(false); // показ прелоудера
   const [showTestOk, setShowTestOk] = useState(false);
   const [showTestFailed, setShowTestFailed] = useState(false);
@@ -47,12 +46,8 @@ const EditConnectorModal = ({ visible, onClose }) => {
   useEffect(() => {
     setShowTestOk(false);
     setShowTestFailed(false);
-  }, []);
+  }, [visible]);
 
-  // Ответ сервера на запрос создания коннектора
-  const creationResult = useSelector(
-    state => state.app.data.createConnectorResult
-  );
   const testConnectorResult = useSelector(
     state => state.app.data.testConnector
   );
@@ -70,6 +65,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
   const handleClose = () => {
     setShowTestOk(false);
     setShowTestFailed(false);
+    dispatch(testConnector({ data: null }));
     onClose();
   };
 
@@ -118,6 +114,8 @@ const EditConnectorModal = ({ visible, onClose }) => {
   const testConnection = e => {
     e.preventDefault();
     e.stopPropagation();
+    setShowTestOk(false);
+    setShowTestFailed(false);
     setHeaderAndDescription();
     if (document.getElementById('createConnectorForm').reportValidity()) {
       setIsActive(!isActive);
@@ -130,9 +128,6 @@ const EditConnectorModal = ({ visible, onClose }) => {
     event.preventDefault();
     event.stopPropagation();
     setHeaderAndDescription();
-    if (connectorData?.data?.fields[2]?.value) {
-      connectorData.data.fields[2].value = connectorData?.data?.fields[2]?.value.toUpperCase();
-    }
     dispatch(saveConnector(connectorData));
     handleClose();
   };

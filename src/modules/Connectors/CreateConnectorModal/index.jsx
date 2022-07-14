@@ -38,7 +38,7 @@ const CreateConnectorModal = ({ isVisible, onClose }) => {
   useEffect(() => {
     setshowTestOk(false);
     setshowTestFailed(false);
-  }, []);
+  }, [isVisible]);
 
   const createConnectorForm = document.getElementById('createConnectorForm');
 
