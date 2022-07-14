@@ -255,7 +255,7 @@ function Connectors() {
                   labelClassName={styles.selectText}
                   value={item.value}
                   key={`${item.fieldName}_${index}`}
-                  type={item.type}
+                  type={item.fieldKey === 'PWD' ? 'password' : item.type}
                   required={item.required}
                   uppercase={item.fieldKey === 'DATABASE'}
                   className={styles.connectorsInput}
