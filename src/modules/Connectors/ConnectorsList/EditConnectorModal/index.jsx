@@ -47,7 +47,8 @@ const EditConnectorModal = ({ visible, onClose }) => {
   useEffect(() => {
     setShowTestOk(false);
     setShowTestFailed(false);
-  });
+  }, []);
+
   // Ответ сервера на запрос создания коннектора
   const creationResult = useSelector(
     state => state.app.data.createConnectorResult
@@ -120,9 +121,6 @@ const EditConnectorModal = ({ visible, onClose }) => {
     setHeaderAndDescription();
     if (document.getElementById('createConnectorForm').reportValidity()) {
       setIsActive(!isActive);
-      if (connectorData?.data?.fields[2]) {
-        connectorData.data.fields[2].value = connectorData?.data?.fields[2]?.value.toUpperCase();
-      }
       setHeaderAndDescription();
       dispatch(testConnector({ data: connectorData.data }));
     }
