@@ -22,20 +22,22 @@ import { ReactComponent as TestOkIcon } from '../../../../../layout/assets/testO
  * @param connectorName - строка с названием коннектора
  */
 
-const Connect = ({ title }) => {
+const Connect = ({ title, cleanTestData }) => {
   const dispatch = useDispatch();
 
   const [isActive, setIsActive] = useState(false);
   const [showTestOk, setShowTestOk] = useState(false);
   const [showTestFailed, setShowTestFailed] = useState(false);
 
-  useEffect(() => {
+  const clearTest = () => {
     setShowTestOk(false);
     setShowTestFailed(false);
-  }, []);
+  }
 
   useEffect(() => {
     dispatch(getConnectorsFolderId({ folderType: 'USER_CN' }));
+    dispatch(testConnector({ data: null }));
+    cleanTestData.current = clearTest;
   }, []);
 
   const connectorsFolderId = useSelector(
@@ -76,6 +78,8 @@ const Connect = ({ title }) => {
 
   useEffect(() => {
     dispatch(getConnectorFolderChildren({ id: connectorsFolderId }));
+    setShowTestOk(false);
+    setShowTestFailed(false);
   }, [connectorsFolderId]);
 
   const connectors = useSelector(state => state.app.data.connectors);
@@ -118,7 +122,6 @@ const Connect = ({ title }) => {
             <div className={styles.hide}>
               <p className={styles.text}>создать соединение</p>
             </div>
-            {/* <Gears isSpinning={isActive} className={styles.gearsIcon} /> */}
             <div className={styles.gearsIconWrapper}>
               {showTestOk && <TestOkIcon className={styles.gearsIcon} />}
               {showTestFailed && <TestFailed className={styles.gearsIcon} />}
@@ -152,7 +155,8 @@ const Connect = ({ title }) => {
 export default Connect;
 
 Connect.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
+  cleanTestData: PropTypes.func
 };
 
 Connect.defaultProps = {

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveConnector } from '../../data/actions/connectors';
+import { saveConnector, testConnector } from '../../data/actions/connectors';
 import styles from './Symlayers.module.scss';
 import Button from '../../common/components/Button';
 import TextInput from '../../common/components/TextInput';
