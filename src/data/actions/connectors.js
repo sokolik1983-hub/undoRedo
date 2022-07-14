@@ -71,7 +71,6 @@ export const getConnector = queryParams => {
       });
       if (response?.result) {
         dispatch(setConnectorData(response));
-        console.log(response.data);
         dispatch(showEditConnectorModal());
       }
     } catch (err) {
