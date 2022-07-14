@@ -224,8 +224,6 @@ export const getReportTabs = queryParams => {
           })
         })
       );
-
-      console.log(response);
       // dispatch(getReportStructure({ report_id: queryParams.report_id }));
     }
   };

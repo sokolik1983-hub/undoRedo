@@ -7,10 +7,12 @@ import PropTypes from 'prop-types';
  * @param children - нода для отрисовки внутри элемента
  */
 
-const SimpleDropDown = ({ title, className, titleClassName, children }) => {
+// eslint-disable-next-line no-unused-vars
+const SimpleDropDown = ({ title, className, titleClassName, children, icon, iconClassName }) => {
   return (
     <details className={className}>
       <summary className={titleClassName}>
+        {icon && <span className={iconClassName}>{icon}</span>}
         {title}
       </summary>
       {children}
@@ -21,8 +23,10 @@ const SimpleDropDown = ({ title, className, titleClassName, children }) => {
 SimpleDropDown.propTypes = {
   title: PropTypes.string,
   className: PropTypes.string,
+  iconClassName: PropTypes.string,
   titleClassName: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
+  icon: PropTypes.node
 };
 
 export default SimpleDropDown

@@ -33,11 +33,6 @@ export const NAV_MENU_GRAPH = [
   { id: 4, title: 'Формат', icon: <DashboardIcon /> }
 ];
 
-export const NAV_MENU_TABLE = [
-  { id: 1, title: 'Заголовок', icon: <>Заголовок</> },
-  { id: 2, title: 'Ячейки', icon: <>Ячейки</> }
-];
-
 export const getNavMenu = (navType) => {
   switch (navType) {
     case SIDE_PANEL_TYPES.CONFIG_MENU:

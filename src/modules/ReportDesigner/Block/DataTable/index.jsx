@@ -54,8 +54,6 @@ function DataTable({
         result.push(res);
       });
 
-      console.log(dataConverted, 'dataConverted');
-
       const sortFields = structureItem?.sorting?.map(
         sortingField => sortingField.field
       );
@@ -248,9 +246,6 @@ function DataTable({
       structureItem?.columns[0],
       structureItem?.values[0]
     );
-
-    console.log(crossData);
-    console.log(res);
 
     return (
       <table style={{ ...blockStyles }}>

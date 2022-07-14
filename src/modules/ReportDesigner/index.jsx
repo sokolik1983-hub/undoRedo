@@ -40,10 +40,6 @@ import {
 } from '../../data/actions/newReportDesigner';
 import { REPORT_ACTIONS } from '../../common/constants/reportDesigner/reportActions';
 import FormulaEditor from '../../common/components/FormulaEditor';
-// import Sidebar from '../SymlayersDesigner/Sidebar';
-// import ObjectsPanel from '../QueryPanel/ObjectsPanel';
-// import DragNDropProvider from '../QueryPanel/context/DragNDropContext';
-// import { getSymanticLayerData } from '../../data/actions/universes';
 import ReportSidebar from './ReportSidebar';
 import QueryPanel from '../QueryPanel';
 import ReportContent from './ReportContent';
@@ -203,6 +199,8 @@ function ReportDesigner() {
 
   const isShowingPanel = reportDesigner.reportsUi.ui.showConfigPanel;
 
+  // -------------------начало: стили---------------------------------
+
   const containerStyle = () => {
     if (reportDesigner.reportsUi?.ui.showFormulaEditor && !isShowingPanel) {
       return styles.container;
@@ -235,6 +233,16 @@ function ReportDesigner() {
     [styles.formulaCompressed]: isShowingPanel
   });
 
+  // -------------------конец: стили---------------------------------
+
+  // -------------------начало: действия с отчетом внизу страницы---------------------------------
+
+  
+  const handleSelectReport = reportId => event => {
+    event.stopPropagation();
+    dispatch(setActiveReport(reportId));
+  };
+
   function handleAddReport() {
     const newReports = [
       ...reportDesigner.reportsData.present.reports,
@@ -253,32 +261,6 @@ function ReportDesigner() {
       })
     );
   }
-
-  const handleSelectReport = reportId => event => {
-    event.stopPropagation();
-    dispatch(setActiveReport(reportId));
-  };
-
-  // const handleDeleteReport = reportId => event => {
-  // event.stopPropagation();
-  // const reportIdx = lodash.findIndex(
-  //   reportDesigner.reportsData.present.reports,
-  //   item => item.id === reportId
-  // );
-  // if (reportDesigner.reportsData.present.reports?.length > 1) {
-  //   const newReports = reportDesigner.reportsData.present.reports.filter(
-  //     report => report.id !== reportId
-  //   );
-  //   if (reportDesigner.reportsData.present.activeReport === reportId) {
-  //     dispatch(
-  //       setActiveReport(
-  //         reportDesigner.reportsData.present.reports[reportIdx - 1]?.id
-  //       )
-  //     );
-  //   }
-  //   dispatch(setReports({ reports: newReports }));
-
-  // -------------------начало: действия с отчетом внизу страницы---------------------------------
 
   const handleRenameReport = repName => {
     const editedReport = { ...currentReport, name: repName };
@@ -384,6 +366,8 @@ function ReportDesigner() {
     setSemanticLayer(true);
   };
 
+  // -------------------начало: действия с блоком формулы---------------------------------
+
   const [formula, setFormula] = useState('');
 
   const activeNode =
@@ -400,10 +384,7 @@ function ReportDesigner() {
 
   const handleChange = e => setFormula(e.target.value);
 
-  // useEffect(() => {
-  //   if (semanticLayer) dispatch(getSymanticLayerData(semanticLayer.id));
-  // }, [semanticLayer]);
-  // {id: 165, name: "Клиентская справка"}
+  // -------------------конец: действия с блоком формулы---------------------------------
 
   const handleSelectBlock = (structureItem, addItem) => {
     if (
@@ -491,20 +472,6 @@ function ReportDesigner() {
                 isActiveNode={checkIsActiveNode}
               />
             )}
-            {/* <ReportHeader data={currentReport?.structure?.pgHeader} />
-            <ReportBody data={currentReport?.structure?.pgBody} />
-            {currentReport?.structure?.map(block => (
-              <Block
-                {...block}
-                key={block.id}
-                structureItem={block}
-                onChangePosition={handleChangePosition}
-                onChangeScales={handleChangeScales}
-                onSelect={handleSelect}
-                isActiveNode={checkIsActiveNode(block.id)}
-              />
-            ))}
-            <ReportFooter data={currentReport?.structure?.pgFooter} /> */}
           </div>
         </div>
         <div className={activeTab === 1 ? footerCompressed : styles.footer}>
@@ -564,7 +531,7 @@ function ReportDesigner() {
               />
             </Tooltip>
           </div>
-          <div style={{ width: '10%', marginLeft: 'auto' }}>
+          <div className={styles.nav}>
             <PagesNav />
           </div>
         </div>

@@ -38,8 +38,6 @@ const NewReportActions = () => {
     state => state.app.reportDesigner?.reportsData?.present?.header?.name
   );
 
-  console.log(reportName, 'reportName');
-
   const handleTableTypeChange = type => {
     setIsTableOpen(!isTableOpen);
     dispatch(setCreatingElement(type));

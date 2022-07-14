@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-curly-newline */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import lodash, { cloneDeep, find } from 'lodash';
 
@@ -29,8 +29,7 @@ import { TABLE_ICONS } from '../../constants/reportDesigner/reportDesignerIcons'
 import { setReportStructure } from '../../../data/actions/newReportDesigner';
 import GraphSettingsData from './GraphSettingsData';
 import GraphSettingsFormat from './GraphSettingsFormat';
-import { NAV_MENU_TABLE, getNavMenu } from '../../constants/reportDesigner/reportDesignerMenu';
-// import { deepObjectSearch } from '../../../data/helpers';
+import { getNavMenu } from '../../constants/reportDesigner/reportDesignerMenu';
 
 // eslint-disable-next-line react/prop-types
 export default function SidePanel({ navType }) {
@@ -122,14 +121,6 @@ export default function SidePanel({ navType }) {
       item => item.id !== currentNode.id
     );
     dispatch(setStructure(cloneReport.structure));
-
-    // dispatch(
-    //   setReportStructure({
-    //     report_id: currentReport.id,
-    //     structure: cloneReport.structure
-    //   })
-    // );
-
     dispatch(setActiveNodes([]));
     dispatch(setConfigPanelVisible(false));
   }
@@ -147,32 +138,11 @@ export default function SidePanel({ navType }) {
       item => item.col !== object.col
     );
 
-    // dispatch(
-    //   setReportStructure({
-    //     report_id: currentReport.id,
-    //     structure: newStructureReport?.structure
-    //   })
-    // );
-
     dispatch(
       removeTableColumn({
         object
       })
     );
-
-    // dispatch(
-    //   setStructure(
-    //     currentReport?.structure?.map(item => {
-    //       const clone = lodash.cloneDeep(item);
-    //       if (clone?.id === currentNode?.id) {
-    //         clone.columns = currentNode?.columns?.filter(
-    //           col => col?.object?.id !== columnId
-    //         );
-    //       }
-    //       return clone;
-    //     })
-    //   )
-    // );
   };
   const handleRemoveRow = rowId => event => {
     event?.stopPropagation();
@@ -233,29 +203,15 @@ export default function SidePanel({ navType }) {
     const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
     event.dataTransfer.clearData();
     refreshFieldsStore(selectedEl);
-    // dispatch(
-    //   addTableColumn({
-    //     column: { ...columnObject, object: { ...selectedEl } },
-    //     id: currentNode?.id
-    //   })
-    // );
   }
 
   const handleSetVariant = variant => {
     dispatch(setTableVariant(variant));
-    // const newStructureReport = cloneDeep(currentReport);
     const currNode = find(
       newStructureReport?.structure?.pgBody?.content?.children,
       item => item.id === activeNode?.id
     );
     currNode.type = variant;
-
-    // dispatch(
-    //   setReportStructure({
-    //     report_id: currentReport.id,
-    //     structure: newStructureReport?.structure
-    //   })
-    // );
   };
 
   function renderBlockPanelContent() {
@@ -316,90 +272,6 @@ export default function SidePanel({ navType }) {
                         );
                       })
                     )}
-                  {/* {currentNode?.columns?.map(column => (
-                      <p
-                        className={styles.objectItem}
-                        key={column.object.id}
-                        draggable
-                        onDragStart={event => {
-                          event.dataTransfer.setData(
-                            'text/plain',
-                            JSON.stringify({
-                              object: column.object,
-                              source: 'columns'
-                            })
-                          );
-                        }}
-                      >
-                        {column.object.field}
-                        <CloseIcon
-                          onClick={handleRemoveColumn(column.object.id)}
-                          className={styles.closeIcon}
-                        />
-                      </p>
-                    ))} */}
-                  {/* 
-                    {currentNode?.variant === 'table_cross' && (
-                      <>
-                        <div
-                          onDrop={handleDropObjectRow}
-                          onDragOver={allowDrop}
-                          style={{ minHeight: 100, minWidth: 100 }}
-                        >
-                          <p>Строки</p>
-                          {currentNode?.rows?.map(row => (
-                            <p
-                              className={styles.objectItem}
-                              key={row.object.id}
-                              draggable
-                              onDragStart={event => {
-                                event.dataTransfer.setData(
-                                  'text/plain',
-                                  JSON.stringify({ object: row.object, source: 'rows' })
-                                );
-                              }}
-                            >
-                              {row.object.field}
-
-                              <CloseIcon
-                                onClick={handleRemoveColumn(row.object.id)}
-                                className={styles.closeIcon}
-                              />
-                            </p>
-                          ))}
-                        </div>
-                        <div
-                          onDrop={handleDropObjectValue}
-                          onDragOver={allowDrop}
-                          style={{ minHeight: 100, minWidth: 100 }}
-                        >
-                          <p>Значения</p>
-                          {currentNode?.values?.map(val => (
-                            <p
-                              className={styles.objectItem}
-                              key={val.object.id}
-                              draggable
-                              onDragStart={event => {
-                                event.dataTransfer.setData(
-                                  'text/plain',
-                                  JSON.stringify({
-                                    object: val.object,
-                                    source: 'values'
-                                  })
-                                );
-                              }}
-                            >
-                              {val.object.field}
-
-                              <CloseIcon
-                                onClick={handleRemoveValue(val.object.id)}
-                                className={styles.closeIcon}
-                              />
-                            </p>
-                          ))}
-                        </div>
-                      </>
-                    )} */}
                 </div>
               </>
                 )
@@ -443,12 +315,6 @@ export default function SidePanel({ navType }) {
           <div>
             {activeNode?.type.includes('Table') && (
               <>
-                <NavigationMenu
-                  menu={NAV_MENU_TABLE}
-                  onClick={setActiveSubMenu}
-                  activePage={activeSubMenu}
-                />
-            
                 <StyleFormatter
                   key={formattingElement?.id}
                   isHeader={activeSubMenu === 1}

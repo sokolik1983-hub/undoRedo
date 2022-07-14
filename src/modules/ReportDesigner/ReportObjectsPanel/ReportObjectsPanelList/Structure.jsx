@@ -15,6 +15,7 @@ import ListItemEditReport from '../../../../common/components/List/ListItemEdit/
 import { FOLDER_DROPDOWN_ACTIONS } from '../../../Reports/helper';
 import { setStructure } from '../../../../data/reducers/new_reportDesigner';
 import { deepObjectSearch } from '../../../../data/helpers';
+import SimpleDropDown from '../../../../common/components/SimpleDropDown';
 // import { setReportStructure } from '../../../../data/actions/newReportDesigner';
 
 const Structure = ({currentReport, onSelect, isActiveNode}) => {
@@ -49,24 +50,12 @@ const Structure = ({currentReport, onSelect, isActiveNode}) => {
     
     targ.name= value;
     dispatch(setStructure(newStructure));
-    // dispatch(
-    //   setReportStructure({
-    //     report_id: currentReport.id,
-    //     structure: newStructure
-    //   })
-    // );
   };
 
   const handleDeleteBlock = id => {
     const newStructure = cloneDeep(currentReport.structure);
     const newChildren = newStructure.pgBody?.content?.children.filter(item => item?.id !== id);
     dispatch(setStructure({...newStructure, ...newStructure.pgBody.content.children = newChildren}))
-    // dispatch(
-    //   setReportStructure({
-    //     report_id: currentReport.id,
-    //     structure: newStructure
-    //   })
-    // );
   };
 
 
@@ -115,15 +104,18 @@ const Structure = ({currentReport, onSelect, isActiveNode}) => {
             <HeaderIcon />
             <p className={styles.text}>{currentReport?.structure?.pgHeader?.name}</p>
           </div>
-          
         </div>
         <div className={styles.wrapperBlock}>
-          <div className={styles.block}>
-            <BodyIcon />
-            <p className={styles.text}>{currentReport?.structure?.pgBody?.name}</p>
-          </div>
-          <div className={styles.innerBlock}>
-            {currentReport?.structure?.pgBody?.content?.children.map((i, idx) => 
+          {currentReport?.structure?.pgBody?.content?.children.length ? (
+            <SimpleDropDown
+              className={styles.simpleDropDown}
+              titleClassName={styles.title}
+              icon={<BodyIcon className={styles.iconIndents} />}
+              iconClassName={styles.icon}
+              title={currentReport?.structure?.pgBody?.name}
+            >
+              <div className={styles.innerBlock}>
+                {currentReport?.structure?.pgBody?.content?.children.map((i, idx) => 
               editListItemId === i.id ? (
                 <ListItemEditReport
                   key={currentReport?.structure?.pgBody?.content?.children[idx]?.id}
@@ -143,7 +135,15 @@ const Structure = ({currentReport, onSelect, isActiveNode}) => {
                 />
               )
             )}
-          </div>
+              </div>
+            </SimpleDropDown>
+          ) : (
+            <div className={styles.block}>
+              <BodyIcon />
+              <p className={styles.text}>{currentReport?.structure?.pgBody?.name}</p>
+            </div>
+ )}
+          
         </div>
         <div className={styles.wrapperBlock}>
           <div className={styles.block}>
