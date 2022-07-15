@@ -26,10 +26,8 @@ const TreeItem = ({ name, isSchema, table, onSelect, isOpen }) => {
   }, [isOpen])
   
 //  const selectedTable = table && selectedTablesArray.find(selTable => selTable.name === `${table.schema}_${table.objectName}`);
-//  console.log(selectedTable)
   const selectedTableColumns =
     selectedTables[getTableIdFromParams({...table})];
-  // console.log(selectedTableColumns);
 
   useEffect(() => {
     if (!isSchema && isActive) {
