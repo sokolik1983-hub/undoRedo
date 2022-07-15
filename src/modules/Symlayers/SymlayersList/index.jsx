@@ -24,7 +24,6 @@ import {
 } from '../../../common/constants/common';
 import styles from './SymlayersList.module.scss';
 import Preloader from '../../../common/components/Preloader/Preloader';
-// import { getUniverses } from '../../../data/actions/universes';
 import Tooltip from '../../../common/components/Tooltip';
 import {
   getUniversesFolderChildren,
@@ -36,10 +35,10 @@ import { setLoadingUniverse } from '../../../data/reducers/schemaDesigner';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
-  const universes = useSelector(state => state.app.data.universes);
   const navigate = useNavigate();
+  const universes = useSelector((state) => state.app.data.universes);
   const unvRootFolderId = useSelector(
-    state => state.app.data.universesFolderId
+    (state) => state.app.data.universesFolderId
   );
   const isUnvLoading = useSelector(
     state => state.app.schemaDesigner.isUnvLoading
@@ -108,10 +107,10 @@ const ConnectorsList = () => {
     });
   }, [currentFolderIndex]);
 
-  const onFolderDoubleClick = folder => {
+  const onFolderDoubleClick = (folder) => {
     setFoldersIdHistory([...foldersIdHistory, folder.id]);
     setFoldersNameHistory([...foldersNameHistory, folder.name]);
-    setCurrentFolderIndex(prev => prev + 1);
+    setCurrentFolderIndex((prev) => prev + 1);
   };
 
   const onSymLayerDoubleClick = item => {
@@ -120,7 +119,7 @@ const ConnectorsList = () => {
 
   const getBreadcrumbs = () => {
     return foldersNameHistory
-      .map(i => i)
+      .map((i) => i)
       .slice(0, currentFolderIndex + 1)
       .join(` / `);
   };
@@ -130,18 +129,18 @@ const ConnectorsList = () => {
   };
 
   const moveToPrevFolder = () => {
-    setCurrentFolderIndex(prev => (prev === 0 ? 0 : prev - 1));
+    setCurrentFolderIndex((prev) => (prev === 0 ? 0 : prev - 1));
   };
 
   const moveToNextFolder = () => {
-    setCurrentFolderIndex(prev =>
+    setCurrentFolderIndex((prev) =>
       prev === foldersIdHistory.length ? prev : prev + 1
     );
   };
 
   const onSearch = async () => {};
 
-  const handleEditClick = id => {
+  const handleEditClick = (id) => {
     setEditListItemId(id);
   };
 
@@ -150,7 +149,7 @@ const ConnectorsList = () => {
    *
    * @prop id слоя которого хотим добавить в Избранное.
    */
-  const handleAddToFavorites = id => {
+  const handleAddToFavorites = (id) => {
     dispatch(setObjectToFavorites({ user_id: 10001, id, kind: 'REP' }));
   };
 
@@ -159,7 +158,7 @@ const ConnectorsList = () => {
    *
    * @prop id слоя которого хотим удалить из Избранных.
    */
-  const handleRemoveFromFavorites = id => {
+  const handleRemoveFromFavorites = (id) => {
     dispatch(
       setObjectToFavorites({ user_id: 10001, id, kind: 'REP', isExclude: 1 })
     );
@@ -191,9 +190,9 @@ const ConnectorsList = () => {
     }
   };
 
-  const getUniverseDropdownItems = id => (
+  const getUniverseDropdownItems = (id) => (
     <div className={styles.itemsWrapper}>
-      {FOLDER_ITEM_DROPDOWN_ACTIONS.map(item => (
+      {FOLDER_ITEM_DROPDOWN_ACTIONS.map((item) => (
         <Tooltip
           key={item.title}
           overlay={<div className={styles.tooltip}>{item.title}</div>}
@@ -201,7 +200,7 @@ const ConnectorsList = () => {
         >
           <DropdownItem
             className={styles.dropdownItem}
-            onClick={action => handleItemClick(id, action)}
+            onClick={(action) => handleItemClick(id, action)}
             item={item}
           />
         </Tooltip>
@@ -209,9 +208,9 @@ const ConnectorsList = () => {
     </div>
   );
 
-  const getFolderDropdownItems = id => (
+  const getFolderDropdownItems = (id) => (
     <div className={styles.itemsWrapper}>
-      {FOLDER_DROPDOWN_ACTIONS.map(item => (
+      {FOLDER_DROPDOWN_ACTIONS.map((item) => (
         <Tooltip
           key={item.title}
           overlay={<div className={styles.tooltip}>{item.title}</div>}
@@ -220,7 +219,7 @@ const ConnectorsList = () => {
           <DropdownItem
             className={styles.dropdownItem}
             item={item}
-            onClick={action => handleItemClick(id, action)}
+            onClick={(action) => handleItemClick(id, action)}
           />
         </Tooltip>
       ))}
@@ -228,8 +227,8 @@ const ConnectorsList = () => {
   );
 
   const listItemsWithDropdown = sortedItems
-    ?.filter(item => item.name !== 'Корзина')
-    .map(item => {
+    ?.filter((item) => item.name !== 'Корзина')
+    .map((item) => {
       const isFolder = item.kind === 'FLD';
 
       const currentId = isFolder ? `folder_${item.id}` : item.id;
@@ -261,12 +260,12 @@ const ConnectorsList = () => {
       );
     });
 
-  const tableHeader = connectorsTableHeader.map(i => (
+  const tableHeader = connectorsTableHeader.map((i) => (
     <th key={i.name}>{i.name}</th>
   ));
   const tableRows = sortedItems
-    ?.filter(item => item.name !== 'Корзина')
-    .map(item => {
+    ?.filter((item) => item.name !== 'Корзина')
+    .map((item) => {
       const isFolder = item.kind === 'FLD';
 
       const currentId = isFolder ? `folder_${item.id}` : item.id;

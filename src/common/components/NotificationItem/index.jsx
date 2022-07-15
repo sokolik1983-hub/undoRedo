@@ -37,11 +37,8 @@ const NotificationItem = ({
     autoHide,
     variant,
     icon,
-    title,
-    message,
-    buttonText,
-    reason,
-    advice
+    message: { title, message, reason, advice },
+    buttonText
   },
   onClose,
   index
