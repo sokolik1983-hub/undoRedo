@@ -1,13 +1,13 @@
-import {delay} from 'lodash';
+import { delay } from 'lodash';
 
-import {REDIRECT_LINKS} from '../../common/constants/common';
-import {request, requestWithoutResponse} from '../helpers';
-import {login, logout} from '../reducers/auth';
+import { REDIRECT_LINKS } from '../../common/constants/common';
+import { request, requestWithoutResponse } from '../helpers';
+import { login, logout } from '../reducers/auth';
 
 export const refreshUserSession = (queryParams) => {
   return async (dispatch, getState) => {
     const timer = setInterval(async () => {
-      const {isAuth} = getState().app.auth;
+      const { isAuth } = getState().app.auth;
       if (!isAuth) {
         clearInterval(timer);
       }

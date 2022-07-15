@@ -6,6 +6,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const data = createSlice({
   name: 'data',
   initialState: {
+    currentUniverse: {},
     connectors: {},
     connectorsFolderId: 0,
     connectorsTree: [],
@@ -28,13 +29,13 @@ const data = createSlice({
     connectorObjects: { tables: [], result: 0 },
     queryPanelSymlayersData: {
       currentLayerTitle: null,
-      data: []
+      data: [],
     },
     favoriteObjects: {
       favoriteObjectsData: [],
       favoriteObjectsStatus: null,
-      error: null
-    }
+      error: null,
+    },
   },
   reducers: {
     setConnectors: (state, action) => {
@@ -77,21 +78,16 @@ const data = createSlice({
       state.symLayersData = action.payload;
     },
     setQueryPanelSymlayersData: (state, action) => {
-      const {
-        connector_id,
-        lists,
-        objects,
-        prompts,
-        properties
-      } = action.payload;
+      const { connector_id, lists, objects, prompts, properties } =
+        action.payload;
       const rootFolder = objects
-        .map(i =>
+        .map((i) =>
           i.objectType === 'Folder' || i.objectType === 'Dimension'
             ? { ...i, children: [] }
-            : i
+            : i,
         )
         .map((item, idx, data) => {
-          const parent = data.find(i => item.parent_id === i.id);
+          const parent = data.find((i) => item.parent_id === i.id);
           if (parent) parent.children.push(item); // TODO добавил костыль, чтобы не выкидывало. Объекты в себе могут содержать не только Folder, но и Dimension
           return item;
         })[0];
@@ -99,19 +95,19 @@ const data = createSlice({
       let index = 1;
       let dpIdx = 0;
 
-      const getIndex = idx => {
+      const getIndex = (idx) => {
         if (
           state.queryPanelSymlayersData.data.find(
-            i => i.queryTitle === `Новый запрос (${idx})`
+            (i) => i.queryTitle === `Новый запрос (${idx})`,
           )
         ) {
           getIndex(idx + 1);
         } else index = idx;
       };
 
-      const getDpIdx = idx => {
+      const getDpIdx = (idx) => {
         if (
-          state.queryPanelSymlayersData.data.find(i => i.dpId === `DP${idx})`)
+          state.queryPanelSymlayersData.data.find((i) => i.dpId === `DP${idx})`)
         ) {
           getDpIdx(idx + 1);
         } else dpIdx = idx;
@@ -128,7 +124,7 @@ const data = createSlice({
         filters: null,
         queryTitle: `Новый запрос (${index})`,
         dpId: `DP${index}`,
-        connector_id
+        connector_id,
       });
     },
     setCurrentQueryPanelSymlayer: (state, action) => {
@@ -137,44 +133,45 @@ const data = createSlice({
     editSymlayer: (state, action) => {
       const { currentTitle, newTitle } = action.payload;
       if (
-        state.queryPanelSymlayersData.data.find(i => i.queryTitle === newTitle)
+        state.queryPanelSymlayersData.data.find(
+          (i) => i.queryTitle === newTitle,
+        )
       )
         return;
       const currentLayer = state.queryPanelSymlayersData.data.find(
-        i => i.queryTitle === currentTitle
+        (i) => i.queryTitle === currentTitle,
       );
       currentLayer.queryTitle = newTitle;
     },
     copySymlayer: (state, action) => {
       const symLayerToCopy = state.queryPanelSymlayersData.data.find(
-        i => i.queryTitle === action.payload
+        (i) => i.queryTitle === action.payload,
       );
-      const symLayerToCopyIdx = state.queryPanelSymlayersData.data.indexOf(
-        symLayerToCopy
-      );
+      const symLayerToCopyIdx =
+        state.queryPanelSymlayersData.data.indexOf(symLayerToCopy);
       state.queryPanelSymlayersData.data = [
         ...state.queryPanelSymlayersData.data.slice(0, symLayerToCopyIdx + 1),
         {
           ...symLayerToCopy,
-          queryTitle: `${symLayerToCopy.queryTitle} (копия)`
+          queryTitle: `${symLayerToCopy.queryTitle} (копия)`,
         },
-        ...state.queryPanelSymlayersData.data.slice(symLayerToCopyIdx + 1)
+        ...state.queryPanelSymlayersData.data.slice(symLayerToCopyIdx + 1),
       ];
     },
     deleteSymlayer: (state, action) => {
-      state.queryPanelSymlayersData.data = state.queryPanelSymlayersData.data.filter(
-        i => i.queryTitle !== action.payload
-      );
+      state.queryPanelSymlayersData.data =
+        state.queryPanelSymlayersData.data.filter(
+          (i) => i.queryTitle !== action.payload,
+        );
     },
     setQueryPanelSymlayerFilters: (state, action) => {
       const { objects, filters } = action.payload;
       const currentTitle = state.queryPanelSymlayersData.currentLayerTitle;
       const currentLayer = state.queryPanelSymlayersData.data.find(
-        i => i.queryTitle === currentTitle
+        (i) => i.queryTitle === currentTitle,
       );
-      const currentLayerIdx = state.queryPanelSymlayersData.data.indexOf(
-        currentLayer
-      );
+      const currentLayerIdx =
+        state.queryPanelSymlayersData.data.indexOf(currentLayer);
       const stateCopy = state.queryPanelSymlayersData.data.concat();
       stateCopy[currentLayerIdx] = { ...currentLayer, objects, filters };
       state.queryPanelSymlayersData.data = stateCopy;
@@ -219,16 +216,19 @@ const data = createSlice({
     setFavoriteObjects: (state, action) => {
       state.favoriteObjects.favoriteObjectsData = action.payload;
     },
-    loadingFavoriteObjects: state => {
+    loadingFavoriteObjects: (state) => {
       state.favoriteObjects.favoriteObjectsStatus = 'LOADING';
     },
-    successFavoriteObjects: state => {
+    successFavoriteObjects: (state) => {
       state.favoriteObjects.favoriteObjectsStatus = 'SUCCESS';
     },
-    failedFavoriteObjects: state => {
+    failedFavoriteObjects: (state) => {
       state.favoriteObjects.favoriteObjectsStatus = 'FAILED';
-    }
-  }
+    },
+    setCurrentUniverse: (state, action) => {
+      state.currentUniverse = action.payload;
+    },
+  },
 });
 
 export const {
@@ -266,7 +266,8 @@ export const {
   setFavoriteObjects,
   loadingFavoriteObjects,
   successFavoriteObjects,
-  failedFavoriteObjects
+  failedFavoriteObjects,
+  setCurrentUniverse,
 } = data.actions;
 
 export default data.reducer;

@@ -1,103 +1,180 @@
-/* eslint-disable no-unused-vars */
-import { useState, useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import cn from 'clsx';
 import PropTypes from 'prop-types';
-import Modal from '../../../common/components/Modal';
+/* eslint-disable no-unused-vars */
+import { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import Button from '../../../common/components/Button';
+import Modal from '../../../common/components/Modal';
+import { TABLES_NAME_FOR_CONNECT } from '../../../common/constants/universes';
 import { setObjectsConnectionsModal } from '../../../data/actions/universes';
+import { addLink, setLink } from '../../../data/reducers/schemaDesigner';
 import modalStyles from '../../Symlayers/SemanticLayerModal/SemanticLayerModal.module.scss';
-import styles from './ObjectsConnectionsEditor.module.scss';
 import ConnectionTable from './ConnectionTable';
 import ConnectionType from './ConnectionType';
 import FormulaBlock from './FormulaBlock';
-import SqlEditor from './SqlEditor';
-import {
-  // TABLE1_EXAMPLE,
-  // TABLE2_EXAMPLE,
-  // TABLE3_EXAMPLE,
-  TABLES_NAME_FOR_CONNECT
-} from '../../../common/constants/universes';
 import { createExpression } from './functions';
-import { addLink, setLink } from '../../../data/reducers/schemaDesigner';
+import styles from './ObjectsConnectionsEditor.module.scss';
+import SqlEditor from './SqlEditor';
 
 const ObjectsConnectionEditor = ({ id, visible }) => {
   const dispatch = useDispatch();
   const [sqlEditorOpened, setSqlEditorOpened] = useState(false); // показывает модалку с редактированиемм SQL
-  const [leftTable, setLeftTable] = useState(null); // name левой таблицы
-  const [rightTable, setRightTable] = useState(null); // name правой таблицы
   const [leftSelected, setLeftSelected] = useState([]);
   const [rightSelected, setRightSelected] = useState([]);
-  const [leftSchema, setLeftSchema] = useState([]);
-  const [rightSchema, setRightSchema] = useState([]);
+  // const [leftSchema, setLeftSchema] = useState([]);
+  // const [rightSchema, setRightSchema] = useState([]);
+  const [rightTable, setRightTable] = useState(null); // name правой таблицы
+  const [leftTable, setLeftTable] = useState(null); // name левой таблицы
+  const [leftTableFields, setLeftTableFields] = useState(null);
+  const [rightTableFields, setRightTableFields] = useState(null);
+  const [leftTableId, setLeftTableId] = useState(null);
+  const [rightTableId, setRightTableId] = useState(null);
   const [leftColumns, setLeftColumns] = useState([]);
   const [rightColumns, setRightColumns] = useState([]);
 
-  const currentObjLink = useSelector(
-    state => state.app.ui.modalData 
+  const currentObjLink = useSelector((state) => state.app.ui.modalData);
+
+  const [resultExpression, setResultExpression] = useState(
+    currentObjLink?.expression ? currentObjLink.expression : null,
+  );
+  const [condition, setCondition] = useState(
+    currentObjLink?.condition ? currentObjLink.condition : '=',
   );
 
-  const [resultExpression, setResultExpression] = useState(currentObjLink?.expression ? currentObjLink.expression : null);
-  const [condition, setCondition] = useState(currentObjLink?.condition ? currentObjLink.condition : '=');
-
-  const selectedTables = useSelector(
-    state => state.app.schemaDesigner.selectedTables
-  );  
-
-  const connectorObjects = useSelector(
-    state => state.app.schemaDesigner.connectorObjects
-  );  
-
-  useEffect(() => {
-    if (connectorObjects.length && leftTable && rightTable) {
-      connectorObjects?.forEach(schema => {
-        if (leftTable.includes(schema.schema)) {
-          setLeftSchema(schema.schema)
-        }
-        if (rightTable.includes(schema.schema)) {
-          setRightSchema(schema.schema);
-        }
-      })
-    } 
-  }, [connectorObjects, leftTable, rightTable])
+  const selectedTablesData = useSelector(
+    (state) => state.app.schemaDesigner.selectedTablesData,
+  );
 
   const convertedData = useMemo(() => {
-    return Object.keys(selectedTables).map(table => ({
-      id: table,
-      name: table,
-      columns: selectedTables[table]
+    return selectedTablesData.map((table, idx) => ({
+      table_id: idx,
+      name: `${table.schema}_${table.objectName}`,
+      columns: table.columns,
     }));
-  }, [selectedTables]);
+  }, [selectedTablesData]);
+
+  const searchField = (field, tableNum) => {
+    if (tableNum === 'left') {
+      const selectTable = selectedTablesData?.find(
+        (table) => table.id === leftTableId,
+      );
+      const findField = selectTable?.columns?.find(
+        (col) => col.field === field,
+      );
+      setLeftTableFields([findField]);
+      return findField;
+    }
+    if (tableNum === 'right') {
+      const selectTable = selectedTablesData?.find(
+        (table) => table.id === rightTableId,
+      );
+      const findField = selectTable?.columns.find((col) => col.field === field);
+      setRightTableFields([findField]);
+      return findField;
+    }
+    return null;
+  };
 
   useEffect(() => {
-    convertedData.forEach(table => {
+    if (leftSelected) searchField(leftSelected[0], 'left');
+
+    if (rightSelected) searchField(rightSelected[0], 'right');
+  }, [leftSelected, rightSelected]);
+
+  // console.log(convertedData, selectedTablesData)
+
+  useEffect(() => {
+    convertedData.forEach((table) => {
       if (table.name === leftTable) {
         setLeftColumns(table.columns);
       }
       if (table.name === rightTable) {
         setRightColumns(table.columns);
       }
-    })
-  }, [convertedData, leftTable, rightTable])
+    });
+  }, [convertedData, leftTable, rightTable]);
 
+  const createObjectName = (tableId) => {
+    const finded = selectedTablesData?.find(
+      (tableData) => tableData.id === tableId,
+    );
+    const schema = finded?.schema;
+    const objectName = finded?.objectName;
+    const objectFullName = `${schema}_${objectName}`;
+    return objectFullName;
+  };
+
+  useEffect(() => {
+    if (leftTableId >= 0 && !leftTable) {
+      setLeftTable(createObjectName(leftTableId));
+    }
+    if (rightTableId >= 0 && !rightTable) {
+      setRightTable(createObjectName(rightTableId));
+    }
+  }, [leftTableId, rightTableId]);
+
+  const switchCondition = (cond) => {
+    switch (cond) {
+      case '=':
+        return 'EQUAL';
+      case '!=':
+        return 'NOT EQUAL';
+      case '<':
+        return 'LESS THAN';
+      case '>':
+        return 'MORE THAN';
+      case 'EQUAL':
+        return '=';
+      case 'NO_EQUAL':
+        return '!=';
+      case 'LESS_THAN':
+        return '<';
+      case 'MORE_THAN':
+        return '>';
+      default:
+        return null;
+    }
+  };
 
   useEffect(() => {
     setResultExpression(
       createExpression(
-        leftSelected || currentObjLink?.object1.selectedColumns,
-        rightSelected || currentObjLink?.object2.selectedColumns,
-        condition, 
-        leftTable || currentObjLink?.object1.object_name,
-        rightTable || currentObjLink?.object2.object_name
-      )
+        // leftSelected || currentObjLink?.object1.fields || currentObjLink?.object1.tempField,
+        leftSelected || currentObjLink?.object1.fields,
+        rightSelected || currentObjLink?.object2.fields,
+        // rightSelected ||  currentObjLink?.object2.fields || currentObjLink?.object2.tempField,
+        switchCondition(condition),
+        leftTable || createObjectName(currentObjLink?.object1.table_id),
+        rightTable || createObjectName(currentObjLink?.object2.table_id),
+      ),
     );
-  }, [rightSelected, leftSelected, condition]);
+  }, [
+    rightSelected,
+    leftSelected,
+    leftTable,
+    rightTable,
+    leftTableFields,
+    rightTableFields,
+    condition,
+  ]);
 
   const closeHandler = () => {
     return dispatch(setObjectsConnectionsModal(false));
-  };  
+  };
 
   const saveHandler = () => {
+    let leftFields = leftTableFields[0]
+      ? leftTableFields[0]
+      : searchField(currentObjLink.object1.fields[0], 'left');
+    let rightFields = rightTableFields[0]
+      ? rightTableFields[0]
+      : searchField(currentObjLink.object2.fields[0], 'right');
+    if (!Array.isArray(leftFields) && !Array.isArray(rightFields)) {
+      leftFields = [leftFields];
+      rightFields = [rightFields];
+    }
+
     if (!currentObjLink) {
       dispatch(
         addLink({
@@ -106,70 +183,64 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
           expression: resultExpression,
           object1: {
             cardinality: 'one',
-            object_name: leftTable,
-            schema: leftSchema,
-            fields: leftColumns,
-            selectedColumns: leftSelected,
-            outerJoin: null
+            table_id: leftTableId,
+            fields: leftTableFields,
+            // fields: leftSelected,
+            outerJoin: 0,
           },
           object2: {
             cardinality: 'one',
-            object_name: rightTable,
-            schema: rightSchema,
-            fields: rightColumns,
-            selectedColumns: rightSelected,
-            outerJoin: null
-          }
-        })
+            table_id: rightTableId,
+            fields: rightTableFields,
+            // fields: rightSelected,
+            outerJoin: 0,
+          },
+        }),
       );
     } else if (!currentObjLink.newLink) {
       dispatch(
         setLink({
-            id: currentObjLink.id,
-            condition,
-            expression: resultExpression,
-            object1: {
-              cardinality: 'one',
-              object_name: leftTable,
-              schema: leftSchema,
-              columns: leftColumns,
-              selectedColumns: leftSelected || currentObjLink.object1.selectedColumns,
-              outerJoin: null
-            },
-            object2: {
-              cardinality: 'one',
-              object_name: rightTable,
-              schema: rightSchema,
-              columns: rightColumns,
-              selectedColumns: rightSelected || currentObjLink.object2.selectedColumns,
-              outerJoin: null
-            }
-        })
-      )
+          id: currentObjLink.id,
+          condition,
+          expression: resultExpression,
+          object1: {
+            cardinality: 'one',
+            table_id: leftTableId,
+            fields: leftFields,
+            // fields: leftSelected || currentObjLink.object1.fields,
+            outerJoin: 0,
+          },
+          object2: {
+            cardinality: 'one',
+            table_id: rightTableId,
+            fields: rightFields,
+            // fields: rightSelected || currentObjLink.object2.fields,
+            outerJoin: 0,
+          },
+        }),
+      );
     } else if (currentObjLink.newLink) {
       dispatch(
         addLink({
-            id: currentObjLink.id,
-            condition,
-            expression: resultExpression,
-            object1: {
-              cardinality: 'one',
-              object_name: leftTable,
-              schema: leftSchema,
-              columns: leftColumns,
-              selectedColumns: leftSelected || currentObjLink.object1.selectedColumns,
-              outerJoin: null
-            },
-            object2: {
-              cardinality: 'one',
-              object_name: rightTable,
-              schema: rightSchema,
-              columns: rightColumns,
-              selectedColumns: rightSelected || currentObjLink.object2.selectedColumns,
-              outerJoin: null
-            }
-        })
-      )
+          id: currentObjLink.id,
+          condition,
+          expression: resultExpression,
+          object1: {
+            cardinality: 'one',
+            table_id: leftTableId,
+            fields: leftFields,
+            // fields: leftSelected || currentObjLink.object1.fields,
+            outerJoin: 0,
+          },
+          object2: {
+            cardinality: 'one',
+            table_id: rightTableId,
+            fields: rightFields,
+            // fields: rightSelected || currentObjLink.object2.fields,
+            outerJoin: 0,
+          },
+        }),
+      );
     }
     closeHandler();
   };
@@ -183,23 +254,26 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
     }
   };
 
-  const handleSelectTable = (table, tableName) => {
+  const handleSelectTable = (tableId, tableName) => {
+    const objectFullName = createObjectName(tableId);
     if (tableName === TABLES_NAME_FOR_CONNECT.TABLE_A) {
-      setLeftTable(table);
+      setLeftTableId(tableId);
+      setLeftTable(objectFullName);
     }
     if (tableName === TABLES_NAME_FOR_CONNECT.TABLE_B) {
-      setRightTable(table);
+      setRightTableId(tableId);
+      setRightTable(objectFullName);
     }
   };
 
-  const setSelectedCondition = expr => {
+  const setSelectedCondition = (expr) => {
     setCondition(expr);
   };
 
   const getTableSelected = () => {
     return {
       leftTable,
-      rightTable
+      rightTable,
     };
   };
 
@@ -213,18 +287,25 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
             onSelectColumn={setSelectedColumns}
             onSelectTable={handleSelectTable}
             tableSelected={getTableSelected()}
-            currentLeftTable={currentObjLink?.object1.object_name}
-            currentLeftColumns={currentObjLink?.object1.selectedColumns}
+            currentLeftTable={createObjectName(
+              currentObjLink?.object1.table_id,
+            )}
+            currentLeftColumns={currentObjLink?.object1.fields}
           />
-          <ConnectionType onSelectExpression={setSelectedCondition} currentExpression={currentObjLink?.condition} />
+          <ConnectionType
+            onSelectExpression={setSelectedCondition}
+            currentExpression={currentObjLink?.condition}
+          />
           <ConnectionTable
             tableName={TABLES_NAME_FOR_CONNECT.TABLE_B}
             tables={convertedData}
             onSelectColumn={setSelectedColumns}
             onSelectTable={handleSelectTable}
             tableSelected={getTableSelected()}
-            currentLeftTable={currentObjLink?.object2.object_name}
-            currentRightColumns={currentObjLink?.object2.selectedColumns}
+            currentLeftTable={createObjectName(
+              currentObjLink?.object2.table_id,
+            )}
+            currentRightColumns={currentObjLink?.object2.fields}
           />
         </div>
         <FormulaBlock

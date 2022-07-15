@@ -1,22 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Formik } from 'formik';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { useDispatch } from 'react-redux';
+
 import Modal from '../../../common/components/Modal';
-import TextFieldItem from './ModalItem/TextFieldItem';
-import PropertiesBlock from './ModalItem/PropertiesBlock';
-import DescriptionBlock from './ModalItem/DescriptionBlock';
-import QueryBlock from './ModalItem/QueryBlock';
-import ValueListConnectionBlock from './ModalItem/ValueListConnectionBlock';
-import KeysBlock from './ModalItem/KeysBlock';
-import TechInfoBlock from './ModalItem/TechInfoBlock';
-import FooterBlock from './ModalItem/Footer';
 import { setCreateObjectModal } from '../../../data/actions/universes';
-import { CREATE_OBJECT_MODAL_VALUES } from './createObjectModalConstants';
-
-import styles from './CreateObjectLayerModal.module.scss';
-
 import { addObjectLayer } from '../../../data/reducers/schemaDesigner';
+import styles from './CreateObjectLayerModal.module.scss';
+import { CREATE_OBJECT_MODAL_VALUES } from './createObjectModalConstants';
+import DescriptionBlock from './ModalItem/DescriptionBlock';
+import FooterBlock from './ModalItem/Footer';
+import KeysBlock from './ModalItem/KeysBlock';
+import PropertiesBlock from './ModalItem/PropertiesBlock';
+import QueryBlock from './ModalItem/QueryBlock';
+import TechInfoBlock from './ModalItem/TechInfoBlock';
+import TextFieldItem from './ModalItem/TextFieldItem';
+import ValueListConnectionBlock from './ModalItem/ValueListConnectionBlock';
 
 const createObjectModalValues = {
   [CREATE_OBJECT_MODAL_VALUES.NAME]: '',
@@ -42,7 +41,7 @@ const createObjectModalValues = {
   [CREATE_OBJECT_MODAL_VALUES.KEYS_WHERE_INPUT]: '',
   [CREATE_OBJECT_MODAL_VALUES.TECH_INFO_INPUT]: '',
   [CREATE_OBJECT_MODAL_VALUES.DISPLAY_INPUT]: '',
-  [CREATE_OBJECT_MODAL_VALUES.ORIGIN_INPUT]: ''
+  [CREATE_OBJECT_MODAL_VALUES.ORIGIN_INPUT]: '',
 };
 
 const CreateObjectLayerModal = ({ visible }) => {
@@ -60,7 +59,7 @@ const CreateObjectLayerModal = ({ visible }) => {
     CREATE_OBJECT_MODAL_VALUES.SEARCH_DELEGETION_CHECKBOX,
     CREATE_OBJECT_MODAL_VALUES.USE_IN_RESULTS_CHECKBOX,
     CREATE_OBJECT_MODAL_VALUES.USE_IN_CONDITIONS_CHECKBOX,
-    CREATE_OBJECT_MODAL_VALUES.USE_IN_SORTINGS_CHECKBOX
+    CREATE_OBJECT_MODAL_VALUES.USE_IN_SORTINGS_CHECKBOX,
   ];
 
   const content = (
@@ -68,7 +67,7 @@ const CreateObjectLayerModal = ({ visible }) => {
       initialValues={createObjectModalValues}
       onSubmit={(values, event) => {
         handleClose();
-        dispatch(addObjectLayer({ ...values, id: `objLay_${Date.now()}` }));
+        dispatch(addObjectLayer({ ...values, id: Date.now() }));
         event.preventDefault();
       }}
     >
@@ -86,7 +85,7 @@ const CreateObjectLayerModal = ({ visible }) => {
             name={[
               [CREATE_OBJECT_MODAL_VALUES.OBJECT_DATA_TYPE],
               [CREATE_OBJECT_MODAL_VALUES.OBJECT_TYPE],
-              [CREATE_OBJECT_MODAL_VALUES.OBJECT_FUNCTION]
+              [CREATE_OBJECT_MODAL_VALUES.OBJECT_FUNCTION],
             ]}
             onChange={handleChange}
           />
@@ -98,11 +97,11 @@ const CreateObjectLayerModal = ({ visible }) => {
           <QueryBlock
             name={[
               [CREATE_OBJECT_MODAL_VALUES.SELECT_QUERY_FIELD],
-              [CREATE_OBJECT_MODAL_VALUES.WHERE_QUERY_FIELD]
+              [CREATE_OBJECT_MODAL_VALUES.WHERE_QUERY_FIELD],
             ]}
             value={[
               values[CREATE_OBJECT_MODAL_VALUES.SELECT_QUERY_FIELD],
-              values[CREATE_OBJECT_MODAL_VALUES.WHERE_QUERY_FIELD]
+              values[CREATE_OBJECT_MODAL_VALUES.WHERE_QUERY_FIELD],
             ]}
             onChange={handleChange}
           />
@@ -110,11 +109,11 @@ const CreateObjectLayerModal = ({ visible }) => {
             checkBoxNames={checkBoxValues}
             name={[
               [CREATE_OBJECT_MODAL_VALUES.DEFAULT_LINK_INPUT],
-              [CREATE_OBJECT_MODAL_VALUES.USAGE_PERMISSION]
+              [CREATE_OBJECT_MODAL_VALUES.USAGE_PERMISSION],
             ]}
             value={[
               values[CREATE_OBJECT_MODAL_VALUES.DEFAULT_LINK_INPUT],
-              values[CREATE_OBJECT_MODAL_VALUES.USAGE_PERMISSION]
+              values[CREATE_OBJECT_MODAL_VALUES.USAGE_PERMISSION],
             ]}
             onChange={handleChange}
           />
@@ -123,7 +122,7 @@ const CreateObjectLayerModal = ({ visible }) => {
               [CREATE_OBJECT_MODAL_VALUES.KEYS_DATA_TYPE],
               [CREATE_OBJECT_MODAL_VALUES.KEYS_SELECT_INPUT],
               [CREATE_OBJECT_MODAL_VALUES.KEYS_WHERE_INPUT],
-              [CREATE_OBJECT_MODAL_VALUES.KEYS_TYPE]
+              [CREATE_OBJECT_MODAL_VALUES.KEYS_TYPE],
             ]}
             onChange={handleChange}
           />
@@ -131,12 +130,12 @@ const CreateObjectLayerModal = ({ visible }) => {
             name={[
               [CREATE_OBJECT_MODAL_VALUES.TECH_INFO_INPUT],
               [CREATE_OBJECT_MODAL_VALUES.DISPLAY_INPUT],
-              [CREATE_OBJECT_MODAL_VALUES.ORIGIN_INPUT]
+              [CREATE_OBJECT_MODAL_VALUES.ORIGIN_INPUT],
             ]}
             value={[
               values[CREATE_OBJECT_MODAL_VALUES.TECH_INFO_INPUT],
               values[CREATE_OBJECT_MODAL_VALUES.DISPLAY_INPUT],
-              values[CREATE_OBJECT_MODAL_VALUES.ORIGIN_INPUT]
+              values[CREATE_OBJECT_MODAL_VALUES.ORIGIN_INPUT],
             ]}
             onChange={handleChange}
           />
@@ -162,5 +161,5 @@ const CreateObjectLayerModal = ({ visible }) => {
 export default CreateObjectLayerModal;
 
 CreateObjectLayerModal.propTypes = {
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
 };
