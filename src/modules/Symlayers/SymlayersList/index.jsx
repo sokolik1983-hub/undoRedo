@@ -121,7 +121,9 @@ const ConnectorsList = () => {
     );
   };
 
-  const onSearch = async () => {};
+  const onSearch = async () => {
+    // some action
+  };
 
   const handleEditClick = (id) => {
     setEditListItemId(id);

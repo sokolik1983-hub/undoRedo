@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import axios from 'axios';
 
 import {
@@ -8,9 +7,7 @@ import {
   SERVER_API_URL,
   SESSION_EXPIRED_MSG,
 } from '../common/constants/config';
-// eslint-disable-next-line import/no-cycle
 import { logoutUser } from './actions/auth';
-// eslint-disable-next-line import/no-cycle
 import { notificationShown } from './reducers/notifications';
 import { setLoadingData } from './reducers/ui';
 

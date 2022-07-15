@@ -1,8 +1,3 @@
-/* eslint-disable import/no-named-as-default */
-/* eslint-disable react/jsx-curly-newline */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 

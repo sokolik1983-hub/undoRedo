@@ -93,12 +93,16 @@ const TablesPaneActions = ({ setSelectedSchemes }) => {
         <IconButton
           className={styles.iconBtn}
           icon={<ViewsIcon />}
-          onClick={() => {}}
+          onClick={() => {
+            // some action
+          }}
         />
         <IconButton
           className={styles.iconBtn}
           icon={<FiltersIcon />}
-          onClick={() => {}}
+          onClick={() => {
+            // some action
+          }}
         />
       </div>
     </div>

@@ -145,6 +145,8 @@ NotificationItem.propTypes = {
 
 NotificationItem.defaultProps = {
   notification: {},
-  onClose: () => {},
+  onClose: () => {
+    // some action
+  },
   index: 0,
 };

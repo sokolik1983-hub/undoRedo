@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-// eslint-disable-next-line import/no-cycle
 import { getSimpleID } from '../helpers';
 
 const notifications = createSlice({
