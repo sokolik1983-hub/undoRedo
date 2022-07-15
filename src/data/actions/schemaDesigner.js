@@ -1,6 +1,5 @@
 import * as universe from '../../common/constants/universe_10040_v2.json';
-import {getTableIdFromParams, request} from '../helpers';
-import {notificationShown} from '../reducers/notifications';
+import { getTableIdFromParams, request } from '../helpers';
 import {
   setConnectorData,
   setConnectorObjects,

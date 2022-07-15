@@ -1,7 +1,4 @@
 import MapIcon from '@material-ui/icons/Map';
-import SearchIcon from '@material-ui/icons/Search';
-import ZoomInIcon from '@material-ui/icons/ZoomIn';
-import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import lodash from 'lodash';
 /* eslint-disable no-restricted-syntax */
@@ -301,11 +298,10 @@ const Provided = (props) => {
   };
 
   const createObjectName = (id) => {
-    const finded = selectedTablesData?.find((tableData) => tableData.id === id);
-    const schema = finded?.schema;
-    const objectName = finded?.objectName;
-    const objectFullName = `${schema}_${objectName}`;
-    return objectFullName;
+    const found = selectedTablesData?.find((tableData) => tableData.id === id);
+    const schema = found?.schema;
+    const objectName = found?.objectName;
+    return `${schema}_${objectName}`;
   };
 
   const renderContent = ({ isShadow = false } = {}) => {

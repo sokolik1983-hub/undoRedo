@@ -1,28 +1,4 @@
-/* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
-
-import { getTableIdFromParams } from '../helpers';
-
-// object_name: "SI_FORMAT_CONVRSNS"
-// object_type_id: 3
-// schema: "SI_INFORMTN_SCHEMA"
-
-// LINKS:
-
-// condition: "EQUAL"
-// expression: "\"TERN_ANALYTICS\".pre_maininfo_search.prospect_id = \"TERN_ANALYTICS\".v_egrul_unit.egr_id"
-// object1: {
-// cardinality: "one"
-// fields: [{field: "prospect_id", type: "Number"}]
-// object: {schema: ""TERN_ANALYTICS"",…}
-// outerJoin: null
-// },
-// object2: {
-// cardinality: "many"
-// fields: [{field: "egr_id", type: "Number"}]
-// object: {schema: ""TERN_ANALYTICS"",…}
-// outerJoin: null
-// }
 
 const schemaDesigner = createSlice({
   name: 'schemaDesigner',

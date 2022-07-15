@@ -1,8 +1,3 @@
-/* eslint-disable prefer-const */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-shadow */
-/* eslint-disable camelcase */
-/* eslint-disable react/prop-types */
 import { makeStyles } from '@material-ui/core';
 import lodash from 'lodash';
 import React, {
@@ -15,31 +10,26 @@ import React, {
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { TOAST_TYPE } from '../../../common/constants/common';
-import { OBJECTS_CONNECTIONS_MODAL } from '../../../common/constants/popups';
-import { showToast } from '../../../data/actions/app';
-import {
-  getObjectData,
-  getObjectFields,
-} from '../../../data/actions/schemaDesigner';
+import { TOAST_TYPE } from '@src/common/constants/common';
+import { OBJECTS_CONNECTIONS_MODAL } from '@src/common/constants/popups';
+import { showToast } from '@src/data/actions/app';
+import { getObjectFields } from '@src/data/actions/schemaDesigner';
+
 import {
   setObjectsConnectionsModal,
   setTablePreviewModal,
 } from '../../../data/actions/universes';
 import { getTableIdFromParams } from '../../../data/helpers';
 import {
-  clearDataList,
   setDataList,
   setSelectedTablesData,
   setShowDataList,
 } from '../../../data/reducers/schemaDesigner';
 import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock/index';
 import ObjectsConnectionEditor from '../ObjectsConnectionEditor';
-// import { useApplicationActions } from 'src/data/appProvider';
 import { SymanticLayerContext } from './context';
 import { handleCheckMatch } from './helper';
 import { styles } from './TableComponent.module.scss';
-import TablePreview from './TablePreview';
 
 const useStyles = makeStyles((theme) => ({
   root: {

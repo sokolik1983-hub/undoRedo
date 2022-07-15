@@ -8,13 +8,7 @@ import {
   OBJECTS_CONNECTIONS_MODAL,
   TABLE_PREVIEW_MODAL,
 } from '../../common/constants/popups';
-import {
-  getConnectorObjectsList,
-  getObjectFields,
-  getObjectsList,
-  getObjectsListLocal,
-} from '../../data/actions/schemaDesigner';
-import { getTableIdFromParams } from '../../data/helpers';
+import { getObjectFields } from '../../data/actions/schemaDesigner';
 import { setCurrentPage } from '../../data/reducers/ui';
 import ObjectsConnectionEditor from './ObjectsConnectionEditor';
 import SchemaTables from './SchemaTables';
@@ -118,16 +112,12 @@ function SymlayersDesigner() {
     setChecked(filteredTables);
 
     const filteredLinks = objectsLinks.filter((link) => {
-      if (
+      return !(
         `${link.object1.object.schema}.${link.object1.object.object_name}` ===
           `${table.schema}.${table.objectName}` ||
         `${link.object2.object.schema}.${link.object2.object.object_name}` ===
           `${table.schema}.${table.objectName}`
-      ) {
-        return false;
-      }
-
-      return true;
+      );
     });
 
     setObjectsLinks(filteredLinks);
