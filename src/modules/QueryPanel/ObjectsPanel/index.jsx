@@ -14,7 +14,7 @@ const ObjectsPanel = ({ modalOpenHandler }) => {
     const {
       data,
       currentLayerTitle
-    } = state.app?.data?.queryPanelSymlayersData;
+    } = state.app?.reportDesigner?.queryPanelData;
 
     return data.find(i => i.queryTitle === currentLayerTitle);
   });

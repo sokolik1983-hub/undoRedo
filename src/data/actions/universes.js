@@ -1,13 +1,7 @@
-/* eslint-disable no-unused-vars */
 import { request } from '../helpers';
 import {
-  setQueryData,
-  setSymanticLayerData,
   setUniverses,
-  setSymanticLayerQueryResult,
-  setQueryResult,
   setListReports,
-  setQueryPanelSymlayersData,
   setUniversesFolderId,
   setReportsFolderId,
   setSampleUniverseObject,
@@ -27,7 +21,6 @@ import {
   showConfirmModal,
   closeConfirmModal
 } from '../reducers/ui';
-import { setReportDpRefreshed } from './newReportDesigner';
 import { showToast } from './app';
 import { TOAST_TYPE } from '../../common/constants/common';
 
@@ -75,23 +68,6 @@ export const getUniversesFolderId = queryParams => {
       );
     }
   };
-};
-
-export const getQueryPanelSymanticLayerData = id => async dispatch => {
-  const response = await request({
-    code: 'UNV.GET_DATA_QP',
-    params: { id },
-    dispatch
-  });
-
-  if (response) {
-    dispatch(
-      setQueryPanelSymlayersData({
-        universeId: id,
-        data: response.qpData
-      })
-    );
-  }
 };
 
 export const createSampleUniverse = queryParams => {
@@ -169,37 +145,6 @@ export const removeConnector = queryParams => {
   };
 };
 
-export const createQuery = queryParams => async dispatch => {
-  const response = await request({
-    code: 'UNV.GET_SQL',
-    params: queryParams,
-    dispatch
-  });
-
-  if (response) {
-    dispatch(setQueryData(response));
-  }
-};
-
-export const semanticLayerDataQuery = queryParams => {
-  return async dispatch => {
-    try {
-      const response = await request({
-        func: 'CONNECT.START_SQL',
-        params: queryParams,
-        dispatch
-      });
-      if (response?.success) {
-        dispatch(setSymanticLayerQueryResult(response.result));
-      }
-    } catch (err) {
-      dispatch(
-        notificationShown({ message: err.message, messageType: 'error' })
-      );
-    }
-  };
-};
-
 export const getListReports = queryParams => {
   return async dispatch => {
     try {
@@ -255,87 +200,6 @@ export const getReportsFolderId = queryParams => {
       );
     }
   };
-};
-
-// TODO: удалить getResultFromQuery если нигде не используется
-export const getResultFromQuery = queryParams => async dispatch => {
-  const response = await request({
-    code: 'CN.GET_DATA',
-    params: queryParams,
-    dispatch
-  });
-
-  if (response) {
-    dispatch(setQueryResult(response));
-  }
-};
-
-export const createQueryAndGetResult = (
-  createQueryParams,
-  getResultParams
-) => async dispatch => {
-  const createQueryResponse = await request({
-    code: 'UNV.GET_SQL',
-    params: createQueryParams,
-    dispatch
-  });
-
-  if (createQueryResponse) {
-    dispatch(setQueryData(createQueryResponse));
-
-    const getResultResponse = await request({
-      code: 'CN.GET_DATA',
-      params: { ...getResultParams, query: createQueryResponse.dpSql },
-      dispatch
-    });
-
-    if (getResultResponse) {
-      dispatch(setQueryResult(getResultResponse));
-    }
-  }
-};
-
-// TODO: удалить postQueryPanelTab если больше нигде не используется
-export const postQueryPanelTab = queryParams => async dispatch => {
-  const response = await request({
-    code: 'REP.SET_DP',
-    params: queryParams,
-    dispatch
-  });
-
-  if (response) {
-    dispatch(setReportDpRefreshed());
-  }
-
-  console.log(response);
-};
-
-export const createQueryAndPostQueryPanelTab = (
-  createQueryParams,
-  postParams
-) => async dispatch => {
-  const createQueryResponse = await request({
-    code: 'UNV.GET_SQL',
-    params: createQueryParams,
-    dispatch
-  });
-
-  if (createQueryResponse) {
-    dispatch(setQueryData(createQueryResponse));
-
-    const postQueryPanelTabResponse = await request({
-      code: 'REP.SET_DP',
-      params: {
-        ...postParams,
-        dp: { ...postParams.dp, dpSql: createQueryResponse.dpSql }
-      },
-      dispatch
-    });
-
-    if (postQueryPanelTabResponse) {
-      dispatch(setReportDpRefreshed());
-    }
-  }
 };
 
 export const setObjectsConnectionsModal = (open, link) => {

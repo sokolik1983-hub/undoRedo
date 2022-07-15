@@ -8,7 +8,7 @@ const QueryPanelControls = ({ onSql, onRun, onApply, onClose }) => {
     const {
       currentLayerTitle,
       data
-    } = state?.app?.data?.queryPanelSymlayersData;
+    } = state?.app?.reportDesigner?.queryPanelData;
     return data?.find(i => i.queryTitle === currentLayerTitle);
   });
 

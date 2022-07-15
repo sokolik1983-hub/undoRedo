@@ -6,10 +6,14 @@ import { REDIRECT_LINKS, TOAST_TYPE } from '../../common/constants/common';
 import { getCurrentReport } from '../../modules/ReportDesigner/helpers';
 import { request } from '../helpers';
 import {
+  setQueryData,
+  setQueryPanelData,
+  setQueryResult,
   setReportDisplayMode,
   setReportHeader,
   setReports,
   setStructure,
+  setSymanticLayerQueryResult,
   setVariables
 } from '../reducers/new_reportDesigner';
 import { notificationShown } from '../reducers/notifications';
@@ -251,7 +255,7 @@ export const setReportDpRefreshed = queryParams => {
     });
     if (response) {
       console.log(response);
-      dispatch(getVariables())
+      dispatch(getVariables());
     }
   };
 };
@@ -311,4 +315,125 @@ export const handleUndo = () => {
 
 export const handleRedo = () => {
   return dispatch => dispatch(ActionCreators.redo());
+};
+
+export const getQueryPanelSymanticLayerData = id => async dispatch => {
+  const response = await request({
+    code: 'UNV.GET_DATA_QP',
+    params: { id },
+    dispatch
+  });
+
+  if (response) {
+    dispatch(
+      setQueryPanelData({
+        universeId: id,
+        data: response.qpData
+      })
+    );
+  }
+};
+
+export const createQuery = queryParams => async dispatch => {
+  const response = await request({
+    code: 'UNV.GET_SQL',
+    params: queryParams,
+    dispatch
+  });
+
+  if (response) {
+    dispatch(setQueryData(response));
+  }
+};
+
+export const semanticLayerDataQuery = queryParams => async dispatch => {
+  const response = await request({
+    func: 'CONNECT.START_SQL',
+    params: queryParams,
+    dispatch
+  });
+  if (response?.success) {
+    dispatch(setSymanticLayerQueryResult(response.result));
+  }
+};
+
+// TODO: удалить getResultFromQuery если нигде не используется
+export const getResultFromQuery = queryParams => async dispatch => {
+  const response = await request({
+    code: 'CN.GET_DATA',
+    params: queryParams,
+    dispatch
+  });
+
+  if (response) {
+    dispatch(setQueryResult(response));
+  }
+};
+
+export const createQueryAndGetResult = (
+  createQueryParams,
+  getResultParams
+) => async dispatch => {
+  const createQueryResponse = await request({
+    code: 'UNV.GET_SQL',
+    params: createQueryParams,
+    dispatch
+  });
+
+  if (createQueryResponse) {
+    dispatch(setQueryData(createQueryResponse));
+
+    const getResultResponse = await request({
+      code: 'CN.GET_DATA',
+      params: { ...getResultParams, query: createQueryResponse.dpSql },
+      dispatch
+    });
+
+    if (getResultResponse) {
+      dispatch(setQueryResult(getResultResponse));
+    }
+  }
+};
+
+// TODO: удалить postQueryPanelTab если больше нигде не используется
+export const postQueryPanelTab = queryParams => async dispatch => {
+  const response = await request({
+    code: 'REP.SET_DP',
+    params: queryParams,
+    dispatch
+  });
+
+  if (response) {
+    dispatch(setReportDpRefreshed());
+  }
+
+  console.log(response);
+};
+
+export const createQueryAndPostQueryPanelTab = (
+  createQueryParams,
+  postParams
+) => async dispatch => {
+  const createQueryResponse = await request({
+    code: 'UNV.GET_SQL',
+    params: createQueryParams,
+    dispatch
+  });
+
+  if (createQueryResponse) {
+    dispatch(setQueryData(createQueryResponse));
+
+    const postQueryPanelTabResponse = await request({
+      code: 'REP.SET_DP',
+      params: {
+        ...postParams,
+        dp: { ...postParams.dp, dpSql: createQueryResponse.dpSql }
+      },
+      dispatch
+    });
+
+    if (postQueryPanelTabResponse) {
+      dispatch(setReportDpRefreshed());
+    }
+  }
 };

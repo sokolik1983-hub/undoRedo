@@ -8,21 +8,32 @@
 .sql {
   max-width: none;
   height: 100%;
+  padding: 0px 15px;
+
   .queryField {
     background-color: white;
     border-radius: 5px;
+    overflow: hidden;
     color: black;
-    margin: 0px 15px;
-    height: auto;
-    min-height: 100px;
-    padding: 5px 5px;
+    height: 300px;
     margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+
+    & .textarea {
+      font: inherit;
+      background-color: transparent;
+      width: 100%;
+      min-height: 100px;
+      padding: 5px 5px;
+      resize: none;
+    }
   }
 
   .buttons {
     display: flex;
     justify-content: flex-end;
-    padding-right: 15px;
   }
 }
 

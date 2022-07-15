@@ -6,8 +6,8 @@ import {
   copySymlayer,
   deleteSymlayer,
   editSymlayer,
-  setCurrentQueryPanelSymlayer
-} from '../../../../data/reducers/data';
+  setCurrentSymlayer
+} from '../../../../data/reducers/new_reportDesigner';
 import IconButton from '../../../../common/components/IconButton';
 import Option from '../../../../common/components/NewSelect/Option';
 import Select from '../../../../common/components/NewSelect/Select';
@@ -44,7 +44,7 @@ const ObjectsPanelHeader = ({ modalOpenHandler }) => {
   const dispatch = useDispatch();
 
   const { data, options } = useSelector(state => {
-    const data = state.app?.data?.queryPanelSymlayersData.data;
+    const data = state.app?.reportDesigner?.queryPanelData.data;
     const options = data?.map(({ symLayerName, queryTitle }) => ({
       symLayerName,
       queryTitle
@@ -65,7 +65,7 @@ const ObjectsPanelHeader = ({ modalOpenHandler }) => {
     const currentLayer = data?.find(
       layer => layer.queryTitle === selectedValue
     );
-    dispatch(setCurrentQueryPanelSymlayer(currentLayer?.queryTitle));
+    dispatch(setCurrentSymlayer(currentLayer?.queryTitle));
   }, [selectedValue]);
 
   const handleRenameLayer = params => {

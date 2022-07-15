@@ -7,17 +7,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './QueryPanel.module.scss';
 import Modal from '../../common/components/Modal';
 import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.module.scss';
+import { setQueryPanelModal } from '../../data/actions/universes';
 import {
   createQuery,
   createQueryAndGetResult,
   createQueryAndPostQueryPanelTab,
-  getQueryPanelSymanticLayerData,
-  getResultFromQuery,
-  getUniverses,
-  postQueryPanelTab,
-  setConfirmModal,
-  setQueryPanelModal
-} from '../../data/actions/universes';
+  getQueryPanelSymanticLayerData
+} from '../../data/actions/newReportDesigner';
 import SelectSemanticLayer from './SelectSemanticLayer';
 import SqlPopup from './SqlPopup';
 import ObjectsPanel from './ObjectsPanel';
@@ -48,16 +44,14 @@ const QueryPanel = ({ visible }) => {
     dpFilter,
     symLayerName,
     connectorId,
-    dpSql,
     dpId,
     layerTitle,
     universeId
   } = useSelector(state => {
-    const dpSql = state?.app?.data?.queryData?.dpSql;
     const {
       currentLayerTitle,
       data
-    } = state?.app?.data?.queryPanelSymlayersData;
+    } = state?.app?.reportDesigner?.queryPanelData;
     const currentLayer = data?.find(i => i.queryTitle === currentLayerTitle);
 
     return {
@@ -66,7 +60,6 @@ const QueryPanel = ({ visible }) => {
       symLayerName: currentLayer?.symLayerName || null,
       connectorId: currentLayer?.connector_id || null,
       dpId: currentLayer?.dpId || null,
-      dpSql: dpSql || null,
       layerTitle: currentLayerTitle || EMPTY_STRING,
       universeId: currentLayer?.universeId || null
     };

@@ -9,7 +9,7 @@ import styles from './SaveReportModal.module.scss';
 
 const SaveReportModal = ({ isOpen, onSave, onCancel, currentTitle }) => {
   const options = useSelector(state =>
-    state.app?.data?.queryPanelSymlayersData.data?.map(i => i.queryTitle)
+    state.app?.reportDesigner?.queryPanelData.data?.map(i => i.queryTitle)
   );
 
   const [value, setValue] = useState(EMPTY_STRING);

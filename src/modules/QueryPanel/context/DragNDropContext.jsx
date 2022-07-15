@@ -7,7 +7,7 @@ import {
   DRAG_PARENT_SECTION,
   EMPTY_STRING
 } from '../../../common/constants/common';
-import { setQueryPanelSymlayerFilters } from '../../../data/reducers/data';
+import { setQueryPanelFilters } from '../../../data/reducers/new_reportDesigner';
 import { flat } from '../queryPanelHelper';
 
 const DragNDropContext = createContext();
@@ -20,7 +20,7 @@ const DragNDropProvider = ({ children }) => {
     const {
       currentLayerTitle,
       data
-    } = state?.app?.data?.queryPanelSymlayersData;
+    } = state?.app?.reportDesigner?.queryPanelData;
 
     const { objects = [], filters = null } =
       data?.find(i => i.queryTitle === currentLayerTitle) || {};
@@ -41,7 +41,7 @@ const DragNDropProvider = ({ children }) => {
 
   useEffect(() => {
     dispatch(
-      setQueryPanelSymlayerFilters({
+      setQueryPanelFilters({
         objects: objectsDesk,
         filters: filtersDesk
       })
