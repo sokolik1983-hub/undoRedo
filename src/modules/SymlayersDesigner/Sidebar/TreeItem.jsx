@@ -30,9 +30,9 @@ const TreeItem = ({ name, isSchema, table, onSelect, isOpen }) => {
     selectedTables[getTableIdFromParams({...table})];
 
   useEffect(() => {
-    if (!isSchema && isActive) {
-      // onSelect(table, event);
-    }
+    // if (!isSchema && isActive) { // не уверен что нужно но надо проверить
+    //   onSelect(table, event);
+    // }
     if (isSchema && isActive) {
       setTimeout(() => setActive(false), 240);
     }
