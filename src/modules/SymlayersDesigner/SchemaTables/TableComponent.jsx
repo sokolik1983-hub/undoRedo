@@ -268,18 +268,6 @@ const TableComponent = ({
     }
   }, [showDataList]);
 
-  // useEffect(() => {
-    // const {schema, objectName} = tableItem;
-    // dispatch(getObjectFields({ schema, objectName, id: connect_id }));
-
-    // .then(response => {
-    //   if (response && response.success) {
-    //     setColumns(response.result);
-    //     setIsLoading(false);
-    //   }
-    // });
-  // }, []);
-
   const setExpanded = useCallback(value => SET_EXPANDED({ tableId, value }), [
     SET_EXPANDED,
     tableId
@@ -428,7 +416,6 @@ const TableComponent = ({
   // };
 
   const onFieldDragOver = (event, field, table) => {   
-    console.log('*handleSelectTable')
     const object1 = JSON.parse(event.dataTransfer.getData('object1'));
     const object2 = {
       cardinality: 'one',
@@ -522,7 +509,6 @@ const TableComponent = ({
             onFieldDragOver={onFieldDragOver}
             selectedTableColumns={selectedTableColumns}
             selectedTableName={tableItem.objectName}
-            // selectedTableFullName={`${tableItem.schema}_${tableItem.objectName}_${tableItem.id}_${connect_id}`}
             addRefToColumns={addRefToColumns}
             addRefToTable={addRefToTable}
             addRefToHeader={addRefToHeader}

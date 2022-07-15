@@ -24,8 +24,6 @@ import { addLink, setLink } from '../../../data/reducers/schemaDesigner';
 const ObjectsConnectionEditor = ({ id, visible }) => {
   const dispatch = useDispatch();
   const [sqlEditorOpened, setSqlEditorOpened] = useState(false); // показывает модалку с редактированиемм SQL
-  // const [leftSchema, setLeftSchema] = useState([]);
-  // const [rightSchema, setRightSchema] = useState([]);
   const [rightTable, setRightTable] = useState(null); // name правой таблицы
   const [leftTable, setLeftTable] = useState(null); // name левой таблицы
   const [leftTableFields, setLeftTableFields] = useState(null);
@@ -60,14 +58,12 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
       if (tableNum === 'left') {
         const selectTable = selectedTablesData?.find(table => table.id === leftTableId);
         const findField = selectTable?.columns?.find(col => col.field === field);
-        // setLeftSelected([findField?.field]);
         setLeftTableFields([findField]);
         return findField;
       }
       if (tableNum === 'right') {
         const selectTable = selectedTablesData?.find(table => table.id === rightTableId);
         const findField = selectTable?.columns.find(col => col.field === field);
-        // setRightSelected([findField?.field])
         setRightTableFields([findField]);
         return findField;
       }

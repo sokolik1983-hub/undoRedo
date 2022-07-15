@@ -14,10 +14,8 @@ import {
   setIsShowingLinks
 } from '../../../../data/reducers/schemaDesigner';
 import EditObjectLayerModal from '../../../../modules/SymlayersDesigner/Sidebar/EditObjectLayerModal';
-// import Button from '../../../../common/components/Button';
 import translitNames from './helper';
 
-// import TextInput from '../../../../common/components/TextInput';
 
 const SemanticActions = () => {
   const dispatch = useDispatch();
@@ -119,7 +117,6 @@ const SemanticActions = () => {
 
   const saveUniverse = () => {
     const universe = JSON.parse(JSON.stringify(currentUniverse));
-    console.log(universe)
     universe.data.tables = selectedTablesData;
     universe.data.links = links;
     universe.data.objects = formattedObjectLayer;

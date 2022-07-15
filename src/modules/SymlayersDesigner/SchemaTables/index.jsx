@@ -267,7 +267,6 @@ useMemo(() => {
     };
     const tr = getRefs(getTableIdFromParams({schema, objectName}));
 
-    // console.log(tp, tr, tableName, table, field)
     if (!tp || !tr || !tr.tableRef || !tr.headerRef) return { tp, tr };
 
     let port = tr.ports.find(column => column.key === field);

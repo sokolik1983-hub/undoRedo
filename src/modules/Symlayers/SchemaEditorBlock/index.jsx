@@ -108,7 +108,6 @@ const SchemaEditorBlock = ({
 
   useEffect(() => {
     fieldRefs?.current[fieldRefs?.current.length - 1]?.current?.focus();
-    // updateFieldsCount(fieldsCount);
   }, [fieldsCount]);
 
   useEffect(() => {
@@ -133,26 +132,12 @@ const SchemaEditorBlock = ({
     dispatch(addCoordToTables(tableRefCoord));
   }, [headerRef, tableRef]);
 
-  // useEffect(() => {
-  //   if (portsRefs?.length) {
-  //     addRefToColumns(portsRefs);
-  //   } else if (tableId) {
-  //     updateFieldsCount(fieldsCount);
-  //   }
-  // }, [portsRefs]);
-
 
   useEffect(() => {
     setTimeout(() => {
       setFilterableFields(selectedTableColumns);
     }, 50);
   }, [selectedTableColumns]);
-
-  // useEffect(() => {
-  //   if (selectedTableColumns && !portsRefs) {
-  //     updateFieldsCount(selectedTableColumns.length)
-  //   }
-  // }, [selectedTableColumns, portsRefs])
 
   const contentClasses = clsx(styles.content, {
     [styles.contentWithSearch]: isActive

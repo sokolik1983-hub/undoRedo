@@ -127,7 +127,6 @@ export const openUniverse = queryParams => {
       dispatch(loadSelectedTablesArray(response.data.tables));
       dispatch(setLinks(response.data.links));
       dispatch(setLoadingUniverse(true));
-      // console.log(response.data);
       
       response.data.tables.forEach(table => {
         dispatch(
