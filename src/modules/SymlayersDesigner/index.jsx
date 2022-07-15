@@ -31,14 +31,6 @@ function SymlayersDesigner() {
   
   const connectorId = useSelector(state => state.app.data.selectedConnectorId); 
   
-  const selectedTablesData = useSelector(
-    state => state.app.schemaDesigner.selectedTablesData
-  );
-
-  const isUnvLoaded = useSelector(
-    state => state.app.schemaDesigner.isUnvLoaded
-  );
-    
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.SEMANTIC));
     // dispatch(getConnectorObjectsList({ connect_id: 4 }));
@@ -77,9 +69,9 @@ function SymlayersDesigner() {
     state => state.app.schemaDesigner.selectedTablesArray
   );
 
-  // useEffect(() => {
-  //   console.log(selectedTablesArray, selectedTablesData, checked)
-  // }, [checked, selectedTablesArray])
+  const selectedTablesData = useSelector(
+    state => state.app.schemaDesigner.selectedTablesData
+  );
 
   const schemaDesignerUi = useSelector(state => state.app.schemaDesigner.ui);
   const links = useSelector(state => state.app.schemaDesigner.links);
@@ -103,7 +95,7 @@ function SymlayersDesigner() {
   const handleSelectTable = (selected, event) => {
     const {schema, objectName } = selected;
     dispatch(getObjectFields({id: connectorId, schema, objectName}));
-    const table_id = selectedTablesArray.length > 0 ? selectedTablesArray.length - 1 : 0;
+    const table_id = selectedTablesData.length > 0 ? selectedTablesArray.length : 0;
     if (event) {
       setChecked([...checked, {table_id, ...selected}]);
     } else {
@@ -167,8 +159,6 @@ function SymlayersDesigner() {
 
     setFolders(newFolders);
   };
-
-  console.log(checked, selectedTablesArray)
 
   return (
     <div className={styles.root}>

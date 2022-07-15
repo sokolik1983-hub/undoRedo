@@ -44,6 +44,7 @@ import Minimap from './Minimap';
 import Vector from './vector';
 import { getTableIdFromParams } from '../../../data/helpers';
 import { setObjectsConnectionsModal } from '../../../data/actions/universes';
+import { setLoadedUniverse } from '../../../data/reducers/schemaDesigner';
 
 const Provided = props => {
   const [lastUpdTime, forceUpdate] = useReducer(() => new Date(), 0);
@@ -54,6 +55,10 @@ const Provided = props => {
   const [addCord, setAddCoord] = useState(0);
   const selectedTablesData = useSelector(state => state.app.schemaDesigner.selectedTablesData);
   const selectedTables = useSelector(state => state.app.schemaDesigner.selectedTables);
+
+  const isUnvLoaded = useSelector(
+    state => state.app.schemaDesigner.isUnvLoaded
+  );
   // const saveUserData = {};
   // const userData = {};
   // const { saveUserData } = useApplicationActions();
@@ -160,28 +165,43 @@ const Provided = props => {
   }, []);
 
 useMemo(() => {
-    const tablePositions = {};
-    setAddCoord(addCord+50);
-    tablesPosition?.forEach(tablePosit => {
-      for (let key in tablePosit) {
-        const delta = posToCoord(tablePosit[key]).dif({x: 20 + addCord, y: 40 + addCord});
-        tablePositions[key] = {deltaPosition: delta};
-      }
-    })
-    setTablesPosition(tablePositions);
+      const tablePositions = {};
+      setAddCoord(addCord+50);
+      tablesPosition?.forEach(tablePosit => {
+        for (let key in tablePosit) {
+          const delta = posToCoord(tablePosit[key]).dif({x: 20 + addCord, y: 40 + addCord});
+          tablePositions[key] = {deltaPosition: delta};
+        }
+      });
+      setTablesPosition(tablePositions);
   }, [tablesPosition]);
 
   useEffect(() => {
-    if (!selectedTables.length) {
-      setTables(selectedTables);
-    } else {
+    if (selectedTablesData.length) {
+      forceUpdate();
+      setTables(selectedTablesData);
+    } else if (!props.tables.length) {
       setTables([]);
+    }
+  }, [selectedTablesData]);
+
+
+  useMemo(() => {
+    const tablePositions = {};
+    for (let key in selectedTables) {
+      if (selectedTables[key]?.position?.deltaPosition) {
+        tablePositions[key] = {deltaPosition: selectedTables[key].position.deltaPosition};
+      }
+    }
+    if(!lodash.isEmpty(tablePositions)) {
+      setTablesPosition(tablePositions);
+      dispatch(setLoadedUniverse(true));
     }
   }, [selectedTables]);
 
   useEffect(() => {
-    if (props.tables) {
-      setTables(props.tables);
+    if (props.tables.length) {
+      setTables([...selectedTablesData, ...props.tables]);
       lodash.keys(props.tablesPosition).forEach(key => {
         if (
           !lodash.find(
@@ -192,7 +212,7 @@ useMemo(() => {
           delete props.tablesPosition[key];
         }
       });
-    } else {
+    } else if (!selectedTablesData.length) {
       setTables([]);
     }
   }, [props.tables]);
@@ -240,7 +260,6 @@ useMemo(() => {
   );
 
   const targetRect = (table, field) => {
-    console.log(table)
     const { schema, objectName } = table;
     const tableName = getTableIdFromParams({schema, objectName});
     const tp = getTablePosition(tableName) || {
@@ -248,6 +267,7 @@ useMemo(() => {
     };
     const tr = getRefs(getTableIdFromParams({schema, objectName}));
 
+    // console.log(tp, tr, tableName, table, field)
     if (!tp || !tr || !tr.tableRef || !tr.headerRef) return { tp, tr };
 
     let port = tr.ports.find(column => column.key === field);
@@ -316,13 +336,12 @@ useMemo(() => {
   };
 
   const links = useSelector(state => state.app.schemaDesigner.links);
-
   const renderContent = ({ isShadow = false } = {}) => {
     return (
       <React.Fragment key="content">
         {linkAnchor &&
           (() => {
-            const SourceRect = targetRect(linkDescr.table, linkDescr.field);
+            const SourceRect = (linkDescr.table, linkDescr.field);
             const pseudoRect = {
               x: linkAnchor.x,
               y: linkAnchor.y - 10,
@@ -345,17 +364,13 @@ useMemo(() => {
         {links.map(link => {
             const objectFullName1 = createObjectName(link.object1.table_id);
             const objectFullName2 = createObjectName(link.object2.table_id);
-            Object.values(tables)?.find(
-              table => console.log(`${table.schema}_${table.objectName}, ${objectFullName1}, ${objectFullName2}`)
-            );
             let objectTable1 = Object.values(tables)?.find(
                 table => `${table.schema}_${table.objectName}` === objectFullName1
             );
             let objectTable2 = Object.values(tables)?.find(
-                table => `${table.schema}_${table.objectName}` === objectFullName1
+                table => `${table.schema}_${table.objectName}` === objectFullName2
             );
             let SourceRect; let TargetRect;
-            console.log(objectTable1, objectTable2)
             if (objectTable1 && objectTable2) {
               SourceRect = targetRect(objectTable1, !isShadow && link.object1.fields[0]?.field);
               TargetRect = targetRect(objectTable2, !isShadow && link.object2.fields[0]?.field);
@@ -444,7 +459,6 @@ useMemo(() => {
 };
 
 function SchemaTables(props) {
-  console.log(props)
   return (
     <SymanticLayerContextProvider>
       {/* <SearchDialog /> */}

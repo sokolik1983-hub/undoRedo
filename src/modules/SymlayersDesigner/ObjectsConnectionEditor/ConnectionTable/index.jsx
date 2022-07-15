@@ -10,6 +10,7 @@ const ConnectionTable = ({tableName, tables, onSelectColumn, onSelectTable, tabl
   const [selectedColumn, setSelectedColumn] = useState(null);
   const [defaultValue, setDefaultValue] = useState('Выберите таблицу');
   const [enabledTables, setEnabledTables] = useState(null);
+  // console.log(props.currentLeftColumns, props.currentRightColumns )
   
   // убирает возможность выбора таблицы, если она уже выбрана для использования
   useEffect(() => {
@@ -76,11 +77,12 @@ const ConnectionTable = ({tableName, tables, onSelectColumn, onSelectTable, tabl
       >
         {selectedTable && selectedTable.columns.map(item => {
           let res = null;
+          // console.log(props.currentLeftColumns, props.currentRightColumns)
           if (props.currentLeftColumns) {
-            res = props.currentLeftColumns.filter(col => col === item.field);
+            res = props.currentLeftColumns.filter(col => col?.field === item.field || col === item.field);
           } 
           if (props.currentRightColumns) {
-            res = props.currentRightColumns.filter(col => col === item.field);
+            res = props.currentRightColumns.filter(col => col?.field === item.field || col === item.field);
           }
           if (res && res.length) {
             return <option selected value={item.field} key={item.field + item.type}>{item.field}</option>

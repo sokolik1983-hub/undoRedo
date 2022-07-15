@@ -12,6 +12,7 @@ import {
 } from '../../../../data/reducers/schemaDesigner';
 import EditObjectLayerModal from '../../../../modules/SymlayersDesigner/Sidebar/EditObjectLayerModal';
 import Button from '../../../../common/components/Button';
+import translitNames from './helper';
 
 
 
@@ -91,27 +92,6 @@ const SemanticActions = () => {
     state => state.app.data.selectedConnectorId
   );
 
-  const translitNames = word => {
-    switch (word) {
-      case 'Символ':
-        return 'Symbol';
-      case 'Дата':
-        return 'Datetime';
-      case 'Номер':
-        return 'Number';
-      case 'Текст':
-        return 'String';
-      case 'Показатель':
-        return 'Measure';
-      case 'Измерение':
-        return 'Dimension';
-      case 'Атрибут':
-        return 'Attribute'
-      default:
-        return null;
-    }
-  };
-  
 
   useEffect(() => {
     let objects = [...objectsLayers];
@@ -158,6 +138,7 @@ const SemanticActions = () => {
 
   const saveUniverse = () => {
     const universe = JSON.parse(JSON.stringify(currentUniverse));
+    console.log(universe)
     universe.data.tables = selectedTablesData;
     universe.data.links = links;
     universe.data.objects = formattedObjectLayer;

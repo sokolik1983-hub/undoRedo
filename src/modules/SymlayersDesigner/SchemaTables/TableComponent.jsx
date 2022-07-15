@@ -142,7 +142,6 @@ const TableComponent = ({
     filter: columnFilter,
     ...props
   } = getTableProps(tableId);
-  console.log(props)
 
   const { selectedTables, coloredValue, showDataList } = useSelector(
     state => state.app.schemaDesigner
@@ -202,14 +201,26 @@ const TableComponent = ({
   const searchStaticMatches = item => {
     return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase());
   };
-  const selectedTableColumns = selectedTables[
-    getTableIdFromParams({...tableItem})
-  ]?.map(item => {
-    return {
-      ...item,
-      colored: colorValue && searchStaticMatches(item)
-    };
-  });
+  let selectedTableColumns = [];
+  if (selectedTables[getTableIdFromParams({...tableItem})]?.columns) {
+    selectedTableColumns = selectedTables[
+      getTableIdFromParams({...tableItem})
+    ]?.columns.map(item => {
+      return {
+        ...item,
+        colored: colorValue && searchStaticMatches(item)
+      };
+    });
+  } else {
+    selectedTableColumns = selectedTables[
+      getTableIdFromParams({...tableItem})
+    ]?.map(item => {
+      return {
+        ...item,
+        colored: colorValue && searchStaticMatches(item)
+      };
+    });
+  } 
 
   const addRefToColumns = refs => {
     setPortsRef(refs);
@@ -257,8 +268,9 @@ const TableComponent = ({
     }
   }, [showDataList]);
 
-  useEffect(() => {
-    dispatch(getObjectFields({ ...tableItem, connect_id: 4 }));
+  // useEffect(() => {
+    // const {schema, objectName} = tableItem;
+    // dispatch(getObjectFields({ schema, objectName, id: connect_id }));
 
     // .then(response => {
     //   if (response && response.success) {
@@ -266,7 +278,7 @@ const TableComponent = ({
     //     setIsLoading(false);
     //   }
     // });
-  }, []);
+  // }, []);
 
   const setExpanded = useCallback(value => SET_EXPANDED({ tableId, value }), [
     SET_EXPANDED,
@@ -309,7 +321,6 @@ const TableComponent = ({
       // });
     }
   }, [tableItem]);
-
   const { tableRef, headerRef, ports } = useMemo(() => {
     if (!isShadow) {
       const ports = selectedTableColumns?.map((item, i) => ({
@@ -385,7 +396,7 @@ const TableComponent = ({
     const object1 = {
       cardinality: 'one',
       objectName: `${table.schema}_${table.objectName}`,
-      table_id: table.table_id,
+      table_id: table.table_id !== undefined ? table.table_id : table.id,
       outerJoin: null,
       fields: [field.field]
     }
@@ -417,16 +428,16 @@ const TableComponent = ({
   // };
 
   const onFieldDragOver = (event, field, table) => {   
+    console.log('*handleSelectTable')
     const object1 = JSON.parse(event.dataTransfer.getData('object1'));
     const object2 = {
       cardinality: 'one',
       objectName: `${table.schema}_${table.objectName}`,
-      table_id: table.table_id,
+      table_id: table.table_id !== undefined ? table.table_id : table.id,
       outerJoin: null,
       fields: [field.field]
     }
-
-    if (object1.object_name !== object2.object_name)
+    if (object1.objectName !== object2.objectName)
       dispatch(setObjectsConnectionsModal(true, {id: links.length, newLink: true, object1, object2}));
     // tryLinkEnd({field, event})
   };
@@ -477,7 +488,7 @@ const TableComponent = ({
   const [isActiveSchemaEditorBlock, setActiveSchemaEditorBlock] = useState(
     true
   );
-  console.log(tableItem)
+
 
   return (
     <g
@@ -511,7 +522,7 @@ const TableComponent = ({
             onFieldDragOver={onFieldDragOver}
             selectedTableColumns={selectedTableColumns}
             selectedTableName={tableItem.objectName}
-            selectedTableFullName={`${tableItem.schema}_${tableItem.objectName}_${tableItem.id}_${connect_id}`}
+            // selectedTableFullName={`${tableItem.schema}_${tableItem.objectName}_${tableItem.id}_${connect_id}`}
             addRefToColumns={addRefToColumns}
             addRefToTable={addRefToTable}
             addRefToHeader={addRefToHeader}

@@ -13,7 +13,7 @@ import React, {
   useState,
   useContext
 } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch , useSelector } from 'react-redux';
 import Dropdown from '../../../common/components/Dropdown';
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import TextInput from '../../../common/components/TextInput';
@@ -27,6 +27,7 @@ import IconButton from '../../../common/components/IconButton';
 import CreateCopyModal from './CreateCopyModal';
 import ModalConfirmDeletion from '../../../common/components/Modal/ModalConfirmDeletion';
 import { addCoordToTables } from '../../../data/reducers/schemaDesigner';
+
 
 const items = [
   { text: 'Псевдоним', value: 'copy' },
@@ -93,10 +94,21 @@ const SchemaEditorBlock = ({
       fieldRef => fieldRef || React.createRef()
     );
     setPortsRef([...fieldRefs.current]);
+    addRefToColumns([...fieldRefs.current]);
   };
 
   useEffect(() => {
-    fieldRefs?.current[fieldRefs.current.length - 1].current?.focus();
+    updateFieldsCount(fieldsCount);
+  }, [filterableFields.length])
+
+  useEffect(() => {
+    if (!portsRefs?.length && filterableFields.length)
+      updateFieldsCount(filterableFields.length)
+  }, [portsRefs])
+
+  useEffect(() => {
+    fieldRefs?.current[fieldRefs?.current.length - 1]?.current?.focus();
+    // updateFieldsCount(fieldsCount);
   }, [fieldsCount]);
 
   useEffect(() => {
@@ -121,18 +133,26 @@ const SchemaEditorBlock = ({
     dispatch(addCoordToTables(tableRefCoord));
   }, [headerRef, tableRef]);
 
-  useEffect(() => {
-    if (portsRefs?.length) {
-      addRefToColumns(portsRefs);
-    }
-  }, [fieldsCount]);
+  // useEffect(() => {
+  //   if (portsRefs?.length) {
+  //     addRefToColumns(portsRefs);
+  //   } else if (tableId) {
+  //     updateFieldsCount(fieldsCount);
+  //   }
+  // }, [portsRefs]);
+
 
   useEffect(() => {
-    updateFieldsCount(selectedTableColumns.length);
     setTimeout(() => {
       setFilterableFields(selectedTableColumns);
     }, 50);
   }, [selectedTableColumns]);
+
+  // useEffect(() => {
+  //   if (selectedTableColumns && !portsRefs) {
+  //     updateFieldsCount(selectedTableColumns.length)
+  //   }
+  // }, [selectedTableColumns, portsRefs])
 
   const contentClasses = clsx(styles.content, {
     [styles.contentWithSearch]: isActive
@@ -186,31 +206,6 @@ const SchemaEditorBlock = ({
       ))}
     </div>
   );
-
-  // const refs = useRef({});
-
-  // useEffect(() => {
-  //   if (!isShadow) {
-  //     const ports = columns.map(item => ({
-  //       key: item.field,
-  //       ref: React.createRef()
-  //     }));
-
-  //     const value = {
-  //       tableRef: React.createRef(),
-  //       headerRef: React.createRef(),
-  //       ports
-  //     };
-  //     setTablesRefs({ tableId, value });
-  //     refs.current = value;
-  //     return;
-  //   }
-  //   refs.current = {
-  //     tableRef: React.createRef(),
-  //     headerRef: React.createRef(),
-  //     ports: []
-  //   };
-  // }, [refs]);
 
   return (
     // <div className={highlightOutline} ref={refs.current.tableRef}>

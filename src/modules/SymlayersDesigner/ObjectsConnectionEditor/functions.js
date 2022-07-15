@@ -2,11 +2,11 @@
 export const createExpression = (leftSelected, rightSelected, expression, leftTable, rightTable) => {
   let expressionSet = '';
 
-  if (leftSelected && !Array.isArray(leftSelected)) {
+  if (leftSelected && leftSelected[0]?.field) {
     leftSelected = leftSelected.map(field => field.field);
   }
 
-  if (rightSelected && !Array.isArray(rightSelected)) {
+  if (rightSelected && rightSelected[0]?.field) {
     rightSelected = rightSelected.map(field => field.field);
   }
 

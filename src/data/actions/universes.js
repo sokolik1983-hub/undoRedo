@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import translitNames from '../../layout/components/TopBar/PageActions/helper';
 import { getTableIdFromParams, request } from '../helpers';
 import {
   setQueryData,
@@ -11,10 +12,12 @@ import {
   setUniversesFolderId,
   setReportsFolderId,
   setSampleUniverseObject,
-  setUniverseIsCreated
+  setUniverseIsCreated,
+  setConnectorId,
+  setCurrentUniverse
 } from '../reducers/data';
 import { notificationShown } from '../reducers/notifications';
-import { loadSelectedTablesArray, loadSelectedTablesData, setLinks, setLoadedUniverse, setSelectedTables } from '../reducers/schemaDesigner';
+import { addObjectLayer, loadObjectsLayer, loadSelectedTablesArray, loadSelectedTablesData, setLinks, setLoadingUniverse, setSelectedTables } from '../reducers/schemaDesigner';
 import {
   showObjectsConnectionsModal,
   closeModal,
@@ -118,20 +121,67 @@ export const openUniverse = queryParams => {
       dispatch
     });
     if (response?.result) {
-      console.log(response)
       dispatch(loadSelectedTablesData(response.data.tables));
       dispatch(loadSelectedTablesArray(response.data.tables));
       dispatch(setLinks(response.data.links));
-      dispatch(setLoadedUniverse(true));
-      dispatch(getObjectFromConnector({id: response.data.connector_id}));
+      dispatch(setLoadingUniverse(true));
+      // console.log(response.data);
+      
       response.data.tables.forEach(table => {
         dispatch(
           setSelectedTables({
             [getTableIdFromParams(table)]: table
           })
-        );        
-      })
-    }
+          );        
+        })
+      }
+      dispatch(setConnectorId(response.data.connector_id));
+      const objects = response.data.objects.map(object => {
+        const tempObj = {...object}
+        tempObj.refreshBeforeUsageCheckBox = false;
+        tempObj.searchDelegetionCheckBox = false;
+        tempObj.showHierarchyCheckBox = false;
+        tempObj.thisListEditCheckBox = false;
+        tempObj.useInConditionsCheckBox = false;
+        tempObj.useInResultsCheckBox = false;
+        tempObj.useInSortingsCheckBox = false;
+        tempObj.techInfoInput = '';
+        tempObj.originInput = '';
+        tempObj.defaultLinkInput = '';
+        tempObj.displayInput = '';
+        tempObj.exportByUniverseCheckBox = false;
+        tempObj.keysDataType = '';
+        tempObj.keysSelectInput = '';
+        tempObj.keysWhereInput = '';
+        tempObj.keysType = '';
+        tempObj.usagePermission = '';
+        tempObj.dataType = 'Symbol';
+        tempObj.aggFunc = 'SUM';
+        tempObj.aggFuncName = 'SUM'; 
+        tempObj.objectFunction = '';
+        tempObj.objectDescription = tempObj.description;
+        tempObj.objectDataType = translitNames(tempObj.userDataType);
+        tempObj.objectType = translitNames(tempObj.objectType);
+        tempObj.selectQueryField = tempObj.select;
+        tempObj.whereQueryField = tempObj.where;
+        tempObj.tables = [1];
+        tempObj.parent_id = 0;
+        tempObj.mask = null;
+        delete tempObj.where;
+        delete tempObj.select;
+        delete tempObj.description;
+        delete tempObj.userDataType;
+        delete tempObj.dataType;
+        delete tempObj.aggFunc;
+        delete tempObj.aggFuncName;
+        delete tempObj.tables;
+        delete tempObj.parent_id;
+        delete tempObj.mask;
+        return tempObj;
+      });
+      dispatch(loadObjectsLayer(objects));
+      dispatch(getObjectFromConnector({id: response.data.connector_id}));
+      dispatch(setCurrentUniverse({header: response.header, data: response.data}));
   };
 };
 

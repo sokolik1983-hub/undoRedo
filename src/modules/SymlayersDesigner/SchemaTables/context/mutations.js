@@ -78,7 +78,6 @@ export default {
   ),
 
   SET_TABLES: ({ state }, tables = []) => {
-    console.log(tables)
     state.tables = tables.reduce(
       (result, table) => ({ ...result, [getTableIdFromParams({...table, connect_id: 4})]: table }),
       {}

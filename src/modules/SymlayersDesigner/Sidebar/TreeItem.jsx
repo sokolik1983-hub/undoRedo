@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -18,18 +19,21 @@ const TreeItem = ({ name, isSchema, table, onSelect, isOpen }) => {
   const selectedTables = useSelector(
     state => state.app.schemaDesigner.selectedTables
   );
-
+  
   useEffect(() => {
     if (isOpen) setFolderOpen(true);
     else setFolderOpen(false);
   }, [isOpen])
-
+  
+//  const selectedTable = table && selectedTablesArray.find(selTable => selTable.name === `${table.schema}_${table.objectName}`);
+//  console.log(selectedTable)
   const selectedTableColumns =
     selectedTables[getTableIdFromParams({...table})];
+  // console.log(selectedTableColumns);
 
   useEffect(() => {
     if (!isSchema && isActive) {
-      onSelect(table, event);
+      // onSelect(table, event);
     }
     if (isSchema && isActive) {
       setTimeout(() => setActive(false), 240);
@@ -95,7 +99,12 @@ const TreeItem = ({ name, isSchema, table, onSelect, isOpen }) => {
             </button>
             {isActive && (
               <div className={styles.tableFields}>
-                {selectedTableColumns?.map(col => (
+                {selectedTableColumns?.columns ? 
+                selectedTableColumns?.columns.map(col => (
+                  <TreeTableField field={col} key={Math.random()} />
+                ))
+                : 
+                selectedTableColumns?.map(col => (
                   <TreeTableField field={col} key={Math.random()} />
                 ))}
               </div>

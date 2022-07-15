@@ -47,6 +47,7 @@ const schemaDesigner = createSlice({
     },
     coloredValue: '',
     semantycLayerName: null,
+    isUnvLoading: false,
     isUnvLoaded: false,
 
     newData: {
@@ -179,8 +180,15 @@ const schemaDesigner = createSlice({
     setSchemaDesigner: (state, action) => {
       state.newData = { ...action.payload.default };
     },
+    setLoadingUniverse: (state, action) => {
+      state.isUnvLoading = action.payload;
+      state.isUnvLoaded = true;
+    }, 
     setLoadedUniverse: (state, action) => {
       state.isUnvLoaded = action.payload;
+    },
+    loadObjectsLayer: (state, action) => {
+      state.objectsLayerList = action.payload;
     }
   }
 });
@@ -212,8 +220,10 @@ export const {
   setSemantycLayerName,
   setSchemaDesigner,
   loadSelectedTablesData,
+  setLoadingUniverse,
   setLoadedUniverse,
-  loadSelectedTablesArray
+  loadSelectedTablesArray,
+  loadObjectsLayer
 } = schemaDesigner.actions;
 
 export default schemaDesigner.reducer;

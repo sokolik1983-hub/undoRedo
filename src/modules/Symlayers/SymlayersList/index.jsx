@@ -32,7 +32,7 @@ import {
   openUniverse
 } from '../../../data/actions/universes';
 import { setObjectToFavorites } from '../../../data/actions/app'
-import { setLoadedUniverse } from '../../../data/reducers/schemaDesigner';
+import { setLoadingUniverse } from '../../../data/reducers/schemaDesigner';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
@@ -41,8 +41,8 @@ const ConnectorsList = () => {
   const unvRootFolderId = useSelector(
     state => state.app.data.universesFolderId
   );
-  const isUnvLoaded = useSelector(
-    state => state.app.schemaDesigner.isUnvLoaded
+  const isUnvLoading = useSelector(
+    state => state.app.schemaDesigner.isUnvLoading
   );
 
   useEffect(() => {
@@ -50,11 +50,11 @@ const ConnectorsList = () => {
   }, []);
 
   useEffect(() => {
-    if (isUnvLoaded) {
+    if (isUnvLoading) {
       navigate(REDIRECT_LINKS.SYMLAEYERS);
-      dispatch(setLoadedUniverse(false));
+      dispatch(setLoadingUniverse(false));
     }
-  }, [isUnvLoaded]);
+  }, [isUnvLoading]);
 
   const [foldersIdHistory, setFoldersIdHistory] = useState([]);
   const [foldersNameHistory, setFoldersNameHistory] = useState([]);
@@ -115,7 +115,6 @@ const ConnectorsList = () => {
   };
 
   const onSymLayerDoubleClick = item => {
-    console.log(item)
     dispatch(openUniverse({id: item.id, getData: 1}));
   }
 
