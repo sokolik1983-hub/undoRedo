@@ -11,10 +11,10 @@ import {
   setColoredValue,
   setShowDataList,
 } from '../../../../../data/reducers/schemaDesigner';
-import { ReactComponent as AddTableIcon } from '../../../../../layout/assets/icons/tablesAdd.svg';
-import { ReactComponent as FiltersIcon } from '../../../../../layout/assets/icons/tablesFilters.svg';
-import { ReactComponent as ViewsIcon } from '../../../../../layout/assets/icons/viewsShow.svg';
-import { ReactComponent as Magnifier } from '../../../../../layout/assets/magnifier.svg';
+import AddTableIcon from '../../../../../layout/assets/icons/tablesAdd.svg';
+import FiltersIcon from '../../../../../layout/assets/icons/tablesFilters.svg';
+import ViewsIcon from '../../../../../layout/assets/icons/viewsShow.svg';
+import Magnifier from '../../../../../layout/assets/magnifier.svg';
 import styles from './TablesPaneActions.module.scss';
 
 const TablesPaneActions = ({ setSelectedSchemes }) => {

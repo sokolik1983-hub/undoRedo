@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux';
 
 import Tooltip from '../../../common/components/Tooltip';
 import { getTableIdFromParams } from '../../../data/helpers';
-import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
-import { ReactComponent as TableIcon } from '../../../layout/assets/icons/viewsShow.svg';
-import { ReactComponent as OpenFolderIcon } from '../../../layout/assets/openFolderIcon.svg';
+import FolderIcon from '../../../layout/assets/folderIcon.svg';
+import TableIcon from '../../../layout/assets/icons/viewsShow.svg';
+import OpenFolderIcon from '../../../layout/assets/openFolderIcon.svg';
 import styles from './Sidebar.module.scss';
 import TreeTableField from './TreeTableField';
 

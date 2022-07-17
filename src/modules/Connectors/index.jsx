@@ -5,7 +5,7 @@ import FloatingButton from '../../common/components/FloatingButton';
 import { PAGE } from '../../common/constants/pages';
 import { getConnectorTypesSources } from '../../data/actions/connectors';
 import { setCurrentPage } from '../../data/reducers/ui';
-import { ReactComponent as CreateConnector } from '../../layout/assets/createConnector.svg';
+import CreateConnector from '../../layout/assets/createConnector.svg';
 import styles from './Connectors.module.scss';
 import ConnectorsList from './ConnectorsList/ConnectorsList';
 import CreateConnectorModal from './CreateConnectorModal';

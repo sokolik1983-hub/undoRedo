@@ -1,15 +1,6 @@
 import MapIcon from '@material-ui/icons/Map';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import lodash from 'lodash';
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable prefer-const */
-/* eslint-disable guard-for-in */
-/* eslint-disable consistent-return */
-/* eslint-disable react/jsx-one-expression-per-line */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/prop-types */
 import React, {
   useContext,
   useEffect,
@@ -23,8 +14,8 @@ import IconButton from '../../../common/components/IconButton';
 import Tooltip from '../../../common/components/Tooltip/index';
 import { setObjectsConnectionsModal } from '../../../data/actions/universes';
 import { getTableIdFromParams } from '../../../data/helpers';
-import { ReactComponent as Minus } from '../../../layout/assets/reportDesigner/minus.svg';
-import { ReactComponent as Plus } from '../../../layout/assets/reportDesigner/plus.svg';
+import Minus from '../../../layout/assets/reportDesigner/minus.svg';
+import Plus from '../../../layout/assets/reportDesigner/plus.svg';
 import { SymanticLayerContext, SymanticLayerContextProvider } from './context';
 import SymanticLink from './Link';
 import Minimap from './Minimap';

@@ -19,8 +19,8 @@ import {
   getUniversesFolderChildren,
   getUniversesFolderId,
 } from '../../../data/actions/universes';
-import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
-import { ReactComponent as UniverseIcon } from '../../../layout/assets/icons/universeIcon.svg';
+import FolderIcon from '../../../layout/assets/folderIcon.svg';
+import UniverseIcon from '../../../layout/assets/icons/universeIcon.svg';
 import {
   FOLDER_DROPDOWN_ACTIONS,
   FOLDER_ITEM_DROPDOWN_ACTIONS,

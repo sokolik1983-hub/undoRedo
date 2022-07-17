@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import Select from '../../../../common/components/Select';
 import Tooltip from '../../../../common/components/Tooltip';
-import { ReactComponent as DefineConnectionIcon } from '../../../../layout/assets/semanticActionsIcons/defineConnections.svg';
+import DefineConnectionIcon from '../../../../layout/assets/semanticActionsIcons/defineConnections.svg';
 import styles from '../ObjectsConnectionsEditor.module.scss';
 import ConnectionImages from './ConnectionImages';
 

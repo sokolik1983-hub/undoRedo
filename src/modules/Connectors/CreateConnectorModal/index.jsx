@@ -16,8 +16,8 @@ import {
   saveConnector,
   testConnector,
 } from '../../../data/actions/connectors';
-import { ReactComponent as TestFailed } from '../../../layout/assets/testFailedIcon.svg';
-import { ReactComponent as TestOkIcon } from '../../../layout/assets/testOkIcon.svg';
+import TestFailed from '../../../layout/assets/testFailedIcon.svg';
+import TestOkIcon from '../../../layout/assets/testOkIcon.svg';
 import styles from './Connectors.module.scss';
 
 const CreateConnectorModal = ({ isVisible, onClose }) => {
