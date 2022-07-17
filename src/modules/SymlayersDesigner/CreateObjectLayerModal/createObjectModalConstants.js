@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 export const CREATE_OBJECT_MODAL_VALUES = {
     NAME: 'name',
     OBJECT_DATA_TYPE: 'objectDataType',
@@ -24,4 +23,4 @@ export const CREATE_OBJECT_MODAL_VALUES = {
     TECH_INFO_INPUT: 'techInfoInput',
     DISPLAY_INPUT: 'displayInput',
     ORIGIN_INPUT: 'originInput',
-}
+};

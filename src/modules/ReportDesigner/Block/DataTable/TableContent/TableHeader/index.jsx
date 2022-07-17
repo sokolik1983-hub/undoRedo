@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import cloneDeep from 'lodash/cloneDeep';

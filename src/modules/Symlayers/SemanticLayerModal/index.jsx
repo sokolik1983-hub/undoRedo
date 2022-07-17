@@ -1,30 +1,31 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import { Formik } from 'formik';
 import lodash from 'lodash';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Formik } from 'formik';
-import Modal from '../../../common/components/Modal';
+import { useNavigate } from 'react-router-dom';
+
 import Button from '../../../common/components/Button';
-import styles from './SemanticLayerModal.module.scss';
-import SqlItem from './ModalItem/SqlItem';
-import Params from './ModalItem/Params';
-import Connect from './ModalItem/Connect';
-// import Stats from './ModalItem/Stats';
-import BusinessObjects from './ModalItem/BusinessObjects';
-import Control from './ModalItem/Control';
-import TextFieldItem from './ModalItem/TextFieldItem';
-import { setSemantycLayerDataName } from '../../../data/actions/schemaDesigner';
+import Modal from '../../../common/components/Modal';
 import { REDIRECT_LINKS } from '../../../common/constants/common';
+import { setSemantycLayerDataName } from '../../../data/actions/schemaDesigner';
 import {
   createUniverse,
-  getUniversesFolderId
+  getUniversesFolderId,
 } from '../../../data/actions/universes';
 import {
   setCurrentUniverse,
-  setUniverseIsCreated
+  setUniverseIsCreated,
 } from '../../../data/reducers/data';
+// import Stats from './ModalItem/Stats';
+import BusinessObjects from './ModalItem/BusinessObjects';
+import Connect from './ModalItem/Connect';
+import Control from './ModalItem/Control';
+import Params from './ModalItem/Params';
+import SqlItem from './ModalItem/SqlItem';
+import TextFieldItem from './ModalItem/TextFieldItem';
+import styles from './SemanticLayerModal.module.scss';
 
 const semLayerValues = {
   name: 'Новый семантический слой 1',
@@ -32,7 +33,7 @@ const semLayerValues = {
   SQLRequest: [],
   SQLMultipleRoads: [],
   CartesianWork: '',
-  control: []
+  control: [],
 };
 
 /**
@@ -57,13 +58,13 @@ const SemanticLayerModal = ({
   const [modalData, setModalData] = useState(null);
   const [universe, setUniverse] = useState({});
   const sampleUnvObject = useSelector(
-    (state) => state.app.data.sampleUnvObject
+    (state) => state.app.data.sampleUnvObject,
   );
   const isUniverseCreated = useSelector(
-    (state) => state.app.data.isUniverseCreated
+    (state) => state.app.data.isUniverseCreated,
   );
   const unvRootFolderId = useSelector(
-    (state) => state.app.data.universesFolderId
+    (state) => state.app.data.universesFolderId,
   );
 
   useEffect(() => {
@@ -181,9 +182,11 @@ SemanticLayerModal.propTypes = {
   onClose: PropTypes.func,
   isVisible: PropTypes.bool,
   connectorName: PropTypes.string,
-  connectorId: PropTypes.number
+  connectorId: PropTypes.number,
 };
 
 SemanticLayerModal.defaultProps = {
-  onClick: () => {}
+  onClick: () => {
+    // some action
+  },
 };

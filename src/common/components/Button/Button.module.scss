@@ -2,7 +2,7 @@
   width: fit-content;
   padding: 5px 10px;
   border-radius: 3px;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   border: none;
   color: #eee;
@@ -18,7 +18,6 @@
 
 .bigButtonFont {
   color: #ffffff;
-  font-family: Roboto;
   font-style: normal;
   font-weight: 700;
   font-size: 13px;
@@ -27,7 +26,6 @@
 
 .smallButtonFont {
   color: #ffffff;
-  font-family: Roboto;
   font-style: normal;
   font-weight: 700;
   font-size: 10px;

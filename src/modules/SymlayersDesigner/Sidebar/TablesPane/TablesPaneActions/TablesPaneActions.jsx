@@ -2,29 +2,30 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import IconButton from '../../../../../common/components/IconButton';
 import TextInput from '../../../../../common/components/TextInput';
 import Tooltip from '../../../../../common/components/Tooltip';
 import { EMPTY_STRING } from '../../../../../common/constants/common';
 import {
   setColoredValue,
-  setShowDataList
+  setShowDataList,
 } from '../../../../../data/reducers/schemaDesigner';
-import { ReactComponent as AddTableIcon } from '../../../../../layout/assets/icons/tablesAdd.svg';
-import { ReactComponent as FiltersIcon } from '../../../../../layout/assets/icons/tablesFilters.svg';
-import { ReactComponent as ViewsIcon } from '../../../../../layout/assets/icons/viewsShow.svg';
-import { ReactComponent as Magnifier } from '../../../../../layout/assets/magnifier.svg';
+import AddTableIcon from '../../../../../layout/assets/icons/tablesAdd.svg';
+import FiltersIcon from '../../../../../layout/assets/icons/tablesFilters.svg';
+import ViewsIcon from '../../../../../layout/assets/icons/viewsShow.svg';
+import Magnifier from '../../../../../layout/assets/magnifier.svg';
 import styles from './TablesPaneActions.module.scss';
 
 const TablesPaneActions = ({ setSelectedSchemes }) => {
   const dispatch = useDispatch();
   const { coloredValue, connectorObjects } = useSelector(
-    state => state.app.schemaDesigner
+    (state) => state.app.schemaDesigner,
   );
   const [searchMod, setSearchMod] = useState(false);
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
 
-  const handleShowDataList = event => {
+  const handleShowDataList = (event) => {
     if (event.key === 'Enter' && coloredValue.length) {
       event.preventDefault();
       dispatch(setShowDataList());
@@ -33,18 +34,18 @@ const TablesPaneActions = ({ setSelectedSchemes }) => {
     }
   };
 
-  const searchTable = event => {
+  const searchTable = (event) => {
     if (event.key === 'Enter' && searchValue.length) {
       let result = JSON.parse(
         JSON.stringify(
-          connectorObjects.filter(connector =>
+          connectorObjects.filter((connector) =>
             connector.objectName
               .toUpperCase()
-              .includes(searchValue.toUpperCase())
-          )
-        )
+              .includes(searchValue.toUpperCase()),
+          ),
+        ),
       );
-      result = result.map(item => {
+      result = result.map((item) => {
         item.opened = true;
         return item;
       });
@@ -66,13 +67,13 @@ const TablesPaneActions = ({ setSelectedSchemes }) => {
       <div className={styles.searchGroup}>
         <TextInput
           className={styles.searchInput}
-          onKeyPress={event =>
+          onKeyPress={(event) =>
             searchMod
               ? handleShowDataList(event)
               : searchTable(event, searchValue)
           }
           value={searchMod ? coloredValue : searchValue}
-          onChange={event => {
+          onChange={(event) => {
             if (searchMod) {
               dispatch(setColoredValue(event.target.value));
             } else {
@@ -92,12 +93,16 @@ const TablesPaneActions = ({ setSelectedSchemes }) => {
         <IconButton
           className={styles.iconBtn}
           icon={<ViewsIcon />}
-          onClick={() => {}}
+          onClick={() => {
+            // some action
+          }}
         />
         <IconButton
           className={styles.iconBtn}
           icon={<FiltersIcon />}
-          onClick={() => {}}
+          onClick={() => {
+            // some action
+          }}
         />
       </div>
     </div>
@@ -107,5 +112,5 @@ const TablesPaneActions = ({ setSelectedSchemes }) => {
 export default TablesPaneActions;
 
 TablesPaneActions.propTypes = {
-  setSelectedSchemes: PropTypes.func
+  setSelectedSchemes: PropTypes.func,
 };

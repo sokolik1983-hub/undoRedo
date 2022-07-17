@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useTabContext } from '../Tabs';

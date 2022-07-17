@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react/no-array-index-key */
 // import styles from './TableBody.module.scss';
 /* eslint-disable no-unused-vars */
@@ -54,7 +53,7 @@ const TableBody = ({
 
   useEffect(async () => {
     if (displayMode === 'Data') {
-    
+
       if(getRefreshStatus() === false) return
       setZoneData({});
 

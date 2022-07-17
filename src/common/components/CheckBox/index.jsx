@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React, {useState} from 'react';
+
 import styles from './CheckBox.module.scss';
 
 /**
@@ -15,76 +16,79 @@ import styles from './CheckBox.module.scss';
  */
 
 const CheckBox = ({
-  id,
-  name,
-  label,
-  disabled,
-  onChange,
-  wrapperClass,
-  labelClass,
-  value,
-  checked,
-  blueBGColor,
-  ...props
+    id,
+    name,
+    label,
+    disabled,
+    onChange,
+    wrapperClass,
+    labelClass,
+    value,
+    checked,
+    blueBGColor,
+    ...props
 }) => {
-  const [isChecked, setIsChecked] = useState(checked);
+    const [isChecked, setIsChecked] = useState(checked);
 
-  const wrapperClasses = clsx(styles.wrapper, wrapperClass);
-  const labelClasses = clsx(styles.label, labelClass);
+    const wrapperClasses = clsx(styles.wrapper, wrapperClass);
+    const labelClasses = clsx(styles.label, labelClass);
 
-  const handleChange = event => {
-    setIsChecked(event.target.checked);
-    onChange(event);
-  };
+    const handleChange = (event) => {
+        setIsChecked(event.target.checked);
+        onChange(event);
+    };
 
-  return (
-    // eslint-disable-next-line jsx-a11y/label-has-associated-control
-    <label className={wrapperClasses}>
-      <span className={styles.container}>
-        <input
-          id={id}
-          value={value}
-          name={name}
-          type="checkbox"
-          checked={isChecked}
-          onChange={handleChange}
-          disabled={disabled}
-          className={styles.input}
-          {...props}
-        />
-        <span className={blueBGColor ? styles.blueBGColor : styles.mark} />
-      </span>
-      <label htmlFor={id} className={labelClasses}>
-        {label}
-      </label>
-    </label>
-  );
+    return (
+        <label className={wrapperClasses}>
+            <span className={styles.container}>
+                <input
+                    id={id}
+                    value={value}
+                    name={name}
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={handleChange}
+                    disabled={disabled}
+                    className={styles.input}
+                    {...props}
+                />
+                <span
+                    className={blueBGColor ? styles.blueBGColor : styles.mark}
+                />
+            </span>
+            <label htmlFor={id} className={labelClasses}>
+                {label}
+            </label>
+        </label>
+    );
 };
 
 export default CheckBox;
 
 CheckBox.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  label: PropTypes.string,
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func,
-  wrapperClass: PropTypes.string,
-  labelClass: PropTypes.string,
-  name: PropTypes.string,
-  value: PropTypes.string,
-  blueBGColor: PropTypes.string,
-  checked: PropTypes.bool
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    label: PropTypes.string,
+    disabled: PropTypes.bool,
+    onChange: PropTypes.func,
+    wrapperClass: PropTypes.string,
+    labelClass: PropTypes.string,
+    name: PropTypes.string,
+    value: PropTypes.string,
+    blueBGColor: PropTypes.string,
+    checked: PropTypes.bool,
 };
 
 CheckBox.defaultProps = {
-  id: '',
-  name: '',
-  label: '',
-  wrapperClass: '',
-  labelClass: '',
-  value: '',
-  checked: false,
-  disabled: false,
-  blueBGColor: '',
-  onChange: () => {}
+    id: '',
+    name: '',
+    label: '',
+    wrapperClass: '',
+    labelClass: '',
+    value: '',
+    checked: false,
+    disabled: false,
+    blueBGColor: '',
+    onChange: () => {
+        // something
+    },
 };

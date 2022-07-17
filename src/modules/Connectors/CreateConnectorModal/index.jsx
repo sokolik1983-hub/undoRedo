@@ -1,35 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { cloneDeep } from 'lodash';
 import PropTypes from 'prop-types';
-import {
-  saveConnector,
-  createConnector,
-  testConnector
-} from '../../../data/actions/connectors';
-import styles from './Connectors.module.scss';
-import Button from '../../../common/components/Button';
-import Modal from '../../../common/components/Modal';
-import TextInput from '../../../common/components/TextInput';
-import Select from '../../../common/components/Select';
-import Gears from '../../../common/components/Gears';
-import { ReactComponent as TestFailed } from '../../../layout/assets/testFailedIcon.svg';
-import { ReactComponent as TestOkIcon } from '../../../layout/assets/testOkIcon.svg';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
+import Button from '../../../common/components/Button';
+import Gears from '../../../common/components/Gears';
+import Modal from '../../../common/components/Modal';
+import Preloader from '../../../common/components/Preloader/Preloader';
+import Select from '../../../common/components/Select';
+import TextInput from '../../../common/components/TextInput';
 import { BUTTON, TOAST_TYPE } from '../../../common/constants/common';
 import { showToast } from '../../../data/actions/app';
-import Preloader from '../../../common/components/Preloader/Preloader';
+import {
+  createConnector,
+  saveConnector,
+  testConnector,
+} from '../../../data/actions/connectors';
+import TestFailed from '../../../layout/assets/testFailedIcon.svg';
+import TestOkIcon from '../../../layout/assets/testOkIcon.svg';
+import styles from './Connectors.module.scss';
 
 const CreateConnectorModal = ({ isVisible, onClose }) => {
   const dispatch = useDispatch();
 
   // Получаем из словаря типы, источники, типы соединения
-  const types = useSelector(state => state.app.data.dictionaries.source_type);
-  const sources = useSelector(state => state.app.data.dictionaries.source);
+  const types = useSelector((state) => state.app.data.dictionaries.source_type);
+  const sources = useSelector((state) => state.app.data.dictionaries.source);
   const testConnectorResult = useSelector(
-    state => state.app.data.testConnector
+    (state) => state.app.data.testConnector,
   );
-  const notifications = useSelector(state => state.app.notifications);
+  const notifications = useSelector((state) => state.app.notifications);
 
   const [isActive, setIsActive] = useState(false);
   const [showTestOk, setshowTestOk] = useState(false);
@@ -70,7 +70,9 @@ const CreateConnectorModal = ({ isVisible, onClose }) => {
   }, [notifications]);
 
   // Oбъект коннектора из стора
-  const connectorObject = useSelector(state => state.app.data.createConnector);
+  const connectorObject = useSelector(
+    (state) => state.app.data.createConnector,
+  );
 
   // Делаем локальную копию объекта коннектора, пришедшего с бека
   let newConnector = cloneDeep(connectorObject);
@@ -81,11 +83,11 @@ const CreateConnectorModal = ({ isVisible, onClose }) => {
 
   // Ответ сервера на запрос создания коннектора
   const creationResult = useSelector(
-    state => state.app.data.createConnectorResult
+    (state) => state.app.data.createConnectorResult,
   );
 
   // Получаем id текущей папки для добавдения его в parent_id  у нового коннектора
-  const folderId = useSelector(state => state.app.data.connectorsFolderId);
+  const folderId = useSelector((state) => state.app.data.connectorsFolderId);
 
   const [connectName, setConnectName] = useState(''); // имя коннектора
   const [connectType, setConnectType] = useState(null); // тип коннектора(База Данных, Тестовый файл)
@@ -100,8 +102,8 @@ const CreateConnectorModal = ({ isVisible, onClose }) => {
     dispatch(
       createConnector({
         type_id: connectSource,
-        id: connectType
-      })
+        id: connectType,
+      }),
     );
   };
 
@@ -113,21 +115,21 @@ const CreateConnectorModal = ({ isVisible, onClose }) => {
   }, [connectType, connectSource]);
 
   // Делаем из полученных из словаря типов, источников, типов соединения подходящие массивы options для компонента Select
-  const typeOptions = types?.map(item => ({
+  const typeOptions = types?.map((item) => ({
     text: item.name,
-    value: String(item.id)
+    value: String(item.id),
   }));
 
-  const sourceOptions = sources?.map(item => ({
+  const sourceOptions = sources?.map((item) => ({
     text: item.name,
-    value: String(item.id)
+    value: String(item.id),
   }));
 
   // Запись текущих значений инпутов формы в объект коннектора
   const setInputValues = () => {
     const inputs = createConnectorForm.elements;
 
-    newConnector.data.fields?.map(item => {
+    newConnector.data.fields?.map((item) => {
       item.value = inputs[item.fieldName].value;
       return item.value;
     });
@@ -139,7 +141,7 @@ const CreateConnectorModal = ({ isVisible, onClose }) => {
     newConnector.header.desc = connectionDescription;
   };
 
-  const testConnection = e => {
+  const testConnection = (e) => {
     e.preventDefault();
     e.stopPropagation();
     // проверка на валидность введенных данных
@@ -183,7 +185,7 @@ const CreateConnectorModal = ({ isVisible, onClose }) => {
   }, [creationResult]);
 
   // Функция для добавления и сохранения нового коннектора на бэке
-  const addConnector = event => {
+  const addConnector = (event) => {
     event.preventDefault();
     event.stopPropagation();
     newConnector.header.parent_id = folderId;
@@ -204,7 +206,7 @@ const CreateConnectorModal = ({ isVisible, onClose }) => {
         <TextInput
           label="Введите имя соединения"
           value={connectName}
-          onChange={e => setConnectName(e.target.value)}
+          onChange={(e) => setConnectName(e.target.value)}
           onBlur={() => setConnectName(connectName.trim())}
           id="connectorName"
           required
@@ -248,12 +250,11 @@ const CreateConnectorModal = ({ isVisible, onClose }) => {
                   type={item.fieldKey === 'PWD' ? 'password' : item.type}
                   required={item.required}
                   className={styles.connectorsInput}
-                  onChange={e => {
-                    newConnector.data.fields[
-                      index
-                    ].value = e.target.value.trim();
+                  onChange={(e) => {
+                    newConnector.data.fields[index].value =
+                      e.target.value.trim();
                   }}
-                  onBlur={e => {
+                  onBlur={(e) => {
                     if (e.target.value) {
                       e.target.value = e.target.value.trim();
                     }
@@ -265,7 +266,7 @@ const CreateConnectorModal = ({ isVisible, onClose }) => {
                 type="text"
                 name="connectorDescription"
                 className={styles.textarea}
-                onChange={e => setConnectionDescription(e.target.value)}
+                onChange={(e) => setConnectionDescription(e.target.value)}
                 onBlur={
                   () => setConnectionDescription(connectionDescription.trim())
                   // eslint-disable-next-line react/jsx-curly-newline
@@ -288,7 +289,7 @@ const CreateConnectorModal = ({ isVisible, onClose }) => {
               className={styles.testConnectionButton}
               buttonStyle={BUTTON.BLUE}
               form="createConnectorForm"
-              onClick={e => testConnection(e)}
+              onClick={(e) => testConnection(e)}
             >
               Тест соединения
             </Button>
@@ -304,7 +305,7 @@ const CreateConnectorModal = ({ isVisible, onClose }) => {
     <div className={styles.footerButtonsGroup}>
       <Button
         buttonStyle={BUTTON.BIG_ORANGE}
-        onSubmit={e => addConnector(e)}
+        onSubmit={(e) => addConnector(e)}
         form="createConnectorForm"
         type="text"
         className={styles.testConnectorButton}
@@ -336,7 +337,7 @@ const CreateConnectorModal = ({ isVisible, onClose }) => {
 
 CreateConnectorModal.propTypes = {
   isVisible: PropTypes.bool,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 };
 
 export default CreateConnectorModal;

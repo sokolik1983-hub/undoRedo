@@ -3,30 +3,23 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/prop-types */
 import clsx from 'clsx';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
-import React, {
-  createRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  useContext
-} from 'react';
 import { useDispatch } from 'react-redux';
+
 import Dropdown from '../../../common/components/Dropdown';
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
-import TextInput from '../../../common/components/TextInput';
-import { ReactComponent as DotsMenu } from '../../../layout/assets/dotsMenu.svg';
-import { ReactComponent as CloseInput } from '../../../layout/assets/schemaEditorBlock/closeInput.svg';
-import { ReactComponent as MagnifierWhite } from '../../../layout/assets/schemaEditorBlock/magnifierWhite.svg';
-import styles from './SchemaEditorBlock.module.scss';
-import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowOk.svg';
-import Tooltip from '../../../common/components/Tooltip';
 import IconButton from '../../../common/components/IconButton';
-import CreateCopyModal from './CreateCopyModal';
 import ModalConfirmDeletion from '../../../common/components/Modal/ModalConfirmDeletion';
+import TextInput from '../../../common/components/TextInput';
+import Tooltip from '../../../common/components/Tooltip';
 import { addCoordToTables } from '../../../data/reducers/schemaDesigner';
+import DotsMenu from '../../../layout/assets/dotsMenu.svg';
+import Arrow from '../../../layout/assets/queryPanel/arrowOk.svg';
+import CloseInput from '../../../layout/assets/schemaEditorBlock/closeInput.svg';
+import MagnifierWhite from '../../../layout/assets/schemaEditorBlock/magnifierWhite.svg';
+import CreateCopyModal from './CreateCopyModal';
+import styles from './SchemaEditorBlock.module.scss';
 
 const items = [
   { text: 'Псевдоним', value: 'copy' },
@@ -35,7 +28,7 @@ const items = [
   { text: 'Определение числа элементов' },
   { text: 'Определение числа строк' },
   { text: 'Предпросмотр таблицы', value: 'tablePreview' },
-  { text: 'Удалить таблицу', value: 'deleteTable' }
+  { text: 'Удалить таблицу', value: 'deleteTable' },
 ];
 
 const modalWarningText =
@@ -63,18 +56,16 @@ const SchemaEditorBlock = ({
   isShadow,
   columns,
   setTablesRefs,
-  forceUpdate
+  forceUpdate,
 }) => {
-  const [filterableFields, setFilterableFields] = useState(
-    selectedTableColumns
-  );
+  const [filterableFields, setFilterableFields] =
+    useState(selectedTableColumns);
   const [searchValue, setSearchValue] = useState('');
   const [isActive, setIsActive] = useState(false);
   const [isOpened, setIsOpened] = useState(true);
   const [isCopy, setIsCopy] = useState(false);
-  const [isDeleteWarningModalOpened, setDeleteWarningModalOpened] = useState(
-    false
-  );
+  const [isDeleteWarningModalOpened, setDeleteWarningModalOpened] =
+    useState(false);
   const [fieldsCount, setFieldsCount] = useState(selectedTableColumns.length);
   const [portsRefs, setPortsRef] = useState(null);
   const headerRef = useRef(null);
@@ -83,14 +74,14 @@ const SchemaEditorBlock = ({
 
   const dispatch = useDispatch();
 
-  const updateFieldsCount = value => {
+  const updateFieldsCount = (value) => {
     setFieldsCount(value);
     fieldRefs.current = fieldRefs.current.splice(0, value);
     for (let i = 0; i < value; i++) {
       fieldRefs.current[i] = fieldRefs.current[i] || React.createRef();
     }
     fieldRefs.current = fieldRefs.current.map(
-      fieldRef => fieldRef || React.createRef()
+      (fieldRef) => fieldRef || React.createRef(),
     );
     setPortsRef([...fieldRefs.current]);
   };
@@ -135,12 +126,12 @@ const SchemaEditorBlock = ({
   }, [selectedTableColumns]);
 
   const contentClasses = clsx(styles.content, {
-    [styles.contentWithSearch]: isActive
+    [styles.contentWithSearch]: isActive,
   });
 
   useEffect(forceUpdate, [isOpened]);
 
-  const handleClick = item => {
+  const handleClick = (item) => {
     if (item.value === 'tablePreview') {
       return onTablePreviewClick();
     }
@@ -153,18 +144,18 @@ const SchemaEditorBlock = ({
     return console.log(item.text);
   };
 
-  const handleSearch = e => {
+  const handleSearch = (e) => {
     const { value } = e.target;
 
     setSearchValue(value);
     setFilterableFields(
-      selectedTableColumns?.filter(i => {
+      selectedTableColumns?.filter((i) => {
         return i.field.toLowerCase().includes(value.toLowerCase());
-      })
+      }),
     );
   };
 
-  const highlightOutline = filterableFields.filter(i => i.colored).length
+  const highlightOutline = filterableFields.filter((i) => i.colored).length
     ? styles.wrapperHighlight
     : styles.wrapper;
 
@@ -176,7 +167,7 @@ const SchemaEditorBlock = ({
 
   const menu = () => (
     <div className={styles.itemsWrapper}>
-      {items.map(i => (
+      {items.map((i) => (
         <DropdownItem
           item={i}
           key={i.text}
@@ -214,16 +205,16 @@ const SchemaEditorBlock = ({
 
   return (
     // <div className={highlightOutline} ref={refs.current.tableRef}>
-    <div className={highlightOutline} ref={tableRef}> 
+    <div className={highlightOutline} ref={tableRef}>
       <div
         // ref={refs.current.headerRef}
         className={styles.header}
-        onMouseDown={event => {
+        onMouseDown={(event) => {
           event.stopPropagation();
           if (event.button !== 0) return;
           onTableDragStart(event);
         }}
-        onDoubleClick={() => setIsOpened(prev => !prev)}
+        onDoubleClick={() => setIsOpened((prev) => !prev)}
         ref={headerRef}
       >
         <div className={styles.heading}>{selectedTableName}</div>
@@ -233,7 +224,7 @@ const SchemaEditorBlock = ({
             overlay={isOpened ? 'Свернуть таблицу' : 'Развернуть таблицу'}
           >
             <Arrow
-              onClick={() => setIsOpened(prev => !prev)}
+              onClick={() => setIsOpened((prev) => !prev)}
               className={
                 isOpened ? styles.arrowBtnOpened : styles.arrowBtnClosed
               }
@@ -247,7 +238,7 @@ const SchemaEditorBlock = ({
             trigger={['click']}
             overlay={menu()}
             align={{
-              offset: [45, -50]
+              offset: [45, -50],
             }}
           >
             <IconButton
@@ -309,8 +300,8 @@ const SchemaEditorBlock = ({
                 }
                 key={item.field + item.type}
                 draggable
-                onDragStart={e => onFieldDragStart(e, item, tableItem)}
-                onDrop={e => onFieldDragOver(e, item, tableItem)}
+                onDragStart={(e) => onFieldDragStart(e, item, tableItem)}
+                onDrop={(e) => onFieldDragOver(e, item, tableItem)}
                 ref={fieldRefs.current[index]}
               >
                 {item.field}
@@ -341,7 +332,7 @@ const SchemaEditorBlock = ({
             onDeleteTable={onDeleteTable}
             tableItem={tableItem}
           />,
-          document.body
+          document.body,
         )}
     </div>
   );

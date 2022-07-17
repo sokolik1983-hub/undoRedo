@@ -4,12 +4,19 @@
 /node_modules
 /.pnp
 .pnp.js
-
+.idea
+.vscode
+dist
+node_modules
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 # testing
 /coverage
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
@@ -24,8 +31,6 @@ yarn-debug.log*
 yarn-error.log*
 
 
-package-lock.json
-yarn.lock
 
 /.idea
 # Default ignored files

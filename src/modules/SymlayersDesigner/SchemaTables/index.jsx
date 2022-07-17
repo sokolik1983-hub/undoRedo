@@ -1,58 +1,46 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable prefer-const */
-/* eslint-disable guard-for-in */
-/* eslint-disable consistent-return */
-/* eslint-disable react/jsx-one-expression-per-line */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/prop-types */
+import MapIcon from '@material-ui/icons/Map';
+import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
+import lodash from 'lodash';
 import React, {
   useContext,
   useEffect,
   useMemo,
   useReducer,
-  useState
+  useState,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import lodash from 'lodash';
-import ZoomInIcon from '@material-ui/icons/ZoomIn';
-import ZoomOutIcon from '@material-ui/icons/ZoomOut';
-import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
-import MapIcon from '@material-ui/icons/Map';
-import SearchIcon from '@material-ui/icons/Search';
+
 import IconButton from '../../../common/components/IconButton';
 import Tooltip from '../../../common/components/Tooltip/index';
-import { ReactComponent as Plus } from '../../../layout/assets/reportDesigner/plus.svg';
-import { ReactComponent as Minus } from '../../../layout/assets/reportDesigner/minus.svg';
+import { setObjectsConnectionsModal } from '../../../data/actions/universes';
+import { getTableIdFromParams } from '../../../data/helpers';
+import Minus from '../../../layout/assets/reportDesigner/minus.svg';
+import Plus from '../../../layout/assets/reportDesigner/plus.svg';
+import { SymanticLayerContext, SymanticLayerContextProvider } from './context';
+import SymanticLink from './Link';
+import Minimap from './Minimap';
+import RNDZone from './RNDZone';
 import styles from './SchemaTables.module.scss';
-import { SymanticLayerContextProvider, SymanticLayerContext } from './context';
+import useStyles from './style';
+import Table from './TableComponent';
+// import SearchDialog from './SearchDialog';
+import Vector from './vector';
 
 // import {
 //   useApplicationActions,
 //   useApplicationState
 // } from 'src/data/appProvider';
 
-import RNDZone from './RNDZone';
-
-import useStyles from './style';
-
-import Table from './TableComponent';
-import SymanticLink from './Link';
-import Minimap from './Minimap';
-// import SearchDialog from './SearchDialog';
-import Vector from './vector';
-import { getTableIdFromParams } from '../../../data/helpers';
-import { setObjectsConnectionsModal } from '../../../data/actions/universes';
-
-const Provided = props => {
+const Provided = (props) => {
   const [lastUpdTime, forceUpdate] = useReducer(() => new Date(), 0);
   const tablesPosition = useSelector(
-    state => state.app.schemaDesigner.tablesRefCoord
+    (state) => state.app.schemaDesigner.tablesRefCoord,
   );
   const dispatch = useDispatch();
   const [addCord, setAddCoord] = useState(0);
-  const selectedTablesData = useSelector(state => state.app.schemaDesigner.selectedTablesData);
+  const selectedTablesData = useSelector(
+    (state) => state.app.schemaDesigner.selectedTablesData,
+  );
   // const saveUserData = {};
   // const userData = {};
   // const { saveUserData } = useApplicationActions();
@@ -67,7 +55,7 @@ const Provided = props => {
       showMinimap,
       searchPopupVisible,
       focusedItem,
-      mul
+      mul,
     },
     {
       SET_SHOW_MINIMAP,
@@ -78,20 +66,20 @@ const Provided = props => {
       SET_TABLES: setTables,
       SET,
       SET_POSITION,
-      SET_SEARCH_POPUP_VISIBLE
+      SET_SEARCH_POPUP_VISIBLE,
     },
-    { getRefs, getTablePosition, posToCoord }
+    { getRefs, getTablePosition, posToCoord },
   ] = useContext(SymanticLayerContext);
   const classes = useStyles();
 
   useEffect(() => {
     if (focusedItem) {
       const table = Object.values(tables).find(
-        item => item.id === focusedItem.tableid
+        (item) => item.id === focusedItem.tableid,
       );
       const tableName = getTableId(table);
       const tp = getTablePosition(tableName) || {
-        deltaPosition: { x: 0, y: 0 }
+        deltaPosition: { x: 0, y: 0 },
       };
       const tr = getRefs(tableName);
       const tableRect = (tr.tableRef.current &&
@@ -99,7 +87,7 @@ const Provided = props => {
 
       const position = Vector.new(
         tp.deltaPosition.x + tableRect.width / 2 / mul,
-        tp.deltaPosition.y + tableRect.height / 2 / mul
+        tp.deltaPosition.y + tableRect.height / 2 / mul,
       );
 
       SET_POSITION(position);
@@ -158,26 +146,29 @@ const Provided = props => {
     setTimeout(() => handleZoomDefault(), 500); // знаю что костыль -- гоните меня, насмехайтесь надо мной
   }, []);
 
-useMemo(() => {
+  useMemo(() => {
     const tablePositions = {};
-    setAddCoord(addCord+50);
-    tablesPosition?.forEach(tablePosit => {
+    setAddCoord(addCord + 50);
+    tablesPosition?.forEach((tablePosit) => {
       for (let key in tablePosit) {
-        const delta = posToCoord(tablePosit[key]).dif({x: 20 + addCord, y: 40 + addCord});
-        tablePositions[key] = {deltaPosition: delta};
+        const delta = posToCoord(tablePosit[key]).dif({
+          x: 20 + addCord,
+          y: 40 + addCord,
+        });
+        tablePositions[key] = { deltaPosition: delta };
       }
-    })
+    });
     setTablesPosition(tablePositions);
   }, [tablesPosition]);
 
   useEffect(() => {
     if (props.tables) {
       setTables(props.tables);
-      lodash.keys(props.tablesPosition).forEach(key => {
+      lodash.keys(props.tablesPosition).forEach((key) => {
         if (
           !lodash.find(
             props.tables,
-            table => `${table.schema}.${table.objectName}` === key
+            (table) => `${table.schema}.${table.objectName}` === key,
           )
         ) {
           delete props.tablesPosition[key];
@@ -195,7 +186,7 @@ useMemo(() => {
         position: 'absolute',
         top: 5,
         right: 5,
-        zIndex: 15
+        zIndex: 15,
       }}
     >
       {/* <Tooltip title="поиск по семантическому слою"> */}
@@ -232,15 +223,15 @@ useMemo(() => {
 
   const targetRect = (table, field) => {
     const { schema, objectName } = table;
-    const tableName = getTableIdFromParams({schema, objectName});
+    const tableName = getTableIdFromParams({ schema, objectName });
     const tp = getTablePosition(tableName) || {
-      deltaPosition: { x: 0, y: 0 }
+      deltaPosition: { x: 0, y: 0 },
     };
-    const tr = getRefs(getTableIdFromParams({schema, objectName}));
+    const tr = getRefs(getTableIdFromParams({ schema, objectName }));
 
     if (!tp || !tr || !tr.tableRef || !tr.headerRef) return { tp, tr };
 
-    let port = tr.ports.find(column => column.key === field);
+    let port = tr.ports.find((column) => column.key === field);
 
     if (!port) port = tr.headerRef;
     else port = port.ref;
@@ -270,7 +261,7 @@ useMemo(() => {
 
     const [width, height] = [
       port.current.clientWidth,
-      port.current.clientHeight
+      port.current.clientHeight,
     ];
 
     const x =
@@ -284,26 +275,25 @@ useMemo(() => {
         y,
         // width,
         width: tr.tableRef.current.clientWidth,
-        height
+        height,
       },
-      tableRect
+      tableRect,
     };
   };
 
-  const handleEdit = id => {
-    const result = props.objectsLinks.filter(l => {
+  const handleEdit = (id) => {
+    const result = props.objectsLinks.filter((l) => {
       return l.id === id;
     });
     dispatch(setObjectsConnectionsModal(true, ...result));
   };
 
-  const createObjectName = id => {
-    const finded = selectedTablesData?.find(tableData => tableData.id === id);
-    const schema = finded?.schema;
-    const objectName = finded?.objectName;
-    const objectFullName = `${schema}_${objectName}`;
-    return objectFullName;
-  }
+  const createObjectName = (id) => {
+    const found = selectedTablesData?.find((tableData) => tableData.id === id);
+    const schema = found?.schema;
+    const objectName = found?.objectName;
+    return `${schema}_${objectName}`;
+  };
 
   const renderContent = ({ isShadow = false } = {}) => {
     return (
@@ -315,11 +305,11 @@ useMemo(() => {
               x: linkAnchor.x,
               y: linkAnchor.y - 10,
               width: 0,
-              height: 20
+              height: 20,
             };
             const TargetRect = {
               portRect: pseudoRect,
-              tableRect: pseudoRect
+              tableRect: pseudoRect,
             };
 
             return (
@@ -331,20 +321,22 @@ useMemo(() => {
             );
           })()}
         {Object.keys(tables).length &&
-          props.objectsLinks?.map(link => {
+          props.objectsLinks?.map((link) => {
             const objectFullName1 = createObjectName(link.object1.table_id);
             const objectFullName2 = createObjectName(link.object2.table_id);
             const SourceRect = targetRect(
               Object.values(tables)?.find(
-                table => `${table.schema}_${table.objectName}` === objectFullName1
+                (table) =>
+                  `${table.schema}_${table.objectName}` === objectFullName1,
               ),
-              !isShadow && link.object1.fields[0]?.field
+              !isShadow && link.object1.fields[0]?.field,
             );
             const TargetRect = targetRect(
               Object.values(tables)?.find(
-                table => `${table.schema}_${table.objectName}` === objectFullName2
+                (table) =>
+                  `${table.schema}_${table.objectName}` === objectFullName2,
               ),
-              !isShadow && link.object2.fields[0]?.field
+              !isShadow && link.object2.fields[0]?.field,
             );
 
             return (
@@ -354,27 +346,31 @@ useMemo(() => {
                 SourceRect={SourceRect}
                 handleEdit={handleEdit}
                 key={`${getTableId(link.object1)}-${getTableId(
-                  link.object2
+                  link.object2,
                 )}${Math.random()}}`}
                 // isLoop={getTableId(link.object1) === getTableId(link.object2)}
                 // onCreateSynonym={props.onCreateSynonym}
                 isLoop={
                   getTableId(
                     Object.values(tables)?.find(
-                      table => `${table.schema}_${table.objectName}` === objectFullName1
-                    )
+                      (table) =>
+                        `${table.schema}_${table.objectName}` ===
+                        objectFullName1,
+                    ),
                   ) ===
                   getTableId(
                     Object.values(tables)?.find(
-                      table => `${table.schema}_${table.objectName}` === objectFullName2
-                    )
+                      (table) =>
+                        `${table.schema}_${table.objectName}` ===
+                        objectFullName2,
+                    ),
                   )
                 }
               />
             );
           })}
 
-        {Object.keys(tables)?.map(tableId => {
+        {Object.keys(tables)?.map((tableId) => {
           return (
             <Table
               tableId={tableId}
@@ -391,11 +387,11 @@ useMemo(() => {
   };
   const [minimapSize, setMinmapSize] = useState({
     x: 450,
-    y: 300
+    y: 300,
   });
   const [minimapPosition, setMinimapPosition] = useState({
     y: +window.innerHeight - +minimapSize.y - 10 - 100,
-    x: 10 // +window.innerWidth - +minimapSize.x - 10 - 100
+    x: 10, // +window.innerWidth - +minimapSize.x - 10 - 100
   });
 
   return (
@@ -405,7 +401,7 @@ useMemo(() => {
         style={{
           border: '1px solid lightgray',
           height: '100%',
-          ...props.style
+          ...props.style,
         }}
         key="main"
         ref={workAreaRef}

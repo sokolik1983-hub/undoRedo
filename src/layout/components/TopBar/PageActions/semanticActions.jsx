@@ -1,19 +1,20 @@
+import React, { useEffect, useState } from 'react';
 /* eslint-disable no-nested-ternary */
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+
 import { SEMANTIC_PAGE_ACTIONS } from '../../../../common/constants/common';
-import styles from './PageActions.module.scss';
-import CreateObjectLayerModal from '../../../../modules/SymlayersDesigner/CreateObjectLayerModal/index';
 import {
   createUniverse,
-  setObjectsConnectionsModal
+  setObjectsConnectionsModal,
 } from '../../../../data/actions/universes';
 import {
   setIsShowingContexts,
-  setIsShowingLinks
+  setIsShowingLinks,
 } from '../../../../data/reducers/schemaDesigner';
+import CreateObjectLayerModal from '../../../../modules/SymlayersDesigner/CreateObjectLayerModal/index';
 import EditObjectLayerModal from '../../../../modules/SymlayersDesigner/Sidebar/EditObjectLayerModal';
+import styles from './PageActions.module.scss';
 
 // import TextInput from '../../../../common/components/TextInput';
 
@@ -34,7 +35,7 @@ const SemanticActions = () => {
     if (!location.pathname.endsWith('create')) {
       return arr
         .map((item) =>
-          item.action !== 'commonSearch' ? { ...item, enable: false } : item
+          item.action !== 'commonSearch' ? { ...item, enable: false } : item,
         )
         .filter((item) => item.type !== 'divider');
     }
@@ -45,27 +46,27 @@ const SemanticActions = () => {
 
   /* удалить когда перенесем кнопку открытия Создать  */
   const isCreateObjectModalOpened = useSelector(
-    (state) => state.app.ui.modalCreateObjectVisible
+    (state) => state.app.ui.modalCreateObjectVisible,
   );
   /* удалить когда перенесем кнопку открытия Создать  */
   /* удалить когда перенесем кнопку открытия Создать  */
   const isEditObjectModalOpened = useSelector(
-    (state) => state.app.ui.modalEditObjectVisible
+    (state) => state.app.ui.modalEditObjectVisible,
   );
   /* удалить когда перенесем кнопку открытия Создать  */
 
   const links = useSelector((state) => state.app.schemaDesigner.links);
 
   const objectsLayers = useSelector(
-    (state) => state.app.schemaDesigner.objectsLayerList
+    (state) => state.app.schemaDesigner.objectsLayerList,
   );
 
   const selectedTablesData = useSelector(
-    (state) => state.app.schemaDesigner.selectedTablesData
+    (state) => state.app.schemaDesigner.selectedTablesData,
   );
 
   const currentUniverse = useSelector(
-    (state) => state.app.data.currentUniverse
+    (state) => state.app.data.currentUniverse,
   );
 
   const translitNames = (word) => {

@@ -1,8 +1,3 @@
-/* eslint-disable prefer-const */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-shadow */
-/* eslint-disable camelcase */
-/* eslint-disable react/prop-types */
 import { makeStyles } from '@material-ui/core';
 import lodash from 'lodash';
 import React, {
@@ -11,90 +6,86 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  useState
+  useState,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getObjectData,
-  getObjectFields
-} from '../../../data/actions/schemaDesigner';
-import {
-  setDataList,
-  clearDataList,
-  setShowDataList,
-  setSelectedTablesData
-} from '../../../data/reducers/schemaDesigner';
-import { getTableIdFromParams } from '../../../data/helpers';
-import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock/index';
-// import { useApplicationActions } from 'src/data/appProvider';
-import { SymanticLayerContext } from './context';
-import TablePreview from './TablePreview';
-import { showToast } from '../../../data/actions/app';
-import { TOAST_TYPE } from '../../../common/constants/common';
+
+import { TOAST_TYPE } from '@src/common/constants/common';
+import { OBJECTS_CONNECTIONS_MODAL } from '@src/common/constants/popups';
+import { showToast } from '@src/data/actions/app';
+import { getObjectFields } from '@src/data/actions/schemaDesigner';
+
 import {
   setObjectsConnectionsModal,
-  setTablePreviewModal
+  setTablePreviewModal,
 } from '../../../data/actions/universes';
+import { getTableIdFromParams } from '../../../data/helpers';
+import {
+  setDataList,
+  setSelectedTablesData,
+  setShowDataList,
+} from '../../../data/reducers/schemaDesigner';
+import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock/index';
+import ObjectsConnectionEditor from '../ObjectsConnectionEditor';
+import { SymanticLayerContext } from './context';
 import { handleCheckMatch } from './helper';
 import { styles } from './TableComponent.module.scss';
-import { OBJECTS_CONNECTIONS_MODAL } from '../../../common/constants/popups';
-import ObjectsConnectionEditor from '../ObjectsConnectionEditor';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
     minHeight: '100%',
     paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3)
+    paddingTop: theme.spacing(3),
   },
   formControl: {},
   select: {},
   selected: {
     border: '1px solid grey',
     width: '100%',
-    height: '500px'
+    height: '500px',
   },
   tablesList: {
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   tableItem: {
     position: 'absolute',
     border: '1px solid grey',
-    backgroundColor: '#f5f6f8'
+    backgroundColor: '#f5f6f8',
   },
   tableContent: {
     maxHeight: 400,
     backgroundColor: '#f5f6f8',
-    zIndex: 1
+    zIndex: 1,
   },
   tableRow: {
-    borderTop: '1px solid grey'
+    borderTop: '1px solid grey',
   },
   list: {
     overflowY: 'auto',
-    maxHeight: '80vh'
+    maxHeight: '80vh',
   },
   workZone: {
     border: '1px solid grey',
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   tableHead: {
-    backgroundColor: '#d4d4d4'
+    backgroundColor: '#d4d4d4',
   },
   tableActions: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
   },
   tableCheckbox: {
     display: 'flex',
     alignItems: 'center',
-    padding: 4
+    padding: 4,
   },
   checkBox: {
-    marginRight: 5
+    marginRight: 5,
   },
   tableType: {
     alignSelf: 'end',
@@ -102,12 +93,12 @@ const useStyles = makeStyles(theme => ({
     fontStyle: 'italic',
     border: 'none',
     textAlign: 'right',
-    padding: 4
+    padding: 4,
   },
   tableContainer: {
     width: 330,
-    height: 'auto'
-  }
+    height: 'auto',
+  },
 }));
 
 const TableComponent = ({
@@ -115,7 +106,7 @@ const TableComponent = ({
   isShadow,
   forceUpdate,
   onCreateSynonym,
-  onDeleteTable
+  onDeleteTable,
 }) => {
   const [
     { tables, linkAnchor, searchResult, focusedItem, mul },
@@ -129,9 +120,9 @@ const TableComponent = ({
       startDrag,
       onStopDrag: stopDrag,
 
-      initLink
+      initLink,
     },
-    { getTableProps, posToCoord, addLink, getTablePosition }
+    { getTableProps, posToCoord, addLink, getTablePosition },
   ] = useContext(SymanticLayerContext);
 
   const {
@@ -144,13 +135,13 @@ const TableComponent = ({
   } = getTableProps(tableId);
 
   const { selectedTables, coloredValue, showDataList } = useSelector(
-    state => state.app.schemaDesigner
+    (state) => state.app.schemaDesigner,
   );
 
   const isObjectsConnectionsModalOpened = useSelector(
-    state => state.app.ui.modalVisible === OBJECTS_CONNECTIONS_MODAL
+    (state) => state.app.ui.modalVisible === OBJECTS_CONNECTIONS_MODAL,
   );
-  const links = useSelector(state => state.app.schemaDesigner.links);
+  const links = useSelector((state) => state.app.schemaDesigner.links);
 
   const [coords, setCoords] = useState({ x: 0, y: 0 });
 
@@ -171,67 +162,74 @@ const TableComponent = ({
   const contentScrollContainer = useRef();
   const dispatch = useDispatch();
 
-  const connect_id = useSelector(state => state.app.data.selectedConnectorId);
-  const searchMatches = item => {
+  const connect_id = useSelector((state) => state.app.data.selectedConnectorId);
+  const searchMatches = (item) => {
     return item?.field.toLowerCase()?.includes(coloredValue.toLowerCase());
   };
-  const selectedTablesData = useSelector(state => state.app.schemaDesigner.selectedTablesData);
+  const selectedTablesData = useSelector(
+    (state) => state.app.schemaDesigner.selectedTablesData,
+  );
 
   useEffect(() => {
-    const repeat = selectedTablesData.find(table => table.objectName === tableItem.objectName );    
-    const {schema, objectName} = tableItem;
-    const tableName = getTableIdFromParams({schema, objectName});
+    const repeat = selectedTablesData.find(
+      (table) => table.objectName === tableItem.objectName,
+    );
+    const { schema, objectName } = tableItem;
+    const tableName = getTableIdFromParams({ schema, objectName });
     const position = getTablePosition(tableName) || {
-      deltaPosition: { x: 0, y: 0 }
+      deltaPosition: { x: 0, y: 0 },
     };
     if (tableItem?.columns && !repeat) {
-      const tempTable = {...tableItem};
+      const tempTable = { ...tableItem };
       delete tempTable.table_id;
-      dispatch(setSelectedTablesData({
-        id: selectedTablesData.length,
-        parentTable_id: null,
-        sql: null,
-        viewType: "Head",
-        viewHeight: 200,  
-        position: position.deltaPosition,
-      ...tempTable}));
+      dispatch(
+        setSelectedTablesData({
+          id: selectedTablesData.length,
+          parentTable_id: null,
+          sql: null,
+          viewType: 'Head',
+          viewHeight: 200,
+          position: position.deltaPosition,
+          ...tempTable,
+        }),
+      );
     }
   }, [tableItem]);
 
-  const searchStaticMatches = item => {
+  const searchStaticMatches = (item) => {
     return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase());
   };
   const selectedTableColumns = selectedTables[
-    getTableIdFromParams({...tableItem})
-  ]?.map(item => {
+    getTableIdFromParams({ ...tableItem })
+  ]?.map((item) => {
     return {
       ...item,
-      colored: colorValue && searchStaticMatches(item)
+      colored: colorValue && searchStaticMatches(item),
     };
   });
 
-  const addRefToColumns = refs => {
+  const addRefToColumns = (refs) => {
     setPortsRef(refs);
   };
 
-  const addRefToHeader = ref => {
+  const addRefToHeader = (ref) => {
     setHeaderRef(ref);
   };
 
-  const addRefToTable = ref => {
+  const addRefToTable = (ref) => {
     setTableRef(ref);
   };
 
   // eslint-disable-next-line consistent-return
-  const getList = obj => {
+  const getList = (obj) => {
     const tableNames = Object.keys(obj);
     if (tableNames.length) {
       const list = [];
-      tableNames.forEach(i => {
+      tableNames.forEach((i) => {
         const choosenItems = obj[i].reduce(
           (acc, item) =>
             searchMatches(item) && coloredValue ? [...acc, item.field] : acc,
-          []
+          [],
         );
 
         if (choosenItems.length) {
@@ -267,18 +265,18 @@ const TableComponent = ({
     // });
   }, []);
 
-  const setExpanded = useCallback(value => SET_EXPANDED({ tableId, value }), [
-    SET_EXPANDED,
-    tableId
-  ]);
-  const setPosition = useCallback(
-    value => SET_TABLE_POSITION({ tableId, value }),
-    [SET_TABLE_POSITION, tableId]
+  const setExpanded = useCallback(
+    (value) => SET_EXPANDED({ tableId, value }),
+    [SET_EXPANDED, tableId],
   );
-  const setColumnFilter = useCallback(value => SET_FILTER({ tableId, value }), [
-    SET_FILTER,
-    tableId
-  ]);
+  const setPosition = useCallback(
+    (value) => SET_TABLE_POSITION({ tableId, value }),
+    [SET_TABLE_POSITION, tableId],
+  );
+  const setColumnFilter = useCallback(
+    (value) => SET_FILTER({ tableId, value }),
+    [SET_FILTER, tableId],
+  );
 
   const [onFilter, setOnFilter] = useState(false);
   const [tableData, setTableData] = useState(null);
@@ -313,12 +311,12 @@ const TableComponent = ({
     if (!isShadow) {
       const ports = selectedTableColumns?.map((item, i) => ({
         key: item.field,
-        ref: portsRefs[i]
+        ref: portsRefs[i],
       }));
       const value = {
         tableRef: tableRefState,
         headerRef: headerRefState,
-        ports
+        ports,
       };
       SET_TABLE_REFS({ tableId, value });
       return value;
@@ -326,7 +324,7 @@ const TableComponent = ({
     return {
       tableRef: React.createRef(),
       headerRef: React.createRef(),
-      ports: []
+      ports: [],
     };
   }, [isShadow, columns, portsRefs]);
 
@@ -336,7 +334,7 @@ const TableComponent = ({
     if (ref && ref.current) {
       setTableSize({
         width: ref.current.clientWidth,
-        height: ref.current.clientHeight
+        height: ref.current.clientHeight,
       });
     }
   };
@@ -346,7 +344,7 @@ const TableComponent = ({
 
   const handlePopupShow = () => {
     dispatch(setTablePreviewModal(true));
-    const {type, catalog, schema, objectName} = tableItem;
+    const { type, catalog, schema, objectName } = tableItem;
     // dispatch(getObjectData({ id: connect_id, dataType: type, catalog, schema, objectName }));
     //   .then(
     //   response => {
@@ -366,7 +364,7 @@ const TableComponent = ({
   const ActualPosition = (position && position.deltaPosition) || coords;
 
   const onTableDragStart = useCallback(
-    event => {
+    (event) => {
       event.stopPropagation();
       const delta = posToCoord(event).dif(ActualPosition);
       const dragCallback = ({ state, commit }, { postition }) => {
@@ -376,7 +374,7 @@ const TableComponent = ({
       };
       startDrag({ event, dragCallback, extra: { delta } });
     },
-    [posToCoord, startDrag]
+    [posToCoord, startDrag],
   );
 
   const onFieldDragStart = (event, field, table) => {
@@ -386,8 +384,8 @@ const TableComponent = ({
       object_name: `${table.schema}_${table.objectName}`,
       table_id: table.table_id,
       outerJoin: null,
-      fields: [field.field]
-    }
+      fields: [field.field],
+    };
     event.dataTransfer.setData('object1', JSON.stringify(object1));
   };
 
@@ -415,37 +413,45 @@ const TableComponent = ({
   //   startDrag({ event, dragCallback, dragStopCallback });
   // };
 
-  const onFieldDragOver = (event, field, table) => {   
+  const onFieldDragOver = (event, field, table) => {
     const object1 = JSON.parse(event.dataTransfer.getData('object1'));
     const object2 = {
       cardinality: 'one',
       object_name: `${table.schema}_${table.objectName}`,
       table_id: table.table_id,
       outerJoin: null,
-      fields: [field.field]
-    }
+      fields: [field.field],
+    };
 
     if (object1.object_name !== object2.object_name)
-      dispatch(setObjectsConnectionsModal(true, {id: links.length, newLink: true, object1, object2}));
+      dispatch(
+        setObjectsConnectionsModal(true, {
+          id: links.length,
+          newLink: true,
+          object1,
+          object2,
+        }),
+      );
     // tryLinkEnd({field, event})
   };
 
   const relatedSearchItems = searchResult.filter(
-    elem => tableItem && elem.tableid === tableItem.id
+    (elem) => tableItem && elem.tableid === tableItem.id,
   );
 
   const focusHere =
     focusedItem && tableItem && focusedItem.tableid === tableItem.id;
 
   const focusedTableHere = relatedSearchItems.find(
-    elem => elem.type === 'table'
+    (elem) => elem.type === 'table',
   );
 
   useEffect(() => {
     if (focusHere && contentScrollContainer && focusedItem.type === 'column') {
-      const port = ports.find(column => column.key === focusedItem.name);
+      const port = ports.find((column) => column.key === focusedItem.name);
       if (port && port.ref.current) {
-        const parentBBox = contentScrollContainer.current.getBoundingClientRect();
+        const parentBBox =
+          contentScrollContainer.current.getBoundingClientRect();
         const bbox = port.ref.current.getBoundingClientRect();
         if (bbox) {
           contentScrollContainer.current.scrollTop =
@@ -468,19 +474,18 @@ const TableComponent = ({
       onCreateSynonym(newSynonym);
     } else {
       dispatch(
-        showToast(TOAST_TYPE.DANGER, 'Имя синонима введено некорректно!')
+        showToast(TOAST_TYPE.DANGER, 'Имя синонима введено некорректно!'),
       );
     }
   };
 
-  const [isActiveSchemaEditorBlock, setActiveSchemaEditorBlock] = useState(
-    true
-  );
+  const [isActiveSchemaEditorBlock, setActiveSchemaEditorBlock] =
+    useState(true);
 
   return (
     <g
       style={{
-        transform: `translate(${ActualPosition.x}px, ${ActualPosition.y}px)`
+        transform: `translate(${ActualPosition.x}px, ${ActualPosition.y}px)`,
       }}
     >
       <foreignObject
@@ -497,7 +502,7 @@ const TableComponent = ({
             ? `2px solid ${
                 focusHere && focusedItem.type === 'table' ? 'orange' : 'yellow'
               }`
-            : undefined
+            : undefined,
         }}
       >
         {isActiveSchemaEditorBlock && (

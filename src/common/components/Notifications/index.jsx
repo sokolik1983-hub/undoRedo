@@ -1,5 +1,6 @@
 import Portal from '@material-ui/core/Portal';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { notificationClosed } from '../../../data/reducers/notifications';
 import NotificationItem from '../NotificationItem';
 import styles from './Notification.module.scss';
