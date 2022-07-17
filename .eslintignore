@@ -1,5 +1,5 @@
 node_modules
-dist
+build
 webpack
 .eslintrc.js
 webpack.config.babel.js
