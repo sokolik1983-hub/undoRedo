@@ -1,21 +1,17 @@
 import clsx from 'clsx';
-/* eslint-disable */
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-import DropdownItem from '../../common/components/Dropdown/DropdownItem';
-import Dropdown from '../../common/components/Dropdown/index';
 import FloatingButton from '../../common/components/FloatingButton';
-import InlinePreloader from '../../common/components/InlinePreloader/index';
 import { REDIRECT_LINKS } from '../../common/constants/common';
-import { HOME_PAGE_BUTTON_ACTIONS } from '../../common/constants/common';
 import { PAGE } from '../../common/constants/pages';
 import { getFavoriteObjects } from '../../data/actions/app';
-import { setObjectToFavorites } from '../../data/actions/app';
+import { setObjectFavoriteStatus } from '../../data/actions/app';
 import { setCurrentPage } from '../../data/reducers/ui';
 import ExplorerIcon from '../../layout/assets/icons/buttonPlus.svg';
 import navigationMenu from '../../navigation';
+import FavoritesList from './Favorites/FavoritesList.jsx';
 import styles from './HomePage.module.scss';
 import HomePageButton from './HomePageButton/HomePageButton';
 
@@ -33,50 +29,10 @@ function HomePage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { favoriteObjectsStatus, favoriteObjectsData } = useSelector(
-    (state) => state.app.data.favoriteObjects,
-  );
-
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.DASHBOARD));
     dispatch(getFavoriteObjects());
   }, []);
-
-  const isFavoritesEmpty = !favoriteObjectsData.length;
-  const isFavoritesLoading = favoriteObjectsStatus === 'LOADING';
-  const isFavoritesFailed = favoriteObjectsStatus === 'FAILED';
-  const withoutData =
-    isFavoritesEmpty || isFavoritesLoading || isFavoritesFailed;
-
-  const handleOpenClick = (id) => {
-    navigate(`${REDIRECT_LINKS.REPORT_SHOW}/${id}`, { replace: true });
-  };
-
-  const handleSetActionClick = (id, action) => {
-    switch (action) {
-      case 'removeFromFavorites':
-        handleRemoveFromFavorites(id);
-        break;
-      case 'open':
-        handleOpenClick(id);
-        break;
-      default:
-        return null;
-    }
-  };
-
-  const renderDropdownMenu = (id) => (
-    <div className={styles.homePageButtonDropdownWrapper}>
-      {HOME_PAGE_BUTTON_ACTIONS.map((item) => (
-        <DropdownItem
-          key={item.title}
-          onClick={(action) => handleSetActionClick(id, action)}
-          className={styles.menuItem}
-          item={item}
-        />
-      ))}
-    </div>
-  );
 
   const handleReportCreate = () => {
     navigate(REDIRECT_LINKS.REPORT_CREATE);
@@ -86,14 +42,6 @@ function HomePage() {
     if (isRemoved) {
       dispatch(getFavoriteObjects());
     }
-  };
-
-  const handleRemoveFromFavorites = (id, kind, e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    dispatch(
-      setObjectFavoriteStatus({ kind, id, isExclude: 1 }, isFavoriteRemoved),
-    );
   };
 
   return (
@@ -115,40 +63,7 @@ function HomePage() {
         </div>
       </div>
 
-      <div
-        className={clsx(
-          styles.row,
-          styles.favoritesBG,
-          styles.whiteLineShadow,
-          styles.rowWithoutData,
-        )}
-      >
-        <div className={clsx(styles.whiteLine2)} />
-        <p className={styles.rowTitle}>Избранное</p>
-        <div className={clsx(styles.section)}>
-          {favoriteObjectsData.map((item) => (
-            <Dropdown trigger={['click']} overlay={renderDropdownMenu(item.id)}>
-              <div>
-                <HomePageButton
-                  key={item.id}
-                  title={item.name}
-                  kind={item.kind}
-                  hasTooltip
-                />
-              </div>
-            </Dropdown>
-          ))}
-        </div>
-        {isFavoritesEmpty && isFavoritesLoading && <InlinePreloader />}
-        {isFavoritesFailed && (
-          <p className={styles.noDataTitle}>Невозможно получить данные...</p>
-        )}
-        {isFavoritesEmpty && !isFavoritesLoading && (
-          <p className={styles.noDataTitle}>
-            Вы пока ничего не добавилии в Избранное...
-          </p>
-        )}
-      </div>
+      <FavoritesList />
 
       <div className={clsx(styles.row, styles.appsBG, styles.whiteLineShadow)}>
         <div className={clsx(styles.whiteLine3)} />

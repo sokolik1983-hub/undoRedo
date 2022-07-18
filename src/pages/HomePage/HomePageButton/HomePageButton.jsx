@@ -3,6 +3,7 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 import Tooltip from '../../../common/components/Tooltip';
+import RemoveFromFavoritesIcon from '../../../layout/assets/removeFromFavorites.svg';
 import styles from './HomePageButton.module.scss';
 
 const HomePageButton = ({
@@ -12,6 +13,9 @@ const HomePageButton = ({
   icon,
   appNameText,
   hasTooltip,
+  onRemoveFromFavorites,
+  onOpenReport,
+  id,
 }) => {
   const getStyles = () => {
     const style = {
@@ -22,9 +26,21 @@ const HomePageButton = ({
   };
 
   return (
-    <div className={styles.homePageButtonWrapper}>
+    <div
+      className={styles.homePageButtonWrapper}
+      onClick={kind ? (e) => onOpenReport(id, e) : null}
+    >
       <RouterLink to={href || ''}>
-        <div className={getStyles()}>{icon}</div>
+        <div className={getStyles()}>
+          {icon}
+          {kind && (
+            <RemoveFromFavoritesIcon
+              data-remove={true}
+              onClick={(e) => onRemoveFromFavorites(id, kind, e)}
+              className={styles.close}
+            />
+          )}
+        </div>
         {hasTooltip ? (
           <Tooltip placement="left" overlay={title}>
             <div

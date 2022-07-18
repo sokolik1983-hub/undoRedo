@@ -4,6 +4,7 @@ declare namespace HomePageButtonModuleScssNamespace {
   export interface IHomePageButtonModuleScss {
     buttonText: string;
     buttonTextApps: string;
+    close: string;
     homePageButton: string;
     homePageButtonWrapper: string;
     homePageDocumentButton: string;
