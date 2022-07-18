@@ -1,3 +1,17 @@
+// /* eslint-disable consistent-return */
+// /* eslint-disable no-unused-vars */
+// import clsx from 'clsx';
+// import lodash, {cloneDeep} from 'lodash';
+// import React, {useEffect, useState} from 'react';
+// import {useDispatch, useSelector} from 'react-redux';
+// import {useNavigate, useParams} from 'react-router';
+
+// import Button from '../../common/components/Button';
+// import Dropdown from '../../common/components/Dropdown';
+// import DropdownItem from '../../common/components/Dropdown/DropdownItem';
+// import FormulaEditor from '../../common/components/FormulaEditor';
+// import ReportSidebar from './ReportSidebar';
+
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-vars */
 import clsx from 'clsx';
@@ -52,10 +66,6 @@ import ReportContent from './ReportContent';
 import styles from './ReportDesigner.module.scss';
 import DeleteModal from './ReportModals/DeleteModal';
 import RenameModal from './ReportModals/RenameModal';
-// import Sidebar from '../SymlayersDesigner/Sidebar';
-// import ObjectsPanel from '../QueryPanel/ObjectsPanel';
-// import DragNDropProvider from '../QueryPanel/context/DragNDropContext';
-// import { getSymanticLayerData } from '../../data/actions/universes';
 import ReportSidebar from './ReportSidebar';
 
 function ReportDesigner() {
@@ -65,7 +75,6 @@ function ReportDesigner() {
     name: 'Клиентская справка',
   });
   const [activeTab, setActiveTab] = useState(1);
-
   const dispatch = useDispatch();
   const reportDesigner = useSelector((state) => state.app.reportDesigner);
   const { creatingElement } = reportDesigner.reportsUi.ui;
@@ -73,7 +82,6 @@ function ReportDesigner() {
     reportDesigner.reportsData.present.reports,
     reportDesigner.reportsData.present.activeReport,
   );
-
   const isQueryPanelModalOpened = useSelector(
     (state) => state.app.ui.modalVisible,
   );
@@ -83,7 +91,6 @@ function ReportDesigner() {
   const [reportName, setNewReportName] = useState('');
   const [isDeleteModalActive, setIsDeleteModalActive] = useState(false);
   const [isRenameModalActive, setIsRenameModalActive] = useState(false);
-
   function handleKeyUp(event) {
     // event.stopPropagation();
     if (event.keyCode === 46 || event.keyCode === 8) {
@@ -104,10 +111,7 @@ function ReportDesigner() {
       }
     }
   }
-
   const pageParams = useParams();
-  console.log(pageParams, 'pageParams');
-
   useEffect(async () => {
     if (pageParams && pageParams.report_id) {
       await dispatch(openReport({ id: pageParams.report_id }));
@@ -115,28 +119,22 @@ function ReportDesigner() {
       dispatch(createReport());
     }
     // await dispatch(refreshServerResponse());
-
     // TODO: test to open report
     // await dispatch(getStreamReceiever({ fileName: 'testX.js' }));
     // await dispatch(getReportStructure({ report_id: 'R1' }));
     // await dispatch(getVariables());
-
     // await dispatch(getElementData({ report_id: 'R1', element_id: 'R1.B.2.B' }));
   }, []);
-
   useEffect(async () => {
     dispatch(setCurrentPage(PAGE.REPORT_DESIGNER));
     //  dispatch(getReportStructure({ fileName: 'test.js' }));
-
     document.body.addEventListener('keyup', handleKeyUp);
   }, []);
-
   useEffect(() => {
     return () => {
       document.body.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
-
   function handleMouseMove(event) {
     if (reportDesigner.reportsUi.ui.creatingElement) {
       setMousePosition({
@@ -145,10 +143,8 @@ function ReportDesigner() {
       });
     }
   }
-
   function handleAddBlock(event) {
     event.stopPropagation();
-
     if (reportDesigner.reportsUi.ui.creatingElement) {
       const newStructure = lodash.cloneDeep(currentReport.structure);
       newStructure.pgBody.content.children.push(
@@ -166,7 +162,6 @@ function ReportDesigner() {
       //     variant: creatingElement
       //   }
       // ];
-
       dispatch(setCreatingElement(null));
       dispatch(setStructure(newStructure));
       // dispatch(
@@ -177,15 +172,12 @@ function ReportDesigner() {
       // );
     }
   }
-
   // function handleChangePosition(id, newPosition) {
   //   const newStructure = lodash.cloneDeep(currentReport.structure);
   //   const currentBlock = lodash.find(newStructure, item => item.id === id);
-
   //   if (currentBlock) {
   //     currentBlock.position = { ...newPosition };
   //   }
-
   //   dispatch(setStructure(newStructure));
   // }
   // function handleChangeScales(id, newScales) {
@@ -198,17 +190,14 @@ function ReportDesigner() {
   //     };
   //     currentBlock.position = { x: newScales.x, y: newScales.y };
   //   }
-
   //   dispatch(setStructure(newStructure));
   // }
-
   const isShowingPanel = reportDesigner.reportsUi.ui.showConfigPanel;
-
+  // -------------------РЅР°С‡Р°Р»Рѕ: СЃС‚РёР»Рё---------------------------------
   const containerStyle = () => {
     if (reportDesigner.reportsUi?.ui.showFormulaEditor && !isShowingPanel) {
       return styles.container;
     }
-
     if (
       activeTab === 1 &&
       isShowingPanel &&
@@ -216,7 +205,6 @@ function ReportDesigner() {
     ) {
       return styles.containerTab1;
     }
-
     if (
       activeTab === 1 &&
       reportDesigner.reportsUi?.ui.showFormulaEditor &&
@@ -224,18 +212,21 @@ function ReportDesigner() {
     ) {
       return styles.containerTab1Formula;
     }
-
     return styles.containerFull;
   };
-
   const footerCompressed = clsx(styles.footer, {
     [styles.footerCompressed]: isShowingPanel,
   });
-
   const formulaCompressed = clsx(styles.formula, {
     [styles.formulaCompressed]: isShowingPanel,
   });
+  // -------------------РєРѕРЅРµС†: СЃС‚РёР»Рё---------------------------------
+  // -------------------РЅР°С‡Р°Р»Рѕ: РґРµР№СЃС‚РІРёСЏ СЃ РѕС‚С‡РµС‚РѕРј РІРЅРёР·Сѓ СЃС‚СЂР°РЅРёС†С‹---------------------------------
 
+  const handleSelectReport = (reportId) => (event) => {
+    event.stopPropagation();
+    dispatch(setActiveReport(reportId));
+  };
   function handleAddReport() {
     const newReports = [
       ...reportDesigner.reportsData.present.reports,
@@ -255,32 +246,7 @@ function ReportDesigner() {
     );
   }
 
-  const handleSelectReport = (reportId) => (event) => {
-    event.stopPropagation();
-    dispatch(setActiveReport(reportId));
-  };
-
-  // const handleDeleteReport = reportId => event => {
-  // event.stopPropagation();
-  // const reportIdx = lodash.findIndex(
-  //   reportDesigner.reportsData.present.reports,
-  //   item => item.id === reportId
-  // );
-  // if (reportDesigner.reportsData.present.reports?.length > 1) {
-  //   const newReports = reportDesigner.reportsData.present.reports.filter(
-  //     report => report.id !== reportId
-  //   );
-  //   if (reportDesigner.reportsData.present.activeReport === reportId) {
-  //     dispatch(
-  //       setActiveReport(
-  //         reportDesigner.reportsData.present.reports[reportIdx - 1]?.id
-  //       )
-  //     );
-  //   }
-  //   dispatch(setReports({ reports: newReports }));
-
-  // -------------------начало: действия с отчетом внизу страницы---------------------------------
-
+  // -------------------РЅР°С‡Р°Р»Рѕ: РґРµР№СЃС‚РІРёСЏ СЃ РѕС‚С‡РµС‚РѕРј РІРЅРёР·Сѓ СЃС‚СЂР°РЅРёС†С‹---------------------------------
   const handleRenameReport = (repName) => {
     const editedReport = { ...currentReport, name: repName };
     const newReports = lodash.cloneDeep(
@@ -292,7 +258,6 @@ function ReportDesigner() {
     dispatch(setReports({ reports: newReports }));
     setIsRenameModalActive(false);
   };
-
   const handleCopyReport = () => {
     const copyReport = {
       ...currentReport,
@@ -312,7 +277,6 @@ function ReportDesigner() {
     );
     dispatch(setReports({ reports: newReports }));
   };
-
   const handleDeleteReport = (reportId) => (event) => {
     event.stopPropagation();
     const newReports = lodash.cloneDeep(
@@ -329,7 +293,6 @@ function ReportDesigner() {
     dispatch(setReports({ reports: newReports }));
     setIsDeleteModalActive(false);
   };
-
   const handleClick = (action) => {
     switch (action) {
       case 'rename':
@@ -345,7 +308,6 @@ function ReportDesigner() {
         console.log(action);
     }
   };
-
   const menu = (isLast) => (
     <div className={styles.itemsWrapper}>
       {REPORT_ACTIONS.filter(
@@ -360,9 +322,7 @@ function ReportDesigner() {
       ))}
     </div>
   );
-
   // -------------------конец: действия с отчетом внизу страницы---------------------------------
-
   function checkIsActiveNode(id) {
     return !lodash.isEmpty(
       lodash.find(
@@ -371,7 +331,6 @@ function ReportDesigner() {
       ),
     );
   }
-
   function handleDisableSelection() {
     if (reportDesigner.reportsData.present.activeNodes.length > 0) {
       dispatch(setActiveNodes([]));
@@ -379,17 +338,14 @@ function ReportDesigner() {
       dispatch(setConfigPanelVisible(false));
     }
   }
-
   const handleShowSelector = () => {
     setSemanticLayer(true);
   };
-
+  // -------------------РЅР°С‡Р°Р»Рѕ: РґРµР№СЃС‚РІРёСЏ СЃ Р±Р»РѕРєРѕРј С„РѕСЂРјСѓР»С‹---------------------------------
   const [formula, setFormula] = useState('');
-
   const activeNode =
     reportDesigner.reportsData.present.activeNodes &&
     reportDesigner.reportsData.present.activeNodes[0];
-
   useEffect(() => {
     if (activeNode && activeNode.type === 'cell') {
       setFormula(activeNode?.content?.expression?.formula);
@@ -397,14 +353,8 @@ function ReportDesigner() {
       setFormula('');
     }
   }, [activeNode]);
-
   const handleChange = (e) => setFormula(e.target.value);
-
-  // useEffect(() => {
-  //   if (semanticLayer) dispatch(getSymanticLayerData(semanticLayer.id));
-  // }, [semanticLayer]);
-  // {id: 165, name: "Клиентская справка"}
-
+  // -------------------РєРѕРЅРµС†: РґРµР№СЃС‚РІРёСЏ СЃ Р±Р»РѕРєРѕРј С„РѕСЂРјСѓР»С‹---------------------------------
   const handleSelectBlock = (structureItem, addItem) => {
     if (
       lodash.find(reportDesigner.reportsData.present.activeNodes, structureItem)
@@ -427,7 +377,6 @@ function ReportDesigner() {
       dispatch(setConfigPanelVisible(true));
     }
   };
-
   return (
     <div className={styles.root}>
       <ReportSidebar
@@ -469,13 +418,7 @@ function ReportDesigner() {
                   dispatch(setConfigPanelVisible(false));
                 }}
               />
-              <IconButton
-                size="small"
-                icon={<ClearFormulaIcon />}
-                onClick={() => {
-                  // some action
-                }}
-              />
+              <IconButton size="small" icon={<ClearFormulaIcon />} />
             </div>
           </div>
         )}
@@ -494,20 +437,6 @@ function ReportDesigner() {
                 isActiveNode={checkIsActiveNode}
               />
             )}
-            {/* <ReportHeader data={currentReport?.structure?.pgHeader} />
-            <ReportBody data={currentReport?.structure?.pgBody} />
-            {currentReport?.structure?.map(block => (
-              <Block
-                {...block}
-                key={block.id}
-                structureItem={block}
-                onChangePosition={handleChangePosition}
-                onChangeScales={handleChangeScales}
-                onSelect={handleSelect}
-                isActiveNode={checkIsActiveNode(block.id)}
-              />
-            ))}
-            <ReportFooter data={currentReport?.structure?.pgFooter} /> */}
           </div>
         </div>
         <div className={activeTab === 1 ? footerCompressed : styles.footer}>
@@ -518,7 +447,6 @@ function ReportDesigner() {
                   reportDesigner.reportsData.present.activeReport === report.id;
                 const isLast =
                   reportDesigner.reportsData.present.reports.length === 1;
-
                 return (
                   <div>
                     <Dropdown
@@ -536,7 +464,6 @@ function ReportDesigner() {
                         {report.name}
                       </Button>
                     </Dropdown>
-
                     {!isLast && (
                       <DeleteModal
                         isOpen={isDeleteModalActive}
@@ -567,7 +494,7 @@ function ReportDesigner() {
               />
             </Tooltip>
           </div>
-          <div style={{ width: '10%', marginLeft: 'auto' }}>
+          <div className={styles.nav}>
             <PagesNav />
           </div>
         </div>
