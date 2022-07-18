@@ -1,6 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+
 import Tooltip from '../../../common/components/Tooltip';
 import styles from './HomePageButton.module.scss';
 
@@ -10,23 +11,20 @@ const HomePageButton = ({
   href,
   icon,
   appNameText,
-  hasTooltip
+  hasTooltip,
 }) => {
-
   const getStyles = () => {
-    if (kind === 'SL') return styles.homePageSemanticLayerButton
-    if (kind === 'REP') return styles.homePageDocumentButton
-    return styles.homePageButton
-  }
+    const style = {
+      SL: styles.homePageSemanticLayerButton,
+      REP: styles.homePageDocumentButton,
+    };
+    return style[kind] ?? styles.homePageButton;
+  };
 
   return (
     <div className={styles.homePageButtonWrapper}>
       <RouterLink to={href || ''}>
-        <div
-          className={getStyles()}
-        >
-          {icon}
-        </div>
+        <div className={getStyles()}>{icon}</div>
         {hasTooltip ? (
           <Tooltip placement="left" overlay={title}>
             <div
