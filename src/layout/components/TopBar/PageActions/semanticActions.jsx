@@ -127,7 +127,6 @@ const SemanticActions = () => {
       const findedIdx = tablesCoord.findIndex(
         (tab) => tab.tableId === `${schema}_${objectName}`,
       );
-      console.log(tablesCoord[findedIdx]);
       if (findedIdx !== -1) {
         tempTable.position = {
           x: tablesCoord[findedIdx].x,
@@ -145,7 +144,6 @@ const SemanticActions = () => {
     universe.data.links = links;
     universe.data.objects = formattedObjectLayer;
     universe.data.connector_id = selectedConnectorId;
-    console.log(updatedCoordsTables);
     dispatch(createUniverse(universe, currentUniverse.header.name));
   };
 
