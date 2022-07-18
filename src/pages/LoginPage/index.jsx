@@ -1,20 +1,21 @@
+import { Formik } from 'formik';
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { Formik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../../data/actions/auth';
-import { REDIRECT_LINKS, BUTTON } from '../../common/constants/common';
-import TextInput from '../../common/components/TextInput';
+
 import Button from '../../common/components/Button';
-import { ReactComponent as LogoIcon } from '../../layout/assets/loginPageLogo.svg';
-import { ReactComponent as AvatarIcon } from '../../layout/assets/loginPageAvatar.svg';
+import TextInput from '../../common/components/TextInput';
+import { BUTTON, REDIRECT_LINKS } from '../../common/constants/common';
+import { loginUser } from '../../data/actions/auth';
+import AvatarIcon from '../../layout/assets/loginPageAvatar.svg';
+import LogoIcon from '../../layout/assets/loginPageLogo.svg';
 import styles from './LoginPage.module.scss';
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const auth = useSelector(state => state.app.auth);
+  const auth = useSelector((state) => state.app.auth);
 
   useEffect(() => {
     if (auth) {
@@ -32,17 +33,13 @@ const LoginPage = () => {
         <Formik
           initialValues={{
             userName: 'test',
-            password: 'test'
+            password: 'test',
           }}
           validationSchema={Yup.object().shape({
-            userName: Yup.string()
-              .max(255)
-              .required('Введите имя пользователя'),
-            password: Yup.string()
-              .max(255)
-              .required('Введите пароль')
+            userName: Yup.string().max(255).required(),
+            password: Yup.string().max(255).required(),
           })}
-          onSubmit={values => dispatch(loginUser(values))}
+          onSubmit={(values) => dispatch(loginUser(values))}
         >
           {({
             errors,
@@ -51,7 +48,7 @@ const LoginPage = () => {
             handleSubmit,
             isSubmitting,
             touched,
-            values
+            values,
           }) => (
             <form onSubmit={handleSubmit} className={styles.form}>
               <TextInput

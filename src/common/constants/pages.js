@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 export const PAGE = {
   REPORT_DESIGNER: 'REPORT_DESIGNER',
   UNIVERSE_DESIGNER: 'UNIVERSE_DESIGNER',
@@ -13,5 +12,5 @@ export const PAGE = {
   USERS: 'USERS',
   EXPLORER: 'EXPLORER',
   REPORTS: 'REPORTS',
-  ADMIN: 'ADMIN'
+  ADMIN: 'ADMIN',
 };

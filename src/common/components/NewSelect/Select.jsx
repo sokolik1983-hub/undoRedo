@@ -7,11 +7,12 @@ import {
   memo,
   useContext,
   useEffect,
-  useState
+  useState,
 } from 'react';
-import Dropdown from '../Dropdown';
-import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowOk.svg';
+
+import Arrow from '../../../layout/assets/queryPanel/arrowOk.svg';
 import { EMPTY_STRING } from '../../constants/common';
+import Dropdown from '../Dropdown';
 import styles from './Select.module.scss';
 
 const SelectContext = createContext();
@@ -21,12 +22,12 @@ const Select = ({ children, className, value, onChange }) => {
   const [params, setParams] = useState({
     currentValue: EMPTY_STRING,
     currentIcon: null,
-    text: EMPTY_STRING
+    text: EMPTY_STRING,
   });
 
   const { currentValue, currentIcon, text } = params;
   const options = Children.toArray(children);
-  const currentOption = options.find(i => i?.props?.value === value);
+  const currentOption = options.find((i) => i?.props?.value === value);
 
   useEffect(() => {
     if (!currentValue && options.length) {
@@ -37,7 +38,7 @@ const Select = ({ children, className, value, onChange }) => {
           : options[0].props.icon,
         text: currentOption
           ? currentOption.props.children
-          : options[0].props.children
+          : options[0].props.children,
       });
     }
   }, []);
@@ -47,13 +48,13 @@ const Select = ({ children, className, value, onChange }) => {
       setParams({
         currentValue: EMPTY_STRING,
         currentIcon: null,
-        text: EMPTY_STRING
+        text: EMPTY_STRING,
       });
     }
 
     if (
       (!currentValue && options.length) ||
-      (!options.find(i => i.props.value === currentValue) && options.length)
+      (!options.find((i) => i.props.value === currentValue) && options.length)
     ) {
       setParams({
         currentValue: currentOption ? value : options[0].props.value,
@@ -62,7 +63,7 @@ const Select = ({ children, className, value, onChange }) => {
           : options[0].props.icon,
         text: currentOption
           ? currentOption.props.children
-          : options[0].props.children
+          : options[0].props.children,
       });
     }
   }, [children]);
@@ -101,5 +102,5 @@ Select.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
   value: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };

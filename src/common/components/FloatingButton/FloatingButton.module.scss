@@ -14,10 +14,12 @@
 }
 
 .icon {
-  width: 75px;
-  height: 75px;
   display: flex;
   align-items: center;
+  & svg {
+    width: 75px;
+    height: 75px;
+  }
 }
 
 .label {

@@ -1,5 +1,5 @@
+import PreloaderIcon from '../../../layout/assets/preloaderIcon.svg';
 import styles from './Preloader.module.scss';
-import { ReactComponent as PreloaderIcon } from '../../../layout/assets/preloaderIcon.svg';
 
 const Preloader = () => {
   return (

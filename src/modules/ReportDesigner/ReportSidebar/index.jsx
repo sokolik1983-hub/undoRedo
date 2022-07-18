@@ -1,23 +1,24 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
-import DragNDropProvider from '../../QueryPanel/context/DragNDropContext';
-import ReportObjectsPanel from '../ReportObjectsPanel/index';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import SidePanel from '../../../common/components/SidePanel';
-import styles from './ReportSidebar.module.scss';
 import { SIDE_PANEL_TYPES } from '../../../common/constants/common';
-// import { getSymanticLayerData } from '../../../data/actions/universes';
-import { setReportDisplayMode } from '../../../data/reducers/new_reportDesigner';
-import { ReactComponent as Arrow } from '../../../layout/assets/semanticLayerModal/arrow.svg';
-import ReportInfoBlock from '../ReportInfoBlock';
 import { REPORT_OBJECTS_PANEL_ICONS } from '../../../common/constants/reportDesigner/reportObjectsPanelIcons';
 import {
   setReportStructure,
-  setStructureBeforeGetData
+  setStructureBeforeGetData,
 } from '../../../data/actions/newReportDesigner';
+// import { getSymanticLayerData } from '../../../data/actions/universes';
+import { setReportDisplayMode } from '../../../data/reducers/new_reportDesigner';
+import Arrow from '../../../layout/assets/semanticLayerModal/arrow.svg';
+import DragNDropProvider from '../../QueryPanel/context/DragNDropContext';
+import ReportInfoBlock from '../ReportInfoBlock';
+import ReportObjectsPanel from '../ReportObjectsPanel/index';
+import styles from './ReportSidebar.module.scss';
 
 const ReportSidebar = ({
   semanticLayer,
@@ -25,9 +26,9 @@ const ReportSidebar = ({
   onSelect,
   setTabNumber,
   isActiveNode,
-  currentReport
+  currentReport,
 }) => {
-  const reportDesigner = useSelector(state => state.app.reportDesigner);
+  const reportDesigner = useSelector((state) => state.app.reportDesigner);
   const isShowingPanel = reportDesigner.reportsUi.ui.showConfigPanel;
 
   const [collapsed, setCollapsed] = useState(false);
@@ -41,7 +42,7 @@ const ReportSidebar = ({
 
   const { displayMode } = currentReport;
 
-  const handleChangeMode = num => {
+  const handleChangeMode = (num) => {
     let newMode = '';
 
     if (displayMode && displayMode === 'Data' && num === 1) {
@@ -56,10 +57,10 @@ const ReportSidebar = ({
         setStructureBeforeGetData({
           structure: {
             report_id: currentReport.id,
-            structure: currentReport.structure
+            structure: currentReport.structure,
           },
-          mode: 'Data'
-        })
+          mode: 'Data',
+        }),
       );
     } else {
       dispatch(setReportDisplayMode(newMode));
@@ -90,11 +91,11 @@ const ReportSidebar = ({
   };
 
   const menuItem = useSelector(
-    state => state.app.reportDesigner.reportsUi.ui?.menuItem
+    (state) => state.app.reportDesigner.reportsUi.ui?.menuItem,
   );
 
-  const getName = item => {
-    const res = REPORT_OBJECTS_PANEL_ICONS.filter(el => el.action === item);
+  const getName = (item) => {
+    const res = REPORT_OBJECTS_PANEL_ICONS.filter((el) => el.action === item);
     return res[0].title;
   };
 
@@ -103,7 +104,7 @@ const ReportSidebar = ({
   // }, [semanticLayer]);
 
   const sidePanelStyle = clsx(styles.sidePanel, {
-    [styles.sidePanelVisible]: isShowingPanel
+    [styles.sidePanelVisible]: isShowingPanel,
   });
 
   return (
@@ -134,7 +135,7 @@ const ReportSidebar = ({
                       fill="none"
                       className={clsx(
                         styles.arrow,
-                        collapsed ? '' : styles.rotate
+                        collapsed ? '' : styles.rotate,
                       )}
                     />
                   </div>
@@ -165,7 +166,7 @@ const ReportSidebar = ({
                       fill="none"
                       className={clsx(
                         styles.arrow,
-                        collapsed ? '' : styles.rotate
+                        collapsed ? '' : styles.rotate,
                       )}
                     />
                   </div>
@@ -181,7 +182,7 @@ const ReportSidebar = ({
               background:
                 activeTab === 0
                   ? 'linear-gradient(163.79deg, rgba(0, 55, 137, 0.75) 6.45%, rgba(0, 55, 137, 0.375) 100%)'
-                  : 'white'
+                  : 'white',
             }}
           >
             {activeTab === 1 ? (

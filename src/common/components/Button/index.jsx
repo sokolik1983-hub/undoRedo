@@ -1,8 +1,9 @@
-import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import styles from './Button.module.scss';
+import React from 'react';
+
 import { BUTTON } from '../../constants/common';
+import styles from './Button.module.scss';
 
 /**
  * @param children - нода для отрисовки внутри кнопки
@@ -44,10 +45,10 @@ const Button = ({
     { active },
     [styles[size]],
     [styles[color]],
-    { [styles.disabled]: disabled }
+    { [styles.disabled]: disabled },
   );
 
-  const onClickAction = event => {
+  const onClickAction = (event) => {
     if (disabled) {
       event.preventDefault();
     } else {
@@ -80,17 +81,19 @@ Button.propTypes = {
   color: PropTypes.string,
   href: PropTypes.string,
   type: PropTypes.string,
-  buttonStyle: PropTypes.string
+  buttonStyle: PropTypes.string,
 };
 
 Button.defaultProps = {
   children: 'Default button',
-  onClick: () => {},
+  onClick: () => {
+    // something
+  },
   className: '',
   disabled: false,
   active: false,
   size: 'medium',
-  color: ''
+  color: '',
 };
 
 export default Button;

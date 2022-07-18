@@ -1,33 +1,33 @@
-import { useMemo, useEffect, useState, Fragment } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import lodash from 'lodash';
-import ListNavBar from '../../../common/components/ListNavBar/ListNavBar';
+import PropTypes from 'prop-types';
+import { Fragment, useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import List from '../../../common/components/List/List';
 import ListItem from '../../../common/components/List/ListItem/ListItem';
 import ListItemEdit from '../../../common/components/List/ListItemEdit/ListItemEdit';
-import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import ListTableRow from '../../../common/components/List/ListTableView/ListTableRow/ListTableRow';
-import {
-  /*   connectorsTableHeader, */
-  FOLDER_DROPDOWN_ACTIONS,
-  FOLDER_ITEM_DROPDOWN_ACTIONS,
-  sortFoldersAndItems
-} from './helper';
-import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
-import { ReactComponent as ConnectorIcon } from '../../../layout/assets/connectorIcon.svg';
+import ListNavBar from '../../../common/components/ListNavBar/ListNavBar';
+import Preloader from '../../../common/components/Preloader/Preloader';
+import Tooltip from '../../../common/components/Tooltip';
 import {
   BREADCRUMBS_ROOT,
-  TABLE_CELL_EMPTY_VALUE
+  TABLE_CELL_EMPTY_VALUE,
 } from '../../../common/constants/common';
-import styles from './ConnectorsList.module.scss';
-import Preloader from '../../../common/components/Preloader/Preloader';
 import { getAuditEvents } from '../../../data/actions/audit';
-import Tooltip from '../../../common/components/Tooltip';
+import ConnectorIcon from '../../../layout/assets/connectorIcon.svg';
+import FolderIcon from '../../../layout/assets/folderIcon.svg';
+import styles from './ConnectorsList.module.scss';
+import {
+  FOLDER_DROPDOWN_ACTIONS,
+  FOLDER_ITEM_DROPDOWN_ACTIONS,
+  sortFoldersAndItems,
+} from './helper';
 
 const ConnectorsList = ({ audit, auditHeaders }) => {
   const dispatch = useDispatch();
-  const connectors = useSelector(state => state.app.audit);
+  const connectors = useSelector((state) => state.app.audit);
 
   useEffect(() => {
     dispatch(getAuditEvents({ filters: { ...connectors.filters } }));
@@ -39,7 +39,7 @@ const ConnectorsList = ({ audit, auditHeaders }) => {
 
     return {
       ...connectors,
-      children: sortedConnectorsChildren
+      children: sortedConnectorsChildren,
     };
   }, [connectors]);
 
@@ -48,7 +48,7 @@ const ConnectorsList = ({ audit, auditHeaders }) => {
   const [actionButtonIsDisable, setActionButtonIsDisable] = useState({
     prev: true,
     next: true,
-    up: true
+    up: true,
   });
   const [multiColumnView, setMultiColumnView] = useState(false);
   const [searchValue, setSearchValue] = useState();
@@ -58,26 +58,25 @@ const ConnectorsList = ({ audit, auditHeaders }) => {
     setFoldersHistory([rootFolder]);
   }, [connectors]);
 
-
   useEffect(() => {
     setActionButtonIsDisable({
       prev: !currentFolderIndex,
       next: currentFolderIndex === foldersHistory.length - 1,
-      up: !currentFolderIndex
+      up: !currentFolderIndex,
     });
   }, [currentFolderIndex]);
 
-  const onFolderDoubleClick = folder => {
+  const onFolderDoubleClick = (folder) => {
     const folderWithSortedChildren = {
       ...folder,
-      children: sortFoldersAndItems(folder.children)
+      children: sortFoldersAndItems(folder.children),
     };
 
     setFoldersHistory([
       ...foldersHistory.slice(0, currentFolderIndex + 1),
-      folderWithSortedChildren
+      folderWithSortedChildren,
     ]);
-    setCurrentFolderIndex(prev => prev + 1);
+    setCurrentFolderIndex((prev) => prev + 1);
   };
 
   const getBreadcrumbs = () =>
@@ -92,18 +91,20 @@ const ConnectorsList = ({ audit, auditHeaders }) => {
   };
 
   const moveToPrevFolder = () => {
-    setCurrentFolderIndex(prev => (prev === 0 ? 0 : prev - 1));
+    setCurrentFolderIndex((prev) => (prev === 0 ? 0 : prev - 1));
   };
 
   const moveToNextFolder = () => {
-    setCurrentFolderIndex(prev =>
-      prev === foldersHistory.length ? prev : prev + 1
+    setCurrentFolderIndex((prev) =>
+      prev === foldersHistory.length ? prev : prev + 1,
     );
   };
 
-  const onSearch = async () => {};
+  const onSearch = async () => {
+    // some action
+  };
 
-  const handleEditClick = id => {
+  const handleEditClick = (id) => {
     setEditListItemId(id);
   };
 
@@ -127,9 +128,9 @@ const ConnectorsList = ({ audit, auditHeaders }) => {
     }
   };
 
-  const getUniverseDropdownItems = id => (
+  const getUniverseDropdownItems = (id) => (
     <div className={styles.itemsWrapper}>
-      {FOLDER_ITEM_DROPDOWN_ACTIONS.map(item => (
+      {FOLDER_ITEM_DROPDOWN_ACTIONS.map((item) => (
         <Tooltip
           key={item.title}
           overlay={<div className={styles.tooltip}>{item.title}</div>}
@@ -137,7 +138,7 @@ const ConnectorsList = ({ audit, auditHeaders }) => {
         >
           <DropdownItem
             className={styles.dropdownItem}
-            onClick={action => handleItemClick(id, action)}
+            onClick={(action) => handleItemClick(id, action)}
             item={item}
           />
         </Tooltip>
@@ -145,9 +146,9 @@ const ConnectorsList = ({ audit, auditHeaders }) => {
     </div>
   );
 
-  const getFolderDropdownItems = id => (
+  const getFolderDropdownItems = (id) => (
     <div className={styles.itemsWrapper}>
-      {FOLDER_DROPDOWN_ACTIONS.map(item => (
+      {FOLDER_DROPDOWN_ACTIONS.map((item) => (
         <Tooltip
           key={item.title}
           overlay={<div className={styles.tooltip}>{item.title}</div>}
@@ -156,7 +157,7 @@ const ConnectorsList = ({ audit, auditHeaders }) => {
           <DropdownItem
             className={styles.dropdownItem}
             item={item}
-            onClick={action => handleItemClick(id, action)}
+            onClick={(action) => handleItemClick(id, action)}
           />
         </Tooltip>
       ))}
@@ -164,7 +165,7 @@ const ConnectorsList = ({ audit, auditHeaders }) => {
   );
 
   const listItems = foldersHistory[currentFolderIndex]?.events;
-  const listItemsWithDropdown = audit?.map(item => {
+  const listItemsWithDropdown = audit?.map((item) => {
     const { isFolder } = item;
 
     const currentId = isFolder ? `folder_${item.folder_id}` : item.id;
@@ -195,8 +196,8 @@ const ConnectorsList = ({ audit, auditHeaders }) => {
     );
   });
 
-  const tableHeader = auditHeaders?.map(i => <th key={i.name}>{i.name}</th>);
-  const tableRows = listItems?.map(item => {
+  const tableHeader = auditHeaders?.map((i) => <th key={i.name}>{i.name}</th>);
+  const tableRows = listItems?.map((item) => {
     const { isFolder } = item;
 
     const currentId = isFolder ? `folder_${item.folder_id}` : item.id;
@@ -251,7 +252,7 @@ const ConnectorsList = ({ audit, auditHeaders }) => {
 
 ConnectorsList.propTypes = {
   audit: PropTypes.array,
-  auditHeaders: PropTypes.array
+  auditHeaders: PropTypes.array,
 };
 
 export default ConnectorsList;

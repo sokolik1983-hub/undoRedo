@@ -2,52 +2,52 @@
 import PropTypes from 'prop-types';
 import { memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  copySymlayer,
-  deleteSymlayer,
-  editSymlayer,
-  setCurrentSymlayer
-} from '../../../../data/reducers/new_reportDesigner';
+
 import IconButton from '../../../../common/components/IconButton';
 import Option from '../../../../common/components/NewSelect/Option';
 import Select from '../../../../common/components/NewSelect/Select';
 import Tooltip from '../../../../common/components/Tooltip';
-import DropdownItem from '../../../../common/components/Dropdown/DropdownItem';
-import EditLayerModal from './EditLayerModal/EditLayerModal';
+import {
+  copySymlayer,
+  deleteSymlayer,
+  editSymlayer,
+  setCurrentSymlayer,
+} from '../../../../data/reducers/new_reportDesigner';
+import PlusIcon from '../../../../layout/assets/queryPanel/plus.svg';
+import BinIcon from '../../../../layout/assets/queryPanel/selectOptionActions/binIcon.svg';
+import CopyIcon from '../../../../layout/assets/queryPanel/selectOptionActions/createCopyIcon.svg';
+import RenameIcon from '../../../../layout/assets/queryPanel/selectOptionActions/editIcon.svg';
+import SymlayerIcon from '../../../../layout/assets/queryPanel/symlayerIcon.svg';
 import DeleteConfirmModal from './DeleteConfirmModal/DeleteConfirmModal';
-import { ReactComponent as SymlayerIcon } from '../../../../layout/assets/queryPanel/symlayerIcon.svg';
-import { ReactComponent as PlusIcon } from '../../../../layout/assets/queryPanel/plus.svg';
-import { ReactComponent as RenameIcon } from '../../../../layout/assets/queryPanel/selectOptionActions/editIcon.svg';
-import { ReactComponent as CopyIcon } from '../../../../layout/assets/queryPanel/selectOptionActions/createCopyIcon.svg';
-import { ReactComponent as BinIcon } from '../../../../layout/assets/queryPanel/selectOptionActions/binIcon.svg';
+import EditLayerModal from './EditLayerModal/EditLayerModal';
 import styles from './ObjectsPanelHeader.module.scss';
 
 const SYMLAYER_SELECT_OPTION_ACTIONS = [
   {
     title: 'Переименовать',
     icon: <RenameIcon />,
-    action: 'rename'
+    action: 'rename',
   },
   {
     title: 'Дублировать',
     icon: <CopyIcon />,
-    action: 'copy'
+    action: 'copy',
   },
   {
     title: 'Удалить',
     icon: <BinIcon />,
-    action: 'delete'
-  }
+    action: 'delete',
+  },
 ];
 
 const ObjectsPanelHeader = ({ modalOpenHandler }) => {
   const dispatch = useDispatch();
 
-  const { data, options } = useSelector(state => {
+  const { data, options } = useSelector((state) => {
     const data = state.app?.reportDesigner?.queryPanelData.data;
     const options = data?.map(({ symLayerName, queryTitle }) => ({
       symLayerName,
-      queryTitle
+      queryTitle,
     }));
     return { data, options };
   });
@@ -63,12 +63,12 @@ const ObjectsPanelHeader = ({ modalOpenHandler }) => {
 
   useEffect(() => {
     const currentLayer = data?.find(
-      layer => layer.queryTitle === selectedValue
+      (layer) => layer.queryTitle === selectedValue,
     );
     dispatch(setCurrentSymlayer(currentLayer?.queryTitle));
   }, [selectedValue]);
 
-  const handleRenameLayer = params => {
+  const handleRenameLayer = (params) => {
     dispatch(editSymlayer(params));
     setIsRenameModalActive(false);
   };
@@ -96,9 +96,9 @@ const ObjectsPanelHeader = ({ modalOpenHandler }) => {
     }
   };
 
-  const menu = title => (
+  const menu = (title) => (
     <div className={styles.itemsWrapper}>
-      {SYMLAYER_SELECT_OPTION_ACTIONS.map(item => (
+      {SYMLAYER_SELECT_OPTION_ACTIONS.map((item) => (
         <Tooltip
           key={item.title}
           overlay={<div className={styles.tooltip}>{item.title}</div>}
@@ -107,7 +107,7 @@ const ObjectsPanelHeader = ({ modalOpenHandler }) => {
           <DropdownItem
             key={item.title}
             className={styles.dropdownItem}
-            onClick={action => handleClick(title, action)}
+            onClick={(action) => handleClick(title, action)}
             item={item}
           />
         </Tooltip>
@@ -124,7 +124,7 @@ const ObjectsPanelHeader = ({ modalOpenHandler }) => {
           value={selectedValue}
           onChange={setSelectedValue}
         >
-          {options?.map(option => (
+          {options?.map((option) => (
             <Option
               key={option.queryTitle}
               value={option.queryTitle}
@@ -140,7 +140,7 @@ const ObjectsPanelHeader = ({ modalOpenHandler }) => {
           placement="topLeft"
           overlay="Добавить запрос"
           align={{
-            offset: [0, -10]
+            offset: [0, -10],
           }}
         >
           <IconButton
@@ -168,5 +168,5 @@ const ObjectsPanelHeader = ({ modalOpenHandler }) => {
 export default memo(ObjectsPanelHeader);
 
 ObjectsPanelHeader.propTypes = {
-  modalOpenHandler: PropTypes.func
+  modalOpenHandler: PropTypes.func,
 };

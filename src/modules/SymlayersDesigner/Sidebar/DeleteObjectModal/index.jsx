@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
-import { ReactComponent as WarnIcon } from '../../../../layout/assets/warningIcon.svg';
+
 import Button from '../../../../common/components/Button';
 import Modal from '../../../../common/components/ModalPortal/Modal';
 import { BUTTON } from '../../../../common/constants/common';
+import WarnIcon from '../../../../layout/assets/warningIcon.svg';
 import styles from './DeleteObjectModal.module.scss';
 
 const DeleteObjectModal = ({ isOpen, onClose, onDelete }) => {
@@ -36,5 +37,5 @@ export default DeleteObjectModal;
 DeleteObjectModal.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
-  onDelete: PropTypes.func
+  onDelete: PropTypes.func,
 };

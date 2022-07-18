@@ -1,39 +1,38 @@
+import PropTypes from 'prop-types';
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+
 import Divider from '../../../common/components/Divider';
-import styles from './Results.module.scss';
-import { ReactComponent as Reload } from '../../../layout/assets/queryPanel/reload.svg';
-import { createQuery } from '../../../data/actions/newReportDesigner';
-import { getCondition } from '../helper';
-import ResultsTable from './ResultsTable';
-import { useDragNDrop } from '../context/DragNDropContext';
 import { EMPTY_STRING } from '../../../common/constants/common';
+import { createQuery } from '../../../data/actions/newReportDesigner';
+import Reload from '../../../layout/assets/queryPanel/reload.svg';
+import { useDragNDrop } from '../context/DragNDropContext';
+import { getCondition } from '../helper';
+import styles from './Results.module.scss';
+import ResultsTable from './ResultsTable';
 
 const Results = ({
   title,
   isQueryExecute,
   onQueryTextCreate,
-  onObjFilEdit
+  onObjFilEdit,
 }) => {
   const dispatch = useDispatch();
   const [errorText, setError] = useState(EMPTY_STRING);
   const { currentLayer, connectorId, queryData, queryResult } = useSelector(
-    state => {
-      const {
-        currentLayerTitle,
-        data
-      } = state.app?.reportDesigner?.queryPanelData;
-      const currentLayer = data.find(i => i.queryTitle === currentLayerTitle);
+    (state) => {
+      const { currentLayerTitle, data } =
+        state.app?.reportDesigner?.queryPanelData;
+      const currentLayer = data.find((i) => i.queryTitle === currentLayerTitle);
       return {
         currentLayer,
         connectorId: currentLayer?.connector_id || null,
         queryData: currentLayer?.queryData || null,
-        queryResult: currentLayer?.queryResult || null
+        queryResult: currentLayer?.queryResult || null,
       };
-    }
+    },
   );
 
   const { objectsDesk, filtersDesk } = useDragNDrop();
@@ -88,9 +87,11 @@ const Results = ({
       dispatch(
         createQuery({
           symlayer_id: currentLayer.symlayer_id,
-          data: objectsDesk.map(item => `${item.parent_folder}.${item.field}`),
-          conditions: resultConditions
-        })
+          data: objectsDesk.map(
+            (item) => `${item.parent_folder}.${item.field}`,
+          ),
+          conditions: resultConditions,
+        }),
       );
     }
   };
@@ -120,8 +121,8 @@ const Results = ({
           <ResultsTable
             size="small"
             className={styles.table}
-            headersArr={queryResult?.description}
-            bodyArr={queryResult?.data}
+            headersArr={queryResult.description}
+            bodyArr={queryResult.data}
           />
         )}
       </div>
@@ -136,5 +137,5 @@ Results.propTypes = {
   title: PropTypes.string,
   isQueryExecute: PropTypes.bool,
   onQueryTextCreate: PropTypes.func,
-  onObjFilEdit: PropTypes.func
+  onObjFilEdit: PropTypes.func,
 };

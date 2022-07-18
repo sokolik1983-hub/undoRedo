@@ -1,109 +1,89 @@
 import { request } from '../helpers';
-import { setCreateConnectorResult, setCreateConnector, setConnectorSource, setConnectorData, setConnectors, setConnectorsFolderId, setConnectorsTypes, setTestConnector } from '../reducers/data';
-import { setConnectorObjects } from '../reducers/schemaDesigner'; 
-import { notificationShown } from '../reducers/notifications';
+import {
+  setConnectorData,
+  setConnectorSource,
+  setConnectors,
+  setConnectorsFolderId,
+  setConnectorsTypes,
+  setCreateConnector,
+  setCreateConnectorResult,
+  setTestConnector,
+} from '../reducers/data';
+import { setConnectorObjects } from '../reducers/schemaDesigner';
 import { showEditConnectorModal } from '../reducers/ui';
 
-export const getStreamReceiever = queryParams => {
-  return async dispatch => {
+export const getStreamReceiever = (queryParams) => {
+  return async (dispatch) => {
     const response = await request({
       code: 'REP.OPEN_FILE',
       params: queryParams,
-      dispatch
+      dispatch,
     });
     if (response) {
-      console.log(response)
       if (response.result === 1) {
         localStorage.setItem('streamreceiver', response.header.thread);
       }
-
-    }
-  };
-
-}
-
-
-export const getConnectorFolderChildren = queryParams => {
-  return async dispatch => {
-    try {
-      const response = await request({
-        code: 'REPOS.GET_CHILDREN',
-        params: queryParams,
-        dispatch
-      });
-      if (response?.result) {
-        dispatch(setConnectors(response.data));
-      }
-    } catch (err) {
-      dispatch(
-        notificationShown({ message: err.message, messageType: 'error' })
-      );
-    }
-  }
-}
-
-export const getConnectorsFolderId = queryParams => {
-  return async dispatch => {
-    try {
-      const response = await request({
-        code: 'REPOS.GET_SPECIAL_FOLDER',
-        params: queryParams,
-        dispatch
-      });
-      if (response?.result) {
-        dispatch(setConnectorsFolderId(response.id));
-      }
-    } catch (err) {
-      dispatch(
-        notificationShown({ message: err.message, messageType: 'error' })
-      );
     }
   };
 };
 
-export const getConnector = queryParams => {
-  return async dispatch => {
-    try {
-      const response = await request({
-        code: 'CN.OPEN',
-        params: queryParams,
-        dispatch
-      });
-      if (response?.result) {
-        dispatch(setConnectorData(response));
-        dispatch(showEditConnectorModal());
-      }
-    } catch (err) {
-      dispatch(
-        notificationShown({ message: err.message, messageType: 'error' })
-      );
+export const getConnectorFolderChildren = (queryParams) => {
+  return async (dispatch) => {
+    const response = await request({
+      code: 'REPOS.GET_CHILDREN',
+      params: queryParams,
+      dispatch,
+    });
+    if (response?.result) {
+      dispatch(setConnectors(response.data));
     }
   };
 };
 
-export const saveConnector = queryParams => {
-  return async dispatch => {
-    try {
-      const response = await request({
-        code: 'CN.SAVE',
-        params: queryParams,
-        dispatch
-      });
-      dispatch(setCreateConnectorResult(response));
-    } catch (err) {
-      dispatch(
-        notificationShown({ message: err.message, messageType: 'error' })
-      );
+export const getConnectorsFolderId = (queryParams) => {
+  return async (dispatch) => {
+    const response = await request({
+      code: 'REPOS.GET_SPECIAL_FOLDER',
+      params: queryParams,
+      dispatch,
+    });
+    if (response?.result) {
+      dispatch(setConnectorsFolderId(response.id));
     }
   };
 };
 
-export const getObjectFromConnector = queryParams => {
-  return async dispatch => {
+export const getConnector = (queryParams) => {
+  return async (dispatch) => {
+    const response = await request({
+      code: 'CN.OPEN',
+      params: queryParams,
+      dispatch,
+    });
+    if (response?.result) {
+      dispatch(setConnectorData(response));
+      dispatch(showEditConnectorModal());
+    }
+  };
+};
+
+export const saveConnector = (queryParams) => {
+  return async (dispatch) => {
+    const response = await request({
+      code: 'CN.SAVE',
+      params: queryParams,
+      dispatch,
+    });
+    dispatch(setCreateConnectorResult(response));
+  };
+};
+
+export const getObjectFromConnector = (queryParams) => {
+  return async (dispatch) => {
     const response = await request({
       code: 'CN.GET_OBJECTS',
       params: queryParams,
-      dispatch
+      dispatch,
     });
     if (response?.result) {
       dispatch(setConnectorObjects(response.data));
@@ -111,52 +91,42 @@ export const getObjectFromConnector = queryParams => {
   };
 };
 
-export const removeConnector = queryParams => {
-  return async dispatch => {
-    try {
-      await request({
-        code: 'CONNECT.DROP',
-        params: queryParams,
-        dispatch
-      });
-    } catch (err) {
-      dispatch(
-        notificationShown({ message: err.message, messageType: 'error' })
-      );
+export const createConnector = (queryParams) => {
+  return async (dispatch) => {
+    const response = await request({
+      code: 'CN.CREATE',
+      params: queryParams,
+      dispatch,
+    });
+    if (response?.result) {
+      dispatch(setCreateConnector(response));
     }
   };
 };
 
-export const createConnector = queryParams => {
-  return async dispatch => {
-    const response = await request({
-      code: 'CN.CREATE',
-      params: queryParams,
-      dispatch
-    });
-    dispatch(setCreateConnector(response));
-  };
-};
-
-export const getConnectorTypesSources = queryParams => {
-  return async dispatch => {
+export const getConnectorTypesSources = (queryParams) => {
+  return async (dispatch) => {
     const response = await request({
       code: 'CN.GET_TYPES',
       params: queryParams,
-      dispatch
+      dispatch,
     });
-    dispatch(setConnectorsTypes(response?.classes));
-    dispatch(setConnectorSource(response?.types));
+    if (response?.result) {
+      dispatch(setConnectorsTypes(response?.classes));
+      dispatch(setConnectorSource(response?.types));
+    }
   };
 };
 
-export const testConnector = queryParams => {
-  return async dispatch => {
+export const testConnector = (queryParams) => {
+  return async (dispatch) => {
     const response = await request({
       code: 'CN.TEST',
       params: queryParams,
-      dispatch
+      dispatch,
     });
-    dispatch(setTestConnector(response));
+    if (response?.result) {
+      dispatch(setTestConnector(response));
+    }
   };
 };

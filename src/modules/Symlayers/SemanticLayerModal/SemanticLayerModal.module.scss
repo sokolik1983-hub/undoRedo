@@ -5,7 +5,7 @@
 
 .save {
   background: linear-gradient(180deg, #FFEFC5 0%, #FFD35A 9.9%, #FF8B2B 69.27%, #E14A13 100%);
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
   border-radius: 3px;
   font-style: normal;
   font-weight: bold;
@@ -19,7 +19,7 @@
 
 .cancel {
   background: linear-gradient(199.32deg, #1AE3D7 -13.92%, #0945DF 111.71%);
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
   border-radius: 3px;
   font-style: normal;
   font-weight: bold;
@@ -54,7 +54,7 @@
 .dialog {
   max-width: 426px;
   background: linear-gradient(152.97deg, rgba(0, 55, 137, 0.75) 0%, rgba(0, 55, 137, 0.375) 100%);
-  box-shadow: 0px 7px 17px rgba(34, 82, 102, 0.75);
+  box-shadow: 0 7px 17px rgba(34, 82, 102, 0.75);
   backdrop-filter: blur(10px);
   border-radius: 10px;
 }

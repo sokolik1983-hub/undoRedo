@@ -1,16 +1,17 @@
 import clsx from 'clsx';
-import { useState } from 'react';
 import PropTypes from 'prop-types';
-import styles from './Object.module.scss';
-import { ReactComponent as BlackCross } from '../../../../layout/assets/closeBlack.svg';
+import { useState } from 'react';
+
 import IconButton from '../../../../common/components/IconButton';
+import BlackCross from '../../../../layout/assets/closeBlack.svg';
 import { getIconByItemType } from '../../queryPanelHelper';
+import styles from './Object.module.scss';
 
 const ObjectItem = ({ title, type, onDeleteItem, ...props }) => {
   const [isActive, setIsActive] = useState(false);
 
   const buttonStyles = clsx(styles.btn, {
-    [styles.active]: isActive
+    [styles.active]: isActive,
   });
 
   return (
@@ -38,5 +39,5 @@ export default ObjectItem;
 ObjectItem.propTypes = {
   title: PropTypes.string,
   type: PropTypes.number,
-  onDeleteItem: PropTypes.func
+  onDeleteItem: PropTypes.func,
 };

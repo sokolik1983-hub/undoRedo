@@ -29,8 +29,8 @@ const data = createSlice({
     favoriteObjects: {
       favoriteObjectsData: [],
       favoriteObjectsStatus: null,
-      error: null
-    }
+      error: null,
+    },
   },
   reducers: {
     setConnectors: (state, action) => {
@@ -99,19 +99,19 @@ const data = createSlice({
     setFavoriteObjects: (state, action) => {
       state.favoriteObjects.favoriteObjectsData = action.payload;
     },
-    loadingFavoriteObjects: state => {
+    loadingFavoriteObjects: (state) => {
       state.favoriteObjects.favoriteObjectsStatus = 'LOADING';
     },
-    successFavoriteObjects: state => {
+    successFavoriteObjects: (state) => {
       state.favoriteObjects.favoriteObjectsStatus = 'SUCCESS';
     },
-    failedFavoriteObjects: state => {
+    failedFavoriteObjects: (state) => {
       state.favoriteObjects.favoriteObjectsStatus = 'FAILED';
     },
     setCurrentUniverse: (state, action) => {
       state.currentUniverse = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export const {
@@ -140,7 +140,7 @@ export const {
   loadingFavoriteObjects,
   successFavoriteObjects,
   failedFavoriteObjects,
-  setCurrentUniverse
+  setCurrentUniverse,
 } = data.actions;
 
 export default data.reducer;

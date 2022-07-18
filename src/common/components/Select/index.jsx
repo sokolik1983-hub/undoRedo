@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
+
 import Option from './Option';
 import styles from './Select.module.scss';
 
@@ -12,15 +13,22 @@ import styles from './Select.module.scss';
  * @param className - стили
  */
 
-const Select = ({ name, options, defaultValue, onSelectItem, fullWidth, className }) => {
+const Select = ({
+  name,
+  options,
+  defaultValue,
+  onSelectItem,
+  fullWidth,
+  className,
+}) => {
   const classes = clsx(
     { [styles.isJustify]: fullWidth },
     styles.select,
     styles.content,
-    className
+    className,
   );
 
-  const handleItemSelect = e => {
+  const handleItemSelect = (e) => {
     onSelectItem(e.target.value);
   };
 
@@ -31,7 +39,7 @@ const Select = ({ name, options, defaultValue, onSelectItem, fullWidth, classNam
       onChange={handleItemSelect}
     >
       {defaultValue && <option selected>{defaultValue}</option>}
-      {options.map(item => {
+      {options.map((item) => {
         return <Option text={item.text} value={item.value} key={item.text} />;
       })}
     </select>
@@ -45,8 +53,8 @@ Select.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired
-    }).isRequired
+      text: PropTypes.string.isRequired,
+    }).isRequired,
   ),
   defaultValue: PropTypes.string,
   fullWidth: PropTypes.bool,
@@ -57,6 +65,8 @@ Select.propTypes = {
 Select.defaultProps = {
   name: '',
   options: [{ value: '', text: '' }],
-  onSelectItem: () => {},
+  onSelectItem: () => {
+    // something
+  },
   fullWidth: false,
 };

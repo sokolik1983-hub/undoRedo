@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import styles from './SortingField.module.scss';
+import React, { useEffect, useState } from 'react';
+
+import CloseIcon from '../../../../layout/assets/close.svg';
 import Select from '../../Select';
-import { ReactComponent as CloseIcon } from '../../../../layout/assets/close.svg';
+import styles from './SortingField.module.scss';
 
 function SortingField({ options, onChange, onRemove, item }) {
   const [field, setField] = useState(options[0].value);
@@ -35,7 +36,7 @@ function SortingField({ options, onChange, onRemove, item }) {
       <Select
         options={[
           { value: 'ASC', text: 'ASC' },
-          { value: 'DESC', text: 'DESC' }
+          { value: 'DESC', text: 'DESC' },
         ]}
         onSelectItem={handleChangeSorting}
         className={styles.select}
@@ -49,7 +50,7 @@ SortingField.propTypes = {
   onChange: PropTypes.func,
   onRemove: PropTypes.func,
   options: PropTypes.array,
-  item: PropTypes.object
+  item: PropTypes.object,
 };
 
 export default SortingField;

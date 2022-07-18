@@ -1,13 +1,14 @@
+import PropTypes from 'prop-types';
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
-import PropTypes from 'prop-types';
-import styles from './Comments.module.scss';
-import { ReactComponent as Avatar } from '../../../../../layout/assets/reportDesigner/avatar.svg';
-import { ReactComponent as Basket } from '../../../../../layout/assets/reportDesigner/basket.svg';
 
-const Comment = ({props, handleDelete}) => {
-  const {name, surname, date, time, id, comment} = props;
-  
+import Avatar from '../../../../../layout/assets/reportDesigner/avatar.svg';
+import Basket from '../../../../../layout/assets/reportDesigner/basket.svg';
+import styles from './Comments.module.scss';
+
+const Comment = ({ props, handleDelete }) => {
+  const { name, surname, date, time, id, comment } = props;
+
   return (
     <div className={styles.comment}>
       <div className={styles.top}>
@@ -26,9 +27,7 @@ const Comment = ({props, handleDelete}) => {
           <Basket />
         </div>
       </div>
-      <div className={styles.commentField}>
-        {comment}
-      </div>
+      <div className={styles.commentField}>{comment}</div>
     </div>
   );
 };
@@ -43,5 +42,5 @@ Comment.propTypes = {
   date: PropTypes.string,
   time: PropTypes.string,
   id: PropTypes.number,
-  comment: PropTypes.string
+  comment: PropTypes.string,
 };

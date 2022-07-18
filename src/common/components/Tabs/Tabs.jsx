@@ -1,9 +1,9 @@
-/* eslint-disable import/no-cycle */
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { createContext, useState, Children, useContext } from 'react';
-import TabsItem from './TabsItem/TabsItem';
+import PropTypes from 'prop-types';
+import { Children, createContext, useContext, useState } from 'react';
+
 import styles from './Tabs.module.scss';
+import TabsItem from './TabsItem/TabsItem';
 
 export const ActiveTabContext = createContext();
 export const useTabContext = () => useContext(ActiveTabContext);
@@ -13,7 +13,7 @@ const Tabs = ({
   children,
   tabItemClassName,
   tabsContainerClass,
-  tabsContentClass
+  tabsContentClass,
 }) => {
   const [activeTab, setActiveTab] = useState(defaultActive);
 
@@ -25,7 +25,7 @@ const Tabs = ({
     <ActiveTabContext.Provider value={{ activeTab, setActiveTab }}>
       <div className={clsx(styles.tabsContainer, tabsContainerClass)}>
         <ul className={styles.tabsHeader}>
-          {arrayChildren.map(child => (
+          {arrayChildren.map((child) => (
             <TabsItem
               className={tabItemClassName}
               key={child.props.tab}
@@ -49,5 +49,5 @@ Tabs.propTypes = {
   children: PropTypes.node,
   tabItemClassName: PropTypes.string,
   tabsContainerClass: PropTypes.string,
-  tabsContentClass: PropTypes.string
+  tabsContentClass: PropTypes.string,
 };

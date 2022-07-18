@@ -1,6 +1,6 @@
 import Button from '../../common/components/Button/index';
-import { ReactComponent as NotFound } from '../../layout/assets/notFound.svg';
 import { BUTTON } from '../../common/constants/common';
+import NotFound from '../../layout/assets/notFound.svg';
 import styles from './NotFoundPage.module.scss';
 
 const NotFoundPage = () => {

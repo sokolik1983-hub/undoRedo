@@ -1,17 +1,15 @@
-/* eslint-disable camelcase */
 import axios from 'axios';
-import { setLoadingData } from './reducers/ui';
+
 import {
-  PENDING_RESPONSE,
   ATTEMPTS,
+  PENDING_RESPONSE,
   PENDING_SERVER_TIMER,
   SERVER_API_URL,
-  SESSION_EXPIRED_MSG
+  SESSION_EXPIRED_MSG,
 } from '../common/constants/config';
-// eslint-disable-next-line import/no-cycle
-import { notificationShown } from './reducers/notifications';
-// eslint-disable-next-line import/no-cycle
 import { logoutUser } from './actions/auth';
+import { notificationShown } from './reducers/notifications';
+import { setLoadingData } from './reducers/ui';
 
 // это запрос готовности данных
 export const requestReady = async ({ id, dispatch }) => {
@@ -19,8 +17,8 @@ export const requestReady = async ({ id, dispatch }) => {
     method: 'get',
     url: `${SERVER_API_URL}?id=${id}`,
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
   });
   // ответ от сервера всегда будет с кодом 200, даже если прийдет ошибка
   // разница в том, что response.data.result будет отсутствовать в ошибке
@@ -44,8 +42,8 @@ export const requestReady = async ({ id, dispatch }) => {
               message: errText,
               messageType: 'error',
               reason: errReason,
-              advice: errRecommend
-            })
+              advice: errRecommend,
+            }),
           );
           if (errorCode === SESSION_EXPIRED_MSG) {
             dispatch(logoutUser());
@@ -110,7 +108,7 @@ const requesterTimeout = ({ id, dispatch }) =>
       tryCount++;
       const response = await requestReady({
         id,
-        dispatch
+        dispatch,
       });
       if (response?.result === 1 || !response) {
         setLoadingData(false);
@@ -145,11 +143,13 @@ export const request = async ({ params, code, dispatch }) => {
       method: 'post',
       url: `${SERVER_API_URL}`,
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
       data: `code=${code}&token=${encodeURI(token) || null}&format=JSON${
         streamreceiver ? `&streamreceiver=${streamreceiver}` : ''
-      }${params ? `&params=${encodeURIComponent(JSON.stringify(params))}` : ''}`
+      }${
+        params ? `&params=${encodeURIComponent(JSON.stringify(params))}` : ''
+      }`,
     });
 
     if (response && response.status === 200) {
@@ -161,8 +161,8 @@ export const request = async ({ params, code, dispatch }) => {
         message: err.message,
         messageType: 'error',
         reason: 'Сервер не отвечает',
-        advice: 'Обратиттесь к системному администратору'
-      })
+        advice: 'Обратиттесь к системному администратору',
+      }),
     );
   }
   dispatch(setLoadingData(false));
@@ -174,18 +174,18 @@ export const requestWithoutResponse = async ({
   params,
   code,
   token,
-  dispatch
+  dispatch,
 }) => {
   try {
     const response = await axios({
       method: 'post',
       url: `${SERVER_API_URL}`,
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
       data: `code=${code}&token=${
         encodeURI(token) || null
-      }&format=JSON&params=${params ? JSON.stringify(params) : ''}`
+      }&format=JSON&params=${params ? JSON.stringify(params) : ''}`,
     });
     if (response && response.status === 200) {
       return null;
@@ -196,8 +196,8 @@ export const requestWithoutResponse = async ({
         message: err.message,
         messageType: 'error',
         reason: 'Сервер не отвечает',
-        advice: 'Обратиттесь к системному администратору'
-      })
+        advice: 'Обратиттесь к системному администратору',
+      }),
     );
   }
   return null;
@@ -262,7 +262,7 @@ export const deepObjectSearch = ({
   key,
   value,
   parentNodes = [],
-  parentKey = null
+  parentKey = null,
 }) => {
   let result = [];
   const keys = Object.keys(target);
@@ -276,8 +276,8 @@ export const deepObjectSearch = ({
           key,
           value,
           parentNodes: [target, ...parentNodes],
-          parentKey: objectKey
-        })
+          parentKey: objectKey,
+        }),
       );
     }
     /*eslint-disable */

@@ -1,19 +1,15 @@
 import IconButton from '../../../../common/components/IconButton';
-import { ReactComponent as Group } from '../../../../layout/assets/queryPanel/group.svg';
-import { ReactComponent as ArrowDown } from '../../../../layout/assets/queryPanel/arrowBoldDown.svg';
-import { ReactComponent as ArrowUp } from '../../../../layout/assets/queryPanel/arrowBoldUp.svg';
-import { ReactComponent as Basket } from '../../../../layout/assets/queryPanel/basket.svg';
-import { useDragNDrop } from '../../context/DragNDropContext';
 import Tooltip from '../../../../common/components/Tooltip';
+import ArrowDown from '../../../../layout/assets/queryPanel/arrowBoldDown.svg';
+import ArrowUp from '../../../../layout/assets/queryPanel/arrowBoldUp.svg';
+import Basket from '../../../../layout/assets/queryPanel/basket.svg';
+import Group from '../../../../layout/assets/queryPanel/group.svg';
+import { useDragNDrop } from '../../context/DragNDropContext';
 import styles from './FiltersHeader.module.scss';
 
 const FiltersHeader = () => {
-  const {
-    addNode,
-    handleMoveUp,
-    handleMoveDown,
-    onClearFilters
-  } = useDragNDrop();
+  const { addNode, handleMoveUp, handleMoveDown, onClearFilters } =
+    useDragNDrop();
 
   return (
     <div className={styles.root}>

@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
-import { ReactComponent as LogoDefault } from '../../../../assets/defaultLogo.svg';
-import { ReactComponent as SemanticLogo } from '../../../../assets/semanticLogo.svg';
-import { ReactComponent as ConnectorsLogo } from '../../../../assets/connectorsLogo.svg';
-import { ReactComponent as DesignerLogo } from '../../../../assets/designerLogo.svg';
-import { ReactComponent as AdminLogo } from '../../../../assets/adminHeader.svg';
-import styles from '../Logo.module.scss';
-import { PAGE } from '../../../../../common/constants/pages';
+
 import { PAGE_TITLES } from '../../../../../common/constants/common';
+import { PAGE } from '../../../../../common/constants/pages';
+import AdminLogo from '../../../../assets/adminHeader.svg';
+import ConnectorsLogo from '../../../../assets/connectorsLogo.svg';
+import LogoDefault from '../../../../assets/defaultLogo.svg';
+import DesignerLogo from '../../../../assets/designerLogo.svg';
+import SemanticLogo from '../../../../assets/semanticLogo.svg';
+import styles from '../Logo.module.scss';
 
 // eslint-disable-next-line react/prop-types
 const DefaultLogo = ({ currentPage }) => {
@@ -62,5 +63,5 @@ const DefaultLogo = ({ currentPage }) => {
 export default DefaultLogo;
 
 DefaultLogo.prototype = {
-  currentPage: PropTypes.string
+  currentPage: PropTypes.string,
 };
