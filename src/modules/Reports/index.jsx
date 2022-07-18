@@ -152,26 +152,13 @@ const Reports = () => {
     );
   };
 
-  const handleAddToFavorites = (id) => {
-    dispatch(setObjectToFavorites({ user_id: 10001, id, kind: 'REP' }));
-  };
-
-  const handleRemoveFromFavorites = (id) => {
-    dispatch(
-      setObjectToFavorites({
-        user_id: 10001,
-        id,
-        kind: 'REP',
-        isExclude: 1,
-      }),
-    );
-  };
-
   const handleSetFavoritesStatus = (id, kind, isExclude) => {
     dispatch(setObjectFavoriteStatus({ id, kind, isExclude }));
+    console.log('status');
   };
 
-  const handleItemClick = (id, action) => {
+  const handleItemClick = (id, kind, action) => {
+    console.log(id, kind, action);
     switch (action) {
       case 'open':
         handleOpenClick(id);
@@ -193,7 +180,7 @@ const Reports = () => {
     }
   };
 
-  const getUniverseDropdownItems = (id) => (
+  const getUniverseDropdownItems = (id, kind) => (
     <div className={styles.itemsWrapper}>
       {FOLDER_ITEM_DROPDOWN_ACTIONS_REPORTS.map((item) => (
         <Tooltip
@@ -203,7 +190,7 @@ const Reports = () => {
         >
           <DropdownItem
             className={styles.dropdownItem}
-            onClick={(action) => handleItemClick(id, action)}
+            onClick={(action) => handleItemClick(id, kind, action)}
             item={item}
           />
         </Tooltip>
@@ -238,7 +225,7 @@ const Reports = () => {
 
       const menu = isFolder
         ? getFolderDropdownItems(`folder_${item.id}`)
-        : getUniverseDropdownItems(item.id);
+        : getUniverseDropdownItems(item.id, item.kind);
 
       return (
         <Fragment key={isFolder ? `folder_${item.id}` : item.id}>

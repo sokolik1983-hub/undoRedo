@@ -69,7 +69,12 @@ export const getFavoriteObjects = () => {
     })
       .then((response) => {
         if (response?.objects) {
-          dispatch(setFavoriteObjects(response.objects[0]));
+          dispatch(
+            setFavoriteObjects([
+              ...response.objects[0],
+              ...response.objects[1],
+            ]),
+          );
           dispatch(successFavoriteObjects());
         }
       })
