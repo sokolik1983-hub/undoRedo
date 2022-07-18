@@ -1,55 +1,65 @@
 import { Formik } from 'formik';
-import styles from '../SidePanel.module.scss';
-import SimpleDropDown from '../../SimpleDropDown';
-import CheckboxField from '../../formikFields/checkboxField';
+
 import {
-  values,
-  ViewItems,
   CategoryAxisItems,
-  ValueAxisItems,
   HideItems,
-  MeasureGaugeItems
+  MeasureGaugeItems,
+  ValueAxisItems,
+  ViewItems,
+  values,
 } from '../../../constants/reportDesigner/viewGraphOptions';
+import CheckboxField from '../../formikFields/checkboxField';
+import SimpleDropDown from '../../SimpleDropDown';
+import styles from '../SidePanel.module.scss';
 
 const View = () => {
-
   return (
     <Formik initialValues={values}>
       <div className={styles.itemsWrapper}>
-        <SimpleDropDown
-          title='Просмотр'
-          titleClassName={styles.heading}
-        >
+        <SimpleDropDown title="Просмотр" titleClassName={styles.heading}>
           <div className={styles.checkBox}>
-            {ViewItems.map(item => {
-            return (
-              <CheckboxField
-                key={item.value}
-                id={item.value}
-                name='viewValues'
-                label={item.label}
-                value={item.value}
-                wrapperClass={styles.checkBoxWrapper}
-              />
-            );
-          })}
+            {ViewItems.map((item) => {
+              return (
+                <CheckboxField
+                  key={item.value}
+                  id={item.value}
+                  name="viewValues"
+                  label={item.label}
+                  value={item.value}
+                  wrapperClass={styles.checkBoxWrapper}
+                />
+              );
+            })}
           </div>
           <div className={styles.indents}>
             <SimpleDropDown
-              title='Условные обозначения'
+              title="Условные обозначения"
               titleClassName={styles.text}
             />
-            <SimpleDropDown
-              title='Ось категории'
-              titleClassName={styles.text}
-            >
+            <SimpleDropDown title="Ось категории" titleClassName={styles.text}>
               <div className={styles.checkBox}>
-                {CategoryAxisItems.map(item => {
+                {CategoryAxisItems.map((item) => {
                   return (
                     <CheckboxField
                       key={item.value}
                       id={item.value}
-                      name='categoryAxisValues'
+                      name="categoryAxisValues"
+                      label={item.label}
+                      value={item.value}
+                      wrapperClass={styles.checkBoxWrapper}
+                    />
+                  );
+                })}
+              </div>
+            </SimpleDropDown>
+            <SimpleDropDown title="Ось значений" titleClassName={styles.text}>
+              <div className={styles.checkBox}>
+                {ValueAxisItems.map((item) => {
+                  return (
+                    <CheckboxField
+                      key={item.value}
+                      id={item.value}
+                      name="valueAxisValues"
                       label={item.label}
                       value={item.value}
                       wrapperClass={styles.checkBoxWrapper}
@@ -59,16 +69,16 @@ const View = () => {
               </div>
             </SimpleDropDown>
             <SimpleDropDown
-              title='Ось значений'
+              title="Скрыть диаграмму"
               titleClassName={styles.text}
             >
               <div className={styles.checkBox}>
-                {ValueAxisItems.map(item => {
+                {HideItems.map((item) => {
                   return (
                     <CheckboxField
                       key={item.value}
                       id={item.value}
-                      name='valueAxisValues'
+                      name="hideValues"
                       label={item.label}
                       value={item.value}
                       wrapperClass={styles.checkBoxWrapper}
@@ -78,35 +88,16 @@ const View = () => {
               </div>
             </SimpleDropDown>
             <SimpleDropDown
-              title='Скрыть диаграмму'
+              title="Измерения и показатели"
               titleClassName={styles.text}
             >
               <div className={styles.checkBox}>
-                {HideItems.map(item => {
+                {MeasureGaugeItems.map((item) => {
                   return (
                     <CheckboxField
                       key={item.value}
                       id={item.value}
-                      name='hideValues'
-                      label={item.label}
-                      value={item.value}
-                      wrapperClass={styles.checkBoxWrapper}
-                    />
-                  );
-                })}
-              </div>
-            </SimpleDropDown>
-            <SimpleDropDown
-              title='Измерения и показатели'
-              titleClassName={styles.text}
-            >
-              <div className={styles.checkBox}>
-                {MeasureGaugeItems.map(item => {
-                  return (
-                    <CheckboxField
-                      key={item.value}
-                      id={item.value}
-                      name='measureGaugeValues'
+                      name="measureGaugeValues"
                       label={item.label}
                       value={item.value}
                       wrapperClass={styles.checkBoxWrapper}
@@ -118,22 +109,22 @@ const View = () => {
           </div>
         </SimpleDropDown>
         <SimpleDropDown
-          title='Ошибки и предупреждения'
+          title="Ошибки и предупреждения"
           titleClassName={styles.heading}
         >
           <div className={styles.checkBox}>
             <CheckboxField
               id={155}
-              name='viewValues'
-              label='Показать предупреждение при наличии несовместимых данных'
-              value='showIncompatibleDataWarning'
+              name="viewValues"
+              label="Показать предупреждение при наличии несовместимых данных"
+              value="showIncompatibleDataWarning"
               wrapperClass={styles.checkBoxWrapper}
             />
           </div>
         </SimpleDropDown>
       </div>
     </Formik>
-  )
-}
+  );
+};
 
 export default View;

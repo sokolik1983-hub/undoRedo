@@ -67,6 +67,7 @@ import styles from './ReportDesigner.module.scss';
 import DeleteModal from './ReportModals/DeleteModal';
 import RenameModal from './ReportModals/RenameModal';
 import ReportSidebar from './ReportSidebar';
+
 function ReportDesigner() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [semanticLayer, setSemanticLayer] = useState({

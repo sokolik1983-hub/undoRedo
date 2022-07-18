@@ -69,7 +69,12 @@ export const getFavoriteObjects = () => {
     })
       .then((response) => {
         if (response?.objects) {
-          dispatch(setFavoriteObjects(response.objects[0]));
+          dispatch(
+            setFavoriteObjects([
+              ...response.objects[0],
+              ...response.objects[1],
+            ]),
+          );
           dispatch(successFavoriteObjects());
         }
       })
@@ -84,12 +89,18 @@ export const getFavoriteObjects = () => {
  *
  * @prop queryParams Параметры.
  */
-export const setObjectToFavorites = (queryParams) => {
+export const setObjectFavoriteStatus = (queryParams, callback) => {
   return async (dispatch) => {
     await request({
       code: 'CMS.USER.SET_FAVORITE',
       params: queryParams,
       dispatch,
+    }).then((response) => {
+      if (queryParams.isExclude === 1) {
+        if (response.result === 1) {
+          callback(true);
+        }
+      }
     });
   };
 };

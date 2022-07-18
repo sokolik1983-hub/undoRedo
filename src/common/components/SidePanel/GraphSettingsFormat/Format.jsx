@@ -1,38 +1,33 @@
 import { Formik } from 'formik';
-import styles from '../SidePanel.module.scss';
-import SimpleDropDown from '../../SimpleDropDown';
+
+import {
+  FormatHorizontalItems,
+  FormatVerticalItems,
+  values,
+} from '../../../constants/reportDesigner/viewGraphOptions';
 import CheckboxField from '../../formikFields/checkboxField';
-import { FormatVerticalItems, FormatHorizontalItems, values} from '../../../constants/reportDesigner/viewGraphOptions';
+import SimpleDropDown from '../../SimpleDropDown';
+import styles from '../SidePanel.module.scss';
 
 const Format = () => {
-
   return (
     <Formik initialValues={values}>
       <div className={styles.itemsWrapper}>
+        <SimpleDropDown title="Размер" titleClassName={styles.heading} />
         <SimpleDropDown
-          title='Размер'
+          title="Относительная позиция"
           titleClassName={styles.heading}
         />
-        <SimpleDropDown
-          title='Относительная позиция'
-          titleClassName={styles.heading}
-        />
-        <SimpleDropDown
-          title='Формат'
-          titleClassName={styles.heading}
-        >
+        <SimpleDropDown title="Формат" titleClassName={styles.heading}>
           <div className={styles.indents}>
-            <SimpleDropDown
-              title='Вертикально'
-              titleClassName={styles.text}
-            >
+            <SimpleDropDown title="Вертикально" titleClassName={styles.text}>
               <div className={styles.checkBox}>
-                {FormatVerticalItems.map(item => {
+                {FormatVerticalItems.map((item) => {
                   return (
                     <CheckboxField
                       key={item.value}
                       id={item.value}
-                      name='formatVerticalValues'
+                      name="formatVerticalValues"
                       label={item.label}
                       value={item.value}
                       wrapperClass={styles.checkBoxWrapper}
@@ -41,17 +36,14 @@ const Format = () => {
                 })}
               </div>
             </SimpleDropDown>
-            <SimpleDropDown
-              title='Горизонтально'
-              titleClassName={styles.text}
-            >
+            <SimpleDropDown title="Горизонтально" titleClassName={styles.text}>
               <div className={styles.checkBox}>
-                {FormatHorizontalItems.map(item => {
+                {FormatHorizontalItems.map((item) => {
                   return (
                     <CheckboxField
                       key={item.value}
                       id={item.value}
-                      name='formatHorizontalValues'
+                      name="formatHorizontalValues"
                       label={item.label}
                       value={item.value}
                       wrapperClass={styles.checkBoxWrapper}
@@ -64,7 +56,7 @@ const Format = () => {
         </SimpleDropDown>
       </div>
     </Formik>
-  )
-}
+  );
+};
 
 export default Format;

@@ -8,7 +8,14 @@ import PropTypes from 'prop-types';
  */
 
 // eslint-disable-next-line no-unused-vars
-const SimpleDropDown = ({ title, className, titleClassName, children, icon, iconClassName }) => {
+const SimpleDropDown = ({
+  title,
+  className,
+  titleClassName,
+  children,
+  icon,
+  iconClassName,
+}) => {
   return (
     <details className={className}>
       <summary className={titleClassName}>
@@ -17,8 +24,8 @@ const SimpleDropDown = ({ title, className, titleClassName, children, icon, icon
       </summary>
       {children}
     </details>
-  )
-}
+  );
+};
 
 SimpleDropDown.propTypes = {
   title: PropTypes.string,
@@ -26,7 +33,7 @@ SimpleDropDown.propTypes = {
   iconClassName: PropTypes.string,
   titleClassName: PropTypes.string,
   children: PropTypes.node,
-  icon: PropTypes.node
+  icon: PropTypes.node,
 };
 
-export default SimpleDropDown
+export default SimpleDropDown;

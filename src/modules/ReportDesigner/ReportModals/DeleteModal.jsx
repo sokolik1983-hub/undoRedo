@@ -1,4 +1,5 @@
 import { PropTypes } from 'prop-types';
+
 import Button from '../../../common/components/Button';
 import Modal from '../../../common/components/ModalPortal/Modal';
 import { BUTTON } from '../../../common/constants/common';
@@ -29,5 +30,5 @@ export default DeleteConfirmModal;
 DeleteConfirmModal.propTypes = {
   isOpen: PropTypes.bool,
   onConfirm: PropTypes.func,
-  onCancel: PropTypes.func
+  onCancel: PropTypes.func,
 };

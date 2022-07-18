@@ -1,14 +1,20 @@
 import { PropTypes } from 'prop-types';
 import { useEffect, useRef } from 'react';
+
 import Button from '../../../common/components/Button';
 import ModalPortal from '../../../common/components/ModalPortal/Modal';
 import TextInput from '../../../common/components/TextInput';
 import { BUTTON } from '../../../common/constants/common';
-import styles from './SchemaEditorBlock.module.scss';
 import { handleCheckMatch } from '../../SymlayersDesigner/SchemaTables/helper';
+import styles from './SchemaEditorBlock.module.scss';
 
-const CreateCopyModal = ({ create, newName, oldName, setNewName, onCancel}) => {
-
+const CreateCopyModal = ({
+  create,
+  newName,
+  oldName,
+  setNewName,
+  onCancel,
+}) => {
   const inputRef = useRef();
 
   useEffect(() => {
@@ -17,7 +23,8 @@ const CreateCopyModal = ({ create, newName, oldName, setNewName, onCancel}) => {
   }, [inputRef.current]);
 
   const createTable = (old) => {
-    create(old); setNewName(''); 
+    create(old);
+    setNewName('');
     if (handleCheckMatch(newName)) {
       onCancel();
     }
@@ -31,7 +38,7 @@ const CreateCopyModal = ({ create, newName, oldName, setNewName, onCancel}) => {
           className={styles.input}
           wrapperClassName={styles.inputWrapper}
           value={newName}
-          onChange={e => setNewName(e.target.value.replaceAll(' ', '_'))}
+          onChange={(e) => setNewName(e.target.value.replaceAll(' ', '_'))}
           ref={inputRef}
         />
         <div className={styles.buttons}>
@@ -57,6 +64,6 @@ CreateCopyModal.propTypes = {
   create: PropTypes.func,
   setNewName: PropTypes.func,
   onCancel: PropTypes.func,
-  newName: PropTypes.string, 
-  oldName: PropTypes.string
+  newName: PropTypes.string,
+  oldName: PropTypes.string,
 };
