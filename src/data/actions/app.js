@@ -1,12 +1,12 @@
-import {request} from '../helpers';
-import {setReposChildren, setReposFolderId} from '../reducers/data';
+import { request } from '../helpers';
+import { setReposChildren, setReposFolderId } from '../reducers/data';
 import {
   failedFavoriteObjects,
   loadingFavoriteObjects,
   setFavoriteObjects,
   successFavoriteObjects,
 } from '../reducers/data';
-import {setToastList} from '../reducers/ui';
+import { setToastList } from '../reducers/ui';
 
 export const getReposChildren = (queryParams) => {
   return async (dispatch) => {
@@ -64,7 +64,7 @@ export const getFavoriteObjects = () => {
     dispatch(loadingFavoriteObjects());
     await request({
       code: 'CMS.USER.GET_FAVORITES',
-      params: {user_id: 10001},
+      params: { user_id: 10001 },
       dispatch,
     })
       .then((response) => {

@@ -1,23 +1,23 @@
-export const deepFind = ({array, key = 'id', value}) => {
-    const target = array.reduce((accum, current) => {
-        if (current[key] === value) accum = current;
-        if (current.children && current.children.length > 0) {
-            const childrenSearchResult = deepFind({
-                key,
-                value,
-                array: current.children,
-            });
-            if (childrenSearchResult) accum = childrenSearchResult;
-        }
-        return accum;
-    }, null);
+export const deepFind = ({ array, key = 'id', value }) => {
+  const target = array.reduce((accum, current) => {
+    if (current[key] === value) accum = current;
+    if (current.children && current.children.length > 0) {
+      const childrenSearchResult = deepFind({
+        key,
+        value,
+        array: current.children,
+      });
+      if (childrenSearchResult) accum = childrenSearchResult;
+    }
+    return accum;
+  }, null);
 
-    return target;
+  return target;
 };
 
 export const transformOptions = (array) => {
-    return array?.map((item) => ({
-        value: item,
-        text: item,
-    }));
+  return array?.map((item) => ({
+    value: item,
+    text: item,
+  }));
 };

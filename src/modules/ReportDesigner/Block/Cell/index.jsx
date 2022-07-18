@@ -23,7 +23,6 @@ const Cell = ({
   originalItem = {}
 }) => {
   const dispatch = useDispatch();
-
   const reportDesigner = useSelector(state => state.app.reportDesigner);
   const currentReport = getCurrentReport(
     reportDesigner.reportsData.present.reports,

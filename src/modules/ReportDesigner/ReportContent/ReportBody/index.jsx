@@ -2,33 +2,32 @@
 /* eslint-disable no-unused-vars */
 import lodash from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import Block from '../../Block';
-import styles from './ReportBody.module.scss';
-import { getCurrentReport } from '../../helpers';
+
+import { setReportStructure } from '../../../../data/actions/newReportDesigner';
 import {
   setActiveNodes,
   setConfigPanelVisible,
-  setStructure
+  setStructure,
 } from '../../../../data/reducers/new_reportDesigner';
-import { setReportStructure } from '../../../../data/actions/newReportDesigner';
+import Block from '../../Block';
+import { getCurrentReport } from '../../helpers';
+import styles from './ReportBody.module.scss';
 
 const ReportBody = ({ data, onSelect, isActiveNode }) => {
   const dispatch = useDispatch();
-  const reportDesigner = useSelector(state => state.app.reportDesigner);
+  const reportDesigner = useSelector((state) => state.app.reportDesigner);
   const currentReport = getCurrentReport(
     reportDesigner.reportsData.present.reports,
-    reportDesigner.reportsData.present.activeReport
+    reportDesigner.reportsData.present.activeReport,
   );
 
   const children = data?.content?.children;
-
-  
 
   function handleChangePosition(id, newPosition) {
     const newStructure = lodash.cloneDeep(currentReport.structure);
     const currentBlock = lodash.find(
       newStructure.pgBody.content.children,
-      item => item.id === id
+      (item) => item.id === id,
     );
     if (currentBlock) {
       currentBlock.position = { ...currentBlock.position, ...newPosition };
@@ -47,17 +46,17 @@ const ReportBody = ({ data, onSelect, isActiveNode }) => {
     const newStructure = lodash.cloneDeep(currentReport.structure);
     const currentBlock = lodash.find(
       newStructure.pgBody.content.children,
-      item => item.id === id
+      (item) => item.id === id,
     );
     if (currentBlock) {
       currentBlock.scales = {
         width: newScales.width,
-        height: newScales.height
+        height: newScales.height,
       };
       currentBlock.position = {
         ...currentBlock.position,
         x: newScales.x,
-        y: newScales.y
+        y: newScales.y,
       };
     }
 
@@ -72,16 +71,16 @@ const ReportBody = ({ data, onSelect, isActiveNode }) => {
 
   return (
     <div className={styles.root}>
-      {children?.map(item => {
+      {children?.map((item) => {
         return (
           <Block
             {...item}
-            key={item.id}
+            key={item?.id}
             structureItem={item}
             onChangePosition={handleChangePosition}
             onChangeScales={handleChangeScales}
             onSelect={onSelect}
-            isActiveNode={isActiveNode(item.id)}
+            isActiveNode={isActiveNode(item?.id)}
           />
         );
       })}

@@ -25,8 +25,6 @@ const TableContent = ({
 
   const [needRefresh, setNeedRefresh] = useState(true)
 
-  
-
   const headerZone = layout.zones.filter(item => item.vType === 'header');
   const bodyZone = layout.zones.filter(item => item.vType === 'body');
   const footerZone = layout.zones.filter(item => item.vType === 'footer');

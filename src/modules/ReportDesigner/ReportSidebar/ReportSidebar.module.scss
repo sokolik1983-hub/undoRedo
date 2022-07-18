@@ -1,8 +1,7 @@
 .root {
-  // position: absolute;
   height: 100%;
   flex: none;
-  width: 300px;
+  width: 280px;
 }
 
 .actions {
@@ -16,7 +15,6 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  // box-shadow: 0px 7px 17px rgba(34, 82, 102, 0.75);
 }
 
 .contentData {
@@ -174,7 +172,6 @@
 }
 
 .sidePanel {
-  // height: 793px;
   height: calc(100% + 60px);
   width: 240px;
   z-index: 20;
@@ -184,7 +181,6 @@
     rgba(0, 55, 137, 0.75) 0%,
     rgba(0, 55, 137, 0.375) 100%
   );
-  // box-shadow: 0px 4px 4px rgba(34, 82, 102, 0.75);
   backdrop-filter: blur(10px);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -192,7 +188,7 @@
 
 .sidePanelVisible {
   transition: margin-left ease-in-out 250ms;
-  margin-left: 300px;
+  margin-left: 280px;
   margin-top: -42px;
   visibility: visible;
 }

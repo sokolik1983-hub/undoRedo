@@ -1,5 +1,5 @@
-import {request} from '../helpers';
-import {notificationShown} from '../reducers/notifications';
+import { request } from '../helpers';
+import { notificationShown } from '../reducers/notifications';
 import {
   setConnectorTrash,
   setReportTrash,

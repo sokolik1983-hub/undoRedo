@@ -9,52 +9,52 @@ import MeasurementIcon from '../../../../layout/assets/queryPanel/measurementIco
 import styles from './ObjectsPanelFilters.module.scss';
 
 const ObjectsPanelFilters = ({
-    searchValue,
-    setSearchValue,
-    filterType,
-    onFiltersSwitch,
+  searchValue,
+  setSearchValue,
+  filterType,
+  onFiltersSwitch,
 }) => {
-    return (
-        <div className={styles.root}>
-            <TextInput
-                value={searchValue}
-                onChange={(event) => {
-                    setSearchValue(event.target.value);
-                }}
-                className={styles.filterNameInput}
-            />
-            <IconButton
-                className={styles.iconBtn}
-                icon={<Magnifier />}
-                active={Boolean(searchValue.length)}
-            />
-            <IconButton
-                onClick={() => onFiltersSwitch('Dimension')}
-                className={styles.iconBtn}
-                icon={<GaugeIcon />}
-                active={filterType.includes('Dimension')}
-            />
-            <IconButton
-                onClick={() => onFiltersSwitch('Filter')}
-                className={styles.iconBtn}
-                icon={<AttributeIcon />}
-                active={filterType.includes('Filter')}
-            />
-            <IconButton
-                onClick={() => onFiltersSwitch('Measure')}
-                className={styles.iconBtn}
-                icon={<MeasurementIcon />}
-                active={filterType.includes('Measure')}
-            />
-        </div>
-    );
+  return (
+    <div className={styles.root}>
+      <TextInput
+        value={searchValue}
+        onChange={(event) => {
+          setSearchValue(event.target.value);
+        }}
+        className={styles.filterNameInput}
+      />
+      <IconButton
+        className={styles.iconBtn}
+        icon={<Magnifier />}
+        active={Boolean(searchValue.length)}
+      />
+      <IconButton
+        onClick={() => onFiltersSwitch('Dimension')}
+        className={styles.iconBtn}
+        icon={<GaugeIcon />}
+        active={filterType.includes('Dimension')}
+      />
+      <IconButton
+        onClick={() => onFiltersSwitch('Filter')}
+        className={styles.iconBtn}
+        icon={<AttributeIcon />}
+        active={filterType.includes('Filter')}
+      />
+      <IconButton
+        onClick={() => onFiltersSwitch('Measure')}
+        className={styles.iconBtn}
+        icon={<MeasurementIcon />}
+        active={filterType.includes('Measure')}
+      />
+    </div>
+  );
 };
 
 export default ObjectsPanelFilters;
 
 ObjectsPanelFilters.propTypes = {
-    setSearchValue: PropTypes.func,
-    searchValue: PropTypes.string,
-    filterType: PropTypes.arrayOf(PropTypes.number),
-    onFiltersSwitch: PropTypes.func,
+  setSearchValue: PropTypes.func,
+  searchValue: PropTypes.string,
+  filterType: PropTypes.arrayOf(PropTypes.number),
+  onFiltersSwitch: PropTypes.func,
 };
