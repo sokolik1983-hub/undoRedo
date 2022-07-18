@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export const JSON_EXAMPLE = {
   settings: [
     {
@@ -11,7 +10,7 @@ export const JSON_EXAMPLE = {
           description: 'Версия сервиса',
           isEditable: 0,
           editType: 'string',
-          value: '2.0.1'
+          value: '2.0.1',
         },
         {
           key: 'Type',
@@ -19,7 +18,7 @@ export const JSON_EXAMPLE = {
           description: 'Тип сервиса',
           isEditable: 0,
           editType: 'string',
-          value: 'Central'
+          value: 'Central',
         },
         {
           key: 'Address',
@@ -27,9 +26,9 @@ export const JSON_EXAMPLE = {
           description: 'IP-адрес, по которому функционирует сервис',
           isEditable: 1,
           editType: 'string',
-          value: '127.0.0.1:8084'
-        }
-      ]
+          value: '127.0.0.1:8084',
+        },
+      ],
     },
     {
       groupKey: 'Session',
@@ -44,7 +43,7 @@ export const JSON_EXAMPLE = {
           editType: 'range',
           value: 300,
           min: 1,
-          max: 1000
+          max: 1000,
         },
         {
           key: 'MaxMinutesLifetime',
@@ -54,7 +53,7 @@ export const JSON_EXAMPLE = {
           editType: 'range',
           value: 60,
           min: 1,
-          max: 120
+          max: 120,
         },
         {
           key: 'PerMinutesRemove',
@@ -65,9 +64,9 @@ export const JSON_EXAMPLE = {
           editType: 'range',
           value: 15,
           min: 1,
-          max: 120
-        }
-      ]
+          max: 120,
+        },
+      ],
     },
     {
       groupKey: 'Logging',
@@ -80,7 +79,7 @@ export const JSON_EXAMPLE = {
             'Путь к файлу, в который сохраняется отладочный лог сервиса',
           isEditable: 1,
           editType: 'string',
-          value: 'Central.log'
+          value: 'Central.log',
         },
         {
           key: 'LogLevel',
@@ -90,9 +89,9 @@ export const JSON_EXAMPLE = {
           isEditable: 1,
           editType: 'list',
           value: 'Debug',
-          list: ['Debug', 'Warning', 'Critical', 'Fatal', 'Info']
-        }
-      ]
+          list: ['Debug', 'Warning', 'Critical', 'Fatal', 'Info'],
+        },
+      ],
     },
     {
       groupKey: 'Other',
@@ -105,15 +104,15 @@ export const JSON_EXAMPLE = {
             'Путь к папке, в которой сохраняются неотправленные сообщения для дальнейшей отправки',
           isEditable: 1,
           editType: 'string',
-          value: '/cache/Central'
-        }
-      ]
-    }
-  ]
+          value: '/cache/Central',
+        },
+      ],
+    },
+  ],
 };
 
 export const EDIT_TYPE = {
   range: 'range',
   string: 'string',
-  list: 'list'
+  list: 'list',
 };

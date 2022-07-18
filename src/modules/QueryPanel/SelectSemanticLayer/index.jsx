@@ -1,33 +1,34 @@
+import lodash from 'lodash';
+import PropTypes from 'prop-types';
 /* eslint-disable no-unused-vars */
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import lodash from 'lodash';
-import PropTypes from 'prop-types';
-import selectModalStyles from './SelectSemanticLayer.module.scss';
-import Modal from '../../../common/components/Modal';
+
 import IconButton from '../../../common/components/IconButton';
-import {
-  getUniversesFolderChildren,
-  getUniversesFolderId
-} from '../../../data/actions/universes';
-import { sortFoldersAndItems } from '../../Symlayers/helper';
-import Preloader from '../../../common/components/Preloader/Preloader';
 import ListItem from '../../../common/components/List/ListItem/ListItem';
-import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
-import { ReactComponent as UniverseIcon } from '../../../layout/assets/connectorIcon.svg';
-import { ReactComponent as ArrowLeftIcon } from '../../../layout/assets/arrowLeft.svg';
-import { ReactComponent as ArrowUpIcon } from '../../../layout/assets/arrow-up.svg';
-import { ReactComponent as ReloadIcon } from '../../../layout/assets/queryPanel/reload.svg';
+import Modal from '../../../common/components/Modal';
+import Preloader from '../../../common/components/Preloader/Preloader';
 import Search from '../../../common/components/Search';
 import { ICON_POSITION } from '../../../common/components/Search/constant';
 import Tooltip from '../../../common/components/Tooltip';
 import { EMPTY_STRING } from '../../../common/constants/common';
+import {
+  getUniversesFolderChildren,
+  getUniversesFolderId,
+} from '../../../data/actions/universes';
+import ArrowUpIcon from '../../../layout/assets/arrow-up.svg';
+import ArrowLeftIcon from '../../../layout/assets/arrowLeft.svg';
+import UniverseIcon from '../../../layout/assets/connectorIcon.svg';
+import FolderIcon from '../../../layout/assets/folderIcon.svg';
+import ReloadIcon from '../../../layout/assets/queryPanel/reload.svg';
+import { sortFoldersAndItems } from '../../Symlayers/helper';
+import selectModalStyles from './SelectSemanticLayer.module.scss';
 
 const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   const dispatch = useDispatch();
-  const universes = useSelector(state => state.app.data.universes);
+  const universes = useSelector((state) => state.app.data.universes);
   const unvRootFolderId = useSelector(
-    state => state.app.data.universesFolderId
+    (state) => state.app.data.universesFolderId,
   );
 
   useEffect(() => {
@@ -75,16 +76,18 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
       goToRootFolder();
     } else if (unvRootFolderId) {
       dispatch(
-        getUniversesFolderChildren({ id: foldersIdHistory[currentFolderIndex] })
+        getUniversesFolderChildren({
+          id: foldersIdHistory[currentFolderIndex],
+        }),
       );
     }
   }, [currentFolderIndex]);
 
   let interArr = [];
 
-  const searchSymLayer = array => {
+  const searchSymLayer = (array) => {
     const univArray = array.children ? array.children : array;
-    const isRes = univArray.filter(univ => {
+    const isRes = univArray.filter((univ) => {
       const name = univ.name ? univ.name : univ.folder_name;
       return name?.toUpperCase().includes(searchValue.toUpperCase());
     });
@@ -96,10 +99,10 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
       setTempArr(interArr);
     }
     const isFolderRes = univArray.filter(
-      univ => univ.isFolder && univ.children
+      (univ) => univ.isFolder && univ.children,
     );
     if (isFolderRes && isFolderRes.length > 0) {
-      isFolderRes.forEach(folder => {
+      isFolderRes.forEach((folder) => {
         searchSymLayer(folder.children);
       });
     }
@@ -129,7 +132,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   //   setFoldersHistory([rootFolder]);
   // }, [universes]);
 
-  const onFolderDoubleClick = folder => {
+  const onFolderDoubleClick = (folder) => {
     // const folderWithSortedChildren = {
     //   ...folder,
     //   children: sortFoldersAndItems(folder.children)
@@ -142,7 +145,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   };
 
   const moveToPrevFolder = () => {
-    setCurrentFolderIndex(prev => (prev === 0 ? 0 : prev - 1));
+    setCurrentFolderIndex((prev) => (prev === 0 ? 0 : prev - 1));
   };
 
   // const moveToRootFolder = () => {
@@ -164,7 +167,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
   //   }
   // }, [currentFolderIndex]);
 
-  const listItems = sortedItems?.map(item => {
+  const listItems = sortedItems?.map((item) => {
     const isFolder = item.kind === 'FLD';
     return (
       <div key={item.id}>
@@ -213,7 +216,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
             className={selectModalStyles.search}
             // onSubmit={e => onSearch(e, result)}
             value={searchValue}
-            onChange={e => setSearchValue(e.target.value)}
+            onChange={(e) => setSearchValue(e.target.value)}
             iconButtonPosition={ICON_POSITION.RIGHT}
           />
           <Tooltip placement="bottomLeft" overlay="Сбросить">
@@ -225,7 +228,7 @@ const SelectSemanticLayer = ({ visible, onClose, onSelectSemanticLayer }) => {
           </Tooltip>
         </div>
         {!lodash.isEmpty(universes) ? (
-          listItems?.map(item => item)
+          listItems?.map((item) => item)
         ) : (
           <Preloader />
         )}
@@ -253,5 +256,5 @@ export default SelectSemanticLayer;
 SelectSemanticLayer.propTypes = {
   onClose: PropTypes.func,
   visible: PropTypes.bool.isRequired,
-  onSelectSemanticLayer: PropTypes.func
+  onSelectSemanticLayer: PropTypes.func,
 };

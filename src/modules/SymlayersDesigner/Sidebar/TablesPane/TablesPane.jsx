@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+
 import Divider from '../../../../common/components/Divider';
-import TablesPaneActions from './TablesPaneActions/TablesPaneActions';
+import OwnerIcon from '../../../../layout/assets/icons/ownerIcon.svg';
 import HierTreeView from '../HierTreeView';
-import { ReactComponent as OwnerIcon } from '../../../../layout/assets/icons/ownerIcon.svg';
 import styles from './TablesPane.module.scss';
+import TablesPaneActions from './TablesPaneActions/TablesPaneActions';
 
 const TablesPane = ({ onSelect }) => {
   const connectorObjects = useSelector(
-    state => state.app.schemaDesigner.connectorObjects
+    (state) => state.app.schemaDesigner.connectorObjects,
   );
 
   const [selectedSchemes, setSelectedSchemes] = useState([]);
@@ -36,5 +37,5 @@ const TablesPane = ({ onSelect }) => {
 export default TablesPane;
 
 TablesPane.propTypes = {
-  onSelect: PropTypes.func
+  onSelect: PropTypes.func,
 };

@@ -1,13 +1,14 @@
-import cn from 'clsx';
-import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
-import ErrorOutlineRoundedIcon from '@material-ui/icons/ErrorOutlineRounded';
 import CheckCircleOutlineRoundedIcon from '@material-ui/icons/CheckCircleOutlineRounded';
+import ErrorOutlineRoundedIcon from '@material-ui/icons/ErrorOutlineRounded';
 import InfoRoundedIcon from '@material-ui/icons/InfoRounded';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import WarnIcon from '../../../layout/assets/warnIcon.svg';
+import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
+import cn from 'clsx';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+
 import CollapseIcon from '../../../layout/assets/collapseArrow.svg';
+import WarnIcon from '../../../layout/assets/warnIcon.svg';
 import styles from './NotificationItem.module.scss';
 
 const ICONS = {
@@ -15,7 +16,7 @@ const ICONS = {
   success: <CheckCircleOutlineRoundedIcon />,
   warning: <WarningRoundedIcon />,
   info: <InfoRoundedIcon />,
-  email: <MailOutlineIcon />
+  email: <MailOutlineIcon />,
 };
 
 const AUTO_HIDE_DURATION = 5000;
@@ -38,10 +39,10 @@ const NotificationItem = ({
     variant,
     icon,
     message: { title, message, reason, advice },
-    buttonText
+    buttonText,
   },
   onClose,
-  index
+  index,
 }) => {
   const [reasonHidden, setReasonHidden] = useState(true);
   const [adviseHidden, setAdviseHidden] = useState(true);
@@ -52,7 +53,7 @@ const NotificationItem = ({
       setCloseTimer(
         setTimeout(() => {
           onClose(id);
-        }, AUTO_HIDE_DURATION)
+        }, AUTO_HIDE_DURATION),
       );
     }
 
@@ -68,7 +69,7 @@ const NotificationItem = ({
       className={cn(styles.root, styles[variant])}
       style={{
         top: `${20 * index}px`,
-        transform: `translate(${20 * index}px, 0px)`
+        transform: `translate(${20 * index}px, 0px)`,
       }}
     >
       <div className={styles.title}>
@@ -139,11 +140,13 @@ export default NotificationItem;
 NotificationItem.propTypes = {
   notification: PropTypes.object,
   onClose: PropTypes.func,
-  index: PropTypes.number
+  index: PropTypes.number,
 };
 
 NotificationItem.defaultProps = {
   notification: {},
-  onClose: () => {},
-  index: 0
+  onClose: () => {
+    // some action
+  },
+  index: 0,
 };

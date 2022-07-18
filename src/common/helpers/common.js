@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 export const deepFind = ({ array, key = 'id', value }) => {
   const target = array.reduce((accum, current) => {
     if (current[key] === value) accum = current;
@@ -6,7 +5,7 @@ export const deepFind = ({ array, key = 'id', value }) => {
       const childrenSearchResult = deepFind({
         key,
         value,
-        array: current.children
+        array: current.children,
       });
       if (childrenSearchResult) accum = childrenSearchResult;
     }
@@ -16,9 +15,9 @@ export const deepFind = ({ array, key = 'id', value }) => {
   return target;
 };
 
-export const transformOptions = array => {
-  return array?.map(item => ({
+export const transformOptions = (array) => {
+  return array?.map((item) => ({
     value: item,
-    text: item
+    text: item,
   }));
 };

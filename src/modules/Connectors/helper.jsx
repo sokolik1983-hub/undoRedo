@@ -1,9 +1,9 @@
-import { ReactComponent as EditIcon } from '../../layout/assets/folderItemEdit.svg';
-import { ReactComponent as BinIcon } from '../../layout/assets/folderItemBin.svg';
-import { ReactComponent as CreateCopyIcon } from '../../layout/assets/folderItemCreateCopy.svg';
-import { ReactComponent as SettingsIcon } from '../../layout/assets/folderItemSettings.svg';
-import { ReactComponent as CheckConnectionIcon } from '../../layout/assets/folderItemConnectionCheck.svg';
-import { ReactComponent as CreateUniverseIcon } from '../../layout/assets/folderItemCreateUniverse.svg';
+import BinIcon from '../../layout/assets/folderItemBin.svg';
+import CheckConnectionIcon from '../../layout/assets/folderItemConnectionCheck.svg';
+import CreateCopyIcon from '../../layout/assets/folderItemCreateCopy.svg';
+import CreateUniverseIcon from '../../layout/assets/folderItemCreateUniverse.svg';
+import EditIcon from '../../layout/assets/folderItemEdit.svg';
+import SettingsIcon from '../../layout/assets/folderItemSettings.svg';
 
 export const sortFoldersAndItems = (folderChildren) => {
   if (!folderChildren) return null;
@@ -13,8 +13,8 @@ export const sortFoldersAndItems = (folderChildren) => {
     .sort((a, b) =>
       a.name.localeCompare(b.name, {
         ignorePunctuation: true,
-        sensitivity: 'accent'
-      })
+        sensitivity: 'accent',
+      }),
     );
 
   const items = folderChildren
@@ -22,8 +22,8 @@ export const sortFoldersAndItems = (folderChildren) => {
     .sort((a, b) =>
       a.name.localeCompare(b.name, {
         ignorePunctuation: true,
-        sensitivity: 'accent'
-      })
+        sensitivity: 'accent',
+      }),
     );
 
   return [...folders, ...items];
@@ -33,55 +33,55 @@ export const FOLDER_ITEM_DROPDOWN_ACTIONS = [
   {
     title: 'Редактировать',
     icon: <EditIcon />,
-    action: 'edit'
+    action: 'edit',
   },
   {
     title: 'Удалить',
     icon: <BinIcon />,
-    action: 'delete'
+    action: 'delete',
   },
   {
     title: 'Создать копию',
     icon: <CreateCopyIcon />,
-    action: 'create copy'
+    action: 'create copy',
   },
   {
     title: 'Настройки',
     icon: <SettingsIcon />,
-    action: 'settings'
+    action: 'settings',
   },
   {
     title: 'Проверка соединения',
     icon: <CheckConnectionIcon />,
-    action: 'connection check'
+    action: 'connection check',
   },
   {
     title: 'Создать семантический слой',
     icon: <CreateUniverseIcon />,
-    action: 'create universe'
-  }
+    action: 'create universe',
+  },
 ];
 
 export const FOLDER_DROPDOWN_ACTIONS = [
   {
     title: 'Редактировать',
     icon: <EditIcon />,
-    action: 'edit'
+    action: 'edit',
   },
   {
     title: 'Удалить',
     icon: <BinIcon />,
-    action: 'delete'
+    action: 'delete',
   },
   {
     title: 'Создать копию',
     icon: <CreateCopyIcon />,
-    action: 'create copy'
-  }
+    action: 'create copy',
+  },
 ];
 
 export const connectorsTableHeader = [
   { name: 'Название' },
   { name: 'Тип файла' },
-  { name: 'Описание' }
+  { name: 'Описание' },
 ];

@@ -2,18 +2,19 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { ReactComponent as GaugeIcon } from '../../../../layout/assets/queryPanel/gauge_icon.svg';
-import { ReactComponent as MeasIcon } from '../../../../layout/assets/queryPanel/measurementIcon.svg';
-import { ReactComponent as AttrIcon } from '../../../../layout/assets/queryPanel/attributeIcon.svg';
-import FOLDER_ITEM_DROPDOWN_ACTIONS from '../helper';
-import Tooltip from '../../../../common/components/Tooltip';
+
+import Dropdown from '../../../../common/components/Dropdown';
 import DropdownItem from '../../../../common/components/Dropdown/DropdownItem';
+import Tooltip from '../../../../common/components/Tooltip';
+import useClickOutside from '../../../../common/helpers/useClickOutside';
+import { showToast } from '../../../../data/actions/app';
 import { setEditObjectModal } from '../../../../data/actions/universes';
 import { deleteObjectLayer } from '../../../../data/reducers/schemaDesigner';
+import AttrIcon from '../../../../layout/assets/queryPanel/attributeIcon.svg';
+import GaugeIcon from '../../../../layout/assets/queryPanel/gauge_icon.svg';
+import MeasIcon from '../../../../layout/assets/queryPanel/measurementIcon.svg';
 import DeleteObjectModal from '../DeleteObjectModal';
-import { showToast } from '../../../../data/actions/app';
-import Dropdown from '../../../../common/components/Dropdown';
-import useClickOutside from '../../../../common/helpers/useClickOutside';
+import FOLDER_ITEM_DROPDOWN_ACTIONS from '../helper';
 import styles from './ObjectLayer.module.scss';
 
 const ObjectLayer = ({ field, onSelect }) => {
@@ -25,7 +26,7 @@ const ObjectLayer = ({ field, onSelect }) => {
   const clickRef = useRef();
   const nameRef = useRef();
 
-  const handleVisibility = visible => {
+  const handleVisibility = (visible) => {
     const isNeedToDisplay =
       nameRef?.current?.scrollWidth > nameRef?.current?.offsetWidth;
     if (isNeedToDisplay) setIsTooltipVisible(true);
@@ -35,10 +36,10 @@ const ObjectLayer = ({ field, onSelect }) => {
   useClickOutside(clickRef, () => setIsActive(false));
 
   const root = clsx(styles.root, {
-    [styles.active]: isActive
+    [styles.active]: isActive,
   });
 
-  const selectIcon = type => {
+  const selectIcon = (type) => {
     switch (type) {
       case 'Измерение':
         return <MeasIcon />;
@@ -54,10 +55,10 @@ const ObjectLayer = ({ field, onSelect }) => {
   const handleDeleteObject = () => {
     dispatch(deleteObjectLayer(id));
     dispatch(showToast('success', 'Объект удален'));
-    setDelModelOpened(false)
+    setDelModelOpened(false);
   };
 
-  const handleObjectClick = action => {
+  const handleObjectClick = (action) => {
     onSelect(id);
     switch (action) {
       case 'edit':
@@ -73,7 +74,7 @@ const ObjectLayer = ({ field, onSelect }) => {
 
   const menu = (
     <div className={styles.menuContainer}>
-      {FOLDER_ITEM_DROPDOWN_ACTIONS.map(item => (
+      {FOLDER_ITEM_DROPDOWN_ACTIONS.map((item) => (
         <Tooltip
           key={item.title}
           overlay={<div>{item.title}</div>}
@@ -81,7 +82,7 @@ const ObjectLayer = ({ field, onSelect }) => {
         >
           <DropdownItem
             className={styles.menuItem}
-            onClick={action => handleObjectClick(action)}
+            onClick={(action) => handleObjectClick(action)}
             item={item}
           />
         </Tooltip>
@@ -96,7 +97,7 @@ const ObjectLayer = ({ field, onSelect }) => {
         trigger={['click']}
         alignPoint
         align={{
-          offset: [0, 20]
+          offset: [0, 20],
         }}
       >
         <Tooltip
@@ -108,7 +109,7 @@ const ObjectLayer = ({ field, onSelect }) => {
         >
           <div
             className={root}
-            onClick={() => setIsActive(prev => !prev)}
+            onClick={() => setIsActive((prev) => !prev)}
             ref={clickRef}
           >
             <div className={styles.icon}>{selectIcon(objectType)}</div>
@@ -130,7 +131,7 @@ const ObjectLayer = ({ field, onSelect }) => {
 
 ObjectLayer.propTypes = {
   field: PropTypes.object,
-  onSelect: PropTypes.func
+  onSelect: PropTypes.func,
 };
 
 export default ObjectLayer;

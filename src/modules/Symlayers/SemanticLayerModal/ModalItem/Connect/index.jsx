@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Gears from '../../../../../common/components/Gears';
-import ModalItem from '..';
-import styles from './Connect.module.scss';
-import { ReactComponent as WireIcon } from '../../../../../layout/assets/semanticLayerModal/wire.svg';
-import Select from '../../../../../common/components/Select';
+import React, { useState } from 'react';
+
 import Button from '../../../../../common/components/Button';
+import Gears from '../../../../../common/components/Gears';
+import Select from '../../../../../common/components/Select';
+import WireIcon from '../../../../../layout/assets/semanticLayerModal/wire.svg';
+import styles from './Connect.module.scss';
+import ModalItem from '..';
 
 /**
  * @param title - строка для заголовка
@@ -13,12 +14,11 @@ import Button from '../../../../../common/components/Button';
  */
 
 const Connect = ({ title, connectorName }) => {
-
   const [isActive, setIsActive] = useState(false);
 
   const onClickAction = () => {
     setIsActive(!isActive);
-  }
+  };
 
   return (
     <ModalItem title={title}>
@@ -34,14 +34,12 @@ const Connect = ({ title, connectorName }) => {
         </div>
         <Select
           defaultValue={connectorName || 'Соединение 01 проба'}
-          name='name1'
+          name="name1"
           options={[{ value: '1', text: 'Соединение 02 проба' }]}
         />
         <div className={styles.buttonsWrapper}>
-          <Button className={styles.edit}>
-            Редактировать
-          </Button>
-          <Button type='button' onClick={onClickAction} className={styles.test}>
+          <Button className={styles.edit}>Редактировать</Button>
+          <Button type="button" onClick={onClickAction} className={styles.test}>
             Тест соедиения
           </Button>
         </div>
@@ -54,9 +52,9 @@ export default Connect;
 
 Connect.propTypes = {
   title: PropTypes.string,
-  connectorName: PropTypes.string
+  connectorName: PropTypes.string,
 };
 
 Connect.defaultProps = {
-  title: ''
+  title: '',
 };

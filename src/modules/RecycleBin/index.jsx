@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+
 import Button from '../../common/components/Button/index';
 import { PAGE } from '../../common/constants/pages';
-import { clearTrash, restoreTrashItem } from '../../data/actions/trash';
 // import FilterPanel from './FilterPanel';
 import { setCurrentPage } from '../../data/reducers/ui';
 import RecycleBinList from './ConnectorsList/RecycleBinList';
@@ -30,13 +30,13 @@ function RecycleBin() {
   //   .sortBy(trash.columns, 'order')
   //   .filter(item => item.show);
 
-  const handleRestore = item => () => {
-    dispatch(restoreTrashItem({ id: item.id, type_name: item.type_name }));
-  };
-
-  const handleClear = () => {
-    dispatch(clearTrash());
-  };
+  // const handleRestore = item => () => {
+  //   dispatch(restoreTrashItem({ id: item.id, type_name: item.type_name }));
+  // };
+  //
+  // const handleClear = () => {
+  //   dispatch(clearTrash());
+  // };
 
   // const handleSetColumns = value => {
   //   dispatch(setColumns(value));
@@ -51,11 +51,11 @@ function RecycleBin() {
 
   return (
     <div className={styles.root}>
-      <Button onClick={handleClear} type="button" className={styles.button}>
+      <Button type="button" className={styles.button}>
         Очистить корзину
       </Button>
 
-      <RecycleBinList onRestore={handleRestore} />
+      <RecycleBinList />
 
       {/* <Table
         headersArr={trashTableHeadersArr}

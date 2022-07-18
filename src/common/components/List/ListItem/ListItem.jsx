@@ -1,9 +1,10 @@
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useRef, useState } from 'react';
+
 import useClickOutside from '../../../helpers/useClickOutside';
 import Dropdown from '../../Dropdown';
-import Tooltip from '../../Tooltip/index';
+import Tooltip from '../../Tooltip';
 import styles from './ListItem.module.scss';
 
 const ListItem = ({ name, onDoubleClick, className, icon, menu, ...props }) => {
@@ -12,7 +13,7 @@ const ListItem = ({ name, onDoubleClick, className, icon, menu, ...props }) => {
   const clickRef = useRef();
   const nameRef = useRef();
 
-  const handleVisibility = visible => {
+  const handleVisibility = (visible) => {
     const isNeedToDisplay =
       nameRef?.current?.scrollWidth > nameRef?.current?.offsetWidth;
     if (isNeedToDisplay) setIsTooltipVisible(true);
@@ -26,7 +27,7 @@ const ListItem = ({ name, onDoubleClick, className, icon, menu, ...props }) => {
   };
 
   const classes = clsx(styles.listItem, className, {
-    [styles.active]: active
+    [styles.active]: active,
   });
 
   return (
@@ -35,7 +36,7 @@ const ListItem = ({ name, onDoubleClick, className, icon, menu, ...props }) => {
       overlay={menu}
       alignPoint
       align={{
-        offset: [0, 20]
+        offset: [0, 20],
       }}
     >
       <Tooltip
@@ -69,5 +70,5 @@ ListItem.propTypes = {
   onDoubleClick: PropTypes.func,
   className: PropTypes.string,
   icon: PropTypes.node,
-  menu: PropTypes.node
+  menu: PropTypes.node,
 };

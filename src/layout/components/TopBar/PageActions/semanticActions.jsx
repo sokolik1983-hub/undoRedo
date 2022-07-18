@@ -1,26 +1,27 @@
+import React, { useEffect, useState } from 'react';
 /* eslint-disable no-nested-ternary */
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+
 import { SEMANTIC_PAGE_ACTIONS } from '../../../../common/constants/common';
-import styles from './PageActions.module.scss';
-import CreateObjectLayerModal from '../../../../modules/SymlayersDesigner/CreateObjectLayerModal/index';
 import {
   createUniverse,
-  setObjectsConnectionsModal
+  setObjectsConnectionsModal,
 } from '../../../../data/actions/universes';
 import {
   setIsShowingContexts,
-  setIsShowingLinks
+  setIsShowingLinks,
 } from '../../../../data/reducers/schemaDesigner';
+import CreateObjectLayerModal from '../../../../modules/SymlayersDesigner/CreateObjectLayerModal/index';
 import EditObjectLayerModal from '../../../../modules/SymlayersDesigner/Sidebar/EditObjectLayerModal';
 import translitNames from './helper';
-
+import styles from './PageActions.module.scss';
 
 const SemanticActions = () => {
   const dispatch = useDispatch();
   // const [universe, setUniverse] = useState({});
   const [formattedObjectLayer, setFormattedObjects] = useState([]);
+  const [updatedCoordsTables, setUpdatedCoordsTables] = useState([]);
 
   // const coloredValue = useSelector(
   //   state => state.app.schemaDesigner.coloredValue
@@ -34,7 +35,7 @@ const SemanticActions = () => {
     if (!location.pathname.endsWith('create')) {
       return arr
         .map((item) =>
-          item.action !== 'commonSearch' ? { ...item, enable: false } : item
+          item.action !== 'commonSearch' ? { ...item, enable: false } : item,
         )
         .filter((item) => item.type !== 'divider');
     }
@@ -45,31 +46,35 @@ const SemanticActions = () => {
 
   /* удалить когда перенесем кнопку открытия Создать  */
   const isCreateObjectModalOpened = useSelector(
-    (state) => state.app.ui.modalCreateObjectVisible
+    (state) => state.app.ui.modalCreateObjectVisible,
   );
   /* удалить когда перенесем кнопку открытия Создать  */
   /* удалить когда перенесем кнопку открытия Создать  */
   const isEditObjectModalOpened = useSelector(
-    (state) => state.app.ui.modalEditObjectVisible
+    (state) => state.app.ui.modalEditObjectVisible,
   );
   /* удалить когда перенесем кнопку открытия Создать  */
 
   const links = useSelector((state) => state.app.schemaDesigner.links);
 
   const objectsLayers = useSelector(
-    (state) => state.app.schemaDesigner.objectsLayerList
+    (state) => state.app.schemaDesigner.objectsLayerList,
   );
 
   const selectedConnectorId = useSelector(
-    state => state.app.data.selectedConnectorId
+    (state) => state.app.data.selectedConnectorId,
   );
 
   const selectedTablesData = useSelector(
-    (state) => state.app.schemaDesigner.selectedTablesData
+    (state) => state.app.schemaDesigner.selectedTablesData,
   );
 
   const currentUniverse = useSelector(
-    (state) => state.app.data.currentUniverse
+    (state) => state.app.data.currentUniverse,
+  );
+
+  const tablesCoord = useSelector(
+    (state) => state.app.schemaDesigner.tablesCoord,
   );
 
   useEffect(() => {
@@ -115,12 +120,32 @@ const SemanticActions = () => {
     setFormattedObjects(objects);
   }, [objectsLayers]);
 
+  useEffect(() => {
+    const tables = selectedTablesData.map((table) => {
+      const tempTable = JSON.parse(JSON.stringify(table));
+      const { schema, objectName } = tempTable;
+      const findedIdx = tablesCoord.findIndex(
+        (tab) => tab.tableId === `${schema}_${objectName}`,
+      );
+      console.log(tablesCoord[findedIdx]);
+      if (findedIdx !== -1) {
+        tempTable.position = {
+          x: tablesCoord[findedIdx].x,
+          y: tablesCoord[findedIdx].y,
+        };
+      }
+      return tempTable;
+    });
+    setUpdatedCoordsTables(tables);
+  }, [tablesCoord]);
+
   const saveUniverse = () => {
     const universe = JSON.parse(JSON.stringify(currentUniverse));
-    universe.data.tables = selectedTablesData;
+    universe.data.tables = updatedCoordsTables;
     universe.data.links = links;
     universe.data.objects = formattedObjectLayer;
     universe.data.connector_id = selectedConnectorId;
+    console.log(updatedCoordsTables);
     dispatch(createUniverse(universe, currentUniverse.header.name));
   };
 

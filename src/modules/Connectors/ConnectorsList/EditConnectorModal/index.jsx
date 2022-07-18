@@ -2,6 +2,7 @@ import { cloneDeep } from 'lodash';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import Button from '../../../../common/components/Button';
 import Gears from '../../../../common/components/Gears';
 import Modal from '../../../../common/components/Modal';
@@ -12,10 +13,10 @@ import { BUTTON } from '../../../../common/constants/common';
 import {
   getConnectorTypesSources,
   saveConnector,
-  testConnector
+  testConnector,
 } from '../../../../data/actions/connectors';
-import { ReactComponent as TestFailed } from '../../../../layout/assets/testFailedIcon.svg';
-import { ReactComponent as TestOkIcon } from '../../../../layout/assets/testOkIcon.svg';
+import TestFailed from '../../../../layout/assets/testFailedIcon.svg';
+import TestOkIcon from '../../../../layout/assets/testOkIcon.svg';
 import styles from './EditConnectorModal.module.scss';
 
 const EditConnectorModal = ({ visible, onClose }) => {
@@ -23,19 +24,19 @@ const EditConnectorModal = ({ visible, onClose }) => {
 
   useEffect(() => dispatch(getConnectorTypesSources({})), []);
 
-  const connector = useSelector(state => state.app.data.connectorData);
-  const types = useSelector(state => state.app.data.dictionaries.source_type);
-  const sources = useSelector(state => state.app.data.dictionaries.source);
+  const connector = useSelector((state) => state.app.data.connectorData);
+  const types = useSelector((state) => state.app.data.dictionaries.source_type);
+  const sources = useSelector((state) => state.app.data.dictionaries.source);
 
   const connectorData = cloneDeep(connector);
 
   const [connectName, setConnectName] = useState(connectorData?.header?.name); // имя коннектора
   const [connectType, setConnectType] = useState(connectorData?.data?.type_id); // тип коннектора(База Данных, Тестовый файл)
   const [connectSource, setConnectSource] = useState(
-    connectorData?.data?.class_id
+    connectorData?.data?.class_id,
   );
   const [connectionDescription, setConnectionDescription] = useState(
-    connectorData?.header?.desc
+    connectorData?.header?.desc,
   );
   const [isActive, setIsActive] = useState(false);
   // eslint-disable-next-line no-unused-vars
@@ -49,9 +50,9 @@ const EditConnectorModal = ({ visible, onClose }) => {
   }, [visible]);
 
   const testConnectorResult = useSelector(
-    state => state.app.data.testConnector
+    (state) => state.app.data.testConnector,
   );
-  const notifications = useSelector(state => state.app.notifications);
+  const notifications = useSelector((state) => state.app.notifications);
 
   useEffect(() => {
     if (connectorData.data) {
@@ -69,14 +70,14 @@ const EditConnectorModal = ({ visible, onClose }) => {
     onClose();
   };
 
-  const typeOptions = types?.map(item => ({
+  const typeOptions = types?.map((item) => ({
     text: item.name,
-    value: String(item.id)
+    value: String(item.id),
   }));
 
-  const sourceOptions = sources?.map(item => ({
+  const sourceOptions = sources?.map((item) => ({
     text: item.name,
-    value: String(item.id)
+    value: String(item.id),
   }));
 
   const setHeaderAndDescription = () => {
@@ -111,7 +112,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
     }
   }, [notifications]);
 
-  const testConnection = e => {
+  const testConnection = (e) => {
     e.preventDefault();
     e.stopPropagation();
     setShowTestOk(false);
@@ -124,7 +125,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
     }
   };
 
-  const saveConnectorChanges = event => {
+  const saveConnectorChanges = (event) => {
     event.preventDefault();
     event.stopPropagation();
     setHeaderAndDescription();
@@ -143,7 +144,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
         <TextInput
           label="Введите имя соединения"
           value={connectName}
-          onChange={e => setConnectName(e.target.value)}
+          onChange={(e) => setConnectName(e.target.value)}
           onBlur={() => setConnectName(connectName.trim())}
           id="connectorName"
           required
@@ -189,12 +190,11 @@ const EditConnectorModal = ({ visible, onClose }) => {
                   required={item.required}
                   uppercase={item.fieldKey === 'DATABASE'}
                   className={styles.connectorsInput}
-                  onChange={e => {
-                    connectorData.data.fields[
-                      index
-                    ].value = e.target.value.trim();
+                  onChange={(e) => {
+                    connectorData.data.fields[index].value =
+                      e.target.value.trim();
                   }}
-                  onBlur={e => {
+                  onBlur={(e) => {
                     if (e.target.value) {
                       e.target.value = e.target.value.trim();
                     }
@@ -211,7 +211,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
                 onBlur={() => {
                   connectorData.header.desc = connectorData.header.desc?.trim();
                 }}
-                onChange={e => setConnectionDescription(e.target.value)}
+                onChange={(e) => setConnectionDescription(e.target.value)}
               />
             </div>
           </div>
@@ -229,7 +229,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
               className={styles.testConnectionButton}
               buttonStyle={BUTTON.BLUE}
               form="createConnectorForm"
-              onClick={e => testConnection(e)}
+              onClick={(e) => testConnection(e)}
             >
               Тест соединения
             </Button>
@@ -245,7 +245,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
     <div className={styles.footerButtonsGroup}>
       <Button
         buttonStyle={BUTTON.BIG_ORANGE}
-        onSubmit={e => saveConnectorChanges(e)}
+        onSubmit={(e) => saveConnectorChanges(e)}
         form="createConnectorForm"
         type="text"
         className={styles.testConnectorButton}
@@ -277,7 +277,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
 
 EditConnectorModal.propTypes = {
   visible: PropTypes.bool,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 };
 
 export default EditConnectorModal;

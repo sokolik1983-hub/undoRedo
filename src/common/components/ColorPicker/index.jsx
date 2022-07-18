@@ -1,7 +1,8 @@
-import clsx from 'clsx';
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import FormatColorTextIcon from '@material-ui/icons/FormatColorText';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+
 import styles from './ColorPicker.module.scss';
 
 /**
@@ -44,13 +45,15 @@ function ColorPicker({ onChangeColor, className, icon }) {
 ColorPicker.propTypes = {
   onChangeColor: PropTypes.func,
   className: PropTypes.string,
-  icon: PropTypes.node
+  icon: PropTypes.node,
 };
 
 ColorPicker.defaultProps = {
-  onChangeColor: () => {},
+  onChangeColor: () => {
+    // something
+  },
   className: '',
-  icon: <FormatColorTextIcon />
+  icon: <FormatColorTextIcon />,
 };
 
 export default ColorPicker;

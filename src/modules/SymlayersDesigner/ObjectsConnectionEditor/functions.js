@@ -1,13 +1,18 @@
-// eslint-disable-next-line import/prefer-default-export
-export const createExpression = (leftSelected, rightSelected, expression, leftTable, rightTable) => {
+export const createExpression = (
+  leftSelected,
+  rightSelected,
+  expression,
+  leftTable,
+  rightTable,
+) => {
   let expressionSet = '';
 
   if (leftSelected && leftSelected[0]?.field) {
-    leftSelected = leftSelected.map(field => field.field);
+    leftSelected = leftSelected.map((field) => field.field);
   }
 
   if (rightSelected && rightSelected[0]?.field) {
-    rightSelected = rightSelected.map(field => field.field);
+    rightSelected = rightSelected.map((field) => field.field);
   }
 
   if (leftSelected && leftSelected.length > 0) {
@@ -28,24 +33,21 @@ export const createExpression = (leftSelected, rightSelected, expression, leftTa
     rightSelected.length > 0
   ) {
     if (leftSelected.length === 1 && rightSelected.length === 1) {
-      expressionSet = `${leftTable}.${leftSelected[0] &&
-      leftSelected[0]} ${expression} ${rightTable}.${rightSelected[0]}`;
+      expressionSet = `${leftTable}.${
+        leftSelected[0] && leftSelected[0]
+      } ${expression} ${rightTable}.${rightSelected[0]}`;
     }
     if (leftSelected.length === 1 && rightSelected.length > 1) {
       const rightFields = rightSelected
-        .map(item => ` ${rightTable}.${item}`)
+        .map((item) => ` ${rightTable}.${item}`)
         .join(' and ');
-      expressionSet = `${leftTable}.${
-        leftSelected[0]
-      } between ${rightFields}`;
+      expressionSet = `${leftTable}.${leftSelected[0]} between ${rightFields}`;
     }
     if (rightSelected.length === 1 && leftSelected.length > 1) {
       const leftFields = leftSelected
-        .map(item => ` ${leftTable}.${item}`)
+        .map((item) => ` ${leftTable}.${item}`)
         .join(' and ');
-      expressionSet = `${rightTable}.${
-        rightSelected[0]
-      } between ${leftFields}`;
+      expressionSet = `${rightTable}.${rightSelected[0]} between ${leftFields}`;
     }
     if (
       rightSelected.length > 1 &&
@@ -55,9 +57,8 @@ export const createExpression = (leftSelected, rightSelected, expression, leftTa
       const resultLink = leftSelected
         .map(
           (item, idx) =>
-            ` ${leftTable}.${item} = ${
-              rightTable}.${rightSelected[idx]}
-              `
+            ` ${leftTable}.${item} = ${rightTable}.${rightSelected[idx]}
+              `,
         )
         .join(' and ');
 
@@ -65,4 +66,4 @@ export const createExpression = (leftSelected, rightSelected, expression, leftTa
     }
   }
   return expressionSet;
-}
+};

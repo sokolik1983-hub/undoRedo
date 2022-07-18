@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+
 import Dropdown from '../../../../common/components/Dropdown';
 import DropdownItem from '../../../../common/components/Dropdown/DropdownItem';
 import { DEFAULT_USER_ACTIONS } from '../../../../common/constants/common';
 import { logoutUser } from '../../../../data/actions/auth';
-import { ReactComponent as UserDefault } from '../../../assets/icons/userDefault.svg';
-import { ReactComponent as UserHover } from '../../../assets/icons/userHover.svg';
+import UserDefault from '../../../assets/icons/userDefault.svg';
+import UserHover from '../../../assets/icons/userHover.svg';
 import styles from './UserMenu.module.scss';
 
 const UserMenu = () => {
@@ -22,7 +23,7 @@ const UserMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleItemClick = action => {
+  const handleItemClick = (action) => {
     switch (action) {
       case 'logout':
         handleLogoutClick();
@@ -34,7 +35,7 @@ const UserMenu = () => {
 
   const menu = () => (
     <div className={styles.menuContainer}>
-      {DEFAULT_USER_ACTIONS.map(item => (
+      {DEFAULT_USER_ACTIONS.map((item) => (
         <DropdownItem
           key={item.title}
           onClick={handleItemClick}

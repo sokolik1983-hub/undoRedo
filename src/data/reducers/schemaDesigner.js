@@ -1,27 +1,4 @@
-/* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
-import { getTableIdFromParams } from '../helpers';
-
-// object_name: "SI_FORMAT_CONVRSNS"
-// object_type_id: 3
-// schema: "SI_INFORMTN_SCHEMA"
-
-// LINKS:
-
-// condition: "EQUAL"
-// expression: "\"TERN_ANALYTICS\".pre_maininfo_search.prospect_id = \"TERN_ANALYTICS\".v_egrul_unit.egr_id"
-// object1: {
-// cardinality: "one"
-// fields: [{field: "prospect_id", type: "Number"}]
-// object: {schema: ""TERN_ANALYTICS"",…}
-// outerJoin: null
-// },
-// object2: {
-// cardinality: "many"
-// fields: [{field: "egr_id", type: "Number"}]
-// object: {schema: ""TERN_ANALYTICS"",…}
-// outerJoin: null
-// }
 
 const schemaDesigner = createSlice({
   name: 'schemaDesigner',
@@ -43,7 +20,7 @@ const schemaDesigner = createSlice({
     ui: {
       showLinks: false,
       showContexts: false,
-      isLoading: false
+      isLoading: false,
     },
     coloredValue: '',
     semantycLayerName: null,
@@ -52,18 +29,19 @@ const schemaDesigner = createSlice({
 
     newData: {
       data: {
-        objects: []
-      }
-    }
+        objects: [],
+      },
+    },
+    tablesCoord: [],
   },
   reducers: {
     setIsLoading: (state, action) => {
       state.ui.isLoading = action.payload;
     },
-    setIsShowingContexts: state => {
+    setIsShowingContexts: (state) => {
       state.ui.showContexts = !state.ui.showContexts;
     },
-    setIsShowingLinks: state => {
+    setIsShowingLinks: (state) => {
       state.ui.showLinks = !state.ui.showLinks;
     },
     setConnectorObjects: (state, action) => {
@@ -78,7 +56,7 @@ const schemaDesigner = createSlice({
     setSelectedTablesArray: (state, action) => {
       state.selectedTablesArray = [
         ...state.selectedTablesArray,
-        { ...action.payload }
+        { ...action.payload },
       ];
     },
     setSelectedTablesFiltered: (state, action) => {
@@ -92,14 +70,11 @@ const schemaDesigner = createSlice({
       delete action.payload.type;
       delete action.payload.catalog;
       delete action.payload.comment;
-      state.selectedTablesData = [
-        ...state.selectedTablesData,
-        action.payload
-      ];
+      state.selectedTablesData = [...state.selectedTablesData, action.payload];
     },
     loadSelectedTablesArray: (state, action) => {
-      state.selectedTablesArray = action.payload.map(table => {
-        const tempTable = {...table};
+      state.selectedTablesArray = action.payload.map((table) => {
+        const tempTable = { ...table };
         tempTable.name = `${tempTable.schema}_${tempTable.objectName}`;
         tempTable.fields = tempTable.columns;
         delete tempTable.columns;
@@ -116,8 +91,8 @@ const schemaDesigner = createSlice({
       });
     },
     loadSelectedTablesData: (state, action) => {
-      const tables = [...action.payload].map(table => {
-        table.position.deltaPosition = {...table.position};
+      const tables = [...action.payload].map((table) => {
+        table.position.deltaPosition = { ...table.position };
         return table;
       });
       state.selectedTablesData = tables;
@@ -129,7 +104,7 @@ const schemaDesigner = createSlice({
       state.links = action.payload;
     },
     setLink: (state, action) => {
-      state.links = state.links.map(link => {
+      state.links = state.links.map((link) => {
         if (link.id === action?.payload.id) {
           link = action?.payload;
         }
@@ -145,11 +120,11 @@ const schemaDesigner = createSlice({
     deleteObjectLayer: (state, action) => {
       const id = action.payload;
       state.objectsLayerList = state.objectsLayerList.filter(
-        object => object.id !== id
+        (object) => object.id !== id,
       );
     },
     setObjectLayer: (state, action) => {
-      state.objectsLayerList = state.objectsLayerList.map(object => {
+      state.objectsLayerList = state.objectsLayerList.map((object) => {
         if (object.id === action?.payload.id) {
           object = action?.payload;
         }
@@ -159,7 +134,7 @@ const schemaDesigner = createSlice({
     setContexts: (state, action) => {
       state.contexts = [...state.contexts, ...action.payload];
     },
-    unsetTablePreviewData: state => {
+    unsetTablePreviewData: (state) => {
       state.connectorData = null;
     },
     setColoredValue: (state, action) => {
@@ -168,10 +143,10 @@ const schemaDesigner = createSlice({
     setDataList: (state, action) => {
       state.dataList = action.payload;
     },
-    clearDataList: state => {
+    clearDataList: (state) => {
       state.dataList = [];
     },
-    setShowDataList: state => {
+    setShowDataList: (state) => {
       state.showDataList = !state.showDataList;
     },
     setSemantycLayerName: (state, action) => {
@@ -183,14 +158,24 @@ const schemaDesigner = createSlice({
     setLoadingUniverse: (state, action) => {
       state.isUnvLoading = action.payload;
       state.isUnvLoaded = true;
-    }, 
+    },
     setLoadedUniverse: (state, action) => {
       state.isUnvLoaded = action.payload;
     },
     loadObjectsLayer: (state, action) => {
       state.objectsLayerList = action.payload;
-    }
-  }
+    },
+    setTablesCoord: (state, action) => {
+      const findedIndex = state.tablesCoord.findIndex(
+        (table) => table.tableId === action.payload.tableId,
+      );
+      if (findedIndex !== -1) {
+        state.tablesCoord[findedIndex] = action.payload;
+      } else {
+        state.tablesCoord = [...state.tablesCoord, action.payload];
+      }
+    },
+  },
 });
 
 export const {
@@ -223,7 +208,8 @@ export const {
   setLoadingUniverse,
   setLoadedUniverse,
   loadSelectedTablesArray,
-  loadObjectsLayer
+  loadObjectsLayer,
+  setTablesCoord,
 } = schemaDesigner.actions;
 
 export default schemaDesigner.reducer;
