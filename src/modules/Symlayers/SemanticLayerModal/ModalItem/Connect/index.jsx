@@ -9,9 +9,10 @@ import { ReactComponent as WireIcon } from '../../../../../layout/assets/semanti
 import Select from '../../../../../common/components/Select';
 import Button from '../../../../../common/components/Button';
 import {
-  getConnector,
   getConnectorFolderChildren,
+  getConnectorForTest,
   getConnectorsFolderId,
+  setConnectorReady,
   testConnector
 } from '../../../../../data/actions/connectors';
 import { ReactComponent as TestFailed } from '../../../../../layout/assets/testFailedIcon.svg';
@@ -25,33 +26,37 @@ import { ReactComponent as TestOkIcon } from '../../../../../layout/assets/testO
 const Connect = ({ title, cleanTestData }) => {
   const dispatch = useDispatch();
 
+  const connectorsFolderId = useSelector(
+    state => state.app.data.connectorsFolderId
+  );
+  const testConnectorResult = useSelector(
+    state => state.app.data.testConnector
+  );
+  const notifications = useSelector(state => state.app.notifications);
+  const connectors = useSelector(state => state.app.data.connectors);
+  const сonnector = useSelector(state => state.app.data.connectorData);
+  const readyForTest = useSelector(state => state.app.data.connectorTestReady);
+
   const [isActive, setIsActive] = useState(false);
   const [showTestOk, setShowTestOk] = useState(false);
   const [showTestFailed, setShowTestFailed] = useState(false);
 
+  let testResultCopy = cloneDeep(testConnectorResult);
+  let notificationsCopy = cloneDeep(notifications);
+  let optionsArray = [];
+  let ready = cloneDeep(readyForTest);
+  let defaultConnector = {};
+
   const clearTest = () => {
     setShowTestOk(false);
     setShowTestFailed(false);
-  }
+  };
 
   useEffect(() => {
     dispatch(getConnectorsFolderId({ folderType: 'USER_CN' }));
     dispatch(testConnector({ data: null }));
     cleanTestData.current = clearTest;
   }, []);
-
-  const connectorsFolderId = useSelector(
-    state => state.app.data.connectorsFolderId
-  );
-
-  const testConnectorResult = useSelector(
-    state => state.app.data.testConnector
-  );
-
-  const notifications = useSelector(state => state.app.notifications);
-
-  let testResultCopy = cloneDeep(testConnectorResult);
-  let notificationsCopy = cloneDeep(notifications);
 
   useEffect(() => {
     testResultCopy = cloneDeep(testConnectorResult);
@@ -82,11 +87,8 @@ const Connect = ({ title, cleanTestData }) => {
     setShowTestFailed(false);
   }, [connectorsFolderId]);
 
-  const connectors = useSelector(state => state.app.data.connectors);
-
-  const optionsArray = [];
-
-  const setOptions = () =>
+  const setOptions = () => {
+    optionsArray = [];
     connectors?.list?.map(item => {
       if (item.kind === 'CON') {
         optionsArray.push({ text: item.name, value: item.name, key: item.id });
@@ -94,23 +96,62 @@ const Connect = ({ title, cleanTestData }) => {
       // eslint-disable-next-line no-useless-return, consistent-return
       return;
     });
+    defaultConnector = connectors?.list?.filter(
+      item => item.name === optionsArray[0]?.text
+    );
+    // console.log('defaultConnector', defaultConnector);
+    // if(defaultConnector?.data ) {
+    // dispatch(testConnector({ data: defaultConnector?.data }));
+    // }
+  };
 
   setOptions();
 
+  useEffect(() => {
+    setOptions();
+  }, [connectors]);
+
   const handleItemSelect = e => {
+    setShowTestOk(false);
+    setShowTestFailed(false);
+    dispatch(setConnectorReady(false));
     const selectedConnector = optionsArray.filter(item => item.text === e);
-    dispatch(getConnector({ id: selectedConnector[0].key }));
+    dispatch(getConnectorForTest({ id: selectedConnector[0].key }));
   };
 
-  const сonnector = useSelector(state => state.app.data.connectorData);
+  useEffect(() => {
+    ready = cloneDeep(readyForTest);
+  }, [readyForTest]);
+
+  useEffect(() => {
+    if (optionsArray[0]?.text) {
+      defaultConnector = connectors?.list?.filter(
+        item => item.name === optionsArray[0]?.text
+      );
+      console.log('defaultConnector', defaultConnector);
+      
+        
+        dispatch(testConnector({ data: defaultConnector.data }));
+        dispatch(setConnectorReady(true));
+      
+    }
+  }, [optionsArray[0]?.text]);
 
   const testConnection = event => {
     event.preventDefault();
     event.stopPropagation();
+
+    console.log('ready', ready);
     setShowTestOk(false);
     setShowTestFailed(false);
     setIsActive(!isActive);
-    dispatch(testConnector({ data: сonnector.data }));
+    if (ready) {
+      if (сonnector?.header?.name) {
+        dispatch(testConnector({ data: сonnector.data }));
+      } else {
+        console.log('Default !', defaultConnector);
+      }
+    }
   };
 
   return (
@@ -143,6 +184,7 @@ const Connect = ({ title, cleanTestData }) => {
             type="button"
             onClick={e => testConnection(e)}
             className={styles.test}
+            disabled={!ready}
           >
             Тест соедиения
           </Button>
@@ -156,7 +198,7 @@ export default Connect;
 
 Connect.propTypes = {
   title: PropTypes.string,
-  cleanTestData: PropTypes.func
+  cleanTestData: PropTypes.object
 };
 
 Connect.defaultProps = {

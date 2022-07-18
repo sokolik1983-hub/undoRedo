@@ -35,81 +35,76 @@ import { createSampleUniverse } from '../../../data/actions/universes';
 const ConnectorsList = () => {
   const dispatch = useDispatch();
   const connectors = useSelector(state => state.app.data.connectors);
-  const connectorRootFolderId = useSelector(
-    state => state.app.data.connectorsFolderId
-  );
+  const connectorRootFolderId = useSelector(state => state.app.data.connectorsFolderId);
 
   useEffect(() => {
-    dispatch(getConnectorsFolderId({ folderType: 'USER_CN' }));
+    dispatch(getConnectorsFolderId({folderType: 'USER_CN'}));
   }, []);
 
-  const isEditConnModalVisible = useSelector(
-    state => state.app.ui.editConnectorModalVisible
-  );
+  const isEditConnModalVisible = useSelector(state => state.app.ui.editConnectorModalVisible);
   const mockObj = {
-    header: {
-      id: 123,
-      guid: '8e95fa98-26eb-4f54-a0d0-298ed9d9badd',
-      kind: 'CON',
-      parent_id: 42,
-      name: 'Придуманное пользователем имя',
-      description: 'комментарий пишет пользователь !',
-      owner_id: 0,
-      createUser_id: 0,
-      create_ts: '2022-05-24T17:04:55.1234Z+3',
-      version: 'версия сервиса',
-      releaseNumber: 1
-    },
-    data: {
-      class_id: 'db',
-      type_id: 'db-pg',
-      fields: [
-        {
-          fieldName: 'Имя или IP сервера',
-          fieldKey: 'SERVER',
-          required: true,
-          type: 'string',
-          value: 'local.mashine'
-        },
-        {
-          fieldName: 'Название Базы, SID, Имя сервиса',
-          fieldKey: 'DATABASE',
-          required: true,
-          type: 'string',
-          value: 'data-provider'
-        },
-        {
-          fieldName: 'Порт',
-          fieldKey: 'PORT',
-          required: true,
-          type: 'number',
-          value: 43433
-        },
-        {
-          fieldName: 'Логин',
-          fieldKey: 'UID',
-          required: true,
-          type: 'string',
-          value: 'postgress'
-        },
-        {
-          fieldName: 'Пароль',
-          fieldKey: 'PWD',
-          required: true,
-          type: 'string',
-          value:
-            'xtqdUnzQykq6eSjMnaZsGnmaBTzvVRY7XqF6vQdx9SBbtn9UNHrzdWRX6dHPFPLP'
-        },
-        {
-          fieldName: 'Дополнительные параметры',
-          fieldKey: 'external',
-          required: false,
-          type: 'string',
-          value: 'BoolsAsChar=0;'
-        }
-      ]
+      "header" : {
+        "id" : 123,
+        "guid" : "8e95fa98-26eb-4f54-a0d0-298ed9d9badd",
+        "kind" : "CON",
+        "parent_id" : 42,
+        "name" : "Придуманное пользователем имя",
+        "description" : "комментарий пишет пользователь !",
+        "owner_id" : 0,
+        "createUser_id" : 0,
+        "create_ts" : "2022-05-24T17:04:55.1234Z+3",
+        "version" : "версия сервиса",
+        "releaseNumber" : 1
+      },
+      "data" : {
+        "class_id" : "db",
+        "type_id" : "db-pg",
+        "fields" : [
+          {
+            "fieldName" : "Имя или IP сервера",
+            "fieldKey":"SERVER",
+            "required" : true,
+            "type" : "string",
+            "value" : "local.mashine"
+            },
+          {
+            "fieldName" : "Название Базы, SID, Имя сервиса",
+            "fieldKey":"DATABASE",
+            "required" : true,
+            "type" : "string",
+            "value" : "data-provider"
+          },
+          {
+            "fieldName" : "Порт",
+            "fieldKey":"PORT",
+            "required" : true,
+            "type" : "number",
+            "value" : 43433
+          },
+          {
+            "fieldName" : "Логин",
+            "fieldKey":"UID",
+            "required" : true,
+            "type" : "string",
+            "value" : "postgress"
+          },
+          {
+            "fieldName" : "Пароль",
+            "fieldKey":"PWD",
+            "required" : true,
+            "type" : "string",
+            "value" : "xtqdUnzQykq6eSjMnaZsGnmaBTzvVRY7XqF6vQdx9SBbtn9UNHrzdWRX6dHPFPLP"
+          },
+          {
+            "fieldName" : "Дополнительные параметры",
+            "fieldKey":"external",
+            "required" : false,
+            "type" : "string",
+            "value" : "BoolsAsChar=0;"
+          }
+        ]
     }
-  };
+  }
 
   const [foldersIdHistory, setFoldersIdHistory] = useState([]);
   const [foldersNameHistory, setFoldersNameHistory] = useState([]);
@@ -128,11 +123,11 @@ const ConnectorsList = () => {
   const [selectedConnectorName, setSelectedConnectorName] = useState(EMPTY_STRING);
 
   const goToRootFolder = () => {
-    dispatch(getConnectorFolderChildren({ id: connectorRootFolderId }));
+    dispatch(getConnectorFolderChildren({id: connectorRootFolderId}));
     setFoldersIdHistory([connectorRootFolderId]);
     setFoldersNameHistory([BREADCRUMBS_ROOT]);
     setCurrentFolderIndex(0);
-  };
+  }
 
   useEffect(() => {
     if (selectedConnectorId) {
@@ -160,24 +155,20 @@ const ConnectorsList = () => {
     if (currentFolderIndex === 0 && connectorRootFolderId) {
       goToRootFolder();
     } else if (connectorRootFolderId) {
-      dispatch(
-        getConnectorFolderChildren({ id: foldersIdHistory[currentFolderIndex] })
-      );
+      dispatch(getConnectorFolderChildren({id: foldersIdHistory[currentFolderIndex]}));
     }
-  }, [currentFolderIndex]);
+  }, [currentFolderIndex])
 
   useEffect(() => {
-    if (connectorRootFolderId) {
-      goToRootFolder();
-    }
-  }, [connectorRootFolderId]);
+      if (connectorRootFolderId) {
+        goToRootFolder();
+      }
+  }, [connectorRootFolderId])
 
   useEffect(() => {
     setActionButtonIsDisable({
       prev: !currentFolderIndex,
-      next:
-        currentFolderIndex === foldersIdHistory.length - 1 ||
-        currentFolderIndex === 0,
+      next: currentFolderIndex === foldersIdHistory.length - 1 || currentFolderIndex === 0,
       up: !currentFolderIndex
     });
   }, [currentFolderIndex, foldersIdHistory]);
@@ -220,7 +211,7 @@ const ConnectorsList = () => {
   };
   
   const closeConnectorModalHandler = () => {
-    dispatch(closeEditConnectorModal());
+    dispatch(closeEditConnectorModal())
   };
   
   const handleItemClick = (id, action) => {
@@ -283,38 +274,36 @@ const ConnectorsList = () => {
     </div>
   );
 
-  const listItemsWithDropdown = sortedItems
-    ?.filter(item => item.name !== FOLDER_TYPE.RECYCLE_BIN)
-    .map(item => {
-      const isFolder = item.kind === 'FLD';
+  const listItemsWithDropdown = sortedItems?.filter(item => item.name !== FOLDER_TYPE.RECYCLE_BIN).map(item => {
+    const isFolder = item.kind === 'FLD';
 
-      const currentId = item.id;
+    const currentId = item.id;
 
-      const menu = isFolder
-        ? getFolderDropdownItems(`folder_${item.id}`)
-        : getUniverseDropdownItems(item.id);
+    const menu = isFolder
+      ? getFolderDropdownItems(`folder_${item.id}`)
+      : getUniverseDropdownItems(item.id);
 
-      return (
-        <Fragment key={isFolder ? `folder_${item.id}` : item.id}>
-          {editListItemId === currentId ? (
-            <ListItemEdit
-              value={item.name}
-              // TODO: implement submit function
-              // onSubmit={onItemEditSubmit}
-              onBlur={() => setEditListItemId(null)}
-            />
-          ) : (
-            <ListItem
-              className={styles.folderItemsColumnView}
-              name={item.name}
-              onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
-              icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
-              menu={menu}
-            />
-          )}
-        </Fragment>
-      );
-    });
+    return (
+      <Fragment key={isFolder ? `folder_${item.id}` : item.id}>
+        {editListItemId === currentId ? (
+          <ListItemEdit
+            value={item.name}
+            // TODO: implement submit function
+            // onSubmit={onItemEditSubmit}
+            onBlur={() => setEditListItemId(null)}
+          />
+        ) : (
+          <ListItem
+            className={styles.folderItemsColumnView}
+            name={item.name}
+            onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
+            icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
+            menu={menu}
+          />
+        )}
+      </Fragment>
+    );
+  });
 
   const tableHeader = connectorsTableHeader.map(i => (
     <th key={i.name}>{i.name}</th>

@@ -1,6 +1,6 @@
 import { request } from '../helpers';
-import { setCreateConnectorResult, setCreateConnector, setConnectorSource, setConnectorData, setConnectors, setConnectorsFolderId, setConnectorsTypes, setTestConnector } from '../reducers/data';
-import { setConnectorObjects } from '../reducers/schemaDesigner'; 
+import { setCreateConnectorResult, setCreateConnector, setConnectorSource, setConnectorData, setConnectors, setConnectorsFolderId, setConnectorsTypes, setTestConnector, setConnectorReadyForTest } from '../reducers/data';
+import { setConnectorObjects } from '../reducers/schemaDesigner';
 import { notificationShown } from '../reducers/notifications';
 import { showEditConnectorModal } from '../reducers/ui';
 
@@ -79,6 +79,32 @@ export const getConnector = queryParams => {
         notificationShown({ message: err.message, messageType: 'error' })
       );
     }
+  };
+};
+
+export const getConnectorForTest = queryParams => {
+  return async dispatch => {
+    try {
+      const response = await request({
+        code: 'CN.OPEN',
+        params: queryParams,
+        dispatch
+      });
+      if (response?.result) {
+        dispatch(setConnectorData(response));
+        dispatch(setConnectorReadyForTest(true));
+      }
+    } catch (err) {
+      dispatch(
+        notificationShown({ message: err.message, messageType: 'error' })
+      );
+    }
+  };
+};
+
+export const setConnectorReady = (params) => {
+  return dispatch => {
+    dispatch(setConnectorReadyForTest(params));
   };
 };
 

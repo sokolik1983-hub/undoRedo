@@ -111,9 +111,6 @@ const EditConnectorModal = ({ visible, onClose }) => {
       setshowTestOk(false);
       setshowTestFailed(false);
       setIsActive(!isActive);
-      if (connectorData?.data?.fields[2]) {
-        connectorData.data.fields[2].value = connectorData?.data?.fields[2]?.value.toUpperCase();
-      }
       setHeaderAndDescription();
       dispatch(testConnector({ data: connectorData.data }));
     }
@@ -123,9 +120,6 @@ const EditConnectorModal = ({ visible, onClose }) => {
     event.preventDefault();
     event.stopPropagation();
     setHeaderAndDescription();
-    if (connectorData?.data?.fields[2]?.value) {
-      connectorData.data.fields[2].value = connectorData?.data?.fields[2]?.value.toUpperCase();
-    }
     dispatch(saveConnector(connectorData));
     onClose();
   };
