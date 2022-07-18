@@ -1,25 +1,24 @@
-/* eslint-disable react/jsx-curly-newline */
-import React from 'react';
-import PropTypes from 'prop-types';
 import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter';
 import FormatAlignJustifyIcon from '@material-ui/icons/FormatAlignJustify';
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
 import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
-import FormatItalicIcon from '@material-ui/icons/FormatItalic';
 import FormatClearIcon from '@material-ui/icons/FormatClear';
 import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
 import FormatColorTextIcon from '@material-ui/icons/FormatColorText';
+import FormatItalicIcon from '@material-ui/icons/FormatItalic';
+import PropTypes from 'prop-types';
+/* eslint-disable react/jsx-curly-newline */
+import React from 'react';
 
 import { FONT_LIST, FONT_SIZE } from '../../../constants/common';
 import { transformOptions } from '../../../helpers/common';
-import SectionGroup from '.';
 import ColorPicker from '../../ColorPicker';
 import Select from '../../Select';
-
-import styles from './SectionGroup.module.scss';
-import PaddingsConfig from './PaddingsConfig';
 import BordersConfig from './BordersConfig';
+import PaddingsConfig from './PaddingsConfig';
+import styles from './SectionGroup.module.scss';
+import SectionGroup from '.';
 
 function StyleFormatter({ onChange, isHeader, formattingElement }) {
   return (
@@ -31,36 +30,36 @@ function StyleFormatter({ onChange, isHeader, formattingElement }) {
             id: 'font-family',
             component: (
               <Select
-                defaultValue={formattingElement?.style?.fontFamily || ""}
+                defaultValue={formattingElement?.style?.fontFamily || ''}
                 className={styles.select}
                 name="fontfamily"
                 options={transformOptions(FONT_LIST)}
-                onSelectItem={fontFamily =>
+                onSelectItem={(fontFamily) =>
                   onChange({
                     styles: { fontFamily },
-                    isHeader
+                    isHeader,
                   })
                 }
               />
-            )
+            ),
           },
           {
             id: 'font-size',
             component: (
               <Select
                 name="fsize"
-                defaultValue={formattingElement?.style?.fontSize || ""}
+                defaultValue={formattingElement?.style?.fontSize || ''}
                 className={styles.select}
                 options={transformOptions(FONT_SIZE)}
-                onSelectItem={fontSize =>
+                onSelectItem={(fontSize) =>
                   onChange({
                     styles: { fontSize },
-                    isHeader
+                    isHeader,
                   })
                 }
               />
-            )
-          }
+            ),
+          },
         ]}
       />
       <SectionGroup
@@ -73,8 +72,8 @@ function StyleFormatter({ onChange, isHeader, formattingElement }) {
             action: () =>
               onChange({
                 styles: { fontWeight: 'bold' },
-                isHeader
-              })
+                isHeader,
+              }),
           },
           {
             id: 'ITALIC',
@@ -83,8 +82,8 @@ function StyleFormatter({ onChange, isHeader, formattingElement }) {
             action: () =>
               onChange({
                 styles: { fontStyle: 'italic' },
-                isHeader
-              })
+                isHeader,
+              }),
           },
 
           {
@@ -94,14 +93,14 @@ function StyleFormatter({ onChange, isHeader, formattingElement }) {
               <ColorPicker
                 icon={<FormatColorFillIcon className={styles.icon} />}
                 className={styles.icon}
-                onChangeColor={color =>
+                onChangeColor={(color) =>
                   onChange({
                     styles: { backgroundColor: color },
-                    isHeader
+                    isHeader,
                   })
                 }
               />
-            )
+            ),
           },
           {
             id: 'FONT_COLOR',
@@ -110,14 +109,14 @@ function StyleFormatter({ onChange, isHeader, formattingElement }) {
               <ColorPicker
                 icon={<FormatColorTextIcon className={styles.icon} />}
                 className={styles.icon}
-                onChangeColor={color =>
+                onChangeColor={(color) =>
                   onChange({
                     styles: { color },
-                    isHeader
+                    isHeader,
                   })
                 }
               />
-            )
+            ),
           },
           {
             id: 'CLEAR_STYLE',
@@ -126,9 +125,9 @@ function StyleFormatter({ onChange, isHeader, formattingElement }) {
             action: () =>
               onChange({
                 styles: {},
-                isHeader
-              })
-          }
+                isHeader,
+              }),
+          },
         ]}
       />
       <SectionGroup
@@ -141,8 +140,8 @@ function StyleFormatter({ onChange, isHeader, formattingElement }) {
             action: () =>
               onChange({
                 styles: { textAlign: 'left' },
-                isHeader
-              })
+                isHeader,
+              }),
           },
           {
             id: 'CENTER_ALIGN',
@@ -151,8 +150,8 @@ function StyleFormatter({ onChange, isHeader, formattingElement }) {
             action: () =>
               onChange({
                 styles: { textAlign: 'center' },
-                isHeader
-              })
+                isHeader,
+              }),
           },
           {
             id: 'JUSTIFY_ALIGN',
@@ -161,8 +160,8 @@ function StyleFormatter({ onChange, isHeader, formattingElement }) {
             action: () =>
               onChange({
                 styles: { textAlign: 'justify' },
-                isHeader
-              })
+                isHeader,
+              }),
           },
           {
             id: 'RIGHT_ALIGN',
@@ -171,9 +170,9 @@ function StyleFormatter({ onChange, isHeader, formattingElement }) {
             action: () =>
               onChange({
                 styles: { textAlign: 'right' },
-                isHeader
-              })
-          }
+                isHeader,
+              }),
+          },
         ]}
       />
       <SectionGroup
@@ -185,10 +184,10 @@ function StyleFormatter({ onChange, isHeader, formattingElement }) {
               <PaddingsConfig
                 formattingElement={formattingElement}
                 isHeader={isHeader}
-                onChange={params => onChange(params)}
+                onChange={(params) => onChange(params)}
               />
-            )
-          }
+            ),
+          },
         ]}
       />
       <SectionGroup
@@ -200,35 +199,35 @@ function StyleFormatter({ onChange, isHeader, formattingElement }) {
               <BordersConfig
                 formattingElement={formattingElement}
                 isHeader={isHeader}
-                onChange={params => onChange(params)}
+                onChange={(params) => onChange(params)}
               />
-            )
-          }
+            ),
+          },
         ]}
       />
       <SectionGroup
-        title='Ширина столбца'
+        title="Ширина столбца/ячейки"
         actions={[
           {
             id: 'width',
             component: (
-              <div style={{display: 'flex'}}>
+              <div style={{ display: 'flex' }}>
                 <input
                   style={{ width: 50 }}
                   value={formattingElement?.style?.width}
-                  onChange={event => {
+                  onChange={(event) => {
                     onChange({
                       isHeader,
                       styles: {
-                        width: `${event.target.value}px`
-                      }
+                        width: `${event.target.value}px`,
+                      },
                     });
                   }}
                 />
                 <div>&nbsp;px</div>
               </div>
-            )
-          }
+            ),
+          },
         ]}
       />
     </div>
@@ -238,7 +237,7 @@ function StyleFormatter({ onChange, isHeader, formattingElement }) {
 StyleFormatter.propTypes = {
   onChange: PropTypes.func,
   isHeader: PropTypes.bool,
-  formattingElement: PropTypes.object
+  formattingElement: PropTypes.object,
 };
 
 export default StyleFormatter;

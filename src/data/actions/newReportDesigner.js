@@ -1,8 +1,8 @@
-import {ActionCreators} from 'redux-undo';
+import { ActionCreators } from 'redux-undo';
 
-import {TOAST_TYPE} from '../../common/constants/common';
-import {getCurrentReport} from '../../modules/ReportDesigner/helpers';
-import {request} from '../helpers';
+import { TOAST_TYPE } from '../../common/constants/common';
+import { getCurrentReport } from '../../modules/ReportDesigner/helpers';
+import { request } from '../helpers';
 import {
   setReportDisplayMode,
   setReportHeader,
@@ -10,7 +10,7 @@ import {
   setStructure,
   setVariables,
 } from '../reducers/new_reportDesigner';
-import {showToast} from './app';
+import { showToast } from './app';
 
 export const refreshServerResponse = (queryParams) => {
   return async (dispatch) => {
@@ -65,7 +65,7 @@ export const createReport = (queryParams, onSuccess) => {
 export const saveReport = (queryParams, onSuccess) => {
   return async (dispatch, getState) => {
     const state = getState();
-    const {reportDesigner} = state.app;
+    const { reportDesigner } = state.app;
     const currentReport = getCurrentReport(
       reportDesigner.reportsData.present.reports,
       reportDesigner.reportsData.present.activeReport,
@@ -153,8 +153,6 @@ export const getReportTabs = (queryParams) => {
           }),
         }),
       );
-
-      console.log(response);
       // dispatch(getReportStructure({ report_id: queryParams.report_id }));
     }
   };
@@ -194,7 +192,7 @@ export const setReportStructure = (queryParams) => {
       dispatch,
     });
     if (response) {
-      dispatch(getReportStructure({report_id: queryParams.report_id}));
+      dispatch(getReportStructure({ report_id: queryParams.report_id }));
     }
   };
 };

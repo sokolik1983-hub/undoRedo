@@ -7,42 +7,42 @@ import IconButton from '../../IconButton';
 import styles from './ListNavBarActions.module.scss';
 
 const ListNavBarActions = ({
-    onPrevClick,
-    onNextClick,
-    onUpClick,
-    actionButtonIsDisable,
+  onPrevClick,
+  onNextClick,
+  onUpClick,
+  actionButtonIsDisable,
 }) => {
-    return (
-        <div className={styles.navigationActions}>
-            <div>
-                <IconButton
-                    className={styles.btnPrev}
-                    icon={<ArrowLeftIcon />}
-                    onClick={onPrevClick}
-                    disabled={actionButtonIsDisable.prev}
-                />
-                <IconButton
-                    className={styles.btnNext}
-                    icon={<ArrowRightIcon />}
-                    onClick={onNextClick}
-                    disabled={actionButtonIsDisable.next}
-                />
-            </div>
-            <IconButton
-                className={styles.btnUp}
-                icon={<ArrowUpIcon />}
-                onClick={onUpClick}
-                disabled={actionButtonIsDisable.up}
-            />
-        </div>
-    );
+  return (
+    <div className={styles.navigationActions}>
+      <div>
+        <IconButton
+          className={styles.btnPrev}
+          icon={<ArrowLeftIcon />}
+          onClick={onPrevClick}
+          disabled={actionButtonIsDisable.prev}
+        />
+        <IconButton
+          className={styles.btnNext}
+          icon={<ArrowRightIcon />}
+          onClick={onNextClick}
+          disabled={actionButtonIsDisable.next}
+        />
+      </div>
+      <IconButton
+        className={styles.btnUp}
+        icon={<ArrowUpIcon />}
+        onClick={onUpClick}
+        disabled={actionButtonIsDisable.up}
+      />
+    </div>
+  );
 };
 
 export default ListNavBarActions;
 
 ListNavBarActions.propTypes = {
-    onPrevClick: PropTypes.func,
-    onNextClick: PropTypes.func,
-    onUpClick: PropTypes.func,
-    actionButtonIsDisable: PropTypes.object,
+  onPrevClick: PropTypes.func,
+  onNextClick: PropTypes.func,
+  onUpClick: PropTypes.func,
+  actionButtonIsDisable: PropTypes.object,
 };

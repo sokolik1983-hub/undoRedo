@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, {FC, ReactEventHandler, ReactNode} from 'react';
+import React, { FC, ReactEventHandler, ReactNode } from 'react';
 
 import styles from './IconButton.module.scss';
 
@@ -15,72 +15,72 @@ import styles from './IconButton.module.scss';
  */
 
 interface IconButtonProps {
-    children?: ReactNode;
-    onClick?: (event: React.MouseEvent) => void;
-    size?: string;
-    color?: string;
-    disabled?: boolean;
-    className?: string;
-    active?: boolean;
-    icon?: ReactNode;
-    href?: string;
-    type?: string;
+  children?: ReactNode;
+  onClick?: (event: React.MouseEvent) => void;
+  size?: string;
+  color?: string;
+  disabled?: boolean;
+  className?: string;
+  active?: boolean;
+  icon?: ReactNode;
+  href?: string;
+  type?: string;
 }
 
 const defaultProps = {
-    children: null,
-    onClick: () => {
-        // some action
-    },
-    size: 'medium',
-    color: '',
-    disabled: false,
-    icon: null,
+  children: null,
+  onClick: () => {
+    // some action
+  },
+  size: 'medium',
+  color: '',
+  disabled: false,
+  icon: null,
 };
 
 const IconButton: FC<IconButtonProps> = ({
-    children,
-    onClick,
-    size,
-    color,
-    disabled,
-    className,
-    active,
-    icon,
-    href,
+  children,
+  onClick,
+  size,
+  color,
+  disabled,
+  className,
+  active,
+  icon,
+  href,
 }) => {
-    const classes = clsx(
-        styles.iconButton,
-        className,
-        {[styles.active]: active},
-        // @ts-ignore
-        [styles[size]],
-    );
+  const classes = clsx(
+    styles.iconButton,
+    className,
+    { [styles.active]: active },
+    // @ts-ignore
+    [styles[size]],
+  );
 
-    const onClickAction = (event: React.MouseEvent) => {
-        if (disabled) {
-            event.preventDefault();
-        } else {
-            if (onClick) {
-                onClick(event);
-            }
-        }
-    };
+  const onClickAction = (event: React.MouseEvent) => {
+    if (disabled) {
+      event.preventDefault();
+    } else {
+      if (onClick) {
+        onClick(event);
+      }
+    }
+  };
 
-    const Tag = href ? 'a' : 'button';
+  const Tag = href ? 'a' : 'button';
 
-    return (
-        <Tag
-            disabled={disabled}
-            type="button"
-            className={classes}
-            onClick={onClickAction}
-        >
-            <span className={styles.icon} color={color}>
-                {icon}
-            </span>
-        </Tag>
-    );
+  return (
+    <Tag
+      disabled={disabled}
+      type="button"
+      className={classes}
+      onClick={onClickAction}
+    >
+      <span className={styles.icon} color={color}>
+        {icon}
+      </span>
+    </Tag>
+  );
 };
 IconButton.defaultProps = defaultProps;
 

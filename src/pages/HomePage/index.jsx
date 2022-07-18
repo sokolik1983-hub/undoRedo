@@ -1,13 +1,21 @@
 import clsx from 'clsx';
+/* eslint-disable */
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
+import DropdownItem from '../../common/components/Dropdown/DropdownItem';
+import Dropdown from '../../common/components/Dropdown/index';
 import FloatingButton from '../../common/components/FloatingButton';
+import InlinePreloader from '../../common/components/InlinePreloader/index';
 import { REDIRECT_LINKS } from '../../common/constants/common';
+import { HOME_PAGE_BUTTON_ACTIONS } from '../../common/constants/common';
 import { PAGE } from '../../common/constants/pages';
-import { getFavoriteObjects } from '../../data/actions/app';
-import { setObjectFavoriteStatus } from '../../data/actions/app';
+import {
+  getFavoriteObjects,
+  setObjectFavoriteStatus,
+} from '../../data/actions/app';
+import { setObjectToFavorites } from '../../data/actions/app';
 import { setCurrentPage } from '../../data/reducers/ui';
 import ExplorerIcon from '../../layout/assets/icons/buttonPlus.svg';
 import navigationMenu from '../../navigation';
@@ -18,7 +26,8 @@ import HomePageButton from './HomePageButton/HomePageButton';
 const RECENTS = [
   {
     id: 1,
-    title: 'Слой 1 о проделанной работе с мая месяца текущего года',
+    title:
+      'Семантический слой 1 о проделанной работе с мая месяца текущего года',
     kind: 'SL',
   },
   { id: 2, title: 'Отчет 2', kind: 'REP' },
@@ -31,7 +40,9 @@ function HomePage() {
 
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.DASHBOARD));
-    dispatch(getFavoriteObjects());
+    if (window.localStorage.getItem('token')) {
+      dispatch(getFavoriteObjects());
+    }
   }, []);
 
   const handleReportCreate = () => {
@@ -41,7 +52,7 @@ function HomePage() {
   return (
     <div className={styles.root}>
       <div
-        className={clsx(styles.row, styles.recentBG, styles.whiteLineShadow)}
+        className={clsx(styles.row, styles.recentBg, styles.whiteLineShadow)}
       >
         <div className={clsx(styles.whiteLine)} />
         <p className={styles.rowTitle}>Недавние</p>
@@ -59,7 +70,7 @@ function HomePage() {
 
       <FavoritesList />
 
-      <div className={clsx(styles.row, styles.appsBG, styles.whiteLineShadow)}>
+      <div className={clsx(styles.row, styles.appsBg, styles.whiteLineShadow)}>
         <div className={clsx(styles.whiteLine3)} />
         <p className={styles.rowTitle}>Приложения</p>
         <div className={clsx(styles.section, styles.apps)}>

@@ -9,9 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { setFormattingElement } from '../../../../../../data/reducers/new_reportDesigner';
 import Cell from '../../../TableCell';
-
+import { LoadingRow, getStyleFn, renderRow } from '../../helpers';
 import { getZoneData } from '../helpers';
-import { LoadingRow, renderRow, getStyleFn } from '../../helpers';
 
 const TableBody = ({
   bodyZone,
@@ -28,7 +27,7 @@ const TableBody = ({
   const [zoneData, setZoneData] = useState({});
   const [zoneLoadingStatus, setZoneLoadingStatus] = useState({});
   const formattingElement = useSelector(
-    state => state.app.reportDesigner?.reportsUi?.ui?.formattingElement
+    (state) => state.app.reportDesigner?.reportsUi?.ui?.formattingElement,
   );
 
   const zones =
@@ -36,28 +35,29 @@ const TableBody = ({
       ? bodyZone
       : [...headerZone, ...bodyZone, ...footerZone];
 
-  const callback = key => res => {
-    setZoneData(prev => ({ ...prev, [key]: res?.data }));
+  const callback = (key) => (res) => {
+    setZoneData((prev) => ({ ...prev, [key]: res?.data }));
     setZoneLoadingStatus({
       ...zoneLoadingStatus,
-      [key]: false
+      [key]: false,
     });
   };
 
-  const isDataEmpty = () => Object.values(zoneData).filter(item => (item && item.length > 0)).length === 0
+  const isDataEmpty = () =>
+    Object.values(zoneData).filter((item) => item && item.length > 0).length ===
+    0;
 
   const getRefreshStatus = () => {
-    if(isDataEmpty()) return true
-    return needRefresh
-  }
+    if (isDataEmpty()) return true;
+    return needRefresh;
+  };
 
   useEffect(async () => {
     if (displayMode === 'Data') {
-
-      if(getRefreshStatus() === false) return
+      if (getRefreshStatus() === false) return;
       setZoneData({});
 
-      const resetFn = key => {
+      const resetFn = (key) => {
         setZoneData({ ...zoneData, [key]: null });
         setZoneLoadingStatus({ ...zoneLoadingStatus, [key]: true });
       };
@@ -66,16 +66,16 @@ const TableBody = ({
         zones,
         dispatch,
         callback,
-        resetFn
+        resetFn,
       });
     }
   }, [displayMode, needRefresh]);
 
-  const handleClick = item => dispatch(setFormattingElement({ item }));
+  const handleClick = (item) => dispatch(setFormattingElement({ item }));
 
-  const renderHTableHeader = colId => {
-    return headerZone?.map(zone => {
-      const headerField = find(zone?.cells, it => it.col === colId);
+  const renderHTableHeader = (colId) => {
+    return headerZone?.map((zone) => {
+      const headerField = find(zone?.cells, (it) => it.col === colId);
 
       return (
         headerField && (
@@ -95,9 +95,9 @@ const TableBody = ({
       );
     });
   };
-  const renderHTableFooter = colId => {
-    return footerZone?.map(zone => {
-      const footerField = find(zone?.cells, it => it.col === colId);
+  const renderHTableFooter = (colId) => {
+    return footerZone?.map((zone) => {
+      const footerField = find(zone?.cells, (it) => it.col === colId);
 
       return (
         footerField && (
@@ -119,7 +119,7 @@ const TableBody = ({
   };
 
   const renderHTableCells = () => {
-    return bodyZone?.map(zone => {
+    return bodyZone?.map((zone) => {
       return [
         zone?.cells?.map((item, idx) => {
           return (
@@ -140,16 +140,16 @@ const TableBody = ({
               {tableType === 'hTable' ? renderHTableFooter(item.col) : null}
             </tr>
           );
-        })
+        }),
       ];
     });
   };
 
   const renderVTableCells = () => {
-    return bodyZone?.map(zone => {
+    return bodyZone?.map((zone) => {
       return (
         <tr>
-          {zone?.cells?.map(item => {
+          {zone?.cells?.map((item) => {
             return (
               <td key={item.id} onClick={() => handleClick(item)}>
                 <Cell
@@ -171,14 +171,14 @@ const TableBody = ({
   };
 
   const renderXTableCells = () => {
-    const xHeaderZone = bodyZone.filter(item => item.hType === 'header');
-    const xBodyZone = bodyZone.filter(item => item.hType === 'body');
-    const xFooterZone = bodyZone.filter(item => item.hType === 'footer');
+    const xHeaderZone = bodyZone.filter((item) => item.hType === 'header');
+    const xBodyZone = bodyZone.filter((item) => item.hType === 'body');
+    const xFooterZone = bodyZone.filter((item) => item.hType === 'footer');
 
     // console.log(xHeaderZone, xBodyZone, xFooterZone);
 
-    return [...xHeaderZone, ...xBodyZone, ...xFooterZone].map(zone => {
-      return zone?.cells?.map(item => {
+    return [...xHeaderZone, ...xBodyZone, ...xFooterZone].map((zone) => {
+      return zone?.cells?.map((item) => {
         if (zone.hType === 'header') {
           return (
             <th key={item.id} onClick={() => handleClick(item)}>
@@ -216,11 +216,11 @@ const TableBody = ({
 
   const renderVRow = () => {
     const bodyKey = Object.keys(zoneData).find(
-      key => key[key.length - 1] === 'B'
+      (key) => key[key.length - 1] === 'B',
     );
 
     if (!zoneData || !zoneData[bodyKey]) return LoadingRow;
-    return zoneData?.[bodyKey]?.map(item => {
+    return zoneData?.[bodyKey]?.map((item) => {
       return (
         <tr key={item} data="data-row">
           {item.map((cell, idx) => {
@@ -255,7 +255,7 @@ const TableBody = ({
 
     const anchor = zoneData[dataKeys[0]];
 
-    const getRow = index => {
+    const getRow = (index) => {
       return dataKeys.reduce((acc, key) => {
         const currentRow = zoneData?.[key];
         if (!currentRow) return acc;
@@ -266,8 +266,8 @@ const TableBody = ({
               <th style={{ ...getStyle(index, key) }}>{cell}</th>
             ) : (
               <td style={{ ...getStyle(index, key) }}>{cell}</td>
-            )
-          )
+            ),
+          ),
         );
         return acc;
       }, []);

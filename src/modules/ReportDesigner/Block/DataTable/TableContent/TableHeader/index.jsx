@@ -1,16 +1,16 @@
+import { find } from 'lodash';
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import cloneDeep from 'lodash/cloneDeep';
-
-import { find } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { getElementData } from '../../../../../../data/actions/newReportDesigner';
 import { setFormattingElement } from '../../../../../../data/reducers/new_reportDesigner';
 import Cell from '../../../TableCell';
-import styles from './TableHeader.module.scss';
+import { LoadingRow, getStyleFn, renderRow } from '../../helpers';
 import { getZoneData, selectCell } from '../helpers';
-import { LoadingRow, renderRow, getStyleFn } from '../../helpers';
+import styles from './TableHeader.module.scss';
 
 const TableHeader = ({
   data,
@@ -27,18 +27,18 @@ const TableHeader = ({
   const [isFetching, setIsFetching] = useState(false);
   const [response, setResponse] = useState();
   const formattingElement = useSelector(
-    state => state.app.reportDesigner?.reportsUi?.ui?.formattingElement
+    (state) => state.app.reportDesigner?.reportsUi?.ui?.formattingElement,
   );
 
-  const callback = key => res => {
-    setZoneData(prev => ({ ...prev, [key]: res?.data }));
+  const callback = (key) => (res) => {
+    setZoneData((prev) => ({ ...prev, [key]: res?.data }));
     setZoneLoadingStatus({
       ...zoneLoadingStatus,
-      [key]: false
+      [key]: false,
     });
   };
 
-  const resetFn = key => {
+  const resetFn = (key) => {
     setZoneData({ ...zoneData, [key]: null });
     setZoneLoadingStatus({ ...zoneLoadingStatus, [key]: true });
   };
@@ -46,7 +46,7 @@ const TableHeader = ({
   const zones = data;
 
   const isDataEmpty = () =>
-    Object.values(zoneData).filter(item => item && item.length > 0).length ===
+    Object.values(zoneData).filter((item) => item && item.length > 0).length ===
     0;
 
   const getRefreshStatus = () => {
@@ -61,7 +61,7 @@ const TableHeader = ({
         zones,
         dispatch,
         callback,
-        resetFn
+        resetFn,
       });
     }
   }, [displayMode]);
@@ -101,7 +101,7 @@ const TableHeader = ({
     const items = Object.values(zoneData)[0];
     if (!zoneData || !items) return LoadingRow;
     /* eslint-disable react/no-array-index-key   */
-    return items?.map(item => {
+    return items?.map((item) => {
       return (
         <tr key={item} data="data-row">
           {item.map((cell, idx) => {
@@ -123,14 +123,14 @@ const TableHeader = ({
     if (tableType === 'hTable') return null;
 
     if (tableType === 'xTable') {
-      const headerZone = data.filter(item => item.hType === 'header');
-      const bodyZone = data.filter(item => item.hType === 'body');
-      const footerZone = data.filter(item => item.hType === 'footer');
+      const headerZone = data.filter((item) => item.hType === 'header');
+      const bodyZone = data.filter((item) => item.hType === 'body');
+      const footerZone = data.filter((item) => item.hType === 'footer');
 
-      return [...headerZone, ...bodyZone, ...footerZone].map(zone => {
+      return [...headerZone, ...bodyZone, ...footerZone].map((zone) => {
         return (
           // <tr key={zone.id}>
-          zone?.cells?.map(item => {
+          zone?.cells?.map((item) => {
             return (
               <th key={item.id} onClick={() => handleClick(item)}>
                 <Cell
@@ -151,10 +151,10 @@ const TableHeader = ({
       });
     }
 
-    return data?.map(zone => {
+    return data?.map((zone) => {
       return (
         <tr>
-          {zone?.cells?.map(item => {
+          {zone?.cells?.map((item) => {
             return (
               <th key={item.id} onClick={() => handleClick(item)}>
                 <Cell

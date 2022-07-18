@@ -6,30 +6,30 @@ import React from 'react';
  * @param onDateSelect - возвращает выбранное значение
  */
 
-const DatePicker = ({name, onDateSelect}) => {
-    const handleItemSelect = (e) => {
-        onDateSelect(e.target.value);
-    };
+const DatePicker = ({ name, onDateSelect }) => {
+  const handleItemSelect = (e) => {
+    onDateSelect(e.target.value);
+  };
 
-    return (
-        <input
-            type="date"
-            name={name || 'datePicker'}
-            onChange={handleItemSelect}
-        />
-    );
+  return (
+    <input
+      type="date"
+      name={name || 'datePicker'}
+      onChange={handleItemSelect}
+    />
+  );
 };
 
 export default DatePicker;
 
 DatePicker.propTypes = {
-    name: PropTypes.string,
-    onDateSelect: PropTypes.func,
+  name: PropTypes.string,
+  onDateSelect: PropTypes.func,
 };
 
 DatePicker.defaultProps = {
-    name: '',
-    onDateSelect: () => {
-        // something
-    },
+  name: '',
+  onDateSelect: () => {
+    // something
+  },
 };
