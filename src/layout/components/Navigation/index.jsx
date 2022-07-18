@@ -1,13 +1,14 @@
-import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link as RouterLink } from 'react-router-dom';
+
 import { showNav } from '../../../data/reducers/ui';
 import navigationMenu from '../../../navigation';
 import styles from './Navigation.module.scss';
 
 function Navigation() {
-  const isNavShowing = useSelector(state => state.app.ui?.isNavShowing);
+  const isNavShowing = useSelector((state) => state.app.ui?.isNavShowing);
   const dispatch = useDispatch();
 
   function handleHideMenu() {
@@ -22,7 +23,7 @@ function Navigation() {
     <>
       <div className={clsx(styles.root, { [styles.opened]: isNavShowing })}>
         {navigationMenu &&
-          navigationMenu.map(menuItem => (
+          navigationMenu.map((menuItem) => (
             <RouterLink
               to={menuItem.href}
               key={menuItem.id}
@@ -30,8 +31,8 @@ function Navigation() {
               onClick={handleClick}
             >
               <div className={styles.menuItem}>
-                <div className={styles['menuItem_icon']}>{menuItem.icon}</div>
-                <div className={styles['menuItem_text']}>{menuItem.title}</div>
+                <div className={styles['menuItemIcon']}>{menuItem.icon}</div>
+                <div className={styles['menuItemText']}>{menuItem.title}</div>
               </div>
             </RouterLink>
           ))}

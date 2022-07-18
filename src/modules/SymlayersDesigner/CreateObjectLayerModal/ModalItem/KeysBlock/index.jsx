@@ -1,32 +1,33 @@
-import { React, useEffect, useState } from 'react';
 import { Field, useFormikContext } from 'formik';
 import PropTypes from 'prop-types';
-import ModalItem from '..';
-import { BUTTON } from '../../../../../common/constants/common';
+import { React, useEffect, useState } from 'react';
+
 import Button from '../../../../../common/components/Button';
-import Tooltip from '../../../../../common/components/Tooltip';
-import CheckboxField from '../../../../../common/components/formikFields/checkboxField';
 import Dropdown from '../../../../../common/components/Dropdown';
 import DropdownItem from '../../../../../common/components/Dropdown/DropdownItem';
-import { ReactComponent as PencilIcon } from '../../../../../layout/assets/pencilIcon.svg';
-import { ReactComponent as Arrow } from '../../../../../layout/assets/queryPanel/arrowThin.svg';
-import { ReactComponent as SymbolIcon } from '../../../../../layout/assets/icons/symbolIcon.svg';
-import { ReactComponent as DateIcon } from '../../../../../layout/assets/icons/dateIcon.svg';
-import { ReactComponent as TextIcon } from '../../../../../layout/assets/icons/textIcon.svg';
-import { ReactComponent as NumberIcon } from '../../../../../layout/assets/icons/numberIcon.svg';
+import CheckboxField from '../../../../../common/components/formikFields/checkboxField';
+import Tooltip from '../../../../../common/components/Tooltip';
+import { BUTTON } from '../../../../../common/constants/common';
+import DateIcon from '../../../../../layout/assets/icons/dateIcon.svg';
+import NumberIcon from '../../../../../layout/assets/icons/numberIcon.svg';
+import SymbolIcon from '../../../../../layout/assets/icons/symbolIcon.svg';
+import TextIcon from '../../../../../layout/assets/icons/textIcon.svg';
+import PencilIcon from '../../../../../layout/assets/pencilIcon.svg';
+import Arrow from '../../../../../layout/assets/queryPanel/arrowThin.svg';
 import styles from './KeysBlock.module.scss';
+import ModalItem from '..';
 
 const KeysBlock = ({ onChange, name, value }) => {
   const formikProps = useFormikContext();
 
-  const handleClick = e => {
+  const handleClick = (e) => {
     e.preventDefault();
   };
 
   const keyTypeOptions = [
     { value: 'main', text: 'Основной' },
-    { value: 'secondary', text: 'Второстепенный' }
-  ]
+    { value: 'secondary', text: 'Второстепенный' },
+  ];
 
   const SELECT_DATA = 'Data.Дата + convert(SMALLDATETIME,{fn(CURDATE())}';
   const WHERE_DATA =
@@ -37,54 +38,56 @@ const KeysBlock = ({ onChange, name, value }) => {
       type: 'Основной fdgsdfgsfdgsfdgsdfg',
       select: SELECT_DATA,
       where: WHERE_DATA,
-      id: 0
+      id: 0,
     },
     {
       type: 'Внешний',
       select: SELECT_DATA,
       where: WHERE_DATA,
-      id: 1
+      id: 1,
     },
     {
       type: 'Основной',
       select: SELECT_DATA,
       where: WHERE_DATA,
-      id: 2
+      id: 2,
     },
     {
       type: 'Внешний',
       select: SELECT_DATA,
       where: WHERE_DATA,
-      id: 3
+      id: 3,
     },
     {
       type: 'Основной',
       select: SELECT_DATA,
       where: WHERE_DATA,
-      id: 4
+      id: 4,
     },
     {
       type: 'Основной',
       select: SELECT_DATA,
       where: WHERE_DATA,
-      id: 5
-    }
+      id: 5,
+    },
   ];
 
   const selectDataOptions = [
     { icon: <SymbolIcon />, id: 0, text: 'Символ', value: 'symbol' },
     { icon: <DateIcon />, id: 1, text: 'Дата', value: 'data' },
     { icon: <TextIcon />, id: 2, text: 'Номер', value: 'number' },
-    { icon: <NumberIcon />, id: 3, text: 'Текст', value: 'text' }
+    { icon: <NumberIcon />, id: 3, text: 'Текст', value: 'text' },
   ];
 
-  const defDataOptionIndex = selectDataOptions.findIndex(opt => opt.text === value?.[0] || opt.value === value?.[0]);
+  const defDataOptionIndex = selectDataOptions.findIndex(
+    (opt) => opt.text === value?.[0] || opt.value === value?.[0],
+  );
 
   const [selectedDataText, setSelectedDataText] = useState(
-    selectDataOptions[0].text
+    selectDataOptions[0].text,
   );
   const [selectedIcon, setSelectedDataIcon] = useState(
-    selectDataOptions[0].icon
+    selectDataOptions[0].icon,
   );
 
   useEffect(() => {
@@ -92,7 +95,7 @@ const KeysBlock = ({ onChange, name, value }) => {
     formikProps.setFieldValue(name[3], value?.[3] || 'main');
   }, []);
 
-  const setSelectedFields = item => {
+  const setSelectedFields = (item) => {
     setSelectedDataIcon(item.icon);
     setSelectedDataText(item.text);
     formikProps.setFieldValue(name[0], item.value);
@@ -102,7 +105,7 @@ const KeysBlock = ({ onChange, name, value }) => {
     if (defDataOptionIndex > -1) {
       setSelectedFields(selectDataOptions[defDataOptionIndex]);
     }
-  }, [defDataOptionIndex])
+  }, [defDataOptionIndex]);
 
   const dataOptions = () => (
     <div className={styles.dropDownDataBlock}>
@@ -149,7 +152,7 @@ const KeysBlock = ({ onChange, name, value }) => {
             <p className={styles.tableTitle}>where</p>
           </div>
           <div className={styles.keyTableBlock}>
-            {keyTableData.map(item => (
+            {keyTableData.map((item) => (
               <div
                 className={styles.keyTable}
                 key={`keyTable + ${item.type} + ${item.id}`}
@@ -251,5 +254,5 @@ export default KeysBlock;
 KeysBlock.propTypes = {
   onChange: PropTypes.func,
   name: PropTypes.array,
-  value: PropTypes.array
+  value: PropTypes.array,
 };

@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { Formik } from 'formik';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
-import { BUTTON } from '../../../common/constants/common';
 import Button from '../../../common/components/Button';
-import Modal from '../../../common/components/Modal';
+import CheckboxField from '../../../common/components/formikFields/checkboxField';
 import RadioField from '../../../common/components/formikFields/radioField';
-import { ReactComponent as Arrow } from '../../../layout/assets/queryPanel/arrowBoldDown.svg';
+import Modal from '../../../common/components/Modal';
+import { BUTTON } from '../../../common/constants/common';
+import Arrow from '../../../layout/assets/queryPanel/arrowBoldDown.svg';
 import ItemsListModal from '../ItemsListModal';
 import styles from '../QueryPanel.module.scss';
 import modalStyles from './PromptProperties.module.scss';
-import CheckboxField from '../../../common/components/formikFields/checkboxField';
 
 const PromptPropertiesLayer = ({ visible, onClose }) => {
   const [semanticListOpened, setSemanticListOpened] = useState(false);
@@ -22,13 +22,13 @@ const PromptPropertiesLayer = ({ visible, onClose }) => {
     { value: 'listValueBoxt', label: 'Подсказка со списком значений' },
     { value: 'onlyListChoiceBox', label: 'Выбор только из списка' },
     { value: 'lastChosenValuesBox', label: 'Последние выбранные значения' },
-    { value: 'additionalPromptBox', label: 'Дополнительная подсказка' }
+    { value: 'additionalPromptBox', label: 'Дополнительная подсказка' },
   ];
 
   const PromptPropertiesValues = {
     name: '',
     value: '',
-    label: ''
+    label: '',
   };
 
   const onCloseSemanticListHandler = () => {
@@ -73,7 +73,7 @@ const PromptPropertiesLayer = ({ visible, onClose }) => {
           </div>
 
           <div className={modalStyles.checkBox}>
-            {CheckBoxValues.map(item => {
+            {CheckBoxValues.map((item) => {
               return (
                 <CheckboxField
                   key={item.value}
@@ -160,5 +160,5 @@ export default PromptPropertiesLayer;
 
 PromptPropertiesLayer.propTypes = {
   onClose: PropTypes.func,
-  visible: PropTypes.bool.isRequired
+  visible: PropTypes.bool.isRequired,
 };

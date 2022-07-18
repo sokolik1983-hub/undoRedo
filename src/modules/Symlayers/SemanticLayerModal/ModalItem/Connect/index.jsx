@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
 import { cloneDeep } from 'lodash';
-import Gears from '../../../../../common/components/Gears';
-import ModalItem from '..';
-import styles from './Connect.module.scss';
-import { ReactComponent as WireIcon } from '../../../../../layout/assets/semanticLayerModal/wire.svg';
-import Select from '../../../../../common/components/Select';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import Button from '../../../../../common/components/Button';
+import Gears from '../../../../../common/components/Gears';
+import Select from '../../../../../common/components/Select';
 import {
   getConnectorFolderChildren,
   getConnectorForTest,
   getConnectorsFolderId,
   setConnectorReady,
-  testConnector
+  testConnector,
 } from '../../../../../data/actions/connectors';
+import { ReactComponent as WireIcon } from '../../../../../layout/assets/semanticLayerModal/wire.svg';
 import { ReactComponent as TestFailed } from '../../../../../layout/assets/testFailedIcon.svg';
 import { ReactComponent as TestOkIcon } from '../../../../../layout/assets/testOkIcon.svg';
+import styles from './Connect.module.scss';
+import ModalItem from '..';
 
 /**
  * @param title - строка для заголовка
@@ -27,15 +28,17 @@ const Connect = ({ title, cleanTestData }) => {
   const dispatch = useDispatch();
 
   const connectorsFolderId = useSelector(
-    state => state.app.data.connectorsFolderId
+    (state) => state.app.data.connectorsFolderId,
   );
   const testConnectorResult = useSelector(
-    state => state.app.data.testConnector
+    (state) => state.app.data.testConnector,
   );
-  const notifications = useSelector(state => state.app.notifications);
-  const connectors = useSelector(state => state.app.data.connectors);
-  const сonnector = useSelector(state => state.app.data.connectorData);
-  const readyForTest = useSelector(state => state.app.data.connectorTestReady);
+  const notifications = useSelector((state) => state.app.notifications);
+  const connectors = useSelector((state) => state.app.data.connectors);
+  const сonnector = useSelector((state) => state.app.data.connectorData);
+  const readyForTest = useSelector(
+    (state) => state.app.data.connectorTestReady,
+  );
 
   const [isActive, setIsActive] = useState(false);
   const [showTestOk, setShowTestOk] = useState(false);
@@ -89,7 +92,7 @@ const Connect = ({ title, cleanTestData }) => {
 
   const setOptions = () => {
     optionsArray = [];
-    connectors?.list?.map(item => {
+    connectors?.list?.map((item) => {
       if (item.kind === 'CON') {
         optionsArray.push({ text: item.name, value: item.name, key: item.id });
       }
@@ -97,7 +100,7 @@ const Connect = ({ title, cleanTestData }) => {
       return;
     });
     defaultConnector = connectors?.list?.filter(
-      item => item.name === optionsArray[0]?.text
+      (item) => item.name === optionsArray[0]?.text,
     );
     // console.log('defaultConnector', defaultConnector);
     // if(defaultConnector?.data ) {
@@ -111,11 +114,11 @@ const Connect = ({ title, cleanTestData }) => {
     setOptions();
   }, [connectors]);
 
-  const handleItemSelect = e => {
+  const handleItemSelect = (e) => {
     setShowTestOk(false);
     setShowTestFailed(false);
     dispatch(setConnectorReady(false));
-    const selectedConnector = optionsArray.filter(item => item.text === e);
+    const selectedConnector = optionsArray.filter((item) => item.text === e);
     dispatch(getConnectorForTest({ id: selectedConnector[0].key }));
   };
 
@@ -126,18 +129,16 @@ const Connect = ({ title, cleanTestData }) => {
   useEffect(() => {
     if (optionsArray[0]?.text) {
       defaultConnector = connectors?.list?.filter(
-        item => item.name === optionsArray[0]?.text
+        (item) => item.name === optionsArray[0]?.text,
       );
       console.log('defaultConnector', defaultConnector);
-      
-        
-        dispatch(testConnector({ data: defaultConnector.data }));
-        dispatch(setConnectorReady(true));
-      
+
+      dispatch(testConnector({ data: defaultConnector.data }));
+      dispatch(setConnectorReady(true));
     }
   }, [optionsArray[0]?.text]);
 
-  const testConnection = event => {
+  const testConnection = (event) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -176,13 +177,13 @@ const Connect = ({ title, cleanTestData }) => {
           defaultValue={optionsArray[0]?.text || 'Получаем список…'}
           name="name1"
           options={optionsArray}
-          onSelectItem={e => handleItemSelect(e)}
+          onSelectItem={(e) => handleItemSelect(e)}
         />
         <div className={styles.buttonsWrapper}>
           <Button className={styles.edit}>Редактировать</Button>
           <Button
             type="button"
-            onClick={e => testConnection(e)}
+            onClick={(e) => testConnection(e)}
             className={styles.test}
             disabled={!ready}
           >
@@ -198,9 +199,9 @@ export default Connect;
 
 Connect.propTypes = {
   title: PropTypes.string,
-  cleanTestData: PropTypes.object
+  cleanTestData: PropTypes.object,
 };
 
 Connect.defaultProps = {
-  title: ''
+  title: '',
 };

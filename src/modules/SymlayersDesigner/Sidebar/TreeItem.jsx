@@ -1,14 +1,15 @@
+import PropTypes from 'prop-types';
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { ReactComponent as TableIcon } from '../../../layout/assets/icons/viewsShow.svg';
-import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
-import { ReactComponent as OpenFolderIcon } from '../../../layout/assets/openFolderIcon.svg';
-import styles from './Sidebar.module.scss';
-import { getTableIdFromParams } from '../../../data/helpers';
-import TreeTableField from './TreeTableField';
+
 import Tooltip from '../../../common/components/Tooltip';
+import { getTableIdFromParams } from '../../../data/helpers';
+import FolderIcon from '../../../layout/assets/folderIcon.svg';
+import TableIcon from '../../../layout/assets/icons/viewsShow.svg';
+import OpenFolderIcon from '../../../layout/assets/openFolderIcon.svg';
+import styles from './Sidebar.module.scss';
+import TreeTableField from './TreeTableField';
 
 const TreeItem = ({ name, isSchema, table, onSelect, isOpen }) => {
   const [isActive, setActive] = useState(false);
@@ -16,16 +17,16 @@ const TreeItem = ({ name, isSchema, table, onSelect, isOpen }) => {
   const [event, setEvent] = useState({});
 
   const selectedTables = useSelector(
-    state => state.app.schemaDesigner.selectedTables
+    (state) => state.app.schemaDesigner.selectedTables,
   );
 
   useEffect(() => {
     if (isOpen) setFolderOpen(true);
     else setFolderOpen(false);
-  }, [isOpen])
+  }, [isOpen]);
 
   const selectedTableColumns =
-    selectedTables[getTableIdFromParams({...table})];
+    selectedTables[getTableIdFromParams({ ...table })];
 
   useEffect(() => {
     if (!isSchema && isActive) {
@@ -39,12 +40,7 @@ const TreeItem = ({ name, isSchema, table, onSelect, isOpen }) => {
   return (
     <>
       {isSchema ? (
-        <Tooltip
-          placement="bottomLeft"
-          overlay={
-            <>{name}</>
-          }
-        >
+        <Tooltip placement="bottomLeft" overlay={<>{name}</>}>
           <div
             className={isActive ? styles.actTableItem : styles.tableItem}
             onClick={() => {
@@ -63,24 +59,17 @@ const TreeItem = ({ name, isSchema, table, onSelect, isOpen }) => {
           </div>
         </Tooltip>
       ) : (
-        <Tooltip
-          placement="bottomLeft"
-          overlay={
-            <>
-              {table.objectName}
-            </>
-          }
-        >
+        <Tooltip placement="bottomLeft" overlay={<>{table.objectName}</>}>
           <div className={isActive ? styles.actItem : styles.item}>
             <button
               type="button"
-              onDoubleClick={e => {
+              onDoubleClick={(e) => {
                 e.preventDefault();
                 setActive(!isActive);
                 setEvent(e);
               }}
               draggable
-              onDragStart={e => {
+              onDragStart={(e) => {
                 e.dataTransfer.setData('item', JSON.stringify(table));
               }}
               onDragEnd={() => {
@@ -95,7 +84,7 @@ const TreeItem = ({ name, isSchema, table, onSelect, isOpen }) => {
             </button>
             {isActive && (
               <div className={styles.tableFields}>
-                {selectedTableColumns?.map(col => (
+                {selectedTableColumns?.map((col) => (
                   <TreeTableField field={col} key={Math.random()} />
                 ))}
               </div>
@@ -112,7 +101,7 @@ TreeItem.propTypes = {
   isSchema: PropTypes.bool,
   table: PropTypes.object,
   onSelect: PropTypes.func,
-  isOpen: PropTypes.bool
+  isOpen: PropTypes.bool,
 };
 
 export default TreeItem;

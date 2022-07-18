@@ -1,11 +1,12 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
-import PanelListItem from '../PanelListItem/PanelListItem';
-import { ReactComponent as FolderIcon } from '../../../../../layout/assets/folderIcon.svg';
-import { ReactComponent as FolderOpenIcon } from '../../../../../layout/assets/folderOpenIcon.svg';
+import { useState } from 'react';
+
 import { DRAG_PARENT_SECTION } from '../../../../../common/constants/common';
-import styles from './PanelListNode.module.scss';
+import FolderIcon from '../../../../../layout/assets/folderIcon.svg';
+import FolderOpenIcon from '../../../../../layout/assets/folderOpenIcon.svg';
 import { getIconByItemType } from '../../../../QueryPanel/queryPanelHelper';
+import PanelListItem from '../PanelListItem/PanelListItem';
+import styles from './PanelListNode.module.scss';
 
 const PanelListNode = ({ item }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,16 +24,18 @@ const PanelListNode = ({ item }) => {
     return (
       <li className={styles.listNode}>
         <PanelListItem
-          onClick={() => setIsOpen(prev => !prev)}
+          onClick={() => setIsOpen((prev) => !prev)}
           name={item?.name}
           icon={isOpen ? <FolderOpenIcon /> : <FolderIcon />}
           isFolder={isFolder}
           draggable
-          onDragStart={e => handleDragStart(e, item, DRAG_PARENT_SECTION.TREE)}
+          onDragStart={(e) =>
+            handleDragStart(e, item, DRAG_PARENT_SECTION.TREE)
+          }
         />
         {isOpen && hasChildren && (
           <ul className={styles.listNodeInnerList}>
-            {item?.children.map(child => (
+            {item?.children.map((child) => (
               <PanelListNode key={child.id} item={child} />
             ))}
           </ul>
@@ -48,7 +51,7 @@ const PanelListNode = ({ item }) => {
         icon={getIconByItemType(item.type) || <FolderIcon />}
         isFolder={isFolder}
         draggable
-        onDragStart={e => handleDragStart(e, item, DRAG_PARENT_SECTION.TREE)}
+        onDragStart={(e) => handleDragStart(e, item, DRAG_PARENT_SECTION.TREE)}
       />
     </li>
   );
@@ -57,5 +60,5 @@ const PanelListNode = ({ item }) => {
 export default PanelListNode;
 
 PanelListNode.propTypes = {
-  item: PropTypes.object
+  item: PropTypes.object,
 };

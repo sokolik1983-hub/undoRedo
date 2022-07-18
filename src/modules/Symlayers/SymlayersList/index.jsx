@@ -1,38 +1,39 @@
-import { useEffect, useState, Fragment } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
-import ListNavBar from '../../../common/components/ListNavBar/ListNavBar';
+import { Fragment, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import List from '../../../common/components/List/List';
 import ListItem from '../../../common/components/List/ListItem/ListItem';
 import ListItemEdit from '../../../common/components/List/ListItemEdit/ListItemEdit';
-import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import ListTableRow from '../../../common/components/List/ListTableView/ListTableRow/ListTableRow';
-import {
-  connectorsTableHeader,
-  FOLDER_DROPDOWN_ACTIONS,
-  FOLDER_ITEM_DROPDOWN_ACTIONS,
-  sortFoldersAndItems
-} from '../helper';
-import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
-import { ReactComponent as UniverseIcon } from '../../../layout/assets/icons/universeIcon.svg';
-import {
-  BREADCRUMBS_ROOT,
-  TABLE_CELL_EMPTY_VALUE
-} from '../../../common/constants/common';
-import styles from './SymlayersList.module.scss';
+import ListNavBar from '../../../common/components/ListNavBar/ListNavBar';
 import Preloader from '../../../common/components/Preloader/Preloader';
 import Tooltip from '../../../common/components/Tooltip';
 import {
-  getUniversesFolderChildren,
-  getUniversesFolderId
-} from '../../../data/actions/universes';
+  BREADCRUMBS_ROOT,
+  TABLE_CELL_EMPTY_VALUE,
+} from '../../../common/constants/common';
 import { setObjectToFavorites } from '../../../data/actions/app';
+import {
+  getUniversesFolderChildren,
+  getUniversesFolderId,
+} from '../../../data/actions/universes';
+import FolderIcon from '../../../layout/assets/folderIcon.svg';
+import UniverseIcon from '../../../layout/assets/icons/universeIcon.svg';
+import {
+  FOLDER_DROPDOWN_ACTIONS,
+  FOLDER_ITEM_DROPDOWN_ACTIONS,
+  connectorsTableHeader,
+  sortFoldersAndItems,
+} from '../helper';
+import styles from './SymlayersList.module.scss';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
   const universes = useSelector((state) => state.app.data.universes);
   const unvRootFolderId = useSelector(
-    (state) => state.app.data.universesFolderId
+    (state) => state.app.data.universesFolderId,
   );
 
   useEffect(() => {
@@ -46,7 +47,7 @@ const ConnectorsList = () => {
   const [actionButtonIsDisable, setActionButtonIsDisable] = useState({
     prev: true,
     next: false,
-    up: true
+    up: true,
   });
   const [multiColumnView, setMultiColumnView] = useState(true);
   const [searchValue, setSearchValue] = useState();
@@ -70,7 +71,9 @@ const ConnectorsList = () => {
       goToRootFolder();
     } else if (unvRootFolderId) {
       dispatch(
-        getUniversesFolderChildren({ id: foldersIdHistory[currentFolderIndex] })
+        getUniversesFolderChildren({
+          id: foldersIdHistory[currentFolderIndex],
+        }),
       );
     }
   }, [currentFolderIndex]);
@@ -87,7 +90,7 @@ const ConnectorsList = () => {
       next:
         currentFolderIndex === foldersIdHistory.length - 1 ||
         currentFolderIndex === 0,
-      up: !currentFolderIndex
+      up: !currentFolderIndex,
     });
   }, [currentFolderIndex]);
 
@@ -114,11 +117,13 @@ const ConnectorsList = () => {
 
   const moveToNextFolder = () => {
     setCurrentFolderIndex((prev) =>
-      prev === foldersIdHistory.length ? prev : prev + 1
+      prev === foldersIdHistory.length ? prev : prev + 1,
     );
   };
 
-  const onSearch = async () => {};
+  const onSearch = async () => {
+    // some action
+  };
 
   const handleEditClick = (id) => {
     setEditListItemId(id);
@@ -140,7 +145,7 @@ const ConnectorsList = () => {
    */
   const handleRemoveFromFavorites = (id) => {
     dispatch(
-      setObjectToFavorites({ user_id: 10001, id, kind: 'REP', isExclude: 1 })
+      setObjectToFavorites({ user_id: 10001, id, kind: 'REP', isExclude: 1 }),
     );
   };
 

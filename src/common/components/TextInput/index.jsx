@@ -1,6 +1,7 @@
-import { forwardRef } from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import { forwardRef } from 'react';
+
 import styles from './TextInput.module.scss';
 
 /**
@@ -31,14 +32,14 @@ const TextInput = forwardRef(
       defaultValue,
       ...props
     },
-    ref
+    ref,
   ) => {
     const classes = clsx(
       styles.input,
       className,
       { [styles.error]: error },
       { [styles.fullWidth]: className ? false : fullWidth },
-      { [styles.uppercase]: uppercase }
+      { [styles.uppercase]: uppercase },
     );
 
     const wrapperClasses = clsx(styles.inputWrapper, wrapperClassName);
@@ -69,7 +70,7 @@ const TextInput = forwardRef(
         {error && <span className={styles.textError}>{error}</span>}
       </div>
     );
-  }
+  },
 );
 
 export default TextInput;
@@ -88,7 +89,7 @@ TextInput.propTypes = {
   requiredTextVisible: PropTypes.bool,
   uppercase: PropTypes.bool,
   onblur: PropTypes.any,
-  defaultValue: PropTypes.string
+  defaultValue: PropTypes.string,
 };
 
 TextInput.defaultProps = {
@@ -97,7 +98,9 @@ TextInput.defaultProps = {
   labelClassName: '',
   label: '',
   error: '',
-  onChange: () => {},
+  onChange: () => {
+    // some action
+  },
   value: '',
-  fullWidth: false
+  fullWidth: false,
 };

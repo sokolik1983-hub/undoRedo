@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import Button from '../../Button';
-import { ReactComponent as WarnIcon } from '../../../../layout/assets/warnIcon.svg';
-import { BUTTON } from '../../../constants/common';
+
 import {
   filterSelectedTables,
-  filterTablesLinks
+  filterTablesLinks,
 } from '../../../../data/actions/schemaDesigner';
+import WarnIcon from '../../../../layout/assets/warnIcon.svg';
+import { BUTTON } from '../../../constants/common';
+import Button from '../../Button';
 import styles from './ModalConfirmDeletion.module.scss';
 
 const ModalConfirmDeletion = ({
@@ -17,23 +18,23 @@ const ModalConfirmDeletion = ({
   selectedTableFullName, // полное название открытой таблицы включая название папки и connector_id
   isDeleteWarningModalOpened,
   onDeleteTable, // метод из первой версии по удалению таблиц
-  tableItem // объект таблицы целиком
+  tableItem, // объект таблицы целиком
 }) => {
   const dispatch = useDispatch();
 
   const globalStateTables = useSelector(
-    state => state.app.schemaDesigner.selectedTables
+    (state) => state.app.schemaDesigner.selectedTables,
   );
 
-  const Links = useSelector(state => state.app.schemaDesigner.links);
+  const Links = useSelector((state) => state.app.schemaDesigner.links);
 
   const filteredLinks = Links.filter(
-    item => !item.expression.includes(selectedTableFullName)
+    (item) => !item.expression.includes(selectedTableFullName),
   );
 
-  const filterDeletedTable = tableName => {
+  const filterDeletedTable = (tableName) => {
     return Object.fromEntries(
-      Object.entries(globalStateTables).filter(([key]) => key !== tableName)
+      Object.entries(globalStateTables).filter(([key]) => key !== tableName),
     );
   };
 
@@ -43,7 +44,7 @@ const ModalConfirmDeletion = ({
     }
   };
 
-  const deleteTable = tableToDelete => {
+  const deleteTable = (tableToDelete) => {
     onDeleteTable(tableItem);
     dispatch(filterSelectedTables(filterDeletedTable(tableToDelete)));
     dispatch(filterTablesLinks(filteredLinks));
@@ -89,5 +90,5 @@ ModalConfirmDeletion.propTypes = {
   selectedTableFullName: PropTypes.string,
   warnText: PropTypes.string,
   isDeleteWarningModalOpened: PropTypes.bool,
-  tableItem: PropTypes.object
+  tableItem: PropTypes.object,
 };

@@ -1,7 +1,8 @@
-import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import Tooltip from '../../Tooltip/index'
+import React from 'react';
+
+import Tooltip from '../../Tooltip';
 import styles from './SectionGroup.module.scss';
 
 function SectionGroup({ actions, title, ...props }) {
@@ -10,10 +11,10 @@ function SectionGroup({ actions, title, ...props }) {
       <div className={clsx(styles.title, props.titleClassName)}>{title}</div>
       <div className={styles.actions}>
         {actions &&
-          actions.map(item => (
+          actions.map((item) => (
             <div
               className={clsx(styles['actions__btn'], {
-                [styles['actions__btn_active']]: item.isActive
+                [styles['actions__btn_active']]: item.isActive,
               })}
               onClick={item.action}
               key={item.id}
@@ -35,7 +36,7 @@ function SectionGroup({ actions, title, ...props }) {
 SectionGroup.propTypes = {
   actions: PropTypes.array,
   title: PropTypes.string,
-  titleClassName: PropTypes.string
+  titleClassName: PropTypes.string,
 };
 
 export default SectionGroup;

@@ -1,45 +1,62 @@
-/* eslint-disable no-unused-vars */
-import { useEffect, useState, Fragment } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
-import ListNavBar from '../../../common/components/ListNavBar/ListNavBar';
+/* eslint-disable no-unused-vars */
+import { Fragment, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import List from '../../../common/components/List/List';
 import ListItem from '../../../common/components/List/ListItem/ListItem';
 import ListItemEdit from '../../../common/components/List/ListItemEdit/ListItemEdit';
-import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import ListTableRow from '../../../common/components/List/ListTableView/ListTableRow/ListTableRow';
+import ListNavBar from '../../../common/components/ListNavBar/ListNavBar';
+import Preloader from '../../../common/components/Preloader/Preloader';
+import Tooltip from '../../../common/components/Tooltip';
 import {
-  connectorsTableHeader,
+  BREADCRUMBS_ROOT,
+  TABLE_CELL_EMPTY_VALUE,
+} from '../../../common/constants/common';
+import {
+  getTrashFolderChildren,
+  getTrashFolderId,
+} from '../../../data/actions/trash';
+import ConnectorIcon from '../../../layout/assets/connectorIcon.svg';
+import FolderIcon from '../../../layout/assets/folderIcon.svg';
+import { ITEM_TYPE } from '../types';
+import {
   FOLDER_DROPDOWN_ACTIONS,
   FOLDER_ITEM_DROPDOWN_ACTIONS,
-  sortFoldersAndItems
+  connectorsTableHeader,
+  sortFoldersAndItems,
 } from './helper';
-import { ReactComponent as FolderIcon } from '../../../layout/assets/folderIcon.svg';
-import { ReactComponent as ConnectorIcon } from '../../../layout/assets/connectorIcon.svg';
-import { BREADCRUMBS_ROOT, TABLE_CELL_EMPTY_VALUE } from '../../../common/constants/common';
 import styles from './RecycleBinList.module.scss';
-import Preloader from '../../../common/components/Preloader/Preloader';
-import { getTrashFolderId, getTrashFolderChildren } from '../../../data/actions/trash';
-import Tooltip from '../../../common/components/Tooltip';
-import { ITEM_TYPE } from '../types';
 
 const RecycleBinList = () => {
   const dispatch = useDispatch();
 
-  const trashOther = useSelector(state => state.app.trash.trash);
-  const trashCon = useSelector(state => state.app.trash.connectorTrash);
-  const trashRep = useSelector(state => state.app.trash.reportTrash)
+  const trashOther = useSelector((state) => state.app.trash.trash);
+  const trashCon = useSelector((state) => state.app.trash.connectorTrash);
+  const trashRep = useSelector((state) => state.app.trash.reportTrash);
 
-  const trashConRootFolderId = useSelector(state => state.app.trash.trashConFolderId);
-  const trashRepRootFolderId = useSelector(state => state.app.trash.trashRepFolderId);
+  const trashConRootFolderId = useSelector(
+    (state) => state.app.trash.trashConFolderId,
+  );
+  const trashRepRootFolderId = useSelector(
+    (state) => state.app.trash.trashRepFolderId,
+  );
 
-  const trashOtherIsLoad = useSelector(state => state.app.trash.otherTrashIsLoad);
-  const trashConIsLoad = useSelector(state => state.app.trash.connectorTrashIsLoad);
-  const trashRepIsLoad = useSelector(state => state.app.trash.reportTrashIsLoad);
+  const trashOtherIsLoad = useSelector(
+    (state) => state.app.trash.otherTrashIsLoad,
+  );
+  const trashConIsLoad = useSelector(
+    (state) => state.app.trash.connectorTrashIsLoad,
+  );
+  const trashRepIsLoad = useSelector(
+    (state) => state.app.trash.reportTrashIsLoad,
+  );
 
   useEffect(() => {
-    dispatch(getTrashFolderId({folderType: 'USER_CN_REC_BIN'}, 'CN'));
-    dispatch(getTrashFolderId({folderType: 'USER_REP_REC_BIN'}, 'REP'));
+    dispatch(getTrashFolderId({ folderType: 'USER_CN_REC_BIN' }, 'CN'));
+    dispatch(getTrashFolderId({ folderType: 'USER_REP_REC_BIN' }, 'REP'));
   }, []);
 
   const [trash, setTrash] = useState([]);
@@ -50,15 +67,15 @@ const RecycleBinList = () => {
   const [actionButtonIsDisable, setActionButtonIsDisable] = useState({
     prev: true,
     next: false,
-    up: true
+    up: true,
   });
   const [multiColumnView, setMultiColumnView] = useState(false);
   const [searchValue, setSearchValue] = useState();
   const [editListItemId, setEditListItemId] = useState();
 
   const goToRootFolder = () => {
-    dispatch(getTrashFolderChildren({id: trashConRootFolderId}, 'CN'));
-    dispatch(getTrashFolderChildren({id: trashRepRootFolderId}, 'REP'));
+    dispatch(getTrashFolderChildren({ id: trashConRootFolderId }, 'CN'));
+    dispatch(getTrashFolderChildren({ id: trashRepRootFolderId }, 'REP'));
     setFoldersIdHistory([]);
     setFoldersNameHistory([BREADCRUMBS_ROOT]);
     setCurrentFolderIndex(0);
@@ -80,57 +97,69 @@ const RecycleBinList = () => {
   }, [trashOtherIsLoad, trashConIsLoad, trashRepIsLoad]);
 
   useEffect(() => {
-    if (currentFolderIndex === 0 && trashConRootFolderId && trashRepRootFolderId) {
+    if (
+      currentFolderIndex === 0 &&
+      trashConRootFolderId &&
+      trashRepRootFolderId
+    ) {
       goToRootFolder();
     } else if (currentFolderIndex !== 0) {
-      dispatch(getTrashFolderChildren({id: foldersIdHistory[currentFolderIndex]}));
+      dispatch(
+        getTrashFolderChildren({
+          id: foldersIdHistory[currentFolderIndex],
+        }),
+      );
     }
-  }, [currentFolderIndex])
+  }, [currentFolderIndex]);
 
   useEffect(() => {
     if (trashConRootFolderId && trashRepRootFolderId) {
       goToRootFolder();
     }
-  }, [trashConRootFolderId, trashRepRootFolderId])
+  }, [trashConRootFolderId, trashRepRootFolderId]);
 
   useEffect(() => {
     setActionButtonIsDisable({
       prev: !currentFolderIndex,
-      next: currentFolderIndex === foldersIdHistory.length - 1 || currentFolderIndex === 0,
-      up: !currentFolderIndex
+      next:
+        currentFolderIndex === foldersIdHistory.length - 1 ||
+        currentFolderIndex === 0,
+      up: !currentFolderIndex,
     });
   }, [currentFolderIndex]);
 
-  const onFolderDoubleClick = folder => {
+  const onFolderDoubleClick = (folder) => {
     setFoldersIdHistory([...foldersIdHistory, folder.id]);
     setFoldersNameHistory([...foldersNameHistory, folder.name]);
-    setCurrentFolderIndex(prev => prev + 1);
+    setCurrentFolderIndex((prev) => prev + 1);
   };
 
   const getBreadcrumbs = () => {
     return foldersNameHistory
-      .map(i => i)
+      .map((i) => i)
       .slice(0, currentFolderIndex + 1)
       .join(` / `);
-  }
+  };
 
   const moveToRootFolder = () => {
     setCurrentFolderIndex(0);
   };
 
   const moveToPrevFolder = () => {
-    setCurrentFolderIndex(prev => (prev === 0 ? 0 : prev - 1));
+    setCurrentFolderIndex((prev) => (prev === 0 ? 0 : prev - 1));
   };
 
   const moveToNextFolder = () => {
-    setCurrentFolderIndex(prev =>
-      prev === foldersIdHistory.length ? prev : prev + 1
+    setCurrentFolderIndex((prev) =>
+      prev === foldersIdHistory.length ? prev : prev + 1,
     );
   };
 
-  const onSearch = async () => {};
+  const onSearch = async () => {
+    // something
+  };
 
-  const handleEditClick = id => {
+  const handleEditClick = (id) => {
     setEditListItemId(id);
   };
 
@@ -154,9 +183,9 @@ const RecycleBinList = () => {
     }
   };
 
-  const getUniverseDropdownItems = id => (
+  const getUniverseDropdownItems = (id) => (
     <div className={styles.itemsWrapper}>
-      {FOLDER_ITEM_DROPDOWN_ACTIONS.map(item => (
+      {FOLDER_ITEM_DROPDOWN_ACTIONS.map((item) => (
         <Tooltip
           key={item.title}
           overlay={<div className={styles.tooltip}>{item.title}</div>}
@@ -164,7 +193,7 @@ const RecycleBinList = () => {
         >
           <DropdownItem
             className={styles.dropdownItem}
-            onClick={action => handleItemClick(id, action)}
+            onClick={(action) => handleItemClick(id, action)}
             item={item}
           />
         </Tooltip>
@@ -172,9 +201,9 @@ const RecycleBinList = () => {
     </div>
   );
 
-  const getFolderDropdownItems = id => (
+  const getFolderDropdownItems = (id) => (
     <div className={styles.itemsWrapper}>
-      {FOLDER_DROPDOWN_ACTIONS.map(item => (
+      {FOLDER_DROPDOWN_ACTIONS.map((item) => (
         <Tooltip
           key={item.title}
           overlay={<div className={styles.tooltip}>{item.title}</div>}
@@ -183,14 +212,14 @@ const RecycleBinList = () => {
           <DropdownItem
             className={styles.dropdownItem}
             item={item}
-            onClick={action => handleItemClick(id, action)}
+            onClick={(action) => handleItemClick(id, action)}
           />
         </Tooltip>
       ))}
     </div>
   );
 
-  const listItemsWithDropdown = sortedItems?.map(item => {
+  const listItemsWithDropdown = sortedItems?.map((item) => {
     const isFolder = item.kind === 'FLD';
 
     const currentId = isFolder ? `folder_${item.id}` : item.id;
@@ -222,10 +251,10 @@ const RecycleBinList = () => {
     );
   });
 
-  const tableHeader = connectorsTableHeader.map(i => (
+  const tableHeader = connectorsTableHeader.map((i) => (
     <th key={i.name}>{i.name}</th>
   ));
-  const tableRows = sortedItems?.map(item => {
+  const tableRows = sortedItems?.map((item) => {
     const isFolder = item.kind === 'FLD';
 
     const currentId = isFolder ? `folder_${item.id}` : item.id;

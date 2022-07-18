@@ -1,23 +1,24 @@
 import PropTypes from 'prop-types';
+
 import IconButton from '../../../../common/components/IconButton';
-import { ReactComponent as Magnifier } from '../../../../layout/assets/magnifier.svg';
-import { ReactComponent as GaugeIcon } from '../../../../layout/assets/queryPanel/gauge_icon.svg';
-import { ReactComponent as MeasurementIcon } from '../../../../layout/assets/queryPanel/measurementIcon.svg';
-import { ReactComponent as AttributeIcon } from '../../../../layout/assets/queryPanel/attributeIcon.svg';
 import TextInput from '../../../../common/components/TextInput';
+import Magnifier from '../../../../layout/assets/magnifier.svg';
+import AttributeIcon from '../../../../layout/assets/queryPanel/attributeIcon.svg';
+import GaugeIcon from '../../../../layout/assets/queryPanel/gauge_icon.svg';
+import MeasurementIcon from '../../../../layout/assets/queryPanel/measurementIcon.svg';
 import styles from './ObjectsPanelFilters.module.scss';
 
 const ObjectsPanelFilters = ({
   searchValue,
   setSearchValue,
   filterType,
-  onFiltersSwitch
+  onFiltersSwitch,
 }) => {
   return (
     <div className={styles.root}>
       <TextInput
         value={searchValue}
-        onChange={event => {
+        onChange={(event) => {
           setSearchValue(event.target.value);
         }}
         className={styles.filterNameInput}
@@ -55,5 +56,5 @@ ObjectsPanelFilters.propTypes = {
   setSearchValue: PropTypes.func,
   searchValue: PropTypes.string,
   filterType: PropTypes.arrayOf(PropTypes.number),
-  onFiltersSwitch: PropTypes.func
+  onFiltersSwitch: PropTypes.func,
 };

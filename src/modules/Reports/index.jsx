@@ -1,48 +1,48 @@
-import { useEffect, useState, Fragment } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import lodash from 'lodash';
+import { Fragment, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import ListNavBar from '../../common/components/ListNavBar/ListNavBar';
+
+import DropdownItem from '../../common/components/Dropdown/DropdownItem';
+import FloatingButton from '../../common/components/FloatingButton';
 import List from '../../common/components/List/List';
 import ListItem from '../../common/components/List/ListItem/ListItem';
 import ListItemEdit from '../../common/components/List/ListItemEdit/ListItemEdit';
-import DropdownItem from '../../common/components/Dropdown/DropdownItem';
 import ListTableRow from '../../common/components/List/ListTableView/ListTableRow/ListTableRow';
-import {
-  connectorsTableHeader,
-  FOLDER_DROPDOWN_ACTIONS,
-  // REPORT_STRUCTURE_DROPDOWN_ACTIONS,
-  FOLDER_ITEM_DROPDOWN_ACTIONS_REPORTS,
-  sortFoldersAndItems
-} from './helper';
-import { ReactComponent as FolderIcon } from '../../layout/assets/folderIcon.svg';
-import { ReactComponent as ConnectorIcon } from '../../layout/assets/connectorIcon.svg';
+import ListNavBar from '../../common/components/ListNavBar/ListNavBar';
+import Preloader from '../../common/components/Preloader/Preloader';
+import Tooltip from '../../common/components/Tooltip';
 import {
   BREADCRUMBS_ROOT,
   REDIRECT_LINKS,
-  TABLE_CELL_EMPTY_VALUE
+  TABLE_CELL_EMPTY_VALUE,
 } from '../../common/constants/common';
-import Preloader from '../../common/components/Preloader/Preloader';
 import { PAGE } from '../../common/constants/pages';
-import { setCurrentPage } from '../../data/reducers/ui';
-import FloatingButton from '../../common/components/FloatingButton';
-import { ReactComponent as CreateConnector } from '../../layout/assets/createConnector.svg';
-import styles from './Reports.module.scss';
-import Tooltip from '../../common/components/Tooltip';
-import {
-  getReportsFolderChildren,
-  getReportsFolderId
-} from '../../data/actions/universes';
-import { deleteReport } from '../../data/actions/newReportDesigner';
 // import { openReport } from '../../data/actions/newReportDesigner';
 import { setObjectToFavorites } from '../../data/actions/app';
+import { deleteReport } from '../../data/actions/newReportDesigner';
+import {
+  getReportsFolderChildren,
+  getReportsFolderId,
+} from '../../data/actions/universes';
+import { setCurrentPage } from '../../data/reducers/ui';
+import ConnectorIcon from '../../layout/assets/connectorIcon.svg';
+import CreateConnector from '../../layout/assets/createConnector.svg';
+import FolderIcon from '../../layout/assets/folderIcon.svg';
+import {
+  FOLDER_DROPDOWN_ACTIONS,
+  FOLDER_ITEM_DROPDOWN_ACTIONS_REPORTS,
+  connectorsTableHeader,
+  sortFoldersAndItems,
+} from './helper';
+import styles from './Reports.module.scss';
 
 const Reports = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const reports = useSelector(state => state.app.data.listReports);
+  const reports = useSelector((state) => state.app.data.listReports);
   const reportsRootFolderId = useSelector(
-    state => state.app.data.reportsFolderId
+    (state) => state.app.data.reportsFolderId,
   );
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const Reports = () => {
   const [actionButtonIsDisable, setActionButtonIsDisable] = useState({
     prev: true,
     next: false,
-    up: true
+    up: true,
   });
   const [multiColumnView, setMultiColumnView] = useState(true);
   const [searchValue, setSearchValue] = useState();
@@ -81,7 +81,9 @@ const Reports = () => {
       goToRootFolder();
     } else if (reportsRootFolderId) {
       dispatch(
-        getReportsFolderChildren({ id: foldersIdHistory[currentFolderIndex] })
+        getReportsFolderChildren({
+          id: foldersIdHistory[currentFolderIndex],
+        }),
       );
     }
   }, [currentFolderIndex]);
@@ -98,19 +100,19 @@ const Reports = () => {
       next:
         currentFolderIndex === foldersIdHistory.length - 1 ||
         currentFolderIndex === 0,
-      up: !currentFolderIndex
+      up: !currentFolderIndex,
     });
   }, [currentFolderIndex]);
 
-  const onFolderDoubleClick = folder => {
+  const onFolderDoubleClick = (folder) => {
     setFoldersIdHistory([...foldersIdHistory, folder.id]);
     setFoldersNameHistory([...foldersNameHistory, folder.name]);
-    setCurrentFolderIndex(prev => prev + 1);
+    setCurrentFolderIndex((prev) => prev + 1);
   };
 
   const getBreadcrumbs = () => {
     return foldersNameHistory
-      .map(i => i)
+      .map((i) => i)
       .slice(0, currentFolderIndex + 1)
       .join(` / `);
   };
@@ -120,41 +122,48 @@ const Reports = () => {
   };
 
   const moveToPrevFolder = () => {
-    setCurrentFolderIndex(prev => (prev === 0 ? 0 : prev - 1));
+    setCurrentFolderIndex((prev) => (prev === 0 ? 0 : prev - 1));
   };
 
   const moveToNextFolder = () => {
-    setCurrentFolderIndex(prev =>
-      prev === foldersIdHistory.length ? prev : prev + 1
+    setCurrentFolderIndex((prev) =>
+      prev === foldersIdHistory.length ? prev : prev + 1,
     );
   };
 
-  const onSearch = async () => {};
+  const onSearch = async () => {
+    // some action
+  };
 
-  const handleEditClick = id => {
+  const handleEditClick = (id) => {
     setEditListItemId(id);
   };
 
-  const handleOpenClick = id => {
+  const handleOpenClick = (id) => {
     navigate(`${REDIRECT_LINKS.REPORT_SHOW}/${id}`, { replace: true });
   };
 
-  const handleDeleteClick = id => {
+  const handleDeleteClick = (id) => {
     dispatch(
       deleteReport({ id }, () => {
         dispatch(getReportsFolderId({ folderType: 'USER_REP' }));
         dispatch(getReportsFolderChildren({ id: reportsRootFolderId }));
-      })
+      }),
     );
   };
 
-  const handleAddToFavorites = id => {
+  const handleAddToFavorites = (id) => {
     dispatch(setObjectToFavorites({ user_id: 10001, id, kind: 'REP' }));
   };
 
-  const handleRemoveFromFavorites = id => {
+  const handleRemoveFromFavorites = (id) => {
     dispatch(
-      setObjectToFavorites({ user_id: 10001, id, kind: 'REP', isExclude: 1 })
+      setObjectToFavorites({
+        user_id: 10001,
+        id,
+        kind: 'REP',
+        isExclude: 1,
+      }),
     );
   };
 
@@ -180,9 +189,9 @@ const Reports = () => {
     }
   };
 
-  const getUniverseDropdownItems = id => (
+  const getUniverseDropdownItems = (id) => (
     <div className={styles.itemsWrapper}>
-      {FOLDER_ITEM_DROPDOWN_ACTIONS_REPORTS.map(item => (
+      {FOLDER_ITEM_DROPDOWN_ACTIONS_REPORTS.map((item) => (
         <Tooltip
           key={item.title}
           overlay={<div className={styles.tooltip}>{item.title}</div>}
@@ -190,7 +199,7 @@ const Reports = () => {
         >
           <DropdownItem
             className={styles.dropdownItem}
-            onClick={action => handleItemClick(id, action)}
+            onClick={(action) => handleItemClick(id, action)}
             item={item}
           />
         </Tooltip>
@@ -198,9 +207,9 @@ const Reports = () => {
     </div>
   );
 
-  const getFolderDropdownItems = id => (
+  const getFolderDropdownItems = (id) => (
     <div className={styles.itemsWrapper}>
-      {FOLDER_DROPDOWN_ACTIONS.map(item => (
+      {FOLDER_DROPDOWN_ACTIONS.map((item) => (
         <Tooltip
           key={item.title}
           overlay={<div className={styles.tooltip}>{item.title}</div>}
@@ -209,7 +218,7 @@ const Reports = () => {
           <DropdownItem
             className={styles.dropdownItem}
             item={item}
-            onClick={action => handleItemClick(id, action)}
+            onClick={(action) => handleItemClick(id, action)}
           />
         </Tooltip>
       ))}
@@ -217,8 +226,8 @@ const Reports = () => {
   );
 
   const listItemsWithDropdown = sortedItems
-    ?.filter(item => item.name !== 'Корзина')
-    .map(item => {
+    ?.filter((item) => item.name !== 'Корзина')
+    .map((item) => {
       const isFolder = item.kind === 'FLD';
 
       const currentId = item.id;
@@ -250,12 +259,12 @@ const Reports = () => {
       );
     });
 
-  const tableHeader = connectorsTableHeader.map(i => (
+  const tableHeader = connectorsTableHeader.map((i) => (
     <th key={i.name}>{i.name}</th>
   ));
   const tableRows = sortedItems
-    ?.filter(item => item.name !== 'Корзина')
-    .map(item => {
+    ?.filter((item) => item.name !== 'Корзина')
+    .map((item) => {
       const isFolder = item.kind === 'FLD';
 
       const currentId = isFolder ? `folder_${item.id}` : item.id;

@@ -1,16 +1,14 @@
+import TableChartIcon from '@material-ui/icons/TableChart';
 /* eslint-disable no-unused-vars */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import clsx from 'clsx';
-import React from 'react';
 import lodash from 'lodash';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
-import TableChartIcon from '@material-ui/icons/TableChart';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { addTableColumn } from '../../../../data/reducers/new_reportDesigner';
 import { getCurrentReport } from '../../helpers';
 import styles from './DataTable.module.scss';
-import {
-  addTableColumn,
-} from '../../../../data/reducers/new_reportDesigner';
 import TableContent from './TableContent';
 
 function DataTable({
@@ -18,16 +16,18 @@ function DataTable({
   structureItem,
   id,
   onSelectColumnHead,
-  refContent
+  refContent,
 }) {
   const dispatch = useDispatch();
-  const reportsUi = useSelector(state => state.app.reportDesigner.reportsUi.ui);
+  const reportsUi = useSelector(
+    (state) => state.app.reportDesigner.reportsUi.ui,
+  );
   const reportsData = useSelector(
-    state => state.app.reportDesigner.reportsData.present
+    (state) => state.app.reportDesigner.reportsData.present,
   );
   const currentReport = getCurrentReport(
     reportsData.reports,
-    reportsData.activeReport
+    reportsData.activeReport,
   );
 
   const { axes, dataFilter, layout } = structureItem?.content;
@@ -40,13 +40,12 @@ function DataTable({
     );
   }
 
-
   function getSortedData() {
     if (currentReport?.dataset && structureItem?.sorting?.length > 0) {
       const { data, fields } = currentReport?.dataset;
       const result = [];
 
-      const dataConverted = data.forEach(item => {
+      const dataConverted = data.forEach((item) => {
         const res = {};
         item.forEach((dataValue, idx) => {
           res[fields[idx]?.id] = dataValue;
@@ -58,17 +57,17 @@ function DataTable({
       console.log(dataConverted, 'dataConverted');
 
       const sortFields = structureItem?.sorting?.map(
-        sortingField => sortingField.field
+        (sortingField) => sortingField.field,
       );
-      const sortFieldsSort = structureItem?.sorting?.map(sortingField =>
-        String(sortingField.sortingType).toLowerCase()
+      const sortFieldsSort = structureItem?.sorting?.map((sortingField) =>
+        String(sortingField.sortingType).toLowerCase(),
       );
 
       const sortArray = lodash.orderBy(result, sortFields, sortFieldsSort);
 
-      return sortArray.map(item => {
+      return sortArray.map((item) => {
         const itemConverted = [];
-        lodash.keys(item).forEach(key => {
+        lodash.keys(item).forEach((key) => {
           itemConverted.push(item[key]);
         });
         return itemConverted;
@@ -82,7 +81,7 @@ function DataTable({
     const { data, fields } = currentReport?.dataset;
     const result = [];
 
-    data.forEach(item => {
+    data.forEach((item) => {
       const res = {};
       item.forEach((dataValue, idx) => {
         res[fields[idx]?.id] = dataValue;
@@ -95,22 +94,24 @@ function DataTable({
       columns: [
         {
           name: columnDimension.object.field,
-          values: lodash.keys(lodash.groupBy(result, columnDimension.object.id))
-        }
+          values: lodash.keys(
+            lodash.groupBy(result, columnDimension.object.id),
+          ),
+        },
       ],
       rows: [
         {
           name: rowDimension.object.field,
-          values: lodash.keys(lodash.groupBy(result, rowDimension.object.id))
-        }
-      ]
+          values: lodash.keys(lodash.groupBy(result, rowDimension.object.id)),
+        },
+      ],
     };
   }
   function getGrouppedTableData(rowDimension, columnDimension, measure) {
     const { data, fields } = currentReport?.dataset;
     const result = [];
 
-    data.forEach(item => {
+    data.forEach((item) => {
       const res = {};
       item.forEach((dataValue, idx) => {
         res[fields[idx]?.id] = dataValue;
@@ -122,19 +123,19 @@ function DataTable({
     const res = {};
     const gropp = lodash.groupBy(result, rowDimension.object.id);
 
-    lodash.keys(gropp).forEach(key => {
+    lodash.keys(gropp).forEach((key) => {
       const columnGroup = lodash.groupBy(result, columnDimension.object.id);
 
-      lodash.keys(columnGroup).forEach(col => {
+      lodash.keys(columnGroup).forEach((col) => {
         const columnGroupSumm = lodash.sumBy(
           columnGroup[col].filter(
-            itemSumm => itemSumm[rowDimension.object.id] === key
+            (itemSumm) => itemSumm[rowDimension.object.id] === key,
           ),
-          it => parseFloat(it[measure.object.id])
+          (it) => parseFloat(it[measure.object.id]),
         );
         res[key] = {
           ...res[key],
-          [col]: columnGroupSumm
+          [col]: columnGroupSumm,
         };
       });
     });
@@ -147,12 +148,12 @@ function DataTable({
       <table style={{ ...blockStyles }}>
         <thead>
           <tr>
-            {structureItem?.columns.map(col => (
+            {structureItem?.columns.map((col) => (
               <th
                 key={col.object.id}
                 onClick={onSelectColumnHead(col.object.id)}
                 className={clsx({
-                  [styles['active_col']]: getSelectedState(col.object.id)
+                  [styles['activeCol']]: getSelectedState(col.object.id),
                 })}
                 style={{ ...col.header.styles }}
               >
@@ -166,17 +167,17 @@ function DataTable({
           {getSortedData().map((item, rowIndex) => (
             // eslint-disable-next-line react/no-array-index-key
             <tr key={item + rowIndex}>
-              {structureItem?.columns?.map(col => {
+              {structureItem?.columns?.map((col) => {
                 const fieldIndex = lodash.findIndex(
                   currentReport?.dataset?.fields,
-                  field => Number(field.id) === Number(col.object.id)
+                  (field) => Number(field.id) === Number(col.object.id),
                 );
                 return (
                   <td
                     // eslint-disable-next-line react/no-array-index-key
                     key={`${item[fieldIndex]}.${rowIndex}`}
                     className={clsx({
-                      [styles['active_col']]: getSelectedState(col.object.id)
+                      [styles['activeCol']]: getSelectedState(col.object.id),
                     })}
                     style={{ ...col.cells.styles }}
                   >
@@ -195,12 +196,12 @@ function DataTable({
     return (
       <table style={{ ...blockStyles }}>
         <tbody>
-          {structureItem?.columns.map(col => (
+          {structureItem?.columns.map((col) => (
             <tr
               key={col.object.id}
               onClick={onSelectColumnHead(col.object.id)}
               className={clsx({
-                [styles['active_col']]: getSelectedState(col.object.id)
+                [styles['activeCol']]: getSelectedState(col.object.id),
               })}
               style={{ ...col.header.styles }}
             >
@@ -209,14 +210,14 @@ function DataTable({
                 // eslint-disable-next-line react/no-array-index-key
                 const fieldIndex = lodash.findIndex(
                   currentReport?.dataset?.fields,
-                  field => Number(field.id) === Number(col.object.id)
+                  (field) => Number(field.id) === Number(col.object.id),
                 );
                 return (
                   <td
                     // eslint-disable-next-line react/no-array-index-key
                     key={`${item[fieldIndex]}.${rowIndex}`}
                     className={clsx({
-                      [styles['active_col']]: getSelectedState(col.object.id)
+                      [styles['activeCol']]: getSelectedState(col.object.id),
                     })}
                     style={{ ...col.cells.styles }}
                   >
@@ -242,12 +243,12 @@ function DataTable({
 
     const crossData = getCrossTableData(
       structureItem?.rows[0],
-      structureItem?.columns[0]
+      structureItem?.columns[0],
     );
     const res = getGrouppedTableData(
       structureItem?.rows[0],
       structureItem?.columns[0],
-      structureItem?.values[0]
+      structureItem?.values[0],
     );
 
     console.log(crossData);
@@ -256,7 +257,7 @@ function DataTable({
     return (
       <table style={{ ...blockStyles }}>
         <thead>
-          {crossData?.columns?.map(col => (
+          {crossData?.columns?.map((col) => (
             <>
               {/* <tr>
                 <th />
@@ -264,7 +265,7 @@ function DataTable({
               </tr> */}
               <tr>
                 <th />
-                {col?.values?.map(val => (
+                {col?.values?.map((val) => (
                   <th key={val} rowSpan={2}>
                     {val}
                   </th>
@@ -274,16 +275,16 @@ function DataTable({
           ))}
         </thead>
         <tbody>
-          {crossData?.rows?.map(row => (
+          {crossData?.rows?.map((row) => (
             <>
               {/* <tr>
                 <td>{row.name}</td>
               </tr> */}
-              {row?.values?.map(rowVal => (
+              {row?.values?.map((rowVal) => (
                 <tr key={rowVal}>
                   <td>{rowVal}</td>
-                  {crossData?.columns?.map(col => {
-                    return col.values.map(it => (
+                  {crossData?.columns?.map((col) => {
+                    return col.values.map((it) => (
                       <td>{res[rowVal] && res[rowVal][it]}</td>
                     ));
                   })}
@@ -311,7 +312,7 @@ function DataTable({
 
   return (
     <div
-      className={styles['table-container']}
+      className={styles['tableContainer']}
       ref={refContent}
       // onDrop={handleDropObject}
       // onDragOver={allowDrop}
@@ -323,7 +324,7 @@ function DataTable({
             flexDirection: 'column',
             alignItems: 'center',
             border: '1px solid #cdcdcd',
-            borderStyle: 'dashed'
+            borderStyle: 'dashed',
           }}
         >
           <TableChartIcon />
@@ -347,7 +348,7 @@ DataTable.propTypes = {
   structureItem: PropTypes.object,
   onSelectColumnHead: PropTypes.func,
   blockStyles: PropTypes.object,
-  refContent: PropTypes.any
+  refContent: PropTypes.any,
 };
 
 export default DataTable;

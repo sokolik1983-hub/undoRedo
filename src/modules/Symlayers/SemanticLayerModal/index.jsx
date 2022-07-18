@@ -1,30 +1,32 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useRef, useState } from 'react';
+import { Formik } from 'formik';
 import lodash from 'lodash';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useRef, useState } from 'react';
+/* eslint-disable no-unused-vars */
 import { useDispatch, useSelector } from 'react-redux';
-import { Formik } from 'formik';
-import Modal from '../../../common/components/Modal';
+import { useNavigate } from 'react-router-dom';
+
 import Button from '../../../common/components/Button';
-import styles from './SemanticLayerModal.module.scss';
-import SqlItem from './ModalItem/SqlItem';
-import Params from './ModalItem/Params';
-import Connect from './ModalItem/Connect';
-// import Stats from './ModalItem/Stats';
-import BusinessObjects from './ModalItem/BusinessObjects';
-import Control from './ModalItem/Control';
-import TextFieldItem from './ModalItem/TextFieldItem';
-import { setSemantycLayerDataName } from '../../../data/actions/schemaDesigner';
+import Modal from '../../../common/components/Modal';
 import { REDIRECT_LINKS } from '../../../common/constants/common';
+import { setSemantycLayerDataName } from '../../../data/actions/schemaDesigner';
 import {
   createUniverse,
-  getUniversesFolderId
+  getUniversesFolderId,
 } from '../../../data/actions/universes';
 import {
   setCurrentUniverse,
-  setUniverseIsCreated
+  setUniverseIsCreated,
 } from '../../../data/reducers/data';
+// import Stats from './ModalItem/Stats';
+import BusinessObjects from './ModalItem/BusinessObjects';
+import Connect from './ModalItem/Connect';
+import Control from './ModalItem/Control';
+import Params from './ModalItem/Params';
+import SqlItem from './ModalItem/SqlItem';
+import TextFieldItem from './ModalItem/TextFieldItem';
+import styles from './SemanticLayerModal.module.scss';
 
 const semLayerValues = {
   name: 'Новый семантический слой 1',
@@ -32,7 +34,7 @@ const semLayerValues = {
   SQLRequest: [],
   SQLMultipleRoads: [],
   CartesianWork: '',
-  control: []
+  control: [],
 };
 
 /**
@@ -57,13 +59,13 @@ const SemanticLayerModal = ({
   const [modalData, setModalData] = useState(null);
   const [universe, setUniverse] = useState({});
   const sampleUnvObject = useSelector(
-    (state) => state.app.data.sampleUnvObject
+    (state) => state.app.data.sampleUnvObject,
   );
   const isUniverseCreated = useSelector(
-    (state) => state.app.data.isUniverseCreated
+    (state) => state.app.data.isUniverseCreated,
   );
   const unvRootFolderId = useSelector(
-    (state) => state.app.data.universesFolderId
+    (state) => state.app.data.universesFolderId,
   );
 
   useEffect(() => {
@@ -100,15 +102,15 @@ const SemanticLayerModal = ({
   const cleanTestData = useRef(null);
 
   useEffect(() => {
-    if(cleanTestData.current) {
+    if (cleanTestData.current) {
       cleanTestData.current();
     }
-  }, [cleanTestData])
+  }, [cleanTestData]);
 
   const onCloseHandler = () => {
     cleanTestData.current();
     onClose();
-  }
+  };
 
   const content = (
     <Formik
@@ -142,7 +144,11 @@ const SemanticLayerModal = ({
             value={values.description}
             isTextarea
           />
-          <Connect title="Cоединение" connectorName={props.connectorName} cleanTestData={cleanTestData} />
+          <Connect
+            title="Cоединение"
+            connectorName={props.connectorName}
+            cleanTestData={cleanTestData}
+          />
           {/* <Stats
               title='Статистика'
             /> */}
@@ -162,7 +168,11 @@ const SemanticLayerModal = ({
             <Button type="submit" className={styles.save}>
               Сохранить
             </Button>
-            <Button type="button" className={styles.cancel} onClick={onCloseHandler}>
+            <Button
+              type="button"
+              className={styles.cancel}
+              onClick={onCloseHandler}
+            >
               Отмена
             </Button>
           </div>
@@ -194,9 +204,11 @@ SemanticLayerModal.propTypes = {
   onClose: PropTypes.func,
   isVisible: PropTypes.bool,
   connectorName: PropTypes.string,
-  connectorId: PropTypes.number
+  connectorId: PropTypes.number,
 };
 
 SemanticLayerModal.defaultProps = {
-  onClick: () => {}
+  onClick: () => {
+    // some action
+  },
 };

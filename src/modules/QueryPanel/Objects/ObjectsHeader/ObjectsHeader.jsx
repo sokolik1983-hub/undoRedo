@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
-import { ReactComponent as Filter } from '../../../../layout/assets/queryPanel/filter.svg';
-import { ReactComponent as Lists } from '../../../../layout/assets/queryPanel/lists.svg';
-import { ReactComponent as Basket } from '../../../../layout/assets/queryPanel/basket.svg';
+
 import IconButton from '../../../../common/components/IconButton';
 import Tooltip from '../../../../common/components/Tooltip';
+import Basket from '../../../../layout/assets/queryPanel/basket.svg';
+import Filter from '../../../../layout/assets/queryPanel/filter.svg';
+import Lists from '../../../../layout/assets/queryPanel/lists.svg';
 import styles from './ObjectsHeader.module.scss';
 
 const ObjectsHeader = ({ clearObjectsDesk }) => {
@@ -15,14 +16,18 @@ const ObjectsHeader = ({ clearObjectsDesk }) => {
           <IconButton
             className={styles.iconBtn}
             icon={<Filter />}
-            onClick={() => {}}
+            onClick={() => {
+              // something
+            }}
           />
         </Tooltip>
         <Tooltip placement="topLeft" overlay="Списки">
           <IconButton
             className={styles.iconBtn}
             icon={<Lists />}
-            onClick={() => {}}
+            onClick={() => {
+              // something
+            }}
           />
         </Tooltip>
         <Tooltip placement="topLeft" overlay="Очистить всё">
@@ -40,5 +45,5 @@ const ObjectsHeader = ({ clearObjectsDesk }) => {
 export default ObjectsHeader;
 
 ObjectsHeader.propTypes = {
-  clearObjectsDesk: PropTypes.func
+  clearObjectsDesk: PropTypes.func,
 };

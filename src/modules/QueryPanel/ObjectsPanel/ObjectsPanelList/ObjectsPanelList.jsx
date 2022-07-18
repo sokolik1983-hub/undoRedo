@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import PanelListItem from './PanelListItem/PanelListItem';
-import { ReactComponent as RootIcon } from '../../../../layout/assets/queryPanel/root-icon.svg';
-import PanelListNode from './PanelListNode/PanelListNode';
+
+import RootIcon from '../../../../layout/assets/queryPanel/root-icon.svg';
 import { useDragNDrop } from '../../context/DragNDropContext';
 import styles from './ObjectsPanelList.module.scss';
+import PanelListItem from './PanelListItem/PanelListItem';
+import PanelListNode from './PanelListNode/PanelListNode';
 
 const ObjectsPanelList = ({ rootFolder }) => {
   const { handleDragStart } = useDragNDrop();
@@ -18,16 +19,16 @@ const ObjectsPanelList = ({ rootFolder }) => {
     <ul className={styles.root}>
       <li>
         <PanelListItem
-          onClick={() => setIsOpen(prev => !prev)}
+          onClick={() => setIsOpen((prev) => !prev)}
           name={rootFolder?.name}
           icon={<RootIcon />}
           isFolder={rootFolder.isFolder}
           draggable
-          onDragStart={e => handleDragStart(e, rootFolder)}
+          onDragStart={(e) => handleDragStart(e, rootFolder)}
         />
         {isOpen && hasChildren && (
           <ul className={styles.innerListNode}>
-            {rootFolder?.children?.map(item => (
+            {rootFolder?.children?.map((item) => (
               <PanelListNode key={item.id} item={item} />
             ))}
           </ul>
@@ -40,5 +41,5 @@ const ObjectsPanelList = ({ rootFolder }) => {
 export default ObjectsPanelList;
 
 ObjectsPanelList.propTypes = {
-  rootFolder: PropTypes.object
+  rootFolder: PropTypes.object,
 };
