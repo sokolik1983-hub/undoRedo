@@ -251,9 +251,6 @@ function DataTable({
       structureItem?.values[0],
     );
 
-    console.log(crossData);
-    console.log(res);
-
     return (
       <table style={{ ...blockStyles }}>
         <thead>

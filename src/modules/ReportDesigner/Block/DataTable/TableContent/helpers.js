@@ -12,7 +12,7 @@ export const structureUpdatedChecker = () => {
       oldZones = newZones?.slice();
       return bool;
     };
-    console.log(oldZones, newZones);
+
     if (!oldZones) {
       return end(true);
     }
@@ -58,7 +58,7 @@ export const structureUpdatedChecker = () => {
           const isSame = isEqual(newCell[key], oldCell[key]);
 
           if (!isSame) {
-            console.log(newCell[key], oldCell[key]);
+            // console.log(newCell[key], oldCell[key]);
 
             return end(true);
           }

@@ -1,15 +1,7 @@
-import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import BrushIcon from '@material-ui/icons/Brush';
-import ExtensionIcon from '@material-ui/icons/Extension';
-import ForumIcon from '@material-ui/icons/Forum';
-import InfoIcon from '@material-ui/icons/Info';
-// import FilterListIcon from '@material-ui/icons/FilterList';
-import SortIcon from '@material-ui/icons/Sort';
-import TuneIcon from '@material-ui/icons/Tune';
 import lodash, { cloneDeep, find } from 'lodash';
 /* eslint-disable react/jsx-curly-newline */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setReportStructure } from '../../../data/actions/newReportDesigner';
@@ -27,34 +19,17 @@ import {
 } from '../../../data/reducers/new_reportDesigner';
 import CloseIcon from '../../../layout/assets/close.svg';
 import { getCurrentReport } from '../../../modules/ReportDesigner/helpers';
-import { SIDE_PANEL_TYPES } from '../../constants/common';
+import { BUTTON, SIDE_PANEL_TYPES } from '../../constants/common';
 import { TABLE_ICONS } from '../../constants/reportDesigner/reportDesignerIcons';
+import { getNavMenu } from '../../constants/reportDesigner/reportDesignerMenu';
+import Button from '../Button/index';
+import GraphSettingsData from './GraphSettingsData';
+import GraphSettingsFormat from './GraphSettingsFormat';
 import NavigationMenu from './NavigationMenu';
 import ObjectsList from './ObjectsList';
 import StyleFormatter from './SectionGroup/StyleFormatter';
 import styles from './SidePanel.module.scss';
 import SortingField from './SortingField';
-
-// import { deepObjectSearch } from '../../../data/helpers';
-
-const NAV_MENU_REPORT = [
-  { id: 1, title: 'Данные', icon: <ExtensionIcon /> },
-  { id: 2, title: 'Структура', icon: <AccountTreeIcon /> },
-  { id: 3, title: 'Комментарии', icon: <ForumIcon /> },
-  { id: 4, title: 'Экспорт', icon: <InfoIcon /> },
-];
-
-const NAV_MENU_BLOCK = [
-  { id: 1, title: 'Данные', icon: <TuneIcon /> },
-  // { id: 2, title: 'Filters', icon: <FilterListIcon /> },
-  // { id: 3, title: 'Сортировка', icon: <SortIcon /> },
-  { id: 4, title: 'Форматирование', icon: <BrushIcon /> },
-];
-
-const NAV_MENU_TABLE = [
-  { id: 1, title: 'Заголовок', icon: <>Заголовок</> },
-  { id: 2, title: 'Ячейки', icon: <>Ячейки</> },
-];
 
 // eslint-disable-next-line react/prop-types
 export default function SidePanel({ navType }) {
@@ -77,7 +52,7 @@ export default function SidePanel({ navType }) {
 
   const currentNode = lodash.find(
     newStructureReport?.structure?.pgBody?.content?.children,
-    (item) => item.id === activeNode?.id,
+    (item) => item?.id === activeNode?.id,
   );
   const headerZone = currentNode?.content?.layout?.zones?.filter(
     (item) => item.vType === 'header',
@@ -88,17 +63,6 @@ export default function SidePanel({ navType }) {
   const footerZone = currentNode?.content?.layout?.zones?.filter(
     (item) => item.vType === 'footer',
   );
-
-  function getNavMenu() {
-    switch (navType) {
-      case SIDE_PANEL_TYPES.CONFIG_MENU:
-        return NAV_MENU_REPORT;
-      case SIDE_PANEL_TYPES.BLOCK_MENU:
-        return NAV_MENU_BLOCK;
-      default:
-        return [];
-    }
-  }
 
   function renderReportConfigContent() {
     switch (activePage) {
@@ -113,13 +77,6 @@ export default function SidePanel({ navType }) {
             ))}
           </div>
         );
-      case 3:
-        return <div>Комментарии</div>;
-      case 4:
-        return <div>Информация</div>;
-
-      default:
-        return null;
     }
   }
 
@@ -127,10 +84,10 @@ export default function SidePanel({ navType }) {
     const { sorting } = currentNode;
     dispatch(
       addSortingField({
-        id: currentNode.id,
+        id: currentNode?.id,
         sorting: sorting.map((item) => {
           const selectedItem = lodash.cloneDeep(item);
-          if (selectedItem.id === changedItem.id) {
+          if (selectedItem?.id === changedItem?.id) {
             selectedItem.field = changedItem.field;
             selectedItem.sortingType = changedItem.sortingType;
           }
@@ -145,8 +102,8 @@ export default function SidePanel({ navType }) {
     const { sorting } = currentNode;
     dispatch(
       addSortingField({
-        id: currentNode.id,
-        sorting: [...sorting.filter((item) => item.id !== removingItem.id)],
+        id: currentNode?.id,
+        sorting: [...sorting.filter((item) => item?.id !== removingItem?.id)],
       }),
     );
   }
@@ -155,17 +112,9 @@ export default function SidePanel({ navType }) {
     const cloneReport = lodash.cloneDeep(currentReport);
     cloneReport.structure.pgBody.content.children =
       currentReport?.structure?.pgBody?.content?.children?.filter(
-        (item) => item.id !== currentNode.id,
+        (item) => item?.id !== currentNode?.id,
       );
     dispatch(setStructure(cloneReport.structure));
-
-    // dispatch(
-    //   setReportStructure({
-    //     report_id: currentReport.id,
-    //     structure: cloneReport.structure
-    //   })
-    // );
-
     dispatch(setActiveNodes([]));
     dispatch(setConfigPanelVisible(false));
   }
@@ -183,33 +132,13 @@ export default function SidePanel({ navType }) {
       (item) => item.col !== object.col,
     );
 
-    // dispatch(
-    //   setReportStructure({
-    //     report_id: currentReport.id,
-    //     structure: newStructureReport?.structure
-    //   })
-    // );
-
     dispatch(
       removeTableColumn({
         object,
       }),
     );
-
-    // dispatch(
-    //   setStructure(
-    //     currentReport?.structure?.map(item => {
-    //       const clone = lodash.cloneDeep(item);
-    //       if (clone?.id === currentNode?.id) {
-    //         clone.columns = currentNode?.columns?.filter(
-    //           col => col?.object?.id !== columnId
-    //         );
-    //       }
-    //       return clone;
-    //     })
-    //   )
-    // );
   };
+
   const handleRemoveRow = (rowId) => (event) => {
     event?.stopPropagation();
 
@@ -227,6 +156,7 @@ export default function SidePanel({ navType }) {
       ),
     );
   };
+
   const handleRemoveValue = (valueId) => (event) => {
     event?.stopPropagation();
 
@@ -252,13 +182,13 @@ export default function SidePanel({ navType }) {
   function refreshFieldsStore(selectedEl) {
     switch (selectedEl.source) {
       case 'columns':
-        handleRemoveColumn(selectedEl.object.id)();
+        handleRemoveColumn(selectedEl.object?.id)();
         break;
       case 'rows':
-        handleRemoveRow(selectedEl.object.id)();
+        handleRemoveRow(selectedEl.object?.id)();
         break;
       case 'values':
-        handleRemoveValue(selectedEl.object.id)();
+        handleRemoveValue(selectedEl.object?.id)();
         break;
       default:
         break;
@@ -269,178 +199,86 @@ export default function SidePanel({ navType }) {
     const selectedEl = JSON.parse(event.dataTransfer.getData('text'));
     event.dataTransfer.clearData();
     refreshFieldsStore(selectedEl);
-    // dispatch(
-    //   addTableColumn({
-    //     column: { ...columnObject, object: { ...selectedEl } },
-    //     id: currentNode?.id
-    //   })
-    // );
   }
 
   const handleSetVariant = (variant) => {
     dispatch(setTableVariant(variant));
-    // const newStructureReport = cloneDeep(currentReport);
     const currNode = find(
       newStructureReport?.structure?.pgBody?.content?.children,
-      (item) => item.id === activeNode?.id,
+      (item) => item?.id === activeNode?.id,
     );
     currNode.type = variant;
-
-    // dispatch(
-    //   setReportStructure({
-    //     report_id: currentReport.id,
-    //     structure: newStructureReport?.structure
-    //   })
-    // );
   };
 
   function renderBlockPanelContent() {
     switch (activePage) {
       case 1:
         return (
-          <div>
-            <div>
-              <p>Преобразовать в</p>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-evenly',
-                }}
-              >
-                {TABLE_ICONS.slice(1, 4).map((i) => (
-                  <div
-                    className={styles.icon}
-                    onClick={() => handleSetVariant(i.type)}
-                    key={i.text}
-                  >
-                    {i.icon}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div
-              onDrop={handleDropObjectColumn}
-              onDragOver={allowDrop}
-              style={{ minHeight: 100, minWidth: 100 }}
-            >
-              <p>Колонки</p>
-              {/* TODO  headerZone */}
-              {headerZone?.map((zone) =>
-                zone.cells?.map((object) => {
-                  return (
-                    <p
-                      className={styles.objectItem}
-                      key={object.id}
-                      draggable
-                      onDragStart={(event) => {
-                        event.dataTransfer.setData(
-                          'text/plain',
-                          JSON.stringify({
-                            object,
-                            source: 'columns',
-                          }),
-                        );
-                      }}
-                    >
-                      {object.expression.formula}
-                      <CloseIcon
-                        onClick={handleRemoveColumn(object)}
-                        className={styles.closeIcon}
-                      />
-                    </p>
-                  );
-                }),
-              )}
-              {/* {currentNode?.columns?.map(column => (
-                <p
-                  className={styles.objectItem}
-                  key={column.object.id}
-                  draggable
-                  onDragStart={event => {
-                    event.dataTransfer.setData(
-                      'text/plain',
-                      JSON.stringify({
-                        object: column.object,
-                        source: 'columns'
-                      })
-                    );
-                  }}
-                >
-                  {column.object.field}
-                  <CloseIcon
-                    onClick={handleRemoveColumn(column.object.id)}
-                    className={styles.closeIcon}
-                  />
-                </p>
-              ))} */}
-            </div>
-            {/*
-            {currentNode?.variant === 'table_cross' && (
+          <>
+            {activeNode?.type.includes('Chart') && (
+              <GraphSettingsData setVariant={handleSetVariant} />
+            )}
+            {activeNode?.type.includes('Table') && (
               <>
-                <div
-                  onDrop={handleDropObjectRow}
-                  onDragOver={allowDrop}
-                  style={{ minHeight: 100, minWidth: 100 }}
-                >
-                  <p>Строки</p>
-                  {currentNode?.rows?.map(row => (
-                    <p
-                      className={styles.objectItem}
-                      key={row.object.id}
-                      draggable
-                      onDragStart={event => {
-                        event.dataTransfer.setData(
-                          'text/plain',
-                          JSON.stringify({ object: row.object, source: 'rows' })
-                        );
-                      }}
-                    >
-                      {row.object.field}
-
-                      <CloseIcon
-                        onClick={handleRemoveColumn(row.object.id)}
-                        className={styles.closeIcon}
-                      />
-                    </p>
-                  ))}
+                <div>
+                  <p className={styles.heading}>Преобразовать в</p>
+                  <div className={styles.iconsContainer}>
+                    {TABLE_ICONS.map((i) => (
+                      <div
+                        className={styles.icon}
+                        onClick={() => handleSetVariant(i.type)}
+                        key={i.text}
+                      >
+                        {i.icon}
+                      </div>
+                    ))}
+                  </div>
                 </div>
                 <div
-                  onDrop={handleDropObjectValue}
+                  onDrop={handleDropObjectColumn}
                   onDragOver={allowDrop}
-                  style={{ minHeight: 100, minWidth: 100 }}
+                  className={styles.dropBlock}
                 >
-                  <p>Значения</p>
-                  {currentNode?.values?.map(val => (
-                    <p
-                      className={styles.objectItem}
-                      key={val.object.id}
-                      draggable
-                      onDragStart={event => {
-                        event.dataTransfer.setData(
-                          'text/plain',
-                          JSON.stringify({
-                            object: val.object,
-                            source: 'values'
-                          })
-                        );
-                      }}
-                    >
-                      {val.object.field}
-
-                      <CloseIcon
-                        onClick={handleRemoveValue(val.object.id)}
-                        className={styles.closeIcon}
-                      />
-                    </p>
-                  ))}
+                  <p className={styles.heading}>Колонки</p>
+                  {/* TODO  headerZone */}
+                  {headerZone?.map((zone) =>
+                    zone.cells?.map((object) => {
+                      return (
+                        <div
+                          className={styles.objectItem}
+                          key={object?.id}
+                          draggable
+                          onDragStart={(event) => {
+                            event.dataTransfer.setData(
+                              'text/plain',
+                              JSON.stringify({
+                                object,
+                                source: 'columns',
+                              }),
+                            );
+                          }}
+                        >
+                          {object?.expression?.formula}
+                          <CloseIcon
+                            fill="white"
+                            onClick={handleRemoveColumn(object)}
+                            className={styles.closeIcon}
+                          />
+                        </div>
+                      );
+                    }),
+                  )}
                 </div>
               </>
-            )} */}
-
-            <button type="button" onClick={handleRemoveNode}>
+            )}
+            <Button
+              className={styles.button}
+              buttonStyle={BUTTON.BLUE}
+              onClick={handleRemoveNode}
+            >
               Удалить элемент
-            </button>
-          </div>
+            </Button>
+          </>
         );
       // case 2:
       //   return (
@@ -452,14 +290,14 @@ export default function SidePanel({ navType }) {
       case 3:
         return (
           <div>
-            <p>Сортировка</p>
-            <button type="button">Добавить сортировку</button>
+            <p className={styles.heading}>Сортировка</p>
+            <Button buttonStyle={BUTTON.BLUE}>Добавить сортировку</Button>
             {currentNode?.sorting?.map((item) => (
               <SortingField
                 onChange={handleChangeSortingField}
                 onRemove={handleRemoveSortingField}
                 options={currentNode?.columns?.map((column) => ({
-                  value: column.object.id,
+                  value: column.object?.id,
                   text: column.object.field, // todo change to name after back
                 }))}
                 item={item}
@@ -470,29 +308,33 @@ export default function SidePanel({ navType }) {
       case 4:
         return (
           <div>
-            {activeNode?.type === 'table' && (
-              <NavigationMenu
-                menu={NAV_MENU_TABLE}
-                onClick={setActiveSubMenu}
-                activePage={activeSubMenu}
+            {activeNode?.type.includes('Table') && (
+              <>
+                <StyleFormatter
+                  key={formattingElement?.id}
+                  isHeader={activeSubMenu === 1}
+                  onChange={(params) =>
+                    dispatch(setTableStyle({ ...params, formattingElement }))
+                  }
+                  formattingElement={formattingElement}
+                />
+              </>
+            )}
+            {activeNode?.type.includes('Chart') && (
+              <GraphSettingsFormat formattingElement={formattingElement} />
+            )}
+            {activeNode?.type === 'cell' && (
+              <StyleFormatter
+                key={formattingElement?.id}
+                isHeader={activeSubMenu === 1}
+                onChange={(params) =>
+                  dispatch(setTableStyle({ ...params, formattingElement }))
+                }
+                formattingElement={formattingElement}
               />
             )}
-            <StyleFormatter
-              key={formattingElement?.id}
-              isHeader={activeSubMenu === 1}
-              onChange={(params) =>
-                dispatch(
-                  setTableStyle({
-                    ...params,
-                    formattingElement,
-                  }),
-                )
-              }
-              formattingElement={formattingElement}
-            />
           </div>
         );
-
       default:
         return null;
     }
@@ -512,14 +354,9 @@ export default function SidePanel({ navType }) {
   }
 
   return (
-    <div
-      className={styles.root}
-      // style={{
-      //   right: marginRight
-      // }}
-    >
+    <div className={styles.root}>
       <NavigationMenu
-        menu={getNavMenu()}
+        menu={getNavMenu(navType)}
         onClick={setActivePage}
         activePage={activePage}
       />

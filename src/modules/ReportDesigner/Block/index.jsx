@@ -1,12 +1,16 @@
 import clsx from 'clsx';
-import React, { useRef } from 'react';
-import { Rnd } from 'react-rnd';
 import PropTypes from 'prop-types';
+import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styles from './Block.module.scss';
-import DataTable from './DataTable';
-import Cell from './Cell';
+import { Rnd } from 'react-rnd';
+
 import { setSelectedColumns } from '../../../data/reducers/new_reportDesigner';
+import BarGraph from '../Charts/BarChart/index';
+import { LineGraph } from '../Charts/LineChart/index';
+import { Diagramm } from '../Charts/PieChart/index';
+import styles from './Block.module.scss';
+import Cell from './Cell';
+import DataTable from './DataTable';
 
 function Block({
   id,
@@ -22,9 +26,11 @@ function Block({
 }) {
   const refContent = useRef();
   const dispatch = useDispatch();
-  const reportsUi = useSelector(state => state.app.reportDesigner.reportsUi.ui);
- 
-  const handleSelectColumn = columnId => event => {
+  const reportsUi = useSelector(
+    (state) => state.app.reportDesigner.reportsUi.ui,
+  );
+
+  const handleSelectColumn = (columnId) => (event) => {
     event.stopPropagation();
     if (isActiveNode) {
       if (reportsUi.selectedColumns) {
@@ -33,18 +39,18 @@ function Block({
             setSelectedColumns({
               [id]: [
                 ...reportsUi.selectedColumns[id].filter(
-                  item => item !== columnId
-                )
-              ]
-            })
+                  (item) => item !== columnId,
+                ),
+              ],
+            }),
           );
         } else {
           dispatch(
             setSelectedColumns({
               [id]: reportsUi.selectedColumns[id]
                 ? [...reportsUi.selectedColumns[id], columnId]
-                : [columnId]
-            })
+                : [columnId],
+            }),
           );
         }
       } else {
@@ -69,8 +75,18 @@ function Block({
             refContent={refContent}
           />
         );
-      case 'graph':
-        return <div style={{ ...blockProps.styles }}>Graph component</div>;
+      case 'barChart':
+        return (
+          <BarGraph
+            id={id}
+            structureItem={structureItem}
+            refContent={refContent}
+          />
+        );
+      case 'lineChart':
+        return <LineGraph />;
+      case 'pieChart':
+        return <Diagramm />;
       case 'cell':
         return (
           <Cell
@@ -95,7 +111,7 @@ function Block({
       //       подумать над альтернативой (баг в либе RnD: если таблица не полностью попадает в видимую область,
       //       координаты для частично не показываемых элементов равны нулю)
       className={clsx(styles.root, styles[type], {
-        [styles['is_active']]: isActiveNode
+        [styles['is_active']]: isActiveNode,
       })}
       enableResizing
       size={{ ...scales }}
@@ -103,7 +119,7 @@ function Block({
       // onClick={e => {
       //   e.stopPropagation();
       // }}
-      onDoubleClick={e => {
+      onDoubleClick={(e) => {
         e.stopPropagation();
         onSelect(structureItem, e.shiftKey);
       }}
@@ -111,7 +127,7 @@ function Block({
         e.stopPropagation();
         onChangePosition(id, {
           x: d.x,
-          y: d.y
+          y: d.y,
         });
       }}
       onResizeStop={(e, direction, ref, delta, positions) => {
@@ -119,7 +135,7 @@ function Block({
         onChangeScales(id, {
           width: ref.style.width,
           height: ref.style.height,
-          ...positions
+          ...positions,
         });
       }}
     >
@@ -137,7 +153,7 @@ Block.propTypes = {
   onChangePosition: PropTypes.func,
   onChangeScales: PropTypes.func,
   onSelect: PropTypes.func,
-  isActiveNode: PropTypes.bool
+  isActiveNode: PropTypes.bool,
 };
 
 export default Block;
