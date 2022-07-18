@@ -13,9 +13,9 @@ import {
   setConnectorReady,
   testConnector,
 } from '../../../../../data/actions/connectors';
-import { ReactComponent as WireIcon } from '../../../../../layout/assets/semanticLayerModal/wire.svg';
-import { ReactComponent as TestFailed } from '../../../../../layout/assets/testFailedIcon.svg';
-import { ReactComponent as TestOkIcon } from '../../../../../layout/assets/testOkIcon.svg';
+import WireIcon from '../../../../../layout/assets/semanticLayerModal/wire.svg';
+import TestFailed from '../../../../../layout/assets/testFailedIcon.svg';
+import TestOkIcon from '../../../../../layout/assets/testOkIcon.svg';
 import styles from './Connect.module.scss';
 import ModalItem from '..';
 
