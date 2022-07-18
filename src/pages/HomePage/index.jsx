@@ -18,7 +18,7 @@ import HomePageButton from './HomePageButton/HomePageButton';
 const RECENTS = [
   {
     id: 1,
-    title: 'Отчет 1 о проделанной работе с мая месяца текущего года',
+    title: 'Слой 1 о проделанной работе с мая месяца текущего года',
     kind: 'SL',
   },
   { id: 2, title: 'Отчет 2', kind: 'REP' },
@@ -36,12 +36,6 @@ function HomePage() {
 
   const handleReportCreate = () => {
     navigate(REDIRECT_LINKS.REPORT_CREATE);
-  };
-
-  const isFavoriteRemoved = (isRemoved) => {
-    if (isRemoved) {
-      dispatch(getFavoriteObjects());
-    }
   };
 
   return (
