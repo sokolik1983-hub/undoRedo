@@ -1,8 +1,8 @@
-import { ReactComponent as GaugeIcon } from '../../layout/assets/queryPanel/gauge_icon.svg';
-import { ReactComponent as MeasurementIcon } from '../../layout/assets/queryPanel/measurementIcon.svg';
-import { ReactComponent as AttributeIcon } from '../../layout/assets/queryPanel/attributeIcon.svg';
+import AttributeIcon from '../../layout/assets/queryPanel/attributeIcon.svg';
+import GaugeIcon from '../../layout/assets/queryPanel/gauge_icon.svg';
+import MeasurementIcon from '../../layout/assets/queryPanel/measurementIcon.svg';
 
-export const flat = arr => {
+export const flat = (arr) => {
   let result = [];
 
   if (!arr.length) return result;
@@ -16,7 +16,7 @@ export const flat = arr => {
   return result;
 };
 
-export const getIconByItemType = key => {
+export const getIconByItemType = (key) => {
   switch (key) {
     case 'Measure':
       return <GaugeIcon />;

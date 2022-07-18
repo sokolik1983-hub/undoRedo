@@ -1,30 +1,31 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import TextInput from '../../../../../common/components/TextInput';
+
 import IconButton from '../../../../../common/components/IconButton';
-import { ReactComponent as GaugeIcon } from '../../../../../layout/assets/queryPanel/gauge_icon.svg';
-import { ReactComponent as MeasIcon } from '../../../../../layout/assets/queryPanel/measurementIcon.svg';
-import { ReactComponent as AttrIcon } from '../../../../../layout/assets/queryPanel/attributeIcon.svg';
-import { ReactComponent as Magnifier } from '../../../../../layout/assets/magnifier.svg';
+import TextInput from '../../../../../common/components/TextInput';
 import { EMPTY_STRING } from '../../../../../common/constants/common';
+import Magnifier from '../../../../../layout/assets/magnifier.svg';
+import AttrIcon from '../../../../../layout/assets/queryPanel/attributeIcon.svg';
+import GaugeIcon from '../../../../../layout/assets/queryPanel/gauge_icon.svg';
+import MeasIcon from '../../../../../layout/assets/queryPanel/measurementIcon.svg';
 import styles from './ObjectsPaneActions.module.scss';
 
 const ObjectsPaneActions = ({
   objectsLayers,
   setObjectsList,
   filterObjectsMode,
-  setFilterObjectMode
+  setFilterObjectMode,
 }) => {
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
 
-  const searchObject = event => {
+  const searchObject = (event) => {
     if (event.key === 'Enter' && searchValue.length) {
       const result = JSON.parse(
         JSON.stringify(
-          objectsLayers.filter(object =>
-            object.name.toUpperCase().includes(searchValue.toUpperCase())
-          )
-        )
+          objectsLayers.filter((object) =>
+            object.name.toUpperCase().includes(searchValue.toUpperCase()),
+          ),
+        ),
       );
       setObjectsList(result);
     } else if (event.key === 'Enter') {
@@ -39,7 +40,7 @@ const ObjectsPaneActions = ({
           className={styles.input}
           onKeyPress={searchObject}
           value={searchValue}
-          onChange={event => setSearchValue(event.target.value)}
+          onChange={(event) => setSearchValue(event.target.value)}
         />
         <IconButton
           className={styles.iconBtn}
@@ -89,5 +90,5 @@ ObjectsPaneActions.propTypes = {
   objectsLayers: PropTypes.array,
   setObjectsList: PropTypes.func,
   filterObjectsMode: PropTypes.string,
-  setFilterObjectMode: PropTypes.func
+  setFilterObjectMode: PropTypes.func,
 };

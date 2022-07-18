@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+
+import FloatingButton from '../../common/components/FloatingButton';
+import { PAGE } from '../../common/constants/pages';
 import { getConnectorTypesSources } from '../../data/actions/connectors';
+import { setCurrentPage } from '../../data/reducers/ui';
+import CreateConnector from '../../layout/assets/createConnector.svg';
 import styles from './Connectors.module.scss';
 import ConnectorsList from './ConnectorsList/ConnectorsList';
-import FloatingButton from '../../common/components/FloatingButton';
-import { ReactComponent as CreateConnector } from '../../layout/assets/createConnector.svg';
-import { setCurrentPage } from '../../data/reducers/ui';
-import { PAGE } from '../../common/constants/pages';
 import CreateConnectorModal from './CreateConnectorModal';
 
 function Connectors() {

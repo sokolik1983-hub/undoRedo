@@ -1,18 +1,18 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import styles from './ItemsListModal.module.scss';
+import React, { useState } from 'react';
+
 import Button from '../../../common/components/Button';
-import Modal from '../../../common/components/Modal';
 import Dropdown from '../../../common/components/Dropdown';
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
+import IconButton from '../../../common/components/IconButton';
+import Modal from '../../../common/components/Modal';
 import TextInput from '../../../common/components/TextInput';
 import { BUTTON } from '../../../common/constants/common';
-import { ReactComponent as MeasurementIcon } from '../../../layout/assets/queryPanel/measurementIcon.svg';
-import { ReactComponent as Reload } from '../../../layout/assets/queryPanel/reload.svg';
-import { ReactComponent as Gear } from '../../../layout/assets/queryPanel/gearBold.svg';
-import { ReactComponent as Dots } from '../../../layout/assets/queryPanel/dotsInCorner.svg';
-import IconButton from '../../../common/components/IconButton';
+import Dots from '../../../layout/assets/queryPanel/dotsInCorner.svg';
+import Gear from '../../../layout/assets/queryPanel/gearBold.svg';
+import MeasurementIcon from '../../../layout/assets/queryPanel/measurementIcon.svg';
+import Reload from '../../../layout/assets/queryPanel/reload.svg';
+import styles from './ItemsListModal.module.scss';
 
 const data = [
   { text: 'Колонка', id: '1' },
@@ -30,7 +30,7 @@ const data = [
   { text: 'Колонка 12', id: '13' },
   { text: 'Колонка 13', id: '14' },
   { text: 'Колонка 14', id: '15' },
-  { text: 'Колонка 15', id: '16' }
+  { text: 'Колонка 15', id: '16' },
 ];
 
 const items = [
@@ -38,7 +38,7 @@ const items = [
   { text: 'искать в базе данных' },
   { text: 'искать по ключам' },
   { text: 'показать ключи' },
-  { text: 'частичное совпадение' }
+  { text: 'частичное совпадение' },
 ];
 
 const ItemsListModal = ({ visible, onClose }) => {
@@ -54,20 +54,20 @@ const ItemsListModal = ({ visible, onClose }) => {
     setActiveItems([]);
   };
 
-  const handleSearch = e => {
+  const handleSearch = (e) => {
     const value = e.target.value.toLowerCase();
 
     setSearchValue(value);
     setFilterableFields(
-      data.filter(i => {
+      data.filter((i) => {
         return i.text.toLowerCase().includes(value);
-      })
+      }),
     );
   };
 
-  const handleChangeActiveItem = id => {
+  const handleChangeActiveItem = (id) => {
     if (activeItems.includes(id)) {
-      const newArr = activeItems.filter(item => item !== id);
+      const newArr = activeItems.filter((item) => item !== id);
       setActiveItems(newArr);
     } else {
       setActiveItems([...activeItems, id]);
@@ -80,7 +80,7 @@ const ItemsListModal = ({ visible, onClose }) => {
 
   const menu = () => (
     <div className={styles.itemsWrapper}>
-      {items.map(i => (
+      {items.map((i) => (
         <DropdownItem
           key={i.text}
           item={i}
@@ -102,7 +102,7 @@ const ItemsListModal = ({ visible, onClose }) => {
               trigger={['click']}
               overlay={menu()}
               align={{
-                offset: [40, -30]
+                offset: [40, -30],
               }}
             >
               <IconButton
@@ -134,7 +134,7 @@ const ItemsListModal = ({ visible, onClose }) => {
             className={styles.search}
           />
           <ul className={styles.list}>
-            {filterableFields.map(item => (
+            {filterableFields.map((item) => (
               <li
                 key={item.id}
                 onClick={() => {
@@ -203,5 +203,5 @@ export default ItemsListModal;
 
 ItemsListModal.propTypes = {
   onClose: PropTypes.func,
-  visible: PropTypes.bool.isRequired
+  visible: PropTypes.bool.isRequired,
 };

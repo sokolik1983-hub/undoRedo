@@ -1,14 +1,11 @@
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { ReactComponent as CloseIcon } from '../../../layout/assets/close.svg';
+import PropTypes from 'prop-types';
+
+import CloseIcon from '../../../layout/assets/close.svg';
 import styles from './Toast.module.scss';
 
 const ToastItem = ({ type, title, deleteToast, id }) => {
-
-  const classes = clsx(
-    styles.notification,
-    styles[type]
-  )
+  const classes = clsx(styles.notification, styles[type]);
   return (
     <div className={classes}>
       <div className={styles.titleWrapper}>
@@ -28,4 +25,4 @@ ToastItem.propTypes = {
   title: PropTypes.string,
   deleteToast: PropTypes.func,
   id: PropTypes.string,
-}
+};

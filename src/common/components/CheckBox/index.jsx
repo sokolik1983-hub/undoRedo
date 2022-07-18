@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+
 import styles from './CheckBox.module.scss';
 
 /**
@@ -32,13 +33,12 @@ const CheckBox = ({
   const wrapperClasses = clsx(styles.wrapper, wrapperClass);
   const labelClasses = clsx(styles.label, labelClass);
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setIsChecked(event.target.checked);
     onChange(event);
   };
 
   return (
-    // eslint-disable-next-line jsx-a11y/label-has-associated-control
     <label className={wrapperClasses}>
       <span className={styles.container}>
         <input
@@ -73,7 +73,7 @@ CheckBox.propTypes = {
   name: PropTypes.string,
   value: PropTypes.string,
   blueBGColor: PropTypes.string,
-  checked: PropTypes.bool
+  checked: PropTypes.bool,
 };
 
 CheckBox.defaultProps = {
@@ -86,5 +86,7 @@ CheckBox.defaultProps = {
   checked: false,
   disabled: false,
   blueBGColor: '',
-  onChange: () => {}
+  onChange: () => {
+    // something
+  },
 };

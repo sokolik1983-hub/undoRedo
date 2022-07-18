@@ -1,18 +1,18 @@
-/*eslint-disable */
-import { getElementData } from '../../../../../data/actions/newReportDesigner';
-import { setFormattingElement } from '../../../../../data/reducers/new_reportDesigner';
-import { deepObjectSearch } from '../../../../../data/helpers';
 import isEqual from 'lodash/isEqual';
+
+import { getElementData } from '../../../../../data/actions/newReportDesigner';
+import { deepObjectSearch } from '../../../../../data/helpers';
+import { setFormattingElement } from '../../../../../data/reducers/new_reportDesigner';
 
 export const structureUpdatedChecker = () => {
   let oldZones;
 
-  return newZones => {
-    const end = bool => {
+  return (newZones) => {
+    const end = (bool) => {
       oldZones = newZones?.slice();
       return bool;
     };
-    
+
     if (!oldZones) {
       return end(true);
     }
@@ -31,7 +31,7 @@ export const structureUpdatedChecker = () => {
       const oldZoneSearch = deepObjectSearch({
         target: oldZones,
         key: 'id',
-        value: newZone.id
+        value: newZone.id,
       });
 
       if (!oldZoneSearch[0] || !oldZoneSearch[0].target) {
@@ -48,7 +48,7 @@ export const structureUpdatedChecker = () => {
       }
 
       for (let newCell of newCells) {
-        const oldCell = oldCells.find(item => item.id === newCell.id);
+        const oldCell = oldCells.find((item) => item.id === newCell.id);
 
         if (!oldCell) {
           return end(true);
@@ -58,7 +58,7 @@ export const structureUpdatedChecker = () => {
           const isSame = isEqual(newCell[key], oldCell[key]);
 
           if (!isSame) {
-            console.log(newCell[key], oldCell[key]);
+            // console.log(newCell[key], oldCell[key]);
 
             return end(true);
           }
@@ -75,7 +75,7 @@ export const getZoneData = ({
   dispatch,
   resetFn,
   callback,
-  report_id = 'R1'
+  report_id = 'R1',
 }) => {
   for (let i = 0; i < zones.length; i++) {
     const currentKey = zones[i].id;
@@ -84,11 +84,11 @@ export const getZoneData = ({
     dispatch(
       getElementData(
         { report_id, element_id: currentKey },
-        callback(currentKey)
-      )
+        callback(currentKey),
+      ),
     );
   }
 };
 
-export const selectCell = dispatch => item =>
+export const selectCell = (dispatch) => (item) =>
   dispatch(setFormattingElement({ item }));

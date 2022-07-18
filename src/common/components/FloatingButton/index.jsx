@@ -1,5 +1,6 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+
 import styles from './FloatingButton.module.scss';
 
 /**
@@ -10,7 +11,7 @@ import styles from './FloatingButton.module.scss';
  */
 
 const FloatingButton = ({ onClick, icon, text, ...props }) => {
-  const onClickAction = event => {
+  const onClickAction = (event) => {
     onClick(event);
   };
 
@@ -25,13 +26,15 @@ const FloatingButton = ({ onClick, icon, text, ...props }) => {
 FloatingButton.propTypes = {
   onClick: PropTypes.func,
   icon: PropTypes.node,
-  text: PropTypes.string
+  text: PropTypes.string,
 };
 
 FloatingButton.defaultProps = {
-  onClick: () => {},
+  onClick: () => {
+    // something
+  },
   icon: null,
-  text: ''
+  text: '',
 };
 
 export default FloatingButton;

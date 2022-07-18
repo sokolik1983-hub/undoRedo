@@ -1,6 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+
 import styles from './Radio.module.scss';
 
 /**
@@ -28,9 +29,14 @@ const Radio = ({
   const wrapperClasses = clsx(styles.wrapper, wrapperClass);
   const labelClasses = clsx(styles.label, labelClass);
 
-  const handleChange = event => onChange(event);
+  const handleChange = (event) => onChange(event);
 
-  const changeCb = !disabled && !checked ? handleChange : () => {};
+  const changeCb =
+    !disabled && !checked
+      ? handleChange
+      : () => {
+          // something
+        };
 
   return (
     <div className={wrapperClasses}>
@@ -64,7 +70,7 @@ Radio.propTypes = {
   labelClass: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.string,
-  checked: PropTypes.bool
+  checked: PropTypes.bool,
 };
 
 Radio.defaultProps = {
@@ -76,5 +82,7 @@ Radio.defaultProps = {
   value: '',
   checked: false,
   disabled: false,
-  onChange: () => {}
+  onChange: () => {
+    // something
+  },
 };

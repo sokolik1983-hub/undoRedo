@@ -1,104 +1,102 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable camelcase */
+import * as universe from '../../common/constants/universe_10040_v2.json';
 import { getTableIdFromParams, request } from '../helpers';
-import { notificationShown } from '../reducers/notifications';
 import {
+  setConnectorData,
   setConnectorObjects,
+  setLinksFiltered,
+  setSchemaDesigner,
   setSelectedTables,
-  setConnectorData, unsetTablePreviewData, setSelectedTablesFiltered, setLinksFiltered, setSemantycLayerName,
-    setSchemaDesigner, setSelectedTablesArray
+  setSelectedTablesArray,
+  setSelectedTablesFiltered,
+  setSemantycLayerName,
+  unsetTablePreviewData,
 } from '../reducers/schemaDesigner';
-import * as universe from '../../common/constants/universe_10040_v2.json'
 
-export const getConnectorObjectsList = queryParams => {
-  return async dispatch => {
-    try {
-      const response = await request({
-        func: 'CONNECT.GET_OBJECTS_LIST',
-        params: queryParams, // { connect_id: id }
-        dispatch
-      });
-      if (response?.success) {
-        dispatch(setConnectorObjects(response.result));
-      }
-    } catch (err) {
+export const getConnectorObjectsList = (queryParams) => {
+  return async (dispatch) => {
+    const response = await request({
+      func: 'CONNECT.GET_OBJECTS_LIST',
+      params: queryParams, // { connect_id: id }
+      dispatch,
+    });
+    if (response?.success) {
+      dispatch(setConnectorObjects(response.result));
+    }
+  };
+};
+
+export const getObjectFields = (queryParams) => {
+  return async (dispatch) => {
+    const response = await request({
+      code: 'CN.GET_OBJECT_FIELDS',
+      params: queryParams, // {"schema":"TA_APP","object_name":"MR_D_OPTIONS","object_type_id":1,"connect_id":4}
+      dispatch,
+    });
+    if (response?.result) {
       dispatch(
-        notificationShown({ message: err.message, messageType: 'error' })
+        setSelectedTables({
+          [getTableIdFromParams(queryParams)]: response.data,
+        }),
+      );
+      dispatch(
+        setSelectedTablesArray({
+          name: getTableIdFromParams(queryParams),
+          fields: response.data,
+        }),
       );
     }
   };
 };
 
-export const getObjectFields = queryParams => {
-  return async dispatch => {
-      const response = await request({
-        code: 'CN.GET_OBJECT_FIELDS',
-        params: queryParams, // {"schema":"TA_APP","object_name":"MR_D_OPTIONS","object_type_id":1,"connect_id":4}
-        dispatch
-      });
-      if (response?.result) {
-        dispatch(
-          setSelectedTables({
-            [getTableIdFromParams(queryParams)]: response.data
-          })
-        );        
-        dispatch(
-          setSelectedTablesArray({
-            name: getTableIdFromParams(queryParams),
-            fields: response.data
-          })
-        );
-      }
+export const getObjectData = (queryParams) => {
+  return async (dispatch) => {
+    const response = await request({
+      func: 'CN.GET_OBJECT_DATA',
+      params: queryParams, // {"schema":"TA_APP","object_name":"MR_D_OPTIONS","object_type_id":1,"connect_id":4}
+      dispatch,
+    });
+    if (response?.success) {
+      dispatch(setConnectorData(response.description));
+    }
   };
 };
 
-export const getObjectData = queryParams => {
-  return async dispatch => {
-      const response = await request({
-        func: 'CN.GET_OBJECT_DATA',
-        params: queryParams, // {"schema":"TA_APP","object_name":"MR_D_OPTIONS","object_type_id":1,"connect_id":4}
-        dispatch
-      });
-      if (response?.success) {
-        dispatch(setConnectorData(response.description));
-      }
-  };
-};
-
-export const getObjectTables = queryParams => {
-  return async dispatch => {
-      const response = await request({
-        func: 'CONNECT.GET_OBJECT_FIELDS',
-        params: queryParams, // {"schema":"TA_APP","object_name":"MR_D_OPTIONS","object_type_id":1,"connect_id":4}
-        dispatch
-      });
-      if (response?.success) {
-        // setSelectedTables
-      }
+export const getObjectTables = (queryParams) => {
+  return async (dispatch) => {
+    const response = await request({
+      func: 'CONNECT.GET_OBJECT_FIELDS',
+      params: queryParams, // {"schema":"TA_APP","object_name":"MR_D_OPTIONS","object_type_id":1,"connect_id":4}
+      dispatch,
+    });
+    if (response?.success) {
+      // setSelectedTables
+    }
   };
 };
 
 export const clearTablePreview = () => {
-  return dispatch => dispatch(unsetTablePreviewData());
-}
+  return (dispatch) => dispatch(unsetTablePreviewData());
+};
 
 export const filterSelectedTables = (filteredTables) => {
-  return dispatch => dispatch(setSelectedTablesFiltered(filteredTables));
-}
+  return (dispatch) => dispatch(setSelectedTablesFiltered(filteredTables));
+};
 
 export const filterTablesLinks = (filteredLinks) => {
-  return dispatch => dispatch(setLinksFiltered(filteredLinks));
-}
+  return (dispatch) => dispatch(setLinksFiltered(filteredLinks));
+};
 
 export const setSemantycLayerDataName = (name) => {
-  return dispatch => dispatch(setSemantycLayerName(name));
-}
-export const getObjectsList = () => {
-  return async dispatch => {
-    // TODO: удалить файл universe_10040_v2.json когда будет готов бэкенд
-    const response = await Promise.resolve(JSON.parse(JSON.stringify(universe)));
-    dispatch(setSchemaDesigner(response));
-  }
+  return (dispatch) => dispatch(setSemantycLayerName(name));
 };
-export const getObjectsListLocal = () => Promise.resolve(JSON.parse(JSON.stringify(universe)))
-
+export const getObjectsList = () => {
+  return async (dispatch) => {
+    // TODO: удалить файл universe_10040_v2.json когда будет готов бэкенд
+    const response = await Promise.resolve(
+      JSON.parse(JSON.stringify(universe)),
+    );
+    dispatch(setSchemaDesigner(response));
+  };
+};
+export const getObjectsListLocal = () =>
+  Promise.resolve(JSON.parse(JSON.stringify(universe)));

@@ -1,22 +1,21 @@
-import { React, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useFormikContext } from 'formik';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 
 import Dropdown from '../../../../../common/components/Dropdown';
 import DropdownItem from '../../../../../common/components/Dropdown/DropdownItem';
-import { ReactComponent as Arrow } from '../../../../../layout/assets/queryPanel/arrowThin.svg';
-import { ReactComponent as SymbolIcon } from '../../../../../layout/assets/icons/symbolIcon.svg';
-import { ReactComponent as DateIcon } from '../../../../../layout/assets/icons/dateIcon.svg';
-import { ReactComponent as TextIcon } from '../../../../../layout/assets/icons/textIcon.svg';
-import { ReactComponent as NumberIcon } from '../../../../../layout/assets/icons/numberIcon.svg';
-import { ReactComponent as GaugeIcon } from '../../../../../layout/assets/queryPanel/gauge_icon.svg';
-import { ReactComponent as MeasureIcon } from '../../../../../layout/assets/queryPanel/measurementIcon.svg';
-import { ReactComponent as AttributeIcon } from '../../../../../layout/assets/queryPanel/attributeIcon.svg';
-import { ReactComponent as NullIcon } from '../../../../../layout/assets/icons/nullIcon.svg';
-import { ReactComponent as AverageIcon } from '../../../../../layout/assets/icons/averageIcon.svg';
-import { ReactComponent as SumIcon } from '../../../../../layout/assets/icons/sumIcon.svg';
-import { ReactComponent as CounterIcon } from '../../../../../layout/assets/icons/counterIcon.svg';
-
+import AverageIcon from '../../../../../layout/assets/icons/averageIcon.svg';
+import CounterIcon from '../../../../../layout/assets/icons/counterIcon.svg';
+import DateIcon from '../../../../../layout/assets/icons/dateIcon.svg';
+import NullIcon from '../../../../../layout/assets/icons/nullIcon.svg';
+import NumberIcon from '../../../../../layout/assets/icons/numberIcon.svg';
+import SumIcon from '../../../../../layout/assets/icons/sumIcon.svg';
+import SymbolIcon from '../../../../../layout/assets/icons/symbolIcon.svg';
+import TextIcon from '../../../../../layout/assets/icons/textIcon.svg';
+import Arrow from '../../../../../layout/assets/queryPanel/arrowThin.svg';
+import AttributeIcon from '../../../../../layout/assets/queryPanel/attributeIcon.svg';
+import GaugeIcon from '../../../../../layout/assets/queryPanel/gauge_icon.svg';
+import MeasureIcon from '../../../../../layout/assets/queryPanel/measurementIcon.svg';
 import styles from './PropertiesBlock.module.scss';
 
 const PropertiesBlock = ({ name, value }) => {
@@ -26,64 +25,70 @@ const PropertiesBlock = ({ name, value }) => {
     { icon: <SymbolIcon />, text: 'Символ', value: 'symbol' },
     { icon: <DateIcon />, text: 'Дата', value: 'data' },
     { icon: <TextIcon />, text: 'Номер', value: 'number' },
-    { icon: <NumberIcon />, text: 'Текст', value: 'text' }
+    { icon: <NumberIcon />, text: 'Текст', value: 'text' },
   ];
 
   const selectTypeOptions = [
     { icon: <GaugeIcon />, text: 'Показатель', value: 'indicator' },
     { icon: <MeasureIcon />, text: 'Измерение', value: 'measure' },
-    { icon: <AttributeIcon />, text: 'Атрибут', value: 'attribute' }
+    { icon: <AttributeIcon />, text: 'Атрибут', value: 'attribute' },
   ];
 
   const selectFuncOptions = [
     { icon: <NullIcon />, text: 'Нет', value: 'none' },
     { icon: <AverageIcon />, text: 'Среднее', value: 'average' },
     { icon: <SumIcon />, text: 'Сумма', value: 'sum' },
-    { icon: <CounterIcon />, text: 'Счётчик', value: 'counter' }
+    { icon: <CounterIcon />, text: 'Счётчик', value: 'counter' },
   ];
 
-  const defDataOptIndex = selectDataOptions.findIndex(opt => opt.text === value?.[0]);
-  const defTypeOptIndex = selectTypeOptions.findIndex(opt => opt.text === value?.[1]);
-  const defFuncOptIndex = selectFuncOptions.findIndex(opt => opt.text === value?.[2]);
+  const defDataOptIndex = selectDataOptions.findIndex(
+    (opt) => opt.text === value?.[0],
+  );
+  const defTypeOptIndex = selectTypeOptions.findIndex(
+    (opt) => opt.text === value?.[1],
+  );
+  const defFuncOptIndex = selectFuncOptions.findIndex(
+    (opt) => opt.text === value?.[2],
+  );
 
   const [selectedDataText, setSelectedDataText] = useState(
-    selectDataOptions[0].text
+    selectDataOptions[0].text,
   );
   const [selectedIcon, setSelectedDataIcon] = useState(
-    selectDataOptions[0].icon
+    selectDataOptions[0].icon,
   );
   const [selectedTypeText, setSelectedTypeText] = useState(
-    selectTypeOptions[0].text
+    selectTypeOptions[0].text,
   );
   const [selectedTypeIcon, setSelectedTypeIcon] = useState(
-    selectTypeOptions[0].icon
+    selectTypeOptions[0].icon,
   );
   const [selectedFuncText, setSelectedFuncText] = useState(
-    selectFuncOptions[0].text
+    selectFuncOptions[0].text,
   );
   const [selectedFuncIcon, setSelectedFuncIcon] = useState(
-    selectFuncOptions[0].icon
+    selectFuncOptions[0].icon,
   );
-  
-  useEffect(()=> {
+
+  useEffect(() => {
     formikProps.setFieldValue(name[0], value?.[0] || 'Символ');
     formikProps.setFieldValue(name[1], value?.[1] || 'Показатель');
     formikProps.setFieldValue(name[2], value?.[2] || 'Нет');
-  }, [])
+  }, []);
 
-  const setSelectedDataFields = item => {
+  const setSelectedDataFields = (item) => {
     setSelectedDataIcon(item.icon);
     setSelectedDataText(item.text);
     formikProps.setFieldValue(name[0], item.text);
   };
 
-  const setSelectedTypeFields = item => {
+  const setSelectedTypeFields = (item) => {
     setSelectedTypeIcon(item.icon);
     setSelectedTypeText(item.text);
     formikProps.setFieldValue(name[1], item.text);
   };
 
-  const setSelectedFuncFields = item => {
+  const setSelectedFuncFields = (item) => {
     setSelectedFuncIcon(item.icon);
     setSelectedFuncText(item.text);
     formikProps.setFieldValue(name[2], item.text);
@@ -95,11 +100,11 @@ const PropertiesBlock = ({ name, value }) => {
       setSelectedTypeFields(selectTypeOptions[defTypeOptIndex]);
       setSelectedFuncFields(selectFuncOptions[defFuncOptIndex]);
     }
-  }, [defDataOptIndex, defFuncOptIndex, defTypeOptIndex])
+  }, [defDataOptIndex, defFuncOptIndex, defTypeOptIndex]);
 
   const dataOptionsMenu = () => (
     <div className={styles.dropDownDataBlock}>
-      {selectDataOptions.map(item => (
+      {selectDataOptions.map((item) => (
         <DropdownItem
           key={item.value}
           item={item}
@@ -113,7 +118,7 @@ const PropertiesBlock = ({ name, value }) => {
 
   const typeOptionsMenu = () => (
     <div className={styles.dropDownDataBlock}>
-      {selectTypeOptions.map(item => (
+      {selectTypeOptions.map((item) => (
         <DropdownItem
           icon={item.icon}
           key={item.value}
@@ -127,7 +132,7 @@ const PropertiesBlock = ({ name, value }) => {
 
   const funcOptionsMenu = () => (
     <div className={styles.dropDownDataBlock}>
-      {selectFuncOptions.map(item => (
+      {selectFuncOptions.map((item) => (
         <DropdownItem
           icon={item.icon}
           key={item.value}
@@ -188,5 +193,5 @@ export default PropertiesBlock;
 
 PropertiesBlock.propTypes = {
   name: PropTypes.array,
-  value: PropTypes.array
+  value: PropTypes.array,
 };

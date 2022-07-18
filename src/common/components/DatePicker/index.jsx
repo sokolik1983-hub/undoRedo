@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import React from 'react';
 
 /**
@@ -7,9 +7,9 @@ import React from 'react';
  */
 
 const DatePicker = ({ name, onDateSelect }) => {
-  const handleItemSelect = e => {
-    onDateSelect(e.target.value)
-  }
+  const handleItemSelect = (e) => {
+    onDateSelect(e.target.value);
+  };
 
   return (
     <input
@@ -25,9 +25,11 @@ export default DatePicker;
 DatePicker.propTypes = {
   name: PropTypes.string,
   onDateSelect: PropTypes.func,
-}
+};
 
 DatePicker.defaultProps = {
   name: '',
-  onDateSelect: () => {},
-}
+  onDateSelect: () => {
+    // something
+  },
+};

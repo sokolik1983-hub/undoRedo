@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { useEffect, useState } from 'react';
 
 // https://usehooks.com/useDebounce/

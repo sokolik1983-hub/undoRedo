@@ -3,11 +3,11 @@
 /* eslint-disable no-throw-literal */
 /* eslint-disable no-return-assign */
 /* eslint-disable no-shadow */
-import React, { createContext, useReducer, useContext } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
 
-import initialState from './state';
-import mutations from './mutations';
 import getters from './getters';
+import mutations from './mutations';
+import initialState from './state';
 
 const reducer = (state, { type, payload }) => {
   if (type in mutations) {
@@ -18,9 +18,9 @@ const reducer = (state, { type, payload }) => {
         state: newState,
         commit: (type, payload) =>
           (newState = reducer(newState, { type, payload })),
-        getter: (type, payload) => callGetter({ state }, { type, payload })
+        getter: (type, payload) => callGetter({ state }, { type, payload }),
       },
-      payload
+      payload,
     );
     // console.log('commited ', type, payload, '=>', newState);
     return newState;
@@ -28,11 +28,11 @@ const reducer = (state, { type, payload }) => {
   throw `Не известная мутация "${type}"`;
 };
 
-const initializeMutations = commit => {
+const initializeMutations = (commit) => {
   return Object.fromEntries(
-    Object.keys(mutations).map(key => {
-      return [key, payload => commit({ type: key, payload })];
-    })
+    Object.keys(mutations).map((key) => {
+      return [key, (payload) => commit({ type: key, payload })];
+    }),
   );
 };
 
@@ -40,21 +40,26 @@ const callGetter = ({ state }, { type, payload }) => {
   return getters[type](
     {
       state,
-      getter: (type, payload) => callGetter({ state }, { type, payload })
+      getter: (type, payload) => callGetter({ state }, { type, payload }),
     },
-    payload
+    payload,
   );
 };
 
-const initializeGetters = state => {
+const initializeGetters = (state) => {
   return Object.fromEntries(
-    Object.keys(getters).map(type => {
-      return [type, payload => callGetter({ state }, { type, payload })];
-    })
+    Object.keys(getters).map((type) => {
+      return [type, (payload) => callGetter({ state }, { type, payload })];
+    }),
   );
 };
 
-export const SymanticLayerContext = createContext([{}, () => {}]);
+export const SymanticLayerContext = createContext([
+  {},
+  () => {
+    // something
+  },
+]);
 
 export const SymanticLayerContextProvider = ({ children = [] }) => {
   const [state, commit] = useReducer(reducer, initialState);

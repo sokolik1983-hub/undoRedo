@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types';
+
+import ArrowRightIcon from '../../../../layout/assets/arrow-right.svg';
+import ArrowUpIcon from '../../../../layout/assets/arrow-up.svg';
+import ArrowLeftIcon from '../../../../layout/assets/arrowLeft.svg';
 import IconButton from '../../IconButton';
-import { ReactComponent as ArrowRightIcon } from '../../../../layout/assets/arrow-right.svg';
-import { ReactComponent as ArrowLeftIcon } from '../../../../layout/assets/arrowLeft.svg';
-import { ReactComponent as ArrowUpIcon } from '../../../../layout/assets/arrow-up.svg';
 import styles from './ListNavBarActions.module.scss';
 
 const ListNavBarActions = ({
   onPrevClick,
   onNextClick,
   onUpClick,
-  actionButtonIsDisable
+  actionButtonIsDisable,
 }) => {
   return (
     <div className={styles.navigationActions}>
@@ -43,5 +44,5 @@ ListNavBarActions.propTypes = {
   onPrevClick: PropTypes.func,
   onNextClick: PropTypes.func,
   onUpClick: PropTypes.func,
-  actionButtonIsDisable: PropTypes.object
+  actionButtonIsDisable: PropTypes.object,
 };

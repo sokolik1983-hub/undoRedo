@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
+
 import IconButton from '../../../../common/components/IconButton';
-import { ReactComponent as SaveIcon } from '../../../../layout/assets/icons/tableSave.svg';
+import SaveIcon from '../../../../layout/assets/icons/tableSave.svg';
 import styles from './SideBarTabContent.module.scss';
 
 const SideBarTabContent = ({ title, desc, action }) => {
@@ -24,5 +25,5 @@ export default SideBarTabContent;
 SideBarTabContent.propTypes = {
   title: PropTypes.string,
   desc: PropTypes.string,
-  action: PropTypes.func
+  action: PropTypes.func,
 };

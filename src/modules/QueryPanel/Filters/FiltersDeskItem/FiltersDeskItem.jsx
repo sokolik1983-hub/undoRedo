@@ -1,18 +1,19 @@
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { ReactComponent as CloseIcon } from '../../../../layout/assets/close.svg';
-import { ReactComponent as Arrow } from '../../../../layout/assets/queryPanel/arrowThin.svg';
-import TextInput from '../../../../common/components/TextInput';
-import IconButton from '../../../../common/components/IconButton';
-import { getIconByItemType } from '../../queryPanelHelper';
-import { EMPTY_STRING } from '../../../../common/constants/common';
-import { FILTER_TYPES, FILTER_TYPES_ARR } from './constants';
-import styles from './FiltersDeskItem.module.scss';
-import { useDragNDrop } from '../../context/DragNDropContext';
-import DotsMenu from './DotsMenu/DotsMenu';
-import DropdownItem from '../../../../common/components/Dropdown/DropdownItem';
+
 import Dropdown from '../../../../common/components/Dropdown';
+import DropdownItem from '../../../../common/components/Dropdown/DropdownItem';
+import IconButton from '../../../../common/components/IconButton';
+import TextInput from '../../../../common/components/TextInput';
+import { EMPTY_STRING } from '../../../../common/constants/common';
+import CloseIcon from '../../../../layout/assets/close.svg';
+import Arrow from '../../../../layout/assets/queryPanel/arrowThin.svg';
+import { useDragNDrop } from '../../context/DragNDropContext';
+import { getIconByItemType } from '../../queryPanelHelper';
+import { FILTER_TYPES, FILTER_TYPES_ARR } from './constants';
+import DotsMenu from './DotsMenu/DotsMenu';
+import styles from './FiltersDeskItem.module.scss';
 
 const FiltersDeskItem = ({
   id,
@@ -28,27 +29,27 @@ const FiltersDeskItem = ({
   const [filterValue, setFilterValue] = useState(EMPTY_STRING);
   const [filterValueBetween, setFilterValueBetween] = useState({
     from: '',
-    to: ''
+    to: '',
   });
   const [filterType, setFilterType] = useState('равно');
 
   const root = clsx(styles.root, {
     [styles.active]: isActive,
-    [styles.selected]: focused?.id === id
+    [styles.selected]: focused?.id === id,
   });
 
-  const onEdit = e => {
+  const onEdit = (e) => {
     setFilterValue(e.target.value);
   };
 
-  const handleChangeBetween = event => {
-      setFilterValueBetween({
-        ...filterValueBetween,
-        [event.target.name]: event.target.value
-      });
+  const handleChangeBetween = (event) => {
+    setFilterValueBetween({
+      ...filterValueBetween,
+      [event.target.name]: event.target.value,
+    });
   };
 
-  const handleSelectFilterType = typeOfFilter => {
+  const handleSelectFilterType = (typeOfFilter) => {
     setFilterType(typeOfFilter);
     setFilterValue('');
     setFilterValueBetween({ from: '', to: '' });
@@ -60,18 +61,25 @@ const FiltersDeskItem = ({
 
   useEffect(() => {
     if (filterValueBetween.from || filterValueBetween.to) {
-      onEditItem(id, filterValueBetween.from, filterValueBetween.to, filterType);
-    };
+      onEditItem(
+        id,
+        filterValueBetween.from,
+        filterValueBetween.to,
+        filterType,
+      );
+    }
   }, [filterValueBetween, filterType]);
 
   const menu = () => (
     <div className={styles.optionsWrapper}>
-      {FILTER_TYPES_ARR.map(i => (
+      {FILTER_TYPES_ARR.map((i) => (
         <DropdownItem
           key={i.value}
           item={i}
           className={styles.optionsText}
-          onClick={() => {handleSelectFilterType(i.text)}}
+          onClick={() => {
+            handleSelectFilterType(i.text);
+          }}
         />
       ))}
     </div>
@@ -96,14 +104,14 @@ const FiltersDeskItem = ({
           <Arrow className={styles.arrow} />
         </div>
       </Dropdown>
-      { filterType === FILTER_TYPES.BETWEEN ? (
+      {filterType === FILTER_TYPES.BETWEEN ? (
         <>
           <TextInput
             className={styles.input}
             placeholder="введите постоянную"
-            type='text'
+            type="text"
             label={EMPTY_STRING}
-            name='from'
+            name="from"
             value={filterValueBetween.from}
             onChange={handleChangeBetween}
           />
@@ -111,9 +119,9 @@ const FiltersDeskItem = ({
           <TextInput
             className={styles.input}
             placeholder="введите постоянную"
-            type='text'
+            type="text"
             label={EMPTY_STRING}
-            name='to'
+            name="to"
             value={filterValueBetween.to}
             onChange={handleChangeBetween}
           />
@@ -122,17 +130,17 @@ const FiltersDeskItem = ({
         <TextInput
           className={styles.input}
           placeholder="введите постоянную"
-          type='text'
+          type="text"
           label={EMPTY_STRING}
           value={filterValue}
-          onChange={e => onEdit(e)}
+          onChange={(e) => onEdit(e)}
         />
       )}
       <DotsMenu />
       <IconButton
         className={styles.closeBtn}
         icon={<CloseIcon className={styles.closeBtnIcon} />}
-        onClick={e => {
+        onClick={(e) => {
           e.stopPropagation();
           onDeleteItem();
         }}
@@ -149,5 +157,5 @@ FiltersDeskItem.propTypes = {
   type: PropTypes.number,
   onItemClick: PropTypes.func,
   onDeleteItem: PropTypes.func,
-  onEditItem: PropTypes.func
+  onEditItem: PropTypes.func,
 };

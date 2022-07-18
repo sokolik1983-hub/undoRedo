@@ -1,8 +1,6 @@
-// eslint-disable-next-line import/no-cycle
-/* eslint-disable no-unused-vars */
 import { delay } from 'lodash';
+
 import { REDIRECT_LINKS } from '../../common/constants/common';
-// eslint-disable-next-line import/no-cycle
 import { request, requestWithoutResponse } from '../helpers';
 import { login, logout } from '../reducers/auth';
 
@@ -16,7 +14,7 @@ export const refreshUserSession = (queryParams) => {
       const response = await requestWithoutResponse({
         code: 'CMS.ALIVE',
         params: queryParams,
-        dispatch
+        dispatch,
       });
       if (response) {
         return null;
@@ -31,13 +29,15 @@ export const loginUser = (queryParams) => {
     const response = await request({
       code: 'CMS.LOGIN',
       params: queryParams,
-      dispatch
+      dispatch,
     });
-    localStorage.setItem('isAuth', 'true');
-    localStorage.setItem('userInfo', queryParams.userName);
-    localStorage.setItem('token', response.token);
-    dispatch(login(response));
-    dispatch(refreshUserSession(response.token));
+    if (response?.result) {
+      localStorage.setItem('isAuth', 'true');
+      localStorage.setItem('userInfo', queryParams.userName);
+      localStorage.setItem('token', response.token);
+      dispatch(login(response));
+      dispatch(refreshUserSession(response.token));
+    }
   };
 };
 
@@ -47,16 +47,16 @@ export const logoutUser = () => {
       code: 'REP.REBOOT',
       token: localStorage.getItem('token'),
       params: {
-        token: localStorage.getItem('token')
+        token: localStorage.getItem('token'),
       },
-      dispatch
+      dispatch,
     });
     delay(async () => {
       await requestWithoutResponse({
         code: 'CMS.LOGOUT',
         token: localStorage.getItem('token'),
         params: null,
-        dispatch
+        dispatch,
       });
       localStorage.removeItem('userInfo');
       localStorage.removeItem('isAuth');

@@ -9,8 +9,10 @@ export default {
   expanded: {},
   filtres: {},
 
-  tablePostitionChangedCallback: () => {},
-  getTableId: tableItem =>
+  tablePostitionChangedCallback: () => {
+    // some action
+  },
+  getTableId: (tableItem) =>
     tableItem.parentTable_id
       ? `${tableItem.objectName}`
       : `${tableItem.schema}.${tableItem.objectName}`,
@@ -37,5 +39,5 @@ export default {
   searchLine: '',
   searchResult: [],
   focusedItem: null,
-  searchPopupVisible: false
+  searchPopupVisible: false,
 };

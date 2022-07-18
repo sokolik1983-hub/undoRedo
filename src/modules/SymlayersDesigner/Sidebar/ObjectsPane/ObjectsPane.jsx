@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCreateObjectModal } from '../../../../data/actions/universes';
-import ObjectsPaneActions from './ObjectsPaneActions/ObjectsPaneActions';
+
 import Divider from '../../../../common/components/Divider';
-import ObjectLayer from '../ObjectLayer/ObjectLayer';
-import { ReactComponent as FolderIcon } from '../../../../layout/assets/openFolderIcon.svg';
 import { EMPTY_STRING } from '../../../../common/constants/common';
+import { setCreateObjectModal } from '../../../../data/actions/universes';
+import FolderIcon from '../../../../layout/assets/openFolderIcon.svg';
+import ObjectLayer from '../ObjectLayer/ObjectLayer';
 import styles from './ObjectsPane.module.scss';
+import ObjectsPaneActions from './ObjectsPaneActions/ObjectsPaneActions';
 
 const ObjectsPane = () => {
   const dispatch = useDispatch();
   const objectsLayers = useSelector(
-    state => state.app.schemaDesigner.objectsLayerList
+    (state) => state.app.schemaDesigner.objectsLayerList,
   );
   const [objectsList, setObjectsList] = useState([]);
   const [filterObjectsMode, setFilterObjectMode] = useState(null);
@@ -25,7 +26,7 @@ const ObjectsPane = () => {
     dispatch(setCreateObjectModal(true));
   };
 
-  const handleSelectObjectLayer = id => {
+  const handleSelectObjectLayer = (id) => {
     setSelectObjectLayer(id);
     if (id === selectObjectLayer) {
       setSelectObjectLayer(EMPTY_STRING);
@@ -35,12 +36,12 @@ const ObjectsPane = () => {
   return (
     <div
       className={styles.root}
-      onDrop={e => {
+      onDrop={(e) => {
         if (e.dataTransfer.getData('field')) {
           handleObjectDrop(JSON.parse(e.dataTransfer.getData('field')), e);
         }
       }}
-      onDragOver={e => e.preventDefault()}
+      onDragOver={(e) => e.preventDefault()}
     >
       <ObjectsPaneActions
         objectsLayers={objectsLayers}
@@ -55,7 +56,7 @@ const ObjectsPane = () => {
       </div>
       <div className={styles.contentData}>
         <div className={styles.objectsData}>
-          {objectsList?.map(object => {
+          {objectsList?.map((object) => {
             if (
               filterObjectsMode === 'GAUGE' &&
               object.objectType === 'Показатель'

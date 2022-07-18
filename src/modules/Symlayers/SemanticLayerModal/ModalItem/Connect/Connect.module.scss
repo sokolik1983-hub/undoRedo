@@ -24,16 +24,16 @@
 .wireIcon {
   position: absolute;
   top: -23px;
-  right: 0px;
+  right: 0;
   cursor: pointer;
 
   &:hover + .hide {
-    
+
   display: flex;
   width: 59px;
   height: 25px;
   background: rgba(255, 255, 255, 0.7);
-  box-shadow: 0px 4px 4px rgba(34, 82, 102, 0.25);
+  box-shadow: 0 4px 4px rgba(34, 82, 102, 0.25);
   backdrop-filter: blur(7px);
   border-radius: 3px;
   top: -39px;
@@ -58,7 +58,7 @@
 
 .edit {
   background: linear-gradient(180deg, #C4C4C4 0%, rgba(196, 196, 196, 0) 100%);
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
   border-radius: 3px;
   font-style: normal;
   font-weight: bold;
@@ -72,7 +72,7 @@
 
 .test {
   background: linear-gradient(199.32deg, #1AE3D7 -13.92%, #0945DF 111.71%);
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
   border-radius: 3px;
   font-style: normal;
   font-weight: bold;

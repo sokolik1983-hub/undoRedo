@@ -21,7 +21,7 @@
 .divider {
   @extend .actionWrapper;
   width: 25px;
-  
+
   cursor: initial;
 
   &:active {
@@ -43,7 +43,7 @@
   top: -2px;
   left: 340px;;
   background: #FFFFFF;
-  box-shadow: 0px 1.5px 1.5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1.5px 1.5px rgba(0, 0, 0, 0.5);
   border-radius: 3px;
   padding: 9px 10px 7px;
 }
@@ -57,7 +57,7 @@
 
 .zoomSlider {
   position: absolute;
-  top: 0px;
+  top: 0;
   left: 650px;
 }
 

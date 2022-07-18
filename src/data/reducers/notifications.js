@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-// eslint-disable-next-line import/no-cycle
+
 import { getSimpleID } from '../helpers';
 
 const notifications = createSlice({
   name: 'notifications',
   initialState: {
-    items: []
+    items: [],
   },
   reducers: {
     notificationShown: (state, action) => {
@@ -19,17 +19,17 @@ const notifications = createSlice({
           id: getSimpleID(),
           autoHide: false,
           message: {
-            ...action.payload
-          }
+            ...action.payload,
+          },
         });
       }
     },
     notificationClosed: (state, action) => {
       state.items = state.items.filter(
-        (notification) => notification.id !== action.payload.id
+        (notification) => notification.id !== action.payload.id,
       );
-    }
-  }
+    },
+  },
 });
 
 export const { notificationShown, notificationClosed } = notifications.actions;

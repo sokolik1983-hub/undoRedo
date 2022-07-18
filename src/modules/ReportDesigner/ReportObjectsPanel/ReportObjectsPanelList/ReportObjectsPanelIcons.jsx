@@ -1,10 +1,11 @@
 /* eslint-disable no-cond-assign */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { ReactComponent as Magnifier } from '../../../../layout/assets/reportObjectsPanelIcons/magnifier.svg';
-import styles from './ReportObjectsPanel.module.scss';
+
 import TextInput from '../../../../common/components/TextInput';
- 
+import Magnifier from '../../../../layout/assets/reportObjectsPanelIcons/magnifier.svg';
+import styles from './ReportObjectsPanel.module.scss';
+
 const ReportObjectsPanelIcons = ({
   searchValue,
   setSearchValue,
@@ -12,33 +13,34 @@ const ReportObjectsPanelIcons = ({
   showInput,
   setInput,
   iconsArr,
-  menuItem
+  menuItem,
 }) => {
-
   return (
     <div className={styles.root}>
       {!showInput && (
-      <>
-          {iconsArr.map(item => {
+        <>
+          {iconsArr.map((item) => {
             return (
               <div
                 key={item.title}
                 className={styles.actionWrapper}
                 title={item.title || ''}
-                onClick={() => actions[item.action] ? actions[item.action](item) : null}
+                onClick={() =>
+                  actions[item.action] ? actions[item.action](item) : null
+                }
               >
-                {item.action ===  menuItem ? item.icon : item.disIcon}
+                {item.action === menuItem ? item.icon : item.disIcon}
               </div>
             );
           })}
-      </>
+        </>
       )}
       {showInput && (
         <>
           <TextInput
             className={styles.filterNameInput}
             value={searchValue}
-            onChange={event => {
+            onChange={(event) => {
               setSearchValue(event.target.value);
             }}
           />
@@ -57,6 +59,6 @@ ReportObjectsPanelIcons.propTypes = {
   actions: PropTypes.object,
   searchValue: PropTypes.string,
   showInput: PropTypes.bool,
-  setInput:PropTypes.func,
-  setSearchValue: PropTypes.func
+  setInput: PropTypes.func,
+  setSearchValue: PropTypes.func,
 };

@@ -1,41 +1,41 @@
+import lodash, { cloneDeep, find } from 'lodash';
 /* eslint-disable react/jsx-curly-newline */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import lodash, { cloneDeep, find } from 'lodash';
 
-import Button from '../Button';
-import styles from './SidePanel.module.scss';
-import NavigationMenu from './NavigationMenu';
-import { SIDE_PANEL_TYPES, BUTTON } from '../../constants/common';
-import StyleFormatter from './SectionGroup/StyleFormatter';
+import { setReportStructure } from '../../../data/actions/newReportDesigner';
 import {
   addSortingField,
   addTableColumn,
   addTableRow,
   addTableValue,
+  removeTableColumn,
   setActiveNodes,
   setConfigPanelVisible,
   setStructure,
   setTableStyle,
-  removeTableColumn,
-  setTableVariant
+  setTableVariant,
 } from '../../../data/reducers/new_reportDesigner';
-import ObjectsList from './ObjectsList';
+import CloseIcon from '../../../layout/assets/close.svg';
 import { getCurrentReport } from '../../../modules/ReportDesigner/helpers';
-import SortingField from './SortingField';
-import { ReactComponent as CloseIcon } from '../../../layout/assets/close.svg';
+import { BUTTON, SIDE_PANEL_TYPES } from '../../constants/common';
 import { TABLE_ICONS } from '../../constants/reportDesigner/reportDesignerIcons';
-import { setReportStructure } from '../../../data/actions/newReportDesigner';
+import { getNavMenu } from '../../constants/reportDesigner/reportDesignerMenu';
+import Button from '../Button/index';
 import GraphSettingsData from './GraphSettingsData';
 import GraphSettingsFormat from './GraphSettingsFormat';
-import { getNavMenu } from '../../constants/reportDesigner/reportDesignerMenu';
+import NavigationMenu from './NavigationMenu';
+import ObjectsList from './ObjectsList';
+import StyleFormatter from './SectionGroup/StyleFormatter';
+import styles from './SidePanel.module.scss';
+import SortingField from './SortingField';
 
 // eslint-disable-next-line react/prop-types
 export default function SidePanel({ navType }) {
   const [activePage, setActivePage] = useState(1);
   const [activeSubMenu, setActiveSubMenu] = useState(1);
-  const reportDesigner = useSelector(state => state.app.reportDesigner);
+  const reportDesigner = useSelector((state) => state.app.reportDesigner);
   const dispatch = useDispatch();
 
   const formattingElement = reportDesigner?.reportsUi?.ui?.formattingElement;
@@ -46,22 +46,22 @@ export default function SidePanel({ navType }) {
 
   const currentReport = getCurrentReport(
     reportDesigner.reportsData.present.reports,
-    reportDesigner.reportsData.present.activeReport
+    reportDesigner.reportsData.present.activeReport,
   );
   const newStructureReport = cloneDeep(currentReport);
 
   const currentNode = lodash.find(
     newStructureReport?.structure?.pgBody?.content?.children,
-    item => item.id === activeNode?.id
+    (item) => item?.id === activeNode?.id,
   );
   const headerZone = currentNode?.content?.layout?.zones?.filter(
-    item => item.vType === 'header'
+    (item) => item.vType === 'header',
   );
   const bodyZone = currentNode?.content?.layout?.zones?.filter(
-    item => item.vType === 'body'
+    (item) => item.vType === 'body',
   );
   const footerZone = currentNode?.content?.layout?.zones?.filter(
-    item => item.vType === 'footer'
+    (item) => item.vType === 'footer',
   );
 
   function renderReportConfigContent() {
@@ -72,18 +72,11 @@ export default function SidePanel({ navType }) {
         return (
           <div>
             <p>Структура</p>
-            {currentReport?.structure?.map(item => (
+            {currentReport?.structure?.map((item) => (
               <p>{item.title || item.type}</p>
             ))}
           </div>
         );
-      case 3:
-        return <div>Комментарии</div>;
-      case 4:
-        return <div>Информация</div>;
-
-      default:
-        return null;
     }
   }
 
@@ -91,17 +84,17 @@ export default function SidePanel({ navType }) {
     const { sorting } = currentNode;
     dispatch(
       addSortingField({
-        id: currentNode.id,
-        sorting: sorting.map(item => {
+        id: currentNode?.id,
+        sorting: sorting.map((item) => {
           const selectedItem = lodash.cloneDeep(item);
-          if (selectedItem.id === changedItem.id) {
+          if (selectedItem?.id === changedItem?.id) {
             selectedItem.field = changedItem.field;
             selectedItem.sortingType = changedItem.sortingType;
           }
 
           return selectedItem;
-        })
-      })
+        }),
+      }),
     );
   }
 
@@ -109,73 +102,76 @@ export default function SidePanel({ navType }) {
     const { sorting } = currentNode;
     dispatch(
       addSortingField({
-        id: currentNode.id,
-        sorting: [...sorting.filter(item => item.id !== removingItem.id)]
-      })
+        id: currentNode?.id,
+        sorting: [...sorting.filter((item) => item?.id !== removingItem?.id)],
+      }),
     );
   }
 
   function handleRemoveNode() {
     const cloneReport = lodash.cloneDeep(currentReport);
-    cloneReport.structure.pgBody.content.children = currentReport?.structure?.pgBody?.content?.children?.filter(
-      item => item.id !== currentNode.id
-    );
+    cloneReport.structure.pgBody.content.children =
+      currentReport?.structure?.pgBody?.content?.children?.filter(
+        (item) => item?.id !== currentNode?.id,
+      );
     dispatch(setStructure(cloneReport.structure));
     dispatch(setActiveNodes([]));
     dispatch(setConfigPanelVisible(false));
   }
 
-  const handleRemoveColumn = object => event => {
+  const handleRemoveColumn = (object) => (event) => {
     event?.stopPropagation();
 
     headerZone[0].cells = headerZone?.[0].cells.filter(
-      item => item.col !== object.col
+      (item) => item.col !== object.col,
     );
     bodyZone[0].cells = bodyZone?.[0].cells.filter(
-      item => item.col !== object.col
+      (item) => item.col !== object.col,
     );
     footerZone[0].cells = footerZone?.[0]?.cells.filter(
-      item => item.col !== object.col
+      (item) => item.col !== object.col,
     );
 
     dispatch(
       removeTableColumn({
-        object
-      })
+        object,
+      }),
     );
   };
-  const handleRemoveRow = rowId => event => {
+
+  const handleRemoveRow = (rowId) => (event) => {
     event?.stopPropagation();
 
     dispatch(
       setStructure(
-        currentReport?.structure?.map(item => {
+        currentReport?.structure?.map((item) => {
           const clone = lodash.cloneDeep(item);
           if (clone?.id === currentNode?.id) {
             clone.rows = currentNode?.rows?.filter(
-              row => row?.object?.id !== rowId
+              (row) => row?.object?.id !== rowId,
             );
           }
           return clone;
-        })
-      )
+        }),
+      ),
     );
   };
-  const handleRemoveValue = valueId => event => {
+
+  const handleRemoveValue = (valueId) => (event) => {
     event?.stopPropagation();
 
     dispatch(
       setStructure(
-        currentReport?.structure?.map(item => {
+        currentReport?.structure?.map((item) => {
           const clone = lodash.cloneDeep(item);
           if (clone?.id === currentNode?.id) {
             clone.values = currentNode?.values?.filter(
-              val => val?.object?.id !== valueId
+              (val) => val?.object?.id !== valueId,
             );
           }
           return clone;
-        })
-      )
+        }),
+      ),
     );
   };
 
@@ -186,13 +182,13 @@ export default function SidePanel({ navType }) {
   function refreshFieldsStore(selectedEl) {
     switch (selectedEl.source) {
       case 'columns':
-        handleRemoveColumn(selectedEl.object.id)();
+        handleRemoveColumn(selectedEl.object?.id)();
         break;
       case 'rows':
-        handleRemoveRow(selectedEl.object.id)();
+        handleRemoveRow(selectedEl.object?.id)();
         break;
       case 'values':
-        handleRemoveValue(selectedEl.object.id)();
+        handleRemoveValue(selectedEl.object?.id)();
         break;
       default:
         break;
@@ -205,11 +201,11 @@ export default function SidePanel({ navType }) {
     refreshFieldsStore(selectedEl);
   }
 
-  const handleSetVariant = variant => {
+  const handleSetVariant = (variant) => {
     dispatch(setTableVariant(variant));
     const currNode = find(
       newStructureReport?.structure?.pgBody?.content?.children,
-      item => item.id === activeNode?.id
+      (item) => item?.id === activeNode?.id,
     );
     currNode.type = variant;
   };
@@ -227,7 +223,7 @@ export default function SidePanel({ navType }) {
                 <div>
                   <p className={styles.heading}>Преобразовать в</p>
                   <div className={styles.iconsContainer}>
-                    {TABLE_ICONS.map(i => (
+                    {TABLE_ICONS.map((i) => (
                       <div
                         className={styles.icon}
                         onClick={() => handleSetVariant(i.type)}
@@ -235,7 +231,7 @@ export default function SidePanel({ navType }) {
                       >
                         {i.icon}
                       </div>
-                      ))}
+                    ))}
                   </div>
                 </div>
                 <div
@@ -245,37 +241,36 @@ export default function SidePanel({ navType }) {
                 >
                   <p className={styles.heading}>Колонки</p>
                   {/* TODO  headerZone */}
-                  {headerZone?.map(zone =>
-                      zone.cells?.map(object => {
-                        return (
-                          <div
-                            className={styles.objectItem}
-                            key={object.id}
-                            draggable
-                            onDragStart={event => {
-                              event.dataTransfer.setData(
-                                'text/plain',
-                                JSON.stringify({
-                                  object,
-                                  source: 'columns'
-                                })
-                              );
-                            }}
-                          >
-                            {object?.expression?.formula}
-                            <CloseIcon 
-                              fill='white'
-                              onClick={handleRemoveColumn(object)}
-                              className={styles.closeIcon}
-                            />
-                          </div>
-                        );
-                      })
-                    )}
+                  {headerZone?.map((zone) =>
+                    zone.cells?.map((object) => {
+                      return (
+                        <div
+                          className={styles.objectItem}
+                          key={object?.id}
+                          draggable
+                          onDragStart={(event) => {
+                            event.dataTransfer.setData(
+                              'text/plain',
+                              JSON.stringify({
+                                object,
+                                source: 'columns',
+                              }),
+                            );
+                          }}
+                        >
+                          {object?.expression?.formula}
+                          <CloseIcon
+                            fill="white"
+                            onClick={handleRemoveColumn(object)}
+                            className={styles.closeIcon}
+                          />
+                        </div>
+                      );
+                    }),
+                  )}
                 </div>
               </>
-                )
-              }
+            )}
             <Button
               className={styles.button}
               buttonStyle={BUTTON.BLUE}
@@ -283,27 +278,27 @@ export default function SidePanel({ navType }) {
             >
               Удалить элемент
             </Button>
-          </> 
-        ) 
+          </>
+        );
       // case 2:
       //   return (
       //     <div>
       //       <p>Filters</p>
       //       <p>drop objects from obkects list</p>
       //     </div>
-      //   ); 
+      //   );
       case 3:
         return (
           <div>
             <p className={styles.heading}>Сортировка</p>
             <Button buttonStyle={BUTTON.BLUE}>Добавить сортировку</Button>
-            {currentNode?.sorting?.map(item => (
+            {currentNode?.sorting?.map((item) => (
               <SortingField
                 onChange={handleChangeSortingField}
                 onRemove={handleRemoveSortingField}
-                options={currentNode?.columns?.map(column => ({
-                  value: column.object.id,
-                  text: column.object.field // todo change to name after back
+                options={currentNode?.columns?.map((column) => ({
+                  value: column.object?.id,
+                  text: column.object.field, // todo change to name after back
                 }))}
                 item={item}
               />
@@ -318,7 +313,7 @@ export default function SidePanel({ navType }) {
                 <StyleFormatter
                   key={formattingElement?.id}
                   isHeader={activeSubMenu === 1}
-                  onChange={params =>
+                  onChange={(params) =>
                     dispatch(setTableStyle({ ...params, formattingElement }))
                   }
                   formattingElement={formattingElement}
@@ -332,9 +327,9 @@ export default function SidePanel({ navType }) {
               <StyleFormatter
                 key={formattingElement?.id}
                 isHeader={activeSubMenu === 1}
-                onChange={params =>
-                dispatch(setTableStyle({ ...params, formattingElement }))
-              }
+                onChange={(params) =>
+                  dispatch(setTableStyle({ ...params, formattingElement }))
+                }
                 formattingElement={formattingElement}
               />
             )}

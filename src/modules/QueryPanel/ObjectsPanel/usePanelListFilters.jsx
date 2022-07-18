@@ -1,22 +1,21 @@
-/* eslint-disable import/prefer-default-export */
-
 import { useEffect, useState } from 'react';
+
 import { EMPTY_STRING } from '../../../common/constants/common';
 import { useDebounce } from '../../../common/hooks/useDebounce';
 
-const usePanelListFilters = rootFolder => {
+const usePanelListFilters = (rootFolder) => {
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
   const [filterType, setFilterType] = useState([]);
   const [filteredData, setFilteredData] = useState();
 
   const debouncedSearchValue = useDebounce(searchValue, 500);
 
-  const handleFiltersSwitch = type => {
+  const handleFiltersSwitch = (type) => {
     if (!filterType.includes(type)) {
       setFilterType([...filterType, type]);
     } else {
-      setFilterType(prevState =>
-        prevState.filter(objectTypeId => objectTypeId !== type)
+      setFilterType((prevState) =>
+        prevState.filter((objectTypeId) => objectTypeId !== type),
       );
     }
   };
@@ -25,7 +24,7 @@ const usePanelListFilters = rootFolder => {
     if (item.objectType === 'Folder') {
       const folder = {
         ...item,
-        children: item?.children?.reduce(filterByType, [])
+        children: item?.children?.reduce(filterByType, []),
       };
       if (folder?.children?.length) result.push(folder);
     } else if (filterType.includes(item.objectType)) {
@@ -38,7 +37,7 @@ const usePanelListFilters = rootFolder => {
     if (item.objectType === 'Folder') {
       const folder = {
         ...item,
-        children: item.children.reduce(filterBySearchValue, [])
+        children: item.children.reduce(filterBySearchValue, []),
       };
       if (folder.children.length) result.push(folder);
     } else {
@@ -64,7 +63,7 @@ const usePanelListFilters = rootFolder => {
 
     setFilteredData({
       ...rootFolder,
-      children: filteredChildren
+      children: filteredChildren,
     });
   }, [rootFolder, filterType, debouncedSearchValue]);
 
@@ -73,7 +72,7 @@ const usePanelListFilters = rootFolder => {
     filterType,
     handleFiltersSwitch,
     searchValue,
-    setSearchValue
+    setSearchValue,
   };
 };
 

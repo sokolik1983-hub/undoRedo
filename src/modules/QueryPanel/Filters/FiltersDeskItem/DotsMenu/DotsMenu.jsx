@@ -1,23 +1,27 @@
 import { useState } from 'react';
+
 import Dropdown from '../../../../../common/components/Dropdown';
 import DropdownItem from '../../../../../common/components/Dropdown/DropdownItem';
 import IconButton from '../../../../../common/components/IconButton';
 import Tooltip from '../../../../../common/components/Tooltip';
-import { ReactComponent as Dots } from '../../../../../layout/assets/dotsMenu.svg';
-import { ReactComponent as Gear } from '../../../../../layout/assets/queryPanel/gearBold.svg';
+import Dots from '../../../../../layout/assets/dotsMenu.svg';
+import Gear from '../../../../../layout/assets/queryPanel/gearBold.svg';
 import ItemsListModal from '../../../ItemsListModal';
 import PromptPropertiesLayer from '../../../PromptPropertiesLayer';
 import styles from './DotsMenu.module.scss';
 
 const DotsMenu = () => {
   const [semanticListOpened, setSemanticListOpened] = useState(false);
-  const [
-    promptPropertiesModalOpened,
-    setPromptPropertiesModalOpened
-  ] = useState(false);
+  const [promptPropertiesModalOpened, setPromptPropertiesModalOpened] =
+    useState(false);
 
   const items = [
-    { text: 'постоянная', action: () => {} },
+    {
+      text: 'постоянная',
+      action: () => {
+        // something
+      },
+    },
     { text: 'значение из списка', action: () => setSemanticListOpened(true) },
     {
       text: 'подсказка',
@@ -26,23 +30,27 @@ const DotsMenu = () => {
           <Gear fill="black" className={styles.gear} />
         </Tooltip>
       ),
-      action: () => setPromptPropertiesModalOpened(true)
+      action: () => setPromptPropertiesModalOpened(true),
     },
     {
       text: 'объект данного запроса',
       disabled: true,
-      action: () => {}
+      action: () => {
+        // something
+      },
     },
     {
       text: 'результат другого запроса',
       disabled: true,
-      action: () => {}
-    }
+      action: () => {
+        // something
+      },
+    },
   ];
 
   const menu = () => (
     <div className={styles.itemsWrapper}>
-      {items.map(item => (
+      {items.map((item) => (
         <DropdownItem
           key={item.text}
           item={item}

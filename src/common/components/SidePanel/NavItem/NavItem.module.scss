@@ -10,14 +10,14 @@
   display: flex;
   background-color: grey;
 
-  &__item {
+  &Item {
     padding: 5px;
     cursor: pointer;
     color: #000;
     opacity: 0.3;
     color: #fff;
 
-    &_active {
+    &Active {
       opacity: 1;
     }
   }

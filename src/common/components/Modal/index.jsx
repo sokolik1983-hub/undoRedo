@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+
+import CloseIcon from '../../../layout/assets/close.svg';
 import styles from './Modal.module.scss';
-import { ReactComponent as CloseIcon } from '../../../layout/assets/close.svg';
 
 /**
  * @param visible - булево значение, определяющее, будет ли видно модальное окно
@@ -30,22 +31,22 @@ const Modal = ({
   dialogClassName,
   headerClassName,
   bodyClassName,
-  contentClassName
+  contentClassName,
 }) => {
   const [isModal, setIsModal] = useState(false);
 
   const modalClasses = clsx(styles.modal, modalClassName, {
-    [styles.modalWithScroll]: withScroll
+    [styles.modalWithScroll]: withScroll,
   });
 
   const modalDialogClasses = clsx(styles.modalDialog, dialogClassName, {
-    [styles.modalDialogWithScroll]: withScroll
+    [styles.modalDialogWithScroll]: withScroll,
   });
 
   const modalBodyClasses = clsx(
     styles.modalBody,
     { [styles.modalBodyWithScroll]: withScroll },
-    bodyClassName
+    bodyClassName,
   );
 
   const titleClasses = clsx(styles.modalTitle, titleClassName);
@@ -81,8 +82,12 @@ const Modal = ({
   if (!isModal) return null;
 
   return (
-    <div className={modalClasses} onMouseDown={(e) => setOverlayChecker(e.target)} onClick={handleClose}>
-      <div className={modalDialogClasses} onClick={e => e.stopPropagation()}>
+    <div
+      className={modalClasses}
+      onMouseDown={(e) => setOverlayChecker(e.target)}
+      onClick={handleClose}
+    >
+      <div className={modalDialogClasses} onClick={(e) => e.stopPropagation()}>
         {!withoutTitle && (
           <div className={headerClasses}>
             <h3 className={titleClasses}>{title}</h3>
@@ -117,7 +122,7 @@ Modal.propTypes = {
   title: PropTypes.string,
   titleClassName: PropTypes.string,
   visible: PropTypes.bool,
-  withScroll: PropTypes.bool
+  withScroll: PropTypes.bool,
 };
 
 Modal.defaultProps = {
@@ -126,10 +131,12 @@ Modal.defaultProps = {
   content: null,
   footer: null,
   withScroll: true,
-  onClose: () => {},
+  onClose: () => {
+    // some action
+  },
   modalClassName: '',
   titleClassName: '',
   dialogClassName: '',
   headerClassName: '',
-  withoutTitle: false
+  withoutTitle: false,
 };
