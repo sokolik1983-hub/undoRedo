@@ -102,7 +102,7 @@ function HomePage() {
   return (
     <div className={styles.root}>
       <div
-        className={clsx(styles.row, styles.recentBG, styles.whiteLineShadow)}
+        className={clsx(styles.row, styles.recentBg, styles.whiteLineShadow)}
       >
         <div className={clsx(styles.whiteLine)} />
         <p className={styles.rowTitle}>Недавние</p>
@@ -121,7 +121,7 @@ function HomePage() {
       <div
         className={clsx(
           styles.row,
-          styles.favoritesBG,
+          styles.favoritesBg,
           styles.whiteLineShadow,
           styles.rowWithoutData,
         )}
@@ -153,7 +153,7 @@ function HomePage() {
         )}
       </div>
 
-      <div className={clsx(styles.row, styles.appsBG, styles.whiteLineShadow)}>
+      <div className={clsx(styles.row, styles.appsBg, styles.whiteLineShadow)}>
         <div className={clsx(styles.whiteLine3)} />
         <p className={styles.rowTitle}>Приложения</p>
         <div className={clsx(styles.section, styles.apps)}>
