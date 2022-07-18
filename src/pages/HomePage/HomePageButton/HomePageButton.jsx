@@ -16,6 +16,7 @@ const HomePageButton = ({
   onRemoveFromFavorites,
   onOpenReport,
   id,
+  removable,
 }) => {
   const getStyles = () => {
     const style = {
@@ -33,7 +34,7 @@ const HomePageButton = ({
       <RouterLink to={href || ''}>
         <div className={getStyles()}>
           {icon}
-          {kind && (
+          {kind && removable && (
             <RemoveFromFavoritesIcon
               data-remove={true}
               onClick={(e) => onRemoveFromFavorites(id, kind, e)}

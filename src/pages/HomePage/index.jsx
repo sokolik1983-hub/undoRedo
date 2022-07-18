@@ -11,11 +11,7 @@ import InlinePreloader from '../../common/components/InlinePreloader/index';
 import { REDIRECT_LINKS } from '../../common/constants/common';
 import { HOME_PAGE_BUTTON_ACTIONS } from '../../common/constants/common';
 import { PAGE } from '../../common/constants/pages';
-import {
-  getFavoriteObjects,
-  setObjectFavoriteStatus,
-} from '../../data/actions/app';
-import { setObjectToFavorites } from '../../data/actions/app';
+import { getFavoriteObjects } from '../../data/actions/app';
 import { setCurrentPage } from '../../data/reducers/ui';
 import ExplorerIcon from '../../layout/assets/icons/buttonPlus.svg';
 import navigationMenu from '../../navigation';

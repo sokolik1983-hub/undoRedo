@@ -31,6 +31,9 @@
   }
   &:hover .close {
     display: block;
+    &:hover {
+      stroke: #FFFFFF;
+    }
   }
 }
 
@@ -44,6 +47,9 @@
   }
   &:hover .close {
     display: block;
+    &:hover {
+      stroke: #FFFFFF;
+    }
   }
 }
 

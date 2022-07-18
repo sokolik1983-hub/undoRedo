@@ -43,7 +43,7 @@ const FavoritesList = () => {
     <div
       className={clsx(
         styles.row,
-        styles.favoritesBG,
+        styles.favoritesBg,
         styles.whiteLineShadow,
         styles.rowWithoutData,
       )}
@@ -61,6 +61,7 @@ const FavoritesList = () => {
               hasTooltip
               onRemoveFromFavorites={handleRemoveFromFavorites}
               onOpenReport={handleOpenClick}
+              removable
             />
           </div>
         ))}
