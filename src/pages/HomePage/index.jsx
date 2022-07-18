@@ -128,7 +128,7 @@ function HomePage() {
       >
         <div className={clsx(styles.whiteLine2)} />
         <p className={styles.rowTitle}>Избранное</p>
-        <div className={clsx(styles.section)}>
+        <div className={styles.section1}>
           {favoriteObjectsData.map((item) => (
             <Dropdown trigger={['click']} overlay={renderDropdownMenu(item.id)}>
               <div>

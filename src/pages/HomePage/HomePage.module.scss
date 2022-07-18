@@ -16,8 +16,7 @@
 .whiteLine {
   position: absolute;
   margin-left: 1135px;
-  top: 310px;
-  background-color: #fff;
+  background-color: transparent;
   width: calc(100vw - 1280px);
   height: 88px;
   z-index: -1;
@@ -28,12 +27,10 @@
 }
 
 .whiteLine2 {
-  top: 479px;
   @extend .whiteLine;
 }
 
 .whiteLine3 {
-  top: 648px;
   @extend .whiteLine;
 }
 
@@ -77,6 +74,12 @@
       color: inherit;
     }
   }
+}
+
+.section1 {
+  @extend .section;
+
+  margin-bottom: 50px;
 }
   .rowWithoutData {
     display: flex;
