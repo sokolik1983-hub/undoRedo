@@ -51,6 +51,7 @@ const Connect = ({ title, cleanTestData }) => {
   let defaultConnector = {};
 
   const clearTest = () => {
+    dispatch(testConnector({ data: null }));
     setShowTestOk(false);
     setShowTestFailed(false);
   };
@@ -102,10 +103,6 @@ const Connect = ({ title, cleanTestData }) => {
     defaultConnector = connectors?.list?.filter(
       (item) => item.name === optionsArray[0]?.text,
     );
-    // console.log('defaultConnector', defaultConnector);
-    // if(defaultConnector?.data ) {
-    // dispatch(testConnector({ data: defaultConnector?.data }));
-    // }
   };
 
   setOptions();
@@ -131,9 +128,7 @@ const Connect = ({ title, cleanTestData }) => {
       defaultConnector = connectors?.list?.filter(
         (item) => item.name === optionsArray[0]?.text,
       );
-      console.log('defaultConnector', defaultConnector);
-
-      dispatch(testConnector({ data: defaultConnector.data }));
+      dispatch(getConnectorForTest({ id: defaultConnector[0].id }));
       dispatch(setConnectorReady(true));
     }
   }, [optionsArray[0]?.text]);
@@ -141,16 +136,12 @@ const Connect = ({ title, cleanTestData }) => {
   const testConnection = (event) => {
     event.preventDefault();
     event.stopPropagation();
-
-    console.log('ready', ready);
     setShowTestOk(false);
     setShowTestFailed(false);
     setIsActive(!isActive);
     if (ready) {
       if (сonnector?.header?.name) {
         dispatch(testConnector({ data: сonnector.data }));
-      } else {
-        console.log('Default !', defaultConnector);
       }
     }
   };

@@ -112,17 +112,6 @@ export const getConnector = (queryParams) => {
   };
 };
 
-// export const saveConnector = (queryParams) => {
-//   return async (dispatch) => {
-//     const response = await request({
-//       code: 'CN.SAVE',
-//       params: queryParams,
-//       dispatch,
-//     });
-//     dispatch(setCreateConnectorResult(response));
-//   };
-// };
-
 export const getObjectFromConnector = (queryParams) => {
   return async (dispatch) => {
     const response = await request({
