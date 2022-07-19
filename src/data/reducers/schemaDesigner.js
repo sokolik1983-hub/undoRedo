@@ -166,7 +166,6 @@ const schemaDesigner = createSlice({
       state.objectsLayerList = action.payload;
     },
     setTablesCoord: (state, action) => {
-      console.log(action.payload);
       const findedIndex = state.tablesCoord.findIndex(
         (table) => table.tableId === action.payload.tableId,
       );
