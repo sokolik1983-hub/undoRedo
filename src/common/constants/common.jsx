@@ -1,10 +1,10 @@
 import ChangeUserIcon from '../../layout/assets/changeUser.svg';
 import ExchangeDataIcon from '../../layout/assets/exchange.svg';
-import FaceIcon from '../../layout/assets/face.svg';
 import EditIcon from '../../layout/assets/folderItemEdit.svg';
 import GearIcon from '../../layout/assets/gear.svg';
 import Divider from '../../layout/assets/headerActionsDivider.svg';
 import LogoutIcon from '../../layout/assets/logout.svg';
+import FaceIcon from '../../layout/assets/personCircle.svg';
 import PrinterIcon from '../../layout/assets/printer.svg';
 import RemoveFromFavoritesIcon from '../../layout/assets/removeFromFavorites.svg';
 import AddConnection from '../../layout/assets/semanticActionsIcons/addConnection.svg';
@@ -103,11 +103,13 @@ export const SIDE_PANEL_TYPES = {
   BLOCK_MENU: 'BLOCK_MENU',
 };
 
+const userName = window.localStorage.getItem('userInfo');
+
 export const DEFAULT_USER_ACTIONS = [
   {
     action: 'user',
     title: 'Профиль',
-    text: 'Профиль',
+    text: userName,
     icon: <FaceIcon />,
   },
   {

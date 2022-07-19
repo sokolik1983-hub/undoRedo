@@ -11,7 +11,7 @@ import styles from './UserMenu.module.scss';
 
 const UserMenu = () => {
   const dispatch = useDispatch();
-  const userInfo = window.localStorage.getItem('userInfo');
+  // const userInfo = window.localStorage.getItem('userInfo');
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -55,7 +55,6 @@ const UserMenu = () => {
       >
         <button type="button" className={styles.mainBtn}>
           {isOpen ? <UserHover /> : <UserDefault />}
-          <span className={styles.note}>{userInfo}</span>
         </button>
       </Dropdown>
     </div>
