@@ -1,8 +1,13 @@
 /* eslint-disable no-shadow */
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import {
+import React, {
   Children,
+  FC,
+  ReactChild,
+  ReactElement,
+  ReactFragment,
+  ReactNode,
+  ReactPortal,
   createContext,
   memo,
   useContext,
@@ -15,19 +20,36 @@ import { EMPTY_STRING } from '../../constants/common';
 import Dropdown from '../Dropdown';
 import styles from './Select.module.scss';
 
-const SelectContext = createContext();
+interface ISelectProps {
+  children?: ReactElement;
+  className?: string;
+  value?: string;
+  onChange?: (value: string) => void;
+}
+
+interface IParamsState {
+  currentValue: string;
+  currentIcon: ReactNode | null;
+  text: string;
+}
+
+interface ISelectContexState {
+  onOptionChange: (params: IParamsState) => void;
+}
+
+const SelectContext = createContext({} as ISelectContexState);
 export const useSelectContext = () => useContext(SelectContext);
 
-const Select = ({ children, className, value, onChange }) => {
-  const [params, setParams] = useState({
+const Select: FC<ISelectProps> = ({ children, className, value, onChange }) => {
+  const [params, setParams] = useState<IParamsState>({
     currentValue: EMPTY_STRING,
     currentIcon: null,
     text: EMPTY_STRING,
   });
 
   const { currentValue, currentIcon, text } = params;
-  const options = Children.toArray(children);
-  const currentOption = options.find((i) => i?.props?.value === value);
+  const options: any = Children.toArray(children);
+  const currentOption = options.find((i: any) => i?.props?.value === value);
 
   useEffect(() => {
     if (!currentValue && options.length) {
@@ -54,7 +76,8 @@ const Select = ({ children, className, value, onChange }) => {
 
     if (
       (!currentValue && options.length) ||
-      (!options.find((i) => i.props.value === currentValue) && options.length)
+      (!options.find((i: any) => i.props.value === currentValue) &&
+        options.length)
     ) {
       setParams({
         currentValue: currentOption ? value : options[0].props.value,
@@ -68,14 +91,20 @@ const Select = ({ children, className, value, onChange }) => {
     }
   }, [children]);
 
-  const onOptionChange = ({ currentValue, currentIcon, text }) => {
+  const onOptionChange = ({
+    currentValue,
+    currentIcon,
+    text,
+  }: IParamsState) => {
     setParams({ currentValue, currentIcon, text });
     if (onChange) onChange(currentValue);
   };
 
   const select = clsx(styles.select, className);
 
-  const getMenu = () => <div className={styles.overlay}>{children}</div>;
+  const getMenu = (): JSX.Element => (
+    <div className={styles.overlay}>{children}</div>
+  );
 
   return (
     <SelectContext.Provider value={{ onOptionChange }}>
@@ -97,10 +126,3 @@ const Select = ({ children, className, value, onChange }) => {
 };
 
 export default memo(Select);
-
-Select.propTypes = {
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  value: PropTypes.string,
-  onChange: PropTypes.func,
-};

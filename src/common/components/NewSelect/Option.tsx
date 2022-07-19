@@ -1,25 +1,36 @@
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { useRef, useState } from 'react';
+import React, { FC, ReactElement, ReactNode, useRef, useState } from 'react';
+
 import Dropdown from '../Dropdown';
 import Tooltip from '../Tooltip';
 import styles from './Option.module.scss';
 import { useSelectContext } from './Select';
 
-const Option = ({
+export interface IOptionProps {
+  children: string;
+  className?: string;
+  icon?: ReactNode;
+  value: string;
+  secondaryText?: string;
+  withTooltip?: boolean;
+  contextMenu?: ReactElement | (() => ReactElement);
+}
+
+const Option: FC<IOptionProps> = ({
   children,
   className,
   icon,
   value,
   secondaryText,
   withTooltip,
-  contextMenu
+  contextMenu,
 }) => {
   const { onOptionChange } = useSelectContext();
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
-  const textRef = useRef();
+  const textRef = useRef<HTMLSpanElement>(null);
 
-  const handleVisibility = visible => {
+  const handleVisibility = (visible: boolean) => {
+    if (!textRef.current) return;
     const isNeedToDisplay =
       textRef?.current?.scrollWidth > textRef?.current?.offsetWidth;
     if (isNeedToDisplay) setIsTooltipVisible(true);
@@ -30,7 +41,7 @@ const Option = ({
     onOptionChange({
       currentValue: value,
       currentIcon: icon,
-      text: children
+      text: children,
     });
 
   const option = clsx(styles.option, className);
@@ -63,13 +74,3 @@ const Option = ({
 };
 
 export default Option;
-
-Option.propTypes = {
-  children: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  value: PropTypes.string.isRequired,
-  secondaryText: PropTypes.string,
-  icon: PropTypes.node,
-  withTooltip: PropTypes.bool,
-  contextMenu: PropTypes.node
-};

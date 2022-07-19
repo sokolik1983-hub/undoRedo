@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import DropdownItem from '../../../../common/components/Dropdown/DropdownItem';
 import IconButton from '../../../../common/components/IconButton';
 import Option from '../../../../common/components/NewSelect/Option';
 import Select from '../../../../common/components/NewSelect/Select';
