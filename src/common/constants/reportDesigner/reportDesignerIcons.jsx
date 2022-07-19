@@ -11,62 +11,62 @@ import Trend from '../../../layout/assets/reportDesigner/reportPageIcons/trend.s
 import VerticalTable from '../../../layout/assets/reportDesigner/reportPageIcons/verticalTable.svg';
 
 export const TABLE_ICONS = [
-    {
-        text: 'Таблица',
-        type: 'table',
-        icon: <Table />,
-    },
-    {
-        text: 'Кросс',
-        type: 'xTable',
-        icon: <CrossTable />,
-    },
-    {
-        text: 'Вертикальная',
-        type: 'vTable',
-        icon: <VerticalTable />,
-    },
-    {
-        text: 'Горизонтальная',
-        type: 'hTable',
-        icon: <HorizontalTable />,
-    },
+  // {
+  //     text: 'Таблица',
+  //     type: 'table',
+  //     icon: <Table />,
+  // },
+  {
+    text: 'Кросс',
+    type: 'xTable',
+    icon: <CrossTable />,
+  },
+  {
+    text: 'Вертикальная',
+    type: 'vTable',
+    icon: <VerticalTable />,
+  },
+  {
+    text: 'Горизонтальная',
+    type: 'hTable',
+    icon: <HorizontalTable />,
+  },
 ];
 
 export const GRAPH_ICONS = [
-    {
-        text: 'Сравнения',
-        type: 'compare',
-        icon: <Compare />,
-    },
-    {
-        text: 'Тренд',
-        type: 'trend',
-        icon: <Trend />,
-    },
-    {
-        text: 'Пропорция',
-        type: 'proportion',
-        icon: <Proportion />,
-    },
-    {
-        text: 'Распределение',
-        type: 'distribution',
-        icon: <Distribution />,
-    },
-    {
-        text: 'Корреляция',
-        type: 'correlation',
-        icon: <Correlation />,
-    },
-    {
-        text: 'География',
-        type: 'geography',
-        icon: <Geography />,
-    },
-    {
-        text: 'Индикатор',
-        type: 'indicator',
-        icon: <Indicator />,
-    },
+  {
+    text: 'Сравнения',
+    type: 'barChart',
+    icon: <Compare />,
+  },
+  {
+    text: 'Тренд',
+    type: 'lineChart',
+    icon: <Trend />,
+  },
+  {
+    text: 'Пропорция',
+    type: 'pieChart',
+    icon: <Proportion />,
+  },
+  // {
+  //     text: 'Распределение',
+  //     type: 'distribution',
+  //     icon: <Distribution />,
+  // },
+  // {
+  //     text: 'Корреляция',
+  //     type: 'correlation',
+  //     icon: <Correlation />,
+  // },
+  // {
+  //     text: 'География',
+  //     type: 'geography',
+  //     icon: <Geography />,
+  // },
+  // {
+  //     text: 'Индикатор',
+  //     type: 'indicator',
+  //     icon: <Indicator />,
+  // },
 ];

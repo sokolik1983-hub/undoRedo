@@ -3,41 +3,28 @@ import GaugeIcon from '../../layout/assets/queryPanel/gauge_icon.svg';
 import MeasurementIcon from '../../layout/assets/queryPanel/measurementIcon.svg';
 
 export const flat = (arr) => {
-    let result = [];
+  let result = [];
 
-    if (!arr.length) return result;
+  if (!arr.length) return result;
 
-    for (let i = 0; i < arr.length; i++) {
-        if (arr[i].isFolder) {
-            result = [...result, ...flat(arr[i].children)];
-        } else result = [...result, arr[i]];
-    }
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].isFolder) {
+      result = [...result, ...flat(arr[i].children)];
+    } else result = [...result, arr[i]];
+  }
 
-    return result;
+  return result;
 };
 
-// export const getIconByItemType = objectTypeId => {
-//   switch (objectTypeId) {
-//     case 1:
-//       return <GaugeIcon />;
-//     case 2:
-//       return <MeasurementIcon />;
-//     case 3:
-//       return <AttributeIcon />;
-//     default:
-//       return null;
-//   }
-// };
-
 export const getIconByItemType = (key) => {
-    switch (key) {
-        case 'Measure':
-            return <GaugeIcon />;
-        case 'Dimension':
-            return <MeasurementIcon />;
-        case 'Filter':
-            return <AttributeIcon />;
-        default:
-            return null;
-    }
+  switch (key) {
+    case 'Measure':
+      return <GaugeIcon />;
+    case 'Dimension':
+      return <MeasurementIcon />;
+    case 'Filter':
+      return <AttributeIcon />;
+    default:
+      return null;
+  }
 };

@@ -1,4 +1,4 @@
-import {request} from '../helpers';
+import { request } from '../helpers';
 import {
   setConnectorData,
   setConnectorSource,
@@ -9,8 +9,8 @@ import {
   setCreateConnectorResult,
   setTestConnector,
 } from '../reducers/data';
-import {setConnectorObjects} from '../reducers/schemaDesigner';
-import {showEditConnectorModal} from '../reducers/ui';
+import { setConnectorObjects } from '../reducers/schemaDesigner';
+import { showEditConnectorModal } from '../reducers/ui';
 
 export const getStreamReceiever = (queryParams) => {
   return async (dispatch) => {

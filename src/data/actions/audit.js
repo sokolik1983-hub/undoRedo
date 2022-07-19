@@ -1,5 +1,5 @@
-import {request} from '../helpers';
-import {setEvents} from '../reducers/audit';
+import { request } from '../helpers';
+import { setEvents } from '../reducers/audit';
 
 export const getAuditEvents = (queryParams) => {
   return async (dispatch) => {

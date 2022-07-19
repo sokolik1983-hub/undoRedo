@@ -16,9 +16,11 @@
 .icon {
   display: flex;
   align-items: center;
+  margin-right: 20px;
+
   & svg {
-    width: 75px;
-    height: 75px;
+    width: 79px;
+    height: 78px;
   }
 }
 

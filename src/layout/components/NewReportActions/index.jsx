@@ -1,30 +1,31 @@
 /* eslint-disable react/jsx-curly-newline */
 /* eslint-disable no-unused-vars */
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router';
-import { REPORT_PAGE_ACTIONS } from '../../../common/constants/reportDesigner/reportDesignerMenuIcons';
-import styles from './ReportActions.module.scss';
-import {
-  handleUndo,
-  handleRedo,
-  saveReport
-} from '../../../data/actions/newReportDesigner';
-import {
-  setTableType,
-  setGraphType,
-  setCreatingElement,
-  setFormulaEditorVisible
-} from '../../../data/reducers/new_reportDesigner';
-import {
-  TABLE_ICONS,
-  GRAPH_ICONS
-} from '../../../common/constants/reportDesigner/reportDesignerIcons';
-import useClickOutside from '../../../common/helpers/useClickOutside';
-import { setQueryPanelModal } from '../../../data/actions/universes';
-import ZoomSlider from './ZoomSlider';
-import SaveReportModal from './SaveReportModal';
+import { useNavigate, useParams } from 'react-router';
+
 import { REDIRECT_LINKS, TOAST_TYPE } from '../../../common/constants/common';
+import {
+  GRAPH_ICONS,
+  TABLE_ICONS,
+} from '../../../common/constants/reportDesigner/reportDesignerIcons';
+import { REPORT_PAGE_ACTIONS } from '../../../common/constants/reportDesigner/reportDesignerMenuIcons';
+import useClickOutside from '../../../common/helpers/useClickOutside';
+import {
+  handleRedo,
+  handleUndo,
+  saveReport,
+} from '../../../data/actions/newReportDesigner';
+import { setQueryPanelModal } from '../../../data/actions/universes';
+import {
+  setCreatingElement,
+  setFormulaEditorVisible,
+  setGraphType,
+  setTableType,
+} from '../../../data/reducers/new_reportDesigner';
+import styles from './ReportActions.module.scss';
+import SaveReportModal from './SaveReportModal';
+import ZoomSlider from './ZoomSlider';
 
 const NewReportActions = () => {
   const [isSaveReportOpen, setIsSaveReportOpen] = useState(false);
@@ -35,28 +36,27 @@ const NewReportActions = () => {
   const navigate = useNavigate();
 
   const reportName = useSelector(
-    state => state.app.reportDesigner?.reportsData?.present?.header?.name
+    (state) => state.app.reportDesigner?.reportsData?.present?.header?.name,
   );
 
-  console.log(reportName, 'reportName');
-
-  const handleTableTypeChange = type => {
+  const handleTableTypeChange = (type) => {
     setIsTableOpen(!isTableOpen);
     dispatch(setCreatingElement(type));
   };
 
-  const handleGraphTypeChange = type => {
+  const handleGraphTypeChange = (type) => {
     setIsGraphOpen(!isGraphOpen);
     dispatch(setCreatingElement(type));
   };
+
   const actions = {
     save: () =>
       !reportName
         ? setIsSaveReportOpen(true)
         : dispatch(
             saveReport({
-              name: reportName
-            })
+              name: reportName,
+            }),
           ),
     undo: () => dispatch(handleUndo()),
     redo: () => dispatch(handleRedo()),
@@ -65,7 +65,7 @@ const NewReportActions = () => {
     setGraph: () => setIsGraphOpen(!isGraphOpen),
     formula: () => dispatch(setFormulaEditorVisible()),
     showQueryPanel: () => dispatch(setQueryPanelModal(true)),
-    addCell: () => dispatch(setCreatingElement('cell'))
+    addCell: () => dispatch(setCreatingElement('cell')),
   };
 
   const clickRef = useRef();
@@ -77,7 +77,7 @@ const NewReportActions = () => {
 
   return (
     <div className={styles.actionsContainer}>
-      {REPORT_PAGE_ACTIONS.map(item => {
+      {REPORT_PAGE_ACTIONS.map((item) => {
         return (
           <>
             <div
@@ -97,7 +97,7 @@ const NewReportActions = () => {
 
       {isTableOpen && (
         <div className={styles.tableTypes} ref={clickRef}>
-          {TABLE_ICONS.map(i => (
+          {TABLE_ICONS.map((i) => (
             <div
               className={styles.iconsWrapper}
               onClick={() => handleTableTypeChange(i.type)}
@@ -111,7 +111,7 @@ const NewReportActions = () => {
       )}
       {isGraphOpen && (
         <div className={styles.graphTypes} ref={clickRef}>
-          {GRAPH_ICONS.map(i => (
+          {GRAPH_ICONS.map((i) => (
             <div
               className={styles.iconsWrapper}
               onClick={() => handleGraphTypeChange(i.type)}
@@ -131,17 +131,17 @@ const NewReportActions = () => {
       {isSaveReportOpen && (
         <SaveReportModal
           isOpen={isSaveReportOpen}
-          onSave={name => {
+          onSave={(name) => {
             dispatch(
               saveReport(
                 {
                   name: name || 'Произвольный отчет',
-                  folder_id: '10003'
-                }
+                  folder_id: '10003',
+                },
                 // id => {
                 //   window.location.pathname = `${REDIRECT_LINKS.REPORT_SHOW}/${id}`;
                 // }
-              )
+              ),
             ); // тестовая папка рутова
             setIsSaveReportOpen(false);
           }}

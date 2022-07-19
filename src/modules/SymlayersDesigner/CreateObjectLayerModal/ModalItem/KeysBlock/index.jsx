@@ -1,13 +1,13 @@
-import {Field, useFormikContext} from 'formik';
+import { Field, useFormikContext } from 'formik';
 import PropTypes from 'prop-types';
-import {React, useEffect, useState} from 'react';
+import { React, useEffect, useState } from 'react';
 
 import Button from '../../../../../common/components/Button';
 import Dropdown from '../../../../../common/components/Dropdown';
 import DropdownItem from '../../../../../common/components/Dropdown/DropdownItem';
 import CheckboxField from '../../../../../common/components/formikFields/checkboxField';
 import Tooltip from '../../../../../common/components/Tooltip';
-import {BUTTON} from '../../../../../common/constants/common';
+import { BUTTON } from '../../../../../common/constants/common';
 import DateIcon from '../../../../../layout/assets/icons/dateIcon.svg';
 import NumberIcon from '../../../../../layout/assets/icons/numberIcon.svg';
 import SymbolIcon from '../../../../../layout/assets/icons/symbolIcon.svg';
@@ -17,262 +17,242 @@ import Arrow from '../../../../../layout/assets/queryPanel/arrowThin.svg';
 import styles from './KeysBlock.module.scss';
 import ModalItem from '..';
 
-const KeysBlock = ({onChange, name, value}) => {
-    const formikProps = useFormikContext();
+const KeysBlock = ({ onChange, name, value }) => {
+  const formikProps = useFormikContext();
 
-    const handleClick = (e) => {
-        e.preventDefault();
-    };
+  const handleClick = (e) => {
+    e.preventDefault();
+  };
 
-    const keyTypeOptions = [
-        {value: 'main', text: 'Основной'},
-        {value: 'secondary', text: 'Второстепенный'},
-    ];
+  const keyTypeOptions = [
+    { value: 'main', text: 'Основной' },
+    { value: 'secondary', text: 'Второстепенный' },
+  ];
 
-    const SELECT_DATA = 'Data.Дата + convert(SMALLDATETIME,{fn(CURDATE())}';
-    const WHERE_DATA =
-        'Data.Дата<>ascii() fgsdfgsdfgsfdg sfgsdfgsdfgsdf dfsgsdfg';
+  const SELECT_DATA = 'Data.Дата + convert(SMALLDATETIME,{fn(CURDATE())}';
+  const WHERE_DATA =
+    'Data.Дата<>ascii() fgsdfgsdfgsfdg sfgsdfgsdfgsdf dfsgsdfg';
 
-    const keyTableData = [
-        {
-            type: 'Основной fdgsdfgsfdgsfdgsdfg',
-            select: SELECT_DATA,
-            where: WHERE_DATA,
-            id: 0,
-        },
-        {
-            type: 'Внешний',
-            select: SELECT_DATA,
-            where: WHERE_DATA,
-            id: 1,
-        },
-        {
-            type: 'Основной',
-            select: SELECT_DATA,
-            where: WHERE_DATA,
-            id: 2,
-        },
-        {
-            type: 'Внешний',
-            select: SELECT_DATA,
-            where: WHERE_DATA,
-            id: 3,
-        },
-        {
-            type: 'Основной',
-            select: SELECT_DATA,
-            where: WHERE_DATA,
-            id: 4,
-        },
-        {
-            type: 'Основной',
-            select: SELECT_DATA,
-            where: WHERE_DATA,
-            id: 5,
-        },
-    ];
+  const keyTableData = [
+    {
+      type: 'Основной fdgsdfgsfdgsfdgsdfg',
+      select: SELECT_DATA,
+      where: WHERE_DATA,
+      id: 0,
+    },
+    {
+      type: 'Внешний',
+      select: SELECT_DATA,
+      where: WHERE_DATA,
+      id: 1,
+    },
+    {
+      type: 'Основной',
+      select: SELECT_DATA,
+      where: WHERE_DATA,
+      id: 2,
+    },
+    {
+      type: 'Внешний',
+      select: SELECT_DATA,
+      where: WHERE_DATA,
+      id: 3,
+    },
+    {
+      type: 'Основной',
+      select: SELECT_DATA,
+      where: WHERE_DATA,
+      id: 4,
+    },
+    {
+      type: 'Основной',
+      select: SELECT_DATA,
+      where: WHERE_DATA,
+      id: 5,
+    },
+  ];
 
-    const selectDataOptions = [
-        {icon: <SymbolIcon />, id: 0, text: 'Символ', value: 'symbol'},
-        {icon: <DateIcon />, id: 1, text: 'Дата', value: 'data'},
-        {icon: <TextIcon />, id: 2, text: 'Номер', value: 'number'},
-        {icon: <NumberIcon />, id: 3, text: 'Текст', value: 'text'},
-    ];
+  const selectDataOptions = [
+    { icon: <SymbolIcon />, id: 0, text: 'Символ', value: 'symbol' },
+    { icon: <DateIcon />, id: 1, text: 'Дата', value: 'data' },
+    { icon: <TextIcon />, id: 2, text: 'Номер', value: 'number' },
+    { icon: <NumberIcon />, id: 3, text: 'Текст', value: 'text' },
+  ];
 
-    const defDataOptionIndex = selectDataOptions.findIndex(
-        (opt) => opt.text === value?.[0] || opt.value === value?.[0],
-    );
+  const defDataOptionIndex = selectDataOptions.findIndex(
+    (opt) => opt.text === value?.[0] || opt.value === value?.[0],
+  );
 
-    const [selectedDataText, setSelectedDataText] = useState(
-        selectDataOptions[0].text,
-    );
-    const [selectedIcon, setSelectedDataIcon] = useState(
-        selectDataOptions[0].icon,
-    );
+  const [selectedDataText, setSelectedDataText] = useState(
+    selectDataOptions[0].text,
+  );
+  const [selectedIcon, setSelectedDataIcon] = useState(
+    selectDataOptions[0].icon,
+  );
 
-    useEffect(() => {
-        formikProps.setFieldValue(name[0], 'Символ');
-        formikProps.setFieldValue(name[3], value?.[3] || 'main');
-    }, []);
+  useEffect(() => {
+    formikProps.setFieldValue(name[0], 'Символ');
+    formikProps.setFieldValue(name[3], value?.[3] || 'main');
+  }, []);
 
-    const setSelectedFields = (item) => {
-        setSelectedDataIcon(item.icon);
-        setSelectedDataText(item.text);
-        formikProps.setFieldValue(name[0], item.value);
-    };
+  const setSelectedFields = (item) => {
+    setSelectedDataIcon(item.icon);
+    setSelectedDataText(item.text);
+    formikProps.setFieldValue(name[0], item.value);
+  };
 
-    useEffect(() => {
-        if (defDataOptionIndex > -1) {
-            setSelectedFields(selectDataOptions[defDataOptionIndex]);
-        }
-    }, [defDataOptionIndex]);
+  useEffect(() => {
+    if (defDataOptionIndex > -1) {
+      setSelectedFields(selectDataOptions[defDataOptionIndex]);
+    }
+  }, [defDataOptionIndex]);
 
-    const dataOptions = () => (
-        <div className={styles.dropDownDataBlock}>
-            {selectDataOptions.map((item, index) => (
-                <DropdownItem
-                    icon={item.icon}
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={`${item.value} + ${item.id}+ ${index}`}
-                    id={item.value}
-                    item={item}
-                    value={item.value}
-                    onClick={() => setSelectedFields(item)}
-                    className={styles.dropDownItem}
-                />
-            ))}
+  const dataOptions = () => (
+    <div className={styles.dropDownDataBlock}>
+      {selectDataOptions.map((item, index) => (
+        <DropdownItem
+          icon={item.icon}
+          // eslint-disable-next-line react/no-array-index-key
+          key={`${item.value} + ${item.id}+ ${index}`}
+          id={item.value}
+          item={item}
+          value={item.value}
+          onClick={() => setSelectedFields(item)}
+          className={styles.dropDownItem}
+        />
+      ))}
+    </div>
+  );
+
+  return (
+    <ModalItem title="Ключи">
+      <div className={styles.keysBlock}>
+        <div className={styles.dropDownBlock}>
+          <div className={styles.DDField}>
+            {/* TODO: заменить элементы с дропдауном на кастомные селекты когда будут готовы */}
+            <Dropdown trigger="click" overlay={dataOptions()}>
+              <div className={styles.DDData}>
+                <div className={styles.selectedIconText}>
+                  <span className={styles.defaultIcon}>{selectedIcon}</span>
+                  <p className={styles.dropDownText}>{selectedDataText}</p>
+                </div>
+                <Arrow className={styles.arrow} />
+              </div>
+            </Dropdown>
+          </div>
         </div>
-    );
-
-    return (
-        <ModalItem title="Ключи">
-            <div className={styles.keysBlock}>
-                <div className={styles.dropDownBlock}>
-                    <div className={styles.DDField}>
-                        {/* TODO: заменить элементы с дропдауном на кастомные селекты когда будут готовы */}
-                        <Dropdown trigger="click" overlay={dataOptions()}>
-                            <div className={styles.DDData}>
-                                <div className={styles.selectedIconText}>
-                                    <span className={styles.defaultIcon}>
-                                        {selectedIcon}
-                                    </span>
-                                    <p className={styles.dropDownText}>
-                                        {selectedDataText}
-                                    </p>
-                                </div>
-                                <Arrow className={styles.arrow} />
-                            </div>
-                        </Dropdown>
-                    </div>
+        <div className={styles.tableGroup}>
+          <div className={styles.keysTableTitle}>
+            <p className={styles.tableTitleMR2}>on/off</p>
+            <div className={styles.tableTitleDivider} />
+            <p className={styles.tableTitleMR33}>тип</p>
+            <div className={styles.tableTitleDivider} />
+            <p className={styles.tableTitleMR95}>select</p>
+            <div className={styles.tableTitleDivider} />
+            <p className={styles.tableTitle}>where</p>
+          </div>
+          <div className={styles.keyTableBlock}>
+            {keyTableData.map((item) => (
+              <div
+                className={styles.keyTable}
+                key={`keyTable + ${item.type} + ${item.id}`}
+              >
+                <div className={styles.checkBoxDiv}>
+                  <CheckboxField
+                    value="false"
+                    key={`keyTableCheckBox + ${item.type} + ${item.id}`}
+                    id={`keyTableCheckBox + ${item.type} + ${item.id}`}
+                    name="keyTableCheckBox"
+                    blueBGColor="true"
+                  />
                 </div>
-                <div className={styles.tableGroup}>
-                    <div className={styles.keysTableTitle}>
-                        <p className={styles.tableTitleMR2}>on/off</p>
-                        <div className={styles.tableTitleDivider} />
-                        <p className={styles.tableTitleMR33}>тип</p>
-                        <div className={styles.tableTitleDivider} />
-                        <p className={styles.tableTitleMR95}>select</p>
-                        <div className={styles.tableTitleDivider} />
-                        <p className={styles.tableTitle}>where</p>
-                    </div>
-                    <div className={styles.keyTableBlock}>
-                        {keyTableData.map((item) => (
-                            <div
-                                className={styles.keyTable}
-                                key={`keyTable + ${item.type} + ${item.id}`}
-                            >
-                                <div className={styles.checkBoxDiv}>
-                                    <CheckboxField
-                                        value="false"
-                                        key={`keyTableCheckBox + ${item.type} + ${item.id}`}
-                                        id={`keyTableCheckBox + ${item.type} + ${item.id}`}
-                                        name="keyTableCheckBox"
-                                        blueBGColor="true"
-                                    />
-                                </div>
-                                <Tooltip placement="bottom" overlay={item.type}>
-                                    <div className={styles.tableType}>
-                                        {item.type}
-                                    </div>
-                                </Tooltip>
-                                <Tooltip
-                                    placement="bottom"
-                                    overlay={item.select}
-                                >
-                                    <div className={styles.tableSelect}>
-                                        {item.select}
-                                    </div>
-                                </Tooltip>
-                                <Tooltip
-                                    placement="bottom"
-                                    overlay={item.where}
-                                >
-                                    <div className={styles.tableWhere}>
-                                        {item.where}
-                                    </div>
-                                </Tooltip>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-                <div className={styles.manageKeysGroup}>
-                    <p className={styles.keysTitle}> Добавить/изменить ключ</p>
-                    <div className={styles.selectGroup}>
-                        <div className={styles.typeGroup}>
-                            <p className={styles.smallText}>тип</p>
-                            <Field
-                                as="select"
-                                name={name[3]}
-                                className={styles.typeSelect}
-                            >
-                                <option value={keyTypeOptions[0].value}>
-                                    {keyTypeOptions[0].text}
-                                </option>
-                                <option value={keyTypeOptions[1].value}>
-                                    {keyTypeOptions[1].text}
-                                </option>
-                            </Field>
-                        </div>
-                        <div className={styles.selectInputGroup}>
-                            <p className={styles.smallText}>Select</p>
-                            <div className={styles.selectDiv}>
-                                <input
-                                    id={name[1]}
-                                    name={name[1]}
-                                    value={value?.[1]}
-                                    onChange={onChange}
-                                    className={styles.keysBlockSelectWhereInput}
-                                />
-                                <PencilIcon className={styles.pencilIcon} />
-                            </div>
-                        </div>
-                        <div className={styles.whereInputGroup}>
-                            <p className={styles.smallText}>Where</p>
-                            <div className={styles.whereDiv}>
-                                <input
-                                    id={name[2]}
-                                    name={name[2]}
-                                    value={value?.[2]}
-                                    onChange={onChange}
-                                    className={styles.keysBlockSelectWhereInput}
-                                />
-                                <PencilIcon className={styles.pencilIcon} />
-                            </div>
-                        </div>
-                    </div>
-                    <div className={styles.footerGroup}>
-                        <Button
-                            buttonStyle={BUTTON.GRAY}
-                            className={styles.keysBtn}
-                            onClick={handleClick}
-                        >
-                            Добавить
-                        </Button>
-                        <Button
-                            buttonStyle={BUTTON.BROWN}
-                            className={styles.keysBtn}
-                            onClick={handleClick}
-                        >
-                            Заменить
-                        </Button>
-                        <Button
-                            buttonStyle={BUTTON.RED}
-                            className={styles.keysBtn}
-                            onClick={handleClick}
-                        >
-                            Удалить
-                        </Button>
-                    </div>
-                </div>
+                <Tooltip placement="bottom" overlay={item.type}>
+                  <div className={styles.tableType}>{item.type}</div>
+                </Tooltip>
+                <Tooltip placement="bottom" overlay={item.select}>
+                  <div className={styles.tableSelect}>{item.select}</div>
+                </Tooltip>
+                <Tooltip placement="bottom" overlay={item.where}>
+                  <div className={styles.tableWhere}>{item.where}</div>
+                </Tooltip>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className={styles.manageKeysGroup}>
+          <p className={styles.keysTitle}> Добавить/изменить ключ</p>
+          <div className={styles.selectGroup}>
+            <div className={styles.typeGroup}>
+              <p className={styles.smallText}>тип</p>
+              <Field as="select" name={name[3]} className={styles.typeSelect}>
+                <option value={keyTypeOptions[0].value}>
+                  {keyTypeOptions[0].text}
+                </option>
+                <option value={keyTypeOptions[1].value}>
+                  {keyTypeOptions[1].text}
+                </option>
+              </Field>
             </div>
-        </ModalItem>
-    );
+            <div className={styles.selectInputGroup}>
+              <p className={styles.smallText}>Select</p>
+              <div className={styles.selectDiv}>
+                <input
+                  id={name[1]}
+                  name={name[1]}
+                  value={value?.[1]}
+                  onChange={onChange}
+                  className={styles.keysBlockSelectWhereInput}
+                />
+                <PencilIcon className={styles.pencilIcon} />
+              </div>
+            </div>
+            <div className={styles.whereInputGroup}>
+              <p className={styles.smallText}>Where</p>
+              <div className={styles.whereDiv}>
+                <input
+                  id={name[2]}
+                  name={name[2]}
+                  value={value?.[2]}
+                  onChange={onChange}
+                  className={styles.keysBlockSelectWhereInput}
+                />
+                <PencilIcon className={styles.pencilIcon} />
+              </div>
+            </div>
+          </div>
+          <div className={styles.footerGroup}>
+            <Button
+              buttonStyle={BUTTON.GRAY}
+              className={styles.keysBtn}
+              onClick={handleClick}
+            >
+              Добавить
+            </Button>
+            <Button
+              buttonStyle={BUTTON.BROWN}
+              className={styles.keysBtn}
+              onClick={handleClick}
+            >
+              Заменить
+            </Button>
+            <Button
+              buttonStyle={BUTTON.RED}
+              className={styles.keysBtn}
+              onClick={handleClick}
+            >
+              Удалить
+            </Button>
+          </div>
+        </div>
+      </div>
+    </ModalItem>
+  );
 };
 
 export default KeysBlock;
 
 KeysBlock.propTypes = {
-    onChange: PropTypes.func,
-    name: PropTypes.array,
-    value: PropTypes.array,
+  onChange: PropTypes.func,
+  name: PropTypes.array,
+  value: PropTypes.array,
 };

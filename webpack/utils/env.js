@@ -1,4 +1,4 @@
-import {join} from 'path';
+import { join } from 'path';
 
 export const mode = process.env.NODE_ENV ?? 'production';
 export const isDevServer = process.env.WEBPACK_IS_DEV_SERVER === 'true';
