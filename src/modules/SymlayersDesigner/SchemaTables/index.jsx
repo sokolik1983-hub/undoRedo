@@ -389,7 +389,6 @@ const Provided = (props) => {
           let SourceRect;
           let TargetRect;
           if (objectTable1 && objectTable2) {
-            console.log('A');
             SourceRect = targetRect(
               objectTable1,
               !isShadow && link.object1.fields[0]?.field,
@@ -399,7 +398,6 @@ const Provided = (props) => {
               !isShadow && link.object2.fields[0]?.field,
             );
           } else if (selectedTablesData.length) {
-            console.log('B');
             objectTable1 = selectedTablesData.find(
               (table) =>
                 `${table.schema}_${table.objectName}` === objectFullName1,
