@@ -17,7 +17,7 @@ import {
   REDIRECT_LINKS,
   TABLE_CELL_EMPTY_VALUE,
 } from '../../../common/constants/common';
-import { setObjectToFavorites } from '../../../data/actions/app';
+import { setObjectFavoriteStatus } from '../../../data/actions/app';
 import {
   getUniversesFolderChildren,
   getUniversesFolderId,
@@ -149,27 +149,11 @@ const ConnectorsList = () => {
     setEditListItemId(id);
   };
 
-  /**
-   * Хэндлер для добавления слоя в Избранное.
-   *
-   * @prop id слоя которого хотим добавить в Избранное.
-   */
-  const handleAddToFavorites = (id) => {
-    dispatch(setObjectToFavorites({ user_id: 10001, id, kind: 'REP' }));
+  const handleSetFavoritesStatus = (id, kind, isExclude) => {
+    dispatch(setObjectFavoriteStatus({ id, kind, isExclude }));
   };
 
-  /**
-   * Хэндлер для удаления слоя из Избранного.
-   *
-   * @prop id слоя которого хотим удалить из Избранных.
-   */
-  const handleRemoveFromFavorites = (id) => {
-    dispatch(
-      setObjectToFavorites({ user_id: 10001, id, kind: 'REP', isExclude: 1 }),
-    );
-  };
-
-  const handleItemClick = (id, action) => {
+  const handleItemClick = (id, action, kind) => {
     switch (action) {
       case 'edit':
         handleEditClick(id);
@@ -185,17 +169,17 @@ const ConnectorsList = () => {
       case 'create universe':
         break;
       case 'addToFavorites':
-        handleAddToFavorites(id);
+        handleSetFavoritesStatus(id, kind);
         break;
       case 'removeFromFavorites':
-        handleRemoveFromFavorites(id);
+        handleSetFavoritesStatus(id, kind, 1);
         break;
       default:
         console.log(action);
     }
   };
 
-  const getUniverseDropdownItems = (id) => (
+  const getUniverseDropdownItems = (id, kind) => (
     <div className={styles.itemsWrapper}>
       {FOLDER_ITEM_DROPDOWN_ACTIONS.map((item) => (
         <Tooltip
@@ -205,7 +189,7 @@ const ConnectorsList = () => {
         >
           <DropdownItem
             className={styles.dropdownItem}
-            onClick={(action) => handleItemClick(id, action)}
+            onClick={(action) => handleItemClick(id, action, kind)}
             item={item}
           />
         </Tooltip>
@@ -240,7 +224,7 @@ const ConnectorsList = () => {
 
       const menu = isFolder
         ? getFolderDropdownItems(`folder_${item.id}`)
-        : getUniverseDropdownItems(item.id);
+        : getUniverseDropdownItems(item.id, item.kind);
 
       return (
         <Fragment key={isFolder ? `folder_${item.id}` : item.id}>
