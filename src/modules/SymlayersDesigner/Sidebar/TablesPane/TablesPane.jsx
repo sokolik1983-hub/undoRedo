@@ -12,6 +12,7 @@ const TablesPane = ({ onSelect }) => {
   const connectorObjects = useSelector(
     (state) => state.app.schemaDesigner.connectorObjects,
   );
+  const layerName = useSelector((state) => state.app.schemaDesigner.layerName);
 
   const [selectedSchemes, setSelectedSchemes] = useState([]);
 
@@ -22,7 +23,7 @@ const TablesPane = ({ onSelect }) => {
       <div className={styles.tables}>
         <div className={styles.owner}>
           <OwnerIcon />
-          <span>Owner</span>
+          <span>{layerName}</span>
         </div>
         <HierTreeView
           data={selectedSchemes.length ? selectedSchemes : connectorObjects}

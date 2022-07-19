@@ -117,7 +117,7 @@ const ConnectorsList = () => {
   };
 
   const onSymLayerDoubleClick = (item) => {
-    dispatch(openUniverse({ id: item.id, getData: 1 }));
+    dispatch(openUniverse({ id: item.id, getData: 1 }, item.name));
   };
 
   const getBreadcrumbs = () => {

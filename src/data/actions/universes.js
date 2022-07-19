@@ -26,6 +26,7 @@ import {
   setLinks,
   setLoadingUniverse,
   setSelectedTables,
+  setUniverseName,
 } from '../reducers/schemaDesigner';
 import {
   closeConfirmModal,
@@ -110,7 +111,7 @@ export const createSampleUniverse = (queryParams) => {
   };
 };
 
-export const openUniverse = (queryParams) => {
+export const openUniverse = (queryParams, layerName) => {
   return async (dispatch) => {
     const response = await request({
       code: 'UNV.OPEN',
@@ -118,6 +119,7 @@ export const openUniverse = (queryParams) => {
       dispatch,
     });
     if (response?.result) {
+      dispatch(setUniverseName(layerName));
       dispatch(loadSelectedTablesData(response.data.tables));
       dispatch(loadSelectedTablesArray(response.data.tables));
       dispatch(setLinks(response.data.links));
@@ -192,6 +194,7 @@ export const createUniverse = (queryParams, layerName) => {
     });
     if (response?.result) {
       dispatch(setUniverseIsCreated(true));
+      dispatch(setUniverseName(layerName));
       dispatch(
         showToast(
           TOAST_TYPE.SUCCESS,

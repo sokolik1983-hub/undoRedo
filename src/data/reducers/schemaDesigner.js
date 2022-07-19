@@ -33,6 +33,7 @@ const schemaDesigner = createSlice({
       },
     },
     tablesCoord: [],
+    univerName: '',
   },
   reducers: {
     setIsLoading: (state, action) => {
@@ -175,6 +176,9 @@ const schemaDesigner = createSlice({
         state.tablesCoord = [...state.tablesCoord, action.payload];
       }
     },
+    setUniverseName: (state, action) => {
+      state.layerName = action.payload;
+    },
   },
 });
 
@@ -210,6 +214,7 @@ export const {
   loadSelectedTablesArray,
   loadObjectsLayer,
   setTablesCoord,
+  setUniverseName,
 } = schemaDesigner.actions;
 
 export default schemaDesigner.reducer;
