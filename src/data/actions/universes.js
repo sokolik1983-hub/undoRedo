@@ -118,7 +118,6 @@ export const openUniverse = (queryParams) => {
       dispatch,
     });
     if (response?.result) {
-      console.log(response);
       dispatch(loadSelectedTablesData(response.data.tables));
       dispatch(loadSelectedTablesArray(response.data.tables));
       dispatch(setLinks(response.data.links));

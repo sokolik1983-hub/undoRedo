@@ -186,8 +186,8 @@ const TableComponent = ({
       dispatch(
         setSelectedTablesData({
           id: selectedTablesData.length,
-          parentTable_id: null,
-          sql: null,
+          parentTable_id: 0,
+          sql: '',
           viewType: 'Head',
           viewHeight: 200,
           position: position.deltaPosition,
@@ -367,7 +367,9 @@ const TableComponent = ({
       const dragCallback = ({ state, commit }, { postition }) => {
         const res = postition.dif(state.dragState.delta);
         const value = { ...position, deltaPosition: res };
-        dispatch(setTablesCoord({ tableId, x: res.x, y: res.y }));
+        const x = res.x;
+        const y = res.y;
+        dispatch(setTablesCoord({ tableId, x, y }));
         commit('SET_TABLE_POSITION', { tableId, value });
       };
       startDrag({ event, dragCallback, extra: { delta } });
@@ -376,7 +378,6 @@ const TableComponent = ({
   );
 
   const onFieldDragStart = (event, field, table) => {
-    console.log(field, table);
     event.dataTransfer.setData('field', JSON.stringify(field));
     const object1 = {
       cardinality: 'one',
@@ -413,7 +414,6 @@ const TableComponent = ({
   // };
 
   const onFieldDragOver = (event, field, table) => {
-    console.log(field, table);
     const object1 = JSON.parse(event.dataTransfer.getData('object1'));
     const object2 = {
       cardinality: 'one',

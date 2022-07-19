@@ -140,7 +140,9 @@ const SemanticActions = () => {
 
   const saveUniverse = () => {
     const universe = JSON.parse(JSON.stringify(currentUniverse));
-    universe.data.tables = updatedCoordsTables;
+    universe.data.tables = updatedCoordsTables.length
+      ? updatedCoordsTables
+      : selectedTablesData;
     universe.data.links = links;
     universe.data.objects = formattedObjectLayer;
     universe.data.connector_id = selectedConnectorId;

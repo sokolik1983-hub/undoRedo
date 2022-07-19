@@ -187,34 +187,28 @@ const Provided = (props) => {
         tablePositions[key] = {
           deltaPosition: selectedTables[key].position.deltaPosition,
         };
-        console.log(
-          tablePositions[key],
-          selectedTables[key]?.position.deltaPosition,
-        );
       }
     }
     tablesPosition?.forEach((tablePosit) => {
-      console.log(tablePosit);
       const lastTableNum = selectedTablesData.length - 1;
       const lastDelta =
         selectedTablesData[lastTableNum]?.position?.deltaPosition || null;
       for (let key in tablePosit) {
         let delta = { x: 0, y: 0 };
         if (lastDelta) {
-          delta = { x: 20 + lastDelta.x, y: 40 + lastDelta.y };
-          setAddCoord(lastDelta.x + 50);
+          delta = { x: lastDelta.x, y: lastDelta.y };
+          setAddCoord(lastDelta.x + 70);
         } else {
           delta = posToCoord(tablePosit[key]).dif({
             x: 20 + addCord,
             y: 40 + addCord,
           });
-          setAddCoord(addCord + 50);
+          setAddCoord(addCord + 70);
         }
         tablePositions[key] = { deltaPosition: delta };
       }
     });
     if (!lodash.isEmpty(tablePositions)) {
-      console.log(tablePositions, selectedTablesData);
       setTablesPosition(tablePositions);
       dispatch(setLoadedUniverse(true));
     }
@@ -395,6 +389,7 @@ const Provided = (props) => {
           let SourceRect;
           let TargetRect;
           if (objectTable1 && objectTable2) {
+            console.log('A');
             SourceRect = targetRect(
               objectTable1,
               !isShadow && link.object1.fields[0]?.field,
@@ -403,7 +398,8 @@ const Provided = (props) => {
               objectTable2,
               !isShadow && link.object2.fields[0]?.field,
             );
-          } else {
+          } else if (selectedTablesData.length) {
+            console.log('B');
             objectTable1 = selectedTablesData.find(
               (table) =>
                 `${table.schema}_${table.objectName}` === objectFullName1,
@@ -427,12 +423,14 @@ const Provided = (props) => {
               TargetRect={TargetRect}
               SourceRect={SourceRect}
               handleEdit={handleEdit}
-              key={`${getTableId(link.object1)}-${getTableId(
-                link.object2,
-              )}${Math.random()}}`}
+              key={`${objectFullName1}-${objectFullName2}${Math.random()}}`}
               // isLoop={getTableId(link.object1) === getTableId(link.object2)}
               // onCreateSynonym={props.onCreateSynonym}
-              isLoop={getTableId(objectTable1) === getTableId(objectTable2)}
+              isLoop={
+                objectTable1 &&
+                objectTable2 &&
+                getTableId(objectTable1) === getTableId(objectTable2)
+              }
             />
           );
         })}
