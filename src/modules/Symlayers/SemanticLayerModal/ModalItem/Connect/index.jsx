@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../../../../common/components/Button';
 import Gears from '../../../../../common/components/Gears';
 import Select from '../../../../../common/components/Select';
+import { TOAST_TYPE } from '../../../../../common/constants/common';
+import { showToast } from '../../../../../data/actions/app';
 import {
   getConnectorFolderChildren,
   getConnectorForTest,
@@ -142,6 +144,9 @@ const Connect = ({ title, cleanTestData }) => {
     if (ready) {
       if (сonnector?.header?.name) {
         dispatch(testConnector({ data: сonnector.data }));
+      } else {
+        dispatch(showToast(TOAST_TYPE.DANGER, 'Попробуйте ещё раз'));
+        setIsActive(false);
       }
     }
   };
@@ -178,7 +183,7 @@ const Connect = ({ title, cleanTestData }) => {
             className={styles.test}
             disabled={!ready}
           >
-            Тест соедиения
+            Тест соединения
           </Button>
         </div>
       </div>

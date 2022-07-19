@@ -20,38 +20,12 @@ export default function Connectors() {
   // Видима/невидима модалка создания коннектора
   const [isVisible, setIsVisible] = useState(false);
 
-  // Делаем из полученных из словаря типов, источников, типов соединения подходящие массивы options для компонента Select
-  // const typeOptions = types?.map((item) => ({
-  //   text: item.name,
-  //   value: String(item.id),
-  // }));
-
-  // const sourceOptions = sources?.map((item) => ({
-  //   text: item.name,
-  //   value: String(item.id),
-  // }));
-
   const [isActive, setIsActive] = useState(false);
   const [showTestOk, setshowTestOk] = useState(false);
   const [showTestFailed, setshowTestFailed] = useState(false);
 
   const createConnectorForm = document.getElementById('createConnectorForm');
 
-  // const testConnection = (e) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   // проверка на валидность введенных данных
-  //   if (createConnectorForm.reportValidity()) {
-  //     setshowTestOk(false);
-  //     setshowTestFailed(false);
-  //     setIsActive(!isActive);
-  //     newConnector.header.parent_id = folderId;
-  //     // if (newConnector?.data?.fields[2]) {
-  //     //   newConnector.data.fields[2].value = newConnector?.data?.fields[2]?.value.toUpperCase();
-  //     // }
-  //     setHeaderAndDescription();
-  //     dispatch(testConnector({ data: newConnector.data }));
-  //   }
   const closeCreateConnectorModal = () => {
     setIsVisible(false);
   };
