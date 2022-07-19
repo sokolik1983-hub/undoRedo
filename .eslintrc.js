@@ -39,7 +39,6 @@ module.exports = {
       },
     ], // also want to use with ".tsx"
     'react/prop-types': 'off', // Is this incompatible with TS props type?
-    'import/prefer-default-export': 'off',
   },
   settings: {
     react: {

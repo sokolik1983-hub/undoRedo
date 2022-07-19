@@ -7,7 +7,7 @@ import FloatingButton from '../../common/components/FloatingButton';
 import Select from '../../common/components/Select';
 import TextInput from '../../common/components/TextInput';
 import { PAGE } from '../../common/constants/pages';
-import { saveConnector, testConnector } from '../../data/actions/connectors';
+import { saveConnector } from '../../data/actions/connectors';
 import { setCurrentPage } from '../../data/reducers/ui';
 import CreateConnector from '../../layout/assets/createConnector.svg';
 import SemanticLayerModal from './SemanticLayerModal';

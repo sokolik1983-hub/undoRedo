@@ -1,4 +1,4 @@
-import isEqual from 'lodash/isEqual';
+import { isEqual } from 'lodash';
 
 import { getElementData } from '../../../../../data/actions/newReportDesigner';
 import { deepObjectSearch } from '../../../../../data/helpers';

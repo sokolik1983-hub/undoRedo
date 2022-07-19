@@ -11,11 +11,11 @@ import Trend from '../../../layout/assets/reportDesigner/reportPageIcons/trend.s
 import VerticalTable from '../../../layout/assets/reportDesigner/reportPageIcons/verticalTable.svg';
 
 export const TABLE_ICONS = [
-  {
-    text: 'Таблица',
-    type: 'table',
-    icon: <Table />,
-  },
+  // {
+  //     text: 'Таблица',
+  //     type: 'table',
+  //     icon: <Table />,
+  // },
   {
     text: 'Кросс',
     type: 'xTable',
@@ -36,37 +36,37 @@ export const TABLE_ICONS = [
 export const GRAPH_ICONS = [
   {
     text: 'Сравнения',
-    type: 'compare',
+    type: 'barChart',
     icon: <Compare />,
   },
   {
     text: 'Тренд',
-    type: 'trend',
+    type: 'lineChart',
     icon: <Trend />,
   },
   {
     text: 'Пропорция',
-    type: 'proportion',
+    type: 'pieChart',
     icon: <Proportion />,
   },
-  {
-    text: 'Распределение',
-    type: 'distribution',
-    icon: <Distribution />,
-  },
-  {
-    text: 'Корреляция',
-    type: 'correlation',
-    icon: <Correlation />,
-  },
-  {
-    text: 'География',
-    type: 'geography',
-    icon: <Geography />,
-  },
-  {
-    text: 'Индикатор',
-    type: 'indicator',
-    icon: <Indicator />,
-  },
+  // {
+  //     text: 'Распределение',
+  //     type: 'distribution',
+  //     icon: <Distribution />,
+  // },
+  // {
+  //     text: 'Корреляция',
+  //     type: 'correlation',
+  //     icon: <Correlation />,
+  // },
+  // {
+  //     text: 'География',
+  //     type: 'geography',
+  //     icon: <Geography />,
+  // },
+  // {
+  //     text: 'Индикатор',
+  //     type: 'indicator',
+  //     icon: <Indicator />,
+  // },
 ];

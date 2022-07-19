@@ -1,7 +1,9 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+
 import Tooltip from '../../../common/components/Tooltip';
+import RemoveFromFavoritesIcon from '../../../layout/assets/removeFromFavorites.svg';
 import styles from './HomePageButton.module.scss';
 
 const HomePageButton = ({
@@ -10,22 +12,35 @@ const HomePageButton = ({
   href,
   icon,
   appNameText,
-  hasTooltip
+  hasTooltip,
+  onRemoveFromFavorites,
+  onOpenReport,
+  id,
+  removable,
 }) => {
-
   const getStyles = () => {
-    if (kind === 'SL') return styles.homePageSemanticLayerButton
-    if (kind === 'REP') return styles.homePageDocumentButton
-    return styles.homePageButton
-  }
+    const style = {
+      SL: styles.homePageSemanticLayerButton,
+      REP: styles.homePageDocumentButton,
+    };
+    return style[kind] ?? styles.homePageButton;
+  };
 
   return (
-    <div className={styles.homePageButtonWrapper}>
+    <div
+      className={styles.homePageButtonWrapper}
+      onClick={kind ? (e) => onOpenReport(id, e) : null}
+    >
       <RouterLink to={href || ''}>
-        <div
-          className={getStyles()}
-        >
+        <div className={getStyles()}>
           {icon}
+          {kind && removable && (
+            <RemoveFromFavoritesIcon
+              data-remove={true}
+              onClick={(e) => onRemoveFromFavorites(id, kind, e)}
+              className={styles.close}
+            />
+          )}
         </div>
         {hasTooltip ? (
           <Tooltip placement="left" overlay={title}>

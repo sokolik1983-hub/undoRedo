@@ -10,7 +10,6 @@ import {
   setCreateConnectorResult,
   setTestConnector,
 } from '../reducers/data';
-import { notificationShown } from '../reducers/notifications';
 import { setConnectorObjects } from '../reducers/schemaDesigner';
 import { showEditConnectorModal } from '../reducers/ui';
 
