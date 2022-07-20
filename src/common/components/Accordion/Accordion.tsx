@@ -1,6 +1,5 @@
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import Arrow from '../../../layout/assets/semanticLayerModal/arrow.svg';
 import Divider from '../Divider';
@@ -15,7 +14,17 @@ import styles from './Accordion.module.scss';
  * @param isAccordionOpened - раскрыт ли аккордеон по умолчанию
  */
 
-const Accordion = ({
+interface IAccordionProps {
+  title: string;
+  noPadding: boolean;
+  children: React.ReactNode;
+  indents: string;
+  titleClassName: string;
+  withDivider: boolean;
+  isAccordionOpened: boolean;
+}
+
+const Accordion: FC<IAccordionProps> = ({
   title,
   noPadding,
   children,
@@ -53,22 +62,3 @@ const Accordion = ({
 };
 
 export default Accordion;
-
-Accordion.propTypes = {
-  title: PropTypes.string,
-  noPadding: PropTypes.bool,
-  children: PropTypes.node,
-  indents: PropTypes.string,
-  titleClassName: PropTypes.string,
-  withDivider: PropTypes.bool,
-  isAccordionOpened: PropTypes.bool,
-};
-
-Accordion.defaultProps = {
-  title: '',
-  noPadding: false,
-  indents: '',
-  titleClassName: '',
-  children: null,
-  withDivider: false,
-};

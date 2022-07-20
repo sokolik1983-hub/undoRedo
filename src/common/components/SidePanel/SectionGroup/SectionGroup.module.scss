@@ -12,11 +12,11 @@
 .actions {
   display: flex;
 
-  &Btn {
+  .btn {
     margin: 5px;
     cursor: pointer;
 
-    &Active {
+    .active {
       outline: 1px solid #fff;
     }
   }

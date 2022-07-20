@@ -59,7 +59,7 @@ import PlusIcon from '../../layout/assets/queryPanel/plus.svg';
 import ClearFormulaIcon from '../../layout/assets/reportDesigner/clearFormula.svg';
 import MiniFormulaIcon from '../../layout/assets/reportDesigner/miniFormula.svg';
 import OkFormulaIcon from '../../layout/assets/reportDesigner/okFormula.svg';
-import PagesNav from '../../layout/components/NewReportActions/PagesNav/index';
+import PagesNav from '../../layout/components/ReportActions/PagesNav/index';
 import QueryPanel from '../QueryPanel';
 import { createReportElement, generateId, getCurrentReport } from './helpers';
 import ReportContent from './ReportContent';
