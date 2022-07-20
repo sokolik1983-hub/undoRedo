@@ -29,15 +29,21 @@ interface ITooltipProps extends TooltipProps {
   children: ReactElement;
   className?: string;
   placement: Placement;
+  visible?: boolean;
 }
 
 const Tooltip: FC<ITooltipProps> = ({
   children,
   placement = 'bottomLeft',
   className,
+  visible,
   ...props
 }) => {
   const overlayClassName = clsx(styles.overlay, className);
+
+  if (!visible) {
+    return null;
+  }
 
   return (
     <RcTooltip

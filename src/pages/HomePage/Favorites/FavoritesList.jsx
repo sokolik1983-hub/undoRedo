@@ -20,6 +20,7 @@ const FavoritesList = () => {
   const isFavoritesEmpty = !favoriteObjectsData.length;
   const isFavoritesLoading = favoriteObjectsStatus === 'LOADING';
   const isFavoritesFailed = favoriteObjectsStatus === 'FAILED';
+  const rowWithoutData = isFavoritesEmpty || isFavoritesFailed;
 
   const handleOpenClick = (id) => {
     navigate(`${REDIRECT_LINKS.REPORT_SHOW}/${id}`, { replace: true });
@@ -45,7 +46,7 @@ const FavoritesList = () => {
         styles.row,
         styles.favoritesBg,
         styles.whiteLineShadow,
-        styles.rowWithoutData,
+        rowWithoutData ? styles.rowWithoutData : null,
       )}
     >
       <div className={clsx(styles.whiteLine2)} />
