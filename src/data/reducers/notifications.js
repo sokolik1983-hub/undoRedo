@@ -9,20 +9,13 @@ const notifications = createSlice({
   },
   reducers: {
     notificationShown: (state, action) => {
-      const currentNotification = state.items?.find((item) => {
-        return (
-          JSON.stringify(item.message) === JSON.stringify(...action.payload)
-        );
+      state.items.push({
+        id: getSimpleID(),
+        autoHide: false,
+        message: {
+          ...action.payload,
+        },
       });
-      if (!currentNotification) {
-        state.items.push({
-          id: getSimpleID(),
-          autoHide: false,
-          message: {
-            ...action.payload,
-          },
-        });
-      }
     },
     notificationClosed: (state, action) => {
       state.items = state.items.filter(
