@@ -1,3 +1,6 @@
+import { ReactNode } from 'react';
+import React from 'react';
+
 import ChangeUserIcon from '../../layout/assets/changeUser.svg';
 import ExchangeDataIcon from '../../layout/assets/exchange.svg';
 import EditIcon from '../../layout/assets/folderItemEdit.svg';
@@ -105,7 +108,14 @@ export const SIDE_PANEL_TYPES = {
 
 const userName = window.localStorage.getItem('userInfo');
 
-export const DEFAULT_USER_ACTIONS = [
+export interface IDefaultUserActions {
+  action: string;
+  title: string;
+  text: string | null;
+  icon: ReactNode;
+}
+
+export const DEFAULT_USER_ACTIONS: IDefaultUserActions[] = [
   {
     action: 'user',
     title: 'Профиль',
