@@ -51,7 +51,7 @@ const UserMenu: FC = () => {
   );
 
   return (
-    <div className={styles.root}>
+    <div>
       <Dropdown
         trigger={['click']}
         overlay={menu()}

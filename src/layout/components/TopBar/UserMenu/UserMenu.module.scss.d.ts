@@ -6,7 +6,6 @@ declare namespace UserMenuModuleScssNamespace {
     menuContainer: string;
     menuItem: string;
     note: string;
-    root: string;
   }
 }
 
