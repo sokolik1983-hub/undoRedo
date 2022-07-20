@@ -29,7 +29,7 @@ import {
 import SchemaEditorBlock from '../../Symlayers/SchemaEditorBlock/index';
 import ObjectsConnectionEditor from '../ObjectsConnectionEditor';
 import { SymanticLayerContext } from './context';
-import { handleCheckMatch } from './helper';
+import { handleCheckMatch, searchLink } from './helper';
 import { styles } from './TableComponent.module.scss';
 
 const useStyles = makeStyles((theme) => ({
@@ -423,7 +423,9 @@ const TableComponent = ({
       fields: [field.field],
     };
 
-    if (object1.objectName !== object2.objectName)
+    const findedLink = searchLink(object1.table_id, object2.table_id, links);
+
+    if (object1.objectName !== object2.objectName && !findedLink) {
       dispatch(
         setObjectsConnectionsModal(true, {
           id: links.length,
@@ -432,6 +434,9 @@ const TableComponent = ({
           object2,
         }),
       );
+    } else if (findedLink) {
+      dispatch(setObjectsConnectionsModal(true, findedLink));
+    }
     // tryLinkEnd({field, event})
   };
 
