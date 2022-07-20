@@ -10,7 +10,7 @@ import styles from './Connectors.module.scss';
 import ConnectorsList from './ConnectorsList/ConnectorsList';
 import CreateConnectorModal from './CreateConnectorModal';
 
-function Connectors() {
+export default function Connectors() {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,6 +19,12 @@ function Connectors() {
 
   // Видима/невидима модалка создания коннектора
   const [isVisible, setIsVisible] = useState(false);
+
+  const [isActive, setIsActive] = useState(false);
+  const [showTestOk, setshowTestOk] = useState(false);
+  const [showTestFailed, setshowTestFailed] = useState(false);
+
+  const createConnectorForm = document.getElementById('createConnectorForm');
 
   const closeCreateConnectorModal = () => {
     setIsVisible(false);
@@ -44,5 +50,3 @@ function Connectors() {
     </div>
   );
 }
-
-export default Connectors;
