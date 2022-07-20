@@ -8,8 +8,12 @@ import styles from './Tooltip.module.scss';
  * @param props - смотри документацию https://www.npmjs.com/package/rc-tooltip
  */
 
-const Tooltip = ({ children, placement, className, ...props }) => {
+const Tooltip = ({ children, placement, className, visible, ...props }) => {
   const overlayClassName = clsx(styles.overlay, className);
+
+  if (!visible) {
+    return null
+  }
 
   return (
     <RcTooltip
