@@ -24,12 +24,15 @@ const schemaDesigner = createSlice({
     },
     coloredValue: '',
     semantycLayerName: null,
+    isUnvLoading: false,
+    isUnvLoaded: false,
 
     newData: {
       data: {
         objects: [],
       },
     },
+    tablesCoord: [],
   },
   reducers: {
     setIsLoading: (state, action) => {
@@ -68,6 +71,31 @@ const schemaDesigner = createSlice({
       delete action.payload.catalog;
       delete action.payload.comment;
       state.selectedTablesData = [...state.selectedTablesData, action.payload];
+    },
+    loadSelectedTablesArray: (state, action) => {
+      state.selectedTablesArray = action.payload.map((table) => {
+        const tempTable = { ...table };
+        tempTable.name = `${tempTable.schema}_${tempTable.objectName}`;
+        tempTable.fields = tempTable.columns;
+        delete tempTable.columns;
+        delete tempTable.id;
+        delete tempTable.objectName;
+        delete tempTable.objectType;
+        delete tempTable.parentTable_id;
+        delete tempTable.position;
+        delete tempTable.schema;
+        delete tempTable.sql;
+        delete tempTable.viewHeight;
+        delete tempTable.viewType;
+        return tempTable;
+      });
+    },
+    loadSelectedTablesData: (state, action) => {
+      const tables = [...action.payload].map((table) => {
+        table.position.deltaPosition = { ...table.position };
+        return table;
+      });
+      state.selectedTablesData = tables;
     },
     addLink: (state, action) => {
       state.links = [...state.links, action.payload];
@@ -127,6 +155,26 @@ const schemaDesigner = createSlice({
     setSchemaDesigner: (state, action) => {
       state.newData = { ...action.payload.default };
     },
+    setLoadingUniverse: (state, action) => {
+      state.isUnvLoading = action.payload;
+      state.isUnvLoaded = true;
+    },
+    setLoadedUniverse: (state, action) => {
+      state.isUnvLoaded = action.payload;
+    },
+    loadObjectsLayer: (state, action) => {
+      state.objectsLayerList = action.payload;
+    },
+    setTablesCoord: (state, action) => {
+      const findedIndex = state.tablesCoord.findIndex(
+        (table) => table.tableId === action.payload.tableId,
+      );
+      if (findedIndex !== -1) {
+        state.tablesCoord[findedIndex] = action.payload;
+      } else {
+        state.tablesCoord = [...state.tablesCoord, action.payload];
+      }
+    },
   },
 });
 
@@ -156,6 +204,12 @@ export const {
   setShowDataList,
   setSemantycLayerName,
   setSchemaDesigner,
+  loadSelectedTablesData,
+  setLoadingUniverse,
+  setLoadedUniverse,
+  loadSelectedTablesArray,
+  loadObjectsLayer,
+  setTablesCoord,
 } = schemaDesigner.actions;
 
 export default schemaDesigner.reducer;

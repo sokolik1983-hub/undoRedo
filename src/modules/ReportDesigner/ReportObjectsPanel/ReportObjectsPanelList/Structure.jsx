@@ -15,6 +15,7 @@ import BodyIcon from '../../../../layout/assets/reportDesigner/structureBody.svg
 import FooterIcon from '../../../../layout/assets/reportDesigner/structureFooter.svg';
 import HeaderIcon from '../../../../layout/assets/reportDesigner/structureHeader.svg';
 import TextIcon from '../../../../layout/assets/reportDesigner/structureText.svg';
+import { FOLDER_ITEM_DROPDOWN_ACTIONS } from '../../../Reports/helper';
 import { FOLDER_DROPDOWN_ACTIONS } from '../../../Reports/helper';
 import styles from './ReportObjectsPanel.module.scss';
 

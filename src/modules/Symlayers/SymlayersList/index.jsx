@@ -1,6 +1,8 @@
 import lodash from 'lodash';
+/* eslint-disable no-unused-vars */
 import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import List from '../../../common/components/List/List';
@@ -12,13 +14,16 @@ import Preloader from '../../../common/components/Preloader/Preloader';
 import Tooltip from '../../../common/components/Tooltip';
 import {
   BREADCRUMBS_ROOT,
+  REDIRECT_LINKS,
   TABLE_CELL_EMPTY_VALUE,
 } from '../../../common/constants/common';
 import { setObjectFavoriteStatus } from '../../../data/actions/app';
 import {
   getUniversesFolderChildren,
   getUniversesFolderId,
+  openUniverse,
 } from '../../../data/actions/universes';
+import { setLoadingUniverse } from '../../../data/reducers/schemaDesigner';
 import FolderIcon from '../../../layout/assets/folderIcon.svg';
 import UniverseIcon from '../../../layout/assets/icons/universeIcon.svg';
 import {
@@ -31,14 +36,25 @@ import styles from './SymlayersList.module.scss';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const universes = useSelector((state) => state.app.data.universes);
   const unvRootFolderId = useSelector(
     (state) => state.app.data.universesFolderId,
+  );
+  const isUnvLoading = useSelector(
+    (state) => state.app.schemaDesigner.isUnvLoading,
   );
 
   useEffect(() => {
     dispatch(getUniversesFolderId({ folderType: 'USER_UNV' }));
   }, []);
+
+  useEffect(() => {
+    if (isUnvLoading) {
+      navigate(REDIRECT_LINKS.SYMLAEYERS);
+      dispatch(setLoadingUniverse(false));
+    }
+  }, [isUnvLoading]);
 
   const [foldersIdHistory, setFoldersIdHistory] = useState([]);
   const [foldersNameHistory, setFoldersNameHistory] = useState([]);
@@ -98,6 +114,10 @@ const ConnectorsList = () => {
     setFoldersIdHistory([...foldersIdHistory, folder.id]);
     setFoldersNameHistory([...foldersNameHistory, folder.name]);
     setCurrentFolderIndex((prev) => prev + 1);
+  };
+
+  const onSymLayerDoubleClick = (item) => {
+    dispatch(openUniverse({ id: item.id, getData: 1 }));
   };
 
   const getBreadcrumbs = () => {
@@ -220,7 +240,11 @@ const ConnectorsList = () => {
             <ListItem
               className={styles.folderItemsColumnView}
               name={isFolder ? item.name : item.name}
-              onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
+              onDoubleClick={
+                isFolder
+                  ? () => onFolderDoubleClick(item)
+                  : () => onSymLayerDoubleClick(item)
+              }
               icon={isFolder ? <FolderIcon /> : <UniverseIcon />}
               menu={menu}
             />
@@ -246,7 +270,11 @@ const ConnectorsList = () => {
       return (
         <ListTableRow
           key={currentId}
-          onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
+          onDoubleClick={
+            isFolder
+              ? () => onFolderDoubleClick(item)
+              : () => onSymLayerDoubleClick(item)
+          }
           isEditMode={editListItemId === currentId}
           onEditEnd={() => setEditListItemId(null)}
           icon={isFolder ? <FolderIcon /> : <UniverseIcon />}

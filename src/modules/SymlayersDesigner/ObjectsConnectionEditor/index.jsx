@@ -20,20 +20,23 @@ import SqlEditor from './SqlEditor';
 const ObjectsConnectionEditor = ({ id, visible }) => {
   const dispatch = useDispatch();
   const [sqlEditorOpened, setSqlEditorOpened] = useState(false); // показывает модалку с редактированиемм SQL
-  const [leftSelected, setLeftSelected] = useState([]);
-  const [rightSelected, setRightSelected] = useState([]);
-  // const [leftSchema, setLeftSchema] = useState([]);
-  // const [rightSchema, setRightSchema] = useState([]);
   const [rightTable, setRightTable] = useState(null); // name правой таблицы
   const [leftTable, setLeftTable] = useState(null); // name левой таблицы
   const [leftTableFields, setLeftTableFields] = useState(null);
   const [rightTableFields, setRightTableFields] = useState(null);
-  const [leftTableId, setLeftTableId] = useState(null);
-  const [rightTableId, setRightTableId] = useState(null);
   const [leftColumns, setLeftColumns] = useState([]);
   const [rightColumns, setRightColumns] = useState([]);
 
   const currentObjLink = useSelector((state) => state.app.ui.modalData);
+
+  const [leftTableId, setLeftTableId] = useState(
+    currentObjLink.object1.table_id,
+  );
+  const [rightTableId, setRightTableId] = useState(
+    currentObjLink.object2.table_id,
+  );
+  const [leftSelected, setLeftSelected] = useState([]);
+  const [rightSelected, setRightSelected] = useState([]);
 
   const [resultExpression, setResultExpression] = useState(
     currentObjLink?.expression ? currentObjLink.expression : null,
@@ -81,6 +84,20 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
 
     if (rightSelected) searchField(rightSelected[0], 'right');
   }, [leftSelected, rightSelected]);
+
+  useEffect(() => {
+    if (currentObjLink.object1.fields[0]) {
+      setLeftSelected(
+        currentObjLink.object1.fields.map((field) => field.field),
+      );
+    }
+
+    if (currentObjLink.object2.fields[0]) {
+      setRightSelected(
+        currentObjLink.object2.fields.map((field) => field.field),
+      );
+    }
+  }, [currentObjLink]);
 
   useEffect(() => {
     convertedData.forEach((table) => {
@@ -138,11 +155,10 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
   useEffect(() => {
     setResultExpression(
       createExpression(
-        // leftSelected || currentObjLink?.object1.fields || currentObjLink?.object1.tempField,
         leftSelected || currentObjLink?.object1.fields,
         rightSelected || currentObjLink?.object2.fields,
         // rightSelected ||  currentObjLink?.object2.fields || currentObjLink?.object2.tempField,
-        switchCondition(condition),
+        condition.length <= 2 ? condition : switchCondition(condition),
         leftTable || createObjectName(currentObjLink?.object1.table_id),
         rightTable || createObjectName(currentObjLink?.object2.table_id),
       ),
@@ -162,22 +178,23 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
   };
 
   const saveHandler = () => {
-    let leftFields = leftTableFields[0]
-      ? leftTableFields[0]
-      : searchField(currentObjLink.object1.fields[0], 'left');
-    let rightFields = rightTableFields[0]
-      ? rightTableFields[0]
-      : searchField(currentObjLink.object2.fields[0], 'right');
+    let leftFields =
+      leftTableFields[0] ||
+      searchField(currentObjLink.object1.fields[0], 'left');
+    let rightFields =
+      rightTableFields[0] ||
+      searchField(currentObjLink.object2.fields[0], 'right');
     if (!Array.isArray(leftFields) && !Array.isArray(rightFields)) {
       leftFields = [leftFields];
       rightFields = [rightFields];
     }
-
+    const formattedCondition =
+      condition.length <= 2 ? switchCondition(condition) : condition;
     if (!currentObjLink) {
       dispatch(
         addLink({
           id,
-          condition,
+          condition: formattedCondition,
           expression: resultExpression,
           object1: {
             cardinality: 'one',
@@ -199,7 +216,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
       dispatch(
         setLink({
           id: currentObjLink.id,
-          condition,
+          condition: formattedCondition,
           expression: resultExpression,
           object1: {
             cardinality: 'one',
@@ -221,7 +238,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
       dispatch(
         addLink({
           id: currentObjLink.id,
-          condition,
+          condition: formattedCondition,
           expression: resultExpression,
           object1: {
             cardinality: 'one',
@@ -285,10 +302,10 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
             onSelectColumn={setSelectedColumns}
             onSelectTable={handleSelectTable}
             tableSelected={getTableSelected()}
+            currentLeftColumns={leftSelected || currentObjLink?.object1.fields}
             currentLeftTable={createObjectName(
               currentObjLink?.object1.table_id,
             )}
-            currentLeftColumns={currentObjLink?.object1.fields}
           />
           <ConnectionType
             onSelectExpression={setSelectedCondition}
@@ -303,7 +320,9 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
             currentLeftTable={createObjectName(
               currentObjLink?.object2.table_id,
             )}
-            currentRightColumns={currentObjLink?.object2.fields}
+            currentRightColumns={
+              rightSelected || currentObjLink?.object2.fields
+            }
           />
         </div>
         <FormulaBlock
