@@ -10,6 +10,7 @@ import { TABLES_NAME_FOR_CONNECT } from '../../../common/constants/universes';
 import { setObjectsConnectionsModal } from '../../../data/actions/universes';
 import { addLink, setLink } from '../../../data/reducers/schemaDesigner';
 import modalStyles from '../../Symlayers/SemanticLayerModal/SemanticLayerModal.module.scss';
+import { searchLink } from '../SchemaTables/helper';
 import ConnectionTable from './ConnectionTable';
 import ConnectionType from './ConnectionType';
 import FormulaBlock from './FormulaBlock';
@@ -27,13 +28,15 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
   const [leftColumns, setLeftColumns] = useState([]);
   const [rightColumns, setRightColumns] = useState([]);
 
-  const currentObjLink = useSelector((state) => state.app.ui.modalData);
+  const objLink = useSelector((state) => state.app.ui.modalData);
+
+  const [currentObjLink, setCurrentObjLink] = useState(objLink);
 
   const [leftTableId, setLeftTableId] = useState(
-    currentObjLink.object1.table_id,
+    currentObjLink?.object1.table_id,
   );
   const [rightTableId, setRightTableId] = useState(
-    currentObjLink.object2.table_id,
+    currentObjLink?.object2.table_id,
   );
   const [leftSelected, setLeftSelected] = useState([]);
   const [rightSelected, setRightSelected] = useState([]);
@@ -48,6 +51,8 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
   const selectedTablesData = useSelector(
     (state) => state.app.schemaDesigner.selectedTablesData,
   );
+
+  const links = useSelector((state) => state.app.schemaDesigner.links);
 
   const convertedData = useMemo(() => {
     return selectedTablesData.map((table, idx) => ({
@@ -86,13 +91,13 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
   }, [leftSelected, rightSelected]);
 
   useEffect(() => {
-    if (currentObjLink.object1.fields[0]) {
+    if (currentObjLink?.object1.fields[0]) {
       setLeftSelected(
         currentObjLink.object1.fields.map((field) => field.field),
       );
     }
 
-    if (currentObjLink.object2.fields[0]) {
+    if (currentObjLink?.object2.fields[0]) {
       setRightSelected(
         currentObjLink.object2.fields.map((field) => field.field),
       );
@@ -116,7 +121,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
     );
     const schema = finded?.schema;
     const objectName = finded?.objectName;
-    const objectFullName = `${schema}_${objectName}`;
+    const objectFullName = schema && objectName && `${schema}_${objectName}`;
     return objectFullName;
   };
 
@@ -165,12 +170,13 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
     );
   }, [
     rightSelected,
+    rightTable,
+    rightTableFields,
     leftSelected,
     leftTable,
-    rightTable,
     leftTableFields,
-    rightTableFields,
     condition,
+    currentObjLink,
   ]);
 
   const closeHandler = () => {
@@ -269,6 +275,19 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
     }
   };
 
+  useEffect(() => {
+    if (
+      Number.isInteger(leftTableId) &&
+      Number.isInteger(rightTableId) &&
+      !currentObjLink
+    ) {
+      const findedLink = searchLink(leftTableId, rightTableId, links);
+      if (findedLink) {
+        setCurrentObjLink(findedLink);
+      }
+    }
+  }, [leftTableId, rightTableId]);
+
   const handleSelectTable = (tableId, tableName) => {
     const objectFullName = createObjectName(tableId);
     if (tableName === TABLES_NAME_FOR_CONNECT.TABLE_A) {
@@ -317,7 +336,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
             onSelectColumn={setSelectedColumns}
             onSelectTable={handleSelectTable}
             tableSelected={getTableSelected()}
-            currentLeftTable={createObjectName(
+            currentRightTable={createObjectName(
               currentObjLink?.object2.table_id,
             )}
             currentRightColumns={
