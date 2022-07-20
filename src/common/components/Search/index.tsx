@@ -28,7 +28,12 @@ const Search: FC<SearchProps> = ({
 
   const getIconButton = () => {
     return (
-      <Tooltip placement="topLeft" overlay="Поиск" className={undefined}>
+      <Tooltip
+        placement="topLeft"
+        overlay="Поиск"
+        className={undefined}
+        visible={undefined}
+      >
         <IconButton className={styles.btn} icon={<Magnifier />} type="submit" />
       </Tooltip>
     );
