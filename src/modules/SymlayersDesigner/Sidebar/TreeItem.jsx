@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { useEffect, useState } from 'react';
@@ -29,9 +30,9 @@ const TreeItem = ({ name, isSchema, table, onSelect, isOpen }) => {
     selectedTables[getTableIdFromParams({ ...table })];
 
   useEffect(() => {
-    if (!isSchema && isActive) {
-      onSelect(table, event);
-    }
+    // if (!isSchema && isActive) { // не уверен что нужно но надо проверить
+    //   onSelect(table, event);
+    // }
     if (isSchema && isActive) {
       setTimeout(() => setActive(false), 240);
     }
@@ -84,9 +85,13 @@ const TreeItem = ({ name, isSchema, table, onSelect, isOpen }) => {
             </button>
             {isActive && (
               <div className={styles.tableFields}>
-                {selectedTableColumns?.map((col) => (
-                  <TreeTableField field={col} key={Math.random()} />
-                ))}
+                {selectedTableColumns?.columns
+                  ? selectedTableColumns?.columns.map((col) => (
+                      <TreeTableField field={col} key={Math.random()} />
+                    ))
+                  : selectedTableColumns?.map((col) => (
+                      <TreeTableField field={col} key={Math.random()} />
+                    ))}
               </div>
             )}
           </div>

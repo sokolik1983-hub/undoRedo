@@ -1,7 +1,10 @@
 import { TOAST_TYPE } from '../../common/constants/common';
 /* eslint-disable no-unused-vars */
-import { request } from '../helpers';
+import translitNames from '../../layout/components/TopBar/PageActions/helper';
+import { getTableIdFromParams, request } from '../helpers';
 import {
+  setConnectorId,
+  setCurrentUniverse,
   setListReports,
   setQueryData,
   setQueryPanelSymlayersData,
@@ -14,6 +17,17 @@ import {
   setUniverses,
   setUniversesFolderId,
 } from '../reducers/data';
+import { notificationShown } from '../reducers/notifications';
+import {
+  addObjectLayer,
+  loadObjectsLayer,
+  loadSelectedTablesArray,
+  loadSelectedTablesData,
+  setLinks,
+  setLoadingUniverse,
+  setSelectedTables,
+  setUniverseName,
+} from '../reducers/schemaDesigner';
 import {
   closeConfirmModal,
   closeCreateObjectModal,
@@ -28,6 +42,7 @@ import {
   showTablePreviewModal,
 } from '../reducers/ui';
 import { showToast } from './app';
+import { getObjectFromConnector } from './connectors';
 import { setReportDpRefreshed } from './newReportDesigner';
 
 export const getUniverses = (queryParams) => async (dispatch) => {
@@ -96,7 +111,81 @@ export const createSampleUniverse = (queryParams) => {
   };
 };
 
-export const createUniverse = (queryParams) => {
+export const openUniverse = (queryParams, layerName) => {
+  return async (dispatch) => {
+    const response = await request({
+      code: 'UNV.OPEN',
+      params: queryParams,
+      dispatch,
+    });
+    if (response?.result) {
+      dispatch(setUniverseName(layerName));
+      dispatch(loadSelectedTablesData(response.data.tables));
+      dispatch(loadSelectedTablesArray(response.data.tables));
+      dispatch(setLinks(response.data.links));
+      dispatch(setLoadingUniverse(true));
+
+      response.data.tables.forEach((table) => {
+        dispatch(
+          setSelectedTables({
+            [getTableIdFromParams(table)]: table,
+          }),
+        );
+      });
+    }
+    dispatch(setConnectorId(response.data.connector_id));
+    const objects = response.data.objects.map((object) => {
+      const tempObj = { ...object };
+      tempObj.refreshBeforeUsageCheckBox = false;
+      tempObj.searchDelegetionCheckBox = false;
+      tempObj.showHierarchyCheckBox = false;
+      tempObj.thisListEditCheckBox = false;
+      tempObj.useInConditionsCheckBox = false;
+      tempObj.useInResultsCheckBox = false;
+      tempObj.useInSortingsCheckBox = false;
+      tempObj.techInfoInput = '';
+      tempObj.originInput = '';
+      tempObj.defaultLinkInput = '';
+      tempObj.displayInput = '';
+      tempObj.exportByUniverseCheckBox = false;
+      tempObj.keysDataType = '';
+      tempObj.keysSelectInput = '';
+      tempObj.keysWhereInput = '';
+      tempObj.keysType = '';
+      tempObj.usagePermission = '';
+      tempObj.dataType = 'Symbol';
+      tempObj.aggFunc = 'SUM';
+      tempObj.aggFuncName = 'SUM';
+      tempObj.objectFunction = '';
+      tempObj.objectDescription = tempObj.description;
+      tempObj.objectDataType = translitNames(tempObj.userDataType);
+      tempObj.objectType = translitNames(tempObj.objectType);
+      tempObj.selectQueryField = tempObj.select;
+      tempObj.whereQueryField = tempObj.where;
+      tempObj.tables = [1];
+      tempObj.parent_id = 0;
+      tempObj.mask = null;
+      delete tempObj.where;
+      delete tempObj.select;
+      delete tempObj.description;
+      delete tempObj.userDataType;
+      delete tempObj.dataType;
+      delete tempObj.aggFunc;
+      delete tempObj.aggFuncName;
+      delete tempObj.tables;
+      delete tempObj.parent_id;
+      delete tempObj.mask;
+      return tempObj;
+    });
+    dispatch(loadObjectsLayer(objects));
+    dispatch(getObjectFromConnector({ id: response.data.connector_id }));
+    dispatch(
+      setCurrentUniverse({ header: response.header, data: response.data }),
+    );
+  };
+};
+
+export const createUniverse = (queryParams, layerName) => {
   return async (dispatch) => {
     const response = await request({
       code: 'UNV.SAVE',
@@ -105,6 +194,7 @@ export const createUniverse = (queryParams) => {
     });
     if (response?.result) {
       dispatch(setUniverseIsCreated(true));
+      dispatch(setUniverseName(layerName));
       dispatch(
         showToast(
           TOAST_TYPE.SUCCESS,

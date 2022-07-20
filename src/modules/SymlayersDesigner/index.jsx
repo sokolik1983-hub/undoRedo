@@ -57,8 +57,8 @@ function SymlayersDesigner() {
     (state) => state.app.ui.modalVisible === OBJECTS_CONNECTIONS_MODAL,
   );
 
-  const isTablePreviewModalOpened = useSelector(
-    (state) => state.app.ui.modalVisible === TABLE_PREVIEW_MODAL,
+  const selectedTablesData = useSelector(
+    (state) => state.app.schemaDesigner.selectedTablesData,
   );
 
   const selectedTablesArray = useSelector(
@@ -87,7 +87,7 @@ function SymlayersDesigner() {
     const { schema, objectName } = selected;
     dispatch(getObjectFields({ id: connectorId, schema, objectName }));
     const table_id =
-      selectedTablesArray.length > 0 ? selectedTablesArray.length - 1 : 0;
+      selectedTablesData.length > 0 ? selectedTablesArray.length : 0;
     if (event) {
       setChecked([...checked, { table_id, ...selected }]);
     } else {
@@ -189,7 +189,7 @@ function SymlayersDesigner() {
           visible={isObjectsConnectionsModalOpened && true}
         />
       )}
-      {isTablePreviewModalOpened && <TablePreview />}
+      {/* {isTablePreviewModalOpened && <TablePreview />} */}
     </div>
   );
 }
