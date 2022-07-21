@@ -12,19 +12,6 @@ import {
   unsetTablePreviewData,
 } from '../reducers/schemaDesigner';
 
-export const getConnectorObjectsList = (queryParams) => {
-  return async (dispatch) => {
-    const response = await request({
-      func: 'CONNECT.GET_OBJECTS_LIST',
-      params: queryParams, // { connect_id: id }
-      dispatch,
-    });
-    if (response?.success) {
-      dispatch(setConnectorObjects(response.result));
-    }
-  };
-};
-
 export const getObjectFields = (queryParams) => {
   return async (dispatch) => {
     const response = await request({
@@ -61,19 +48,6 @@ export const getObjectData = (queryParams) => {
   };
 };
 
-export const getObjectTables = (queryParams) => {
-  return async (dispatch) => {
-    const response = await request({
-      func: 'CONNECT.GET_OBJECT_FIELDS',
-      params: queryParams, // {"schema":"TA_APP","object_name":"MR_D_OPTIONS","object_type_id":1,"connect_id":4}
-      dispatch,
-    });
-    if (response?.success) {
-      // setSelectedTables
-    }
-  };
-};
-
 export const clearTablePreview = () => {
   return (dispatch) => dispatch(unsetTablePreviewData());
 };
@@ -89,14 +63,3 @@ export const filterTablesLinks = (filteredLinks) => {
 export const setSemantycLayerDataName = (name) => {
   return (dispatch) => dispatch(setSemantycLayerName(name));
 };
-export const getObjectsList = () => {
-  return async (dispatch) => {
-    // TODO: удалить файл universe_10040_v2.json когда будет готов бэкенд
-    const response = await Promise.resolve(
-      JSON.parse(JSON.stringify(universe)),
-    );
-    dispatch(setSchemaDesigner(response));
-  };
-};
-export const getObjectsListLocal = () =>
-  Promise.resolve(JSON.parse(JSON.stringify(universe)));

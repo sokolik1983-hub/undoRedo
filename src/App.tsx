@@ -1,27 +1,26 @@
 import './App.css';
 
-import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { FC, ReactNode, useEffect } from 'react';
 import { useNavigate, useRoutes } from 'react-router-dom';
 
 import { REDIRECT_LINKS } from './common/constants/common';
-import { logout } from './data/reducers/auth';
+import { logout } from './data/auth/authReducers';
+import { useAppDispatch, useAppSelector } from './data/hooks/redux';
 import routes from './routes';
 
-function AuthProvider({ children }) {
-  return <>{children}</>;
+interface IAuthProviderProps {
+  children: ReactNode;
 }
 
-AuthProvider.propTypes = {
-  children: PropTypes.any,
+const AuthProvider: FC<IAuthProviderProps> = ({ children }) => {
+  return <>{children}</>;
 };
 
-function App() {
+const App: FC = () => {
   const routing = useRoutes(routes);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const auth = useSelector((state) => state.app.auth);
+  const dispatch = useAppDispatch();
+  const auth = useAppSelector((state) => state.app.auth);
 
   useEffect(() => {
     if (auth && !auth.isAuth) {
@@ -35,6 +34,6 @@ function App() {
       <div>{routing}</div>
     </AuthProvider>
   );
-}
+};
 
 export default App;
