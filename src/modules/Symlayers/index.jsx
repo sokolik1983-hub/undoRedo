@@ -32,7 +32,6 @@ function Symlayers() {
     <div className={styles.root}>
       <SymlayersList />
       <FloatingButton
-        icon={<CreateConnector />}
         text="Создать семантический слой"
         onClick={createConnectorModalHandler}
       />
