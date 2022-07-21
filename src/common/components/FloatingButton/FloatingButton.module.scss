@@ -3,24 +3,31 @@
   cursor: pointer;
   position: fixed;
   z-index: 100;
-  bottom: 15px;
+  bottom: 28px;
   right: 26px;
   display: flex;
   align-items: center;
 
   &:hover > .icon {
-    transform: scale(1.1);
+    background: linear-gradient(200.5deg, #FFC700 0.98%, #DF0909 107.73%);
+    box-shadow: 5px 5px 10px #B06724;
   }
 }
 
 .icon {
   display: flex;
   align-items: center;
-  margin-right: 20px;
+  justify-content: center;
+  margin-right: 13px;
+  width: 67px;
+  height: 67px;
+  border-radius: 50%;
+  background: linear-gradient(192.03deg, #1AE3D7 -48.82%, #0945DF 91.21%);
+  box-shadow: 5px 5px 10px #4D6AD0;
 
   & svg {
-    width: 79px;
-    height: 78px;
+    width: 35px;
+    height: 35px;
   }
 }
 
