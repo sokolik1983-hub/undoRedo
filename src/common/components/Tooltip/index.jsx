@@ -1,7 +1,9 @@
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import RcTooltip from 'rc-tooltip';
 import 'rc-tooltip/assets/bootstrap.css';
+
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import RcTooltip from 'rc-tooltip';
+
 import styles from './Tooltip.module.scss';
 
 /**
@@ -10,10 +12,6 @@ import styles from './Tooltip.module.scss';
 
 const Tooltip = ({ children, placement, className, visible, ...props }) => {
   const overlayClassName = clsx(styles.overlay, className);
-
-  if (!visible) {
-    return null
-  }
 
   return (
     <RcTooltip
@@ -46,11 +44,11 @@ Tooltip.propTypes = {
     'bottomLeft',
     'leftBottom',
     'bottomRight',
-    'rightBottom'
+    'rightBottom',
   ]),
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
 };
 
 Tooltip.defaultProps = {
-  placement: 'bottomLeft'
+  placement: 'bottomLeft',
 };
