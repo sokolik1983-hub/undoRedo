@@ -37,7 +37,7 @@ function Symlayers() {
         onClick={createConnectorModalHandler}
       />
       <SemanticLayerModal
-        onClick={closeConnectorModalHandler}
+        onClose={closeConnectorModalHandler}
         isVisible={isVisible}
       />
     </div>

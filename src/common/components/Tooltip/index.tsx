@@ -41,10 +41,6 @@ const Tooltip: FC<ITooltipProps> = ({
 }) => {
   const overlayClassName = clsx(styles.overlay, className);
 
-  if (!visible) {
-    return null;
-  }
-
   return (
     <RcTooltip
       overlayClassName={overlayClassName}
