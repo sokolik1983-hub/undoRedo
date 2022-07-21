@@ -12,6 +12,7 @@ const data = createSlice({
     connectorsTree: [],
     createConnector: {},
     createConnectorResult: {},
+    editConnectorResult: {},
     universes: [],
     universesFolderId: 0,
     universesTree: [],
@@ -62,6 +63,9 @@ const data = createSlice({
     },
     setCreateConnectorResult: (state, action) => {
       state.createConnectorResult = action.payload;
+    },
+    setEditConnectorResult: (state, action) => {
+      state.editConnectorResult = action.payload;
     },
     setUniverses: (state, action) => {
       state.universes = action.payload;
@@ -243,6 +247,7 @@ export const {
   setCreateConnector,
   setTestConnector,
   setCreateConnectorResult,
+  setEditConnectorResult,
   setUniverses,
   setUniversesFolderId,
   setUniversesTree,

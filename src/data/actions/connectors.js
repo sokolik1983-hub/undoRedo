@@ -8,6 +8,7 @@ import {
   setConnectorsTypes,
   setCreateConnector,
   setCreateConnectorResult,
+  setEditConnectorResult,
   setTestConnector,
 } from '../reducers/data';
 import { setConnectorObjects } from '../reducers/schemaDesigner';
@@ -69,13 +70,24 @@ export const setConnectorReady = (params) => {
 
 export const saveConnector = (queryParams) => {
   return async (dispatch) => {
+    const response = await request({
+      code: 'CN.SAVE',
+      params: queryParams,
+      dispatch,
+    });
+    dispatch(setCreateConnectorResult(response));
+  };
+};
+
+export const editConnector = (queryParams) => {
+  return async (dispatch) => {
     try {
       const response = await request({
         code: 'CN.SAVE',
         params: queryParams,
         dispatch,
       });
-      dispatch(setCreateConnectorResult(response));
+      dispatch(setEditConnectorResult(response));
     } catch (err) {
       dispatch(
         notificationShown({ message: err.message, messageType: 'error' }),

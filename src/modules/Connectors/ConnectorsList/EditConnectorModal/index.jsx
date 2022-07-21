@@ -9,8 +9,10 @@ import Modal from '../../../../common/components/Modal';
 import Preloader from '../../../../common/components/Preloader/Preloader';
 import Select from '../../../../common/components/Select';
 import TextInput from '../../../../common/components/TextInput';
-import { BUTTON } from '../../../../common/constants/common';
+import { BUTTON, TOAST_TYPE } from '../../../../common/constants/common';
+import { showToast } from '../../../../data/actions/app';
 import {
+  editConnector,
   getConnectorTypesSources,
   saveConnector,
   testConnector,
@@ -52,6 +54,26 @@ const EditConnectorModal = ({ visible, onClose }) => {
   const testConnectorResult = useSelector(
     (state) => state.app.data.testConnector,
   );
+
+  // Ответ сервера на запрос создания / сохранения коннектора
+  const editResult = useSelector((state) => state.app.data.editConnectorResult);
+
+  // Показ уведомления в зависимости от результат с бэка
+  useEffect(() => {
+    if (editResult?.result) {
+      if (editResult.result === 1) {
+        dispatch(
+          showToast(
+            TOAST_TYPE.SUCCESS,
+            ` Соединение "${connectName}" успешно сохранено`,
+          ),
+        );
+      } else {
+        dispatch(showToast(TOAST_TYPE.DANGER, 'Ошибка сохранения соединения'));
+      }
+    }
+  }, [editResult]);
+
   const notifications = useSelector((state) => state.app.notifications);
 
   useEffect(() => {
@@ -112,15 +134,24 @@ const EditConnectorModal = ({ visible, onClose }) => {
     }
   }, [notifications]);
 
+  // Запись текущих значений инпутов формы в объект коннектора
+  const setInputValues = () => {
+    const inputs = document.getElementById('createConnectorForm').elements;
+    connectorData.data.fields?.map((item) => {
+      item.value = inputs[item.fieldName]?.value;
+      return item.value;
+    });
+  };
+
   const testConnection = (e) => {
     e.preventDefault();
     e.stopPropagation();
     setShowTestOk(false);
     setShowTestFailed(false);
-    setHeaderAndDescription();
     if (document.getElementById('createConnectorForm').reportValidity()) {
       setIsActive(!isActive);
       setHeaderAndDescription();
+      setInputValues();
       dispatch(testConnector({ data: connectorData.data }));
     }
   };
@@ -129,12 +160,13 @@ const EditConnectorModal = ({ visible, onClose }) => {
     event.preventDefault();
     event.stopPropagation();
     setHeaderAndDescription();
-    dispatch(saveConnector(connectorData));
+    setInputValues();
+    dispatch(editConnector(connectorData));
     handleClose();
   };
 
   // Контент для модалки для добавления коннектора
-  const createConnectorModalContent = (
+  const editConnectorModalContent = (
     <form
       className={styles.form}
       id="createConnectorForm"
@@ -188,7 +220,6 @@ const EditConnectorModal = ({ visible, onClose }) => {
                   key={`${item.fieldName}_${index}`}
                   type={item.fieldKey === 'PWD' ? 'password' : item.type}
                   required={item.required}
-                  uppercase={item.fieldKey === 'DATABASE'}
                   className={styles.connectorsInput}
                   onChange={(e) => {
                     connectorData.data.fields[index].value =
@@ -241,7 +272,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
   );
 
   // Футер модалки
-  const createConnectorModalFooter = (
+  const editConnectorModalFooter = (
     <div className={styles.footerButtonsGroup}>
       <Button
         buttonStyle={BUTTON.BIG_ORANGE}
@@ -269,8 +300,8 @@ const EditConnectorModal = ({ visible, onClose }) => {
       visible={visible}
       onClose={handleClose}
       title="Редактировать соединение"
-      content={createConnectorModalContent}
-      footer={createConnectorModalFooter}
+      content={editConnectorModalContent}
+      footer={editConnectorModalFooter}
     />
   );
 };
