@@ -30,21 +30,6 @@ import {
 import { showToast } from './app';
 import { setReportDpRefreshed } from './newReportDesigner';
 
-export const getUniverses = (queryParams) => async (dispatch) => {
-  try {
-    const response = await request({
-      func: 'SYMLAYER.LIST.READ',
-      params: queryParams,
-      dispatch,
-    });
-    if (response?.success) {
-      dispatch(setUniverses(response.result));
-    }
-  } catch (err) {
-    dispatch(notificationShown({ message: err.message, messageType: 'error' }));
-  }
-};
-
 export const getUniversesFolderChildren = (queryParams) => async (dispatch) => {
   const response = await request({
     code: 'REPOS.GET_CHILDREN',
@@ -124,25 +109,6 @@ export const createQuery = (queryParams) => async (dispatch) => {
   if (response) {
     dispatch(setQueryData(response));
   }
-};
-
-export const semanticLayerDataQuery = (queryParams) => {
-  return async (dispatch) => {
-    try {
-      const response = await request({
-        func: 'CONNECT.START_SQL',
-        params: queryParams,
-        dispatch,
-      });
-      if (response?.success) {
-        dispatch(setSymanticLayerQueryResult(response.result));
-      }
-    } catch (err) {
-      dispatch(
-        notificationShown({ message: err.message, messageType: 'error' }),
-      );
-    }
-  };
 };
 
 export const getListReports = (queryParams) => {

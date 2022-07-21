@@ -1,15 +1,14 @@
-import { combineReducers } from 'redux';
+import { AnyAction, combineReducers } from 'redux';
 
-import authReducer from './auth';
+import authReducer from '../auth/reducers/auth';
 import auditReducer from './audit';
-import uiReducer from './ui';
-import notificationsReducer from './notifications';
 import dataReducer from './data';
 // import reportDesignerReducer from './reportDesigner';
 import reportDesignerReducer from './new_reportDesigner';
-import trashReducer from './trash';
+import notificationsReducer from './notifications';
 import schemaDesignerReducer from './schemaDesigner';
-
+import trashReducer from './trash';
+import uiReducer from './ui';
 
 const appReducer = combineReducers({
   auth: authReducer,
@@ -19,10 +18,10 @@ const appReducer = combineReducers({
   data: dataReducer,
   reportDesigner: reportDesignerReducer,
   trash: trashReducer,
-  schemaDesigner: schemaDesignerReducer
+  schemaDesigner: schemaDesignerReducer,
 });
 
-const rootReducer = (state, action) => {
+const rootReducer = (state: any, action: AnyAction) => {
   // when a logout action is dispatched it will reset redux state
   if (action.type === 'auth/logout') {
     state = undefined;

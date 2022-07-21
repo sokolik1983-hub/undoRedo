@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import { EMPTY_STRING } from '../common/constants/common';
 import {
   ATTEMPTS,
   PENDING_RESPONSE,
@@ -7,13 +8,14 @@ import {
   SERVER_API_URL,
   SESSION_EXPIRED_MSG,
 } from '../common/constants/config';
-import { logoutUser } from './actions/auth';
+import { logoutUser } from './auth/actions/auth';
 import { notificationShown } from './reducers/notifications';
 import { setLoadingData } from './reducers/ui';
+import { AppDispatch } from './store';
 
 // это запрос готовности данных
-export const requestReady = async ({ id, dispatch }) => {
-  const response = await axios({
+export const requestReady = async <T>({ id, dispatch }) => {
+  const response = await axios.request<T>({
     method: 'get',
     url: `${SERVER_API_URL}?id=${id}`,
     headers: {
@@ -64,44 +66,12 @@ export const requestReady = async ({ id, dispatch }) => {
   return null;
 };
 
-// const requesterTimeout = ({ id, dispatch }) => {
-//   return new Promise((resolve, reject) => {
-//     let tryCount = 0;
-//     const timer = setInterval(async () => {
-//       tryCount++;
+interface IRequesterTimeout<T> {
+  id: T;
+  dispatch: AppDispatch;
+}
 
-//       const response = await requestReady({
-//         id,
-//         dispatch
-//       });
-
-//       console.log('rt resp',response)
-
-//       if (response?.result === 1 || !response) {
-//         setLoadingData(false);
-//         clearInterval(timer);
-//         return resolve(response);
-//       }
-//       if (response?.result === 'failed') {
-//         console.log('id запроса устарел');
-//         clearInterval(timer);
-//         return reject(response);
-//       }
-//       if (response?.result === 'pending') {
-//         if (tryCount >= ATTEMPTS) {
-//           console.log('исчерпаны попытки, выход из запроса');
-//           clearInterval(timer);
-//           return reject(response);
-//         }
-//         console.log('данные на сервере еще не готовы');
-//         return reject(response);
-//       }
-//       return null;
-//     }, PENDING_SERVER_TIMER);
-//   });
-// }
-
-const requesterTimeout = ({ id, dispatch }) =>
+const requesterTimeout = <T>({ id, dispatch }: IRequesterTimeout<T>) =>
   new Promise((resolve, reject) => {
     let tryCount = 0;
     const interval = async () => {
@@ -135,8 +105,18 @@ const requesterTimeout = ({ id, dispatch }) =>
 // обычный запрос, в ответ на который мы получаем id запроса
 // для получения данных по запросу, надо отправить новый запрос с указанием id
 // для такого повторного запроса есть функция requestReady
-export const request = async ({ params, code, dispatch }) => {
-  const token = localStorage.getItem('token');
+interface IRequestParams<T> {
+  params: T;
+  code: string;
+  dispatch: AppDispatch;
+}
+
+export const request = async <T>({
+  params,
+  code,
+  dispatch,
+}: IRequestParams<T>): Promise<any> => {
+  const token = localStorage.getItem('token') as string;
   const streamreceiver = localStorage.getItem('streamreceiver');
   try {
     const response = await axios({
@@ -170,12 +150,18 @@ export const request = async ({ params, code, dispatch }) => {
 };
 
 // запросы в одну сторону, на которые не ждем ответ
-export const requestWithoutResponse = async ({
+interface IRequestWithoutResponseParams<T> {
+  params?: T;
+  code: string;
+  token?: string;
+  dispatch: AppDispatch;
+}
+export const requestWithoutResponse = async <T>({
   params,
   code,
-  token,
+  token = EMPTY_STRING,
   dispatch,
-}) => {
+}: IRequestWithoutResponseParams<T>) => {
   try {
     const response = await axios({
       method: 'post',
@@ -185,7 +171,7 @@ export const requestWithoutResponse = async ({
       },
       data: `code=${code}&token=${
         encodeURI(token) || null
-      }&format=JSON&params=${params ? JSON.stringify(params) : ''}`,
+      }&format=JSON&params=${params ? JSON.stringify(params) : EMPTY_STRING}`,
     });
     if (response && response.status === 200) {
       return null;
@@ -215,56 +201,21 @@ export const getTableIdFromParams = ({ schema, objectName }) => {
   return `${schema}_${objectName}`;
 };
 
-// export const deepObjectSearch = ({ target, key, value, parent = null, grandParent = null }) => {
-//   let result = [];
-//   const keys = Object.keys(target);
-//   for (let i = 0; i < keys.length; i++) {
-//     const objectKey = keys[i];
-
-//     if (typeof target[objectKey] === 'object') {
-//       result = result.concat(
-//         deepObjectSearch({ target: target[objectKey], key, value, parent: target, grandParent: parent })
-//       );
-//     }
-//     /*eslint-disable */
-//     if (objectKey !== key) continue;
-
-//     if(objectKey === key && target[objectKey] === value) {
-//       result.push({target, parent, targetIndex: i, grandParent})
-//     }
-//   }
-//   return result;
-// };
-
-// let t = {
-//   a: {
-//     b: {
-//       c: [
-//         {
-//           id: '14'
-//         },
-//         {
-//           id: '15'
-//         },
-//         {
-//           id: '16'
-//         },
-//       ]
-
-//     },
-//     g: 'ffff'
-//   },
-//   f: 2
-// }
-
+interface IDeepObjectSearchParams {
+  target: string;
+  key: string;
+  value: string;
+  parentNodes: string[];
+  parentKey: string | null;
+}
 export const deepObjectSearch = ({
   target,
   key,
   value,
   parentNodes = [],
   parentKey = null,
-}) => {
-  let result = [];
+}: IDeepObjectSearchParams) => {
+  let result = []; // нужен тип
   const keys = Object.keys(target);
   for (let i = 0; i < keys.length; i++) {
     const objectKey = keys[i];
@@ -280,7 +231,7 @@ export const deepObjectSearch = ({
         }),
       );
     }
-    /*eslint-disable */
+
     if (objectKey !== key) continue;
 
     if (objectKey === key && target[objectKey] === value) {
