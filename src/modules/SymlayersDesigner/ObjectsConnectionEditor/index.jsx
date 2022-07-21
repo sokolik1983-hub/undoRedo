@@ -82,8 +82,6 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
     if (rightSelected) searchField(rightSelected[0], 'right');
   }, [leftSelected, rightSelected]);
 
-  // console.log(convertedData, selectedTablesData)
-
   useEffect(() => {
     convertedData.forEach((table) => {
       if (table.name === leftTable) {

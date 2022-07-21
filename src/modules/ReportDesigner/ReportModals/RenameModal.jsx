@@ -1,13 +1,20 @@
-/* eslint-disable react/prop-types */
+import { PropTypes } from 'prop-types';
 import { useEffect, useRef } from 'react';
+
 import Button from '../../../common/components/Button';
 import Modal from '../../../common/components/ModalPortal/Modal';
 import TextInput from '../../../common/components/TextInput';
 import { BUTTON } from '../../../common/constants/common';
 import styles from './ReportModals.module.scss';
 
-const RenameModal = ({ isOpen, onRename, onCancel, setNewName, name, oldName }) => {
-
+const RenameModal = ({
+  isOpen,
+  onRename,
+  onCancel,
+  setNewName,
+  name,
+  oldName,
+}) => {
   const inputRef = useRef();
   const validateValue = name !== oldName?.trim();
 
@@ -25,7 +32,7 @@ const RenameModal = ({ isOpen, onRename, onCancel, setNewName, name, oldName }) 
           wrapperClassName={styles.inputWrapper}
           value={name}
           ref={inputRef}
-          onChange={e => setNewName(e.target.value)}
+          onChange={(e) => setNewName(e.target.value)}
         />
         {validateValue ? null : (
           <p className={styles.warningMessage}>
@@ -35,7 +42,10 @@ const RenameModal = ({ isOpen, onRename, onCancel, setNewName, name, oldName }) 
         <div className={styles.buttons}>
           <Button
             buttonStyle={BUTTON.BIG_BLUE}
-            onClick={() => { onRename( name); setNewName('')}}
+            onClick={() => {
+              onRename(name);
+              setNewName('');
+            }}
             disabled={!validateValue}
           >
             Переименовать
@@ -50,3 +60,12 @@ const RenameModal = ({ isOpen, onRename, onCancel, setNewName, name, oldName }) 
 };
 
 export default RenameModal;
+
+RenameModal.propTypes = {
+  isOpen: PropTypes.bool,
+  onRename: PropTypes.func,
+  setNewName: PropTypes.func,
+  onCancel: PropTypes.func,
+  name: PropTypes.string,
+  oldName: PropTypes.string,
+};

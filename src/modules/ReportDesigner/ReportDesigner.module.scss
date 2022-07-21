@@ -9,7 +9,6 @@
 .container {
   width: 99%;
   height: 93%;
-  // outline: 1px solid rgba(0, 55, 137, 0.75);
   position: relative;
   background: white;
   overflow: scroll;
@@ -60,16 +59,13 @@
 
 .footer {
   display: flex;
-  width: 95%;
 
   .tabs {
     display: flex;
-    width: 88%;
-    overflow: hidden;
-    overflow-x: scroll;
 
     .tab {
       margin-right: 15px;
+      margin-top: 5px;
       font-weight: 400;
       font-size: 12px;
       line-height: 14px;
@@ -80,6 +76,7 @@
       text-overflow: ellipsis;
     }
     .activeTab {
+
       @extend .tab;
       display: flex;
       font-weight: 700;
@@ -89,17 +86,9 @@
 }
 
 .footerCompressed {
+  
   @extend .footer;
   margin-left: 233px;
-}
-
-.closeIcon {
-  margin-left: 15px;
-  width: 10px;
-}
-
-.plus {
-  margin-right: 5px;
 }
 
 .formula {
@@ -136,10 +125,10 @@
 }
 
 .iconBtn {
- width: auto;
- height: auto;
- margin: 0;
- padding: 0;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
 }
 
 .formulaIcons {
@@ -147,14 +136,21 @@
   margin-right: 10px;
 }
 
-.dropdownItem {
-  background: linear-gradient(199.32deg, #1ae3d7 -13.92%, #0945df 111.71%);
-  padding: 4px 4px 0 4px;
-  font-size: 11px;
-  font-weight: 700;
+.itemsWrapper {
+  background: linear-gradient(152.97deg, rgba(21, 21, 21, 0.208) 0%, rgba(21, 21, 21, 0) 100%);
+  filter: drop-shadow(0px 4px 4px rgba(34, 82, 102, 0.25));
+  backdrop-filter: blur(7px);
+  border-radius: 7.5px;
+  box-shadow: 0 4px 4px rgba(34, 82, 102, 0.25);
 
-  &:hover {
-    opacity: .8;
+  .dropdownItem {
+    padding: 5px 7px 0 7px;
+    font-size: 11px;
+    font-weight: 700;
+
+    &:hover {
+      background: white;
+    }
   }
 }
 
@@ -165,7 +161,11 @@
 }
 
 .addBtn {
-  margin: 12px 0 0 4px;
+  margin: 16px 0 0 4px;
   width: 0;
   height: 0;
+}
+
+.nav {
+  margin-left: auto;
 }

@@ -102,7 +102,7 @@ function HomePage() {
   return (
     <div className={styles.root}>
       <div
-        className={clsx(styles.row, styles.recentBG, styles.whiteLineShadow)}
+        className={clsx(styles.row, styles.recentBg, styles.whiteLineShadow)}
       >
         <div className={clsx(styles.whiteLine)} />
         <p className={styles.rowTitle}>Недавние</p>
@@ -121,14 +121,14 @@ function HomePage() {
       <div
         className={clsx(
           styles.row,
-          styles.favoritesBG,
+          styles.favoritesBg,
           styles.whiteLineShadow,
           styles.rowWithoutData,
         )}
       >
         <div className={clsx(styles.whiteLine2)} />
         <p className={styles.rowTitle}>Избранное</p>
-        <div className={clsx(styles.section)}>
+        <div className={styles.section1}>
           {favoriteObjectsData.map((item) => (
             <Dropdown trigger={['click']} overlay={renderDropdownMenu(item.id)}>
               <div>
@@ -153,7 +153,7 @@ function HomePage() {
         )}
       </div>
 
-      <div className={clsx(styles.row, styles.appsBG, styles.whiteLineShadow)}>
+      <div className={clsx(styles.row, styles.appsBg, styles.whiteLineShadow)}>
         <div className={clsx(styles.whiteLine3)} />
         <p className={styles.rowTitle}>Приложения</p>
         <div className={clsx(styles.section, styles.apps)}>

@@ -2,14 +2,13 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 
-import {structureUpdatedChecker} from './helpers'
-
+import { structureUpdatedChecker } from './helpers';
 import TableBody from './TableBody';
 import styles from './TableContent.module.scss';
 import TableFooter from './TableFooter';
 import TableHeader from './TableHeader';
 
-const structureChecker = structureUpdatedChecker()
+const structureChecker = structureUpdatedChecker();
 
 const TableContent = ({
   layout,
@@ -23,20 +22,17 @@ const TableContent = ({
   // const dpData = reportData?.dpData;
   // const dpObjects = reportData?.dpObjects;
 
-  const [needRefresh, setNeedRefresh] = useState(true)
+  const [needRefresh, setNeedRefresh] = useState(true);
 
-  
-
-  const headerZone = layout.zones.filter(item => item.vType === 'header');
-  const bodyZone = layout.zones.filter(item => item.vType === 'body');
-  const footerZone = layout.zones.filter(item => item.vType === 'footer');
+  const headerZone = layout.zones.filter((item) => item.vType === 'header');
+  const bodyZone = layout.zones.filter((item) => item.vType === 'body');
+  const footerZone = layout.zones.filter((item) => item.vType === 'footer');
 
   useEffect(async () => {
-    const checkResult = structureChecker(layout.zones)
+    const checkResult = structureChecker(layout.zones);
 
-    setNeedRefresh(checkResult)
+    setNeedRefresh(checkResult);
   }, [layout, displayMode]);
-
 
   return (
     <table style={{ ...blockStyles }}>
