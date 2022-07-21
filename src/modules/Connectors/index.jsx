@@ -39,7 +39,6 @@ export default function Connectors() {
     <div className={styles.root}>
       <ConnectorsList />
       <FloatingButton
-        icon={<CreateConnector />}
         text="Создать соединение"
         onClick={openCreateConnectorModal}
       />
