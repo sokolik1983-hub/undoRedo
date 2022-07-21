@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import React, { FC, ReactNode } from 'react';
 
 /**
  * @param title - заголовок
@@ -7,8 +7,16 @@ import PropTypes from 'prop-types';
  * @param children - нода для отрисовки внутри элемента
  */
 
-// eslint-disable-next-line no-unused-vars
-const SimpleDropDown = ({
+interface ISimpleDropDownProps {
+  title: string;
+  className?: string;
+  iconClassName?: string;
+  titleClassName: string;
+  children: ReactNode;
+  icon?: ReactNode;
+}
+
+const SimpleDropDown: FC<ISimpleDropDownProps> = ({
   title,
   className,
   titleClassName,
@@ -25,15 +33,6 @@ const SimpleDropDown = ({
       {children}
     </details>
   );
-};
-
-SimpleDropDown.propTypes = {
-  title: PropTypes.string,
-  className: PropTypes.string,
-  iconClassName: PropTypes.string,
-  titleClassName: PropTypes.string,
-  children: PropTypes.node,
-  icon: PropTypes.node,
 };
 
 export default SimpleDropDown;

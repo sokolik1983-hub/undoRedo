@@ -193,7 +193,7 @@ function ReportDesigner() {
   //   dispatch(setStructure(newStructure));
   // }
   const isShowingPanel = reportDesigner.reportsUi.ui.showConfigPanel;
-  // -------------------РЅР°С‡Р°Р»Рѕ: СЃС‚РёР»Рё---------------------------------
+  // -------------------стили---------------------------------
   const containerStyle = () => {
     if (reportDesigner.reportsUi?.ui.showFormulaEditor && !isShowingPanel) {
       return styles.container;
@@ -220,8 +220,8 @@ function ReportDesigner() {
   const formulaCompressed = clsx(styles.formula, {
     [styles.formulaCompressed]: isShowingPanel,
   });
-  // -------------------РєРѕРЅРµС†: СЃС‚РёР»Рё---------------------------------
-  // -------------------РЅР°С‡Р°Р»Рѕ: РґРµР№СЃС‚РІРёСЏ СЃ РѕС‚С‡РµС‚РѕРј РІРЅРёР·Сѓ СЃС‚СЂР°РЅРёС†С‹---------------------------------
+  // -------------------стили---------------------------------
+  // -------------------действия с отчетом---------------------------------
 
   const handleSelectReport = (reportId) => (event) => {
     event.stopPropagation();
@@ -246,7 +246,6 @@ function ReportDesigner() {
     );
   }
 
-  // -------------------РЅР°С‡Р°Р»Рѕ: РґРµР№СЃС‚РІРёСЏ СЃ РѕС‚С‡РµС‚РѕРј РІРЅРёР·Сѓ СЃС‚СЂР°РЅРёС†С‹---------------------------------
   const handleRenameReport = (repName) => {
     const editedReport = { ...currentReport, name: repName };
     const newReports = lodash.cloneDeep(
@@ -308,6 +307,7 @@ function ReportDesigner() {
         console.log(action);
     }
   };
+
   const menu = (isLast) => (
     <div className={styles.itemsWrapper}>
       {REPORT_ACTIONS.filter(
@@ -322,7 +322,7 @@ function ReportDesigner() {
       ))}
     </div>
   );
-  // -------------------конец: действия с отчетом внизу страницы---------------------------------
+  // -------------------действия с отчетом---------------------------------
   function checkIsActiveNode(id) {
     return !lodash.isEmpty(
       lodash.find(
@@ -341,7 +341,7 @@ function ReportDesigner() {
   const handleShowSelector = () => {
     setSemanticLayer(true);
   };
-  // -------------------РЅР°С‡Р°Р»Рѕ: РґРµР№СЃС‚РІРёСЏ СЃ Р±Р»РѕРєРѕРј С„РѕСЂРјСѓР»С‹---------------------------------
+
   const [formula, setFormula] = useState('');
   const activeNode =
     reportDesigner.reportsData.present.activeNodes &&
@@ -354,7 +354,7 @@ function ReportDesigner() {
     }
   }, [activeNode]);
   const handleChange = (e) => setFormula(e.target.value);
-  // -------------------РєРѕРЅРµС†: РґРµР№СЃС‚РІРёСЏ СЃ Р±Р»РѕРєРѕРј С„РѕСЂРјСѓР»С‹---------------------------------
+
   const handleSelectBlock = (structureItem, addItem) => {
     if (
       lodash.find(reportDesigner.reportsData.present.activeNodes, structureItem)

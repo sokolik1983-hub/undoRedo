@@ -1,5 +1,5 @@
-import { PropTypes } from 'prop-types';
-import React, { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { setTableStyle } from '../../../../data/reducers/new_reportDesigner';
@@ -10,7 +10,13 @@ import Format from './Format';
 import Styles from './Styles';
 import View from './View';
 
-const GraphSettingsFormat = ({ formattingElement }) => {
+interface IGraphSettingsFormatProps {
+  formattingElement: any;
+}
+
+const GraphSettingsFormat: FC<IGraphSettingsFormatProps> = ({
+  formattingElement,
+}) => {
   const [activeSubMenu, setActiveSubMenu] = useState(1);
   const dispatch = useDispatch();
 
@@ -24,7 +30,7 @@ const GraphSettingsFormat = ({ formattingElement }) => {
       {activeSubMenu === 1 && <View />}
       {activeSubMenu === 2 && (
         <Facade
-          onChange={(params) =>
+          onChange={(params: any) =>
             dispatch(setTableStyle({ ...params, formattingElement }))
           }
         />
@@ -36,7 +42,3 @@ const GraphSettingsFormat = ({ formattingElement }) => {
 };
 
 export default GraphSettingsFormat;
-
-GraphSettingsFormat.propTypes = {
-  formattingElement: PropTypes.object,
-};

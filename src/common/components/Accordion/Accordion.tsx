@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { FC, useState } from 'react';
+import React, { FC, ReactNode, useState } from 'react';
 
 import Arrow from '../../../layout/assets/semanticLayerModal/arrow.svg';
 import Divider from '../Divider';
@@ -17,7 +17,7 @@ import styles from './Accordion.module.scss';
 interface IAccordionProps {
   title: string;
   noPadding: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
   indents: string;
   titleClassName: string;
   withDivider: boolean;

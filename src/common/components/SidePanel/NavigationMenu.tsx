@@ -1,13 +1,19 @@
-import React, { FC } from 'react';
+import React, { FC, ReactElement } from 'react';
 
 import NavItem from './NavItem';
 import styles from './SidePanel.module.scss';
-
 interface INavigationMenuProps {
-  onClick: (id: string | number) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  menu: Array<any>;
-  activePage: boolean;
+  onClick?: (id: number) => void;
+  menu: Array<INavItemProps>;
+  activePage: number;
+}
+
+export interface INavItemProps {
+  id: number;
+  onClick?: (id: number) => void;
+  active?: boolean;
+  icon: ReactElement;
+  title: string;
 }
 
 const NavigationMenu: FC<INavigationMenuProps> = ({
@@ -23,7 +29,7 @@ const NavigationMenu: FC<INavigationMenuProps> = ({
             key={item.id}
             title={item.title}
             id={item.id}
-            {...item}
+            icon={item.icon}
             onClick={onClick}
             active={activePage === item.id}
           />
