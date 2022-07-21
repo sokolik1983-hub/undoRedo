@@ -2,7 +2,8 @@ import { Formik } from 'formik';
 import lodash from 'lodash';
 import PropTypes from 'prop-types';
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+/* eslint-disable no-unused-vars */
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -98,6 +99,19 @@ const SemanticLayerModal = ({
     }
   }, [isUniverseCreated]);
 
+  const cleanTestData = useRef(null);
+
+  useEffect(() => {
+    if (cleanTestData.current) {
+      cleanTestData.current();
+    }
+  }, [cleanTestData]);
+
+  const onCloseHandler = () => {
+    cleanTestData.current();
+    onClose();
+  };
+
   const content = (
     <Formik
       initialValues={semLayerValues}
@@ -130,7 +144,11 @@ const SemanticLayerModal = ({
             value={values.description}
             isTextarea
           />
-          <Connect title="Cоединение" connectorName={props.connectorName} />
+          <Connect
+            title="Cоединение"
+            connectorName={props.connectorName}
+            cleanTestData={cleanTestData}
+          />
           {/* <Stats
               title='Статистика'
             /> */}
@@ -150,7 +168,11 @@ const SemanticLayerModal = ({
             <Button type="submit" className={styles.save}>
               Сохранить
             </Button>
-            <Button type="button" className={styles.cancel} onClick={onClose}>
+            <Button
+              type="button"
+              className={styles.cancel}
+              onClick={onCloseHandler}
+            >
               Отмена
             </Button>
           </div>
@@ -168,7 +190,7 @@ const SemanticLayerModal = ({
         titleClassName={styles.title}
         dialogClassName={styles.dialog}
         headerClassName={styles.header}
-        onClose={onClose || onClickAction}
+        onClose={onCloseHandler}
       />
     </div>
   );
