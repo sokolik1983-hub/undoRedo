@@ -14,14 +14,14 @@ import {
 } from '../../../../data/reducers/schemaDesigner';
 import CreateObjectLayerModal from '../../../../modules/SymlayersDesigner/CreateObjectLayerModal/index';
 import EditObjectLayerModal from '../../../../modules/SymlayersDesigner/Sidebar/EditObjectLayerModal';
+import translitNames from './helper';
 import styles from './PageActions.module.scss';
-
-// import TextInput from '../../../../common/components/TextInput';
 
 const SemanticActions = () => {
   const dispatch = useDispatch();
   // const [universe, setUniverse] = useState({});
   const [formattedObjectLayer, setFormattedObjects] = useState([]);
+  const [updatedCoordsTables, setUpdatedCoordsTables] = useState([]);
 
   // const coloredValue = useSelector(
   //   state => state.app.schemaDesigner.coloredValue
@@ -61,6 +61,10 @@ const SemanticActions = () => {
     (state) => state.app.schemaDesigner.objectsLayerList,
   );
 
+  const selectedConnectorId = useSelector(
+    (state) => state.app.data.selectedConnectorId,
+  );
+
   const selectedTablesData = useSelector(
     (state) => state.app.schemaDesigner.selectedTablesData,
   );
@@ -69,26 +73,9 @@ const SemanticActions = () => {
     (state) => state.app.data.currentUniverse,
   );
 
-  const translitNames = (word) => {
-    switch (word) {
-      case 'Символ':
-        return 'Symbol';
-      case 'Дата':
-        return 'Datetime';
-      case 'Номер':
-        return 'Number';
-      case 'Текст':
-        return 'String';
-      case 'Показатель':
-        return 'Measure';
-      case 'Измерение':
-        return 'Dimension';
-      case 'Атрибут':
-        return 'Attribute';
-      default:
-        return null;
-    }
-  };
+  const tablesCoord = useSelector(
+    (state) => state.app.schemaDesigner.tablesCoord,
+  );
 
   useEffect(() => {
     let objects = [...objectsLayers];
@@ -133,11 +120,32 @@ const SemanticActions = () => {
     setFormattedObjects(objects);
   }, [objectsLayers]);
 
+  useEffect(() => {
+    const tables = selectedTablesData.map((table) => {
+      const tempTable = JSON.parse(JSON.stringify(table));
+      const { schema, objectName } = tempTable;
+      const findedIdx = tablesCoord.findIndex(
+        (tab) => tab.tableId === `${schema}_${objectName}`,
+      );
+      if (findedIdx !== -1) {
+        tempTable.position = {
+          x: tablesCoord[findedIdx].x,
+          y: tablesCoord[findedIdx].y,
+        };
+      }
+      return tempTable;
+    });
+    setUpdatedCoordsTables(tables);
+  }, [tablesCoord]);
+
   const saveUniverse = () => {
     const universe = JSON.parse(JSON.stringify(currentUniverse));
-    universe.data.tables = selectedTablesData;
+    universe.data.tables = updatedCoordsTables.length
+      ? updatedCoordsTables
+      : selectedTablesData;
     universe.data.links = links;
     universe.data.objects = formattedObjectLayer;
+    universe.data.connector_id = selectedConnectorId;
     dispatch(createUniverse(universe, currentUniverse.header.name));
   };
 

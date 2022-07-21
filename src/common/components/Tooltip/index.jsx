@@ -1,14 +1,16 @@
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import RcTooltip from 'rc-tooltip';
 import 'rc-tooltip/assets/bootstrap.css';
+
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import RcTooltip from 'rc-tooltip';
+
 import styles from './Tooltip.module.scss';
 
 /**
  * @param props - смотри документацию https://www.npmjs.com/package/rc-tooltip
  */
 
-const Tooltip = ({ children, placement, className, ...props }) => {
+const Tooltip = ({ children, placement, className, visible, ...props }) => {
   const overlayClassName = clsx(styles.overlay, className);
 
   return (
@@ -42,11 +44,11 @@ Tooltip.propTypes = {
     'bottomLeft',
     'leftBottom',
     'bottomRight',
-    'rightBottom'
+    'rightBottom',
   ]),
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
 };
 
 Tooltip.defaultProps = {
-  placement: 'bottomLeft'
+  placement: 'bottomLeft',
 };

@@ -13,7 +13,7 @@ export default {
     // some action
   },
   getTableId: (tableItem) =>
-    tableItem.parentTable_id
+    tableItem?.parentTable_id
       ? `${tableItem.objectName}`
       : `${tableItem.schema}.${tableItem.objectName}`,
 
