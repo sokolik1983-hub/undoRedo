@@ -183,7 +183,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
                   labelClassName={styles.selectText}
                   value={null}
                   defaultValue={item.value}
-                  onFocus={item.value}
+                  onFocus={() => item.value}
                   // eslint-disable-next-line react/no-array-index-key
                   key={`${item.fieldName}_${index}`}
                   type={item.fieldKey === 'PWD' ? 'password' : item.type}
