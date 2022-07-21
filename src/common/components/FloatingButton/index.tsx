@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { FC } from 'react';
 
 import UnionIcon from '@src/layout/assets/Union.svg';
 
@@ -11,8 +10,13 @@ import styles from './FloatingButton.module.scss';
  * @param text - текст кнопки
  */
 
-const FloatingButton = ({ onClick, text }) => {
-  const onClickAction = (event) => {
+interface IFloatingButtonProps {
+  onClick: (event: React.MouseEvent) => void;
+  text: string;
+}
+
+const FloatingButton: FC<IFloatingButtonProps> = ({ onClick, text }) => {
+  const onClickAction = (event: React.MouseEvent<HTMLElement>) => {
     onClick(event);
   };
 
@@ -24,20 +28,6 @@ const FloatingButton = ({ onClick, text }) => {
       <span className={styles.label}>{text}</span>
     </div>
   );
-};
-
-FloatingButton.propTypes = {
-  onClick: PropTypes.func,
-  icon: PropTypes.node,
-  text: PropTypes.string,
-};
-
-FloatingButton.defaultProps = {
-  onClick: () => {
-    // something
-  },
-  icon: null,
-  text: '',
 };
 
 export default FloatingButton;
