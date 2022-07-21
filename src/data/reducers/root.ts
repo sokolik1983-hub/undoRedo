@@ -1,6 +1,6 @@
 import { AnyAction, combineReducers } from 'redux';
 
-import authReducer from '../auth/reducers/auth';
+import authReducer from '../auth/authReducers';
 import auditReducer from './audit';
 import dataReducer from './data';
 // import reportDesignerReducer from './reportDesigner';

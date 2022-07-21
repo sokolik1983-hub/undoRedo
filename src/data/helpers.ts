@@ -8,14 +8,21 @@ import {
   SERVER_API_URL,
   SESSION_EXPIRED_MSG,
 } from '../common/constants/config';
-import { logoutUser } from './auth/actions/auth';
+import { logoutUser } from './auth/authActions';
 import { notificationShown } from './reducers/notifications';
 import { setLoadingData } from './reducers/ui';
 import { AppDispatch } from './store';
 
 // это запрос готовности данных
-export const requestReady = async <T>({ id, dispatch }) => {
-  const response = await axios.request<T>({
+interface IRequestReadyParams<T> {
+  id: T;
+  dispatch: AppDispatch;
+}
+export const requestReady = async <T>({
+  id,
+  dispatch,
+}: IRequestReadyParams<T>) => {
+  const response = await axios.request<any>({
     method: 'get',
     url: `${SERVER_API_URL}?id=${id}`,
     headers: {
@@ -35,7 +42,7 @@ export const requestReady = async <T>({ id, dispatch }) => {
     }
 
     if (response.data.result === 0 && response.data.errors) {
-      response.data.errors.forEach((item) => {
+      response.data.errors.forEach((item: any) => {
         // eslint-disable-next-line camelcase
         const { errText, errRecommend, errReason, isVisible, errorCode } = item;
         if (isVisible !== 0) {
@@ -71,10 +78,13 @@ interface IRequesterTimeout<T> {
   dispatch: AppDispatch;
 }
 
-const requesterTimeout = <T>({ id, dispatch }: IRequesterTimeout<T>) =>
+const requesterTimeout = <T>({
+  id,
+  dispatch,
+}: IRequesterTimeout<T>): Promise<T> =>
   new Promise((resolve, reject) => {
     let tryCount = 0;
-    const interval = async () => {
+    const interval = async (): Promise<any> => {
       tryCount++;
       const response = await requestReady({
         id,
@@ -105,17 +115,17 @@ const requesterTimeout = <T>({ id, dispatch }: IRequesterTimeout<T>) =>
 // обычный запрос, в ответ на который мы получаем id запроса
 // для получения данных по запросу, надо отправить новый запрос с указанием id
 // для такого повторного запроса есть функция requestReady
-interface IRequestParams<T> {
+export interface IRequestParams<T> {
   params: T;
   code: string;
   dispatch: AppDispatch;
 }
 
-export const request = async <T>({
+export const request = async <T, S>({
   params,
   code,
   dispatch,
-}: IRequestParams<T>): Promise<any> => {
+}: IRequestParams<T>) => {
   const token = localStorage.getItem('token') as string;
   const streamreceiver = localStorage.getItem('streamreceiver');
   try {
@@ -133,7 +143,7 @@ export const request = async <T>({
     });
 
     if (response && response.status === 200) {
-      return requesterTimeout({ id: response.data, dispatch });
+      return requesterTimeout<S>({ id: response.data, dispatch });
     }
   } catch (err) {
     dispatch(
@@ -189,36 +199,43 @@ export const requestWithoutResponse = async <T>({
   return null;
 };
 
-export const prefixLS = (str) => `tby:md:${str}`;
+export const prefixLS = (str: string) => `tby:md:${str}`;
 
 export const getSimpleID = () => {
   return Math.random().toString(16).slice(2);
 };
 
-export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+export const delay = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
-export const getTableIdFromParams = ({ schema, objectName }) => {
+export const getTableIdFromParams = ({
+  schema,
+  objectName,
+}: {
+  schema: string;
+  objectName: string;
+}) => {
   return `${schema}_${objectName}`;
 };
 
-interface IDeepObjectSearchParams {
-  target: string;
+interface IDeepObjectSearchParams<T> {
+  target: T;
   key: string;
   value: string;
-  parentNodes: string[];
+  parentNodes: T[];
   parentKey: string | null;
 }
-export const deepObjectSearch = ({
+export const deepObjectSearch = <T extends Record<string, never>>({
   target,
   key,
   value,
   parentNodes = [],
   parentKey = null,
-}: IDeepObjectSearchParams) => {
-  let result = []; // нужен тип
+}: IDeepObjectSearchParams<T>) => {
+  let result = [] as any;
   const keys = Object.keys(target);
   for (let i = 0; i < keys.length; i++) {
-    const objectKey = keys[i];
+    const objectKey: string = keys[i];
 
     if (target[objectKey] !== null && typeof target[objectKey] === 'object') {
       result = result.concat(

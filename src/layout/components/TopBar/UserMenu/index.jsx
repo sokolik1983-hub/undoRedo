@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import Dropdown from '../../../../common/components/Dropdown';
 import DropdownItem from '../../../../common/components/Dropdown/DropdownItem';
 import { DEFAULT_USER_ACTIONS } from '../../../../common/constants/common';
-import { logoutUser } from '../../../../data/actions/auth';
+import { logoutUser } from '../../../../data/auth/authActions';
 import UserDefault from '../../../assets/icons/userDefault.svg';
 import UserHover from '../../../assets/icons/userHover.svg';
 import styles from './UserMenu.module.scss';

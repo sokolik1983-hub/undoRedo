@@ -1,10 +1,10 @@
 import { delay } from 'lodash';
 
-import { REDIRECT_LINKS } from '../../../common/constants/common';
-import { request, requestWithoutResponse } from '../../helpers';
-import { AppDispatch, RootState } from '../../store';
-import { login, logout } from '../reducers/auth';
-import { ICmsLoginQueryParams } from '../types/auth';
+import { REDIRECT_LINKS } from '../../common/constants/common';
+import { request, requestWithoutResponse } from '../helpers';
+import { AppDispatch, RootState } from '../store';
+import { login, logout } from './authReducers';
+import { ICmsLoginQueryParams, ICmsLoginRes } from './authTypes';
 
 export const refreshUserSession =
   (queryParams: string) =>
@@ -28,7 +28,7 @@ export const refreshUserSession =
 
 export const loginUser =
   (queryParams: ICmsLoginQueryParams) => async (dispatch: AppDispatch) => {
-    const response = await request({
+    const response = await request<ICmsLoginQueryParams, ICmsLoginRes>({
       code: 'CMS.LOGIN',
       params: queryParams,
       dispatch,
