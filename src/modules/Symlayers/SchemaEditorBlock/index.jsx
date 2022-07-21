@@ -1,3 +1,5 @@
+import 'react-loading-skeleton/dist/skeleton.css';
+
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-array-index-key */
@@ -13,6 +15,7 @@ import React, {
   useState,
 } from 'react';
 import ReactDOM from 'react-dom';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Dropdown from '../../../common/components/Dropdown';
@@ -251,51 +254,37 @@ const SchemaEditorBlock = ({
       )}
       {isOpened && (
         <div className={contentClasses} onScroll={forceUpdate}>
-          <ul className={styles.list}>
-            <DropdownItem
-              item=""
-              onClick={handleClick}
-              className={styles.search}
-            />
-
-            {/* {filterableFields?.map((item, index) => {
-              const port = refs?.current?.ports
-                ? refs.current.ports.find(column => column.key === item.field)
-                : {};
-
-              return (
+          {filterableFields.length === 0 ? (
+            <SkeletonTheme baseColor="#2f465e" highlightColor="#FFFFFF">
+              <p className={styles.skeletonLine}>
+                <Skeleton count={5} />
+              </p>
+            </SkeletonTheme>
+          ) : (
+            <ul className={styles.list}>
+              <DropdownItem
+                item=""
+                onClick={handleClick}
+                className={styles.search}
+              />
+              {filterableFields.map((item, index) => (
                 <li
-                  ref={port.ref}
                   className={
                     item.colored && isHighlight
                       ? styles.itemHighlited
                       : styles.item
                   }
-                  key={item.field + item.type + index}
+                  key={item.field + item.type}
                   draggable
-                  onDragStart={e => onFieldDragStart(e, item.field)}
+                  onDragStart={(e) => onFieldDragStart(e, item, tableItem)}
+                  onDrop={(e) => onFieldDragOver(e, item, tableItem)}
+                  ref={fieldRefs.current[index]}
                 >
                   {item.field}
                 </li>
-              );
-            })} */}
-            {filterableFields.map((item, index) => (
-              <li
-                className={
-                  item.colored && isHighlight
-                    ? styles.itemHighlited
-                    : styles.item
-                }
-                key={item.field + item.type}
-                draggable
-                onDragStart={(e) => onFieldDragStart(e, item, tableItem)}
-                onDrop={(e) => onFieldDragOver(e, item, tableItem)}
-                ref={fieldRefs.current[index]}
-              >
-                {item.field}
-              </li>
-            ))}
-          </ul>
+              ))}
+            </ul>
+          )}
         </div>
       )}
       {isCopy && (
