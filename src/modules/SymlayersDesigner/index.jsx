@@ -98,7 +98,8 @@ function SymlayersDesigner() {
   };
 
   const handleAddSynonym = (table) => {
-    setChecked([...checked, table]);
+    const table_id = selectedTablesData.length + 1;
+    setChecked([...checked, { table_id, ...table }]);
   };
 
   const handleDeleteTable = (table) => {
