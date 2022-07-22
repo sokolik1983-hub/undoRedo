@@ -14,6 +14,11 @@ import IconButton from '../../../common/components/IconButton';
 import Tooltip from '../../../common/components/Tooltip/index';
 import { setObjectsConnectionsModal } from '../../../data/actions/universes';
 import { getTableIdFromParams } from '../../../data/helpers';
+// import SearchDialog from './SearchDialog';
+import {
+  setLoadedUniverse,
+  setTablesCoord,
+} from '../../../data/reducers/schemaDesigner';
 import Minus from '../../../layout/assets/reportDesigner/minus.svg';
 import Plus from '../../../layout/assets/reportDesigner/plus.svg';
 import { SymanticLayerContext, SymanticLayerContextProvider } from './context';
@@ -40,6 +45,13 @@ const Provided = (props) => {
   const [addCord, setAddCoord] = useState(0);
   const selectedTablesData = useSelector(
     (state) => state.app.schemaDesigner.selectedTablesData,
+  );
+  const selectedTables = useSelector(
+    (state) => state.app.schemaDesigner.selectedTables,
+  );
+
+  const isUnvLoaded = useSelector(
+    (state) => state.app.schemaDesigner.isUnvLoaded,
   );
   // const saveUserData = {};
   // const userData = {};
@@ -146,24 +158,65 @@ const Provided = (props) => {
     setTimeout(() => handleZoomDefault(), 500); // знаю что костыль -- гоните меня, насмехайтесь надо мной
   }, []);
 
+  // useMemo(() => {
+  //       const tablePositions = {};
+  //       setAddCoord(addCord+50);
+  //       tablesPosition?.forEach(tablePosit => {
+  //         for (let key in tablePosit) {
+  //           const delta = posToCoord(tablePosit[key]).dif({x: 20 + addCord, y: 40 + addCord});
+  //           tablePositions[key] = {deltaPosition: delta};
+  //         }
+  //       });
+  //       console.log(tablePositions)
+  //       setTablesPosition(tablePositions);
+  //   }, [tablesPosition]);
+
+  useEffect(() => {
+    if (selectedTablesData.length) {
+      forceUpdate();
+      setTables(selectedTablesData);
+    } else if (!props.tables.length) {
+      setTables([]);
+    }
+  }, [selectedTablesData]);
+
   useMemo(() => {
     const tablePositions = {};
-    setAddCoord(addCord + 50);
+    for (let key in selectedTables) {
+      if (selectedTables[key]?.position?.deltaPosition) {
+        tablePositions[key] = {
+          deltaPosition: selectedTables[key].position.deltaPosition,
+        };
+      }
+    }
     tablesPosition?.forEach((tablePosit) => {
+      const lastTableNum = selectedTablesData.length - 1;
+      const lastDelta =
+        selectedTablesData[lastTableNum]?.position?.deltaPosition || null;
       for (let key in tablePosit) {
-        const delta = posToCoord(tablePosit[key]).dif({
-          x: 20 + addCord,
-          y: 40 + addCord,
-        });
+        let delta = { x: 0, y: 0 };
+        if (lastDelta) {
+          delta = { x: lastDelta.x, y: lastDelta.y };
+          setAddCoord(lastDelta.x + 70);
+        } else {
+          delta = posToCoord(tablePosit[key]).dif({
+            x: 20 + addCord,
+            y: 40 + addCord,
+          });
+          setAddCoord(addCord + 70);
+        }
         tablePositions[key] = { deltaPosition: delta };
       }
     });
-    setTablesPosition(tablePositions);
-  }, [tablesPosition]);
+    if (!lodash.isEmpty(tablePositions)) {
+      setTablesPosition(tablePositions);
+      dispatch(setLoadedUniverse(true));
+    }
+  }, [selectedTablesData, tablesPosition]);
 
   useEffect(() => {
-    if (props.tables) {
-      setTables(props.tables);
+    if (props.tables.length) {
+      setTables([...selectedTablesData, ...props.tables]);
       lodash.keys(props.tablesPosition).forEach((key) => {
         if (
           !lodash.find(
@@ -174,7 +227,7 @@ const Provided = (props) => {
           delete props.tablesPosition[key];
         }
       });
-    } else {
+    } else if (!selectedTablesData.length) {
       setTables([]);
     }
   }, [props.tables]);
@@ -289,18 +342,20 @@ const Provided = (props) => {
   };
 
   const createObjectName = (id) => {
-    const found = selectedTablesData?.find((tableData) => tableData.id === id);
-    const schema = found?.schema;
-    const objectName = found?.objectName;
-    return `${schema}_${objectName}`;
+    const finded = selectedTablesData?.find((tableData) => tableData.id === id);
+    const schema = finded?.schema;
+    const objectName = finded?.objectName;
+    const objectFullName = `${schema}_${objectName}`;
+    return objectFullName;
   };
 
+  const links = useSelector((state) => state.app.schemaDesigner.links);
   const renderContent = ({ isShadow = false } = {}) => {
     return (
       <React.Fragment key="content">
         {linkAnchor &&
           (() => {
-            const SourceRect = targetRect(linkDescr.table, linkDescr.field);
+            const SourceRect = (linkDescr.table, linkDescr.field);
             const pseudoRect = {
               x: linkAnchor.x,
               y: linkAnchor.y - 10,
@@ -320,56 +375,63 @@ const Provided = (props) => {
               />
             );
           })()}
-        {Object.keys(tables).length &&
-          props.objectsLinks?.map((link) => {
-            const objectFullName1 = createObjectName(link.object1.table_id);
-            const objectFullName2 = createObjectName(link.object2.table_id);
-            const SourceRect = targetRect(
-              Object.values(tables)?.find(
-                (table) =>
-                  `${table.schema}_${table.objectName}` === objectFullName1,
-              ),
+        {links.map((link) => {
+          const objectFullName1 = createObjectName(link.object1.table_id);
+          const objectFullName2 = createObjectName(link.object2.table_id);
+          let objectTable1 = Object.values(tables)?.find(
+            (table) =>
+              `${table.schema}_${table.objectName}` === objectFullName1,
+          );
+          let objectTable2 = Object.values(tables)?.find(
+            (table) =>
+              `${table.schema}_${table.objectName}` === objectFullName2,
+          );
+          let SourceRect;
+          let TargetRect;
+          if (objectTable1 && objectTable2) {
+            SourceRect = targetRect(
+              objectTable1,
               !isShadow && link.object1.fields[0]?.field,
             );
-            const TargetRect = targetRect(
-              Object.values(tables)?.find(
-                (table) =>
-                  `${table.schema}_${table.objectName}` === objectFullName2,
-              ),
+            TargetRect = targetRect(
+              objectTable2,
               !isShadow && link.object2.fields[0]?.field,
             );
-
-            return (
-              <SymanticLink
-                link={link}
-                TargetRect={TargetRect}
-                SourceRect={SourceRect}
-                handleEdit={handleEdit}
-                key={`${getTableId(link.object1)}-${getTableId(
-                  link.object2,
-                )}${Math.random()}}`}
-                // isLoop={getTableId(link.object1) === getTableId(link.object2)}
-                // onCreateSynonym={props.onCreateSynonym}
-                isLoop={
-                  getTableId(
-                    Object.values(tables)?.find(
-                      (table) =>
-                        `${table.schema}_${table.objectName}` ===
-                        objectFullName1,
-                    ),
-                  ) ===
-                  getTableId(
-                    Object.values(tables)?.find(
-                      (table) =>
-                        `${table.schema}_${table.objectName}` ===
-                        objectFullName2,
-                    ),
-                  )
-                }
-              />
+          } else if (selectedTablesData.length) {
+            objectTable1 = selectedTablesData.find(
+              (table) =>
+                `${table.schema}_${table.objectName}` === objectFullName1,
             );
-          })}
-
+            objectTable2 = selectedTablesData.find(
+              (table) =>
+                `${table.schema}_${table.objectName}` === objectFullName2,
+            );
+            SourceRect = targetRect(
+              objectTable1,
+              !isShadow && link.object1.fields[0]?.field,
+            );
+            TargetRect = targetRect(
+              objectTable2,
+              !isShadow && link.object2.fields[0]?.field,
+            );
+          }
+          return (
+            <SymanticLink
+              link={link}
+              TargetRect={TargetRect}
+              SourceRect={SourceRect}
+              handleEdit={handleEdit}
+              key={`${objectFullName1}-${objectFullName2}${Math.random()}}`}
+              // isLoop={getTableId(link.object1) === getTableId(link.object2)}
+              // onCreateSynonym={props.onCreateSynonym}
+              isLoop={
+                objectTable1 &&
+                objectTable2 &&
+                getTableId(objectTable1) === getTableId(objectTable2)
+              }
+            />
+          );
+        })}
         {Object.keys(tables)?.map((tableId) => {
           return (
             <Table

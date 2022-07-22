@@ -1,12 +1,10 @@
-/* eslint-disable no-shadow */
-/* eslint-disable no-unused-vars */
-/* eslint-disable camelcase */
-// /* eslint-disable no-sparse-arrays */
-import { combineReducers } from 'redux';
 /* eslint-disable no-lonely-if */
 import { createSlice } from '@reduxjs/toolkit';
 import lodash, { find } from 'lodash';
+// /* eslint-disable no-sparse-arrays */
+import { combineReducers } from 'redux';
 import undoable from 'redux-undo';
+
 import { deepObjectSearch } from '../helpers';
 
 export const variableObject = {
@@ -17,19 +15,19 @@ export const variableObject = {
   type: 'Dimension',
   dataType: 'String',
   formula: '=substr([Город], 1, 1)',
-  parsedFormula: '=f1([DP0.D2], 1, 1)'
+  parsedFormula: '=f1([DP0.D2], 1, 1)',
 };
 export const reportObject = {
   header: {},
   data: {
     properties: {
       refreshOnOpen: false,
-      purgeBeforeSave: false
+      purgeBeforeSave: false,
     },
     dps: [],
     variables: [],
-    reports: []
-  }
+    reports: [],
+  },
 };
 export const cellObject = {
   id: 'R1.1',
@@ -39,13 +37,13 @@ export const cellObject = {
     minimalHeight: 10,
     minimalWidth: 120,
     autofitWidth: false,
-    autofitHeight: false
+    autofitHeight: false,
   },
   position: {
     xType: 'Absolute',
     yType: 'Absolute',
     x: 20,
-    y: 10
+    y: 10,
   },
   style: {},
   content: {
@@ -54,9 +52,9 @@ export const cellObject = {
       dataType: 'Number', // String | Number
       formula: '=sum([Продажи])', // если Measure то начинается с =
       parsedFormula: '=F101([DP0.M1])', // formula | const value - необязательно если константа
-      outputFormat: '0.00' // необязательно если константа
-    }
-  }
+      outputFormat: '0.00', // необязательно если константа
+    },
+  },
 };
 export const sectionAxesExpression = {
   type: 'Dimension',
@@ -64,8 +62,8 @@ export const sectionAxesExpression = {
   variable_id: 'DP0.D2',
   sort: {
     sortOrder: 'Asc',
-    sortNum: 1 // not required
-  }
+    sortNum: 1, // not required
+  },
 };
 export const sectionAxes = {
   id: 1,
@@ -105,14 +103,14 @@ export const sectionAxes = {
     //     sortOrder: 'None'
     //   }
     // }
-  ]
+  ],
 };
 export const section = {
   id: 'R1.3',
   type: 'section',
   name: 'Секция Первая буква города',
   size: {
-    minimalHeight: 50
+    minimalHeight: 50,
   },
   content: {
     axes: [
@@ -127,18 +125,18 @@ export const section = {
             variable_id: 'DP0.V1',
             sort: {
               sortOrder: 'Asc',
-              sortNum: 1
-            }
-          }
-        ]
-      }
+              sortNum: 1,
+            },
+          },
+        ],
+      },
     ],
     dataFilter: {
       // для примера фильтр - в списке
       type: 'filter',
       filterTarget_id: 'DP0.V1',
       filterOperator: 'InList',
-      filterOperand1: ['М', 'Т']
+      filterOperand1: ['М', 'Т'],
     },
     children: [
       // ячейка и таблица в секции
@@ -179,7 +177,7 @@ export const section = {
           yType: 'Relative_Element_Top',
           x: 10,
           yRelativeElement: 'R1.3.1',
-          y: 5
+          y: 5,
         },
         style: {},
         content: {
@@ -194,8 +192,8 @@ export const section = {
                   dataType: 'String',
                   variable_id: 'DP0.D1',
                   sort: {
-                    sortOrder: 'None'
-                  }
+                    sortOrder: 'None',
+                  },
                 },
                 {
                   type: 'Dimension',
@@ -203,27 +201,27 @@ export const section = {
                   variable_id: 'DP0.D2',
                   sort: {
                     sortOrder: 'Asc',
-                    sortNum: 1
-                  }
+                    sortNum: 1,
+                  },
                 },
                 {
                   type: 'Dimension',
                   dataType: 'String',
                   variable_id: 'DP0.D3',
                   sort: {
-                    sortOrder: 'None'
-                  }
+                    sortOrder: 'None',
+                  },
                 },
                 {
                   type: 'Measure',
                   dataType: 'Number',
                   variable_id: 'DP0.M1',
                   sort: {
-                    sortOrder: 'None'
-                  }
-                }
-              ]
-            }
+                    sortOrder: 'None',
+                  },
+                },
+              ],
+            },
           ],
           dataFilter: null,
           layout: {
@@ -241,9 +239,9 @@ export const section = {
                       type: 'Const',
                       dataType: 'String',
                       formula: '=NameOf([Страна])',
-                      parsedFormula: '=F11([DP0.D1]]'
+                      parsedFormula: '=F11([DP0.D1]]',
                     },
-                    style_id: 's11'
+                    style_id: 's11',
                   },
                   {
                     id: 'R1.3.2.H1.2',
@@ -253,9 +251,9 @@ export const section = {
                       type: 'Const',
                       dataType: 'String',
                       formula: '=NameOf([Город])',
-                      parsedFormula: '=F11([DP0.D2]]'
+                      parsedFormula: '=F11([DP0.D2]]',
                     },
-                    style_id: 's11'
+                    style_id: 's11',
                   },
                   {
                     id: 'R1.3.2.H1.3',
@@ -265,9 +263,9 @@ export const section = {
                       type: 'Const',
                       dataType: 'String',
                       formula: '=NameOf([Год])',
-                      parsedFormula: '=F11([DP0.D3]]'
+                      parsedFormula: '=F11([DP0.D3]]',
                     },
-                    style_id: 's11'
+                    style_id: 's11',
                   },
                   {
                     id: 'R1.3.2.H1.4',
@@ -277,12 +275,12 @@ export const section = {
                       type: 'Const',
                       dataType: 'String',
                       formula: '=NameOf([Продажи])',
-                      parsedFormula: '=F11([DP0.M1]]'
+                      parsedFormula: '=F11([DP0.M1]]',
                     },
-                    style_id: 's11'
-                  }
-                ]
-              }
+                    style_id: 's11',
+                  },
+                ],
+              },
             ],
             bodyZone: [
               // набор строк тела таблицы (здесь 1 строка)
@@ -297,9 +295,9 @@ export const section = {
                       type: 'Dimension',
                       dataType: 'String',
                       formula: '=[Страна]',
-                      parsedFormula: '=[DP0.D1]'
+                      parsedFormula: '=[DP0.D1]',
                     },
-                    style_id: 's12'
+                    style_id: 's12',
                   },
                   {
                     id: 'R1.3.2.B1.2',
@@ -309,9 +307,9 @@ export const section = {
                       type: 'Dimension',
                       dataType: 'String',
                       formula: '=[Город]',
-                      parsedFormula: '=[DP0.D2]'
+                      parsedFormula: '=[DP0.D2]',
                     },
-                    style_id: 's12'
+                    style_id: 's12',
                   },
                   {
                     id: 'R1.3.2.H1.3',
@@ -321,9 +319,9 @@ export const section = {
                       type: 'Dimension',
                       dataType: 'String',
                       formula: '=[Год]',
-                      parsedFormula: '=[DP0.D3]]'
+                      parsedFormula: '=[DP0.D3]]',
                     },
-                    style_id: 's12'
+                    style_id: 's12',
                   },
                   {
                     id: 'R1.3.2.H1.4',
@@ -333,19 +331,19 @@ export const section = {
                       type: 'Measure',
                       dataType: 'String',
                       formula: '=[Продажи]',
-                      parsedFormula: '=[DP0.M1]]'
+                      parsedFormula: '=[DP0.M1]]',
                     },
-                    style_id: 's12'
-                  }
-                ]
-              }
+                    style_id: 's12',
+                  },
+                ],
+              },
             ],
-            footerZone: []
-          }
-        }
-      }
-    ]
-  }
+            footerZone: [],
+          },
+        },
+      },
+    ],
+  },
 };
 export const reportPageObject = {
   id: 'R1',
@@ -357,14 +355,14 @@ export const reportPageObject = {
       left: 100,
       right: 100,
       top: 100,
-      bottom: 100
+      bottom: 100,
     },
     orientation: 'Landscape', // Landscape | Portrait
     height: 1024,
     width: 768,
     recordsHeight: 100,
     recordsWidth: 25,
-    scale: 100
+    scale: 100,
   },
   // structure: {},
   structure: {
@@ -373,30 +371,30 @@ export const reportPageObject = {
       type: 'pgHeader',
       name: 'заголовок страницы',
       size: {
-        minimalHeight: 10
-      }
+        minimalHeight: 10,
+      },
     },
     pgBody: {
       id: 'R1',
       type: 'pgBody',
       name: 'тело',
       size: {
-        minimalHeight: 10
+        minimalHeight: 10,
       },
       content: {
-        children: []
-      }
+        children: [],
+      },
     },
     pgFooter: {
       id: 'R1.PF',
       type: 'pgFooter',
       name: 'нижний колонтитул',
       size: {
-        minimalHeight: 15
-      }
-    }
+        minimalHeight: 15,
+      },
+    },
   },
-  alerters: []
+  alerters: [],
 };
 
 const reportDesigner = createSlice({
@@ -405,7 +403,7 @@ const reportDesigner = createSlice({
     ...reportObject,
     reports: [reportPageObject], // remove for test reportPageObject
     activeReport: 'R1',
-    activeNodes: []
+    activeNodes: [],
   },
   reducers: {
     setReportHeader: (state, action) => {
@@ -414,7 +412,7 @@ const reportDesigner = createSlice({
     setReportDisplayMode: (state, action) => {
       const report = lodash.find(
         state.reports,
-        item => item.id === state.activeReport
+        (item) => item.id === state.activeReport,
       );
       report.displayMode = action.payload;
     },
@@ -430,7 +428,7 @@ const reportDesigner = createSlice({
     setStructure: (state, action) => {
       const report = lodash.find(
         state.reports,
-        item => item.id === state.activeReport
+        (item) => item.id === state.activeReport,
       );
 
       report.structure = action.payload;
@@ -438,7 +436,7 @@ const reportDesigner = createSlice({
     setVariables: (state, action) => {
       const report = lodash.find(
         state.reports,
-        item => item.id === state.activeReport
+        (item) => item.id === state.activeReport,
       );
 
       report.variables = action.payload;
@@ -446,13 +444,13 @@ const reportDesigner = createSlice({
     setActiveNodeStyle: (state, action) => {
       const report = lodash.find(
         state.reports,
-        item => item.id === state.activeReport
+        (item) => item.id === state.activeReport,
       );
 
-      state.activeNodes.forEach(node => {
+      state.activeNodes.forEach((node) => {
         const reportNode = lodash.find(
           report.structure,
-          item => item.id === node.id
+          (item) => item.id === node.id,
         );
 
         reportNode.styles = { ...reportNode.styles, ...action.payload };
@@ -461,13 +459,13 @@ const reportDesigner = createSlice({
     setActiveNodeFormula: (state, action) => {
       const report = lodash.find(
         state.reports,
-        item => item.id === state.activeReport
+        (item) => item.id === state.activeReport,
       );
 
       const targ = deepObjectSearch({
         target: report.structure,
         key: 'id',
-        value: state.activeNodes[0]?.id
+        value: state.activeNodes[0]?.id,
       })[0].target;
 
       if (targ)
@@ -475,14 +473,14 @@ const reportDesigner = createSlice({
           ...targ.content,
           expression: {
             ...targ.content.expression,
-            formula: action.payload
-          }
+            formula: action.payload,
+          },
         };
     },
     setTableStyle: (state, action) => {
       const report = lodash.find(
         state.reports,
-        item => item.id === state.activeReport
+        (item) => item.id === state.activeReport,
       );
 
       const { formattingElement } = action.payload;
@@ -492,7 +490,7 @@ const reportDesigner = createSlice({
       const targ = deepObjectSearch({
         target: report.structure,
         key: 'id',
-        value: formattingElement.id
+        value: formattingElement.id,
       })[0].target;
 
       if (!targ) {
@@ -510,18 +508,18 @@ const reportDesigner = createSlice({
     addTableColumn: (state, action) => {
       const report = lodash.find(
         state.reports,
-        item => item.id === state.activeReport
+        (item) => item.id === state.activeReport,
       );
       const activeNode = state.activeNodes && state.activeNodes[0];
       const currentNode = find(
         report?.structure?.pgBody?.content?.children,
-        item => item.id === activeNode?.id
+        (item) => item.id === activeNode?.id,
       );
       const headerZone = currentNode?.content?.layout?.zones?.filter(
-        item => item.vType === 'header'
+        (item) => item.vType === 'header',
       );
       const bodyZone = currentNode?.content?.layout?.zones?.filter(
-        item => item.vType === 'body'
+        (item) => item.vType === 'body',
       );
 
       // const targ = deepObjectSearch({
@@ -576,35 +574,35 @@ const reportDesigner = createSlice({
     removeTableColumn: (state, action) => {
       const report = lodash.find(
         state.reports,
-        item => item.id === state.activeReport
+        (item) => item.id === state.activeReport,
       );
       const activeNode = state.activeNodes && state.activeNodes[0];
       const currentNode = find(
         report?.structure?.pgBody?.content?.children,
-        item => item.id === activeNode?.id
+        (item) => item.id === activeNode?.id,
       );
       const headerZone = currentNode?.content?.layout?.zones?.filter(
-        item => item.vType === 'header'
+        (item) => item.vType === 'header',
       );
       const bodyZone = currentNode?.content?.layout?.zones?.filter(
-        item => item.vType === 'body'
+        (item) => item.vType === 'body',
       );
       headerZone[0].cells = headerZone[0].cells.filter(
-        item => item.col !== action.payload.object.col
+        (item) => item.col !== action.payload.object.col,
       );
       bodyZone[0].cells = bodyZone[0].cells.filter(
-        item => item.col !== action.payload.object.col
+        (item) => item.col !== action.payload.object.col,
       );
     },
     addTableRow: (state, action) => {
       const report = lodash.find(
         state.reports,
-        item => item.id === state.activeReport
+        (item) => item.id === state.activeReport,
       );
 
       const reportNode = lodash.find(
         report.structure,
-        item => item.id === action.payload.id
+        (item) => item.id === action.payload.id,
       );
 
       reportNode.rows = [...reportNode.rows, action.payload.row];
@@ -612,12 +610,12 @@ const reportDesigner = createSlice({
     addTableValue: (state, action) => {
       const report = lodash.find(
         state.reports,
-        item => item.id === state.activeReport
+        (item) => item.id === state.activeReport,
       );
 
       const reportNode = lodash.find(
         report.structure,
-        item => item.id === action.payload.id
+        (item) => item.id === action.payload.id,
       );
 
       reportNode.values = [...reportNode.values, action.payload.value];
@@ -625,12 +623,12 @@ const reportDesigner = createSlice({
     addSortingField: (state, action) => {
       const report = lodash.find(
         state.reports,
-        item => item.id === state.activeReport
+        (item) => item.id === state.activeReport,
       );
 
       const reportNode = lodash.find(
         report.structure,
-        item => item.id === action.payload.id
+        (item) => item.id === action.payload.id,
       );
 
       reportNode.sorting = action.payload.sorting;
@@ -638,12 +636,12 @@ const reportDesigner = createSlice({
     setTableVariant: (state, action) => {
       const report = lodash.find(
         state.reports,
-        item => item.id === state.activeReport
+        (item) => item.id === state.activeReport,
       );
       const activeNode = state.activeNodes[0];
       const currentNode = find(
         report.structure?.pgBody?.content?.children,
-        item => item.id === activeNode?.id
+        (item) => item.id === activeNode?.id,
       );
       currentNode.type = action.payload;
       // state.activeNodes.forEach(node => {
@@ -654,8 +652,8 @@ const reportDesigner = createSlice({
 
       //   reportNode.variant = action.payload;
       // });
-    }
-  }
+    },
+  },
 });
 
 const reportDesignerUI = createSlice({
@@ -667,13 +665,11 @@ const reportDesignerUI = createSlice({
       showFormulaEditor: false,
       creatingElement: null,
       selectedColumns: null,
-      tableType: 'cross',
-      graphType: 'graph1',
       zoom: 1,
       formattingElement: null,
       test: 'test',
-      menuItem: 'objects'
-    }
+      menuItem: 'objects',
+    },
   },
   reducers: {
     setFormattingElementFormula: (state, action) => {
@@ -693,17 +689,17 @@ const reportDesignerUI = createSlice({
       } else {
         state.ui.selectedColumns = {
           ...state.ui.selectedColumns,
-          ...action.payload
+          ...action.payload,
         };
       }
     },
     setCreatingElement: (state, action) => {
       state.ui.creatingElement = action.payload;
     },
-    setReportPanelVisible: state => {
+    setReportPanelVisible: (state) => {
       state.ui.showReportPanel = !state.ui.showReportPanel;
     },
-    setFormulaEditorVisible: state => {
+    setFormulaEditorVisible: (state) => {
       state.ui.showFormulaEditor = !state.ui.showFormulaEditor;
     },
     setConfigPanelVisible: (state, action) => {
@@ -713,39 +709,33 @@ const reportDesignerUI = createSlice({
         state.ui.showConfigPanel = !state.ui.showConfigPanel;
       }
     },
-    setTableType: (state, action) => {
-      state.ui.tableType = action.payload;
-    },
-    setGraphType: (state, action) => {
-      state.ui.graphType = action.payload;
-    },
     setZoom: (state, action) => {
       state.ui.zoom = action.payload;
     },
     setMenuItem: (state, action) => {
       state.ui.menuItem = action.payload;
-    }
-  }
+    },
+  },
 });
 
 const queryPanelData = createSlice({
   name: 'queryPanelData',
   initialState: {
     currentLayerTitle: null,
-    data: []
+    data: [],
   },
   reducers: {
     setQueryPanelData: (state, action) => {
       const { universeId, data } = action.payload;
       const { connector_id, lists, objects, prompts, properties } = data;
       const rootFolder = objects
-        .map(i =>
+        .map((i) =>
           i.objectType === 'Folder' || i.objectType === 'Dimension'
             ? { ...i, children: [] }
-            : i
+            : i,
         )
         .map((item, idx, data) => {
-          const parent = data.find(i => item.parent_id === i.id);
+          const parent = data.find((i) => item.parent_id === i.id);
           if (parent) parent.children.push(item); // TODO добавил костыль, чтобы не выкидывало. Объекты в себе могут содержать не только Folder, но и Dimension
           return item;
         })[0];
@@ -753,14 +743,14 @@ const queryPanelData = createSlice({
       let index = 1;
       let dpIdx = 0;
 
-      const getIndex = idx => {
-        if (state.data.find(i => i.queryTitle === `Новый запрос (${idx})`)) {
+      const getIndex = (idx) => {
+        if (state.data.find((i) => i.queryTitle === `Новый запрос (${idx})`)) {
           getIndex(idx + 1);
         } else index = idx;
       };
 
-      const getDpIdx = idx => {
-        if (state.data.find(i => i.dpId === `DP${idx})`)) {
+      const getDpIdx = (idx) => {
+        if (state.data.find((i) => i.dpId === `DP${idx})`)) {
           getDpIdx(idx + 1);
         } else dpIdx = idx;
       };
@@ -777,7 +767,7 @@ const queryPanelData = createSlice({
         queryTitle: `Новый запрос (${index})`,
         dpId: `DP${index}`,
         connector_id,
-        universeId
+        universeId,
       });
     },
     setCurrentSymlayer: (state, action) => {
@@ -785,31 +775,35 @@ const queryPanelData = createSlice({
     },
     editSymlayer: (state, action) => {
       const { currentTitle, newTitle } = action.payload;
-      if (state.data.find(i => i.queryTitle === newTitle)) return;
-      const currentLayer = state.data.find(i => i.queryTitle === currentTitle);
+      if (state.data.find((i) => i.queryTitle === newTitle)) return;
+      const currentLayer = state.data.find(
+        (i) => i.queryTitle === currentTitle,
+      );
       currentLayer.queryTitle = newTitle;
     },
     copySymlayer: (state, action) => {
       const symLayerToCopy = state.data.find(
-        i => i.queryTitle === action.payload
+        (i) => i.queryTitle === action.payload,
       );
       const symLayerToCopyIdx = state.data.indexOf(symLayerToCopy);
       state.data = [
         ...state.data.slice(0, symLayerToCopyIdx + 1),
         {
           ...symLayerToCopy,
-          queryTitle: `${symLayerToCopy.queryTitle} (копия)`
+          queryTitle: `${symLayerToCopy.queryTitle} (копия)`,
         },
-        ...state.data.slice(symLayerToCopyIdx + 1)
+        ...state.data.slice(symLayerToCopyIdx + 1),
       ];
     },
     deleteSymlayer: (state, action) => {
-      state.data = state.data.filter(i => i.queryTitle !== action.payload);
+      state.data = state.data.filter((i) => i.queryTitle !== action.payload);
     },
     setQueryPanelFilters: (state, action) => {
       const { objects, filters } = action.payload;
       const currentTitle = state.currentLayerTitle;
-      const currentLayer = state.data.find(i => i.queryTitle === currentTitle);
+      const currentLayer = state.data.find(
+        (i) => i.queryTitle === currentTitle,
+      );
       const currentLayerIdx = state.data.indexOf(currentLayer);
       const stateCopy = state.data.concat();
       stateCopy[currentLayerIdx] = { ...currentLayer, objects, filters };
@@ -817,20 +811,20 @@ const queryPanelData = createSlice({
     },
     setQueryData: (state, action) => {
       const { currentLayerTitle, data } = state;
-      const currentLayer = data.find(i => i.queryTitle === currentLayerTitle);
+      const currentLayer = data.find((i) => i.queryTitle === currentLayerTitle);
       currentLayer.queryData = action.payload;
     },
     setSymanticLayerQueryResult: (state, action) => {
       const { currentLayerTitle, data } = state;
-      const currentLayer = data.find(i => i.queryTitle === currentLayerTitle);
+      const currentLayer = data.find((i) => i.queryTitle === currentLayerTitle);
       currentLayer.symanticLayerQueryResult = action.payload;
     },
     setQueryResult: (state, action) => {
       const { currentLayerTitle, data } = state;
-      const currentLayer = data.find(i => i.queryTitle === currentLayerTitle);
+      const currentLayer = data.find((i) => i.queryTitle === currentLayerTitle);
       currentLayer.queryResult = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export const {
@@ -849,7 +843,7 @@ export const {
   addSortingField,
   setTableVariant,
   addTableRow,
-  addTableValue
+  addTableValue,
 } = reportDesigner.actions;
 
 export const {
@@ -860,11 +854,9 @@ export const {
   setFormulaEditorVisible,
   setConfigPanelVisible,
   setSelectedColumns,
-  setTableType,
-  setGraphType,
   setZoom,
   setMenuItem,
-  setMenu
+  setMenu,
 } = reportDesignerUI.actions;
 
 export const {
@@ -876,11 +868,11 @@ export const {
   setQueryPanelFilters,
   setQueryData,
   setSymanticLayerQueryResult,
-  setQueryResult
+  setQueryResult,
 } = queryPanelData.actions;
 
 export default combineReducers({
   reportsUi: reportDesignerUI.reducer,
   reportsData: undoable(reportDesigner.reducer),
-  queryPanelData: queryPanelData.reducer
+  queryPanelData: queryPanelData.reducer,
 });

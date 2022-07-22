@@ -1,11 +1,22 @@
+import 'react-loading-skeleton/dist/skeleton.css';
+
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/prop-types */
 import clsx from 'clsx';
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  createRef,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import ReactDOM from 'react-dom';
-import { useDispatch } from 'react-redux';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Dropdown from '../../../common/components/Dropdown';
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
@@ -84,10 +95,20 @@ const SchemaEditorBlock = ({
       (fieldRef) => fieldRef || React.createRef(),
     );
     setPortsRef([...fieldRefs.current]);
+    addRefToColumns([...fieldRefs.current]);
   };
 
   useEffect(() => {
-    fieldRefs?.current[fieldRefs.current.length - 1].current?.focus();
+    updateFieldsCount(fieldsCount);
+  }, [filterableFields.length]);
+
+  useEffect(() => {
+    if (!portsRefs?.length && filterableFields.length)
+      updateFieldsCount(filterableFields.length);
+  }, [portsRefs]);
+
+  useEffect(() => {
+    fieldRefs?.current[fieldRefs?.current.length - 1]?.current?.focus();
   }, [fieldsCount]);
 
   useEffect(() => {
@@ -103,23 +124,18 @@ const SchemaEditorBlock = ({
   }, [headerRef]);
 
   useEffect(() => {
-    const tableRefCoord = {};
-    const pageX =
-      window.pageXOffset + headerRef?.current?.getBoundingClientRect().left;
-    const pageY =
-      window.pageYOffset + headerRef?.current?.getBoundingClientRect().top;
-    tableRefCoord[tableId] = { pageX, pageY };
-    dispatch(addCoordToTables(tableRefCoord));
+    if (!tableItem?.position?.deltaPosition) {
+      const tableRefCoord = {};
+      const pageX =
+        window.pageXOffset + headerRef?.current?.getBoundingClientRect().left;
+      const pageY =
+        window.pageYOffset + headerRef?.current?.getBoundingClientRect().top;
+      tableRefCoord[tableId] = { pageX, pageY };
+      dispatch(addCoordToTables(tableRefCoord));
+    }
   }, [headerRef, tableRef]);
 
   useEffect(() => {
-    if (portsRefs?.length) {
-      addRefToColumns(portsRefs);
-    }
-  }, [fieldsCount]);
-
-  useEffect(() => {
-    updateFieldsCount(selectedTableColumns.length);
     setTimeout(() => {
       setFilterableFields(selectedTableColumns);
     }, 50);
@@ -177,31 +193,6 @@ const SchemaEditorBlock = ({
       ))}
     </div>
   );
-
-  // const refs = useRef({});
-
-  // useEffect(() => {
-  //   if (!isShadow) {
-  //     const ports = columns.map(item => ({
-  //       key: item.field,
-  //       ref: React.createRef()
-  //     }));
-
-  //     const value = {
-  //       tableRef: React.createRef(),
-  //       headerRef: React.createRef(),
-  //       ports
-  //     };
-  //     setTablesRefs({ tableId, value });
-  //     refs.current = value;
-  //     return;
-  //   }
-  //   refs.current = {
-  //     tableRef: React.createRef(),
-  //     headerRef: React.createRef(),
-  //     ports: []
-  //   };
-  // }, [refs]);
 
   return (
     // <div className={highlightOutline} ref={refs.current.tableRef}>
@@ -263,51 +254,37 @@ const SchemaEditorBlock = ({
       )}
       {isOpened && (
         <div className={contentClasses} onScroll={forceUpdate}>
-          <ul className={styles.list}>
-            <DropdownItem
-              item=""
-              onClick={handleClick}
-              className={styles.search}
-            />
-
-            {/* {filterableFields?.map((item, index) => {
-              const port = refs?.current?.ports
-                ? refs.current.ports.find(column => column.key === item.field)
-                : {};
-
-              return (
+          {filterableFields.length === 0 ? (
+            <SkeletonTheme baseColor="#2f465e" highlightColor="#FFFFFF">
+              <p className={styles.skeletonLine}>
+                <Skeleton count={5} />
+              </p>
+            </SkeletonTheme>
+          ) : (
+            <ul className={styles.list}>
+              <DropdownItem
+                item=""
+                onClick={handleClick}
+                className={styles.search}
+              />
+              {filterableFields.map((item, index) => (
                 <li
-                  ref={port.ref}
                   className={
                     item.colored && isHighlight
                       ? styles.itemHighlited
                       : styles.item
                   }
-                  key={item.field + item.type + index}
+                  key={item.field + item.type}
                   draggable
-                  onDragStart={e => onFieldDragStart(e, item.field)}
+                  onDragStart={(e) => onFieldDragStart(e, item, tableItem)}
+                  onDrop={(e) => onFieldDragOver(e, item, tableItem)}
+                  ref={fieldRefs.current[index]}
                 >
                   {item.field}
                 </li>
-              );
-            })} */}
-            {filterableFields.map((item, index) => (
-              <li
-                className={
-                  item.colored && isHighlight
-                    ? styles.itemHighlited
-                    : styles.item
-                }
-                key={item.field + item.type}
-                draggable
-                onDragStart={(e) => onFieldDragStart(e, item, tableItem)}
-                onDrop={(e) => onFieldDragOver(e, item, tableItem)}
-                ref={fieldRefs.current[index]}
-              >
-                {item.field}
-              </li>
-            ))}
-          </ul>
+              ))}
+            </ul>
+          )}
         </div>
       )}
       {isCopy && (

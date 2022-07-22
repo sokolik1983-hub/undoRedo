@@ -22,6 +22,7 @@ const data = createSlice({
     reposFolderId: 0,
     reposChildren: [],
     connectorData: {},
+    connectorTestReady: false,
     selectedConnectorId: null,
     sampleUnvObject: {},
     isUniverseCreated: false,
@@ -87,6 +88,9 @@ const data = createSlice({
     setConnectorData: (state, action) => {
       state.connectorData = action.payload;
     },
+    setConnectorReadyForTest: (state, action) => {
+      state.connectorTestReady = action.payload;
+    },
     setSampleUniverseObject: (state, action) => {
       state.sampleUnvObject = action.payload;
     },
@@ -133,6 +137,7 @@ export const {
   setReposFolderId,
   setReposChildren,
   setConnectorData,
+  setConnectorReadyForTest,
   setSampleUniverseObject,
   setUniverseIsCreated,
   setConnectorId,

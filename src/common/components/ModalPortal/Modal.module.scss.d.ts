@@ -5,6 +5,7 @@ declare namespace ModalModuleScssNamespace {
         modal: string;
         modalContent: string;
         opacityBox: string;
+        active: string;
     }
 }
 

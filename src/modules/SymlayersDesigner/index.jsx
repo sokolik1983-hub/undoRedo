@@ -30,35 +30,14 @@ function SymlayersDesigner() {
 
   useEffect(() => {
     dispatch(setCurrentPage(PAGE.SEMANTIC));
-    // dispatch(getConnectorObjectsList({ connect_id: 4 }));
-
-    // dispatch(getObjectsList());
-
-    // getObjectsListLocal().then(response => {
-    //   const { data } = response.default;
-
-    //   setObjectsLinks(data.links || []);
-    //   setChecked(data.tables || []);
-    //   setTablesPosition(
-    //     data.tables.reduce(
-    //       (result, table) => ({
-    //         ...result,
-    //         [getTableIdFromParams({ ...table, connect_id: 4 })]: {
-    //           deltaPosition: table.position
-    //         }
-    //       }),
-    //       {}
-    //     ) || {}
-    //   );
-    // });
   }, []);
 
   const isObjectsConnectionsModalOpened = useSelector(
     (state) => state.app.ui.modalVisible === OBJECTS_CONNECTIONS_MODAL,
   );
 
-  const isTablePreviewModalOpened = useSelector(
-    (state) => state.app.ui.modalVisible === TABLE_PREVIEW_MODAL,
+  const selectedTablesData = useSelector(
+    (state) => state.app.schemaDesigner.selectedTablesData,
   );
 
   const selectedTablesArray = useSelector(
@@ -87,7 +66,7 @@ function SymlayersDesigner() {
     const { schema, objectName } = selected;
     dispatch(getObjectFields({ id: connectorId, schema, objectName }));
     const table_id =
-      selectedTablesArray.length > 0 ? selectedTablesArray.length - 1 : 0;
+      selectedTablesData.length > 0 ? selectedTablesArray.length : 0;
     if (event) {
       setChecked([...checked, { table_id, ...selected }]);
     } else {
@@ -189,7 +168,7 @@ function SymlayersDesigner() {
           visible={isObjectsConnectionsModalOpened && true}
         />
       )}
-      {isTablePreviewModalOpened && <TablePreview />}
+      {/* {isTablePreviewModalOpened && <TablePreview />} */}
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import lodash from 'lodash';
+/* eslint-disable no-unused-vars */
 import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import List from '../../../common/components/List/List';
@@ -12,13 +14,16 @@ import Preloader from '../../../common/components/Preloader/Preloader';
 import Tooltip from '../../../common/components/Tooltip';
 import {
   BREADCRUMBS_ROOT,
+  REDIRECT_LINKS,
   TABLE_CELL_EMPTY_VALUE,
 } from '../../../common/constants/common';
-import { setObjectToFavorites } from '../../../data/actions/app';
+import { setObjectFavoriteStatus } from '../../../data/actions/app';
 import {
   getUniversesFolderChildren,
   getUniversesFolderId,
+  openUniverse,
 } from '../../../data/actions/universes';
+import { setLoadingUniverse } from '../../../data/reducers/schemaDesigner';
 import FolderIcon from '../../../layout/assets/folderIcon.svg';
 import UniverseIcon from '../../../layout/assets/icons/universeIcon.svg';
 import {
@@ -31,14 +36,25 @@ import styles from './SymlayersList.module.scss';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const universes = useSelector((state) => state.app.data.universes);
   const unvRootFolderId = useSelector(
     (state) => state.app.data.universesFolderId,
+  );
+  const isUnvLoading = useSelector(
+    (state) => state.app.schemaDesigner.isUnvLoading,
   );
 
   useEffect(() => {
     dispatch(getUniversesFolderId({ folderType: 'USER_UNV' }));
   }, []);
+
+  useEffect(() => {
+    if (isUnvLoading) {
+      navigate(REDIRECT_LINKS.SYMLAEYERS);
+      dispatch(setLoadingUniverse(false));
+    }
+  }, [isUnvLoading]);
 
   const [foldersIdHistory, setFoldersIdHistory] = useState([]);
   const [foldersNameHistory, setFoldersNameHistory] = useState([]);
@@ -100,6 +116,10 @@ const ConnectorsList = () => {
     setCurrentFolderIndex((prev) => prev + 1);
   };
 
+  const onSymLayerDoubleClick = (item) => {
+    dispatch(openUniverse({ id: item.id, getData: 1 }, item.name));
+  };
+
   const getBreadcrumbs = () => {
     return foldersNameHistory
       .map((i) => i)
@@ -129,27 +149,11 @@ const ConnectorsList = () => {
     setEditListItemId(id);
   };
 
-  /**
-   * Хэндлер для добавления слоя в Избранное.
-   *
-   * @prop id слоя которого хотим добавить в Избранное.
-   */
-  const handleAddToFavorites = (id) => {
-    dispatch(setObjectToFavorites({ user_id: 10001, id, kind: 'REP' }));
+  const handleSetFavoritesStatus = (id, kind, isExclude) => {
+    dispatch(setObjectFavoriteStatus({ id, kind, isExclude }));
   };
 
-  /**
-   * Хэндлер для удаления слоя из Избранного.
-   *
-   * @prop id слоя которого хотим удалить из Избранных.
-   */
-  const handleRemoveFromFavorites = (id) => {
-    dispatch(
-      setObjectToFavorites({ user_id: 10001, id, kind: 'REP', isExclude: 1 }),
-    );
-  };
-
-  const handleItemClick = (id, action) => {
+  const handleItemClick = (id, action, kind) => {
     switch (action) {
       case 'edit':
         handleEditClick(id);
@@ -165,17 +169,17 @@ const ConnectorsList = () => {
       case 'create universe':
         break;
       case 'addToFavorites':
-        handleAddToFavorites(id);
+        handleSetFavoritesStatus(id, kind);
         break;
       case 'removeFromFavorites':
-        handleRemoveFromFavorites(id);
+        handleSetFavoritesStatus(id, kind, 1);
         break;
       default:
         console.log(action);
     }
   };
 
-  const getUniverseDropdownItems = (id) => (
+  const getUniverseDropdownItems = (id, kind) => (
     <div className={styles.itemsWrapper}>
       {FOLDER_ITEM_DROPDOWN_ACTIONS.map((item) => (
         <Tooltip
@@ -185,7 +189,7 @@ const ConnectorsList = () => {
         >
           <DropdownItem
             className={styles.dropdownItem}
-            onClick={(action) => handleItemClick(id, action)}
+            onClick={(action) => handleItemClick(id, action, kind)}
             item={item}
           />
         </Tooltip>
@@ -220,7 +224,7 @@ const ConnectorsList = () => {
 
       const menu = isFolder
         ? getFolderDropdownItems(`folder_${item.id}`)
-        : getUniverseDropdownItems(item.id);
+        : getUniverseDropdownItems(item.id, item.kind);
 
       return (
         <Fragment key={isFolder ? `folder_${item.id}` : item.id}>
@@ -236,7 +240,11 @@ const ConnectorsList = () => {
             <ListItem
               className={styles.folderItemsColumnView}
               name={isFolder ? item.name : item.name}
-              onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
+              onDoubleClick={
+                isFolder
+                  ? () => onFolderDoubleClick(item)
+                  : () => onSymLayerDoubleClick(item)
+              }
               icon={isFolder ? <FolderIcon /> : <UniverseIcon />}
               menu={menu}
             />
@@ -262,7 +270,11 @@ const ConnectorsList = () => {
       return (
         <ListTableRow
           key={currentId}
-          onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
+          onDoubleClick={
+            isFolder
+              ? () => onFolderDoubleClick(item)
+              : () => onSymLayerDoubleClick(item)
+          }
           isEditMode={editListItemId === currentId}
           onEditEnd={() => setEditListItemId(null)}
           icon={isFolder ? <FolderIcon /> : <UniverseIcon />}

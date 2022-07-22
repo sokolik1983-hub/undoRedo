@@ -19,7 +19,7 @@ import {
 } from '../../common/constants/common';
 import { PAGE } from '../../common/constants/pages';
 // import { openReport } from '../../data/actions/newReportDesigner';
-import { setObjectToFavorites } from '../../data/actions/app';
+import { setObjectFavoriteStatus } from '../../data/actions/app';
 import { deleteReport } from '../../data/actions/newReportDesigner';
 import {
   getReportsFolderChildren,
@@ -152,22 +152,13 @@ const Reports = () => {
     );
   };
 
-  const handleAddToFavorites = (id) => {
-    dispatch(setObjectToFavorites({ user_id: 10001, id, kind: 'REP' }));
+  const handleSetFavoritesStatus = (id, kind, isExclude) => {
+    dispatch(setObjectFavoriteStatus({ id, kind, isExclude }));
+    console.log('status');
   };
 
-  const handleRemoveFromFavorites = (id) => {
-    dispatch(
-      setObjectToFavorites({
-        user_id: 10001,
-        id,
-        kind: 'REP',
-        isExclude: 1,
-      }),
-    );
-  };
-
-  const handleItemClick = (id, action) => {
+  const handleItemClick = (id, kind, action) => {
+    console.log(id, kind, action);
     switch (action) {
       case 'open':
         handleOpenClick(id);
@@ -179,17 +170,17 @@ const Reports = () => {
         handleDeleteClick(id);
         break;
       case 'addToFavorites':
-        handleAddToFavorites(id);
+        handleSetFavoritesStatus(id, kind);
         break;
       case 'removeFromFavorites':
-        handleRemoveFromFavorites(id);
+        handleSetFavoritesStatus(id, kind, 1);
         break;
       default:
         console.log(action);
     }
   };
 
-  const getUniverseDropdownItems = (id) => (
+  const getUniverseDropdownItems = (id, kind) => (
     <div className={styles.itemsWrapper}>
       {FOLDER_ITEM_DROPDOWN_ACTIONS_REPORTS.map((item) => (
         <Tooltip
@@ -199,7 +190,7 @@ const Reports = () => {
         >
           <DropdownItem
             className={styles.dropdownItem}
-            onClick={(action) => handleItemClick(id, action)}
+            onClick={(action) => handleItemClick(id, kind, action)}
             item={item}
           />
         </Tooltip>
@@ -234,7 +225,7 @@ const Reports = () => {
 
       const menu = isFolder
         ? getFolderDropdownItems(`folder_${item.id}`)
-        : getUniverseDropdownItems(item.id);
+        : getUniverseDropdownItems(item.id, item.kind);
 
       return (
         <Fragment key={isFolder ? `folder_${item.id}` : item.id}>
@@ -315,7 +306,7 @@ const Reports = () => {
           <Preloader />
         )}
         <Link to="/report">
-          <FloatingButton icon={<CreateConnector />} text="Создать отчет" />
+          <FloatingButton text="Создать отчет" />
         </Link>
       </div>
     </div>

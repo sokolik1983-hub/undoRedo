@@ -9,17 +9,6 @@
 .navigation {
   display: flex;
   justify-content: flex-end;
-
-  &__item {
-    padding: 5px;
-    cursor: pointer;
-    color: #000;
-    opacity: 0.3;
-
-    &_active {
-      opacity: 1;
-    }
-  }
 }
 
 .objectItem {
@@ -38,7 +27,53 @@
 
   .closeIcon {
     cursor: pointer;
-    width: 10px;
+  }
+}
+
+.dropBlock {
+  min-width: 100px;
+  min-height: 50px;
+}
+
+.iconsContainer {
+  background: #7296c4;
+  padding: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  border: 1px dashed white;
+  border-radius: 5px;
+}
+
+.chartObjectItem {
+  @extend .iconsContainer;
+
+  cursor: initial;
+  justify-content: initial;
+  min-height: 20px;
+  width: 100%;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #FFFFFF;
+  margin-bottom: 15px;
+}
+
+.droppedObject {
+  height: 36px;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 6px 5px 5px 5px;
+  display: flex;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #FFFFFF;
+  margin-bottom: 10px;
+  align-items: center;
+  justify-content: space-between;
+
+  &:hover {
+    transform: scale(1.01);
   }
 }
 

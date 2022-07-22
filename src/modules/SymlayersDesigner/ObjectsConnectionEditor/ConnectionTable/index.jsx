@@ -41,7 +41,7 @@ const ConnectionTable = ({
   // возвращает выбранную таблицу
   const getTableData = (value) => {
     const table = tables.filter((item) => {
-      return item.name.toString() === value;
+      return item.name.toString() === value || item.name === value?.text;
     });
     setSelectedTable(table[0]);
   };
@@ -82,7 +82,7 @@ const ConnectionTable = ({
         defaultValue={
           props.currentLeftTable || props.currentRightTable || defaultValue
         }
-        onSelectItem={(e) => getTableData(e)}
+        onSelectItem={(e) => getTableData(enabledTables[e])}
       />
       <span className={styles.columnTitle}>Столбцы</span>
       <select
@@ -95,12 +95,12 @@ const ConnectionTable = ({
             let res = null;
             if (props.currentLeftColumns) {
               res = props.currentLeftColumns.filter(
-                (col) => col === item.field,
+                (col) => col === item.field || col.field === item.field,
               );
             }
             if (props.currentRightColumns) {
               res = props.currentRightColumns.filter(
-                (col) => col === item.field,
+                (col) => col === item.field || col.field === item.field,
               );
             }
             if (res && res.length) {

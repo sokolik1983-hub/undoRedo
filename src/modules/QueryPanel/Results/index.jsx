@@ -21,19 +21,17 @@ const Results = ({
 }) => {
   const dispatch = useDispatch();
   const [errorText, setError] = useState(EMPTY_STRING);
-  const { currentLayer, connectorId, queryData, queryResult } = useSelector(
-    (state) => {
-      const { currentLayerTitle, data } =
-        state.app?.reportDesigner?.queryPanelData;
-      const currentLayer = data.find((i) => i.queryTitle === currentLayerTitle);
-      return {
-        currentLayer,
-        connectorId: currentLayer?.connector_id || null,
-        queryData: currentLayer?.queryData || null,
-        queryResult: currentLayer?.queryResult || null,
-      };
-    },
-  );
+
+  const symLayerData = useSelector((state) => state.app?.data?.symLayersData);
+  const queryData = useSelector((state) => state.app?.data?.queryData);
+  const connectorId = useSelector((state) => {
+    const { currentLayerTitle, data } =
+      state.app?.data?.queryPanelSymlayersData;
+    const currentLayer = data.find((i) => i.queryTitle === currentLayerTitle);
+    return currentLayer?.connector_id || null;
+  });
+
+  const queryResult = useSelector((state) => state.app?.data?.queryResult);
 
   const { objectsDesk, filtersDesk } = useDragNDrop();
 
@@ -45,37 +43,7 @@ const Results = ({
 
   useEffect(() => {
     onQueryTextCreate(queryData?.dpSql);
-    // TODO: сделать проверку передаваемых параметров в semanticLayerDataQuery
-    // if (queryData) {
-    //   dispatch(
-    //     semanticLayerDataQuery({
-    //       connect_id: currentLayer.data.connector_id,
-    //       sql: queryData.data,
-    //       max_rows: 25,
-    //       fields: objectsDesk
-    //     })
-    //   );
-    // }
   }, [queryData]);
-
-  // useEffect(() => {
-  //   if (connectorId) {
-  //     dispatch(
-  //       getResultFromQuery({
-  //         // TODO: id заменить на connectorId
-  //         id: 'TA',
-  //         dataType: 'Query',
-  //         // catalog,
-  //         // schema,
-  //         // objectName,: 'Query'
-  //         // fieldName,
-  //         // query,
-  //         // isDistinct,
-  //         maxRows: 100
-  //       })
-  //     );
-  //   }
-  // }, [connectorId]);
 
   const handleExecute = () => {
     const resultConditions = filtersDesk ? getCondition([filtersDesk]) : {};
@@ -86,7 +54,7 @@ const Results = ({
       setError(EMPTY_STRING);
       dispatch(
         createQuery({
-          symlayer_id: currentLayer.symlayer_id,
+          symlayer_id: symLayerData.symlayer_id,
           data: objectsDesk.map(
             (item) => `${item.parent_folder}.${item.field}`,
           ),

@@ -6,7 +6,6 @@
   right: 0;
   width: 100%;
   z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.25);
   animation-name: appear;
   animation-duration: 300ms;
   overflow: auto;
@@ -24,11 +23,7 @@
 .modalDialog {
   width: 100%;
   max-width: 426px;
-  background: linear-gradient(
-    152.97deg,
-    rgba(0, 55, 137, 0.75) 0%,
-    rgba(0, 55, 137, 0.375) 100%
-  );
+  background: linear-gradient(152.97deg, rgba(0, 55, 137, 0.75) 0%, rgba(0, 55, 137, 0.375) 100%);
   backdrop-filter: blur(10px);
   border-radius: 10px;
   position: relative;
@@ -36,7 +31,7 @@
   display: flex;
   flex-direction: column;
   overflow: auto;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 7px 17px rgba(34, 82, 102, 0.75);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: slide-in;
@@ -58,7 +53,7 @@
 }
 .modalHeader {
   justify-content: space-between;
-  color: #dbdbdb;
+  color: #FFFFFF;
 }
 .modalFooter {
   justify-content: flex-end;

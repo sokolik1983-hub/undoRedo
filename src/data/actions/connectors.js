@@ -1,6 +1,7 @@
 import { request } from '../helpers';
 import {
   setConnectorData,
+  setConnectorReadyForTest,
   setConnectorSource,
   setConnectors,
   setConnectorsFolderId,
@@ -40,6 +41,49 @@ export const getConnectorFolderChildren = (queryParams) => {
   };
 };
 
+export const getConnectorForTest = (queryParams) => {
+  return async (dispatch) => {
+    try {
+      const response = await request({
+        code: 'CN.OPEN',
+        params: queryParams,
+        dispatch,
+      });
+      if (response?.result) {
+        dispatch(setConnectorData(response));
+        dispatch(setConnectorReadyForTest(true));
+      }
+    } catch (err) {
+      dispatch(
+        notificationShown({ message: err.message, messageType: 'error' }),
+      );
+    }
+  };
+};
+
+export const setConnectorReady = (params) => {
+  return (dispatch) => {
+    dispatch(setConnectorReadyForTest(params));
+  };
+};
+
+export const saveConnector = (queryParams) => {
+  return async (dispatch) => {
+    try {
+      const response = await request({
+        code: 'CN.SAVE',
+        params: queryParams,
+        dispatch,
+      });
+      dispatch(setCreateConnectorResult(response));
+    } catch (err) {
+      dispatch(
+        notificationShown({ message: err.message, messageType: 'error' }),
+      );
+    }
+  };
+};
+
 export const getConnectorsFolderId = (queryParams) => {
   return async (dispatch) => {
     const response = await request({
@@ -64,17 +108,6 @@ export const getConnector = (queryParams) => {
       dispatch(setConnectorData(response));
       dispatch(showEditConnectorModal());
     }
-  };
-};
-
-export const saveConnector = (queryParams) => {
-  return async (dispatch) => {
-    const response = await request({
-      code: 'CN.SAVE',
-      params: queryParams,
-      dispatch,
-    });
-    dispatch(setCreateConnectorResult(response));
   };
 };
 

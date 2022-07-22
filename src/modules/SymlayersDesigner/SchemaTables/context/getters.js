@@ -5,6 +5,7 @@ export default {
     return state.tables[tableId];
   },
   getTablePosition: ({ state }, tableId) => {
+    // console.log(state)
     return state.tablePostition[tableId];
   },
   getRefs: ({ state }, tableId) => {
@@ -23,7 +24,7 @@ export default {
       position: getter('getTablePosition', tableId),
       refs: getter('getRefs', tableId),
       expanded: getter('getExpanded', tableId),
-      filter: getter('getFilter', tableId)
+      filter: getter('getFilter', tableId),
     };
 
     [
@@ -32,20 +33,20 @@ export default {
       'onSelectField',
       'checkedFields',
       'onChangePosition',
-      'isDataLayer'
-    ].forEach(key => {
+      'isDataLayer',
+    ].forEach((key) => {
       props[key] = state[key];
     });
 
     return props;
   },
 
-  posToCoord: ({state},  event) => {
+  posToCoord: ({ state }, event) => {
     const container = state.workAreaRef.current;
 
     const presub = (container && container.getBoundingClientRect()) || {
       x: 0,
-      y: 0
+      y: 0,
     };
 
     const res = Vector.fromNativeEvent(event)
@@ -60,17 +61,16 @@ export default {
   },
 
   addLink: ({ state }, meta) => {
-    if(!state.linkDescr)
-      return
+    if (!state.linkDescr) return;
     const lnk = {
       leftField: { table: meta.table, selected: meta.field },
       rightField: {
         table: state.linkDescr.table,
-        selected: state.linkDescr.field
-      }
+        selected: state.linkDescr.field,
+      },
     };
 
     state.onShowLinkEdit(true);
     state.onNewLinkItem(lnk);
-  }
+  },
 };
