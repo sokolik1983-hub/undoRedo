@@ -13,6 +13,7 @@ import { BUTTON, TOAST_TYPE } from '../../../common/constants/common';
 import { showToast } from '../../../data/actions/app';
 import {
   createConnector,
+  getConnectorFolderChildren,
   saveConnector,
   testConnector,
 } from '../../../data/actions/connectors';
@@ -22,6 +23,11 @@ import styles from './Connectors.module.scss';
 
 const CreateConnectorModal = ({ isVisible, onClose }) => {
   const dispatch = useDispatch();
+
+  //  NB Надо переписать на получение текущей родительской папки а не ROOT
+  const connectorRootFolderId = useSelector(
+    (state) => state.app.data.connectorsFolderId,
+  );
 
   // Получаем из словаря типы, источники, типы соединения
   const types = useSelector((state) => state.app.data.dictionaries.source_type);
@@ -86,9 +92,6 @@ const CreateConnectorModal = ({ isVisible, onClose }) => {
     (state) => state.app.data.createConnectorResult,
   );
 
-  // Получаем id текущей папки для добавдения его в parent_id  у нового коннектора
-  const folderId = useSelector((state) => state.app.data.connectorsFolderId);
-
   const [connectName, setConnectName] = useState(''); // имя коннектора
   const [connectType, setConnectType] = useState(null); // тип коннектора(База Данных, Тестовый файл)
   const [connectSource, setConnectSource] = useState(null); // источник соединения (csv, json, oracle, postgres)
@@ -149,7 +152,7 @@ const CreateConnectorModal = ({ isVisible, onClose }) => {
       setshowTestOk(false);
       setshowTestFailed(false);
       setIsActive(!isActive);
-      newConnector.header.parent_id = folderId;
+      newConnector.header.parent_id = connectorRootFolderId;
       setInputValues();
       setHeaderAndDescription();
       dispatch(testConnector({ data: newConnector.data }));
@@ -188,10 +191,11 @@ const CreateConnectorModal = ({ isVisible, onClose }) => {
   const addConnector = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    newConnector.header.parent_id = folderId;
+    newConnector.header.parent_id = connectorRootFolderId;
     setInputValues();
     setHeaderAndDescription();
     dispatch(saveConnector(newConnector));
+    // dispatch(getConnectorFolderChildren ({id :10009}))
     closeConnectorModalHandler();
   };
 

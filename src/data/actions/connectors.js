@@ -76,6 +76,7 @@ export const saveConnector = (queryParams) => {
       dispatch,
     });
     dispatch(setCreateConnectorResult(response));
+    dispatch(getConnectorFolderChildren({ id: '10009' })); // передать текущую папку
   };
 };
 
@@ -88,6 +89,7 @@ export const editConnector = (queryParams) => {
         dispatch,
       });
       dispatch(setEditConnectorResult(response));
+      dispatch(getConnectorFolderChildren({ id: '10009' })); // передать текущую папку
     } catch (err) {
       dispatch(
         notificationShown({ message: err.message, messageType: 'error' }),
