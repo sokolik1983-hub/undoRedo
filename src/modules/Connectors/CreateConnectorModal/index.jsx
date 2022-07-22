@@ -24,9 +24,12 @@ import styles from './Connectors.module.scss';
 const CreateConnectorModal = ({ isVisible, onClose }) => {
   const dispatch = useDispatch();
 
-  //  NB Надо переписать на получение текущей родительской папки а не ROOT
   const connectorRootFolderId = useSelector(
     (state) => state.app.data.connectorsFolderId,
+  );
+
+  const currentFolderId = useSelector(
+    (state) => state.app.data.currentFolderId,
   );
 
   // Получаем из словаря типы, источники, типы соединения
@@ -191,11 +194,10 @@ const CreateConnectorModal = ({ isVisible, onClose }) => {
   const addConnector = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    newConnector.header.parent_id = connectorRootFolderId;
+    newConnector.header.parent_id = currentFolderId;
     setInputValues();
     setHeaderAndDescription();
-    dispatch(saveConnector(newConnector));
-    // dispatch(getConnectorFolderChildren ({id :10009}))
+    dispatch(saveConnector(newConnector, currentFolderId));
     closeConnectorModalHandler();
   };
 

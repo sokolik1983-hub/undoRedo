@@ -29,6 +29,9 @@ const EditConnectorModal = ({ visible, onClose }) => {
   const connector = useSelector((state) => state.app.data.connectorData);
   const types = useSelector((state) => state.app.data.dictionaries.source_type);
   const sources = useSelector((state) => state.app.data.dictionaries.source);
+  const currentFolderId = useSelector(
+    (state) => state.app.data.currentFolderId,
+  );
 
   const connectorData = cloneDeep(connector);
 
@@ -161,7 +164,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
     event.stopPropagation();
     setHeaderAndDescription();
     setInputValues();
-    dispatch(editConnector(connectorData));
+    dispatch(editConnector(connectorData, currentFolderId));
     handleClose();
   };
 
