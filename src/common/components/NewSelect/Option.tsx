@@ -54,7 +54,7 @@ const Option: FC<IOptionProps> = ({
     >
       <Tooltip
         placement="topLeft"
-        overlay={<div className={styles.tooltip}>{value}</div>}
+        overlay={<div>{value}</div>}
         visible={withTooltip && isTooltipVisible}
         onVisibleChange={handleVisibility}
         mouseEnterDelay={0.5}

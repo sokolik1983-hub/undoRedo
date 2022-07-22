@@ -3,11 +3,8 @@ import clsx from 'clsx';
 import React, {
   Children,
   FC,
-  ReactChild,
   ReactElement,
-  ReactFragment,
   ReactNode,
-  ReactPortal,
   createContext,
   memo,
   useContext,
@@ -18,12 +15,13 @@ import React, {
 import Arrow from '../../../layout/assets/queryPanel/arrowOk.svg';
 import { EMPTY_STRING } from '../../constants/common';
 import Dropdown from '../Dropdown';
+import { IOptionProps } from './Option';
 import styles from './Select.module.scss';
 
 interface ISelectProps {
   children?: ReactElement;
   className?: string;
-  value?: string;
+  value: string;
   onChange?: (value: string) => void;
 }
 
@@ -48,19 +46,15 @@ const Select: FC<ISelectProps> = ({ children, className, value, onChange }) => {
   });
 
   const { currentValue, currentIcon, text } = params;
-  const options: any = Children.toArray(children);
-  const currentOption = options.find((i: any) => i?.props?.value === value);
+  const options = Children.map(children, (i) => i?.props) as IOptionProps[];
+  const currentOption = options.find((i) => i?.value === value);
 
   useEffect(() => {
     if (!currentValue && options.length) {
       setParams({
-        currentValue: currentOption ? value : options[0].props.value,
-        currentIcon: currentOption
-          ? currentOption.props.icon
-          : options[0].props.icon,
-        text: currentOption
-          ? currentOption.props.children
-          : options[0].props.children,
+        currentValue: currentOption ? value : options[0].value,
+        currentIcon: currentOption ? currentOption.icon : options[0].icon,
+        text: currentOption ? currentOption.children : options[0].children,
       });
     }
   }, []);
@@ -76,17 +70,12 @@ const Select: FC<ISelectProps> = ({ children, className, value, onChange }) => {
 
     if (
       (!currentValue && options.length) ||
-      (!options.find((i: any) => i.props.value === currentValue) &&
-        options.length)
+      (!options.find((i) => i.value === currentValue) && options.length)
     ) {
       setParams({
-        currentValue: currentOption ? value : options[0].props.value,
-        currentIcon: currentOption
-          ? currentOption.props.icon
-          : options[0].props.icon,
-        text: currentOption
-          ? currentOption.props.children
-          : options[0].props.children,
+        currentValue: currentOption ? value : options[0].value,
+        currentIcon: currentOption ? currentOption.icon : options[0].icon,
+        text: currentOption ? currentOption.children : options[0].children,
       });
     }
   }, [children]);

@@ -7,7 +7,6 @@ declare namespace OptionModuleScssNamespace {
     secondaryText: string;
     text: string;
     textContainer: string;
-    tooltip: string;
   }
 }
 
