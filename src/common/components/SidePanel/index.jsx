@@ -17,7 +17,7 @@ import {
   setTableStyle,
   setTableVariant,
 } from '../../../data/reducers/new_reportDesigner';
-import CloseIcon from '../../../layout/assets/close.svg';
+import CloseIcon from '../../../layout/assets/closeWhite.svg';
 import { getCurrentReport } from '../../../modules/ReportDesigner/helpers';
 import { BUTTON, SIDE_PANEL_TYPES } from '../../constants/common';
 import { TABLE_ICONS } from '../../constants/reportDesigner/reportDesignerIcons';
@@ -260,7 +260,6 @@ export default function SidePanel({ navType }) {
                         >
                           {object?.expression?.formula}
                           <CloseIcon
-                            fill="white"
                             onClick={handleRemoveColumn(object)}
                             className={styles.closeIcon}
                           />

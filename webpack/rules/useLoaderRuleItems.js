@@ -112,7 +112,7 @@ export const cssModulesSupportLoaderItems = [
       esModule: false,
       modules: {
         exportLocalsConvention: 'camelCaseOnly',
-        localIdentName: '[local]__[contenthash:base64:5]',
+        localIdentName: '[local]~~[contenthash:base64:5]',
       },
     },
   },

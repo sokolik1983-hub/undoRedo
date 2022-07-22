@@ -45,7 +45,7 @@
 }
 
 .content {
-  background: #2f465e;
+  background: rgba(0,0,0, 0.5);
   margin-bottom: 13px;
   overflow: hidden;
   overflow-y: auto;
@@ -69,6 +69,7 @@
   margin: 0 -16px;
   padding: 3px 16px;
   cursor: pointer;
+  border-bottom: 1px solid rgba(255,255,255, 25%);
 
   &:hover {
     transition: 0.3s ease-in-out;
@@ -197,4 +198,8 @@
 
 .create {
   margin-right: 15px;
+}
+
+.skeletonLine {
+  padding: 0 16px;
 }

@@ -1,8 +1,9 @@
 import 'rc-tooltip/assets/bootstrap.css';
 
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import RcTooltip from 'rc-tooltip';
+import { TooltipProps } from 'rc-tooltip/lib/Tooltip';
+import React, { FC, ReactElement } from 'react';
 
 import styles from './Tooltip.module.scss';
 
@@ -10,7 +11,34 @@ import styles from './Tooltip.module.scss';
  * @param props - смотри документацию https://www.npmjs.com/package/rc-tooltip
  */
 
-const Tooltip = ({ children, placement, className, visible, ...props }) => {
+type Placement =
+  | 'left'
+  | 'right'
+  | 'top'
+  | 'bottom'
+  | 'topLeft'
+  | 'leftTop'
+  | 'topRight'
+  | 'rightTop'
+  | 'bottomLeft'
+  | 'leftBottom'
+  | 'bottomRight'
+  | 'rightBottom';
+
+interface ITooltipProps extends TooltipProps {
+  children: ReactElement;
+  className?: string;
+  placement: Placement;
+  visible?: boolean;
+}
+
+const Tooltip: FC<ITooltipProps> = ({
+  children,
+  placement = 'bottomLeft',
+  className,
+  visible,
+  ...props
+}) => {
   const overlayClassName = clsx(styles.overlay, className);
 
   return (
@@ -28,27 +56,3 @@ const Tooltip = ({ children, placement, className, visible, ...props }) => {
 };
 
 export default Tooltip;
-
-Tooltip.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node.isRequired,
-  placement: PropTypes.oneOf([
-    'left',
-    'right',
-    'top',
-    'bottom',
-    'topLeft',
-    'leftTop',
-    'topRight',
-    'rightTop',
-    'bottomLeft',
-    'leftBottom',
-    'bottomRight',
-    'rightBottom',
-  ]),
-  visible: PropTypes.bool,
-};
-
-Tooltip.defaultProps = {
-  placement: 'bottomLeft',
-};

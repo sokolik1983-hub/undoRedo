@@ -22,8 +22,6 @@ declare namespace SidePanelModuleScssNamespace {
     indents: string;
     label: string;
     navigation: string;
-    navigationItem: string;
-    navigationItemActive: string;
     objectItem: string;
     rgba: string;
     root: string;

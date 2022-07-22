@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+
 import Button from '../../../../common/components/Button';
 import Modal from '../../../../common/components/ModalPortal/Modal';
 import TextInput from '../../../../common/components/TextInput';
@@ -8,8 +9,8 @@ import { BUTTON, EMPTY_STRING } from '../../../../common/constants/common';
 import styles from './SaveReportModal.module.scss';
 
 const SaveReportModal = ({ isOpen, onSave, onCancel, currentTitle }) => {
-  const options = useSelector(state =>
-    state.app?.data?.queryPanelSymlayersData.data?.map(i => i.queryTitle)
+  const options = useSelector((state) =>
+    state.app?.data?.queryPanelSymlayersData.data?.map((i) => i.queryTitle),
   );
 
   const [value, setValue] = useState(EMPTY_STRING);
@@ -34,7 +35,7 @@ const SaveReportModal = ({ isOpen, onSave, onCancel, currentTitle }) => {
           className={styles.input}
           wrapperClassName={styles.inputWrapper}
           value={value}
-          onChange={e => setValue(e.target.value)}
+          onChange={(e) => setValue(e.target.value)}
           ref={inputRef}
         />
         {isValueUniq ? null : (
