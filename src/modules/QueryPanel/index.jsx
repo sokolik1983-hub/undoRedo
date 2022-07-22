@@ -1,45 +1,43 @@
+import PropTypes from 'prop-types';
 /* eslint-disable camelcase */
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
-import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styles from './QueryPanel.module.scss';
+
 import Modal from '../../common/components/Modal';
-import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.module.scss';
+import ModalConfirm from '../../common/components/Modal/ModalConfirm';
+import { EMPTY_STRING, TOAST_TYPE } from '../../common/constants/common';
+import { showToast } from '../../data/actions/app';
 import {
   createQuery,
   getQueryPanelSymanticLayerData,
   getResultFromQuery,
-  getUniverses,
   postQueryPanelTab,
   setConfirmModal,
-  setQueryPanelModal
+  setQueryPanelModal,
 } from '../../data/actions/universes';
-import SelectSemanticLayer from './SelectSemanticLayer';
-import SqlPopup from './SqlPopup';
-import ObjectsPanel from './ObjectsPanel';
-import Objects from './Objects';
-import Filters from './Filters';
-import Results from './Results';
-import QueryPanelControls from './QueryPanelControls/QueryPanelControls';
-import DragNDropProvider from './context/DragNDropContext';
-
-import ModalConfirm from '../../common/components/Modal/ModalConfirm';
-import { getCondition } from './helper';
 import data, { setSymanticLayerData } from '../../data/reducers/data';
-import { showToast } from '../../data/actions/app';
-import { EMPTY_STRING, TOAST_TYPE } from '../../common/constants/common';
+import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.module.scss';
+import DragNDropProvider from './context/DragNDropContext';
+import Filters from './Filters';
 import {
   FILTER_TYPES,
-  FILTER_TYPES_ARR
+  FILTER_TYPES_ARR,
 } from './Filters/FiltersDeskItem/constants';
+import { getCondition } from './helper';
+import Objects from './Objects';
+import ObjectsPanel from './ObjectsPanel';
+import styles from './QueryPanel.module.scss';
+import QueryPanelControls from './QueryPanelControls/QueryPanelControls';
+import Results from './Results';
+import SelectSemanticLayer from './SelectSemanticLayer';
+import SqlPopup from './SqlPopup';
 
 const QueryPanel = ({ visible }) => {
   const dispatch = useDispatch();
-  const [semanticLayerModalOpened, setSemanticLayerModalOpened] = useState(
-    false
-  );
+  const [semanticLayerModalOpened, setSemanticLayerModalOpened] =
+    useState(false);
   const [isQueryExecute, setQueryExecute] = useState(false);
   const [isChanged, setIsChanged] = useState(false);
   const [isSqlPopupOpened, setSqlPopupOpened] = useState(false);
@@ -55,14 +53,12 @@ const QueryPanel = ({ visible }) => {
     connectorId,
     dpSql,
     dpId,
-    layerTitle
-  } = useSelector(state => {
+    layerTitle,
+  } = useSelector((state) => {
     const dpSql = state?.app?.data?.queryData?.dpSql;
-    const {
-      currentLayerTitle,
-      data
-    } = state?.app?.data?.queryPanelSymlayersData;
-    const currentLayer = data?.find(i => i.queryTitle === currentLayerTitle);
+    const { currentLayerTitle, data } =
+      state?.app?.data?.queryPanelSymlayersData;
+    const currentLayer = data?.find((i) => i.queryTitle === currentLayerTitle);
 
     return {
       dpObjects: currentLayer?.objects || [],
@@ -71,12 +67,12 @@ const QueryPanel = ({ visible }) => {
       connectorId: currentLayer?.connector_id || null,
       dpId: currentLayer?.dpId || null,
       dpSql: dpSql || null,
-      layerTitle: currentLayerTitle || EMPTY_STRING
+      layerTitle: currentLayerTitle || EMPTY_STRING,
     };
   });
 
   const confirmModalOpened = useSelector(
-    state => state.app.ui.confirmModalVisible
+    (state) => state.app.ui.confirmModalVisible,
   );
 
   const handleClose = () => {
@@ -103,8 +99,8 @@ const QueryPanel = ({ visible }) => {
         // fieldName,
         query: dpSql,
         // isDistinct,
-        maxRows: 100
-      })
+        maxRows: 100,
+      }),
     );
   };
 
@@ -120,13 +116,13 @@ const QueryPanel = ({ visible }) => {
     return setSemanticLayerModalOpened(false);
   };
 
-  const onSelectSemanticLayer = symLayer => {
+  const onSelectSemanticLayer = (symLayer) => {
     dispatch(getQueryPanelSymanticLayerData(symLayer.id));
     setSemanticLayerModalOpened(false);
     setIsChanged(true);
   };
 
-  const handleQueryText = text => {
+  const handleQueryText = (text) => {
     setQueryText(text);
   };
 
@@ -136,8 +132,10 @@ const QueryPanel = ({ visible }) => {
     dispatch(setSymanticLayerData(null));
   };
 
-  const getFilterOperator = filterName => {
-    const filterType = FILTER_TYPES_ARR.find(item => item.text === filterName);
+  const getFilterOperator = (filterName) => {
+    const filterType = FILTER_TYPES_ARR.find(
+      (item) => item.text === filterName,
+    );
     return filterType.value;
   };
 
@@ -151,7 +149,7 @@ const QueryPanel = ({ visible }) => {
             queryType: 'Query',
             querySetType: null,
             queries: [],
-            select: objects.map(object => ({
+            select: objects.map((object) => ({
               id: object.id,
               folder_id: object.parent_id,
               parentDimension_id: null,
@@ -159,7 +157,7 @@ const QueryPanel = ({ visible }) => {
               folderName: symLayerName,
               parentDimensionName: null,
               dataType: object.dataType,
-              objectType: object.objectType
+              objectType: object.objectType,
             })),
             // TODO: хардкод одного фильтра
             filter: dpFilter
@@ -167,24 +165,24 @@ const QueryPanel = ({ visible }) => {
                   type: 'filter',
                   filterTarget: {
                     id: dpFilter.fieldItem.id,
-                    dataType: dpFilter.fieldItem.dataType
+                    dataType: dpFilter.fieldItem.dataType,
                   },
                   filterOperator: getFilterOperator(dpFilter.itemCondition),
                   filterOperand1: {
                     type: 'const',
-                    valueConst: dpFilter.inputValue
-                  }
+                    valueConst: dpFilter.inputValue,
+                  },
                 }
-              : {}
+              : {},
           },
           dpProperties: {
             maxRows: -1,
             maxTime_sec: -1,
             lastConetxt_id: -1,
-            keepLastContext: 0
+            keepLastContext: 0,
           },
-          context_id: -1
-        })
+          context_id: -1,
+        }),
       );
     }
   };
@@ -193,7 +191,7 @@ const QueryPanel = ({ visible }) => {
     const resultConditions = filters ? getCondition([filters]) : {};
     if (resultConditions === 'Empty Value') {
       dispatch(
-        showToast(TOAST_TYPE.DANGER, 'Не задано значение одного из фильтров')
+        showToast(TOAST_TYPE.DANGER, 'Не задано значение одного из фильтров'),
       );
       setError(' ');
     } else if (isSqlPopupOpened) {
@@ -211,11 +209,11 @@ const QueryPanel = ({ visible }) => {
         dp: {
           dpConnect_id: 'TA',
           dpName: layerTitle,
-          dpObjects: dpObjects.map(i => ({
+          dpObjects: dpObjects.map((i) => ({
             dataType: i.dataType,
             id: `${i.id}`,
             name: i.name,
-            type: i.objectType
+            type: i.objectType,
           })),
           dpProperties: {},
           dpSql,
@@ -227,18 +225,18 @@ const QueryPanel = ({ visible }) => {
                   type: 'filter',
                   filterTarget: {
                     id: dpFilter.fieldItem.id,
-                    dataType: dpFilter.fieldItem.dataType
+                    dataType: dpFilter.fieldItem.dataType,
                   },
                   filterOperator: getFilterOperator(dpFilter.itemCondition),
                   filterOperand1: {
                     type: 'const',
-                    valueConst: dpFilter.inputValue
-                  }
+                    valueConst: dpFilter.inputValue,
+                  },
                 }
-              : {}
-          }
-        }
-      })
+              : {},
+          },
+        },
+      }),
     );
     handleClose();
   };
@@ -312,5 +310,5 @@ const QueryPanel = ({ visible }) => {
 export default QueryPanel;
 
 QueryPanel.propTypes = {
-  visible: PropTypes.bool.isRequired
+  visible: PropTypes.bool.isRequired,
 };

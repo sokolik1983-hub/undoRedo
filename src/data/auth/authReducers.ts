@@ -1,21 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-function getAuthState() {
+interface IAuth {
+  isAuth: boolean;
+  userInfo: string | null;
+}
+
+const getAuthState = (): IAuth => {
   const userInfo = window.localStorage.getItem('userInfo');
   const isAuth = window.localStorage.getItem('isAuth');
 
   if (isAuth) {
     return {
       isAuth: true,
-      userInfo
+      userInfo,
     };
   }
 
   return {
     isAuth: false,
-    userInfo: {}
+    userInfo: null,
   };
-}
+};
 
 const auth = createSlice({
   name: 'auth',
@@ -25,19 +30,19 @@ const auth = createSlice({
       state.isAuth = true;
       state.userInfo = action.payload;
     },
-    logout: state => {
+    logout: (state) => {
       state.isAuth = false;
-      state.userInfo = {};
+      state.userInfo = null;
     },
-    refresh: state => {
+    refresh: (state) => {
       state.isAuth = true;
     },
-    getAuth: state => {
+    getAuth: (state) => {
       const { isAuth, userInfo } = getAuthState();
       state.isAuth = isAuth;
       state.userInfo = userInfo;
-    }
-  }
+    },
+  },
 });
 
 export const { login, logout, refresh, getAuth } = auth.actions;

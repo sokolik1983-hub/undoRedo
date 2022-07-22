@@ -5,11 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Divider from '../../../common/components/Divider';
 import { EMPTY_STRING } from '../../../common/constants/common';
-import {
-  createQuery,
-  getResultFromQuery,
-  semanticLayerDataQuery,
-} from '../../../data/actions/universes';
+import { createQuery } from '../../../data/actions/universes';
 import Reload from '../../../layout/assets/queryPanel/reload.svg';
 import { useDragNDrop } from '../context/DragNDropContext';
 import { getCondition } from '../helper';
@@ -46,37 +42,7 @@ const Results = ({
 
   useEffect(() => {
     onQueryTextCreate(queryData?.dpSql);
-    // TODO: сделать проверку передаваемых параметров в semanticLayerDataQuery
-    // if (queryData) {
-    //   dispatch(
-    //     semanticLayerDataQuery({
-    //       connect_id: symLayerData.data.connector_id,
-    //       sql: queryData.data,
-    //       max_rows: 25,
-    //       fields: objectsDesk
-    //     })
-    //   );
-    // }
   }, [queryData]);
-
-  // useEffect(() => {
-  //   if (connectorId) {
-  //     dispatch(
-  //       getResultFromQuery({
-  //         // TODO: id заменить на connectorId
-  //         id: 'TA',
-  //         dataType: 'Query',
-  //         // catalog,
-  //         // schema,
-  //         // objectName,: 'Query'
-  //         // fieldName,
-  //         // query,
-  //         // isDistinct,
-  //         maxRows: 100
-  //       })
-  //     );
-  //   }
-  // }, [connectorId]);
 
   const handleExecute = () => {
     const resultConditions = filtersDesk ? getCondition([filtersDesk]) : {};
