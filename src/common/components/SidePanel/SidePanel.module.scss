@@ -9,17 +9,6 @@
 .navigation {
   display: flex;
   justify-content: flex-end;
-
-  &__item {
-    padding: 5px;
-    cursor: pointer;
-    color: #000;
-    opacity: 0.3;
-
-    &_active {
-      opacity: 1;
-    }
-  }
 }
 
 .objectItem {
@@ -38,7 +27,6 @@
 
   .closeIcon {
     cursor: pointer;
-    width: 10px;
   }
 }
 
@@ -71,7 +59,7 @@
 }
 
 .droppedObject {
-  height: 28px;
+  height: 36px;
   border: 1px solid white;
   border-radius: 5px;
   padding: 6px 5px 5px 5px;

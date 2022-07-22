@@ -1,11 +1,8 @@
 import { useSelector } from 'react-redux';
 
-import { PAGE } from '@src/common/constants/pages';
-
-import NewReportActions from '../../NewReportActions';
+import { PAGE } from '../../../../common/constants/pages';
+import ReportActions from '../../ReportActions';
 import SemanticActions from './semanticActions';
-
-// для просмотра старой версии ReportActions меняем здесь NewReportActions на ReportActions
 
 const PageActions = () => {
   const currentPage = useSelector((state) => state.app.ui.currentPage);
@@ -13,7 +10,7 @@ const PageActions = () => {
     case PAGE.SEMANTIC:
       return <SemanticActions />;
     case PAGE.REPORT_DESIGNER:
-      return <NewReportActions />;
+      return <ReportActions />;
     default:
       return null;
   }

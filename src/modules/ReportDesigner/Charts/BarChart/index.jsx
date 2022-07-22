@@ -1,5 +1,3 @@
-import { cloneDeep, find } from 'lodash';
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -52,8 +50,6 @@ const data = [
     pv: 4300,
   },
 ];
-
-// eslint-disable-next-line react/prop-types
 const BarGraph = ({ refContent, id, structureItem }) => {
   const dispatch = useDispatch();
   const reportDesigner = useSelector((state) => state.app.reportDesigner);

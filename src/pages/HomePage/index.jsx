@@ -85,11 +85,7 @@ function HomePage() {
         </div>
       </div>
 
-      <FloatingButton
-        icon={<ExplorerIcon />}
-        text="Создать отчет"
-        onClick={handleReportCreate}
-      />
+      <FloatingButton text="Создать отчет" onClick={handleReportCreate} />
     </div>
   );
 }

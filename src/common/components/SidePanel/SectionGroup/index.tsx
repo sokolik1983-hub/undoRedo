@@ -1,20 +1,30 @@
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { FC } from 'react';
 
 import Tooltip from '../../Tooltip';
 import styles from './SectionGroup.module.scss';
 
-function SectionGroup({ actions, title, ...props }) {
+interface ISectionGroupProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  actions: Array<any>;
+  title: string;
+  titleClassName: string;
+}
+
+const SectionGroup: FC<ISectionGroupProps> = ({
+  actions,
+  title,
+  titleClassName,
+}) => {
   return (
     <div className={styles.root}>
-      <div className={clsx(styles.title, props.titleClassName)}>{title}</div>
+      <div className={clsx(styles.title, titleClassName)}>{title}</div>
       <div className={styles.actions}>
         {actions &&
           actions.map((item) => (
             <div
-              className={clsx(styles['actions__btn'], {
-                [styles['actions__btn_active']]: item.isActive,
+              className={clsx(styles.btn, {
+                [styles.active]: item.isActive,
               })}
               onClick={item.action}
               key={item.id}
@@ -31,12 +41,6 @@ function SectionGroup({ actions, title, ...props }) {
       </div>
     </div>
   );
-}
-
-SectionGroup.propTypes = {
-  actions: PropTypes.array,
-  title: PropTypes.string,
-  titleClassName: PropTypes.string,
 };
 
 export default SectionGroup;

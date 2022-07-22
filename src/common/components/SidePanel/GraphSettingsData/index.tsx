@@ -1,5 +1,4 @@
-import { PropTypes } from 'prop-types';
-import React, { useState } from 'react';
+import React, { DragEvent, FC, useState } from 'react';
 
 import DeleteIcon from '../../../../layout/assets/closeWhite.svg';
 import { getIconByItemType } from '../../../../modules/QueryPanel/queryPanelHelper';
@@ -8,12 +7,29 @@ import IconButton from '../../IconButton';
 import SimpleDropDown from '../../SimpleDropDown';
 import styles from '../SidePanel.module.scss';
 
-const GraphSettingsData = ({ setVariant }) => {
-  const [objectsCategory, setObjectsCategory] = useState([]);
-  const [objectsValues, setObjectsValues] = useState([]);
-  const [objectsColor, setObjectsColor] = useState([]);
+interface IGraphSettingsDataProps {
+  setVariant: (el: string) => string;
+}
 
-  const mapper = [
+interface IObject {
+  id: string | number;
+  type: string;
+  name: string;
+}
+
+interface IMapperItem {
+  name: string;
+  currentArr: Array<IObject>;
+  currentFunc: (arr: Array<IObject>) => void;
+  id: number;
+}
+
+const GraphSettingsData: FC<IGraphSettingsDataProps> = ({ setVariant }) => {
+  const [objectsCategory, setObjectsCategory] = useState<Array<IObject>>([]);
+  const [objectsValues, setObjectsValues] = useState<Array<IObject>>([]);
+  const [objectsColor, setObjectsColor] = useState<Array<IObject>>([]);
+
+  const mapper: Array<IMapperItem> = [
     {
       name: `Ось значений (${objectsValues.length})`,
       currentArr: objectsValues,
@@ -34,21 +50,26 @@ const GraphSettingsData = ({ setVariant }) => {
     },
   ];
 
-  const handleDrop = (arr, curFunc) => (e) => {
-    e.preventDefault();
+  const handleDrop =
+    (arr: Array<IObject>, curFunc: (arr: Array<IObject>) => void) =>
+    (e: DragEvent<HTMLDivElement>): void => {
+      e.preventDefault();
 
-    const currentItem = JSON.parse(e.dataTransfer.getData('text'));
-    if (!arr.map((i) => i.id).includes(currentItem.id)) {
-      curFunc([...arr, currentItem]);
-    }
+      const currentItem = JSON.parse(e.dataTransfer.getData('text'));
+      if (!arr.map((i) => i.id).includes(currentItem.id)) {
+        curFunc([...arr, currentItem]);
+      }
+    };
+
+  const handleDragOver = (e: DragEvent<HTMLDivElement>): void => {
+    e.preventDefault();
   };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const onDeleteItem = (currArr, currFunc, id) =>
-    currFunc(currArr.filter((item) => item.id !== id));
+  const onDeleteItem = (
+    currArr: Array<IObject>,
+    currFunc: (arr: Array<IObject>) => void,
+    id: string | number,
+  ) => currFunc(currArr.filter((item) => item.id !== id));
 
   return (
     <>
@@ -68,7 +89,7 @@ const GraphSettingsData = ({ setVariant }) => {
       </div>
       <div className={styles.heading}>
         Присвоение данных
-        {mapper.map((i) => {
+        {mapper.map((i: IMapperItem) => {
           return (
             <div key={i.id} className={styles.ind}>
               <SimpleDropDown title={i.name} titleClassName={styles.text}>
@@ -106,7 +127,3 @@ const GraphSettingsData = ({ setVariant }) => {
 };
 
 export default GraphSettingsData;
-
-GraphSettingsData.propTypes = {
-  setVariant: PropTypes.func,
-};

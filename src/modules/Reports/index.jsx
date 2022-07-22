@@ -306,7 +306,7 @@ const Reports = () => {
           <Preloader />
         )}
         <Link to="/report">
-          <FloatingButton icon={<CreateConnector />} text="Создать отчет" />
+          <FloatingButton text="Создать отчет" />
         </Link>
       </div>
     </div>
