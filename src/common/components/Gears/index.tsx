@@ -1,6 +1,6 @@
-import React from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
+import React, { FC } from 'react';
+
 import styles from './Gears.module.scss';
 
 /**
@@ -8,11 +8,16 @@ import styles from './Gears.module.scss';
  * @param isSpinning - булево значение, которое останавливает вращение шестеренок
  */
 
+interface IGearsProps {
+  isSpinning: boolean;
+  className: string;
+}
+
 const top = clsx(styles.circles, styles.no1);
 const middle = clsx(styles.circles, styles.no2);
 const bottom = clsx(styles.circles, styles.no3);
 
-const Gears = ({isSpinning, className}) => {
+const Gears: FC<IGearsProps> = ({ isSpinning, className }) => {
   return (
     <div className={className}>
       <div className={isSpinning ? top : clsx(top, styles.stop)} />
@@ -23,13 +28,3 @@ const Gears = ({isSpinning, className}) => {
 };
 
 export default Gears;
-
-Gears.propTypes= {
-  isSpinning: PropTypes.bool,
-  className: PropTypes.string,
-};
-
-Gears.defaultProps = {
-  isSpinning: false,
-  className: '',
-};

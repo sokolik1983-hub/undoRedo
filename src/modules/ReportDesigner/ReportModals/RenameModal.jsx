@@ -2,7 +2,7 @@ import { PropTypes } from 'prop-types';
 import { useEffect, useRef } from 'react';
 
 import Button from '../../../common/components/Button';
-import Modal from '../../../common/components/ModalPortal/Modal';
+import Modal from '../../../common/components/ModalPortal';
 import TextInput from '../../../common/components/TextInput';
 import { BUTTON } from '../../../common/constants/common';
 import styles from './ReportModals.module.scss';
