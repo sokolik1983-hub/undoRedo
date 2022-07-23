@@ -20,6 +20,7 @@ const schemaDesigner = createSlice({
     ui: {
       showLinks: false,
       showContexts: false,
+      showSideBar: true,
       isLoading: false,
     },
     coloredValue: '',

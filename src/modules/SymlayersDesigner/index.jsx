@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { useAppSelector } from '@src/data/hooks/redux';
+
 import { PAGE } from '../../common/constants/pages';
 import {
   OBJECTS_CONNECTIONS_MODAL,
@@ -44,7 +46,9 @@ function SymlayersDesigner() {
     (state) => state.app.schemaDesigner.selectedTablesArray,
   );
 
-  const schemaDesignerUi = useSelector((state) => state.app.schemaDesigner.ui);
+  const schemaDesignerUi = useAppSelector(
+    (state) => state.app.schemaDesigner.ui,
+  );
   const links = useSelector((state) => state.app.schemaDesigner.links);
   const contexts = useSelector((state) => state.app.schemaDesigner.contexts);
 
@@ -160,7 +164,10 @@ function SymlayersDesigner() {
             />
           </div>
         </div>
-        <Sidebar onSelect={handleSelectTable} />
+        <Sidebar
+          className={styles.sidebarWrapper}
+          onSelect={handleSelectTable}
+        />
       </div>
       {isObjectsConnectionsModalOpened && (
         <ObjectsConnectionEditor

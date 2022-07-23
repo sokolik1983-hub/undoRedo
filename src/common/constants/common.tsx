@@ -181,7 +181,6 @@ export const SEMANTIC_PAGE_ACTIONS = [
   },
   {
     type: 'divider',
-    icon: <Divider />,
     enable: true,
   },
   {
@@ -189,12 +188,11 @@ export const SEMANTIC_PAGE_ACTIONS = [
     title: 'Обновить структуру',
     text: 'Обновить структуру',
     icon: <RefreshStructure />,
-    enable: false,
+    enable: true,
     disIcon: <DisableRefreshStructure />,
   },
   {
     type: 'divider',
-    icon: <Divider />,
     enable: true,
   },
   {
