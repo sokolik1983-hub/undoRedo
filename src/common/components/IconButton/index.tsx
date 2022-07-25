@@ -15,7 +15,6 @@ import styles from './IconButton.module.scss';
  */
 
 interface IconButtonProps {
-  children?: ReactNode;
   onClick?: (event: React.MouseEvent) => void;
   size?: string;
   color?: string;
@@ -39,7 +38,6 @@ const defaultProps = {
 };
 
 const IconButton: FC<IconButtonProps> = ({
-  children,
   onClick,
   size,
   color,
