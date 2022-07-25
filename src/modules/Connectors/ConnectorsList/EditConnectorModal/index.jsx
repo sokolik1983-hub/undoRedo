@@ -31,12 +31,18 @@ const EditConnectorModal = ({ visible, onClose }) => {
     (state) => state.app.data.currentFolderId,
   );
 
-  const connectorData = cloneDeep(connector);
+  let connectorData = cloneDeep(connector);
+
+  useEffect(() => {
+    connectorData = cloneDeep(connector);
+  }, [connector]);
 
   const [connectName, setConnectName] = useState(connectorData?.header?.name); // имя коннектора
-  const [connectType, setConnectType] = useState(connectorData?.data?.type_id); // тип коннектора(База Данных, Тестовый файл)
+  const [connectType, setConnectType] = useState(
+    types?.filter((item) => item.id == connectorData?.data?.class_id)[0]?.name,
+  ); // тип коннектора(База Данных, Тестовый файл)
   const [connectSource, setConnectSource] = useState(
-    connectorData?.data?.class_id,
+    sources?.filter((item) => item.id == connectorData?.data?.type_id)[0]?.name,
   );
   const [connectionDescription, setConnectionDescription] = useState(
     connectorData?.header?.desc,
@@ -50,7 +56,6 @@ const EditConnectorModal = ({ visible, onClose }) => {
   useEffect(() => {
     setShowTestOk(false);
     setShowTestFailed(false);
-    // dispatch(getConnectorTypesSources({}));
   }, [visible]);
 
   const testConnectorResult = useSelector(
@@ -81,8 +86,14 @@ const EditConnectorModal = ({ visible, onClose }) => {
   useEffect(() => {
     if (connectorData.data) {
       setConnectName(connectorData.header.name);
-      setConnectType(connectorData.data.type_id);
-      setConnectSource(connectorData.data.class_id);
+      setConnectType(
+        types?.filter((item) => item.id == connectorData?.data?.class_id)[0]
+          ?.name,
+      );
+      setConnectSource(
+        sources?.filter((item) => item.id == connectorData?.data?.type_id)[0]
+          ?.name,
+      );
       setConnectionDescription(connectorData.header.desc);
     }
   }, [connector]);
@@ -176,7 +187,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
     >
       <div className={styles.connectionWrapper}>
         <TextInput
-          label="Введите имя соединения"
+          label="Имя соединения"
           value={connectName}
           onChange={(e) => setConnectName(e.target.value)}
           onBlur={() => setConnectName(connectName.trim())}
@@ -193,7 +204,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
           value={connectType}
           options={typeOptions}
           onSelectItem={setConnectType}
-          defaultValue={types?.name}
+          defaultValue={connectType}
         />
       </div>
       <div className={styles.connectionWrapper}>
@@ -203,7 +214,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
           value={connectSource}
           onSelectItem={setConnectSource}
           options={sourceOptions}
-          defaultValue={sources?.name}
+          defaultValue={connectSource}
         />
       </div>
       {connectorData?.data?.fields && (
