@@ -3,11 +3,12 @@
   border-radius: 10px;
   box-shadow: 0px 18px 17px rgba(34, 82, 102, 0.75);
   width: 316px;
+  position: absolute;
 }
 
 // TODO: выяснить причину почему не работают стиль без !important
 .tabItem {
-  font-size: 20px !important; 
+  font-size: 20px !important;
   font-weight: 500 !important;
   white-space: nowrap;
   align-items: flex-end !important;
@@ -111,7 +112,7 @@
   svg {
     margin-right: 5px;
   }
-  
+
   .tableField {
     padding-top: 5px;
     padding-bottom: 4px;
@@ -129,12 +130,12 @@
 }
 
 .objectsData {
- @extend .tableFields;  
+ @extend .tableFields;
 
  .objectLayer {
   display: flex;
   flex-direction: row;
-  align-items: center;  
+  align-items: center;
   border: none;
   outline: none;
   background-color: inherit;
@@ -148,12 +149,12 @@
   border-radius: 3px;
   color: white;
   background-color: #2B6DD0;
-  
+
   svg path {
     fill: white;
   }
  }
-  
+
 }
 
 .icons {
@@ -196,7 +197,7 @@
   align-items: center;
   padding-left: 20px;
 }
-  
+
 .listItemField {
   cursor: pointer;
   padding-top: 5px;
@@ -214,7 +215,7 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  
+
 }
 
 .search {
@@ -266,19 +267,19 @@
     backdrop-filter: blur(7px);
     border-radius: 7.5px;
   }
-  
+
   .dropdownItem {
     padding: 0;
-  
+
     &:hover {
       background-color: transparent;
     }
-  
+
     &:hover svg {
       fill: #0078bb;
       transition: all 0.2s;
     }
-  
+
     & div {
       margin: 0;
       padding: 8px 6px;

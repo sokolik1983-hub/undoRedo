@@ -19,8 +19,10 @@ import DisableConnectionsPanel from '../../layout/assets/semanticActionsIcons/di
 import DisableContextPanel from '../../layout/assets/semanticActionsIcons/disContextPanel.svg';
 import DisableDefineConnections from '../../layout/assets/semanticActionsIcons/disDefineConnections.svg';
 import DisableRefreshStructure from '../../layout/assets/semanticActionsIcons/disRefreshStructure.svg';
+import OpenSymLayer from '../../layout/assets/semanticActionsIcons/openSemantic.svg';
 import RefreshStructure from '../../layout/assets/semanticActionsIcons/refreshStructure.svg';
 import SaveSymLayer from '../../layout/assets/semanticActionsIcons/saveSemantic.svg';
+import OpenTabsPanel from '../../layout/assets/semanticActionsIcons/tabsPanelIcon.svg';
 
 export const TABLE_CELL_EMPTY_VALUE = '-';
 export const BREADCRUMBS_ROOT = '..';
@@ -157,27 +159,47 @@ export const DEFAULT_USER_ACTIONS: IDefaultUserActions[] = [
 export const SEMANTIC_PAGE_ACTIONS = [
   {
     action: 'saveSymLayer',
-    title: 'Сохранить сем. слой',
-    text: 'Сохранить сем. слой',
+    title: 'Сохранить семантический слой',
+    // text: 'Сохранить семантический слой',
     icon: <SaveSymLayer />,
     enable: true,
     disIcon: <DisableAddConnection />,
   },
   {
-    action: 'contextPanel',
-    title: 'Панель контекстов',
-    text: 'Панель контекстов',
-    icon: <ContextPanel />,
+    action: 'openSymLayer',
+    title: 'Открыть семантический слой',
+    // text: 'Открыть семантический слой',
+    icon: <OpenSymLayer />,
+    enable: true,
+    disIcon: <DisableAddConnection />,
+  },
+  {
+    type: 'divider',
+    enable: true,
+  },
+  {
+    action: 'tabsPanel',
+    title: 'Панель таблиц и объектов',
+    // text: 'Панель таблиц и объектов',
+    icon: <OpenTabsPanel />,
     enable: true,
     disIcon: <DisableContextPanel />,
   },
   {
     action: 'connectionsPanel',
     title: 'Панель связей',
-    text: 'Панель связей',
+    // text: 'Панель связей',
     icon: <ConnectionsPanel />,
     enable: true,
     disIcon: <DisableConnectionsPanel />,
+  },
+  {
+    action: 'contextPanel',
+    title: 'Панель контекстов',
+    // text: 'Панель контекстов',
+    icon: <ContextPanel />,
+    enable: true,
+    disIcon: <DisableContextPanel />,
   },
   {
     type: 'divider',
@@ -186,7 +208,7 @@ export const SEMANTIC_PAGE_ACTIONS = [
   {
     action: 'refreshStructure',
     title: 'Обновить структуру',
-    text: 'Обновить структуру',
+    // text: 'Обновить структуру',
     icon: <RefreshStructure />,
     enable: true,
     disIcon: <DisableRefreshStructure />,
@@ -198,7 +220,7 @@ export const SEMANTIC_PAGE_ACTIONS = [
   {
     action: 'defineConnections',
     title: 'Определить связи',
-    text: 'Определить связи',
+    // text: 'Определить связи',
     icon: <DefineConnections />,
     enable: true,
     disIcon: <DisableDefineConnections />,
@@ -206,7 +228,7 @@ export const SEMANTIC_PAGE_ACTIONS = [
   {
     action: 'addConnection',
     title: 'Добавить связь',
-    text: 'Добавить связь',
+    // text: 'Добавить связь',
     icon: <AddConnection />,
     enable: true,
     disIcon: <DisableAddConnection />,

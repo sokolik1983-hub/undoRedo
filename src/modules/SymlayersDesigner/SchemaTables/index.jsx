@@ -247,17 +247,23 @@ const Provided = (props) => {
       {/*     <SearchIcon /> */}
       {/*   </IconButton> */}
       {/* </Tooltip> */}
-      <Tooltip overlay={`${showMinimap ? 'скрыть' : 'показать'} миникарту`}>
+      <Tooltip
+        overlay={`${showMinimap ? 'скрыть' : 'показать'} миникарту`}
+        placement={'bottomLeft'}
+      >
         <IconButton onClick={() => SET_SHOW_MINIMAP(!showMinimap)}>
           <MapIcon />
         </IconButton>
       </Tooltip>
-      <Tooltip overlay="масштаб всего семантического слоя">
+      <Tooltip
+        overlay="масштаб всего семантического слоя"
+        placement={'bottomLeft'}
+      >
         <IconButton onClick={handleZoomDefault}>
           <ZoomOutMapIcon />
         </IconButton>
       </Tooltip>
-      <Tooltip overlay="отдалить">
+      <Tooltip overlay="отдалить" placement={'bottomLeft'}>
         <IconButton
           onClick={
             mul < 0.10881882041201538 ? null : () => handleZoomCenter(-100)
@@ -266,7 +272,7 @@ const Provided = (props) => {
           <Minus />
         </IconButton>
       </Tooltip>
-      <Tooltip overlay="приблизить">
+      <Tooltip overlay="приблизить" placement={'bottomLeft'}>
         <IconButton onClick={mul <= 1.9 ? () => handleZoomCenter(+100) : null}>
           <Plus />
         </IconButton>

@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
@@ -136,12 +137,26 @@ function SymlayersDesigner() {
       <div className={styles.content}>
         <div className={styles.schema}>
           <div className={styles.header}>
-            {schemaDesignerUi.showLinks && (
-              <TablesList title="Связи" items={links} type="links" />
+            {schemaDesignerUi.showTabs && (
+              <Sidebar onSelect={handleSelectTable} />
             )}
-            {schemaDesignerUi.showContexts && (
-              <TablesList title="Контексты" items={contexts} type="contexts" />
-            )}
+            <div
+              className={clsx(
+                styles.linksContextWrapper,
+                schemaDesignerUi.showTabs ? styles.showedTabs : null,
+              )}
+            >
+              {schemaDesignerUi.showLinks && (
+                <TablesList title="Связи" items={links} type="links" />
+              )}
+              {schemaDesignerUi.showContexts && (
+                <TablesList
+                  title="Контексты"
+                  items={contexts}
+                  type="contexts"
+                />
+              )}
+            </div>
           </div>
           <div
             className={styles.tables}
@@ -164,10 +179,6 @@ function SymlayersDesigner() {
             />
           </div>
         </div>
-        <Sidebar
-          className={styles.sidebarWrapper}
-          onSelect={handleSelectTable}
-        />
       </div>
       {isObjectsConnectionsModalOpened && (
         <ObjectsConnectionEditor

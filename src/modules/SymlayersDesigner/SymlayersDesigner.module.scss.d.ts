@@ -7,8 +7,10 @@ declare namespace SymlayersDesignerModuleScssNamespace {
     contexts: string;
     header: string;
     links: string;
+    linksContextWrapper: string;
     root: string;
     schema: string;
+    showedTabs: string;
     sidebar: string;
     sidebarWrapper: string;
     tables: string;

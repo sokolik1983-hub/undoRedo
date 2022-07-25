@@ -27,9 +27,9 @@
 }
 
 .header {
-  display: flex;
-  flex-direction: row;
-  gap: 12px;
+  z-index: 1;
+  position: relative;
+  width: 100%;
 }
 
 .schema {
@@ -55,4 +55,17 @@
 
 .sidebarWrapper {
   border: 2px solid red;
+}
+
+.linksContextWrapper {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.showedTabs {
+  left: 328px;
+  width: calc(100% - 328px);
 }
