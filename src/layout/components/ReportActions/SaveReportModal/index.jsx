@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import Button from '../../../../common/components/Button';
-import Modal from '../../../../common/components/ModalPortal/Modal';
+import Modal from '../../../../common/components/ModalPortal';
 import TextInput from '../../../../common/components/TextInput';
 import { BUTTON, EMPTY_STRING } from '../../../../common/constants/common';
 import styles from './SaveReportModal.module.scss';

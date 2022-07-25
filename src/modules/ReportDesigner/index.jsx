@@ -9,7 +9,6 @@
 // import Button from '../../common/components/Button';
 // import Dropdown from '../../common/components/Dropdown';
 // import DropdownItem from '../../common/components/Dropdown/DropdownItem';
-// import FormulaEditor from '../../common/components/FormulaEditor';
 // import ReportSidebar from './ReportSidebar';
 
 /* eslint-disable consistent-return */
@@ -23,7 +22,6 @@ import { useNavigate, useParams } from 'react-router';
 import Button from '../../common/components/Button';
 import Dropdown from '../../common/components/Dropdown';
 import DropdownItem from '../../common/components/Dropdown/DropdownItem';
-import FormulaEditor from '../../common/components/FormulaEditor';
 import IconButton from '../../common/components/IconButton';
 import Tooltip from '../../common/components/Tooltip';
 import { BUTTON } from '../../common/constants/common';
