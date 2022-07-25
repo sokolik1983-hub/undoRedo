@@ -38,12 +38,8 @@ const EditConnectorModal = ({ visible, onClose }) => {
   }, [connector]);
 
   const [connectName, setConnectName] = useState(connectorData?.header?.name); // имя коннектора
-  const [connectType, setConnectType] = useState(
-    types?.filter((item) => item.id == connectorData?.data?.class_id)[0]?.name,
-  ); // тип коннектора(База Данных, Тестовый файл)
-  const [connectSource, setConnectSource] = useState(
-    sources?.filter((item) => item.id == connectorData?.data?.type_id)[0]?.name,
-  );
+  const [connectType, setConnectType] = useState('');
+  const [connectSource, setConnectSource] = useState('');
   const [connectionDescription, setConnectionDescription] = useState(
     connectorData?.header?.desc,
   );
@@ -96,7 +92,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
       );
       setConnectionDescription(connectorData.header.desc);
     }
-  }, [connector]);
+  }, [connectorData]);
 
   const handleClose = () => {
     setShowTestOk(false);
