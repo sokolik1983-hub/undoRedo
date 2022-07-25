@@ -6,7 +6,7 @@ import {
   PENDING_RESPONSE,
   PENDING_SERVER_TIMER,
   SERVER_API_URL,
-  SESSION_EXPIRED_MSG,
+  WRONG_SESSION_ERRORS,
 } from '../common/constants/config';
 import { logoutUser } from './auth/authActions';
 import { notificationShown } from './reducers/notifications';
@@ -54,7 +54,7 @@ export const requestReady = async <T>({
               advice: errRecommend,
             }),
           );
-          if (errorCode === SESSION_EXPIRED_MSG) {
+          if (WRONG_SESSION_ERRORS.includes(errorCode)) {
             dispatch(logoutUser());
           }
         }
