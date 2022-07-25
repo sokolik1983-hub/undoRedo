@@ -1,4 +1,6 @@
-import styles from './InlinePreloader.module.scss'
+import React from 'react';
+
+import styles from './InlinePreloader.module.scss';
 
 const InlinePreloader = () => {
   return (
@@ -13,4 +15,4 @@ const InlinePreloader = () => {
   );
 };
 
-export default InlinePreloader
+export default InlinePreloader;

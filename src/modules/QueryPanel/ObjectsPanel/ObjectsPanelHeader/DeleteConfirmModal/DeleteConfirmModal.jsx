@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import Button from '../../../../../common/components/Button';
-import Modal from '../../../../../common/components/ModalPortal/Modal';
+import Modal from '../../../../../common/components/ModalPortal';
 import { BUTTON } from '../../../../../common/constants/common';
 import styles from './DeleteConfirmModal.module.scss';
 
