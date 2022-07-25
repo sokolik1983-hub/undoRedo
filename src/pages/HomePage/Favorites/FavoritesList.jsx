@@ -1,6 +1,10 @@
 import clsx from 'clsx';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+
+import { openUniverse } from '@src/data/actions/universes';
+import { setLoadingUniverse } from '@src/data/reducers/schemaDesigner';
 
 import InlinePreloader from '../../../common/components/InlinePreloader/index';
 import { REDIRECT_LINKS } from '../../../common/constants/common';
@@ -22,8 +26,25 @@ const FavoritesList = () => {
   const isFavoritesFailed = favoriteObjectsStatus === 'FAILED';
   const rowWithoutData = isFavoritesEmpty || isFavoritesFailed;
 
-  const handleOpenClick = (id) => {
-    navigate(`${REDIRECT_LINKS.REPORT_SHOW}/${id}`, { replace: true });
+  const isUnvLoading = useSelector(
+    (state) => state.app.schemaDesigner.isUnvLoading,
+  );
+
+  useEffect(() => {
+    if (isUnvLoading) {
+      navigate(REDIRECT_LINKS.SYMLAEYERS);
+      dispatch(setLoadingUniverse(false));
+    }
+  }, [isUnvLoading]);
+
+  const handleOpenClick = (item) => {
+    if (item.kind === 'SL') {
+      dispatch(openUniverse({ id: item.id, getData: 1 }, item.name));
+    }
+    if (item.kind === 'REP') {
+      navigate(`${REDIRECT_LINKS.REPORT_SHOW}/${item.id}`, { replace: true });
+    }
+    return null;
   };
 
   const isFavoriteRemoved = (isRemoved) => {
@@ -60,7 +81,7 @@ const FavoritesList = () => {
             kind={item.kind}
             hasTooltip
             onRemoveFromFavorites={handleRemoveFromFavorites}
-            onOpenReport={handleOpenClick}
+            onOpenFile={() => handleOpenClick(item)}
             removable
           />
         ))}
