@@ -26,6 +26,7 @@ const TablesPaneActions = ({ setSelectedSchemes }) => {
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
 
   const handleShowDataList = (event) => {
+    console.log('handle');
     if (event.key === 'Enter' && coloredValue.length) {
       event.preventDefault();
       dispatch(setShowDataList());
@@ -35,6 +36,7 @@ const TablesPaneActions = ({ setSelectedSchemes }) => {
   };
 
   const searchTable = (event) => {
+    console.log('search');
     if (event.key === 'Enter' && searchValue.length) {
       let result = JSON.parse(
         JSON.stringify(

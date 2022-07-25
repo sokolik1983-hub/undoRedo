@@ -13,17 +13,31 @@ const TablesPane = ({ onSelect }) => {
   const connectorObjects = useSelector(
     (state) => state.app.schemaDesigner.connectorObjects,
   );
-  const selectedTablesData = useSelector(
-    (state) => state.app.schemaDesigner.selectedTablesData,
+  // const selectedTablesData = useSelector(
+  //   (state) => state.app.schemaDesigner.selectedTablesData,
+  // );
+  const selectedTablesArray = useSelector(
+    (state) => state.app.schemaDesigner.selectedTablesArray,
   );
   const layerName = useSelector((state) => state.app.schemaDesigner.layerName);
 
   const [selectedSchemes, setSelectedSchemes] = useState([]);
-  console.log(selectedSchemes, connectorObjects);
+  // console.log(selectedSchemes, connectorObjects, selectedTables);
 
   useEffect(() => {
-    console.log(selectedTablesData);
-  }, [selectedTablesData]);
+    console.log(selectedTablesArray, connectorObjects);
+    const selectedSchemesArr = [];
+    connectorObjects.forEach((obj) => {
+      selectedTablesArray.forEach((tab) => {
+        if (`${obj.schema}_${obj.objectName}` === tab.name) {
+          selectedSchemesArr.push(obj);
+        }
+      });
+    });
+    setSelectedSchemes(selectedSchemesArr);
+  }, [selectedTablesArray, connectorObjects]);
+
+  console.log(selectedSchemes, selectedTablesArray);
 
   return (
     <div className={styles.root}>
@@ -35,7 +49,7 @@ const TablesPane = ({ onSelect }) => {
           <span>{layerName}</span>
         </div>
         <HierTreeView
-          data={selectedSchemes.length ? selectedSchemes : connectorObjects}
+          data={selectedSchemes}
           onSelect={onSelect}
           isOpen={!!selectedSchemes?.length}
         />
