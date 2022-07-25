@@ -53,18 +53,16 @@ const FavoritesList = () => {
       <p className={styles.rowTitle}>Избранное</p>
       <div className={clsx(styles.section)}>
         {favoriteObjectsData.map((item) => (
-          <div>
-            <HomePageButton
-              key={item.id}
-              id={item.id}
-              title={item.name}
-              kind={item.kind}
-              hasTooltip
-              onRemoveFromFavorites={handleRemoveFromFavorites}
-              onOpenReport={handleOpenClick}
-              removable
-            />
-          </div>
+          <HomePageButton
+            key={item.id}
+            id={item.id}
+            title={item.name}
+            kind={item.kind}
+            hasTooltip
+            onRemoveFromFavorites={handleRemoveFromFavorites}
+            onOpenReport={handleOpenClick}
+            removable
+          />
         ))}
       </div>
       {isFavoritesEmpty && isFavoritesLoading && <InlinePreloader />}

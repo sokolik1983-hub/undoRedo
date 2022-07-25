@@ -1,6 +1,5 @@
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 
 import styles from './CheckBox.module.scss';
 
@@ -15,7 +14,20 @@ import styles from './CheckBox.module.scss';
  * @param bgColor - цвет фона
  */
 
-const CheckBox = ({
+interface ICheckBoxProps {
+  id: string;
+  name: string;
+  label: string;
+  disabled?: boolean;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  wrapperClass?: string;
+  labelClass?: string;
+  value: string;
+  blueBGColor?: string;
+  checked: boolean;
+}
+
+const CheckBox: FC<ICheckBoxProps> = ({
   id,
   name,
   label,
@@ -33,7 +45,7 @@ const CheckBox = ({
   const wrapperClasses = clsx(styles.wrapper, wrapperClass);
   const labelClasses = clsx(styles.label, labelClass);
 
-  const handleChange = (event) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setIsChecked(event.target.checked);
     onChange(event);
   };
@@ -52,7 +64,7 @@ const CheckBox = ({
           className={styles.input}
           {...props}
         />
-        <span className={blueBGColor ? styles.blueBGColor : styles.mark} />
+        <span className={blueBGColor ? styles.blueBgColor : styles.mark} />
       </span>
       <label htmlFor={id} className={labelClasses}>
         {label}
@@ -62,31 +74,3 @@ const CheckBox = ({
 };
 
 export default CheckBox;
-
-CheckBox.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  label: PropTypes.string,
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func,
-  wrapperClass: PropTypes.string,
-  labelClass: PropTypes.string,
-  name: PropTypes.string,
-  value: PropTypes.string,
-  blueBGColor: PropTypes.string,
-  checked: PropTypes.bool,
-};
-
-CheckBox.defaultProps = {
-  id: '',
-  name: '',
-  label: '',
-  wrapperClass: '',
-  labelClass: '',
-  value: '',
-  checked: false,
-  disabled: false,
-  blueBGColor: '',
-  onChange: () => {
-    // something
-  },
-};

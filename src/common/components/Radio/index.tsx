@@ -1,6 +1,5 @@
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { ChangeEvent, FC } from 'react';
 
 import styles from './Radio.module.scss';
 
@@ -14,7 +13,19 @@ import styles from './Radio.module.scss';
  * @param value - значние радио
  */
 
-const Radio = ({
+interface IRadioProps {
+  id: string;
+  name: string;
+  label: string;
+  disabled?: boolean;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  wrapperClass?: string;
+  labelClass?: string;
+  value: string;
+  checked?: boolean;
+}
+
+const Radio: FC<IRadioProps> = ({
   id,
   name,
   label,
@@ -29,7 +40,8 @@ const Radio = ({
   const wrapperClasses = clsx(styles.wrapper, wrapperClass);
   const labelClasses = clsx(styles.label, labelClass);
 
-  const handleChange = (event) => onChange(event);
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) =>
+    onChange(event);
 
   const changeCb =
     !disabled && !checked
@@ -60,29 +72,3 @@ const Radio = ({
 };
 
 export default Radio;
-
-Radio.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  label: PropTypes.string,
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func,
-  wrapperClass: PropTypes.string,
-  labelClass: PropTypes.string,
-  name: PropTypes.string,
-  value: PropTypes.string,
-  checked: PropTypes.bool,
-};
-
-Radio.defaultProps = {
-  id: '',
-  name: '',
-  label: '',
-  wrapperClass: '',
-  labelClass: '',
-  value: '',
-  checked: false,
-  disabled: false,
-  onChange: () => {
-    // something
-  },
-};

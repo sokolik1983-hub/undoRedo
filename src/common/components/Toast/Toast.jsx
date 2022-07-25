@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types';
 import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
-import ToastItem from './ToastItem';
-import Portal from '../Portal/Portal';
-import styles from './Toast.module.scss';
+
 import { TOAST_TYPE } from '../../constants/common';
+import Portal from '../Portal';
+import styles from './Toast.module.scss';
+import ToastItem from './ToastItem';
 
 const Toast = ({ toastList, setList }) => {
   const dispatch = useDispatch();
@@ -13,11 +14,11 @@ const Toast = ({ toastList, setList }) => {
       const toastListItem = toastList.filter((e) => e.id !== id);
       dispatch(setList(toastListItem));
     },
-    [toastList, setList]
+    [toastList, setList],
   );
 
   const successToast = toastList?.find(
-    (toast) => toast.type === TOAST_TYPE.SUCCESS
+    (toast) => toast.type === TOAST_TYPE.SUCCESS,
   );
 
   useEffect(() => {
@@ -53,5 +54,5 @@ export default Toast;
 
 Toast.propTypes = {
   toastList: PropTypes.arrayOf(PropTypes.object),
-  setList: PropTypes.func
+  setList: PropTypes.func,
 };

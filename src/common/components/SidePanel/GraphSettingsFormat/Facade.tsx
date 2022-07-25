@@ -1,14 +1,23 @@
 import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
-import { PropTypes } from 'prop-types';
+import React, { FC } from 'react';
 
 import ColorPicker from '../../ColorPicker';
 import SimpleDropDown from '../../SimpleDropDown';
 import BordersConfig from '../SectionGroup/BordersConfig';
 import styles from '../SidePanel.module.scss';
 
-const Facade = ({ onChange }) => {
+interface IFacadeProps {
+  onChange: (el: object) => object;
+}
+
+const Facade: FC<IFacadeProps> = ({ onChange }) => {
+  const handleChangeParams = (color: string) =>
+    onChange({
+      styles: { backgroundColor: color },
+    });
+
   return (
-    <div className={styles.itemsWrapper}>
+    <div>
       <SimpleDropDown title="Фон" titleClassName={styles.heading}>
         <div>
           <p className={styles.text}>Цвет и прозрачность</p>
@@ -19,11 +28,7 @@ const Facade = ({ onChange }) => {
           <ColorPicker
             className={styles.colorPicker}
             icon={<FormatColorFillIcon />}
-            onChangeColor={(color) =>
-              onChange({
-                styles: { backgroundColor: color },
-              })
-            }
+            onChangeColor={handleChangeParams}
           />
         </div>
       </SimpleDropDown>
@@ -35,7 +40,3 @@ const Facade = ({ onChange }) => {
 };
 
 export default Facade;
-
-Facade.propTypes = {
-  onChange: PropTypes.func,
-};

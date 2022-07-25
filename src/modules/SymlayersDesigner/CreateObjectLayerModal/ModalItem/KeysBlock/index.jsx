@@ -5,7 +5,7 @@ import { React, useEffect, useState } from 'react';
 import Button from '../../../../../common/components/Button';
 import Dropdown from '../../../../../common/components/Dropdown';
 import DropdownItem from '../../../../../common/components/Dropdown/DropdownItem';
-import CheckboxField from '../../../../../common/components/formikFields/checkboxField';
+import CheckboxField from '../../../../../common/components/FormikFields/CheckboxField';
 import Tooltip from '../../../../../common/components/Tooltip';
 import { BUTTON } from '../../../../../common/constants/common';
 import DateIcon from '../../../../../layout/assets/icons/dateIcon.svg';

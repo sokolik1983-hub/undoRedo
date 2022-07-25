@@ -21,3 +21,18 @@
 .workArea {
   height: 100%;
 }
+
+.scalePanelButton {
+  cursor: pointer;
+}
+
+.scalePanel {
+  position: absolute;
+  bottom: 0px;
+  right: 48px;
+  z-index: 15;
+  width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}

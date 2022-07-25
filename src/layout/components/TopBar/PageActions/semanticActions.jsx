@@ -3,15 +3,19 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-import { SEMANTIC_PAGE_ACTIONS } from '../../../../common/constants/common';
+import Tooltip from '@src/common/components/Tooltip';
+import { SEMANTIC_PAGE_ACTIONS } from '@src/common/constants/common';
 import {
   createUniverse,
   setObjectsConnectionsModal,
-} from '../../../../data/actions/universes';
+} from '@src/data/actions/universes';
+import { useAppSelector } from '@src/data/hooks/redux';
 import {
   setIsShowingContexts,
   setIsShowingLinks,
-} from '../../../../data/reducers/schemaDesigner';
+  setShowingTabs,
+} from '@src/data/reducers/schemaDesigner';
+
 import CreateObjectLayerModal from '../../../../modules/SymlayersDesigner/CreateObjectLayerModal/index';
 import EditObjectLayerModal from '../../../../modules/SymlayersDesigner/Sidebar/EditObjectLayerModal';
 import translitNames from './helper';
@@ -54,6 +58,10 @@ const SemanticActions = () => {
     (state) => state.app.ui.modalEditObjectVisible,
   );
   /* удалить когда перенесем кнопку открытия Создать  */
+
+  const { showTabs, showLinks, showContexts } = useAppSelector(
+    (state) => state.app.schemaDesigner.ui,
+  );
 
   const links = useSelector((state) => state.app.schemaDesigner.links);
 
@@ -159,6 +167,8 @@ const SemanticActions = () => {
         return dispatch(setIsShowingContexts());
       case 'connectionsPanel':
         return dispatch(setIsShowingLinks());
+      case 'tabsPanel':
+        return dispatch(setShowingTabs());
       case 'commonSearch':
         return null;
       case 'saveSymLayer':
@@ -168,23 +178,39 @@ const SemanticActions = () => {
     }
   };
 
+  const isButtonPressed = (action) => {
+    return !!(
+      (action === 'contextPanel' && showContexts) ||
+      (action === 'connectionsPanel' && showLinks) ||
+      (action === 'tabsPanel' && showTabs)
+    );
+  };
+
   return (
     <div className={styles.actionsContainer}>
       {newArr.map((item) => {
         return (
-          <div
-            key={item.title}
-            className={
-              item.type === 'divider' ? styles.divider : styles.actionWrapper
-            }
-            title={item.title || ''}
-            onClick={() => item.enable && getAction(item.action)}
-          >
-            {item.enable ? item.icon : item.disIcon}
-            <span className={item.enable ? null : styles.deactivated}>
-              {item.text || ''}
-            </span>
-          </div>
+          <Tooltip placement={'bottomLeft'} overlay={item.title || ''}>
+            <div
+              key={item.title}
+              className={
+                item.type === 'divider' ? styles.divider : styles.actionWrapper
+              }
+              onClick={() => item.enable && getAction(item.action)}
+            >
+              <div
+                className={
+                  isButtonPressed(item.action) ? styles.pressedButton : null
+                }
+              ></div>
+              {item.enable ? item.icon : item.disIcon}
+              {item.text ? (
+                <span className={item.enable ? null : styles.deactivated}>
+                  {item.text || ''}
+                </span>
+              ) : null}
+            </div>
+          </Tooltip>
         );
       })}
       {isCreateObjectModalOpened && (

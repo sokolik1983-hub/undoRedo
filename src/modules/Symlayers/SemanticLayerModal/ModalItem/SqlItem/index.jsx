@@ -1,9 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import ModalItem from '..';
+import React from 'react';
+
+import CheckboxField from '../../../../../common/components/FormikFields/CheckboxField';
+import RadioField from '../../../../../common/components/FormikFields/RadioField';
 import styles from './SqlItem.module.scss';
-import CheckboxField from '../../../../../common/components/formikFields/checkboxField';
-import RadioField from '../../../../../common/components/formikFields/radioField';
+import ModalItem from '..';
 
 /**
  * @param title - строка для заголовка
@@ -11,7 +12,10 @@ import RadioField from '../../../../../common/components/formikFields/radioField
 
 const SQLRequestMap = [
   { value: 'semirequests', label: 'Подзапросы' },
-  { value: 'operators', label: 'Операторы объединения, пересечения и исключения' },
+  {
+    value: 'operators',
+    label: 'Операторы объединения, пересечения и исключения',
+  },
   { value: 'hardOperators', label: 'Сложные операторы в панели запросов' },
 ];
 
@@ -23,10 +27,10 @@ const SQLMultipleRoads = [
 
 const CartesianWork = [
   { value: 'notAllow', label: 'Не позволять' },
-  { value: 'warn', label: 'Предупреждать' }
-]
+  { value: 'warn', label: 'Предупреждать' },
+];
 
-const SqlItem = ({title}) => {
+const SqlItem = ({ title }) => {
   return (
     <ModalItem title={title}>
       <div className={styles.wrapperColumn}>
@@ -34,10 +38,10 @@ const SqlItem = ({title}) => {
           <div className={styles.wrapperColumn}>
             <p>Запрос</p>
             <div>
-              {SQLRequestMap.map(item => (
+              {SQLRequestMap.map((item) => (
                 <CheckboxField
-                  name='SQLRequest'
-                  key={item.value} 
+                  name="SQLRequest"
+                  key={item.value}
                   labelClass={styles.label}
                   wrapperClass={styles.checkbox}
                   {...item}
@@ -47,9 +51,9 @@ const SqlItem = ({title}) => {
           </div>
           <div className={styles.indents}>
             <p>Множественные пути</p>
-            {SQLMultipleRoads.map(item => (
+            {SQLMultipleRoads.map((item) => (
               <CheckboxField
-                name="SQLMultipleRoads" 
+                name="SQLMultipleRoads"
                 key={item.value}
                 labelClass={styles.label}
                 wrapperClass={styles.checkbox}
@@ -70,7 +74,7 @@ const SqlItem = ({title}) => {
                   wrapperClass={className}
                   {...item}
                 />
-              )
+              );
             })}
           </div>
         </div>
@@ -82,9 +86,9 @@ const SqlItem = ({title}) => {
 export default SqlItem;
 
 SqlItem.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
 };
 
 SqlItem.defaultProps = {
-  title: ''
+  title: '',
 };
