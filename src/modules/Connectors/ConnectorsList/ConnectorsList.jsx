@@ -19,6 +19,7 @@ import {
 import {
   getConnector,
   getConnectorFolderChildren,
+  getConnectorTypesSources,
   getConnectorsFolderId,
   getCurrentFolderId,
   getObjectFromConnector,
@@ -198,6 +199,7 @@ const ConnectorsList = () => {
         break;
       case 'settings':
         editConnectorModalHandler(id);
+        dispatch(getConnectorTypesSources({}));
         break;
       case 'connection check':
         break;

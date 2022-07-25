@@ -24,10 +24,6 @@ import styles from './EditConnectorModal.module.scss';
 const EditConnectorModal = ({ visible, onClose }) => {
   const dispatch = useDispatch();
 
-  if (visible) {
-    useEffect(() => dispatch(getConnectorTypesSources({})), []);
-  }
-
   const connector = useSelector((state) => state.app.data.connectorData);
   const types = useSelector((state) => state.app.data.dictionaries.source_type);
   const sources = useSelector((state) => state.app.data.dictionaries.source);
@@ -54,6 +50,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
   useEffect(() => {
     setShowTestOk(false);
     setShowTestFailed(false);
+    // dispatch(getConnectorTypesSources({}));
   }, [visible]);
 
   const testConnectorResult = useSelector(
