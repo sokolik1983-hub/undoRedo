@@ -239,7 +239,7 @@ const TableComponent = ({
     if (tableNames.length) {
       const list = [];
       tableNames.forEach((i) => {
-        const choosenItems = obj[i].reduce(
+        const choosenItems = obj[i].columns.reduce(
           (acc, item) =>
             searchMatches(item) && coloredValue ? [...acc, item.field] : acc,
           [],

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -12,9 +13,17 @@ const TablesPane = ({ onSelect }) => {
   const connectorObjects = useSelector(
     (state) => state.app.schemaDesigner.connectorObjects,
   );
+  const selectedTablesData = useSelector(
+    (state) => state.app.schemaDesigner.selectedTablesData,
+  );
   const layerName = useSelector((state) => state.app.schemaDesigner.layerName);
 
   const [selectedSchemes, setSelectedSchemes] = useState([]);
+  console.log(selectedSchemes, connectorObjects);
+
+  useEffect(() => {
+    console.log(selectedTablesData);
+  }, [selectedTablesData]);
 
   return (
     <div className={styles.root}>
