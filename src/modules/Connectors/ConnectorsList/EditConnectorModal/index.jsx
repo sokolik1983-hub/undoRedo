@@ -24,7 +24,9 @@ import styles from './EditConnectorModal.module.scss';
 const EditConnectorModal = ({ visible, onClose }) => {
   const dispatch = useDispatch();
 
-  useEffect(() => dispatch(getConnectorTypesSources({})), []);
+  if (visible) {
+    useEffect(() => dispatch(getConnectorTypesSources({})), []);
+  }
 
   const connector = useSelector((state) => state.app.data.connectorData);
   const types = useSelector((state) => state.app.data.dictionaries.source_type);
