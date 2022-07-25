@@ -67,7 +67,8 @@ const schemaDesigner = createSlice({
       state.tablesRefCoord = [...state.tablesRefCoord, action.payload];
     },
     setSelectedTablesData: (state, action) => {
-      action.payload.objectType = action.payload.type;
+      if (!action.payload.objectType)
+        action.payload.objectType = action.payload.type;
       delete action.payload.type;
       delete action.payload.catalog;
       delete action.payload.comment;
