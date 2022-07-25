@@ -233,49 +233,38 @@ const Provided = (props) => {
   }, [props.tables]);
 
   const renderZoomBtn = () => (
-    <div
-      key="scalePanel"
-      style={{
-        position: 'absolute',
-        top: 5,
-        right: 5,
-        zIndex: 15,
-      }}
-    >
-      {/* <Tooltip title="поиск по семантическому слою"> */}
-      {/*   <IconButton onClick={() => toggleSearchPopup()}> */}
-      {/*     <SearchIcon /> */}
-      {/*   </IconButton> */}
-      {/* </Tooltip> */}
+    <div key="scalePanel" className={styles.scalePanel}>
       <Tooltip
-        overlay={`${showMinimap ? 'скрыть' : 'показать'} миникарту`}
-        placement={'bottomLeft'}
+        overlay={`${showMinimap ? 'Скрыть' : 'Показать'} миникарту`}
+        placement={'topRight'}
       >
-        <IconButton onClick={() => SET_SHOW_MINIMAP(!showMinimap)}>
-          <MapIcon />
-        </IconButton>
+        <MapIcon
+          className={styles.scalePanelButton}
+          onClick={() => SET_SHOW_MINIMAP(!showMinimap)}
+        />
       </Tooltip>
       <Tooltip
-        overlay="масштаб всего семантического слоя"
-        placement={'bottomLeft'}
+        overlay="Масштаб всего семантического слоя"
+        placement={'topRight'}
       >
-        <IconButton onClick={handleZoomDefault}>
-          <ZoomOutMapIcon />
-        </IconButton>
+        <ZoomOutMapIcon
+          className={styles.scalePanelButton}
+          onClick={handleZoomDefault}
+        />
       </Tooltip>
-      <Tooltip overlay="отдалить" placement={'bottomLeft'}>
-        <IconButton
+      <Tooltip overlay="Отдалить" placement={'topRight'}>
+        <Minus
+          className={styles.scalePanelButton}
           onClick={
             mul < 0.10881882041201538 ? null : () => handleZoomCenter(-100)
           }
-        >
-          <Minus />
-        </IconButton>
+        />
       </Tooltip>
-      <Tooltip overlay="приблизить" placement={'bottomLeft'}>
-        <IconButton onClick={mul <= 1.9 ? () => handleZoomCenter(+100) : null}>
-          <Plus />
-        </IconButton>
+      <Tooltip overlay="Приблизить" placement={'topRight'}>
+        <Plus
+          className={styles.scalePanelButton}
+          onClick={mul <= 1.9 ? () => handleZoomCenter(+100) : null}
+        />
       </Tooltip>
     </div>
   );
