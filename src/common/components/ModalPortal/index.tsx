@@ -5,7 +5,7 @@ import Portal from '../Portal';
 import styles from './Modal.module.scss';
 
 interface IModalPortalProps {
-  className: string;
+  className?: string;
   children: ReactNode;
   isVisible: boolean;
 }
