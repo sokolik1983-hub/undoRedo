@@ -149,6 +149,7 @@ function ReportDesigner() {
         createReportElement({
           type: reportDesigner.reportsUi.ui.creatingElement,
           mousePosition,
+          length: newStructure.pgBody.content.children.length + 1,
         }),
       );
       // const newStructure = [

@@ -41,7 +41,7 @@ const defaultExpression = {
   type: 'Const',
 };
 
-export const createReportElement = ({ type, mousePosition }) => {
+export const createReportElement = ({ type, mousePosition, length }) => {
   const { x, y } = mousePosition;
 
   const defaultCellStyle = {};
@@ -49,7 +49,7 @@ export const createReportElement = ({ type, mousePosition }) => {
   const cell = {
     id: generateId(),
     type: 'cell',
-    name: `ячейка ${generateId()}`,
+    name: `блок ${length}`,
     size: {
       minimalHeight: 10,
       minimalWidth: 120,
@@ -131,7 +131,7 @@ export const createReportElement = ({ type, mousePosition }) => {
       },
     },
     id: generateId(),
-    name: 'горизонтальная таблица',
+    name: `блок ${length}`,
     position: { x, xType: 'Absolute', y, yType: 'Absolute' },
     size: {
       autofitHeight: false,
@@ -206,7 +206,7 @@ export const createReportElement = ({ type, mousePosition }) => {
       },
     },
     id: `${generateId()}`,
-    name: 'вертикальная таблица',
+    name: `блок ${length}`,
     position: { x, xType: 'Absolute', y, yType: 'Absolute' },
     size: {
       autofitHeight: false,
@@ -375,7 +375,7 @@ export const createReportElement = ({ type, mousePosition }) => {
       },
     },
     id: generateId(),
-    name: 'кросс таблица',
+    name: `блок ${length}`,
     position: { x, xType: 'Absolute', y, yType: 'Absolute' },
     size: {
       autofitHeight: false,
@@ -388,7 +388,7 @@ export const createReportElement = ({ type, mousePosition }) => {
   const barChart = {
     id: generateId(),
     type: 'barChart',
-    name: `столбчатый график ${generateId()}`,
+    name: `блок ${length}`,
     size: {
       minimalHeight: 250,
       minimalWidth: 250,
@@ -407,7 +407,7 @@ export const createReportElement = ({ type, mousePosition }) => {
   const lineChart = {
     id: generateId(),
     type: 'lineChart',
-    name: `линейный график ${generateId()}`,
+    name: `блок ${length}`,
     position: {
       xType: 'Absolute',
       yType: 'Absolute',
@@ -420,7 +420,7 @@ export const createReportElement = ({ type, mousePosition }) => {
   const pieChart = {
     id: generateId(),
     type: 'pieChart',
-    name: `круговая диаграмма ${generateId()}`,
+    name: `блок ${length}`,
     position: {
       xType: 'Absolute',
       yType: 'Absolute',
