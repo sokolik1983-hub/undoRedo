@@ -18,8 +18,10 @@ const schemaDesigner = createSlice({
     contexts: [],
     objectsLayerList: [],
     ui: {
+      showTabs: true,
       showLinks: false,
       showContexts: false,
+      showSideBar: true,
       isLoading: false,
     },
     coloredValue: '',
@@ -38,6 +40,9 @@ const schemaDesigner = createSlice({
   reducers: {
     setIsLoading: (state, action) => {
       state.ui.isLoading = action.payload;
+    },
+    setShowingTabs: (state) => {
+      state.ui.showTabs = !state.ui.showTabs;
     },
     setIsShowingContexts: (state) => {
       state.ui.showContexts = !state.ui.showContexts;
@@ -185,6 +190,7 @@ const schemaDesigner = createSlice({
 
 export const {
   setIsLoading,
+  setShowingTabs,
   setIsShowingContexts,
   setIsShowingLinks,
   setConnectorObjects,

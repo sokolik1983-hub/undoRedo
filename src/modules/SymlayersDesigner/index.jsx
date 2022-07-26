@@ -1,7 +1,10 @@
+import clsx from 'clsx';
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { useAppSelector } from '@src/data/hooks/redux';
 
 import { PAGE } from '../../common/constants/pages';
 import {
@@ -44,7 +47,9 @@ function SymlayersDesigner() {
     (state) => state.app.schemaDesigner.selectedTablesArray,
   );
 
-  const schemaDesignerUi = useSelector((state) => state.app.schemaDesigner.ui);
+  const schemaDesignerUi = useAppSelector(
+    (state) => state.app.schemaDesigner.ui,
+  );
   const links = useSelector((state) => state.app.schemaDesigner.links);
   const contexts = useSelector((state) => state.app.schemaDesigner.contexts);
 
@@ -133,12 +138,26 @@ function SymlayersDesigner() {
       <div className={styles.content}>
         <div className={styles.schema}>
           <div className={styles.header}>
-            {schemaDesignerUi.showLinks && (
-              <TablesList title="Связи" items={links} type="links" />
+            {schemaDesignerUi.showTabs && (
+              <Sidebar onSelect={handleSelectTable} />
             )}
-            {schemaDesignerUi.showContexts && (
-              <TablesList title="Контексты" items={contexts} type="contexts" />
-            )}
+            <div
+              className={clsx(
+                styles.linksContextWrapper,
+                schemaDesignerUi.showTabs ? styles.showedTabs : null,
+              )}
+            >
+              {schemaDesignerUi.showLinks && (
+                <TablesList title="Связи" items={links} type="links" />
+              )}
+              {schemaDesignerUi.showContexts && (
+                <TablesList
+                  title="Контексты"
+                  items={contexts}
+                  type="contexts"
+                />
+              )}
+            </div>
           </div>
           <div
             className={styles.tables}
@@ -161,7 +180,6 @@ function SymlayersDesigner() {
             />
           </div>
         </div>
-        <Sidebar onSelect={handleSelectTable} />
       </div>
       {isObjectsConnectionsModalOpened && (
         <ObjectsConnectionEditor

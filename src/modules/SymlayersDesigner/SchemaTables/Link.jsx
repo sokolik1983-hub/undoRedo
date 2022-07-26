@@ -3,10 +3,10 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
-export default props => {
+export default (props) => {
   const {
     SourceRect: { portRect: SourceRect = {}, tableRect: SourceTableRect },
-    TargetRect: { portRect: TargetRect = {}, tableRect: TargetTableRect }
+    TargetRect: { portRect: TargetRect = {}, tableRect: TargetTableRect },
   } = props;
 
   if (
@@ -108,21 +108,21 @@ export default props => {
 
   const fromPoint = {
     y: SourceRect.y + SourceRect.height / 2,
-    x: sp + portWidth * sd
+    x: sp + portWidth * sd,
   };
 
   const toPoint = {
     y: TargetRect.y + TargetRect.height / 2,
-    x: tp + portWidth * td
+    x: tp + portWidth * td,
   };
   const fromDirection = {
     y: fromPoint.y,
-    x: sp + delta * sd
+    x: sp + delta * sd,
   };
 
   const toDirection = {
     y: toPoint.y,
-    x: tp + delta * td
+    x: tp + delta * td,
   };
 
   if (props.isLoop && fromDirection.y === toDirection.y) {
@@ -139,14 +139,14 @@ export default props => {
     x: Math.min(sp + portWidth * sd, sp),
     y: SourceRect.y + portMargin,
     width: portWidth,
-    height: SourceRect.height - portMargin * 2
+    height: SourceRect.height - portMargin * 2,
   };
 
   const trgPort = {
     x: Math.min(tp + portWidth * td, tp),
     y: TargetRect.y + portMargin,
     width: portWidth,
-    height: TargetRect.height - portMargin * 2
+    height: TargetRect.height - portMargin * 2,
   };
 
   // const flt = fromPoint.x < toPoint.x
@@ -155,28 +155,27 @@ export default props => {
     arrowPlaseDelta * (fromDirection.x > fromPoint.x ? 1 : -1);
   const toArrowPlace = arrowPlaseDelta * (toPoint.x > toDirection.x ? 1 : -1);
 
-  const path = `M ${fromPoint.x} ${fromPoint.y} L ${fromPoint.x +
-    fromArrowPlace} ${fromPoint.y} C ${fromDirection.x} ${fromDirection.y}, ${
-    toDirection.x
-  } ${toDirection.y}, ${toPoint.x - toArrowPlace} ${toPoint.y} L ${toPoint.x} ${
-    toPoint.y
-  }`;
+  const path = `M ${fromPoint.x} ${fromPoint.y} L ${
+    fromPoint.x + fromArrowPlace
+  } ${fromPoint.y} C ${fromDirection.x} ${fromDirection.y}, ${toDirection.x} ${
+    toDirection.y
+  }, ${toPoint.x - toArrowPlace} ${toPoint.y} L ${toPoint.x} ${toPoint.y}`;
 
-  const onMouseUp = event => {
+  const onMouseUp = (event) => {
     if (event.button !== 0) return;
     if (props.handleEdit) event.stopPropagation();
     if (props.handleEdit) props.handleEdit(props.link.id);
     if (props.onShowLinkEdit) props.onShowLinkEdit(true);
   };
 
-  const onMouseDown = event => {
+  const onMouseDown = (event) => {
     if (event.button !== 0) return;
     if (props.handleEdit) event.stopPropagation();
   };
 
   // console.log({SourceRect, TargetRect, crossClass, sp, sd, tp, td, dc, bd})
   // console.log(props.link.object2)
-  const objectToMarker = object =>
+  const objectToMarker = (object) =>
     object.cardinality === 'many' ? 'url(#fork)' : null;
 
   const startMarker =
@@ -192,8 +191,8 @@ export default props => {
   return (
     <g
       className="link-group"
-      onMouseDown={e => onMouseDown(e)}
-      onMouseUp={e => onMouseUp(e)}
+      onMouseDown={(e) => onMouseDown(e)}
+      onMouseUp={(e) => onMouseUp(e)}
     >
       {/* {TargetRect && TargetRect.width && <rect {...TargetRect} fill='rgba(0, 255, 0, 0.5)'></rect>}
             {SourceRect && SourceRect.width && <rect {...SourceRect} fill='rgba(0, 0, 255, 0.5)'></rect>} */}
