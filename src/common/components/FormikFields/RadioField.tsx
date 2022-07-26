@@ -1,9 +1,15 @@
-import React from 'react';
 import { useField } from 'formik';
-import PropTypes from 'prop-types';
+import React, { FC } from 'react';
+
 import Radio from '../Radio';
 
-const RadioField = ({ name, value, label, ...props }) => {
+interface IRadioFieldProps {
+  name: string;
+  value: string;
+  label: string;
+}
+
+const RadioField: FC<IRadioFieldProps> = ({ name, value, label, ...props }) => {
   const [field] = useField({ name, value, type: 'radio' });
   const { name: fieldName, checked, onChange, value: fieldValue } = field;
 
@@ -18,12 +24,6 @@ const RadioField = ({ name, value, label, ...props }) => {
       {...props}
     />
   );
-};
-
-RadioField.propTypes = {
-  name: PropTypes.string,
-  value: PropTypes.string,
-  label: PropTypes.string
 };
 
 export default RadioField;

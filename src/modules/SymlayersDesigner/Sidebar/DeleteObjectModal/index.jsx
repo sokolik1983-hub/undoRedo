@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 import Button from '../../../../common/components/Button';
-import Modal from '../../../../common/components/ModalPortal/Modal';
+import Modal from '../../../../common/components/ModalPortal';
 import { BUTTON } from '../../../../common/constants/common';
 import WarnIcon from '../../../../layout/assets/warningIcon.svg';
 import styles from './DeleteObjectModal.module.scss';

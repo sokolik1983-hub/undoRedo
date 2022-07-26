@@ -1,4 +1,5 @@
 import { Formik } from 'formik';
+import React from 'react';
 
 import {
   CategoryAxisItems,
@@ -8,14 +9,14 @@ import {
   ViewItems,
   values,
 } from '../../../constants/reportDesigner/viewGraphOptions';
-import CheckboxField from '../../formikFields/checkboxField';
+import CheckboxField from '../../FormikFields/CheckboxField';
 import SimpleDropDown from '../../SimpleDropDown';
 import styles from '../SidePanel.module.scss';
 
 const View = () => {
   return (
-    <Formik initialValues={values}>
-      <div className={styles.itemsWrapper}>
+    <Formik initialValues={values} onSubmit={() => console.log('submit')}>
+      <div>
         <SimpleDropDown title="Просмотр" titleClassName={styles.heading}>
           <div className={styles.checkBox}>
             {ViewItems.map((item) => {
@@ -23,6 +24,7 @@ const View = () => {
                 <CheckboxField
                   key={item.value}
                   id={item.value}
+                  checked={false}
                   name="viewValues"
                   label={item.label}
                   value={item.value}
@@ -43,6 +45,7 @@ const View = () => {
                     <CheckboxField
                       key={item.value}
                       id={item.value}
+                      checked={false}
                       name="categoryAxisValues"
                       label={item.label}
                       value={item.value}
@@ -59,6 +62,7 @@ const View = () => {
                     <CheckboxField
                       key={item.value}
                       id={item.value}
+                      checked={false}
                       name="valueAxisValues"
                       label={item.label}
                       value={item.value}
@@ -78,6 +82,7 @@ const View = () => {
                     <CheckboxField
                       key={item.value}
                       id={item.value}
+                      checked={false}
                       name="hideValues"
                       label={item.label}
                       value={item.value}
@@ -100,6 +105,7 @@ const View = () => {
                       name="measureGaugeValues"
                       label={item.label}
                       value={item.value}
+                      checked={false}
                       wrapperClass={styles.checkBoxWrapper}
                     />
                   );
@@ -114,8 +120,9 @@ const View = () => {
         >
           <div className={styles.checkBox}>
             <CheckboxField
-              id={155}
+              id={'viewValues'}
               name="viewValues"
+              checked={false}
               label="Показать предупреждение при наличии несовместимых данных"
               value="showIncompatibleDataWarning"
               wrapperClass={styles.checkBoxWrapper}

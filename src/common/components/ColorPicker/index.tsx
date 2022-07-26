@@ -1,7 +1,6 @@
 import FormatColorTextIcon from '@material-ui/icons/FormatColorText';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { ChangeEvent, FC, ReactElement, useState } from 'react';
 
 import styles from './ColorPicker.module.scss';
 
@@ -11,21 +10,31 @@ import styles from './ColorPicker.module.scss';
  * @param icon - иконка для вывода селектора
  */
 
-function ColorPicker({ onChangeColor, className, icon }) {
+interface IColorPickerProps {
+  onChangeColor: (color: string) => object;
+  className: string;
+  icon?: ReactElement;
+}
+
+const ColorPicker: FC<IColorPickerProps> = ({
+  onChangeColor,
+  className,
+  icon = <FormatColorTextIcon />,
+}) => {
   const [color, setColor] = useState('#ffffff');
   const [active, setActive] = useState(false);
 
-  function handleChange(e) {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setActive(!active);
     setColor(e.target.value);
     onChangeColor(e.target.value);
-  }
+  };
 
   return (
     <div className={clsx(styles.background, className)}>
       <div className={clsx(styles.overlay, { [styles.active]: active })} />
       <label
-        className={styles['color-selector']}
+        className={styles.colorSelector}
         htmlFor="color_picker"
         // style={{ color }}
       >
@@ -40,20 +49,6 @@ function ColorPicker({ onChangeColor, className, icon }) {
       </label>
     </div>
   );
-}
-
-ColorPicker.propTypes = {
-  onChangeColor: PropTypes.func,
-  className: PropTypes.string,
-  icon: PropTypes.node,
-};
-
-ColorPicker.defaultProps = {
-  onChangeColor: () => {
-    // something
-  },
-  className: '',
-  icon: <FormatColorTextIcon />,
 };
 
 export default ColorPicker;

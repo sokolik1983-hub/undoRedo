@@ -1,15 +1,16 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+
 import Button from '../../../../../common/components/Button';
-import Modal from '../../../../../common/components/ModalPortal/Modal';
+import Modal from '../../../../../common/components/ModalPortal';
 import TextInput from '../../../../../common/components/TextInput';
 import { BUTTON, EMPTY_STRING } from '../../../../../common/constants/common';
 import styles from './EditLayerModal.module.scss';
 
 const EditLayerModal = ({ isOpen, onRename, onCancel, currentTitle }) => {
-  const options = useSelector(state =>
-    state.app?.reportDesigner?.queryPanelData.data?.map(i => i.queryTitle)
+  const options = useSelector((state) =>
+    state.app?.reportDesigner?.queryPanelData.data?.map((i) => i.queryTitle),
   );
 
   const [value, setValue] = useState(EMPTY_STRING);
@@ -34,7 +35,7 @@ const EditLayerModal = ({ isOpen, onRename, onCancel, currentTitle }) => {
           className={styles.input}
           wrapperClassName={styles.inputWrapper}
           value={value}
-          onChange={e => setValue(e.target.value)}
+          onChange={(e) => setValue(e.target.value)}
           ref={inputRef}
         />
         {isValueUniq ? null : (
