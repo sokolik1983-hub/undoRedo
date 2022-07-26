@@ -1,8 +1,14 @@
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {
+  ButtonHTMLAttributes,
+  DetailedHTMLProps,
+  FC,
+  MouseEvent,
+  ReactNode,
+  SyntheticEvent,
+} from 'react';
 
-import { BUTTON } from '../../constants/common';
+import { BUTTON, EMPTY_STRING } from '../../constants/common';
 import styles from './Button.module.scss';
 
 /**
@@ -18,14 +24,25 @@ import styles from './Button.module.scss';
  * @param buttonStyle - стиль кнопки
  */
 
-const Button = ({
+interface IButtonProps
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
+  children: ReactNode | string | number;
+  onClick: (e: SyntheticEvent) => void;
+  className?: string;
+  disabled?: boolean;
+  active?: boolean;
+  buttonStyle?: BUTTON;
+}
+
+const Button: FC<IButtonProps> = ({
   children,
   onClick,
-  className,
-  disabled,
-  active,
-  size,
-  color,
+  className = EMPTY_STRING,
+  disabled = false,
+  active = false,
   buttonStyle,
   ...props
 }) => {
@@ -43,12 +60,10 @@ const Button = ({
     { [styles.smallOrange]: buttonStyle === BUTTON.SMALL_ORANGE },
     className,
     { active },
-    [styles[size]],
-    [styles[color]],
     { [styles.disabled]: disabled },
   );
 
-  const onClickAction = (event) => {
+  const onClickAction = (event: MouseEvent<HTMLButtonElement>) => {
     if (disabled) {
       event.preventDefault();
     } else {
@@ -56,44 +71,16 @@ const Button = ({
     }
   };
 
-  const Tag = props.href ? 'a' : 'button';
-
   return (
-    <Tag
-      {...props}
+    <button
       className={classes}
       onClick={onClickAction}
       disabled={disabled}
-      type={Tag === 'button' ? props.type : null}
+      {...props}
     >
       {children}
-    </Tag>
+    </button>
   );
-};
-
-Button.propTypes = {
-  children: PropTypes.node,
-  onClick: PropTypes.func,
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  active: PropTypes.bool,
-  size: PropTypes.string,
-  color: PropTypes.string,
-  href: PropTypes.string,
-  type: PropTypes.string,
-  buttonStyle: PropTypes.string,
-};
-
-Button.defaultProps = {
-  children: 'Default button',
-  onClick: () => {
-    // something
-  },
-  className: '',
-  disabled: false,
-  active: false,
-  size: 'medium',
-  color: '',
 };
 
 export default Button;

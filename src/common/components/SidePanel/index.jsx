@@ -4,19 +4,15 @@ import lodash, { cloneDeep, find } from 'lodash';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setReportStructure } from '../../../data/actions/newReportDesigner';
 import {
   addSortingField,
-  addTableColumn,
-  addTableRow,
-  addTableValue,
   removeTableColumn,
   setActiveNodes,
-  setConfigPanelVisible,
   setStructure,
   setTableStyle,
   setTableVariant,
-} from '../../../data/reducers/new_reportDesigner';
+} from '../../../data/reportDesigner/reportsData/reportsDataReducer';
+import { setConfigPanelVisible } from '../../../data/reportDesigner/reportsUi/reportDesignerUIReducer';
 import CloseIcon from '../../../layout/assets/closeWhite.svg';
 import { getCurrentReport } from '../../../modules/ReportDesigner/helpers';
 import { BUTTON, SIDE_PANEL_TYPES } from '../../constants/common';

@@ -12,31 +12,29 @@ import styles from './Tooltip.module.scss';
  */
 
 type Placement =
+  | 'top'
   | 'left'
   | 'right'
-  | 'top'
   | 'bottom'
   | 'topLeft'
-  | 'leftTop'
   | 'topRight'
-  | 'rightTop'
   | 'bottomLeft'
-  | 'leftBottom'
   | 'bottomRight'
+  | 'leftTop'
+  | 'leftBottom'
+  | 'rightTop'
   | 'rightBottom';
 
 interface ITooltipProps extends TooltipProps {
   children: ReactElement;
+  placement?: Placement;
   className?: string;
-  placement: Placement;
-  visible?: boolean;
 }
 
 const Tooltip: FC<ITooltipProps> = ({
   children,
   placement = 'bottomLeft',
   className,
-  visible,
   ...props
 }) => {
   const overlayClassName = clsx(styles.overlay, className);

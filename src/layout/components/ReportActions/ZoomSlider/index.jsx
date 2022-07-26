@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setZoom } from '../../../../data/reducers/new_reportDesigner';
+import { setZoom } from '../../../../data/reportDesigner/reportsUi/reportDesignerUIReducer';
 import Minus from '../../../assets/reportDesigner/minus.svg';
 import Plus from '../../../assets/reportDesigner/plus.svg';
 import styles from './ZoomSlider.module.scss';

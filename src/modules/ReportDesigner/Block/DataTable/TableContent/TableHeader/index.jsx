@@ -5,8 +5,6 @@ import cloneDeep from 'lodash/cloneDeep';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getElementData } from '../../../../../../data/actions/newReportDesigner';
-import { setFormattingElement } from '../../../../../../data/reducers/new_reportDesigner';
 import Cell from '../../../TableCell';
 import { LoadingRow, getStyleFn, renderRow } from '../../helpers';
 import { getZoneData, selectCell } from '../helpers';

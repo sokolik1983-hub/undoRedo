@@ -4,7 +4,7 @@ import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Rnd } from 'react-rnd';
 
-import { setSelectedColumns } from '../../../data/reducers/new_reportDesigner';
+import { setSelectedColumns } from '../../../data/reportDesigner/reportsUi/reportDesignerUIReducer';
 import BarGraph from '../Charts/BarChart/index';
 import { LineGraph } from '../Charts/LineChart/index';
 import { Diagramm } from '../Charts/PieChart/index';
