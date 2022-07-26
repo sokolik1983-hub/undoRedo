@@ -3,6 +3,7 @@ import React, {
   ButtonHTMLAttributes,
   DetailedHTMLProps,
   FC,
+  MouseEvent,
   ReactNode,
   SyntheticEvent,
 } from 'react';
@@ -62,7 +63,7 @@ const Button: FC<IButtonProps> = ({
     { [styles.disabled]: disabled },
   );
 
-  const onClickAction = (event) => {
+  const onClickAction = (event: MouseEvent<HTMLButtonElement>) => {
     if (disabled) {
       event.preventDefault();
     } else {

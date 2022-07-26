@@ -9,7 +9,7 @@ import ListItemEditReport from '../../../../common/components/List/ListItemEdit/
 import SimpleDropDown from '../../../../common/components/SimpleDropDown/index';
 import Tooltip from '../../../../common/components/Tooltip';
 import { deepObjectSearch } from '../../../../data/helpers';
-import { setStructure } from '../../../../data/reducers/new_reportDesigner';
+import { setStructure } from '../../../../data/reportDesigner/reportsData/reportsDataReducer';
 import StructureIcon from '../../../../layout/assets/reportDesigner/structure.svg';
 import BodyIcon from '../../../../layout/assets/reportDesigner/structureBody.svg';
 import FooterIcon from '../../../../layout/assets/reportDesigner/structureFooter.svg';
@@ -17,8 +17,6 @@ import HeaderIcon from '../../../../layout/assets/reportDesigner/structureHeader
 import TextIcon from '../../../../layout/assets/reportDesigner/structureText.svg';
 import { FOLDER_DROPDOWN_ACTIONS } from '../../../Reports/helper';
 import styles from './ReportObjectsPanel.module.scss';
-
-// import { setReportStructure } from '../../../../data/actions/newReportDesigner';
 
 const Structure = ({ currentReport, onSelect, isActiveNode }) => {
   const [editListItemId, setEditListItemId] = useState();

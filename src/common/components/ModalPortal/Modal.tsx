@@ -21,15 +21,13 @@ const Modal: FC<IModalProps> = ({
     [styles.active]: isVisible,
   });
 
-  return (
+  return isVisible ? (
     <Portal container={container}>
-      {isVisible && (
-        <div className={modal}>
-          <div className={styles.modalContent}>{children}</div>
-        </div>
-      )}
+      <div className={modal}>
+        <div className={styles.modalContent}>{children}</div>
+      </div>
     </Portal>
-  );
+  ) : null;
 };
 
 export default Modal;

@@ -29,32 +29,30 @@ import Tooltip from '../../common/components/Tooltip';
 import { BUTTON } from '../../common/constants/common';
 import { PAGE } from '../../common/constants/pages';
 import { REPORT_ACTIONS } from '../../common/constants/reportDesigner/reportActions';
+import { setCurrentPage } from '../../data/reducers/ui';
 import {
   createReport,
   getElementData,
   getReportStructure,
-  getReportTabs,
   getStreamReceiever,
   getVariables,
   openReport,
   refreshServerResponse,
   setReportStructure,
-} from '../../data/actions/newReportDesigner';
+} from '../../data/reportDesigner/reportsData/reportsDataActions';
 import {
-  cellObject,
-  reportObject,
   reportPageObject,
   setActiveNodeFormula,
   setActiveNodes,
   setActiveReport,
+  setReports,
+  setStructure,
+} from '../../data/reportDesigner/reportsData/reportsDataReducer';
+import {
   setConfigPanelVisible,
   setCreatingElement,
-  setFormattingElementFormula,
-  setReports,
   setSelectedColumns,
-  setStructure,
-} from '../../data/reducers/new_reportDesigner';
-import { setCurrentPage } from '../../data/reducers/ui';
+} from '../../data/reportDesigner/reportsUi/reportDesignerUIReducer';
 import PlusIcon from '../../layout/assets/queryPanel/plus.svg';
 import ClearFormulaIcon from '../../layout/assets/reportDesigner/clearFormula.svg';
 import MiniFormulaIcon from '../../layout/assets/reportDesigner/miniFormula.svg';
@@ -102,7 +100,7 @@ function ReportDesigner() {
         );
         dispatch(setStructure(filteredStructure));
         // dispatch(
-        //   setReportStructure({
+        // setReportStructure({
         //     report_id: currentReport.id,
         //     structure: filteredStructure
         //   })

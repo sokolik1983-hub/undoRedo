@@ -13,7 +13,7 @@ import {
   deleteSymlayer,
   editSymlayer,
   setCurrentSymlayer,
-} from '../../../../data/reducers/new_reportDesigner';
+} from '../../../../data/reportDesigner/queryPanelData/queryPanelDataReducer';
 import PlusIcon from '../../../../layout/assets/queryPanel/plus.svg';
 import BinIcon from '../../../../layout/assets/queryPanel/selectOptionActions/binIcon.svg';
 import CopyIcon from '../../../../layout/assets/queryPanel/selectOptionActions/createCopyIcon.svg';

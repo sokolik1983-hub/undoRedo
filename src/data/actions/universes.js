@@ -6,13 +6,8 @@ import {
   setConnectorId,
   setCurrentUniverse,
   setListReports,
-  setQueryData,
-  setQueryPanelSymlayersData,
-  setQueryResult,
   setReportsFolderId,
   setSampleUniverseObject,
-  setSymanticLayerData,
-  setSymanticLayerQueryResult,
   setUniverseIsCreated,
   setUniverses,
   setUniversesFolderId,
@@ -43,7 +38,6 @@ import {
 } from '../reducers/ui';
 import { showToast } from './app';
 import { getObjectFromConnector } from './connectors';
-import { setReportDpRefreshed } from './newReportDesigner';
 
 export const getUniversesFolderChildren = (queryParams) => async (dispatch) => {
   const response = await request({
@@ -190,16 +184,16 @@ export const createUniverse = (queryParams, layerName) => {
   };
 };
 
-export const createQuery = (queryParams) => async (dispatch) => {
-  const response = await request({
-    code: 'UNV.GET_SQL',
-    params: queryParams,
-    dispatch,
-  });
-  if (response) {
-    dispatch(setQueryData(response));
-  }
-};
+// export const createQuery = (queryParams) => async (dispatch) => {
+//   const response = await request({
+//     code: 'UNV.GET_SQL',
+//     params: queryParams,
+//     dispatch,
+//   });
+//   if (response) {
+//     dispatch(setQueryData(response));
+//   }
+// };
 
 export const getListReports = (queryParams) => {
   return async (dispatch) => {

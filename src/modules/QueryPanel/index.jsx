@@ -8,13 +8,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../../common/components/Modal';
 import { EMPTY_STRING, TOAST_TYPE } from '../../common/constants/common';
 import { showToast } from '../../data/actions/app';
+import { setQueryPanelModal } from '../../data/actions/universes';
 import {
   createQuery,
   createQueryAndGetResult,
   createQueryAndPostQueryPanelTab,
   getQueryPanelSymanticLayerData,
-} from '../../data/actions/newReportDesigner';
-import { setQueryPanelModal } from '../../data/actions/universes';
+} from '../../data/reportDesigner/queryPanelData/queryPanelDataActions';
 import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.module.scss';
 import DragNDropProvider from './context/DragNDropContext';
 import Filters from './Filters';
@@ -22,6 +22,7 @@ import { FILTER_TYPES_ARR } from './Filters/FiltersDeskItem/constants';
 import { getCondition } from './helper';
 import Objects from './Objects';
 import ObjectsPanel from './ObjectsPanel';
+import styles from './QueryPanel.module.scss';
 import QueryPanelControls from './QueryPanelControls/QueryPanelControls';
 import Results from './Results';
 import SelectSemanticLayer from './SelectSemanticLayer';

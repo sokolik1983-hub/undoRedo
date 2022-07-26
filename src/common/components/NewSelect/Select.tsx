@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow */
 import clsx from 'clsx';
 import React, {
   Children,

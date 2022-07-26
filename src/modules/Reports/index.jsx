@@ -18,14 +18,13 @@ import {
   TABLE_CELL_EMPTY_VALUE,
 } from '../../common/constants/common';
 import { PAGE } from '../../common/constants/pages';
-// import { openReport } from '../../data/actions/newReportDesigner';
 import { setObjectFavoriteStatus } from '../../data/actions/app';
-import { deleteReport } from '../../data/actions/newReportDesigner';
 import {
   getReportsFolderChildren,
   getReportsFolderId,
 } from '../../data/actions/universes';
 import { setCurrentPage } from '../../data/reducers/ui';
+import { deleteReport } from '../../data/reportDesigner/reportsData/reportsDataActions';
 import ConnectorIcon from '../../layout/assets/connectorIcon.svg';
 import CreateConnector from '../../layout/assets/createConnector.svg';
 import FolderIcon from '../../layout/assets/folderIcon.svg';

@@ -1,37 +1,45 @@
-import PropTypes from 'prop-types';
-/* eslint-disable no-shadow */
-/* eslint-disable no-unused-vars */
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+// @ts-nocheck
+import React, { FC, useEffect, useState } from 'react';
 
 import Divider from '../../../common/components/Divider';
 import { EMPTY_STRING } from '../../../common/constants/common';
-import { createQuery } from '../../../data/actions/newReportDesigner';
+import { useAppDispatch, useAppSelector } from '../../../data/hooks/redux';
+import { createQuery } from '../../../data/reportDesigner/queryPanelData/queryPanelDataActions';
 import Reload from '../../../layout/assets/queryPanel/reload.svg';
 import { useDragNDrop } from '../context/DragNDropContext';
 import { getCondition } from '../helper';
 import styles from './Results.module.scss';
 import ResultsTable from './ResultsTable';
 
-const Results = ({
+interface IResultProps {
+  title: string;
+  isQueryExecute: boolean;
+  onQueryTextCreate: (dpSql: string) => void;
+  onObjFilEdit: (objectsDesk: any, filtersDesk: any) => void;
+}
+
+const Results: FC<IResultProps> = ({
   title,
   isQueryExecute,
   onQueryTextCreate,
   onObjFilEdit,
 }) => {
-  const dispatch = useDispatch();
-  const [errorText, setError] = useState(EMPTY_STRING);
+  const dispatch = useAppDispatch();
+  const [errorText, setError] = useState<string>(EMPTY_STRING);
 
-  const symLayerData = useSelector((state) => state.app?.data?.symLayersData);
-  const queryData = useSelector((state) => state.app?.data?.queryData);
-  const connectorId = useSelector((state) => {
-    const { currentLayerTitle, data } =
-      state.app?.data?.queryPanelSymlayersData;
-    const currentLayer = data.find((i) => i.queryTitle === currentLayerTitle);
-    return currentLayer?.connector_id || null;
-  });
-
-  const queryResult = useSelector((state) => state.app?.data?.queryResult);
+  const { connectorId, queryData, symLayerData, queryResult } = useAppSelector(
+    (state) => {
+      const { currentLayerTitle, data } =
+        state.app?.reportDesigner?.queryPanelData;
+      const currentLayer = data.find((i) => i.queryTitle === currentLayerTitle);
+      return {
+        connectorId: currentLayer?.connector_id || null,
+        queryData: currentLayer?.queryData || null,
+        symLayerData: currentLayer?.symLayerData || null,
+        queryResult: currentLayer?.queryResult || null,
+      };
+    },
+  );
 
   const { objectsDesk, filtersDesk } = useDragNDrop();
 
@@ -89,8 +97,8 @@ const Results = ({
           <ResultsTable
             size="small"
             className={styles.table}
-            headersArr={queryResult.description}
-            bodyArr={queryResult.data}
+            headersArr={queryResult?.description}
+            bodyArr={queryResult?.data}
           />
         )}
       </div>
@@ -100,10 +108,3 @@ const Results = ({
 };
 
 export default Results;
-
-Results.propTypes = {
-  title: PropTypes.string,
-  isQueryExecute: PropTypes.bool,
-  onQueryTextCreate: PropTypes.func,
-  onObjFilEdit: PropTypes.func,
-};
