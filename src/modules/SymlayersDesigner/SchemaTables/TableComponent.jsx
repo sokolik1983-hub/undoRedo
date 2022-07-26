@@ -262,12 +262,6 @@ const TableComponent = ({
     }
   };
 
-  // useEffect(() => {
-  //   console.log('*')
-  //   if (showDataList) {
-  //   }
-  // }, [showDataList]);
-
   useEffect(() => {
     if (showDataList) {
       setIsHighlighted(true);
