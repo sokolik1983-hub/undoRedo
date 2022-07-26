@@ -16,32 +16,24 @@ const TablesPane = ({ onSelect }) => {
   // const selectedTablesData = useSelector(
   //   (state) => state.app.schemaDesigner.selectedTablesData,
   // );
-  const selectedTablesArray = useSelector(
-    (state) => state.app.schemaDesigner.selectedTablesArray,
-  );
   const layerName = useSelector((state) => state.app.schemaDesigner.layerName);
 
   const [selectedSchemes, setSelectedSchemes] = useState([]);
-  // console.log(selectedSchemes, connectorObjects, selectedTables);
+  const [findedSchemes, setFindedSchemes] = useState([]);
+  const [searchMod, setSearchMod] = useState(false);
 
-  useEffect(() => {
-    console.log(selectedTablesArray, connectorObjects);
-    const selectedSchemesArr = [];
-    connectorObjects.forEach((obj) => {
-      selectedTablesArray.forEach((tab) => {
-        if (`${obj.schema}_${obj.objectName}` === tab.name) {
-          selectedSchemesArr.push(obj);
-        }
-      });
-    });
-    setSelectedSchemes(selectedSchemesArr);
-  }, [selectedTablesArray, connectorObjects]);
-
-  console.log(selectedSchemes, selectedTablesArray);
+  const handleSwitchSearchMod = (mod) => {
+    setSearchMod(mod);
+  };
 
   return (
     <div className={styles.root}>
-      <TablesPaneActions setSelectedSchemes={setSelectedSchemes} />
+      <TablesPaneActions
+        setSelectedSchemes={setSelectedSchemes}
+        setFindedSchemes={setFindedSchemes}
+        searchMod={searchMod}
+        onSwitchSearchMod={handleSwitchSearchMod}
+      />
       <Divider color="#0D6CDD" />
       <div className={styles.tables}>
         <div className={styles.owner}>
@@ -49,9 +41,18 @@ const TablesPane = ({ onSelect }) => {
           <span>{layerName}</span>
         </div>
         <HierTreeView
-          data={selectedSchemes}
+          data={
+            searchMod && selectedSchemes.length
+              ? selectedSchemes
+              : !searchMod && findedSchemes.length
+              ? findedSchemes
+              : connectorObjects
+          }
           onSelect={onSelect}
-          isOpen={!!selectedSchemes?.length}
+          isOpen={
+            (searchMod && !!selectedSchemes?.length) ||
+            (!searchMod && !!findedSchemes?.length)
+          }
         />
       </div>
     </div>

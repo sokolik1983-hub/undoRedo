@@ -31,3 +31,9 @@
   height: max-content;
   width: max-content;
 }
+
+.actIconBtn {
+  @extend .iconBtn;
+  border: 1px solid black;
+  padding: 4px 4px 4px 2px;
+}
