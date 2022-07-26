@@ -154,7 +154,6 @@ const schemaDesigner = createSlice({
       state.dataList = [];
     },
     setShowDataList: (state, action) => {
-      console.log(state.showDataList);
       state.showDataList = action.payload;
     },
     setSemantycLayerName: (state, action) => {

@@ -269,7 +269,6 @@ const TableComponent = ({
   // }, [showDataList]);
 
   useEffect(() => {
-    console.log(showDataList);
     if (showDataList) {
       setIsHighlighted(true);
       dispatch(setDataList(getList(selectedTables)));

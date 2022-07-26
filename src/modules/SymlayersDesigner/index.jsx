@@ -89,7 +89,6 @@ function SymlayersDesigner() {
 
   const handleDeleteTable = (table) => {
     // удаление связей и полей уаленной таблицы
-    console.log(table);
     const filteredTables = checked.filter(
       (item) =>
         `${item.schema}.${item.objectName}` !==
@@ -111,7 +110,6 @@ function SymlayersDesigner() {
           `${table.schema}.${table.objectName}`
       );
     });
-    // dispatch(setLinks(filteredLinks))
     setObjectsLinks(filteredLinks);
 
     function childrenCheck(item) {

@@ -13,9 +13,6 @@ const TablesPane = ({ onSelect }) => {
   const connectorObjects = useSelector(
     (state) => state.app.schemaDesigner.connectorObjects,
   );
-  // const selectedTablesData = useSelector(
-  //   (state) => state.app.schemaDesigner.selectedTablesData,
-  // );
   const layerName = useSelector((state) => state.app.schemaDesigner.layerName);
 
   const [selectedSchemes, setSelectedSchemes] = useState([]);

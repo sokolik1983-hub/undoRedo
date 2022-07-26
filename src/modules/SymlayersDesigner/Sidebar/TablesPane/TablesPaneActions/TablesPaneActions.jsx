@@ -31,7 +31,6 @@ const TablesPaneActions = ({
 
   const handleShowDataList = (event) => {
     if (event.key === 'Enter' && coloredValue.length) {
-      console.log(coloredValue);
       event.preventDefault();
       dispatch(setShowDataList(true));
     } else if (event.key === 'Enter') {
