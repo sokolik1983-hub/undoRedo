@@ -262,17 +262,22 @@ const TableComponent = ({
     }
   };
 
-  useEffect(() => {
-    if (showDataList) {
-      setColorValue(coloredValue);
-    }
-  }, [showDataList]);
+  // useEffect(() => {
+  //   console.log('*')
+  //   if (showDataList) {
+  //   }
+  // }, [showDataList]);
 
   useEffect(() => {
+    console.log(showDataList);
     if (showDataList) {
       setIsHighlighted(true);
       dispatch(setDataList(getList(selectedTables)));
-      dispatch(setShowDataList());
+      setColorValue(coloredValue);
+    } else {
+      setIsHighlighted(false);
+      setColorValue('');
+      dispatch(setShowDataList(false));
     }
   }, [showDataList]);
 
@@ -505,6 +510,7 @@ const TableComponent = ({
             onFieldDragOver={onFieldDragOver}
             selectedTableColumns={selectedTableColumns}
             selectedTableName={tableItem.objectName}
+            selectedTableFullName={`${tableItem.schema}_${tableItem.objectName}`}
             addRefToColumns={addRefToColumns}
             addRefToTable={addRefToTable}
             addRefToHeader={addRefToHeader}

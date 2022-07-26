@@ -45,6 +45,7 @@ const ModalConfirmDeletion = ({
   };
 
   const deleteTable = (tableToDelete) => {
+    console.log(filteredLinks);
     onDeleteTable(tableItem);
     dispatch(filterSelectedTables(filterDeletedTable(tableToDelete)));
     dispatch(filterTablesLinks(filteredLinks));

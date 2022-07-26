@@ -12,6 +12,7 @@ import {
   TABLE_PREVIEW_MODAL,
 } from '../../common/constants/popups';
 import { getObjectFields } from '../../data/actions/schemaDesigner';
+import { setLinks } from '../../data/reducers/schemaDesigner';
 import { setCurrentPage } from '../../data/reducers/ui';
 import ObjectsConnectionEditor from './ObjectsConnectionEditor';
 import SchemaTables from './SchemaTables';
@@ -88,7 +89,7 @@ function SymlayersDesigner() {
 
   const handleDeleteTable = (table) => {
     // удаление связей и полей уаленной таблицы
-
+    console.log(table);
     const filteredTables = checked.filter(
       (item) =>
         `${item.schema}.${item.objectName}` !==
@@ -96,15 +97,21 @@ function SymlayersDesigner() {
     );
     setChecked(filteredTables);
 
-    const filteredLinks = objectsLinks.filter((link) => {
+    const filteredLinks = links.filter((link) => {
+      const table1 = selectedTablesData.find(
+        (table) => table.id === link.object1.table_id,
+      );
+      const table2 = selectedTablesData.find(
+        (table) => table.id === link.object2.table_id,
+      );
       return !(
-        `${link.object1.object.schema}.${link.object1.object.object_name}` ===
+        `${table1.schema}.${table1.objectName}` ===
           `${table.schema}.${table.objectName}` ||
-        `${link.object2.object.schema}.${link.object2.object.object_name}` ===
+        `${table2.schema}.${table2.objectName}` ===
           `${table.schema}.${table.objectName}`
       );
     });
-
+    // dispatch(setLinks(filteredLinks))
     setObjectsLinks(filteredLinks);
 
     function childrenCheck(item) {

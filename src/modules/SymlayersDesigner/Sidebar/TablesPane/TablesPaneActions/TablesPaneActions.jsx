@@ -33,9 +33,9 @@ const TablesPaneActions = ({
     if (event.key === 'Enter' && coloredValue.length) {
       console.log(coloredValue);
       event.preventDefault();
-      dispatch(setShowDataList());
+      dispatch(setShowDataList(true));
     } else if (event.key === 'Enter') {
-      dispatch(setShowDataList());
+      dispatch(setShowDataList(false));
     }
   };
 
@@ -81,6 +81,7 @@ const TablesPaneActions = ({
           className={searchMod ? styles.actIconBtn : styles.iconBtn}
           icon={<AddTableIcon />}
           onClick={() => onSwitchSearchMod(!searchMod)}
+          active
         />
       </Tooltip>
       <div className={styles.searchGroup}>
