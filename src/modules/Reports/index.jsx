@@ -151,13 +151,15 @@ const Reports = () => {
     );
   };
 
+  // Добаялем или удаляем из Избранного.
+  // id - айди объекта
+  // kind - типо объекта
+  // isExclude - признак удаления, передаем 1, если хотим удалить
   const handleSetFavoritesStatus = (id, kind, isExclude) => {
     dispatch(setObjectFavoriteStatus({ id, kind, isExclude }));
-    console.log('status');
   };
 
-  const handleItemClick = (id, kind, action) => {
-    console.log(id, kind, action);
+  const handleItemClick = (id, action, kind) => {
     switch (action) {
       case 'open':
         handleOpenClick(id);
@@ -189,7 +191,7 @@ const Reports = () => {
         >
           <DropdownItem
             className={styles.dropdownItem}
-            onClick={(action) => handleItemClick(id, kind, action)}
+            onClick={(action) => handleItemClick(id, action, kind)}
             item={item}
           />
         </Tooltip>

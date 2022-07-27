@@ -23,16 +23,6 @@ import {
   getUniversesFolderId,
   openUniverse,
 } from '../../../data/actions/universes';
-import { setLoadingUniverse } from '../../../data/reducers/schemaDesigner';
-import FolderIcon from '../../../layout/assets/folderIcon.svg';
-import UniverseIcon from '../../../layout/assets/icons/universeIcon.svg';
-import {
-  FOLDER_DROPDOWN_ACTIONS,
-  FOLDER_ITEM_DROPDOWN_ACTIONS,
-  connectorsTableHeader,
-  sortFoldersAndItems,
-} from '../helper';
-import styles from './SymlayersList.module.scss';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();
@@ -149,6 +139,10 @@ const ConnectorsList = () => {
     setEditListItemId(id);
   };
 
+  // Добаялем или удаляем из Избранного.
+  // id - айди объекта
+  // kind - типо объекта
+  // isExclude - признак удаления, передаем 1, если хотим удалить
   const handleSetFavoritesStatus = (id, kind, isExclude) => {
     dispatch(setObjectFavoriteStatus({ id, kind, isExclude }));
   };
