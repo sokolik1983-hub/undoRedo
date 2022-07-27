@@ -37,32 +37,31 @@ const ReportSidebar = ({
     setCollapsed(!collapsed);
   };
 
-  // const { displayMode } = currentReport;
-  console.log('the end', currentReport);
+  const { displayMode } = currentReport;
 
   const handleChangeMode = (num) => {
     let newMode = '';
 
-    // if (displayMode && displayMode === 'Data' && num === 1) {
-    //   newMode = 'Structure';
-    // }
-    // if (num === 0) {
-    //   newMode = 'Data';
-    // }
+    if (displayMode && displayMode === 'Data' && num === 1) {
+      newMode = 'Structure';
+    }
+    if (num === 0) {
+      newMode = 'Data';
+    }
 
-    // if (newMode === 'Data') {
-    //   dispatch(
-    //     setStructureBeforeGetData({
-    //       structure: {
-    //         report_id: currentReport.id,
-    //         structure: currentReport.structure,
-    //       },
-    //       mode: 'Data',
-    //     }),
-    //   );
-    // } else {
-    dispatch(setReportDisplayMode(newMode));
-    // }
+    if (newMode === 'Data') {
+      dispatch(
+        setStructureBeforeGetData({
+          structure: {
+            report_id: currentReport.id,
+            structure: currentReport.structure,
+          },
+          mode: 'Data',
+        }),
+      );
+    } else {
+      dispatch(setReportDisplayMode(newMode));
+    }
   };
 
   const handleChangeEditBlockClass = () => {

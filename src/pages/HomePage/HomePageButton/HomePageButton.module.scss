@@ -35,12 +35,9 @@
   }
   &:hover .close {
     display: block;
-<<<<<<< HEAD
     &:hover {
       stroke: #FFFFFF;
     }
-=======
->>>>>>> 6c219249c8f7065c2c28ad0db3f35d34252712da
   }
 }
 
@@ -50,7 +47,6 @@
   background: url(../../../layout/assets/homePageSemanticLayerButton.svg);
   cursor: pointer;
   &:hover {
-<<<<<<< HEAD
     background: url(../../../layout/assets/semanticLayerButtonHovered.svg);
   }
   &:hover .close {
@@ -58,12 +54,6 @@
     &:hover {
       stroke: #FFFFFF;
     }
-=======
-    background: url(../../../layout/assets/layersScaled.svg);
-  }
-  &:hover .close {
-    display: block;
->>>>>>> 6c219249c8f7065c2c28ad0db3f35d34252712da
   }
 }
 
@@ -96,12 +86,8 @@
   font-size: 15px;
   line-height: 18px;
   @extend .buttonText;
-<<<<<<< HEAD
 }
 
 .close {
   display: none;
 }
-=======
-}
->>>>>>> 6c219249c8f7065c2c28ad0db3f35d34252712da
