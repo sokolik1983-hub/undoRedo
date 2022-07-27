@@ -61,14 +61,16 @@ const TreeItem = ({ name, isSchema, table, onSelect, isOpen }) => {
         </Tooltip>
       ) : (
         <Tooltip placement="bottomLeft" overlay={<>{table.objectName}</>}>
-          <div className={isActive ? styles.actItem : styles.item}>
+          <div
+            className={isActive ? styles.actItem : styles.item}
+            onDoubleClick={(e) => {
+              e.preventDefault();
+              setActive(!isActive);
+              setEvent(e);
+            }}
+          >
             <button
               type="button"
-              onDoubleClick={(e) => {
-                e.preventDefault();
-                setActive(!isActive);
-                setEvent(e);
-              }}
               draggable
               onDragStart={(e) => {
                 e.dataTransfer.setData('item', JSON.stringify(table));

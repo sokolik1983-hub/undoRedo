@@ -39,7 +39,7 @@ const TablesPane = ({ onSelect }) => {
         </div>
         <HierTreeView
           data={
-            searchMod && selectedSchemes.length
+            searchMod
               ? selectedSchemes
               : !searchMod && findedSchemes.length
               ? findedSchemes

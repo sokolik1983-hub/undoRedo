@@ -65,6 +65,9 @@ const schemaDesigner = createSlice({
         { ...action.payload },
       ];
     },
+    filterSelectedTablesArray: (state, action) => {
+      state.selectedTablesArray = action.payload;
+    },
     setSelectedTablesFiltered: (state, action) => {
       state.selectedTables = action.payload;
     },
@@ -78,6 +81,9 @@ const schemaDesigner = createSlice({
       delete action.payload.catalog;
       delete action.payload.comment;
       state.selectedTablesData = [...state.selectedTablesData, action.payload];
+    },
+    filterSelectedTablesData: (state, action) => {
+      state.selectedTablesData = action.payload;
     },
     loadSelectedTablesArray: (state, action) => {
       state.selectedTablesArray = action.payload.map((table) => {
@@ -197,7 +203,9 @@ export const {
   setConnectorData,
   setSelectedTables,
   setSelectedTablesArray,
+  filterSelectedTablesArray,
   setSelectedTablesData,
+  filterSelectedTablesData,
   addLink,
   setLinks,
   setLink,

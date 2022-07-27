@@ -5,6 +5,10 @@ import {
   filterSelectedTables,
   filterTablesLinks,
 } from '../../../../data/actions/schemaDesigner';
+import {
+  filterSelectedTablesArray,
+  filterSelectedTablesData,
+} from '../../../../data/reducers/schemaDesigner';
 import WarnIcon from '../../../../layout/assets/warnIcon.svg';
 import { BUTTON } from '../../../constants/common';
 import Button from '../../Button';
@@ -26,6 +30,14 @@ const ModalConfirmDeletion = ({
     (state) => state.app.schemaDesigner.selectedTables,
   );
 
+  const globalStateTablesArray = useSelector(
+    (state) => state.app.schemaDesigner.selectedTablesArray,
+  );
+
+  const globalStateTablesData = useSelector(
+    (state) => state.app.schemaDesigner.selectedTablesData,
+  );
+
   const Links = useSelector((state) => state.app.schemaDesigner.links);
 
   const filteredLinks = Links.filter(
@@ -33,8 +45,30 @@ const ModalConfirmDeletion = ({
   );
 
   const filterDeletedTable = (tableName) => {
+    filterDeletedTableInArray(tableName);
+    filterDeletedTableInData(tableName);
     return Object.fromEntries(
       Object.entries(globalStateTables).filter(([key]) => key !== tableName),
+    );
+  };
+
+  const filterDeletedTableInArray = (tableName) => {
+    console.log('array', tableName, globalStateTablesArray);
+    dispatch(
+      filterSelectedTablesArray(
+        globalStateTablesArray.filter((table) => table.name !== tableName),
+      ),
+    );
+  };
+
+  const filterDeletedTableInData = (tableName) => {
+    console.log('data', tableName, globalStateTablesData);
+    dispatch(
+      filterSelectedTablesData(
+        globalStateTablesData.filter(
+          (table) => `${table.schema}_${table.objectName}` !== tableName,
+        ),
+      ),
     );
   };
 
@@ -45,6 +79,7 @@ const ModalConfirmDeletion = ({
   };
 
   const deleteTable = (tableToDelete) => {
+    console.log(tableToDelete);
     onDeleteTable(tableItem);
     dispatch(filterSelectedTables(filterDeletedTable(tableToDelete)));
     dispatch(filterTablesLinks(filteredLinks));
