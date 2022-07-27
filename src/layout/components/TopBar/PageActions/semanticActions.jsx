@@ -119,7 +119,7 @@ const SemanticActions = () => {
       tempObj.where = tempObj.whereQueryField;
       delete tempObj.selectQueryField;
       delete tempObj.whereQueryField;
-      tempObj.tables = [1];
+      tempObj.tables = tempObj.tables?.length ? tempObj.tables : [0];
       tempObj.parent_id = 0;
       tempObj.mask = null;
 
@@ -154,6 +154,7 @@ const SemanticActions = () => {
       ? updatedCoordsTables
       : selectedTablesData;
     universe.data.links = links;
+    console.log(formattedObjectLayer);
     universe.data.objects = formattedObjectLayer;
     universe.data.connector_id = selectedConnectorId;
     dispatch(createUniverse(universe, currentUniverse.header.name));
