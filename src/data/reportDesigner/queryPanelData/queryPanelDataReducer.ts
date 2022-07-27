@@ -1,5 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
+import { EMPTY_STRING } from '@src/common/constants/common';
+
 import {
   ICcQpData,
   IInitialState,
@@ -23,7 +25,21 @@ export const queryPanelData = createSlice({
     ) => {
       const { universeId, data } = action.payload;
       const { connector_id, lists, objects, prompts, properties } = data;
-      const rootFolder = objects
+
+      const rootObject: IRootFolderQp = {
+        children: [] as (IObjectsQp | IRootFolderQp)[],
+        dataType: EMPTY_STRING,
+        description: EMPTY_STRING,
+        id: 0,
+        mask: EMPTY_STRING,
+        name: 'Название СС',
+        objectType: OBJECT_TYPES_QP.FOLDER,
+        parent_id: -1,
+      };
+
+      const newObjects = [rootObject, ...objects];
+
+      const rootFolder = newObjects
         .map((i) =>
           i.objectType === OBJECT_TYPES_QP.FOLDER ||
           i.objectType === OBJECT_TYPES_QP.DIMENSION
