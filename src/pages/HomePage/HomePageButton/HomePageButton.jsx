@@ -14,7 +14,7 @@ const HomePageButton = ({
   appNameText,
   hasTooltip,
   onRemoveFromFavorites,
-  onOpenReport,
+  onOpenFile,
   id,
   removable,
 }) => {
@@ -29,7 +29,7 @@ const HomePageButton = ({
   return (
     <div
       className={styles.homePageButtonWrapper}
-      onClick={kind ? (e) => onOpenReport(id, e) : null}
+      onClick={kind ? (e) => onOpenFile(id, e) : null}
     >
       <RouterLink to={href || ''}>
         <div className={getStyles()}>

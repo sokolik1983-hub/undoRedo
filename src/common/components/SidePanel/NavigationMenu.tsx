@@ -2,6 +2,7 @@ import React, { FC, ReactElement } from 'react';
 
 import NavItem from './NavItem';
 import styles from './SidePanel.module.scss';
+
 interface INavigationMenuProps {
   onClick?: (id: number) => void;
   menu: Array<INavItemProps>;

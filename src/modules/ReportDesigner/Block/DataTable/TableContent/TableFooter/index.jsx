@@ -5,8 +5,7 @@ import { find } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getElementData } from '../../../../../../data/actions/newReportDesigner';
-import { setFormattingElement } from '../../../../../../data/reducers/new_reportDesigner';
+import { setFormattingElement } from '../../../../../../data/reportDesigner/reportsUi/reportDesignerUIReducer';
 import Cell from '../../../TableCell';
 import { LoadingRow, getStyleFn, renderRow } from '../../helpers';
 import { getZoneData } from '../helpers';

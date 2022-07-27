@@ -3,12 +3,8 @@
 import lodash from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setReportStructure } from '../../../../data/actions/newReportDesigner';
-import {
-  setActiveNodes,
-  setConfigPanelVisible,
-  setStructure,
-} from '../../../../data/reducers/new_reportDesigner';
+import { setReportStructure } from '../../../../data/reportDesigner/reportsData/reportsDataActions';
+import { setStructure } from '../../../../data/reportDesigner/reportsData/reportsDataReducer';
 import Block from '../../Block';
 import { getCurrentReport } from '../../helpers';
 import styles from './ReportBody.module.scss';
@@ -62,7 +58,7 @@ const ReportBody = ({ data, onSelect, isActiveNode }) => {
 
     dispatch(setStructure(newStructure));
     // dispatch(
-    //   setReportStructure({
+    // setReportStructure({
     //     report_id: currentReport.id,
     //     structure: newStructure
     //   })

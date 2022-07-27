@@ -10,7 +10,7 @@ import styles from './EditLayerModal.module.scss';
 
 const EditLayerModal = ({ isOpen, onRename, onCancel, currentTitle }) => {
   const options = useSelector((state) =>
-    state.app?.data?.queryPanelSymlayersData.data?.map((i) => i.queryTitle),
+    state.app?.reportDesigner?.queryPanelData.data?.map((i) => i.queryTitle),
   );
 
   const [value, setValue] = useState(EMPTY_STRING);
