@@ -1,3 +1,4 @@
+import { logDOM } from '@testing-library/react';
 import { cloneDeep } from 'lodash';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -46,11 +47,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
   const [connectName, setConnectName] = useState(''); // имя коннектора
   const [connectType, setConnectType] = useState('');
   const [connectSource, setConnectSource] = useState('');
-  const [connectionDescription, setConnectionDescription] = useState(
-    connectorData?.header?.desc,
-  );
   const [isActive, setIsActive] = useState(false);
-  // eslint-disable-next-line no-unused-vars
   const [showPreloader, setShowPreloader] = useState(false); // показ прелоудера
   const [showTestOk, setShowTestOk] = useState(false);
   const [showTestFailed, setShowTestFailed] = useState(false);
@@ -89,13 +86,6 @@ const EditConnectorModal = ({ visible, onClose }) => {
   }, [editResult]);
 
   const notifications = useSelector((state) => state.app.notifications);
-
-  useEffect(() => {
-    if (connectorData.data) {
-      setConnectName(connectorData.header.name);
-      setConnectionDescription(connectorData.header.desc);
-    }
-  }, [connectorData]);
 
   const handleClose = () => {
     setShowTestOk(false);
@@ -164,7 +154,6 @@ const EditConnectorModal = ({ visible, onClose }) => {
     const chosenType = types?.filter((item) => item.id == event)[0];
     setConnectType(chosenType);
     getConnectorObject(chosenType.id, connectSource.id);
-    () => (connectorData.header.desc = '');
   };
 
   const setNewSource = (event) => {
@@ -188,6 +177,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
   const saveConnectorChanges = (event) => {
     event.preventDefault();
     event.stopPropagation();
+    setConnectName(connectorData?.header?.name);
     setInputValues();
     dispatch(editConnector(connectorData, currentFolderId));
     handleClose();
