@@ -1,8 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 import {
-  CONNECTOR_POPUP, OBJECTS_CONNECTIONS_MODAL,
-  QUERY_PANEL_MODAL, UNIVERSE_MODAL,
-  UNIVERSE_POPUP, CREATE_OBJECT_MODAL, EDIT_OBJECT_MODAL, TABLE_PREVIEW_MODAL, CONFIRM_MODAL
+  CONFIRM_MODAL,
+  CONNECTOR_POPUP,
+  CREATE_OBJECT_MODAL,
+  EDIT_OBJECT_MODAL,
+  OBJECTS_CONNECTIONS_MODAL,
+  QUERY_PANEL_MODAL,
+  TABLE_PREVIEW_MODAL,
+  UNIVERSE_MODAL,
+  UNIVERSE_POPUP,
 } from '../../common/constants/popups';
 
 const ui = createSlice({
@@ -27,71 +34,72 @@ const ui = createSlice({
     setLoadingData: (state, action) => {
       state.isLoadingData = action.payload;
     },
-    showConnectorPopup: state => {
+    showConnectorPopup: (state) => {
       state.popupVisible = CONNECTOR_POPUP;
     },
-    showUniversePopup: state => {
+    showUniversePopup: (state) => {
       state.popupVisible = UNIVERSE_POPUP;
     },
     showObjectsConnectionsModal: (state, action) => {
       state.modalData = action?.payload;
       state.modalVisible = OBJECTS_CONNECTIONS_MODAL;
     },
-    showQueryPanelModal: state => {
+    showQueryPanelModal: (state) => {
       state.modalVisible = QUERY_PANEL_MODAL;
     },
-    hidePopup: state => {
+    hidePopup: (state) => {
       state.popupVisible = false;
       state.popupData = {};
     },
-    closeModal: state => {
+    closeModal: (state) => {
       state.modalVisible = false;
       state.modalData = {};
     },
     setPopupData: (state, action) => {
       state.popupData = action.payload;
     },
-    clearPopupData: state => {
+    clearPopupData: (state) => {
       state.popupData = {};
     },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
     },
-    showSemanticLayerModal: state => {
+    showSemanticLayerModal: (state) => {
       state.modalVisible = UNIVERSE_MODAL;
     },
-    showCreateObjectModal: state => {
+    showCreateObjectModal: (state, action) => {
       state.modalCreateObjectVisible = CREATE_OBJECT_MODAL;
+      state.modaldata = action.payload;
     },
-    closeCreateObjectModal: state => {
+    closeCreateObjectModal: (state) => {
       state.modalCreateObjectVisible = false;
     },
     showEditObjectModal: (state, action) => {
       state.modalData = action.payload;
       state.modalEditObjectVisible = EDIT_OBJECT_MODAL;
     },
-    closeEditObjectModal: state => {
+    closeEditObjectModal: (state) => {
       state.modalEditObjectVisible = false;
     },
-    showTablePreviewModal: state => {
+    showTablePreviewModal: (state) => {
       state.modalVisible = TABLE_PREVIEW_MODAL;
     },
-    showConfirmModal: state => {
+    showConfirmModal: (state) => {
       state.confirmModalVisible = CONFIRM_MODAL;
     },
-    closeConfirmModal: state => {
+    closeConfirmModal: (state) => {
       state.confirmModalVisible = false;
     },
-    showEditConnectorModal: state => {
+    showEditConnectorModal: (state) => {
       state.editConnectorModalVisible = true;
     },
-    closeEditConnectorModal: state => {
+    closeEditConnectorModal: (state) => {
       state.editConnectorModalVisible = false;
     },
     setToastList: (state, action) => {
       state.toastList = action.payload;
     },
-  }
+  },
 });
 
 export const {
@@ -117,7 +125,7 @@ export const {
   closeConfirmModal,
   setToastList,
   showEditConnectorModal,
-  closeEditConnectorModal
+  closeEditConnectorModal,
 } = ui.actions;
 
 export default ui.reducer;
