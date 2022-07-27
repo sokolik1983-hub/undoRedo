@@ -140,6 +140,8 @@ const SemanticActions = () => {
           x: tablesCoord[findedIdx].x,
           y: tablesCoord[findedIdx].y,
         };
+      } else if (tablesCoord.length < selectedTablesData.length) {
+        tempTable.position = table.position.deltaPosition;
       }
       return tempTable;
     });
