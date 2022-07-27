@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { REPORT_OBJECTS_PANEL_ICONS } from '../../../common/constants/reportDesigner/reportObjectsPanelIcons';
-import { setMenuItem } from '../../../data/reducers/new_reportDesigner';
+import { setMenuItem } from '../../../data/reportDesigner/reportsUi/reportDesignerUIReducer';
 import { getCurrentReport } from '../helpers';
 import styles from './ReportObjectsPanel.module.scss';
 import ReportObjectsPanelList from './ReportObjectsPanelList/index';

@@ -2,7 +2,7 @@
 import React, { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { setTableStyle } from '../../../../data/reducers/new_reportDesigner';
+import { setTableStyle } from '../../../../data/reportDesigner/reportsData/reportsDataReducer';
 import { NAV_MENU_GRAPH } from '../../../constants/reportDesigner/reportDesignerMenu';
 import NavigationMenu from '../NavigationMenu';
 import Facade from './Facade';

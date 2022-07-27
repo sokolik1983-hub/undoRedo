@@ -1,21 +1,21 @@
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import ObjectsPanelHeader from './ObjectsPanelHeader/ObjectsPanelHeader';
+import { memo } from 'react';
+import { useSelector } from 'react-redux';
+
 import Divider from '../../../common/components/Divider';
-import usePanelListFilters from './usePanelListFilters';
-import ObjectsPanelFilters from './ObjectsPanelFilters/ObjectsPanelFilters';
-import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList';
 import { useDragNDrop } from '../context/DragNDropContext';
 import styles from './ObjectsPanel.module.scss';
+import ObjectsPanelFilters from './ObjectsPanelFilters/ObjectsPanelFilters';
+import ObjectsPanelHeader from './ObjectsPanelHeader/ObjectsPanelHeader';
+import ObjectsPanelList from './ObjectsPanelList/ObjectsPanelList';
+import usePanelListFilters from './usePanelListFilters';
 
 const ObjectsPanel = ({ modalOpenHandler }) => {
-  const currentLayer = useSelector(state => {
-    const {
-      data,
-      currentLayerTitle
-    } = state.app?.data?.queryPanelSymlayersData;
+  const currentLayer = useSelector((state) => {
+    const { data, currentLayerTitle } =
+      state.app?.reportDesigner?.queryPanelData;
 
-    return data.find(i => i.queryTitle === currentLayerTitle);
+    return data.find((i) => i.queryTitle === currentLayerTitle);
   });
 
   const {
@@ -23,7 +23,7 @@ const ObjectsPanel = ({ modalOpenHandler }) => {
     filterType,
     handleFiltersSwitch,
     searchValue,
-    setSearchValue
+    setSearchValue,
   } = usePanelListFilters(currentLayer?.symLayerData);
 
   const { handleDragOver, handleTreeDrop } = useDragNDrop();
@@ -49,8 +49,8 @@ const ObjectsPanel = ({ modalOpenHandler }) => {
   );
 };
 
-export default ObjectsPanel;
+export default memo(ObjectsPanel);
 
 ObjectsPanel.propTypes = {
-  modalOpenHandler: PropTypes.func
+  modalOpenHandler: PropTypes.func,
 };

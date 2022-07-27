@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addTableColumn } from '../../../../data/reducers/new_reportDesigner';
 import { getCurrentReport } from '../../helpers';
 import styles from './DataTable.module.scss';
 import TableContent from './TableContent';

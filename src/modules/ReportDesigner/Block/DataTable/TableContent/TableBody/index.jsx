@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uuid from 'react-uuid';
 
-import { setFormattingElement } from '../../../../../../data/reducers/new_reportDesigner';
+import { setFormattingElement } from '../../../../../../data/reportDesigner/reportsUi/reportDesignerUIReducer';
 import Cell from '../../../TableCell';
 import { LoadingRow, getStyleFn, renderRow } from '../../helpers';
 import { getZoneData } from '../helpers';

@@ -6,25 +6,19 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
-import ModalConfirm from '../../common/components/Modal/ModalConfirm';
 import { EMPTY_STRING, TOAST_TYPE } from '../../common/constants/common';
 import { showToast } from '../../data/actions/app';
+import { setQueryPanelModal } from '../../data/actions/universes';
 import {
   createQuery,
+  createQueryAndGetResult,
+  createQueryAndPostQueryPanelTab,
   getQueryPanelSymanticLayerData,
-  getResultFromQuery,
-  postQueryPanelTab,
-  setConfirmModal,
-  setQueryPanelModal,
-} from '../../data/actions/universes';
-import data, { setSymanticLayerData } from '../../data/reducers/data';
+} from '../../data/reportDesigner/queryPanelData/queryPanelDataActions';
 import modalStyles from '../Symlayers/SemanticLayerModal/SemanticLayerModal.module.scss';
 import DragNDropProvider from './context/DragNDropContext';
 import Filters from './Filters';
-import {
-  FILTER_TYPES,
-  FILTER_TYPES_ARR,
-} from './Filters/FiltersDeskItem/constants';
+import { FILTER_TYPES_ARR } from './Filters/FiltersDeskItem/constants';
 import { getCondition } from './helper';
 import Objects from './Objects';
 import ObjectsPanel from './ObjectsPanel';
@@ -39,7 +33,6 @@ const QueryPanel = ({ visible }) => {
   const [semanticLayerModalOpened, setSemanticLayerModalOpened] =
     useState(false);
   const [isQueryExecute, setQueryExecute] = useState(false);
-  const [isChanged, setIsChanged] = useState(false);
   const [isSqlPopupOpened, setSqlPopupOpened] = useState(false);
   const [queryText, setQueryText] = useState(EMPTY_STRING);
   const [objects, setObjects] = useState([]);
@@ -51,13 +44,12 @@ const QueryPanel = ({ visible }) => {
     dpFilter,
     symLayerName,
     connectorId,
-    dpSql,
     dpId,
     layerTitle,
+    universeId,
   } = useSelector((state) => {
-    const dpSql = state?.app?.data?.queryData?.dpSql;
     const { currentLayerTitle, data } =
-      state?.app?.data?.queryPanelSymlayersData;
+      state?.app?.reportDesigner?.queryPanelData;
     const currentLayer = data?.find((i) => i.queryTitle === currentLayerTitle);
 
     return {
@@ -66,42 +58,18 @@ const QueryPanel = ({ visible }) => {
       symLayerName: currentLayer?.symLayerName || null,
       connectorId: currentLayer?.connector_id || null,
       dpId: currentLayer?.dpId || null,
-      dpSql: dpSql || null,
       layerTitle: currentLayerTitle || EMPTY_STRING,
+      universeId: currentLayer?.universeId || null,
     };
   });
 
-  const confirmModalOpened = useSelector(
-    (state) => state.app.ui.confirmModalVisible,
-  );
-
   const handleClose = () => {
-    return isChanged
-      ? dispatch(setConfirmModal(true))
-      : dispatch(setQueryPanelModal(false));
+    dispatch(setQueryPanelModal(false));
   };
 
   const handleObjFilEdit = (objs, fils) => {
     setObjects(objs);
     setFilters(fils);
-  };
-
-  const handleQueryExecute = () => {
-    dispatch(
-      getResultFromQuery({
-        // TODO: id заменить на connectorId
-        id: 'TA',
-        // id: connectorId,
-        dataType: 'Query',
-        // catalog,
-        // schema,
-        // objectName,: 'Query'
-        // fieldName,
-        query: dpSql,
-        // isDistinct,
-        maxRows: 100,
-      }),
-    );
   };
 
   const handleShowSqlPopup = () => {
@@ -119,17 +87,10 @@ const QueryPanel = ({ visible }) => {
   const onSelectSemanticLayer = (symLayer) => {
     dispatch(getQueryPanelSymanticLayerData(symLayer.id));
     setSemanticLayerModalOpened(false);
-    setIsChanged(true);
   };
 
   const handleQueryText = (text) => {
     setQueryText(text);
-  };
-
-  const onClose = () => {
-    dispatch(setQueryPanelModal(false));
-    dispatch(setConfirmModal(false));
-    dispatch(setSymanticLayerData(null));
   };
 
   const getFilterOperator = (filterName) => {
@@ -139,51 +100,50 @@ const QueryPanel = ({ visible }) => {
     return filterType.value;
   };
 
+  const createQueryParams = {
+    dpUniverse_id: universeId,
+    dpSpec: {
+      queryType: 'Query',
+      querySetType: null,
+      queries: [],
+      select: objects.map((object) => ({
+        id: object.id,
+        folder_id: object.parent_id,
+        parentDimension_id: null,
+        name: object.name,
+        folderName: symLayerName,
+        parentDimensionName: null,
+        dataType: object.dataType,
+        objectType: object.objectType,
+      })),
+      // TODO: хардкод одного фильтра
+      filter: dpFilter
+        ? {
+            type: 'filter',
+            filterTarget: {
+              id: dpFilter.fieldItem.id,
+              dataType: dpFilter.fieldItem.dataType,
+            },
+            filterOperator: getFilterOperator(dpFilter.itemCondition),
+            filterOperand1: {
+              type: 'const',
+              valueConst: dpFilter.inputValue,
+            },
+          }
+        : {},
+    },
+    dpProperties: {
+      maxRows: -1,
+      maxTime_sec: -1,
+      lastConetxt_id: -1,
+      keepLastContext: 0,
+    },
+    context_id: -1,
+  };
+
   const createQueryText = () => {
     if (objects) {
-      dispatch(
-        createQuery({
-          // TODO: правильный dpUniverse_id
-          dpUniverse_id: 10870,
-          dpSpec: {
-            queryType: 'Query',
-            querySetType: null,
-            queries: [],
-            select: objects.map((object) => ({
-              id: object.id,
-              folder_id: object.parent_id,
-              parentDimension_id: null,
-              name: object.name,
-              folderName: symLayerName,
-              parentDimensionName: null,
-              dataType: object.dataType,
-              objectType: object.objectType,
-            })),
-            // TODO: хардкод одного фильтра
-            filter: dpFilter
-              ? {
-                  type: 'filter',
-                  filterTarget: {
-                    id: dpFilter.fieldItem.id,
-                    dataType: dpFilter.fieldItem.dataType,
-                  },
-                  filterOperator: getFilterOperator(dpFilter.itemCondition),
-                  filterOperand1: {
-                    type: 'const',
-                    valueConst: dpFilter.inputValue,
-                  },
-                }
-              : {},
-          },
-          dpProperties: {
-            maxRows: -1,
-            maxTime_sec: -1,
-            lastConetxt_id: -1,
-            keepLastContext: 0,
-          },
-          context_id: -1,
-        }),
-      );
+      dispatch(createQuery(createQueryParams));
     }
   };
 
@@ -202,9 +162,25 @@ const QueryPanel = ({ visible }) => {
     }
   }, [isSqlPopupOpened]);
 
+  const handleQueryExecute = () => {
+    dispatch(
+      createQueryAndGetResult(createQueryParams, {
+        id: connectorId,
+        dataType: 'Query',
+        // catalog,
+        // schema,
+        // objectName,: 'Query'
+        // fieldName,
+        // query: dpSql,
+        // isDistinct,
+        maxRows: 100,
+      }),
+    );
+  };
+
   const handleApply = () => {
     dispatch(
-      postQueryPanelTab({
+      createQueryAndPostQueryPanelTab(createQueryParams, {
         dp_id: dpId,
         dp: {
           dpConnect_id: 'TA',
@@ -216,7 +192,7 @@ const QueryPanel = ({ visible }) => {
             type: i.objectType,
           })),
           dpProperties: {},
-          dpSql,
+          // dpSql,
           dpType: 'directSql',
           dp_id: dpId,
           dpSpec: {
@@ -238,6 +214,7 @@ const QueryPanel = ({ visible }) => {
         },
       }),
     );
+
     handleClose();
   };
 
@@ -264,7 +241,7 @@ const QueryPanel = ({ visible }) => {
                 onRun={handleQueryExecute}
                 onSql={handleShowSqlPopup}
                 onApply={handleApply} // todo применить функционал переноса в отчет
-                onCancel={handleClose}
+                onClose={handleClose}
               />
             </div>
           </div>
@@ -274,13 +251,6 @@ const QueryPanel = ({ visible }) => {
             visible={semanticLayerModalOpened && true}
             onClose={onCloseSemanticModalHandler}
             onSelectSemanticLayer={onSelectSemanticLayer}
-          />
-        )}
-        {confirmModalOpened && (
-          <ModalConfirm
-            style={{ top: 1 }}
-            onReturn={() => dispatch(setConfirmModal(false))}
-            onClose={() => onClose()}
           />
         )}
         {isSqlPopupOpened && !errorText.length && (

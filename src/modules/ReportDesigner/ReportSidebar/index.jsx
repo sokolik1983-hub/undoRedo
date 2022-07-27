@@ -8,12 +8,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import SidePanel from '../../../common/components/SidePanel';
 import { SIDE_PANEL_TYPES } from '../../../common/constants/common';
 import { REPORT_OBJECTS_PANEL_ICONS } from '../../../common/constants/reportDesigner/reportObjectsPanelIcons';
-import {
-  setReportStructure,
-  setStructureBeforeGetData,
-} from '../../../data/actions/newReportDesigner';
+import { setStructureBeforeGetData } from '../../../data/reportDesigner/reportsData/reportsDataActions';
+import { setReportDisplayMode } from '../../../data/reportDesigner/reportsData/reportsDataReducer';
 // import { getSymanticLayerData } from '../../../data/actions/universes';
-import { setReportDisplayMode } from '../../../data/reducers/new_reportDesigner';
 import Arrow from '../../../layout/assets/semanticLayerModal/arrow.svg';
 import DragNDropProvider from '../../QueryPanel/context/DragNDropContext';
 import ReportInfoBlock from '../ReportInfoBlock';

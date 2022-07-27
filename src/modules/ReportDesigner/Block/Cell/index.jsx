@@ -5,11 +5,8 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setReportStructure } from '../../../../data/actions/newReportDesigner';
-import {
-  addTableColumn,
-  setFormattingElement,
-} from '../../../../data/reducers/new_reportDesigner';
+import { setReportStructure } from '../../../../data/reportDesigner/reportsData/reportsDataActions';
+import { setFormattingElement } from '../../../../data/reportDesigner/reportsUi/reportDesignerUIReducer';
 import { getCurrentReport } from '../../helpers';
 import * as dropHelpers from './helpers';
 

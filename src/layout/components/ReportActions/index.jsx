@@ -10,16 +10,16 @@ import {
 } from '../../../common/constants/reportDesigner/reportDesignerIcons';
 import { REPORT_PAGE_ACTIONS } from '../../../common/constants/reportDesigner/reportDesignerMenuIcons';
 import useClickOutside from '../../../common/helpers/useClickOutside';
+import { setQueryPanelModal } from '../../../data/actions/universes';
 import {
   handleRedo,
   handleUndo,
   saveReport,
-} from '../../../data/actions/newReportDesigner';
-import { setQueryPanelModal } from '../../../data/actions/universes';
+} from '../../../data/reportDesigner/reportsData/reportsDataActions';
 import {
   setCreatingElement,
   setFormulaEditorVisible,
-} from '../../../data/reducers/new_reportDesigner';
+} from '../../../data/reportDesigner/reportsUi/reportDesignerUIReducer';
 import styles from './ReportActions.module.scss';
 import SaveReportModal from './SaveReportModal';
 import ZoomSlider from './ZoomSlider';

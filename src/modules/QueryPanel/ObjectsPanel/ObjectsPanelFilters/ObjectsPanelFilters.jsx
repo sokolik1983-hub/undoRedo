@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { memo } from 'react';
 
 import IconButton from '../../../../common/components/IconButton';
 import TextInput from '../../../../common/components/TextInput';
@@ -50,7 +51,7 @@ const ObjectsPanelFilters = ({
   );
 };
 
-export default ObjectsPanelFilters;
+export default memo(ObjectsPanelFilters);
 
 ObjectsPanelFilters.propTypes = {
   setSearchValue: PropTypes.func,

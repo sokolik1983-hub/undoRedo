@@ -1,11 +1,6 @@
-/* eslint-disable no-lonely-if */
+// @ts-nocheck
 import { createSlice } from '@reduxjs/toolkit';
-import lodash, { find } from 'lodash';
-// /* eslint-disable no-sparse-arrays */
-import { combineReducers } from 'redux';
-import undoable from 'redux-undo';
-
-import { deepObjectSearch } from '../helpers';
+import lodash from 'lodash';
 
 export const variableObject = {
   varType: 'DP',
@@ -397,8 +392,8 @@ export const reportPageObject = {
   alerters: [],
 };
 
-const reportDesigner = createSlice({
-  name: 'reportDesigner',
+export const reportsData = createSlice({
+  name: 'reportsData',
   initialState: {
     ...reportObject,
     reports: [reportPageObject], // remove for test reportPageObject
@@ -656,177 +651,6 @@ const reportDesigner = createSlice({
   },
 });
 
-const reportDesignerUI = createSlice({
-  name: 'reportDesignerUI',
-  initialState: {
-    ui: {
-      showConfigPanel: false,
-      showReportPanel: false,
-      showFormulaEditor: false,
-      creatingElement: null,
-      selectedColumns: null,
-      zoom: 1,
-      formattingElement: null,
-      test: 'test',
-      menuItem: 'objects',
-    },
-  },
-  reducers: {
-    setFormattingElementFormula: (state, action) => {
-      state.ui.formattingElement.content.expression.formula =
-        action.payload.data;
-    },
-    setFormattingElement: (state, action) => {
-      if (state.ui.formattingElement?.id === action.payload.item?.id) {
-        state.ui.formattingElement = null;
-      } else {
-        state.ui.formattingElement = action.payload.item;
-      }
-    },
-    setSelectedColumns: (state, action) => {
-      if (!action.payload) {
-        state.ui.selectedColumns = {};
-      } else {
-        state.ui.selectedColumns = {
-          ...state.ui.selectedColumns,
-          ...action.payload,
-        };
-      }
-    },
-    setCreatingElement: (state, action) => {
-      state.ui.creatingElement = action.payload;
-    },
-    setReportPanelVisible: (state) => {
-      state.ui.showReportPanel = !state.ui.showReportPanel;
-    },
-    setFormulaEditorVisible: (state) => {
-      state.ui.showFormulaEditor = !state.ui.showFormulaEditor;
-    },
-    setConfigPanelVisible: (state, action) => {
-      if (action?.payload) {
-        state.ui.showConfigPanel = action?.payload;
-      } else {
-        state.ui.showConfigPanel = !state.ui.showConfigPanel;
-      }
-    },
-    setZoom: (state, action) => {
-      state.ui.zoom = action.payload;
-    },
-    setMenuItem: (state, action) => {
-      state.ui.menuItem = action.payload;
-    },
-  },
-});
-
-const queryPanelData = createSlice({
-  name: 'queryPanelData',
-  initialState: {
-    currentLayerTitle: null,
-    data: [],
-  },
-  reducers: {
-    setQueryPanelData: (state, action) => {
-      const { universeId, data } = action.payload;
-      const { connector_id, lists, objects, prompts, properties } = data;
-      const rootFolder = objects
-        .map((i) =>
-          i.objectType === 'Folder' || i.objectType === 'Dimension'
-            ? { ...i, children: [] }
-            : i,
-        )
-        .map((item, idx, data) => {
-          const parent = data.find((i) => item.parent_id === i.id);
-          if (parent) parent.children.push(item); // TODO добавил костыль, чтобы не выкидывало. Объекты в себе могут содержать не только Folder, но и Dimension
-          return item;
-        })[0];
-
-      let index = 1;
-      let dpIdx = 0;
-
-      const getIndex = (idx) => {
-        if (state.data.find((i) => i.queryTitle === `Новый запрос (${idx})`)) {
-          getIndex(idx + 1);
-        } else index = idx;
-      };
-
-      const getDpIdx = (idx) => {
-        if (state.data.find((i) => i.dpId === `DP${idx})`)) {
-          getDpIdx(idx + 1);
-        } else dpIdx = idx;
-      };
-
-      getIndex(index);
-      getDpIdx(dpIdx);
-
-      state.data.push({
-        symLayerData: rootFolder,
-        symLayerName: rootFolder.name,
-        symlayer_id: rootFolder.id,
-        objects: [],
-        filters: null,
-        queryTitle: `Новый запрос (${index})`,
-        dpId: `DP${index}`,
-        connector_id,
-        universeId,
-      });
-    },
-    setCurrentSymlayer: (state, action) => {
-      state.currentLayerTitle = action.payload;
-    },
-    editSymlayer: (state, action) => {
-      const { currentTitle, newTitle } = action.payload;
-      if (state.data.find((i) => i.queryTitle === newTitle)) return;
-      const currentLayer = state.data.find(
-        (i) => i.queryTitle === currentTitle,
-      );
-      currentLayer.queryTitle = newTitle;
-    },
-    copySymlayer: (state, action) => {
-      const symLayerToCopy = state.data.find(
-        (i) => i.queryTitle === action.payload,
-      );
-      const symLayerToCopyIdx = state.data.indexOf(symLayerToCopy);
-      state.data = [
-        ...state.data.slice(0, symLayerToCopyIdx + 1),
-        {
-          ...symLayerToCopy,
-          queryTitle: `${symLayerToCopy.queryTitle} (копия)`,
-        },
-        ...state.data.slice(symLayerToCopyIdx + 1),
-      ];
-    },
-    deleteSymlayer: (state, action) => {
-      state.data = state.data.filter((i) => i.queryTitle !== action.payload);
-    },
-    setQueryPanelFilters: (state, action) => {
-      const { objects, filters } = action.payload;
-      const currentTitle = state.currentLayerTitle;
-      const currentLayer = state.data.find(
-        (i) => i.queryTitle === currentTitle,
-      );
-      const currentLayerIdx = state.data.indexOf(currentLayer);
-      const stateCopy = state.data.concat();
-      stateCopy[currentLayerIdx] = { ...currentLayer, objects, filters };
-      state.data = stateCopy;
-    },
-    setQueryData: (state, action) => {
-      const { currentLayerTitle, data } = state;
-      const currentLayer = data.find((i) => i.queryTitle === currentLayerTitle);
-      currentLayer.queryData = action.payload;
-    },
-    setSymanticLayerQueryResult: (state, action) => {
-      const { currentLayerTitle, data } = state;
-      const currentLayer = data.find((i) => i.queryTitle === currentLayerTitle);
-      currentLayer.symanticLayerQueryResult = action.payload;
-    },
-    setQueryResult: (state, action) => {
-      const { currentLayerTitle, data } = state;
-      const currentLayer = data.find((i) => i.queryTitle === currentLayerTitle);
-      currentLayer.queryResult = action.payload;
-    },
-  },
-});
-
 export const {
   setReportHeader,
   removeTableColumn,
@@ -836,43 +660,12 @@ export const {
   setReports,
   setStructure,
   setVariables,
-  setActiveNodeStyle,
+  setActiveNodeStyle, // TODO: delete if useless
   setActiveNodeFormula,
   setTableStyle,
-  addTableColumn,
+  addTableColumn, // TODO: delete if useless
   addSortingField,
   setTableVariant,
-  addTableRow,
-  addTableValue,
-} = reportDesigner.actions;
-
-export const {
-  setFormattingElementFormula,
-  setFormattingElement,
-  setCreatingElement,
-  setReportPanelVisible,
-  setFormulaEditorVisible,
-  setConfigPanelVisible,
-  setSelectedColumns,
-  setZoom,
-  setMenuItem,
-  setMenu,
-} = reportDesignerUI.actions;
-
-export const {
-  setQueryPanelData,
-  setCurrentSymlayer,
-  editSymlayer,
-  copySymlayer,
-  deleteSymlayer,
-  setQueryPanelFilters,
-  setQueryData,
-  setSymanticLayerQueryResult,
-  setQueryResult,
-} = queryPanelData.actions;
-
-export default combineReducers({
-  reportsUi: reportDesignerUI.reducer,
-  reportsData: undoable(reportDesigner.reducer),
-  queryPanelData: queryPanelData.reducer,
-});
+  addTableRow, // TODO: delete if useless
+  addTableValue, // TODO: delete if useless
+} = reportsData.actions;
