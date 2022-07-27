@@ -392,6 +392,7 @@ const TableComponent = ({
       JSON.stringify({
         fieldName: field.field,
         tableName: `${table.schema}.${table.objectName}`,
+        tableId: table.table_id !== undefined ? table.table_id : table.id,
       }),
     );
     const object1 = {
