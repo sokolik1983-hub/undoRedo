@@ -316,7 +316,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
       <Button
         buttonStyle={BUTTON.BIG_BLUE}
         className={styles.cancelButton}
-        onClick={handleClose}
+        onClick={() => handleClose()}
       >
         Отмена
       </Button>
