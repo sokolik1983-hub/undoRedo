@@ -10,6 +10,7 @@ import {
   setCreateConnectorResult,
   setCurrentFolderId,
   setEditConnectorResult,
+  setNewConnectorData,
   setTestConnector,
 } from '../reducers/data';
 import { setConnectorObjects } from '../reducers/schemaDesigner';
@@ -180,5 +181,11 @@ export const testConnector = (queryParams) => {
     if (response?.result) {
       dispatch(setTestConnector(response));
     }
+  };
+};
+
+export const setNewConnector = (data) => {
+  return (dispatch) => {
+    dispatch(setConnectorData(data));
   };
 };
