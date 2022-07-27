@@ -185,8 +185,8 @@ const TableComponent = ({
       delete tempTable.table_id;
       dispatch(
         setSelectedTablesData({
-          id: selectedTablesData.length,
-          parentTable_id: 0,
+          id: selectedTablesData.length + 1,
+          parentTable_id: 1,
           sql: '',
           viewType: 'Head',
           viewHeight: 200,
@@ -420,7 +420,7 @@ const TableComponent = ({
     if (object1.objectName !== object2.objectName && !findedLink) {
       dispatch(
         setObjectsConnectionsModal(true, {
-          id: links.length,
+          id: links.length + 1,
           newLink: true,
           object1,
           object2,
@@ -530,7 +530,7 @@ const TableComponent = ({
         )}
         {isObjectsConnectionsModalOpened && (
           <ObjectsConnectionEditor
-            id={links.length}
+            id={links.length + 1}
             visible={isObjectsConnectionsModalOpened && true}
           />
         )}
