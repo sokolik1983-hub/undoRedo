@@ -12,7 +12,7 @@ interface IToastProps {
   setList: (arr: Array<ToastItem>) => Array<ToastItem>;
 }
 
-interface ToastItem {
+export interface ToastItem {
   id: string;
   type: string;
   title: string;

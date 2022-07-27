@@ -75,12 +75,12 @@ const ReportBody = ({ data, onSelect, isActiveNode }) => {
         return (
           <Block
             {...item}
-            key={item?.id}
+            key={item.id}
             structureItem={item}
             onChangePosition={handleChangePosition}
             onChangeScales={handleChangeScales}
             onSelect={onSelect}
-            isActiveNode={isActiveNode(item?.id)}
+            isActiveNode={isActiveNode(item.id)}
           />
         );
       })}

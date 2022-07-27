@@ -247,7 +247,7 @@ const Cell = ({
 };
 
 Cell.propTypes = {
-  id: [PropTypes.string, PropTypes.number],
+  id: PropTypes.string,
   structureItem: PropTypes.object,
   blockStyles: PropTypes.object,
   displayMode: PropTypes.string,

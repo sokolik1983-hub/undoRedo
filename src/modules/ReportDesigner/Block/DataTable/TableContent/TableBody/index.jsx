@@ -1,11 +1,7 @@
-/* eslint-disable react/no-array-index-key */
-// import styles from './TableBody.module.scss';
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
-
 import { find } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import uuid from 'react-uuid';
 
 import { setFormattingElement } from '../../../../../../data/reducers/new_reportDesigner';
 import Cell from '../../../TableCell';
@@ -101,7 +97,7 @@ const TableBody = ({
 
       return (
         footerField && (
-          <td onClick={() => handleClick(footerField)}>
+          <td onClick={() => handleClick(footerField)} key={uuid()}>
             <Cell
               tableType={tableType}
               displayMode={displayMode}
@@ -275,7 +271,6 @@ const TableBody = ({
 
     return (
       // rows
-      /* eslint-disable react/no-array-index-key   */
       anchor?.map((row, rowIndex) => {
         return (
           <tr key={`${rowIndex}-tb-row`} data="data-row">
