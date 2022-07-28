@@ -120,7 +120,7 @@ const SemanticActions = () => {
       delete tempObj.selectQueryField;
       delete tempObj.whereQueryField;
       tempObj.tables = tempObj.tables?.length ? tempObj.tables : [0];
-      tempObj.parent_id = 1;
+      tempObj.parent_id = 0;
       tempObj.mask = null;
       return tempObj;
     });
