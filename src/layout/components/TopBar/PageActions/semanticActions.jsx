@@ -120,9 +120,8 @@ const SemanticActions = () => {
       delete tempObj.selectQueryField;
       delete tempObj.whereQueryField;
       tempObj.tables = tempObj.tables?.length ? tempObj.tables : [0];
-      tempObj.parent_id = 0;
+      tempObj.parent_id = 1;
       tempObj.mask = null;
-
       return tempObj;
     });
     setFormattedObjects(objects);
@@ -135,6 +134,9 @@ const SemanticActions = () => {
       const findedIdx = tablesCoord.findIndex(
         (tab) => tab.tableId === `${schema}_${objectName}`,
       );
+      tempTable.objectType =
+        tempTable.objectType[0].toUpperCase() +
+        tempTable.objectType.slice(1).toLowerCase();
       if (findedIdx !== -1) {
         tempTable.position = {
           x: tablesCoord[findedIdx].x,
@@ -154,7 +156,6 @@ const SemanticActions = () => {
       ? updatedCoordsTables
       : selectedTablesData;
     universe.data.links = links;
-    console.log(formattedObjectLayer);
     universe.data.objects = formattedObjectLayer;
     universe.data.connector_id = selectedConnectorId;
     dispatch(createUniverse(universe, currentUniverse.header.name));

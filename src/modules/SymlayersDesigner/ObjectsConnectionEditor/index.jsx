@@ -56,7 +56,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
 
   const convertedData = useMemo(() => {
     return selectedTablesData.map((table, idx) => ({
-      table_id: idx,
+      table_id: idx + 1,
       name: `${table.schema}_${table.objectName}`,
       columns: table.columns,
     }));
@@ -202,6 +202,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
           id,
           condition: formattedCondition,
           expression: resultExpression,
+          shortcut: 0,
           object1: {
             cardinality: 'one',
             table_id: leftTableId,
@@ -224,6 +225,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
           id: currentObjLink.id,
           condition: formattedCondition,
           expression: resultExpression,
+          shortcut: 0,
           object1: {
             cardinality: 'one',
             table_id: leftTableId,
@@ -246,6 +248,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
           id: currentObjLink.id,
           condition: formattedCondition,
           expression: resultExpression,
+          shortcut: 0,
           object1: {
             cardinality: 'one',
             table_id: leftTableId,
