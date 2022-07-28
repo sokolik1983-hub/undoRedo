@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 import Button from '../../../common/components/Button';
-import CheckboxField from '../../../common/components/formikFields/checkboxField';
-import RadioField from '../../../common/components/formikFields/radioField';
+import CheckboxField from '../../../common/components/FormikFields/CheckboxField';
+import RadioField from '../../../common/components/FormikFields/RadioField';
 import Modal from '../../../common/components/Modal';
 import { BUTTON } from '../../../common/constants/common';
 import Arrow from '../../../layout/assets/queryPanel/arrowBoldDown.svg';

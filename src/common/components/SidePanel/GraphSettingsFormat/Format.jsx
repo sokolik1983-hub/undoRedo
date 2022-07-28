@@ -5,7 +5,7 @@ import {
   FormatVerticalItems,
   values,
 } from '../../../constants/reportDesigner/viewGraphOptions';
-import CheckboxField from '../../formikFields/checkboxField';
+import CheckboxField from '../../FormikFields/CheckboxField';
 import SimpleDropDown from '../../SimpleDropDown';
 import styles from '../SidePanel.module.scss';
 

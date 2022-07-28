@@ -201,19 +201,28 @@ const TableComponent = ({
     return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase());
   };
   let selectedTableColumns = [];
-  if (selectedTables[getTableIdFromParams({ ...tableItem })]?.columns) {
-    selectedTableColumns = selectedTables[
-      getTableIdFromParams({ ...tableItem })
-    ]?.columns.map((item) => {
-      return {
-        ...item,
-        colored: colorValue && searchStaticMatches(item),
-      };
-    });
-  } else {
-    selectedTableColumns = selectedTables[
-      getTableIdFromParams({ ...tableItem })
-    ]?.map((item) => {
+  if (tableItem?.objectType === 'TABLE') {
+    if (selectedTables[getTableIdFromParams({ ...tableItem })]?.columns) {
+      selectedTableColumns = selectedTables[
+        getTableIdFromParams({ ...tableItem })
+      ]?.columns.map((item) => {
+        return {
+          ...item,
+          colored: colorValue && searchStaticMatches(item),
+        };
+      });
+    } else {
+      selectedTableColumns = selectedTables[
+        getTableIdFromParams({ ...tableItem })
+      ]?.map((item) => {
+        return {
+          ...item,
+          colored: colorValue && searchStaticMatches(item),
+        };
+      });
+    }
+  } else if (tableItem.objectType === 'Alias') {
+    selectedTableColumns = tableItem.columns.map((item) => {
       return {
         ...item,
         colored: colorValue && searchStaticMatches(item),
@@ -378,7 +387,14 @@ const TableComponent = ({
   );
 
   const onFieldDragStart = (event, field, table) => {
-    event.dataTransfer.setData('field', JSON.stringify(field));
+    event.dataTransfer.setData(
+      'field',
+      JSON.stringify({
+        fieldName: field.field,
+        tableName: `${table.schema}.${table.objectName}`,
+        tableId: table.table_id !== undefined ? table.table_id : table.id,
+      }),
+    );
     const object1 = {
       cardinality: 'one',
       objectName: `${table.schema}_${table.objectName}`,
@@ -388,30 +404,6 @@ const TableComponent = ({
     };
     event.dataTransfer.setData('object1', JSON.stringify(object1));
   };
-
-  // const tryLinkEnd = ({ item, event }) => {
-  //   addLink({ table: tableItem, field: item });
-  //   initLink({});
-  //   stopDrag(event);
-  // };
-
-  // const tryLinkStart = ({ item, event }) => {
-  //   if (linkAnchor) return;
-  //   const dragStopCallback = ({ state }) => {
-  //     state.linkAnchor = null;
-  //     state.linkDescr = null;
-  //   };
-
-  //   const dragCallback = ({ state }, { postition }) => {
-  //     state.linkAnchor = postition;
-  //   };
-
-  //   initLink({
-  //     descr: { table: tableItem, field: item },
-  //     pos: posToCoord(event)
-  //   });
-  //   startDrag({ event, dragCallback, dragStopCallback });
-  // };
 
   const onFieldDragOver = (event, field, table) => {
     const object1 = JSON.parse(event.dataTransfer.getData('object1'));
@@ -475,7 +467,8 @@ const TableComponent = ({
         ? tableItem.parent_table
         : tableItem.objectName;
       newSynonym.objectName = synName;
-      newSynonym.id = null;
+      newSynonym.objectType = 'Alias';
+      newSynonym.id = selectedTablesData.length;
       onCreateSynonym(newSynonym);
     } else {
       dispatch(

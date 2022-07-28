@@ -6,12 +6,11 @@
   );
   flex: 1;
 
-  box-shadow: 0px 12px 27px rgba(12, 74, 167, 0.31);
+  box-shadow: 0 12px 27px rgba(12, 74, 167, 0.31);
   border-radius: 10px;
 
   height: 200px;
 
-    
   &:first-child {
     flex: 2;
     // margin-left: 315px;

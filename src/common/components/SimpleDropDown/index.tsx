@@ -12,7 +12,7 @@ interface ISimpleDropDownProps {
   className?: string;
   iconClassName?: string;
   titleClassName: string;
-  children: ReactNode;
+  children?: ReactNode;
   icon?: ReactNode;
 }
 

@@ -10,11 +10,7 @@ const SideBarTabContent = ({ title, desc, action }) => {
       <div className={styles.description}>{desc}</div>
       <div className={styles.titleGroup}>
         <div className={styles.title}>{title}</div>
-        <IconButton
-          className={styles.icon}
-          icon={<SaveIcon />}
-          onClick={action}
-        />
+        <IconButton className={styles.icon} onClick={action} />
       </div>
     </div>
   );

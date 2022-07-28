@@ -718,6 +718,115 @@ const reportDesignerUI = createSlice({
   },
 });
 
+const queryPanelData = createSlice({
+  name: 'queryPanelData',
+  initialState: {
+    currentLayerTitle: null,
+    data: [],
+  },
+  reducers: {
+    setQueryPanelData: (state, action) => {
+      const { universeId, data } = action.payload;
+      const { connector_id, lists, objects, prompts, properties } = data;
+      const rootFolder = objects
+        .map((i) =>
+          i.objectType === 'Folder' || i.objectType === 'Dimension'
+            ? { ...i, children: [] }
+            : i,
+        )
+        .map((item, idx, data) => {
+          const parent = data.find((i) => item.parent_id === i.id);
+          if (parent) parent.children.push(item); // TODO добавил костыль, чтобы не выкидывало. Объекты в себе могут содержать не только Folder, но и Dimension
+          return item;
+        })[0];
+
+      let index = 1;
+      let dpIdx = 0;
+
+      const getIndex = (idx) => {
+        if (state.data.find((i) => i.queryTitle === `Новый запрос (${idx})`)) {
+          getIndex(idx + 1);
+        } else index = idx;
+      };
+
+      const getDpIdx = (idx) => {
+        if (state.data.find((i) => i.dpId === `DP${idx})`)) {
+          getDpIdx(idx + 1);
+        } else dpIdx = idx;
+      };
+
+      getIndex(index);
+      getDpIdx(dpIdx);
+
+      state.data.push({
+        symLayerData: rootFolder,
+        symLayerName: rootFolder.name,
+        symlayer_id: rootFolder.id,
+        objects: [],
+        filters: null,
+        queryTitle: `Новый запрос (${index})`,
+        dpId: `DP${index}`,
+        connector_id,
+        universeId,
+      });
+    },
+    setCurrentSymlayer: (state, action) => {
+      state.currentLayerTitle = action.payload;
+    },
+    editSymlayer: (state, action) => {
+      const { currentTitle, newTitle } = action.payload;
+      if (state.data.find((i) => i.queryTitle === newTitle)) return;
+      const currentLayer = state.data.find(
+        (i) => i.queryTitle === currentTitle,
+      );
+      currentLayer.queryTitle = newTitle;
+    },
+    copySymlayer: (state, action) => {
+      const symLayerToCopy = state.data.find(
+        (i) => i.queryTitle === action.payload,
+      );
+      const symLayerToCopyIdx = state.data.indexOf(symLayerToCopy);
+      state.data = [
+        ...state.data.slice(0, symLayerToCopyIdx + 1),
+        {
+          ...symLayerToCopy,
+          queryTitle: `${symLayerToCopy.queryTitle} (копия)`,
+        },
+        ...state.data.slice(symLayerToCopyIdx + 1),
+      ];
+    },
+    deleteSymlayer: (state, action) => {
+      state.data = state.data.filter((i) => i.queryTitle !== action.payload);
+    },
+    setQueryPanelFilters: (state, action) => {
+      const { objects, filters } = action.payload;
+      const currentTitle = state.currentLayerTitle;
+      const currentLayer = state.data.find(
+        (i) => i.queryTitle === currentTitle,
+      );
+      const currentLayerIdx = state.data.indexOf(currentLayer);
+      const stateCopy = state.data.concat();
+      stateCopy[currentLayerIdx] = { ...currentLayer, objects, filters };
+      state.data = stateCopy;
+    },
+    setQueryData: (state, action) => {
+      const { currentLayerTitle, data } = state;
+      const currentLayer = data.find((i) => i.queryTitle === currentLayerTitle);
+      currentLayer.queryData = action.payload;
+    },
+    setSymanticLayerQueryResult: (state, action) => {
+      const { currentLayerTitle, data } = state;
+      const currentLayer = data.find((i) => i.queryTitle === currentLayerTitle);
+      currentLayer.symanticLayerQueryResult = action.payload;
+    },
+    setQueryResult: (state, action) => {
+      const { currentLayerTitle, data } = state;
+      const currentLayer = data.find((i) => i.queryTitle === currentLayerTitle);
+      currentLayer.queryResult = action.payload;
+    },
+  },
+});
+
 export const {
   setReportHeader,
   removeTableColumn,
@@ -750,7 +859,20 @@ export const {
   setMenu,
 } = reportDesignerUI.actions;
 
+export const {
+  setQueryPanelData,
+  setCurrentSymlayer,
+  editSymlayer,
+  copySymlayer,
+  deleteSymlayer,
+  setQueryPanelFilters,
+  setQueryData,
+  setSymanticLayerQueryResult,
+  setQueryResult,
+} = queryPanelData.actions;
+
 export default combineReducers({
   reportsUi: reportDesignerUI.reducer,
   reportsData: undoable(reportDesigner.reducer),
+  queryPanelData: queryPanelData.reducer,
 });

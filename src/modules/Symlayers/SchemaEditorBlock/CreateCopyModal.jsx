@@ -2,7 +2,7 @@ import { PropTypes } from 'prop-types';
 import { useEffect, useRef } from 'react';
 
 import Button from '../../../common/components/Button';
-import ModalPortal from '../../../common/components/ModalPortal/Modal';
+import ModalPortal from '../../../common/components/ModalPortal';
 import TextInput from '../../../common/components/TextInput';
 import { BUTTON } from '../../../common/constants/common';
 import { handleCheckMatch } from '../../SymlayersDesigner/SchemaTables/helper';

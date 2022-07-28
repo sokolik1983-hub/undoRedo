@@ -1,20 +1,27 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { Field, useFormikContext } from 'formik';
-import ModalItem from '..';
-import Button from '../../../../../common/components/Button';
-import CheckboxField from '../../../../../common/components/formikFields/checkboxField';
-import { BUTTON } from '../../../../../common/constants/common';
-import {
-  PUBLIC,
-  CONTROLLED,
-  RESTRICTED,
-  CONFIDENTIAL,
-  PRIVATE
-} from './valueListConstants';
-import styles from './valueListConnectionBlock.module.scss';
+import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 
-const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames, checkboxes }) => {
+import Button from '../../../../../common/components/Button';
+import CheckboxField from '../../../../../common/components/FormikFields/CheckboxField';
+import { BUTTON } from '../../../../../common/constants/common';
+import styles from './valueListConnectionBlock.module.scss';
+import {
+  CONFIDENTIAL,
+  CONTROLLED,
+  PRIVATE,
+  PUBLIC,
+  RESTRICTED,
+} from './valueListConstants';
+import ModalItem from '..';
+
+const ValueListConnectionBlock = ({
+  onChange,
+  value,
+  name,
+  checkBoxNames,
+  checkboxes,
+}) => {
   const formikProps = useFormikContext();
 
   const options = [
@@ -22,14 +29,14 @@ const ValueListConnectionBlock = ({ onChange, value, name, checkBoxNames, checkb
     { value: CONTROLLED, text: CONTROLLED },
     { value: RESTRICTED, text: RESTRICTED },
     { value: CONFIDENTIAL, text: CONFIDENTIAL },
-    { value: PRIVATE, text: PRIVATE }
+    { value: PRIVATE, text: PRIVATE },
   ];
 
   useEffect(() => {
     formikProps.setFieldValue(name[1], value[1] || PUBLIC);
   }, []);
 
-  const handleClick = e => {
+  const handleClick = (e) => {
     e.preventDefault();
   };
 
@@ -167,5 +174,5 @@ ValueListConnectionBlock.propTypes = {
   name: PropTypes.array,
   value: PropTypes.array,
   checkBoxNames: PropTypes.any,
-  checkboxes: PropTypes.array
+  checkboxes: PropTypes.array,
 };

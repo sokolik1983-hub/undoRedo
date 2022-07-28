@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import DropdownItem from '../../../../common/components/Dropdown/DropdownItem';
@@ -12,8 +12,8 @@ import {
   copySymlayer,
   deleteSymlayer,
   editSymlayer,
-  setCurrentQueryPanelSymlayer,
-} from '../../../../data/reducers/data';
+  setCurrentSymlayer,
+} from '../../../../data/reportDesigner/queryPanelData/queryPanelDataReducer';
 import PlusIcon from '../../../../layout/assets/queryPanel/plus.svg';
 import BinIcon from '../../../../layout/assets/queryPanel/selectOptionActions/binIcon.svg';
 import CopyIcon from '../../../../layout/assets/queryPanel/selectOptionActions/createCopyIcon.svg';
@@ -45,7 +45,7 @@ const ObjectsPanelHeader = ({ modalOpenHandler }) => {
   const dispatch = useDispatch();
 
   const { data, options } = useSelector((state) => {
-    const data = state.app?.data?.queryPanelSymlayersData.data;
+    const data = state.app?.reportDesigner?.queryPanelData.data;
     const options = data?.map(({ symLayerName, queryTitle }) => ({
       symLayerName,
       queryTitle,
@@ -66,7 +66,7 @@ const ObjectsPanelHeader = ({ modalOpenHandler }) => {
     const currentLayer = data?.find(
       (layer) => layer.queryTitle === selectedValue,
     );
-    dispatch(setCurrentQueryPanelSymlayer(currentLayer?.queryTitle));
+    dispatch(setCurrentSymlayer(currentLayer?.queryTitle));
   }, [selectedValue]);
 
   const handleRenameLayer = (params) => {
@@ -166,7 +166,7 @@ const ObjectsPanelHeader = ({ modalOpenHandler }) => {
   );
 };
 
-export default ObjectsPanelHeader;
+export default memo(ObjectsPanelHeader);
 
 ObjectsPanelHeader.propTypes = {
   modalOpenHandler: PropTypes.func,

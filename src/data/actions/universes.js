@@ -6,13 +6,8 @@ import {
   setConnectorId,
   setCurrentUniverse,
   setListReports,
-  setQueryData,
-  setQueryPanelSymlayersData,
-  setQueryResult,
   setReportsFolderId,
   setSampleUniverseObject,
-  setSymanticLayerData,
-  setSymanticLayerQueryResult,
   setUniverseIsCreated,
   setUniverses,
   setUniversesFolderId,
@@ -43,7 +38,6 @@ import {
 } from '../reducers/ui';
 import { showToast } from './app';
 import { getObjectFromConnector } from './connectors';
-import { setReportDpRefreshed } from './newReportDesigner';
 
 export const getUniversesFolderChildren = (queryParams) => async (dispatch) => {
   const response = await request({
@@ -69,23 +63,23 @@ export const getUniversesFolderId = (queryParams) => {
   };
 };
 
-export const getQueryPanelSymanticLayerData = (id) => async (dispatch) => {
-  const response = await request({
-    code: 'UNV.GET_DATA_QP',
-    params: { id },
-    dispatch,
-  });
-  if (response) dispatch(setQueryPanelSymlayersData(response.qpData));
-};
-
 export const createSampleUniverse = (queryParams) => {
   return async (dispatch) => {
-    const response = await request({
-      code: 'UNV.CREATE',
-      params: queryParams,
-      dispatch,
-    });
-    if (response?.result) {
+    try {
+      const response = await request({
+        code: 'UNV.CREATE',
+        params: queryParams,
+        dispatch,
+      });
+      if (response?.result) {
+        dispatch(
+          setSampleUniverseObject({
+            header: response.header,
+            data: response.data,
+          }),
+        );
+      }
+    } catch (err) {
       dispatch(
         setSampleUniverseObject({
           header: response.header,
@@ -190,16 +184,16 @@ export const createUniverse = (queryParams, layerName) => {
   };
 };
 
-export const createQuery = (queryParams) => async (dispatch) => {
-  const response = await request({
-    code: 'UNV.GET_SQL',
-    params: queryParams,
-    dispatch,
-  });
-  if (response) {
-    dispatch(setQueryData(response));
-  }
-};
+// export const createQuery = (queryParams) => async (dispatch) => {
+//   const response = await request({
+//     code: 'UNV.GET_SQL',
+//     params: queryParams,
+//     dispatch,
+//   });
+//   if (response) {
+//     dispatch(setQueryData(response));
+//   }
+// };
 
 export const getListReports = (queryParams) => {
   return async (dispatch) => {
@@ -258,28 +252,6 @@ export const getReportsFolderId = (queryParams) => {
   };
 };
 
-export const getResultFromQuery = (queryParams) => async (dispatch) => {
-  const response = await request({
-    code: 'CN.GET_DATA',
-    params: queryParams,
-    dispatch,
-  });
-  if (response) {
-    dispatch(setQueryResult(response));
-  }
-};
-
-export const postQueryPanelTab = (queryParams) => async (dispatch) => {
-  const response = await request({
-    code: 'REP.SET_DP',
-    params: queryParams,
-    dispatch,
-  });
-  if (response) {
-    dispatch(setReportDpRefreshed());
-  }
-};
-
 export const setObjectsConnectionsModal = (open, link) => {
   return (dispatch) =>
     dispatch(open ? showObjectsConnectionsModal(link) : closeModal());
@@ -302,9 +274,9 @@ export const setConfirmModal = (open) => {
     dispatch(open ? showConfirmModal() : closeConfirmModal());
 };
 
-export const setCreateObjectModal = (open) => {
+export const setCreateObjectModal = (open, field) => {
   return (dispatch) =>
-    dispatch(open ? showCreateObjectModal() : closeCreateObjectModal());
+    dispatch(open ? showCreateObjectModal(field) : closeCreateObjectModal());
 };
 
 export const setEditObjectModal = (object) => {

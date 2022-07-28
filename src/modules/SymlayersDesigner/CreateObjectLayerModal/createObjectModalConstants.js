@@ -23,4 +23,5 @@ export const CREATE_OBJECT_MODAL_VALUES = {
   TECH_INFO_INPUT: 'techInfoInput',
   DISPLAY_INPUT: 'displayInput',
   ORIGIN_INPUT: 'originInput',
+  TABLES: 'tables',
 };
