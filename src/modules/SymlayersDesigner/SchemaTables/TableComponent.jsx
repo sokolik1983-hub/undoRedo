@@ -201,7 +201,7 @@ const TableComponent = ({
     return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase());
   };
   let selectedTableColumns = [];
-  if (tableItem?.objectType === 'TABLE') {
+  if (tableItem?.objectType === 'Table') {
     if (selectedTables[getTableIdFromParams({ ...tableItem })]?.columns) {
       selectedTableColumns = selectedTables[
         getTableIdFromParams({ ...tableItem })

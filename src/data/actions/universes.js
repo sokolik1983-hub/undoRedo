@@ -105,6 +105,7 @@ export const openUniverse = (queryParams, layerName) => {
       dispatch(setLoadingUniverse(true));
 
       response.data.tables.forEach((table) => {
+        console.log(table);
         dispatch(
           setSelectedTables({
             [getTableIdFromParams(table)]: table,
