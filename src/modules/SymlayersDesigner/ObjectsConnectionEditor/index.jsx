@@ -57,7 +57,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
   const convertedData = useMemo(() => {
     return selectedTablesData.map((table, idx) => ({
       table_id: idx + 1,
-      name: `${table.schema}_${table.objectName}`,
+      name: `${table.schema}.${table.objectName}`,
       columns: table.columns,
     }));
   }, [selectedTablesData]);
@@ -121,7 +121,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
     );
     const schema = finded?.schema;
     const objectName = finded?.objectName;
-    const objectFullName = schema && objectName && `${schema}_${objectName}`;
+    const objectFullName = schema && objectName && `${schema}.${objectName}`;
     return objectFullName;
   };
 

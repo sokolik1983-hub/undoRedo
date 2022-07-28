@@ -58,7 +58,7 @@ function SymlayersDesigner() {
       const tables = checked.map((table) => {
         const { schema, objectName } = table;
         const findTable = [...selectedTablesArray].find(
-          (selTable) => selTable.name === `${schema}_${objectName}`,
+          (selTable) => selTable.name === `${schema}.${objectName}`,
         );
         table = { ...table, columns: findTable?.fields };
         return table;
