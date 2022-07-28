@@ -25,19 +25,19 @@ import styles from './Modal.module.scss';
  */
 
 interface IModalProps {
-  modalClassName: string;
-  bodyClassName: string;
-  content: ReactElement;
-  contentClassName: string;
-  dialogClassName: string;
+  modalClassName?: string;
+  bodyClassName?: string;
+  content?: ReactElement;
+  contentClassName?: string;
+  dialogClassName?: string;
   footer: ReactElement;
-  withoutTitle: boolean;
-  headerClassName: string;
+  withoutTitle?: boolean;
+  headerClassName?: string;
   onClose: () => void;
-  title: string;
-  titleClassName: string;
+  title?: string;
+  titleClassName?: string;
   visible: boolean;
-  withScroll: boolean;
+  withScroll?: boolean;
 }
 
 const Modal: FC<IModalProps> = ({
@@ -110,7 +110,9 @@ const Modal: FC<IModalProps> = ({
           <div className={headerClasses}>
             <h3 className={titleClasses}>{title}</h3>
             <span className={styles.modalClose} onClick={handleClose}>
-              <CloseIcon />
+              <div className={styles.close}>
+                <CloseIcon />
+              </div>
             </span>
           </div>
         )}
