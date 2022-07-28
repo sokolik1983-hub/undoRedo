@@ -71,8 +71,7 @@ function SymlayersDesigner() {
   const handleSelectTable = (selected, event) => {
     const { schema, objectName } = selected;
     dispatch(getObjectFields({ id: connectorId, schema, objectName }));
-    const table_id =
-      selectedTablesData.length > 0 ? selectedTablesArray.length : 0;
+    const table_id = selectedTablesArray.length + 1;
     if (event) {
       setChecked([...checked, { table_id, ...selected }]);
     } else {
@@ -188,7 +187,7 @@ function SymlayersDesigner() {
       </div>
       {isObjectsConnectionsModalOpened && (
         <ObjectsConnectionEditor
-          id={links.length}
+          id={links.length + 1}
           visible={isObjectsConnectionsModalOpened && true}
         />
       )}

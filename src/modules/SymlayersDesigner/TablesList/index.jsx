@@ -58,7 +58,7 @@ function TablesList({ title, items, type }) {
                       : null
                   }
                   onDoubleClick={handleClick}
-                  id={i}
+                  id={i + 1}
                 />
               </div>
             );

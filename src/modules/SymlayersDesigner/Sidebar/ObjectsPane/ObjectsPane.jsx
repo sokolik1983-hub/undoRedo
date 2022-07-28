@@ -22,8 +22,8 @@ const ObjectsPane = () => {
     setFilterObjectMode(null);
   }, [objectsLayers]);
 
-  const handleObjectDrop = () => {
-    dispatch(setCreateObjectModal(true));
+  const handleObjectDrop = (field) => {
+    dispatch(setCreateObjectModal(true, field));
   };
 
   const handleSelectObjectLayer = (id) => {

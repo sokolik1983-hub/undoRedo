@@ -1,8 +1,8 @@
 import isEqual from 'lodash/isEqual';
 
-import { getElementData } from '../../../../../data/actions/newReportDesigner';
 import { deepObjectSearch } from '../../../../../data/helpers';
-import { setFormattingElement } from '../../../../../data/reducers/new_reportDesigner';
+import { getElementData } from '../../../../../data/reportDesigner/reportsData/reportsDataActions';
+import { setFormattingElement } from '../../../../../data/reportDesigner/reportsUi/reportDesignerUIReducer';
 
 export const structureUpdatedChecker = () => {
   let oldZones;
