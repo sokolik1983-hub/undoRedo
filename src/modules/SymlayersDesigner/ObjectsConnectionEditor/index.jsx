@@ -56,8 +56,8 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
 
   const convertedData = useMemo(() => {
     return selectedTablesData.map((table, idx) => ({
-      table_id: idx,
-      name: `${table.schema}_${table.objectName}`,
+      table_id: idx + 1,
+      name: `${table.schema}.${table.objectName}`,
       columns: table.columns,
     }));
   }, [selectedTablesData]);
@@ -121,7 +121,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
     );
     const schema = finded?.schema;
     const objectName = finded?.objectName;
-    const objectFullName = schema && objectName && `${schema}_${objectName}`;
+    const objectFullName = schema && objectName && `${schema}.${objectName}`;
     return objectFullName;
   };
 
@@ -202,6 +202,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
           id,
           condition: formattedCondition,
           expression: resultExpression,
+          shortcut: 0,
           object1: {
             cardinality: 'one',
             table_id: leftTableId,
@@ -224,6 +225,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
           id: currentObjLink.id,
           condition: formattedCondition,
           expression: resultExpression,
+          shortcut: 0,
           object1: {
             cardinality: 'one',
             table_id: leftTableId,
@@ -246,6 +248,7 @@ const ObjectsConnectionEditor = ({ id, visible }) => {
           id: currentObjLink.id,
           condition: formattedCondition,
           expression: resultExpression,
+          shortcut: 0,
           object1: {
             cardinality: 'one',
             table_id: leftTableId,

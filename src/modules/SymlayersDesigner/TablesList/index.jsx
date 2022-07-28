@@ -30,10 +30,10 @@ function TablesList({ title, items, type }) {
     );
     const schema1 = tableName1?.schema;
     const objectName1 = tableName1?.objectName;
-    const objectFullName1 = `${schema1}_${objectName1}`;
+    const objectFullName1 = `${schema1}.${objectName1}`;
     const schema2 = tableName2?.schema;
     const objectName2 = tableName2?.objectName;
-    const objectFullName2 = `${schema2}_${objectName2}`;
+    const objectFullName2 = `${schema2}.${objectName2}`;
     return `${objectFullName1} - ${objectFullName2}`;
   };
 
@@ -58,7 +58,7 @@ function TablesList({ title, items, type }) {
                       : null
                   }
                   onDoubleClick={handleClick}
-                  id={i}
+                  id={i + 1}
                 />
               </div>
             );

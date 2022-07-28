@@ -215,7 +215,7 @@ export const getTableIdFromParams = ({
   schema: string;
   objectName: string;
 }) => {
-  return `${schema}_${objectName}`;
+  return `${schema}.${objectName}`;
 };
 
 interface IDeepObjectSearchParams<T> {

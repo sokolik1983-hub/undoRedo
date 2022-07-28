@@ -193,7 +193,6 @@ const SchemaEditorBlock = ({
       ))}
     </div>
   );
-
   return (
     // <div className={highlightOutline} ref={refs.current.tableRef}>
     <div className={highlightOutline} ref={tableRef}>
