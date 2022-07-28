@@ -87,6 +87,7 @@ const SemanticActions = () => {
 
   useEffect(() => {
     let objects = [...objectsLayers];
+    console.log(objects);
     objects = objects.map((object) => {
       const tempObj = { ...object };
       delete tempObj.refreshBeforeUsageCheckBox;
@@ -106,13 +107,13 @@ const SemanticActions = () => {
       delete tempObj.keysWhereInput;
       delete tempObj.keysType;
       delete tempObj.usagePermission;
-      tempObj.dataType = translitNames(tempObj.objectDataType);
+      tempObj.dataType = tempObj.objectDataType;
       tempObj.aggFunc = 'SUM';
       tempObj.aggFuncName = 'SUM';
       delete tempObj.objectFunction;
       tempObj.description = tempObj.objectDescription;
       delete tempObj.objectDescription;
-      tempObj.userDataType = translitNames(tempObj.objectDataType);
+      tempObj.userDataType = tempObj.objectDataType;
       tempObj.objectType = translitNames(tempObj.objectType);
       delete tempObj.objectDataType;
       tempObj.select = tempObj.selectQueryField;
@@ -157,7 +158,7 @@ const SemanticActions = () => {
       : selectedTablesData;
     universe.data.links = links;
     universe.data.objects = formattedObjectLayer;
-    console.log(universe.data.tables);
+    console.log(universe.data.objects);
     universe.data.connector_id = selectedConnectorId;
     dispatch(createUniverse(universe, currentUniverse.header.name));
   };

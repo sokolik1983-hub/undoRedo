@@ -387,12 +387,14 @@ const TableComponent = ({
   );
 
   const onFieldDragStart = (event, field, table) => {
+    console.log(field);
     event.dataTransfer.setData(
       'field',
       JSON.stringify({
         fieldName: field.field,
         tableName: `${table.schema}.${table.objectName}`,
         tableId: table.table_id !== undefined ? table.table_id : table.id,
+        fieldType: field.dataType,
       }),
     );
     const object1 = {

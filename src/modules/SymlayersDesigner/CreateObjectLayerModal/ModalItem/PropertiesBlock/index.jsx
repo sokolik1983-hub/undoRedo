@@ -21,17 +21,19 @@ import styles from './PropertiesBlock.module.scss';
 const PropertiesBlock = ({ name, value }) => {
   const formikProps = useFormikContext();
 
+  console.log(value);
+
   const selectDataOptions = [
-    { icon: <SymbolIcon />, text: 'Символ', value: 'symbol' },
-    { icon: <DateIcon />, text: 'Дата', value: 'data' },
-    { icon: <TextIcon />, text: 'Номер', value: 'number' },
-    { icon: <NumberIcon />, text: 'Текст', value: 'text' },
+    { icon: <SymbolIcon />, text: 'Символ', value: 'Symbol' },
+    { icon: <DateIcon />, text: 'Дата', value: 'Datetime' },
+    { icon: <TextIcon />, text: 'Номер', value: 'Number' },
+    { icon: <NumberIcon />, text: 'Текст', value: 'String' },
   ];
 
   const selectTypeOptions = [
-    { icon: <GaugeIcon />, text: 'Показатель', value: 'indicator' },
-    { icon: <MeasureIcon />, text: 'Измерение', value: 'measure' },
-    { icon: <AttributeIcon />, text: 'Атрибут', value: 'attribute' },
+    { icon: <GaugeIcon />, text: 'Показатель', value: 'Dimension' },
+    { icon: <MeasureIcon />, text: 'Измерение', value: 'Measure' },
+    { icon: <AttributeIcon />, text: 'Атрибут', value: 'Attribute' },
   ];
 
   const selectFuncOptions = [
@@ -42,8 +44,9 @@ const PropertiesBlock = ({ name, value }) => {
   ];
 
   const defDataOptIndex = selectDataOptions.findIndex(
-    (opt) => opt.text === value?.[0],
+    (opt) => opt.value === value,
   );
+  console.log(value, selectDataOptions, defDataOptIndex);
   const defTypeOptIndex = selectTypeOptions.findIndex(
     (opt) => opt.text === value?.[1],
   );
@@ -99,6 +102,8 @@ const PropertiesBlock = ({ name, value }) => {
       setSelectedDataFields(selectDataOptions[defDataOptIndex]);
       setSelectedTypeFields(selectTypeOptions[defTypeOptIndex]);
       setSelectedFuncFields(selectFuncOptions[defFuncOptIndex]);
+    } else if (defDataOptIndex > -1) {
+      setSelectedDataFields(selectDataOptions[defDataOptIndex]);
     }
   }, [defDataOptIndex, defFuncOptIndex, defTypeOptIndex]);
 
