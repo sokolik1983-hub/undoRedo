@@ -17,7 +17,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 /* eslint-disable consistent-return */
-import uuid from 'react-uuid';
+import uuid from 'uuid';
 
 import Button from '../../common/components/Button';
 import Dropdown from '../../common/components/Dropdown';

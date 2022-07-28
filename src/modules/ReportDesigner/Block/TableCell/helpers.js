@@ -1,4 +1,4 @@
-import uuid from 'react-uuid';
+import uuid from 'uuid';
 
 /* eslint-disable no-unused-vars, camelcase */
 import { deepObjectSearch } from '../../../../data/helpers';

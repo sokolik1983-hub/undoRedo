@@ -1,7 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
-import uuid from 'react-uuid';
+import uuid from 'uuid';
 
 import { REDIRECT_LINKS, TOAST_TYPE } from '../../../common/constants/common';
 import {
