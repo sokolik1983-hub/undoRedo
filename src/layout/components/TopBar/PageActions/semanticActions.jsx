@@ -156,6 +156,7 @@ const SemanticActions = () => {
       ? updatedCoordsTables
       : selectedTablesData;
     universe.data.links = links;
+    console.log(universe.data.tables);
     universe.data.objects = formattedObjectLayer;
     universe.data.connector_id = selectedConnectorId;
     dispatch(createUniverse(universe, currentUniverse.header.name));
