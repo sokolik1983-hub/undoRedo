@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 import React, {
   FC,
-  KeyboardEvent,
   MouseEvent,
   ReactElement,
+  useCallback,
   useEffect,
   useState,
 } from 'react';
@@ -60,6 +60,18 @@ const Modal: FC<IModalProps> = ({
   const [overlayChecker, setOverlayChecker] = useState<any | null>(null);
   useEffect(() => setIsModal(visible), [visible]);
 
+  const handleKeydown = useCallback((event: KeyboardEvent) => {
+    const { key } = event;
+    if (key === 'Escape') {
+      onClose();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (window) window.addEventListener('keydown', handleKeydown);
+    return () => window.removeEventListener('keydown', handleKeydown);
+  }, [handleKeydown]);
+
   if (!isModal) return null;
 
   const modalClasses = clsx(styles.modal, modalClassName, {
@@ -78,18 +90,6 @@ const Modal: FC<IModalProps> = ({
 
   const titleClasses = clsx(styles.modalTitle, titleClassName);
   const headerClasses = clsx(styles.modalHeader, headerClassName);
-
-  // const onKeydown = (event: KeyboardEvent) => {
-  //   const { key } = event;
-  //   if (key === 'Escape') {
-  //       onClose();
-  //     }
-  // };
-
-  // useEffect(() => {
-  //   document.addEventListener('keydown', onKeydown);
-  //   return () => document.removeEventListener('keydown', onKeydown);
-  // }, [onKeydown]);
 
   const handleClose = (e: MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
@@ -110,7 +110,7 @@ const Modal: FC<IModalProps> = ({
           <div className={headerClasses}>
             <h3 className={titleClasses}>{title}</h3>
             <span className={styles.modalClose} onClick={handleClose}>
-              <CloseIcon className={styles.close} />
+              <CloseIcon />
             </span>
           </div>
         )}

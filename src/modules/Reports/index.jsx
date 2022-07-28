@@ -28,6 +28,7 @@ import { deleteReport } from '../../data/reportDesigner/reportsData/reportsDataA
 import ConnectorIcon from '../../layout/assets/connectorIcon.svg';
 import CreateConnector from '../../layout/assets/createConnector.svg';
 import FolderIcon from '../../layout/assets/folderIcon.svg';
+import { getCurrentReport } from '../ReportDesigner/helpers';
 import {
   FOLDER_DROPDOWN_ACTIONS,
   FOLDER_ITEM_DROPDOWN_ACTIONS_REPORTS,
