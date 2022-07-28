@@ -1,7 +1,7 @@
 import { find } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import uuid from 'uuid';
+import uuid from 'react-uuid';
 
 import { setFormattingElement } from '../../../../../../data/reportDesigner/reportsUi/reportDesignerUIReducer';
 import Cell from '../../../TableCell';

@@ -1,5 +1,5 @@
 import lodash from 'lodash';
-import uuid from 'uuid';
+import uuid from 'react-uuid';
 
 export const generateId = () => String(Date.parse(new Date()));
 const elemId = uuid();
