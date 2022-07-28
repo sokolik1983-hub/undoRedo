@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import React, {
+  ChangeEvent,
   DetailedHTMLProps,
   FC,
   ForwardRefRenderFunction,
@@ -27,6 +28,8 @@ interface ITextInputProps
     HTMLInputElement
   > {
   id?: string;
+  value: string | number;
+  onChange: (el: ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   wrapperClassName?: string;
   labelClassName?: string;
@@ -82,6 +85,8 @@ const TextInput: ForwardRefRenderFunction<HTMLInputElement, ITextInputProps> = (
       <input
         ref={ref}
         name={id}
+        value={value}
+        onChange={onChange}
         className={classes}
         defaultValue={defaultValue}
         {...props}
