@@ -1,8 +1,9 @@
+import uuid from 'react-uuid';
+
 /* eslint-disable no-unused-vars */
 import { deepObjectSearch } from '../../../../data/helpers';
-import { generateId } from '../../helpers';
 
-const getFooterId = str => {
+const getFooterId = (str) => {
   const splittedId = String(str).split('.');
   const letterKey = splittedId[splittedId.length - 2];
   if (letterKey === 'H' || letterKey === 'B') {
@@ -12,7 +13,7 @@ const getFooterId = str => {
   return null;
 };
 
-const swapIds = str => {
+const swapIds = (str) => {
   const splittedId = String(str).split('.');
   const letterKey = splittedId[splittedId.length - 2];
   if (letterKey === 'H' || letterKey === 'B') {
@@ -23,19 +24,19 @@ const swapIds = str => {
 };
 
 const makeCellObject = ({ parent, expression }) => {
-  const obj = { id: `${parent.id}.${generateId()}` };
+  const obj = { id: `${parent.id}.${uuid()}` };
   if (!expression) {
     return obj;
   }
 
   return {
     ...obj,
-    expression
+    expression,
   };
 };
 
 const tweakExpression = ({ id, expression }) => {
-  if(!expression) return null
+  if (!expression) return null;
   const { name, ...rest } = expression;
   const splittedId = id.split('.');
 
@@ -43,7 +44,7 @@ const tweakExpression = ({ id, expression }) => {
     return {
       dataType: 'String',
       formula: name,
-      type: 'Const'
+      type: 'Const',
     };
   }
 
@@ -54,13 +55,13 @@ export const handleReplace = ({ structure, target, payload, once = false }) => {
   const toReplace = deepObjectSearch({
     target: structure,
     key: 'id',
-    value: target.id
+    value: target.id,
   });
 
   if (toReplace && toReplace[0]) {
     toReplace[0].target.expression = tweakExpression({
       id: target.id,
-      expression: payload
+      expression: payload,
     });
   }
 
@@ -75,7 +76,7 @@ export const handleReplace = ({ structure, target, payload, once = false }) => {
       structure,
       target: { id: swappedId },
       payload,
-      once: true
+      once: true,
     });
     return updatedStructure;
   }
@@ -87,7 +88,7 @@ const addItem = ({ structure, target, payload, position, once = false }) => {
   const dropTarget = deepObjectSearch({
     target: structure,
     key: 'id',
-    value: target.id
+    value: target.id,
   });
 
   if (!dropTarget || !dropTarget[0]) {
@@ -104,8 +105,8 @@ const addItem = ({ structure, target, payload, position, once = false }) => {
     0,
     makeCellObject({
       parent: parentNodes[1],
-      expression: tweakExpression({ id: target.id, expression: payload })
-    })
+      expression: tweakExpression({ id: target.id, expression: payload }),
+    }),
   );
 
   for (let i = 0; i < parent.length; i++) {
@@ -124,7 +125,7 @@ const addItem = ({ structure, target, payload, position, once = false }) => {
     target: { id: swappedTargetId },
     payload,
     once: true,
-    position
+    position,
   });
 
   updatedStructure = addItem({
@@ -132,16 +133,16 @@ const addItem = ({ structure, target, payload, position, once = false }) => {
     target: { id: footerId },
     payload: null,
     once: true,
-    position
+    position,
   });
 
   return updatedStructure;
 };
 
-export const handleAddBefore = params =>
+export const handleAddBefore = (params) =>
   addItem({ ...params, position: 'before' });
 
-export const handleAddAfter = params =>
+export const handleAddAfter = (params) =>
   addItem({ ...params, position: 'after' });
 
 export const handleAddAbove = ({ structure, target, payload }) => {

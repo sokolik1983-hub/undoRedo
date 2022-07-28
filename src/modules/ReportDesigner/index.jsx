@@ -11,13 +11,13 @@
 // import DropdownItem from '../../common/components/Dropdown/DropdownItem';
 // import ReportSidebar from './ReportSidebar';
 
-/* eslint-disable consistent-return */
-/* eslint-disable no-unused-vars */
 import clsx from 'clsx';
 import lodash, { cloneDeep } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
+/* eslint-disable consistent-return */
+import uuid from 'react-uuid';
 
 import Button from '../../common/components/Button';
 import Dropdown from '../../common/components/Dropdown';
@@ -147,6 +147,7 @@ function ReportDesigner() {
         createReportElement({
           type: reportDesigner.reportsUi.ui.creatingElement,
           mousePosition,
+          length: newStructure.pgBody.content.children.length + 1,
         }),
       );
       // const newStructure = [
@@ -228,10 +229,8 @@ function ReportDesigner() {
       ...reportDesigner.reportsData.present.reports,
       {
         ...reportPageObject,
-        // id: reportDesigner.reportsData.present.reports.length + 1,
-        // name: `Отчет ${reportDesigner.reportsData.present.reports.length + 1}`
-        id: generateId(),
-        name: `Отчет ${generateId()}`,
+        id: uuid(),
+        name: `Отчет ${reportDesigner.reportsData.present.reports.length + 1}`,
       },
     ];
     dispatch(

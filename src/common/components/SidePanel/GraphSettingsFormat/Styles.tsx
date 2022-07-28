@@ -1,9 +1,11 @@
+import React from 'react';
+
 import SimpleDropDown from '../../SimpleDropDown';
 import styles from '../SidePanel.module.scss';
 
 const Styles = () => {
   return (
-    <div className={styles.itemsWrapper}>
+    <div>
       <SimpleDropDown title="Стиль показателя" titleClassName={styles.heading}>
         <div className={styles.text}>Ось значений 1</div>
       </SimpleDropDown>

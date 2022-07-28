@@ -1,13 +1,17 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { ChangeEvent, FC } from 'react';
 
 /**
  * @param name - имя DatePicker для HTML
  * @param onDateSelect - возвращает выбранное значение
  */
 
-const DatePicker = ({ name, onDateSelect }) => {
-  const handleItemSelect = (e) => {
+interface IDatePickerProps {
+  name: string;
+  onDateSelect: (el: string) => void;
+}
+
+const DatePicker: FC<IDatePickerProps> = ({ name, onDateSelect }) => {
+  const handleItemSelect = (e: ChangeEvent<HTMLInputElement>) => {
     onDateSelect(e.target.value);
   };
 
@@ -21,15 +25,3 @@ const DatePicker = ({ name, onDateSelect }) => {
 };
 
 export default DatePicker;
-
-DatePicker.propTypes = {
-  name: PropTypes.string,
-  onDateSelect: PropTypes.func,
-};
-
-DatePicker.defaultProps = {
-  name: '',
-  onDateSelect: () => {
-    // something
-  },
-};

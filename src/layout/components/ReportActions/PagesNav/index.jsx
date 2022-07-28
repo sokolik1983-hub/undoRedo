@@ -14,8 +14,11 @@ const PagesNav = () => {
   };
 
   const validateCurPage = (page) => {
-    // eslint-disable-next-line no-nested-ternary
-    return page === 0 ? '' : pages - page < 0 ? setCurPage(pages) : page;
+    return page === '0'
+      ? ''
+      : pages - Number(page) < 0
+      ? setCurPage(pages)
+      : page;
   };
   return (
     <div className={styles.navigation}>
@@ -31,7 +34,7 @@ const PagesNav = () => {
       </div>
       <div className={styles.input}>
         <TextInput
-          value={validateCurPage(curPage)}
+          value={validateCurPage(String(curPage))}
           onChange={handlePageChange}
           className={styles.inpitValue}
           id="23"
