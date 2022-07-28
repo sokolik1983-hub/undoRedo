@@ -106,7 +106,7 @@ const SemanticActions = () => {
       delete tempObj.keysWhereInput;
       delete tempObj.keysType;
       delete tempObj.usagePermission;
-      tempObj.dataType = 'Symbol';
+      tempObj.dataType = 'String';
       tempObj.aggFunc = 'SUM';
       tempObj.aggFuncName = 'SUM';
       delete tempObj.objectFunction;
@@ -132,7 +132,7 @@ const SemanticActions = () => {
       const tempTable = JSON.parse(JSON.stringify(table));
       const { schema, objectName } = tempTable;
       const findedIdx = tablesCoord.findIndex(
-        (tab) => tab.tableId === `${schema}_${objectName}`,
+        (tab) => tab.tableId === `${schema}.${objectName}`,
       );
       tempTable.objectType =
         tempTable.objectType[0].toUpperCase() +
