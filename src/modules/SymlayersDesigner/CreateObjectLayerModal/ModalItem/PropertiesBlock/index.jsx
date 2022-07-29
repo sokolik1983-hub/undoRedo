@@ -102,8 +102,18 @@ const PropertiesBlock = ({ name, value }) => {
       setSelectedDataFields(selectDataOptions[defDataOptIndex]);
       setSelectedTypeFields(selectTypeOptions[defTypeOptIndex]);
       setSelectedFuncFields(selectFuncOptions[defFuncOptIndex]);
-    } else if (defDataOptIndex > -1) {
+    }
+    if (defDataOptIndex > -1) {
       setSelectedDataFields(selectDataOptions[defDataOptIndex]);
+    }
+    if (defFuncOptIndex === -1) {
+      setSelectedFuncFields(selectFuncOptions[0]);
+    }
+    if (defTypeOptIndex === -1) {
+      setSelectedTypeFields(selectTypeOptions[0]);
+    }
+    if (defDataOptIndex === -1) {
+      setSelectedDataFields(selectDataOptions[0]);
     }
   }, [defDataOptIndex, defFuncOptIndex, defTypeOptIndex]);
 

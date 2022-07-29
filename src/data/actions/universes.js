@@ -133,13 +133,16 @@ export const openUniverse = (queryParams, layerName) => {
       tempObj.keysWhereInput = '';
       tempObj.keysType = '';
       tempObj.usagePermission = '';
-      tempObj.dataType = 'String';
       tempObj.aggFunc = 'SUM';
       tempObj.aggFuncName = 'SUM';
       tempObj.objectFunction = '';
       tempObj.objectDescription = tempObj.description;
-      tempObj.objectDataType = tempObj.userDataType;
-      tempObj.objectType = translitNames(tempObj.objectType);
+      tempObj.objectDataType = /^[a-zA-Z]+$/.test(tempObj.dataType)
+        ? translitNames(tempObj.dataType)
+        : tempObj.dataType;
+      tempObj.objectType = /^[a-zA-Z]+$/.test(tempObj.objectType)
+        ? translitNames(tempObj.objectType)
+        : tempObj.objectType;
       tempObj.selectQueryField = tempObj.select;
       tempObj.whereQueryField = tempObj.where;
       tempObj.parent_id = 0;

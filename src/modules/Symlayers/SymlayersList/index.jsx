@@ -23,6 +23,16 @@ import {
   getUniversesFolderId,
   openUniverse,
 } from '../../../data/actions/universes';
+import { setLoadingUniverse } from '../../../data/reducers/schemaDesigner';
+import FolderIcon from '../../../layout/assets/folderIcon.svg';
+import UniverseIcon from '../../../layout/assets/icons/universeIcon.svg';
+import {
+  FOLDER_DROPDOWN_ACTIONS,
+  FOLDER_ITEM_DROPDOWN_ACTIONS,
+  connectorsTableHeader,
+  sortFoldersAndItems,
+} from '../helper';
+import styles from './SymlayersList.module.scss';
 
 const ConnectorsList = () => {
   const dispatch = useDispatch();

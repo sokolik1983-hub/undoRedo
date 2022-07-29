@@ -87,7 +87,6 @@ const SemanticActions = () => {
 
   useEffect(() => {
     let objects = [...objectsLayers];
-    console.log(objects);
     objects = objects.map((object) => {
       const tempObj = { ...object };
       delete tempObj.refreshBeforeUsageCheckBox;
@@ -107,20 +106,26 @@ const SemanticActions = () => {
       delete tempObj.keysWhereInput;
       delete tempObj.keysType;
       delete tempObj.usagePermission;
-      tempObj.dataType = tempObj.objectDataType;
+      tempObj.dataType = /^[a-zA-Z]+$/.test(tempObj.objectDataType)
+        ? tempObj.objectDataType
+        : translitNames(tempObj.objectDataType);
       tempObj.aggFunc = 'SUM';
       tempObj.aggFuncName = 'SUM';
       delete tempObj.objectFunction;
       tempObj.description = tempObj.objectDescription;
       delete tempObj.objectDescription;
-      tempObj.userDataType = tempObj.objectDataType;
-      tempObj.objectType = translitNames(tempObj.objectType);
+      tempObj.userDataType = /^[a-zA-Z]+$/.test(tempObj.objectDataType)
+        ? tempObj.objectDataType
+        : translitNames(tempObj.objectDataType);
+      tempObj.objectType = /^[a-zA-Z]+$/.test(tempObj.objectType)
+        ? tempObj.objectType
+        : translitNames(tempObj.objectType);
       delete tempObj.objectDataType;
       tempObj.select = tempObj.selectQueryField;
       tempObj.where = tempObj.whereQueryField;
       delete tempObj.selectQueryField;
       delete tempObj.whereQueryField;
-      tempObj.tables = tempObj.tables?.length ? tempObj.tables : [0];
+      tempObj.tables = tempObj.tables;
       tempObj.parent_id = 0;
       tempObj.mask = null;
       return tempObj;
