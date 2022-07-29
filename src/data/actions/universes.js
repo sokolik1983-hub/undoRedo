@@ -105,6 +105,7 @@ export const openUniverse = (queryParams, layerName) => {
       dispatch(setLoadingUniverse(true));
 
       response.data.tables.forEach((table) => {
+        console.log(table);
         dispatch(
           setSelectedTables({
             [getTableIdFromParams(table)]: table,
@@ -132,7 +133,7 @@ export const openUniverse = (queryParams, layerName) => {
       tempObj.keysWhereInput = '';
       tempObj.keysType = '';
       tempObj.usagePermission = '';
-      tempObj.dataType = 'Symbol';
+      tempObj.dataType = 'String';
       tempObj.aggFunc = 'SUM';
       tempObj.aggFuncName = 'SUM';
       tempObj.objectFunction = '';

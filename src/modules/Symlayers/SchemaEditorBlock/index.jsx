@@ -27,16 +27,16 @@ import TextInput from '../../../common/components/TextInput';
 import Tooltip from '../../../common/components/Tooltip';
 import { addCoordToTables } from '../../../data/reducers/schemaDesigner';
 import DotsMenu from '../../../layout/assets/dotsMenu.svg';
-import BinaryIcon from '../../../layout/assets/icons/binaryIcon.svg';
-import DateIcon from '../../../layout/assets/icons/dateIcon.svg';
-import NumberIcon from '../../../layout/assets/icons/numberIcon.svg';
-import StringIcon from '../../../layout/assets/icons/stringIcon.svg';
-import UnknownIcon from '../../../layout/assets/icons/unknownTypeIcon.svg';
-import BinaryIconWhite from '../../../layout/assets/icons/whiteIcons/binaryIconWhiteBig.svg';
-import DateIconWhite from '../../../layout/assets/icons/whiteIcons/dateIconWhiteBig.svg';
-import NumberIconWhite from '../../../layout/assets/icons/whiteIcons/numberIconWhiteBig.svg';
-import StringIconWhite from '../../../layout/assets/icons/whiteIcons/stringIconWhiteBig.svg';
-import UnknownIconWhite from '../../../layout/assets/icons/whiteIcons/unknownIconWhiteBig.svg';
+import BinaryIcon from '../../../layout/assets/icons/coloredIconsWhiteText/binaryIcon.svg';
+import DateIcon from '../../../layout/assets/icons/coloredIconsWhiteText/dateIcon.svg';
+import NumberIcon from '../../../layout/assets/icons/coloredIconsWhiteText/numberIcon.svg';
+import StringIcon from '../../../layout/assets/icons/coloredIconsWhiteText/stringIcon.svg';
+import UnknownIcon from '../../../layout/assets/icons/coloredIconsWhiteText/unknownIcon.svg';
+import BinaryIconHovered from '../../../layout/assets/icons/whiteIcons/binaryIconWhite.svg';
+import DateIconHovered from '../../../layout/assets/icons/whiteIcons/dateIconWhite.svg';
+import NumberIconHovered from '../../../layout/assets/icons/whiteIcons/numberIconWhite.svg';
+import StringIconHovered from '../../../layout/assets/icons/whiteIcons/stringIconWhite.svg';
+import UnknownIconHovered from '../../../layout/assets/icons/whiteIcons/unknownIconWhite.svg';
 import Arrow from '../../../layout/assets/queryPanel/arrowOk.svg';
 import CloseInput from '../../../layout/assets/schemaEditorBlock/closeInput.svg';
 import MagnifierWhite from '../../../layout/assets/schemaEditorBlock/magnifierWhite.svg';
@@ -90,6 +90,7 @@ const SchemaEditorBlock = ({
     useState(false);
   const [fieldsCount, setFieldsCount] = useState(selectedTableColumns.length);
   const [portsRefs, setPortsRef] = useState(null);
+  const [itemIsOnHover, setItemIsOnHover] = useState(false);
   const headerRef = useRef(null);
   const tableRef = useRef(null);
   const fieldRefs = useRef([React.createRef(), React.createRef()]);
@@ -204,28 +205,60 @@ const SchemaEditorBlock = ({
       ))}
     </div>
   );
-  const [onHoverIcon, setOnHoverIcon] = useState(false);
 
-  const setItemIcon = (dataType) => {
+  const changeLiState = (id) => {
+    setItemIsOnHover((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const itemIconStyle = { transform: 'scale(1.5)', marginRight: '8px' };
+
+  const setIcon = (dataType, index) => {
     switch (dataType) {
       case 'Unknown':
-        return <UnknownIcon />;
+        return itemIsOnHover[index] ? (
+          <UnknownIconHovered style={itemIconStyle} />
+        ) : (
+          <UnknownIcon style={itemIconStyle} />
+        );
       case 'Bool': // нет иконки Boolean в дизайне, юзаем иконку unknown
-        return <UnknownIcon />;
+        return itemIsOnHover[index] ? (
+          <UnknownIconHovered style={itemIconStyle} />
+        ) : (
+          <UnknownIcon style={itemIconStyle} />
+        );
       case 'Number':
-        return <NumberIcon />;
+        return itemIsOnHover[index] ? (
+          <NumberIconHovered style={itemIconStyle} />
+        ) : (
+          <NumberIcon style={itemIconStyle} />
+        );
       case 'String':
-        return <StringIcon />;
+        return itemIsOnHover[index] ? (
+          <StringIconHovered style={itemIconStyle} />
+        ) : (
+          <StringIcon style={itemIconStyle} />
+        );
       case 'Datetime':
-        return <DateIcon />;
+        return itemIsOnHover[index] ? (
+          <DateIconHovered style={itemIconStyle} />
+        ) : (
+          <DateIcon style={itemIconStyle} />
+        );
       case 'Blob':
-        return <BinaryIcon />;
+        return itemIsOnHover[index] ? (
+          <BinaryIconHovered style={itemIconStyle} />
+        ) : (
+          <BinaryIcon style={itemIconStyle} />
+        );
       default:
-        return;
+        return itemIsOnHover[index] ? (
+          <UnknownIconHovered style={itemIconStyle} />
+        ) : (
+          <UnknownIcon style={itemIconStyle} />
+        );
     }
   };
 
-  console.log('filterableFields', filterableFields);
   return (
     // <div className={highlightOutline} ref={refs.current.tableRef}>
     <div className={highlightOutline} ref={tableRef}>
@@ -312,13 +345,10 @@ const SchemaEditorBlock = ({
                     onDragStart={(e) => onFieldDragStart(e, item, tableItem)}
                     onDrop={(e) => onFieldDragOver(e, item, tableItem)}
                     ref={fieldRefs.current[index]}
-                    // onMouseOver={()=>setOnHoverIcon(true)}
-                    onMouseEnter={() => setOnHoverIcon(true)}
-                    onMouseLeave={() => setOnHoverIcon(false)}
-                    // image={setItemIcon(item.dataType)}
+                    onMouseEnter={() => changeLiState(index)}
+                    onMouseLeave={() => changeLiState(index)}
                   >
-                    {setItemIcon(item.dataType)}
-                    {` `}
+                    {setIcon(item.dataType, index)}
                     {item.field}
                   </li>
                 </div>

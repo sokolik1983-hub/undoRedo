@@ -16,7 +16,6 @@ const ReportObjectsPanel = ({ onSelect, isActiveNode }) => {
     reportDesigner.reportsData.present.reports,
     reportDesigner.reportsData.present.activeReport,
   );
-
   const { variables } = currentReport;
 
   const [iconsArr, setIconsArr] = useState(REPORT_OBJECTS_PANEL_ICONS);

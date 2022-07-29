@@ -1,4 +1,8 @@
 import lodash from 'lodash';
+import uuid from 'react-uuid';
+
+export const generateId = () => String(Date.parse(new Date()));
+const elemId = uuid();
 
 export function getCurrentReport(array, id) {
   return lodash.find(array, (item) => item.id === id);
@@ -7,8 +11,6 @@ export function getCurrentReport(array, id) {
 export function isActiveNode(array, id) {
   return lodash.find(array, (item) => item.id === id);
 }
-
-export const generateId = () => String(Date.parse(new Date()));
 
 export function setTableStyles(reportStructure, reportsUi, style) {
   return lodash.cloneDeep(reportStructure).map((item) => {
@@ -41,15 +43,15 @@ const defaultExpression = {
   type: 'Const',
 };
 
-export const createReportElement = ({ type, mousePosition }) => {
+export const createReportElement = ({ type, mousePosition, length }) => {
   const { x, y } = mousePosition;
 
   const defaultCellStyle = {};
 
   const cell = {
-    id: generateId(),
+    id: elemId,
     type: 'cell',
-    name: `ячейка ${generateId()}`,
+    name: `блок ${length}`,
     size: {
       minimalHeight: 10,
       minimalWidth: 120,
@@ -75,7 +77,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               {
                 col: 1,
                 expression: defaultExpression,
-                id: `${generateId()}.H.1`,
+                id: `${elemId}.H.1`,
                 row: 1,
                 size: {
                   minimalHeight: 12,
@@ -85,7 +87,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               },
             ],
             hType: 'header',
-            id: `${generateId()}.H`,
+            id: `${elemId}.H`,
             shown: true,
             vType: 'header',
           },
@@ -94,7 +96,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               {
                 col: 1,
                 expression: defaultExpression,
-                id: `${generateId()}.B.1`,
+                id: `${elemId}.B.1`,
                 row: 1,
                 size: {
                   minimalHeight: 12,
@@ -104,7 +106,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               },
             ],
             hType: 'header',
-            id: `${generateId()}.B`,
+            id: `${elemId}.B`,
             shown: true,
             vType: 'body',
           },
@@ -113,7 +115,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               {
                 col: 1,
                 expression: defaultExpression,
-                id: `${generateId()}.F.1`,
+                id: `${elemId}.F.1`,
                 row: 1,
                 size: {
                   minimalHeight: 12,
@@ -123,15 +125,15 @@ export const createReportElement = ({ type, mousePosition }) => {
               },
             ],
             hType: 'header',
-            id: `${generateId()}.F`,
+            id: `${elemId}.F`,
             shown: false,
             vType: 'footer',
           },
         ],
       },
     },
-    id: generateId(),
-    name: 'горизонтальная таблица',
+    id: elemId,
+    name: `блок ${length}`,
     position: { x, xType: 'Absolute', y, yType: 'Absolute' },
     size: {
       autofitHeight: false,
@@ -150,7 +152,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               {
                 col: 1,
                 expression: defaultExpression,
-                id: `${generateId()}.H.1`,
+                id: `${elemId}.H.1`,
                 row: 1,
                 size: {
                   minimalHeight: 12,
@@ -160,7 +162,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               },
             ],
             hType: 'header',
-            id: `${generateId()}.H`,
+            id: `${elemId}.H`,
             shown: true,
             vType: 'header',
           },
@@ -169,7 +171,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               {
                 col: 1,
                 expression: defaultExpression,
-                id: `${generateId()}.B.1`,
+                id: `${elemId}.B.1`,
                 row: 1,
                 size: {
                   minimalHeight: 12,
@@ -179,7 +181,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               },
             ],
             hType: 'header',
-            id: `${generateId()}.B`,
+            id: `${elemId}.B`,
             shown: true,
             vType: 'body',
           },
@@ -188,7 +190,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               {
                 col: 1,
                 expression: defaultExpression,
-                id: `${generateId()}.F.1`,
+                id: `${elemId}.F.1`,
                 row: 1,
                 size: {
                   minimalHeight: 12,
@@ -198,15 +200,15 @@ export const createReportElement = ({ type, mousePosition }) => {
               },
             ],
             hType: 'header',
-            id: `${generateId()}.F`,
+            id: `${elemId}.F`,
             shown: false,
             vType: 'footer',
           },
         ],
       },
     },
-    id: `${generateId()}`,
-    name: 'вертикальная таблица',
+    id: elemId,
+    name: `блок ${length}`,
     position: { x, xType: 'Absolute', y, yType: 'Absolute' },
     size: {
       autofitHeight: false,
@@ -225,7 +227,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               {
                 col: 1,
                 expression: defaultExpression,
-                id: `${generateId()}.HH.1_1`,
+                id: `${elemId}.HH.1_1`,
                 row: 1,
                 size: {
                   minimalHeight: 12,
@@ -235,7 +237,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               },
             ],
             hType: 'header',
-            id: `${generateId()}.HH`,
+            id: `${elemId}.HH`,
             shown: 1,
             vType: 'header',
           },
@@ -244,7 +246,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               {
                 col: 1,
                 expression: defaultExpression,
-                id: `${generateId()}.BH.1_1`,
+                id: `${elemId}.BH.1_1`,
                 row: 1,
                 size: {
                   minimalWidth: 70,
@@ -253,7 +255,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               },
             ],
             hType: 'body',
-            id: `${generateId()}.BH`,
+            id: `${elemId}.BH`,
             shown: 1,
             vType: 'header',
           },
@@ -262,13 +264,13 @@ export const createReportElement = ({ type, mousePosition }) => {
               {
                 col: 1,
                 expression: defaultExpression,
-                id: `${generateId()}.FH.1_1`,
+                id: `${elemId}.FH.1_1`,
                 row: 1,
                 style: defaultCellStyle,
               },
             ],
             hType: 'footer',
-            id: `${generateId()}.FH`,
+            id: `${elemId}.FH`,
             shown: 1,
             vType: 'header',
           },
@@ -277,7 +279,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               {
                 col: 1,
                 expression: defaultExpression,
-                id: `${generateId()}.HB.1_1`,
+                id: `${elemId}.HB.1_1`,
                 row: 1,
                 size: {
                   minimalHeight: 12,
@@ -286,7 +288,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               },
             ],
             hType: 'header',
-            id: `${generateId()}.HB`,
+            id: `${elemId}.HB`,
             shown: 1,
             vType: 'body',
           },
@@ -295,7 +297,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               {
                 col: 1,
                 expression: defaultExpression,
-                id: `${generateId()}.BB.1_1`,
+                id: `${elemId}.BB.1_1`,
                 row: 1,
                 size: {
                   minimalWidth: 70,
@@ -304,7 +306,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               },
             ],
             hType: 'body',
-            id: `${generateId()}.BB`,
+            id: `${elemId}.BB`,
             shown: 1,
             vType: 'body',
           },
@@ -313,13 +315,13 @@ export const createReportElement = ({ type, mousePosition }) => {
               {
                 col: 1,
                 expression: defaultExpression,
-                id: `${generateId()}.FB.1_1`,
+                id: `${elemId}.FB.1_1`,
                 row: 1,
                 style: defaultCellStyle,
               },
             ],
             hType: 'footer',
-            id: `${generateId()}.FB`,
+            id: `${elemId}.FB`,
             shown: 1,
             vType: 'body',
           },
@@ -328,7 +330,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               {
                 col: 1,
                 expression: defaultExpression,
-                id: `${generateId()}.HF.1_1`,
+                id: `${elemId}.HF.1_1`,
                 row: 1,
                 size: {
                   minimalHeight: 12,
@@ -337,7 +339,7 @@ export const createReportElement = ({ type, mousePosition }) => {
               },
             ],
             hType: 'header',
-            id: `${generateId()}.HF`,
+            id: `${elemId}.HF`,
             shown: 1,
             vType: 'footer',
           },
@@ -345,14 +347,14 @@ export const createReportElement = ({ type, mousePosition }) => {
             cells: [
               {
                 col: 1,
-                id: `${generateId()}.BF.1_1`,
+                id: `${elemId}.BF.1_1`,
                 row: 1,
                 style: defaultCellStyle,
                 expression: defaultExpression,
               },
             ],
             hType: 'body',
-            id: `${generateId()}.BF`,
+            id: `${elemId}.BF`,
             shown: 1,
             vType: 'footer',
           },
@@ -361,21 +363,21 @@ export const createReportElement = ({ type, mousePosition }) => {
               {
                 col: 1,
                 expression: defaultExpression,
-                id: `${generateId()}.FF.1_1`,
+                id: `${elemId}.FF.1_1`,
                 row: 1,
                 style: defaultCellStyle,
               },
             ],
             hType: 'footer',
-            id: `${generateId()}.FF`,
+            id: `${elemId}.FF`,
             shown: 1,
             vType: 'footer',
           },
         ],
       },
     },
-    id: generateId(),
-    name: 'кросс таблица',
+    id: elemId,
+    name: `блок ${length}`,
     position: { x, xType: 'Absolute', y, yType: 'Absolute' },
     size: {
       autofitHeight: false,
@@ -386,9 +388,9 @@ export const createReportElement = ({ type, mousePosition }) => {
   };
 
   const barChart = {
-    id: generateId(),
+    id: elemId,
     type: 'barChart',
-    name: `столбчатый график ${generateId()}`,
+    name: `блок ${length}`,
     size: {
       minimalHeight: 250,
       minimalWidth: 250,
@@ -405,9 +407,9 @@ export const createReportElement = ({ type, mousePosition }) => {
   };
 
   const lineChart = {
-    id: generateId(),
+    id: elemId,
     type: 'lineChart',
-    name: `линейный график ${generateId()}`,
+    name: `блок ${length}`,
     position: {
       xType: 'Absolute',
       yType: 'Absolute',
@@ -418,9 +420,9 @@ export const createReportElement = ({ type, mousePosition }) => {
   };
 
   const pieChart = {
-    id: generateId(),
+    id: elemId,
     type: 'pieChart',
-    name: `круговая диаграмма ${generateId()}`,
+    name: `блок ${length}`,
     position: {
       xType: 'Absolute',
       yType: 'Absolute',

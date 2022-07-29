@@ -1,7 +1,7 @@
 const translitNames = (word) => {
   switch (word) {
     case 'Символ':
-      return 'Symbol';
+      return 'String';
     case 'Дата':
       return 'Datetime';
     case 'Номер':
@@ -14,8 +14,6 @@ const translitNames = (word) => {
       return 'Dimension';
     case 'Атрибут':
       return 'Attribute';
-    case 'Symbol':
-      return 'Символ';
     case 'Datetime':
       return 'Дата';
     case 'Number':

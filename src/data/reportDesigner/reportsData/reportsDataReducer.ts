@@ -572,7 +572,7 @@ export const reportsData = createSlice({
         (item) => item.id === state.activeReport,
       );
       const activeNode = state.activeNodes && state.activeNodes[0];
-      const currentNode = find(
+      const currentNode = lodash.find(
         report?.structure?.pgBody?.content?.children,
         (item) => item.id === activeNode?.id,
       );
@@ -634,11 +634,17 @@ export const reportsData = createSlice({
         (item) => item.id === state.activeReport,
       );
       const activeNode = state.activeNodes[0];
-      const currentNode = find(
-        report.structure?.pgBody?.content?.children,
+      // const currentNode = lodash.find(
+      //   report.structure?.pgBody?.content?.children,
+      //   (item) => item.id === activeNode?.id,
+      // );
+      const currentNode = report?.structure?.pgBody?.content?.children.find(
         (item) => item.id === activeNode?.id,
       );
-      currentNode.type = action.payload;
+      if (currentNode) {
+        currentNode.type = action.payload;
+      }
+
       // state.activeNodes.forEach(node => {
       //   const reportNode = lodash.find(
       //     report.structure,
