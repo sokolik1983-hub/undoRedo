@@ -27,11 +27,16 @@ import TextInput from '../../../common/components/TextInput';
 import Tooltip from '../../../common/components/Tooltip';
 import { addCoordToTables } from '../../../data/reducers/schemaDesigner';
 import DotsMenu from '../../../layout/assets/dotsMenu.svg';
-import BinaryIcon from '../../../layout/assets/icons/whiteIcons/binaryIconWhiteBig.svg';
-import DateIcon from '../../../layout/assets/icons/whiteIcons/dateIconWhiteBig.svg';
-import StringIcon from '../../../layout/assets/icons/whiteIcons/numberIconWhiteBig.svg';
-import UnknownIcon from '../../../layout/assets/icons/whiteIcons/unknownIconWhiteBig.svg';
-import NumberIcon from '../../../layout/assets/icons/whiteIcons/unknownIconWhiteBig.svg';
+import BinaryIcon from '../../../layout/assets/icons/binaryIcon.svg';
+import DateIcon from '../../../layout/assets/icons/dateIcon.svg';
+import NumberIcon from '../../../layout/assets/icons/numberIcon.svg';
+import StringIcon from '../../../layout/assets/icons/stringIcon.svg';
+import UnknownIcon from '../../../layout/assets/icons/unknownTypeIcon.svg';
+import BinaryIconWhite from '../../../layout/assets/icons/whiteIcons/binaryIconWhiteBig.svg';
+import DateIconWhite from '../../../layout/assets/icons/whiteIcons/dateIconWhiteBig.svg';
+import NumberIconWhite from '../../../layout/assets/icons/whiteIcons/numberIconWhiteBig.svg';
+import StringIconWhite from '../../../layout/assets/icons/whiteIcons/stringIconWhiteBig.svg';
+import UnknownIconWhite from '../../../layout/assets/icons/whiteIcons/unknownIconWhiteBig.svg';
 import Arrow from '../../../layout/assets/queryPanel/arrowOk.svg';
 import CloseInput from '../../../layout/assets/schemaEditorBlock/closeInput.svg';
 import MagnifierWhite from '../../../layout/assets/schemaEditorBlock/magnifierWhite.svg';
@@ -199,8 +204,9 @@ const SchemaEditorBlock = ({
       ))}
     </div>
   );
+  const [onHoverIcon, setOnHoverIcon] = useState(false);
 
-  const setListIcon = (dataType) => {
+  const setItemIcon = (dataType) => {
     switch (dataType) {
       case 'Unknown':
         return <UnknownIcon />;
@@ -306,8 +312,12 @@ const SchemaEditorBlock = ({
                     onDragStart={(e) => onFieldDragStart(e, item, tableItem)}
                     onDrop={(e) => onFieldDragOver(e, item, tableItem)}
                     ref={fieldRefs.current[index]}
+                    // onMouseOver={()=>setOnHoverIcon(true)}
+                    onMouseEnter={() => setOnHoverIcon(true)}
+                    onMouseLeave={() => setOnHoverIcon(false)}
+                    // image={setItemIcon(item.dataType)}
                   >
-                    {setListIcon(item.dataType)}
+                    {setItemIcon(item.dataType)}
                     {` `}
                     {item.field}
                   </li>
