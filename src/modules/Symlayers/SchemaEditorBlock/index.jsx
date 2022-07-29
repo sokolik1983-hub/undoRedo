@@ -33,11 +33,6 @@ import DateIcon from '../../../layout/assets/icons/coloredIconsWhiteText/dateIco
 import NumberIcon from '../../../layout/assets/icons/coloredIconsWhiteText/numberIcon.svg';
 import StringIcon from '../../../layout/assets/icons/coloredIconsWhiteText/stringIcon.svg';
 import UnknownIcon from '../../../layout/assets/icons/coloredIconsWhiteText/unknownIcon.svg';
-import BinaryIconHovered from '../../../layout/assets/icons/whiteIcons/binaryIconWhite.svg';
-import DateIconHovered from '../../../layout/assets/icons/whiteIcons/dateIconWhite.svg';
-import NumberIconHovered from '../../../layout/assets/icons/whiteIcons/numberIconWhite.svg';
-import StringIconHovered from '../../../layout/assets/icons/whiteIcons/stringIconWhite.svg';
-import UnknownIconHovered from '../../../layout/assets/icons/whiteIcons/unknownIconWhite.svg';
 import Arrow from '../../../layout/assets/queryPanel/arrowOk.svg';
 import CloseInput from '../../../layout/assets/schemaEditorBlock/closeInput.svg';
 import MagnifierWhite from '../../../layout/assets/schemaEditorBlock/magnifierWhite.svg';
@@ -91,7 +86,6 @@ const SchemaEditorBlock = ({
     useState(false);
   const [fieldsCount, setFieldsCount] = useState(selectedTableColumns.length);
   const [portsRefs, setPortsRef] = useState(null);
-  const [itemIsOnHover, setItemIsOnHover] = useState(false);
   const headerRef = useRef(null);
   const tableRef = useRef(null);
   const fieldRefs = useRef([React.createRef(), React.createRef()]);
@@ -207,56 +201,22 @@ const SchemaEditorBlock = ({
     </div>
   );
 
-  const setLiHovered = (id, value) => {
-    setItemIsOnHover((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
-
-  const itemIconStyle = { transform: 'scale(1.5)', marginRight: '8px' };
-
-  const setIcon = (dataType, index) => {
+  const setIcon = (dataType) => {
     switch (dataType) {
       case 'Unknown':
-        return itemIsOnHover[index] ? (
-          <UnknownIconHovered style={itemIconStyle} />
-        ) : (
-          <UnknownIcon style={itemIconStyle} />
-        );
+        return <UnknownIcon className={styles.itemIconStyle} />;
       case 'Bool': // нет иконки Boolean в дизайне, юзаем иконку unknown
-        return itemIsOnHover[index] ? (
-          <UnknownIconHovered style={itemIconStyle} />
-        ) : (
-          <UnknownIcon style={itemIconStyle} />
-        );
+        return <UnknownIcon className={styles.itemIconStyle} />;
       case 'Number':
-        return itemIsOnHover[index] ? (
-          <NumberIconHovered style={itemIconStyle} />
-        ) : (
-          <NumberIcon style={itemIconStyle} />
-        );
+        return <NumberIcon className={styles.itemIconStyle} />;
       case 'String':
-        return itemIsOnHover[index] ? (
-          <StringIconHovered style={itemIconStyle} />
-        ) : (
-          <StringIcon style={itemIconStyle} />
-        );
+        return <StringIcon className={styles.itemIconStyle} />;
       case 'Datetime':
-        return itemIsOnHover[index] ? (
-          <DateIconHovered style={itemIconStyle} />
-        ) : (
-          <DateIcon style={itemIconStyle} />
-        );
+        return <DateIcon className={styles.itemIconStyle} />;
       case 'Blob':
-        return itemIsOnHover[index] ? (
-          <BinaryIconHovered style={itemIconStyle} />
-        ) : (
-          <BinaryIcon style={itemIconStyle} />
-        );
+        return <BinaryIcon className={styles.itemIconStyle} />;
       default:
-        return itemIsOnHover[index] ? (
-          <UnknownIconHovered style={itemIconStyle} />
-        ) : (
-          <UnknownIcon style={itemIconStyle} />
-        );
+        return <UnknownIcon className={styles.itemIconStyle} />;
     }
   };
 
@@ -346,10 +306,8 @@ const SchemaEditorBlock = ({
                     onDragStart={(e) => onFieldDragStart(e, item, tableItem)}
                     onDrop={(e) => onFieldDragOver(e, item, tableItem)}
                     ref={fieldRefs.current[index]}
-                    onMouseEnter={() => setLiHovered(index, true)}
-                    onMouseLeave={() => setLiHovered(index, false)}
                   >
-                    {setIcon(item.dataType, index)}
+                    {setIcon(item.dataType)}
                     {item.field}
                   </li>
                 </div>
