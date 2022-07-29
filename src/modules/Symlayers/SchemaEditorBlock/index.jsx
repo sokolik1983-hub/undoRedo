@@ -1,5 +1,6 @@
 import 'react-loading-skeleton/dist/skeleton.css';
 
+import { FlashOnTwoTone } from '@material-ui/icons';
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-array-index-key */
@@ -206,7 +207,7 @@ const SchemaEditorBlock = ({
     </div>
   );
 
-  const changeLiState = (id) => {
+  const setLiHovered = (id, value) => {
     setItemIsOnHover((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
@@ -345,8 +346,8 @@ const SchemaEditorBlock = ({
                     onDragStart={(e) => onFieldDragStart(e, item, tableItem)}
                     onDrop={(e) => onFieldDragOver(e, item, tableItem)}
                     ref={fieldRefs.current[index]}
-                    onMouseEnter={() => changeLiState(index)}
-                    onMouseLeave={() => changeLiState(index)}
+                    onMouseEnter={() => setLiHovered(index, true)}
+                    onMouseLeave={() => setLiHovered(index, false)}
                   >
                     {setIcon(item.dataType, index)}
                     {item.field}
