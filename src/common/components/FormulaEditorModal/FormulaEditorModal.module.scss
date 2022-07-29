@@ -1,0 +1,63 @@
+.modal {
+  overflow: visible;
+}
+
+.dialog {
+  background: linear-gradient(152.97deg, #005889 0%, rgba(0, 88, 137, 0.5) 100%);
+  box-shadow: 0px 7px 17px rgba(34, 82, 102, 0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  max-width: unset !important;
+  width: 60% !important;
+  color: #FFFFFF;
+  height: 477px;
+  overflow: visible !important;
+}
+
+.modalBody {
+  overflow: visible;
+}
+
+.modalContent {
+  padding: 0 0 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.input {
+  width: 288px;
+}
+
+.buttonsWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.button {
+  margin-left: 12px;
+}
+
+.dots {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+}
+
+.formulaBlock {
+  display: flex;
+  justify-content: space-between;
+  height: 117px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0 16px 0 10px;
+}
+
+.formula {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  color: #FFFFFF;
+  margin: 0;
+}

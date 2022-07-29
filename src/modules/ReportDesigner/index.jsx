@@ -1,27 +1,14 @@
-// /* eslint-disable consistent-return */
-// /* eslint-disable no-unused-vars */
-// import clsx from 'clsx';
-// import lodash, {cloneDeep} from 'lodash';
-// import React, {useEffect, useState} from 'react';
-// import {useDispatch, useSelector} from 'react-redux';
-// import {useNavigate, useParams} from 'react-router';
-
-// import Button from '../../common/components/Button';
-// import Dropdown from '../../common/components/Dropdown';
-// import DropdownItem from '../../common/components/Dropdown/DropdownItem';
-// import ReportSidebar from './ReportSidebar';
-
 import clsx from 'clsx';
 import lodash, { cloneDeep } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
-/* eslint-disable consistent-return */
 import uuid from 'react-uuid';
 
 import Button from '../../common/components/Button';
 import Dropdown from '../../common/components/Dropdown';
 import DropdownItem from '../../common/components/Dropdown/DropdownItem';
+import FormulaEditorModal from '../../common/components/FormulaEditorModal';
 import IconButton from '../../common/components/IconButton';
 import Tooltip from '../../common/components/Tooltip';
 import { BUTTON } from '../../common/constants/common';
@@ -336,6 +323,8 @@ function ReportDesigner() {
     setSemanticLayer(true);
   };
   const [formula, setFormula] = useState('');
+  const [isFormulaEditorModalOpen, setIsFormulaEditorModalOpen] =
+    useState(false);
   const activeNode =
     reportDesigner.reportsData.present.activeNodes &&
     reportDesigner.reportsData.present.activeNodes[0];
@@ -383,7 +372,11 @@ function ReportDesigner() {
       <div className={styles.wrapper}>
         {reportDesigner.reportsUi.ui.showFormulaEditor && (
           <div className={activeTab === 1 ? formulaCompressed : styles.formula}>
-            <MiniFormulaIcon />
+            <IconButton
+              className={styles.formulaIcon}
+              onClick={() => setIsFormulaEditorModalOpen(true)}
+              icon={<MiniFormulaIcon />}
+            />
             <textarea
               className={styles.formulaTextarea}
               type="text"
@@ -399,7 +392,7 @@ function ReportDesigner() {
                 }
               }}
             />
-            <div className={styles.formulaIcons}>
+            <div className={styles.icons}>
               <IconButton
                 size="small"
                 className={styles.okFormula}
@@ -493,6 +486,12 @@ function ReportDesigner() {
       </div>
       {isQueryPanelModalOpened && (
         <QueryPanel visible={isQueryPanelModalOpened && true} />
+      )}
+      {isFormulaEditorModalOpen && (
+        <FormulaEditorModal
+          visible={isFormulaEditorModalOpen && true}
+          onClose={() => setIsFormulaEditorModalOpen(false)}
+        />
       )}
     </div>
   );

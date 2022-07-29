@@ -13,9 +13,10 @@ declare namespace ReportDesignerModuleScssNamespace {
     footerCompressed: string;
     formula: string;
     formulaCompressed: string;
-    formulaIcons: string;
+    formulaIcon: string;
     formulaTextarea: string;
     iconBtn: string;
+    icons: string;
     innerContainer: string;
     itemsWrapper: string;
     nav: string;

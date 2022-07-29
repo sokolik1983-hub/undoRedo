@@ -30,7 +30,7 @@ interface IModalProps {
   content?: ReactElement;
   contentClassName?: string;
   dialogClassName?: string;
-  footer: ReactElement;
+  footer?: ReactElement;
   withoutTitle?: boolean;
   headerClassName?: string;
   onClose: () => void;

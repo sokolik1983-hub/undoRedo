@@ -107,7 +107,7 @@
 
 .formulaTextarea {
   background: #FFFFFF;
-  margin: 0 5px 0 11px;
+  margin: 0 5px 0 10px;
   font-weight: 400;
   font-size: 12px;
   line-height: 14px;
@@ -131,7 +131,12 @@
   padding: 0;
 }
 
-.formulaIcons {
+.formulaIcon {
+  cursor: pointer;
+  margin: 0 !important;
+}
+
+.icons {
   display: flex;
   margin-right: 10px;
 }
