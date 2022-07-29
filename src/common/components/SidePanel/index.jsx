@@ -27,7 +27,6 @@ import StyleFormatter from './SectionGroup/StyleFormatter';
 import styles from './SidePanel.module.scss';
 import SortingField from './SortingField';
 
-// eslint-disable-next-line react/prop-types
 export default function SidePanel({ navType }) {
   const [activePage, setActivePage] = useState(1);
   const [activeSubMenu, setActiveSubMenu] = useState(1);

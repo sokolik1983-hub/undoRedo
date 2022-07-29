@@ -1,9 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import Modal from '../../../common/components/Modal';
+import React from 'react';
+
 import Button from '../../../common/components/Button';
-import styles from './SqlPopup.module.scss';
+import Modal from '../../../common/components/Modal';
 import Preloader from '../../../common/components/Preloader/Preloader';
+import styles from './SqlPopup.module.scss';
 
 const SqlPopup = ({ onClose, queryText }) => {
   const content = (
@@ -44,5 +45,5 @@ export default SqlPopup;
 
 SqlPopup.propTypes = {
   onClose: PropTypes.func,
-  queryText: PropTypes.string
+  queryText: PropTypes.string,
 };

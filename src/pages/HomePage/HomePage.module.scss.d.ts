@@ -4,6 +4,7 @@ declare namespace HomePageModuleScssNamespace {
   export interface IHomePageModuleScss {
     apps: string;
     appsBg: string;
+    dropdownItem: string;
     favoritesBg: string;
     favoritesPlaceholderWrapper: string;
     homePageButtonDropdownWrapper: string;
@@ -19,7 +20,6 @@ declare namespace HomePageModuleScssNamespace {
     rowTitle: string;
     rowWithoutData: string;
     section: string;
-    section1: string;
     whiteLine: string;
     whiteLine2: string;
     whiteLine3: string;

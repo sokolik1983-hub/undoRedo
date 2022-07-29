@@ -1,8 +1,23 @@
-import PropTypes from 'prop-types';
 import cn from 'clsx';
+import React, { FC, ReactNode } from 'react';
+
 import styles from './Dropdown.module.scss';
 
-const DropdownItem = ({
+interface IDropdownItemProps {
+  className?: string;
+  onClick: (el: string) => void;
+  children: ReactNode;
+  iconClassName?: string;
+  item: Item;
+}
+
+interface Item {
+  icon?: ReactNode;
+  text?: string | null;
+  action: string;
+}
+
+const DropdownItem: FC<IDropdownItemProps> = ({
   className,
   onClick,
   children,
@@ -29,17 +44,3 @@ const DropdownItem = ({
 };
 
 export default DropdownItem;
-
-DropdownItem.prototype = {};
-
-DropdownItem.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  iconClassName: PropTypes.string,
-  item: PropTypes.shape({
-    icon: PropTypes.node,
-    text: PropTypes.string,
-    action: PropTypes.string
-  }),
-  onClick: PropTypes.func.isRequired
-};

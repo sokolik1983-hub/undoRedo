@@ -15,8 +15,9 @@ const HomePageButton = ({
   hasTooltip,
   onRemoveFromFavorites,
   onOpenFile,
-  id,
+  onOpenReport,
   removable,
+  id,
 }) => {
   const getStyles = () => {
     const style = {
@@ -29,7 +30,7 @@ const HomePageButton = ({
   return (
     <div
       className={styles.homePageButtonWrapper}
-      onClick={kind ? (e) => onOpenFile(id, e) : null}
+      onClick={kind ? (e) => onOpenReport(id, e) : null}
     >
       <RouterLink to={href || ''}>
         <div className={getStyles()}>
@@ -71,6 +72,9 @@ HomePageButton.propTypes = {
   appNameText: PropTypes.bool,
   hasTooltip: PropTypes.bool,
   kind: PropTypes.string,
+  onRemoveFromFavorites: PropTypes.func,
+  id: PropTypes.string,
+  onOpenReport: PropTypes.func,
 };
 
 export default HomePageButton;

@@ -28,6 +28,7 @@ import { deleteReport } from '../../data/reportDesigner/reportsData/reportsDataA
 import ConnectorIcon from '../../layout/assets/connectorIcon.svg';
 import CreateConnector from '../../layout/assets/createConnector.svg';
 import FolderIcon from '../../layout/assets/folderIcon.svg';
+import { getCurrentReport } from '../ReportDesigner/helpers';
 import {
   FOLDER_DROPDOWN_ACTIONS,
   FOLDER_ITEM_DROPDOWN_ACTIONS_REPORTS,
@@ -151,13 +152,15 @@ const Reports = () => {
     );
   };
 
+  // Добаялем или удаляем из Избранного.
+  // id - айди объекта
+  // kind - типо объекта
+  // isExclude - признак удаления, передаем 1, если хотим удалить
   const handleSetFavoritesStatus = (id, kind, isExclude) => {
     dispatch(setObjectFavoriteStatus({ id, kind, isExclude }));
-    console.log('status');
   };
 
-  const handleItemClick = (id, kind, action) => {
-    console.log(id, kind, action);
+  const handleItemClick = (id, action, kind) => {
     switch (action) {
       case 'open':
         handleOpenClick(id);
@@ -189,7 +192,7 @@ const Reports = () => {
         >
           <DropdownItem
             className={styles.dropdownItem}
-            onClick={(action) => handleItemClick(id, kind, action)}
+            onClick={(action) => handleItemClick(id, action, kind)}
             item={item}
           />
         </Tooltip>

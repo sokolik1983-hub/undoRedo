@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+
 import Button from '../../../common/components/Button';
 import styles from './QueryPanelControls.module.scss';
 
 const QueryPanelControls = ({ onSql, onRun, onApply, onClose }) => {
-  const currentLayer = useSelector(state => {
-    const {
-      currentLayerTitle,
-      data
-    } = state?.app?.reportDesigner?.queryPanelData;
-    return data?.find(i => i.queryTitle === currentLayerTitle);
+  const currentLayer = useSelector((state) => {
+    const { currentLayerTitle, data } =
+      state?.app?.reportDesigner?.queryPanelData;
+    return data?.find((i) => i.queryTitle === currentLayerTitle);
   });
 
   const isDisabled = !currentLayer?.objects.length;
@@ -38,5 +37,5 @@ QueryPanelControls.propTypes = {
   onSql: PropTypes.func,
   onRun: PropTypes.func,
   onApply: PropTypes.func,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 };

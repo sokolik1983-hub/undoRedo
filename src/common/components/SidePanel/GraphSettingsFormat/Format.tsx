@@ -1,4 +1,5 @@
 import { Formik } from 'formik';
+import React from 'react';
 
 import {
   FormatHorizontalItems,
@@ -11,8 +12,8 @@ import styles from '../SidePanel.module.scss';
 
 const Format = () => {
   return (
-    <Formik initialValues={values}>
-      <div className={styles.itemsWrapper}>
+    <Formik initialValues={values} onSubmit={() => console.log('submit')}>
+      <div>
         <SimpleDropDown title="Размер" titleClassName={styles.heading} />
         <SimpleDropDown
           title="Относительная позиция"
@@ -30,6 +31,7 @@ const Format = () => {
                       name="formatVerticalValues"
                       label={item.label}
                       value={item.value}
+                      checked={false}
                       wrapperClass={styles.checkBoxWrapper}
                     />
                   );
@@ -43,6 +45,7 @@ const Format = () => {
                     <CheckboxField
                       key={item.value}
                       id={item.value}
+                      checked={false}
                       name="formatHorizontalValues"
                       label={item.label}
                       value={item.value}
