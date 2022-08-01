@@ -1,4 +1,4 @@
-import lodash from 'lodash';
+import lodash, { cloneDeep } from 'lodash';
 /* eslint-disable no-unused-vars */
 import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,7 +19,9 @@ import {
 import {
   getConnector,
   getConnectorFolderChildren,
+  getConnectorTypesSources,
   getConnectorsFolderId,
+  getCurrentFolderId,
   getObjectFromConnector,
 } from '../../../data/actions/connectors';
 import { createSampleUniverse } from '../../../data/actions/universes';
@@ -43,6 +45,9 @@ const ConnectorsList = () => {
   const connectors = useSelector((state) => state.app.data.connectors);
   const connectorRootFolderId = useSelector(
     (state) => state.app.data.connectorsFolderId,
+  );
+  const currentFolderIdNumber = useSelector(
+    (state) => state.app.data.currentFolderId,
   );
 
   useEffect(() => {
@@ -75,6 +80,9 @@ const ConnectorsList = () => {
     setFoldersIdHistory([connectorRootFolderId]);
     setFoldersNameHistory([BREADCRUMBS_ROOT]);
     setCurrentFolderIndex(0);
+    if (connectorRootFolderId) {
+      dispatch(getCurrentFolderId({ id: connectorRootFolderId }));
+    }
   };
 
   useEffect(() => {
@@ -133,6 +141,7 @@ const ConnectorsList = () => {
     setFoldersIdHistory([...foldersIdHistory, folder.id]);
     setFoldersNameHistory([...foldersNameHistory, folder.name]);
     setCurrentFolderIndex((prev) => prev + 1);
+    dispatch(getCurrentFolderId({ id: folder.id }));
   };
 
   const getBreadcrumbs = () => {
@@ -144,15 +153,22 @@ const ConnectorsList = () => {
 
   const moveToRootFolder = () => {
     setCurrentFolderIndex(0);
+    dispatch(getCurrentFolderId({ id: connectorRootFolderId }));
   };
 
   const moveToPrevFolder = () => {
     setCurrentFolderIndex((prev) => (prev === 0 ? 0 : prev - 1));
+    dispatch(
+      getCurrentFolderId({ id: foldersIdHistory[currentFolderIndex - 1] }),
+    );
   };
 
   const moveToNextFolder = () => {
     setCurrentFolderIndex((prev) =>
       prev === foldersIdHistory.length ? prev : prev + 1,
+    );
+    dispatch(
+      getCurrentFolderId({ id: foldersIdHistory[currentFolderIndex + 1] }),
     );
   };
 
@@ -183,6 +199,7 @@ const ConnectorsList = () => {
         break;
       case 'settings':
         editConnectorModalHandler(id);
+        dispatch(getConnectorTypesSources({}));
         break;
       case 'connection check':
         break;

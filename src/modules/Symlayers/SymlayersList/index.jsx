@@ -4,6 +4,8 @@ import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
+import { setLoadingUniverse } from '@src/data/reducers/schemaDesigner';
+
 import DropdownItem from '../../../common/components/Dropdown/DropdownItem';
 import List from '../../../common/components/List/List';
 import ListItem from '../../../common/components/List/ListItem/ListItem';
@@ -23,7 +25,6 @@ import {
   getUniversesFolderId,
   openUniverse,
 } from '../../../data/actions/universes';
-import { setLoadingUniverse } from '../../../data/reducers/schemaDesigner';
 import FolderIcon from '../../../layout/assets/folderIcon.svg';
 import UniverseIcon from '../../../layout/assets/icons/universeIcon.svg';
 import {
@@ -203,7 +204,7 @@ const ConnectorsList = () => {
 
   const getFolderDropdownItems = (id) => (
     <div className={styles.itemsWrapper}>
-      {FOLDER_DROPDOWN_ACTIONS.map((item) => (
+      {FOLDER_ITEM_DROPDOWN_ACTIONS.map((item) => (
         <Tooltip
           key={item.title}
           overlay={<div className={styles.tooltip}>{item.title}</div>}

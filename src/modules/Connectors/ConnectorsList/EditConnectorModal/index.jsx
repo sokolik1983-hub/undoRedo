@@ -1,3 +1,4 @@
+import { logDOM } from '@testing-library/react';
 import { cloneDeep } from 'lodash';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -9,10 +10,12 @@ import Modal from '../../../../common/components/Modal';
 import Preloader from '../../../../common/components/Preloader/Preloader';
 import Select from '../../../../common/components/Select';
 import TextInput from '../../../../common/components/TextInput';
-import { BUTTON } from '../../../../common/constants/common';
+import { BUTTON, TOAST_TYPE } from '../../../../common/constants/common';
+import { showToast } from '../../../../data/actions/app';
 import {
-  getConnectorTypesSources,
-  saveConnector,
+  createConnector,
+  editConnector,
+  setNewConnector,
   testConnector,
 } from '../../../../data/actions/connectors';
 import TestFailed from '../../../../layout/assets/testFailedIcon.svg';
@@ -22,46 +25,78 @@ import styles from './EditConnectorModal.module.scss';
 const EditConnectorModal = ({ visible, onClose }) => {
   const dispatch = useDispatch();
 
-  useEffect(() => dispatch(getConnectorTypesSources({})), []);
-
   const connector = useSelector((state) => state.app.data.connectorData);
   const types = useSelector((state) => state.app.data.dictionaries.source_type);
   const sources = useSelector((state) => state.app.data.dictionaries.source);
-
-  const connectorData = cloneDeep(connector);
-
-  const [connectName, setConnectName] = useState(connectorData?.header?.name); // имя коннектора
-  const [connectType, setConnectType] = useState(connectorData?.data?.type_id); // тип коннектора(База Данных, Тестовый файл)
-  const [connectSource, setConnectSource] = useState(
-    connectorData?.data?.class_id,
+  const currentFolderId = useSelector(
+    (state) => state.app.data.currentFolderId,
   );
-  const [connectionDescription, setConnectionDescription] = useState(
-    connectorData?.header?.desc,
+  const createConnectorCopy = useSelector(
+    (state) => state.app.data.createConnector,
   );
+  // Ответ сервера на запрос создания / сохранения коннектора
+  const editResult = useSelector((state) => state.app.data.editConnectorResult);
+
+  let connectorData = cloneDeep(connector);
+  let newConnectorData = cloneDeep(createConnectorCopy);
+
+  useEffect(() => {
+    connectorData = cloneDeep(connector);
+  }, [connector]);
+
+  const [connectName, setConnectName] = useState('');
+  const [connectionDescription, setConnectionDescription] = useState('');
+  const [connectType, setConnectType] = useState('');
+  const [connectSource, setConnectSource] = useState('');
   const [isActive, setIsActive] = useState(false);
-  // eslint-disable-next-line no-unused-vars
   const [showPreloader, setShowPreloader] = useState(false); // показ прелоудера
   const [showTestOk, setShowTestOk] = useState(false);
   const [showTestFailed, setShowTestFailed] = useState(false);
+
+  useEffect(() => {
+    newConnectorData = cloneDeep(createConnectorCopy);
+    if (connectorData?.header?.desc) {
+      connectorData.header.desc = '';
+    }
+    dispatch(setNewConnector(newConnectorData));
+  }, [createConnectorCopy]);
 
   useEffect(() => {
     setShowTestOk(false);
     setShowTestFailed(false);
   }, [visible]);
 
+  useEffect(() => {
+    setConnectName(connectorData.header?.name);
+    setConnectionDescription(connectorData.header?.desc);
+  }, [connector]);
+
+  const setHeaderAndDescription = () => {
+    connectorData.header.name = connectName;
+    connectorData.header.desc = connectionDescription;
+  };
+
   const testConnectorResult = useSelector(
     (state) => state.app.data.testConnector,
   );
-  const notifications = useSelector((state) => state.app.notifications);
 
+  // Показ уведомления в зависимости от результат с бэка
   useEffect(() => {
-    if (connectorData.data) {
-      setConnectName(connectorData.header.name);
-      setConnectType(connectorData.data.type_id);
-      setConnectSource(connectorData.data.class_id);
-      setConnectionDescription(connectorData.header.desc);
+    if (editResult?.result) {
+      if (editResult.result === 1) {
+        dispatch(
+          showToast(
+            TOAST_TYPE.SUCCESS,
+            ` Соединение "${connectName}" успешно сохранено`,
+          ),
+        );
+      } else {
+        dispatch(showToast(TOAST_TYPE.DANGER, 'Ошибка сохранения соединения'));
+      }
     }
-  }, [connector]);
+  }, [editResult]);
+
+  const notifications = useSelector((state) => state.app.notifications);
 
   const handleClose = () => {
     setShowTestOk(false);
@@ -79,11 +114,6 @@ const EditConnectorModal = ({ visible, onClose }) => {
     text: item.name,
     value: String(item.id),
   }));
-
-  const setHeaderAndDescription = () => {
-    connectorData.header.name = connectName;
-    connectorData.header.desc = connectionDescription;
-  };
 
   let testResultCopy = cloneDeep(testConnectorResult);
   let notificationsCopy = cloneDeep(notifications);
@@ -112,15 +142,51 @@ const EditConnectorModal = ({ visible, onClose }) => {
     }
   }, [notifications]);
 
+  // Запись текущих значений инпутов формы в объект коннектора
+  const setInputValues = () => {
+    const inputs = document.getElementById('createConnectorForm').elements;
+    connectorData.data.fields?.map((item) => {
+      item.value = inputs[item.fieldName]?.value;
+      return item.value;
+    });
+  };
+
+  const getConnectorObject = (id, source) => {
+    setShowPreloader(true);
+    dispatch(
+      createConnector({
+        type_id: source,
+        id: id,
+      }),
+    );
+  };
+
+  const setNewType = (event) => {
+    const chosenType = types?.filter((item) => item.id == event)[0];
+    setConnectType(chosenType);
+    getConnectorObject(chosenType.id, connectSource.id);
+  };
+
+  const setNewSource = (event) => {
+    const chosenSource = sources?.filter((item) => item.id == event)[0];
+    setConnectSource(chosenSource);
+    getConnectorObject(chosenSource?.class_id, chosenSource?.id);
+    clearConnectorFields();
+  };
+
+  const clearConnectorFields = () => {
+    setConnectionDescription('');
+  };
+
   const testConnection = (e) => {
     e.preventDefault();
     e.stopPropagation();
     setShowTestOk(false);
     setShowTestFailed(false);
-    setHeaderAndDescription();
     if (document.getElementById('createConnectorForm').reportValidity()) {
-      setIsActive(!isActive);
       setHeaderAndDescription();
+      setIsActive(!isActive);
+      setInputValues();
       dispatch(testConnector({ data: connectorData.data }));
     }
   };
@@ -129,12 +195,13 @@ const EditConnectorModal = ({ visible, onClose }) => {
     event.preventDefault();
     event.stopPropagation();
     setHeaderAndDescription();
-    dispatch(saveConnector(connectorData));
+    setInputValues();
+    dispatch(editConnector(connectorData, currentFolderId));
     handleClose();
   };
 
   // Контент для модалки для добавления коннектора
-  const createConnectorModalContent = (
+  const editConnectorModalContent = (
     <form
       className={styles.form}
       id="createConnectorForm"
@@ -142,9 +209,12 @@ const EditConnectorModal = ({ visible, onClose }) => {
     >
       <div className={styles.connectionWrapper}>
         <TextInput
-          label="Введите имя соединения"
-          value={connectName}
-          onChange={(e) => setConnectName(e.target.value)}
+          label="Имя соединения"
+          value={null}
+          defaultValue={connectName}
+          onChange={(e) => {
+            setConnectName(e.target.value);
+          }}
           onBlur={() => setConnectName(connectName.trim())}
           id="connectorName"
           required
@@ -156,20 +226,18 @@ const EditConnectorModal = ({ visible, onClose }) => {
         <p className={styles.selectText}>Тип</p>
         <Select
           className={styles.selectInput}
-          value={connectType}
+          value={connectType?.name}
           options={typeOptions}
-          onSelectItem={setConnectType}
-          defaultValue={types?.name}
+          onSelectItem={(e) => setNewType(e)}
         />
       </div>
       <div className={styles.connectionWrapper}>
         <p className={styles.selectText}>Источник</p>
         <Select
           className={styles.selectInput}
-          value={connectSource}
-          onSelectItem={setConnectSource}
+          value={connectSource?.name}
+          onSelectItem={(e) => setNewSource(e)}
           options={sourceOptions}
-          defaultValue={sources?.name}
         />
       </div>
       {connectorData?.data?.fields && (
@@ -188,7 +256,6 @@ const EditConnectorModal = ({ visible, onClose }) => {
                   key={`${item.fieldName}_${index}`}
                   type={item.fieldKey === 'PWD' ? 'password' : item.type}
                   required={item.required}
-                  uppercase={item.fieldKey === 'DATABASE'}
                   className={styles.connectorsInput}
                   onChange={(e) => {
                     connectorData.data.fields[index].value =
@@ -207,11 +274,13 @@ const EditConnectorModal = ({ visible, onClose }) => {
                 name="connectorDescription"
                 className={styles.textarea}
                 value={connectionDescription}
-                defaultValue={connectorData.header.desc}
-                onBlur={() => {
-                  connectorData.header.desc = connectorData.header.desc?.trim();
+                defaultValue={connectionDescription}
+                onChange={(e) => {
+                  setConnectionDescription(e.target.value);
                 }}
-                onChange={(e) => setConnectionDescription(e.target.value)}
+                onBlur={() =>
+                  setConnectionDescription(connectionDescription.trim())
+                }
               />
             </div>
           </div>
@@ -241,7 +310,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
   );
 
   // Футер модалки
-  const createConnectorModalFooter = (
+  const editConnectorModalFooter = (
     <div className={styles.footerButtonsGroup}>
       <Button
         buttonStyle={BUTTON.BIG_ORANGE}
@@ -256,7 +325,7 @@ const EditConnectorModal = ({ visible, onClose }) => {
       <Button
         buttonStyle={BUTTON.BIG_BLUE}
         className={styles.cancelButton}
-        onClick={handleClose}
+        onClick={() => handleClose()}
       >
         Отмена
       </Button>
@@ -269,8 +338,8 @@ const EditConnectorModal = ({ visible, onClose }) => {
       visible={visible}
       onClose={handleClose}
       title="Редактировать соединение"
-      content={createConnectorModalContent}
-      footer={createConnectorModalFooter}
+      content={editConnectorModalContent}
+      footer={editConnectorModalFooter}
     />
   );
 };
