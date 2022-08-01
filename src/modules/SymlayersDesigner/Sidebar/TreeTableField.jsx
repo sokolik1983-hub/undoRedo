@@ -45,7 +45,7 @@ const TreeTableField = ({ field }) => {
       className={isActive ? styles.actTableField : styles.tableField}
       onClick={() => setActive(!isActive)}
     >
-      {isActive ? selectActIcon(field.type) : selectIcon(field.type)}
+      {isActive ? selectActIcon(field.dataType) : selectIcon(field.dataType)}
       <span>{field.field}</span>
     </div>
   );
