@@ -61,3 +61,21 @@
   color: #FFFFFF;
   margin: 0;
 }
+
+.search {
+  display: flex;
+  width: 380px;
+  align-items: initial;
+  margin-bottom: 6px;
+  margin-left: 4px;
+  background: white;
+  box-shadow: none;
+}
+
+.block {
+  width: 380px;
+  display: flex;
+  height: 200px;
+  background: white;
+  margin-left: 23px;
+}

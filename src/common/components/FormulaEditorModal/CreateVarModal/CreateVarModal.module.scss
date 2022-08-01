@@ -8,12 +8,16 @@
   border-radius: 10px;
 }
 
-.name {
-  height: 22px;
-}
-
 .input {
   outline: none;
+}
+
+.form {
+  padding: 0 18px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .buttonsWrapper {
@@ -25,4 +29,87 @@
 
 .button {
   margin-left: 12px;
+}
+
+.objectPropertiesBlock {
+  display: flex;
+  padding: 3px 30px 5px 18px;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  color: #ffffff;
+  margin: 0 0 6px -5px;
+}
+
+.text {
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: #000000;
+  padding-left: 1px;
+  cursor: pointer;
+}
+
+.icon {
+  margin: 9px 8px 3px 4px;
+}
+
+.arrow {
+  margin: 0 4px;
+  left: -10px;
+  z-index: 10;
+}
+
+.dropDownItem {
+  @extend .text;
+  background: #ffffff;
+  height: 22px;
+  padding: 5px;
+  border-bottom: 1px solid #eeeeee;
+
+  &:hover {
+    background: #33568c;
+    border-bottom: 1px solid transparent;
+    color: #ffffff;
+    border-radius: 0;
+  }
+}
+
+.dropDownItem:last-child,
+.dropDownItem:first-child {
+  border-radius: 0;
+}
+
+.select {
+  margin-left: 10px;
+}
+.selectField {
+  padding: 5px 0 0 5px;
+}
+
+.selectData {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 22px;
+  width: 111px;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.selectedIconText {
+  display: flex;
+  flex-direction: row;
+}
+
+.types, .wrapperForm {
+  display: flex;
+}
+
+.type {
+  margin-left: 11px;
 }

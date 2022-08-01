@@ -2,6 +2,7 @@
 // Please do not change this file!
 declare namespace FormulaEditorModalModuleScssNamespace {
   export interface IFormulaEditorModalModuleScss {
+    block: string;
     button: string;
     buttonsWrapper: string;
     dialog: string;
@@ -12,6 +13,7 @@ declare namespace FormulaEditorModalModuleScssNamespace {
     modal: string;
     modalBody: string;
     modalContent: string;
+    search: string;
   }
 }
 

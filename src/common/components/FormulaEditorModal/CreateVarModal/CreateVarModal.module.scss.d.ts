@@ -2,11 +2,24 @@
 // Please do not change this file!
 declare namespace CreateVarModalModuleScssNamespace {
   export interface ICreateVarModalModuleScss {
+    arrow: string;
     button: string;
     buttonsWrapper: string;
     dialog: string;
+    dropDownItem: string;
+    form: string;
+    icon: string;
     input: string;
-    name: string;
+    objectPropertiesBlock: string;
+    select: string;
+    selectData: string;
+    selectField: string;
+    selectedIconText: string;
+    text: string;
+    title: string;
+    type: string;
+    types: string;
+    wrapperForm: string;
   }
 }
 

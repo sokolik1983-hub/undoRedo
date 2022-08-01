@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { FC } from 'react';
+import React, { ChangeEvent, FC } from 'react';
 
 import Magnifier from '../../../layout/assets/magnifier.svg';
 import IconButton from '../IconButton';
@@ -8,15 +8,15 @@ import Tooltip from '../Tooltip';
 import { ICON_POSITION } from './constant';
 import styles from './Search.module.scss';
 
-interface SearchProps {
-  className: string;
-  onSubmit: () => void;
+interface ISearchProps {
+  className?: string;
+  onSubmit?: () => void;
   value: string;
-  onChange: () => void;
-  iconButtonPosition: string;
+  onChange: (el: ChangeEvent<HTMLInputElement>) => void;
+  iconButtonPosition?: string;
 }
 
-const Search: FC<SearchProps> = ({
+const Search: FC<ISearchProps> = ({
   className,
   onSubmit,
   value,

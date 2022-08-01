@@ -7,6 +7,7 @@ import Button from '../Button';
 import DropdownItem from '../Dropdown/DropdownItem';
 import IconButton from '../IconButton';
 import Modal from '../Modal';
+import Search from '../Search';
 import TextInput from '../TextInput';
 import CreateVarModal from './CreateVarModal/index';
 import styles from './FormulaEditorModal.module.scss';
@@ -21,6 +22,7 @@ const FormulaEditorModal: FC<IFormulaEditorModalProps> = ({
   onClose,
 }) => {
   const [isCreateVarModalOpen, setIsCreateVarModalOpen] = useState(false);
+  const [val, setVal] = useState('');
 
   const handleClose = () => {
     return onClose();
@@ -31,6 +33,14 @@ const FormulaEditorModal: FC<IFormulaEditorModalProps> = ({
       <>
         <div className={styles.formulaBlock}>
           <p className={styles.formula}>Строка формулы</p>
+        </div>
+        <div>
+          <Search
+            value={val}
+            onChange={(e) => setVal(e.target.value)}
+            className={styles.search}
+          />
+          <div className={styles.block} />
         </div>
         <div className={styles.buttonsWrapper}>
           <Button buttonStyle={BUTTON.BIG_ORANGE} className={styles.button}>
