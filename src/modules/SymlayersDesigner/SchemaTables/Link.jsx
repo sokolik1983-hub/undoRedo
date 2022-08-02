@@ -204,6 +204,7 @@ export default (props) => {
         className="link"
         markerStart={startMarker}
         markerEnd={endMarker}
+        id={props.pathID}
       />
     </g>
   );

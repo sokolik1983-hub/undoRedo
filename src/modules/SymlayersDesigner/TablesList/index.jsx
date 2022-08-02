@@ -59,6 +59,7 @@ function TablesList({ title, items, type }) {
                   }
                   onDoubleClick={handleClick}
                   id={i + 1}
+                  item={item}
                 />
               </div>
             );
