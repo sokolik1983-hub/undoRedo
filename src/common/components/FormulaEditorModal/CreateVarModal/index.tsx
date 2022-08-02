@@ -3,16 +3,12 @@ import React, { FC, useState } from 'react';
 
 import Dropdown from '../../../../common/components/Dropdown';
 import DropdownItem from '../../../../common/components/Dropdown/DropdownItem';
-import DateIcon from '../../../../layout/assets/icons/dateIcon.svg';
-import NumberIcon from '../../../../layout/assets/icons/numberIcon.svg';
-import SymbolIcon from '../../../../layout/assets/icons/symbolIcon.svg';
-import TextIcon from '../../../../layout/assets/icons/textIcon.svg';
 import Arrow from '../../../../layout/assets/queryPanel/arrowThin.svg';
-import AttributeIcon from '../../../../layout/assets/queryPanel/attributeIcon.svg';
-import GaugeIcon from '../../../../layout/assets/queryPanel/gauge_icon.svg';
-import MeasureIcon from '../../../../layout/assets/queryPanel/measurementIcon.svg';
 import { BUTTON } from '../../../constants/common';
-// import { useAppSelector } from '../../../../data/hooks/redux';
+import {
+  selectDataOptions,
+  selectTypeOptions,
+} from '../../../constants/reportDesigner/reportCreateVarModalOptions';
 import Button from '../../Button';
 import { Item } from '../../Dropdown/DropdownItem';
 import Modal from '../../Modal/index';
@@ -25,24 +21,6 @@ interface ICreateVarModalProps {
 }
 
 const CreateVarModal: FC<ICreateVarModalProps> = ({ visible, onClose }) => {
-  const selectDataOptions = [
-    { icon: <SymbolIcon />, text: 'Символ', value: 'Symbol', action: '' },
-    { icon: <DateIcon />, text: 'Дата', value: 'Datetime', action: '' },
-    { icon: <TextIcon />, text: 'Номер', value: 'Number', action: '' },
-    { icon: <NumberIcon />, text: 'Текст', value: 'String', action: '' },
-  ];
-
-  const selectTypeOptions = [
-    { icon: <GaugeIcon />, text: 'Показатель', value: 'Dimension', action: '' },
-    { icon: <MeasureIcon />, text: 'Измерение', value: 'Measure', action: '' },
-    {
-      icon: <AttributeIcon />,
-      text: 'Атрибут',
-      value: 'Attribute',
-      action: '',
-    },
-  ];
-
   const [selectedData, setSelectedData] = useState(selectDataOptions[0]);
   const [selectedType, setSelectedType] = useState(selectTypeOptions[0]);
   const [name, setName] = useState('Моя переменная');

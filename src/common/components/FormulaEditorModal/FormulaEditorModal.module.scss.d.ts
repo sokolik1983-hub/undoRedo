@@ -5,15 +5,33 @@ declare namespace FormulaEditorModalModuleScssNamespace {
     block: string;
     button: string;
     buttonsWrapper: string;
+    checkBoxWrapper: string;
     dialog: string;
     dots: string;
-    formula: string;
     formulaBlock: string;
+    formulaTextarea: string;
+    gearsIcon: string;
+    headingFormula: string;
+    icon: string;
     input: string;
     modal: string;
     modalBody: string;
     modalContent: string;
+    modalHeader: string;
+    optRed: string;
+    save: string;
     search: string;
+    selectColumn: string;
+    sqlFunctionDescText: string;
+    sqlFunctionDescription: string;
+    sqlFunctions: string;
+    sqlMainContent: string;
+    sqlOperators: string;
+    sqlTables: string;
+    tableColumnName: string;
+    tableName: string;
+    testBlock: string;
+    testButton: string;
   }
 }
 

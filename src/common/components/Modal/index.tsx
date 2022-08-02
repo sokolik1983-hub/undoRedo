@@ -3,6 +3,8 @@ import React, {
   FC,
   MouseEvent,
   ReactElement,
+  ReactNode,
+  SVGProps,
   useCallback,
   useEffect,
   useState,
@@ -35,6 +37,8 @@ interface IModalProps {
   headerClassName?: string;
   onClose: () => void;
   title?: string;
+  icon?: ReactNode;
+  iconClassName?: string;
   titleClassName?: string;
   visible: boolean;
   withScroll?: boolean;
@@ -44,6 +48,8 @@ const Modal: FC<IModalProps> = ({
   withoutTitle,
   visible,
   title,
+  icon,
+  iconClassName,
   content,
   footer,
   onClose,
@@ -108,6 +114,7 @@ const Modal: FC<IModalProps> = ({
       <div className={modalDialogClasses} onClick={(e) => e.stopPropagation()}>
         {!withoutTitle && (
           <div className={headerClasses}>
+            {icon && <div className={iconClassName}>{icon}</div>}
             <h3 className={titleClasses}>{title}</h3>
             <span className={styles.modalClose} onClick={handleClose}>
               <div className={styles.close}>

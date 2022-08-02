@@ -303,7 +303,7 @@ function ReportDesigner() {
       ))}
     </div>
   );
-  // -------------------действия с отчетом---------------------------------
+
   function checkIsActiveNode(id) {
     return !lodash.isEmpty(
       lodash.find(
@@ -322,6 +322,7 @@ function ReportDesigner() {
   const handleShowSelector = () => {
     setSemanticLayer(true);
   };
+
   const [formula, setFormula] = useState('');
   const [isFormulaEditorModalOpen, setIsFormulaEditorModalOpen] =
     useState(false);
@@ -335,6 +336,15 @@ function ReportDesigner() {
       setFormula('');
     }
   }, [activeNode]);
+
+  const handleKeyUpFormula = (ev) => {
+    if (ev.key === 'Enter') {
+      dispatch(setActiveNodeFormula(ev.target.value));
+      dispatch(setActiveNodes([]));
+      dispatch(setConfigPanelVisible(false));
+    }
+  };
+
   const handleChange = (e) => setFormula(e.target.value);
   const handleSelectBlock = (structureItem, addItem) => {
     if (
@@ -384,13 +394,7 @@ function ReportDesigner() {
               value={formula}
               onChange={handleChange}
               disabled={!activeNode}
-              onKeyUp={(ev) => {
-                if (ev.key === 'Enter') {
-                  dispatch(setActiveNodeFormula(ev.target.value));
-                  dispatch(setActiveNodes([]));
-                  dispatch(setConfigPanelVisible(false));
-                }
-              }}
+              onKeyUp={handleKeyUp}
             />
             <div className={styles.icons}>
               <IconButton
@@ -489,6 +493,10 @@ function ReportDesigner() {
       )}
       {isFormulaEditorModalOpen && (
         <FormulaEditorModal
+          formula={formula}
+          handleKeyUp={handleKeyUpFormula}
+          onChange={handleChange}
+          activeNode={activeNode}
           visible={isFormulaEditorModalOpen && true}
           onClose={() => setIsFormulaEditorModalOpen(false)}
         />

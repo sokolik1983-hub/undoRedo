@@ -8,7 +8,7 @@
   backdrop-filter: blur(10px);
   border-radius: 10px;
   max-width: unset !important;
-  width: 60% !important;
+  width: 950px !important;
   color: #FFFFFF;
   height: 477px;
   overflow: visible !important;
@@ -47,19 +47,65 @@
 }
 
 .formulaBlock {
-  display: flex;
-  justify-content: space-between;
   height: 117px;
   background: rgba(0, 0, 0, 0.5);
-  padding: 0 16px 0 10px;
+  padding: 0 12px;
+  display: flex;
 }
 
-.formula {
-  font-weight: 600;
+.headingFormula {
+  font-weight: 700;
   font-size: 14px;
   line-height: 16px;
   color: #FFFFFF;
-  margin: 0;
+  margin: 0 0 8px 0;
+}
+
+.icon {
+  margin-right: 10px;
+  margin-bottom: -5px;
+}
+
+.modalHeader {
+  padding: 20px 10px 13px 19px;
+}
+
+.testButton {
+  background: linear-gradient(199.32deg, #1AE3D7 -13.92%, #0945DF 111.71%);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  font-style: normal;
+  font-weight: bold;
+  color: white;
+  border: none;
+  font-size: 10px;
+  line-height: 12px;
+  height: 22px;
+  margin: 85px 0 10px 0;
+}
+
+.formulaTextarea {
+  background: #FFFFFF;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+  width: 840px;
+  height: 79px;
+  border: none;
+  padding: 4px 4px 1px 4px;
+  resize: none;
+}
+
+.testBlock {
+  position: relative;
+  margin-left: 10px;
+}
+
+.gearsIcon {
+  position: absolute;
+  top: 18px;
+  right: 18px;
 }
 
 .search {
@@ -78,4 +124,81 @@
   height: 200px;
   background: white;
   margin-left: 23px;
+}
+
+.sqlMainContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100%;
+  padding: 8px 23px 11px 23px;
+  color: #FFFFFF;
+}
+
+.sqlFunctionDescription {
+  padding-left: 26px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: #FFFFFF;
+}
+
+.sqlFunctionDescText {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  padding: 8px 23px;
+  height: 50px;
+  overflow-y: auto;
+  margin-top: 4px;
+
+  color: #FFFFFF;
+}
+
+.save {
+  margin: unset;
+}
+
+.modalContent {
+  padding-top: 0;
+  padding-bottom: 28px;
+}
+
+.sqlTables, .sqlOperators, .sqlFunctions {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.sqlOperators {
+  width: 145px;
+  margin: 0 12px;
+}
+
+.tableColumnName {
+  padding-left: 15px;
+}
+
+.checkBoxWrapper {
+  align-items: center;
+}
+
+option:after {
+  content: ' '
+}
+
+.optRed:after {
+  background-color: #c00;
+}
+
+.selectColumn {
+  height: 100%;
+}
+
+.tableName {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  margin-bottom: 4px;
 }

@@ -24,6 +24,7 @@ const Search: FC<ISearchProps> = ({
   iconButtonPosition,
 }) => {
   const classes = clsx(styles.searchForm, className);
+  const inputClasses = clsx(styles.searchInput, className);
 
   const getIconButton = () => {
     return (
@@ -37,7 +38,7 @@ const Search: FC<ISearchProps> = ({
     <form className={classes} onSubmit={onSubmit}>
       {iconButtonPosition === ICON_POSITION.LEFT && getIconButton()}
       <TextInput
-        className={styles.searchInput}
+        className={inputClasses}
         id="search"
         value={value}
         onChange={onChange}
