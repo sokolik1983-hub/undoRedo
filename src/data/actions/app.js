@@ -1,9 +1,5 @@
 import { request } from '../helpers';
-import {
-  setReposChildren,
-  setReposFolderId,
-  setUniverses,
-} from '../reducers/data';
+import { setReposChildren, setReposFolderId } from '../reducers/data';
 import {
   failedFavoriteObjects,
   loadingFavoriteObjects,
@@ -63,29 +59,19 @@ export const showToast = (type, title, description) => {
 /**
  * Получение объектов, добавленных в Избранные.
  */
-export const getFavoriteObjects = () => {
-  return async (dispatch) => {
-    dispatch(loadingFavoriteObjects());
-    await request({
-      code: 'CMS.USER.GET_FAVORITES',
-      params: { user_id: 10001 },
-      dispatch,
-    })
-      .then((response) => {
-        if (response?.objects) {
-          dispatch(
-            setFavoriteObjects([
-              ...response.objects[0],
-              ...response.objects[1],
-            ]),
-          );
-          dispatch(successFavoriteObjects());
-        }
-      })
-      .catch(() => {
-        dispatch(failedFavoriteObjects());
-      });
-  };
+export const getFavoriteObjects = () => async (dispatch) => {
+  dispatch(loadingFavoriteObjects());
+  const response = await request({
+    code: 'CMS.USER.GET_FAVORITES',
+    params: {},
+    dispatch,
+  });
+  if (response) {
+    dispatch(setFavoriteObjects(response.objects));
+    dispatch(successFavoriteObjects());
+  } else {
+    dispatch(failedFavoriteObjects());
+  }
 };
 
 /**
@@ -93,18 +79,16 @@ export const getFavoriteObjects = () => {
  *
  * @prop queryParams Параметры.
  */
-export const setObjectFavoriteStatus = (queryParams, callback) => {
-  return async (dispatch) => {
-    await request({
+export const setObjectFavoriteStatus =
+  (queryParams, callback) => async (dispatch) => {
+    const response = await request({
       code: 'CMS.USER.SET_FAVORITE',
       params: queryParams,
       dispatch,
-    }).then((response) => {
-      if (queryParams.isExclude === 1) {
-        if (response.result === 1) {
-          callback(true);
-        }
-      }
     });
+    if (queryParams.isExclude === 1) {
+      if (response?.result === 1) {
+        callback(true);
+      }
+    }
   };
-};

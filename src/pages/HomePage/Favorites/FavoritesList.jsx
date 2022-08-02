@@ -3,13 +3,13 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
+import { REDIRECT_LINKS } from '@src/common/constants/common';
+import { setObjectFavoriteStatus } from '@src/data/actions/app';
+import { getFavoriteObjects } from '@src/data/actions/app';
 import { openUniverse } from '@src/data/actions/universes';
 import { setLoadingUniverse } from '@src/data/reducers/schemaDesigner';
 
 import InlinePreloader from '../../../common/components/InlinePreloader/index';
-import { REDIRECT_LINKS } from '../../../common/constants/common';
-import { setObjectFavoriteStatus } from '../../../data/actions/app';
-import { getFavoriteObjects } from '../../../data/actions/app';
 import styles from '../HomePage.module.scss';
 import HomePageButton from '../HomePageButton/HomePageButton';
 
