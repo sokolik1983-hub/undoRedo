@@ -101,6 +101,14 @@ const requesterTimeout = <T>({
       if (response?.result === PENDING_RESPONSE) {
         if (tryCount >= ATTEMPTS) {
           console.log('исчерпаны попытки, выход из запроса');
+          dispatch(
+            notificationShown({
+              message: 'Исчерпаны попытки связи с сервером',
+              messageType: 'error',
+              reason: 'Сервер не отвечает',
+              advice: 'Попробуйте повторить запрос',
+            }),
+          );
           return reject(response);
         }
         console.log('данные на сервере еще не готовы');
