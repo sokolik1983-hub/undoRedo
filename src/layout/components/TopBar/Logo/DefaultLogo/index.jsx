@@ -27,6 +27,8 @@ const DefaultLogo = ({ currentPage }) => {
         return PAGE_TITLES.REPORT_DESIGNER;
       case PAGE.ADMIN:
         return PAGE_TITLES.ADMIN;
+      case PAGE.REPORTS:
+        return PAGE_TITLES.REPORTS;
       default:
         return null;
     }
@@ -40,6 +42,8 @@ const DefaultLogo = ({ currentPage }) => {
         return <SemanticLogo />;
       case PAGE.CONNECTORS:
         return <ConnectorsLogo />;
+      case PAGE.REPORTS:
+        return <DesignerLogo />;
       case PAGE.REPORT_DESIGNER:
         return <DesignerLogo />;
       case PAGE.ADMIN:
