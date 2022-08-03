@@ -42,6 +42,7 @@ import PlusIcon from '../../layout/assets/queryPanel/plus.svg';
 import ClearFormulaIcon from '../../layout/assets/reportDesigner/clearFormula.svg';
 import MiniFormulaIcon from '../../layout/assets/reportDesigner/miniFormula.svg';
 import OkFormulaIcon from '../../layout/assets/reportDesigner/okFormula.svg';
+import EditIcon from '../../layout/assets/reportDesigner/pencil.svg';
 import PagesNav from '../../layout/components/ReportActions/PagesNav/index';
 import QueryPanel from '../QueryPanel';
 import { createReportElement, generateId, getCurrentReport } from './helpers';
@@ -383,9 +384,14 @@ function ReportDesigner() {
         {reportDesigner.reportsUi.ui.showFormulaEditor && (
           <div className={activeTab === 1 ? formulaCompressed : styles.formula}>
             <IconButton
-              className={styles.formulaIcon}
+              className={styles.icon}
               onClick={() => setIsFormulaEditorModalOpen(true)}
               icon={<MiniFormulaIcon />}
+            />
+            <IconButton
+              className={styles.icon}
+              onClick={() => setIsFormulaEditorModalOpen(true)}
+              icon={<EditIcon />}
             />
             <textarea
               className={styles.formulaTextarea}

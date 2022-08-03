@@ -1,17 +1,11 @@
 import React, { FC, useState } from 'react';
 
 import Gears from '../../../common/components/Gears';
-import { ICON_POSITION } from '../../../common/components/Search/constant';
 import Dots from '../../../layout/assets/queryPanel/dotsInCorner.svg';
-import MeasurementIcon from '../../../layout/assets/queryPanel/measurementIcon.svg';
 import FormulaIcon from '../../../layout/assets/reportDesigner/whiteFormula.svg';
 import { BUTTON } from '../../constants/common';
 import Button from '../Button';
-import DropdownItem from '../Dropdown/DropdownItem';
-import IconButton from '../IconButton';
 import Modal from '../Modal';
-import Search from '../Search';
-import TextInput from '../TextInput';
 import CreateVarModal from './CreateVarModal/index';
 import styles from './FormulaEditorModal.module.scss';
 import MiddleContent from './MiddleContent';
@@ -34,7 +28,9 @@ const FormulaEditorModal: FC<IFormulaEditorModalProps> = ({
   onClose,
 }) => {
   const [isCreateVarModalOpen, setIsCreateVarModalOpen] = useState(false);
-  const [val, setVal] = useState('');
+  const [objectVal, setObjectVal] = useState('');
+  const [operatorVal, setOperatorVal] = useState('');
+  const [formulaVal, setFormulaVal] = useState('');
   const [isSpinning, setIsSpinning] = useState(false);
 
   const handleClose = () => {
@@ -71,14 +67,14 @@ const FormulaEditorModal: FC<IFormulaEditorModalProps> = ({
             </Button>
           </div>
         </div>
-        <MiddleContent />
-        {/* <Search
-            value={val}
-            onChange={(e) => setVal(e.target.value)}
-            className={styles.search}
-            iconButtonPosition={ICON_POSITION.RIGHT}
-          />
-          <div className={styles.block} /> */}
+        <MiddleContent
+          objectVal={objectVal}
+          operatorVal={operatorVal}
+          formulaVal={formulaVal}
+          setObjectVal={setObjectVal}
+          setOperatorVal={setOperatorVal}
+          setFormulaVal={setFormulaVal}
+        />
         <div className={styles.buttonsWrapper}>
           <Button buttonStyle={BUTTON.BIG_ORANGE} className={styles.button}>
             Сохранить

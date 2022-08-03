@@ -62,12 +62,12 @@ const TextInput: ForwardRefRenderFunction<HTMLInputElement, ITextInputProps> = (
     styles.input,
     className,
     { [styles.error]: error },
-    { [styles.fullWidth]: className ? false : fullWidth },
     { [styles.uppercase]: uppercase },
   );
 
-  const wrapperClasses = clsx(styles.inputWrapper, wrapperClassName);
-
+  const wrapperClasses = clsx(styles.inputWrapper, wrapperClassName, {
+    [styles.fullWidth]: className ? true : fullWidth,
+  });
   const labelClasses = clsx(styles.inputLabel, labelClassName);
 
   return (

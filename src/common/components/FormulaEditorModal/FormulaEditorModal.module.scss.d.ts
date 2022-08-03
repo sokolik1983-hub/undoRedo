@@ -21,6 +21,7 @@ declare namespace FormulaEditorModalModuleScssNamespace {
     optRed: string;
     save: string;
     search: string;
+    searchIcon: string;
     selectColumn: string;
     sqlFunctionDescText: string;
     sqlFunctionDescription: string;

@@ -26,7 +26,9 @@
 }
 
 .input {
-  width: 288px;
+  width: 100%;
+  background: white;
+  box-shadow: initial;
 }
 
 .buttonsWrapper {
@@ -64,6 +66,10 @@
 .icon {
   margin-right: 10px;
   margin-bottom: -5px;
+}
+
+.searchIcon {
+  margin: 3px -5px 0 0;
 }
 
 .modalHeader {
@@ -110,10 +116,9 @@
 
 .search {
   display: flex;
-  width: 380px;
+  width: 100%;
   align-items: initial;
   margin-bottom: 6px;
-  margin-left: 4px;
   background: white;
   box-shadow: none;
 }
