@@ -1,4 +1,3 @@
-// import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 
 import { REDIRECT_LINKS } from '../../../../common/constants/common';
@@ -8,8 +7,6 @@ import DefaultLogo from './DefaultLogo';
 import styles from './Logo.module.scss';
 
 function Logo() {
-  // const navigate = useNavigate();
-
   function handleGoHome() {
     window.location.pathname = REDIRECT_LINKS.HOME_PAGE;
     // navigate(REDIRECT_LINKS.HOME_PAGE, { replace: false }); // hard reset page
