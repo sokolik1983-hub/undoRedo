@@ -44,20 +44,21 @@ export const requestReady = async <T>({
     if (response.data.result === 0 && response.data.errors) {
       response.data.errors.forEach((item: any) => {
         // eslint-disable-next-line camelcase
-        const { errText, errRecommend, errReason, isVisible, errorCode } = item;
-        if (isVisible !== 0) {
-          dispatch(
-            notificationShown({
-              message: errText,
-              messageType: 'error',
-              reason: errReason,
-              advice: errRecommend,
-            }),
-          );
-          if (WRONG_SESSION_ERRORS.includes(errorCode)) {
-            dispatch(logoutUser());
-          }
+        const { errText, errRecommend, errReason, errorCode } = item;
+        // if (isVisible !== 0) {
+        dispatch(
+          notificationShown({
+            message: errText,
+            messageType: 'error',
+            reason: errReason,
+            advice: errRecommend,
+          }),
+        );
+        if (WRONG_SESSION_ERRORS.includes(errorCode)) {
+          dispatch(logoutUser());
         }
+        // }
+
         // err_category: 1
         // err_code: "040.00001"
         // err_group: "Центральный"
