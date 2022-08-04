@@ -28,9 +28,6 @@ const FormulaEditorModal: FC<IFormulaEditorModalProps> = ({
   onClose,
 }) => {
   const [isCreateVarModalOpen, setIsCreateVarModalOpen] = useState(false);
-  const [objectVal, setObjectVal] = useState('');
-  const [operatorVal, setOperatorVal] = useState('');
-  const [formulaVal, setFormulaVal] = useState('');
   const [isSpinning, setIsSpinning] = useState(false);
 
   const handleClose = () => {
@@ -67,14 +64,7 @@ const FormulaEditorModal: FC<IFormulaEditorModalProps> = ({
             </Button>
           </div>
         </div>
-        <MiddleContent
-          objectVal={objectVal}
-          operatorVal={operatorVal}
-          formulaVal={formulaVal}
-          setObjectVal={setObjectVal}
-          setOperatorVal={setOperatorVal}
-          setFormulaVal={setFormulaVal}
-        />
+        <MiddleContent />
         <div className={styles.buttonsWrapper}>
           <Button buttonStyle={BUTTON.BIG_ORANGE} className={styles.button}>
             Сохранить
