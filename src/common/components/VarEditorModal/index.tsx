@@ -83,7 +83,7 @@ const VarEditorModal: FC<IVarEditorModalProps> = ({
       <Formik
         initialValues={[]}
         onSubmit={(values, event) => {
-          console.log(values);
+          console.log();
         }}
       >
         {({ values, handleSubmit }) => (

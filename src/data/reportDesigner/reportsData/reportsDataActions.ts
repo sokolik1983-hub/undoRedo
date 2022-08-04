@@ -71,7 +71,6 @@ export const setReportDpRefreshed = (queryParams) => async (dispatch) => {
     dispatch,
   });
   if (response) {
-    console.log(response);
     dispatch(getVariables());
   }
 };
