@@ -35,7 +35,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 4px;
 }
 
 .button {
@@ -55,6 +54,15 @@
   display: flex;
 }
 
+.varBlock {
+  @extend .formulaBlock;
+
+  flex-direction: column;
+  background: initial;
+  height: 100%;
+  padding: 0;
+}
+
 .headingFormula {
   font-weight: 700;
   font-size: 14px;
@@ -65,7 +73,7 @@
 
 .icon {
   margin-right: 10px;
-  margin-bottom: -5px;
+  margin-top: 8px;
 }
 
 .searchIcon {
@@ -103,6 +111,12 @@
   resize: none;
 }
 
+.varTextarea {
+  @extend .formulaTextarea;
+
+  width: 525px;
+}
+
 .testBlock {
   position: relative;
   margin-left: 10px;
@@ -123,42 +137,14 @@
   box-shadow: none;
 }
 
-.block {
-  width: 380px;
-  display: flex;
-  height: 200px;
-  background: white;
-  margin-left: 23px;
-}
-
-.sqlMainContent {
+.mainContent {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   height: 100%;
-  padding: 8px 23px 11px 23px;
+  padding: 10px 23px 0;
   color: #FFFFFF;
-}
-
-.sqlFunctionDescription {
-  padding-left: 26px;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 16px;
-
-  color: #FFFFFF;
-}
-
-.sqlFunctionDescText {
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 16px;
-  padding: 8px 23px;
-  height: 50px;
-  overflow-y: auto;
-  margin-top: 4px;
-
-  color: #FFFFFF;
+  margin-bottom: 20px;
 }
 
 .save {
@@ -167,38 +153,51 @@
 
 .modalContent {
   padding-top: 0;
-  padding-bottom: 28px;
+  padding-bottom: 17px;
 }
 
-.sqlTables, .sqlOperators, .sqlFunctions {
+.wrapper {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 42%;
+  padding-right: 12px;
 }
 
-.sqlOperators {
-  width: 145px;
-  margin: 0 12px;
+.middleBlock {
+  width: 145px !important;
 }
 
-.tableColumnName {
-  padding-left: 15px;
+.lastBlock {
+  @extend .wrapper;
+
+  padding-right: 0;
 }
 
 .checkBoxWrapper {
   align-items: center;
 }
 
-option:after {
-  content: ' '
+.column {
+  height: 166px;
+  background:white;
+  padding: 9px 16px;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
-.optRed:after {
-  background-color: #c00;
+.itemIcon {
+  margin-right: 5px;
 }
 
-.selectColumn {
-  height: 100%;
+.name {
+  display: flex;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tableName {
@@ -206,4 +205,101 @@ option:after {
   font-size: 14px;
   line-height: 16px;
   margin-bottom: 4px;
+}
+
+.text {
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: #000000;
+  padding-left: 1px;
+  cursor: pointer;
+}
+
+.dropDownItem {
+  @extend .text;
+  background: #ffffff;
+  height: 22px;
+  padding: 5px;
+  border-bottom: 1px solid #eeeeee;
+
+  &:hover {
+    background: #33568c;
+    border-bottom: 1px solid transparent;
+    color: #ffffff;
+    border-radius: 0;
+  }
+}
+
+.dropDownItem:last-child,
+.dropDownItem:first-child {
+  border-radius: 0;
+}
+
+.arrow {
+  margin: 0 4px;
+  left: -10px;
+  z-index: 10;
+}
+
+.form {
+  padding: 0 18px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.varSelects {
+  @extend .form;
+  padding: 0 0 0 24px;
+  width: 260px;
+  justify-content: initial;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  color: #ffffff;
+  margin: 0 0 6px -5px;
+}
+
+.types, .wrapperForm {
+  display: flex;
+}
+
+.varWrapperForm {
+  display: flex;
+  background: rgba(0, 0, 0, 0.5);
+  padding-top: 4px;
+}
+
+.varTypes {
+  display: flex;
+  margin-top: 14px;
+}
+
+.selectData {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 22px;
+  width: 111px;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.varWrapper {
+  margin-left: 55px;
+}
+
+.selectedIconText {
+  display: flex;
+  flex-direction: row;
+}
+
+.type {
+  margin-left: 11px;
 }

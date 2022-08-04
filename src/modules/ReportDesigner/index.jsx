@@ -11,6 +11,7 @@ import DropdownItem from '../../common/components/Dropdown/DropdownItem';
 import FormulaEditorModal from '../../common/components/FormulaEditorModal';
 import IconButton from '../../common/components/IconButton';
 import Tooltip from '../../common/components/Tooltip';
+import VarEditorModal from '../../common/components/VarEditorModal';
 import { BUTTON } from '../../common/constants/common';
 import { PAGE } from '../../common/constants/pages';
 import { REPORT_ACTIONS } from '../../common/constants/reportDesigner/reportActions';
@@ -323,10 +324,11 @@ function ReportDesigner() {
   const handleShowSelector = () => {
     setSemanticLayer(true);
   };
-
+  const variable = ''; // ToDo
   const [formula, setFormula] = useState('');
   const [isFormulaEditorModalOpen, setIsFormulaEditorModalOpen] =
     useState(false);
+  const [isVarEditorModalOpen, setIsVarEditorModalOpen] = useState(false);
   const activeNode =
     reportDesigner.reportsData.present.activeNodes &&
     reportDesigner.reportsData.present.activeNodes[0];
@@ -385,7 +387,7 @@ function ReportDesigner() {
           <div className={activeTab === 1 ? formulaCompressed : styles.formula}>
             <IconButton
               className={styles.icon}
-              onClick={() => setIsFormulaEditorModalOpen(true)}
+              onClick={() => setIsVarEditorModalOpen(true)}
               icon={<MiniFormulaIcon />}
             />
             <IconButton
@@ -505,6 +507,15 @@ function ReportDesigner() {
           activeNode={activeNode}
           visible={isFormulaEditorModalOpen && true}
           onClose={() => setIsFormulaEditorModalOpen(false)}
+        />
+      )}
+      {isVarEditorModalOpen && (
+        <VarEditorModal
+          variable={variable}
+          onChange={console.log('onChangeVariable')}
+          activeNode={activeNode}
+          visible={isVarEditorModalOpen && true}
+          onClose={() => setIsVarEditorModalOpen(false)}
         />
       )}
     </div>

@@ -2,37 +2,50 @@
 // Please do not change this file!
 declare namespace FormulaEditorModalModuleScssNamespace {
   export interface IFormulaEditorModalModuleScss {
-    block: string;
+    arrow: string;
     button: string;
     buttonsWrapper: string;
     checkBoxWrapper: string;
+    column: string;
     dialog: string;
     dots: string;
+    dropDownItem: string;
+    form: string;
     formulaBlock: string;
     formulaTextarea: string;
     gearsIcon: string;
     headingFormula: string;
     icon: string;
     input: string;
+    itemIcon: string;
+    lastBlock: string;
+    mainContent: string;
+    middleBlock: string;
     modal: string;
     modalBody: string;
     modalContent: string;
     modalHeader: string;
-    optRed: string;
+    name: string;
     save: string;
     search: string;
     searchIcon: string;
-    selectColumn: string;
-    sqlFunctionDescText: string;
-    sqlFunctionDescription: string;
-    sqlFunctions: string;
-    sqlMainContent: string;
-    sqlOperators: string;
-    sqlTables: string;
-    tableColumnName: string;
+    selectData: string;
+    selectedIconText: string;
     tableName: string;
     testBlock: string;
     testButton: string;
+    text: string;
+    title: string;
+    type: string;
+    types: string;
+    varBlock: string;
+    varSelects: string;
+    varTextarea: string;
+    varTypes: string;
+    varWrapper: string;
+    varWrapperForm: string;
+    wrapper: string;
+    wrapperForm: string;
   }
 }
 
