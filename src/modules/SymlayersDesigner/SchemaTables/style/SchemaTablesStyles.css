@@ -1,13 +1,13 @@
 .table-row {
   position: relative;
 }
-.MuiTableRow-root.focused-table-row{
-  outline: 1px solid rgb(255,165,0);
-  background-color: rgba(255,165,0);
+.MuiTableRow-root.focused-table-row {
+  outline: 1px solid rgb(255, 165, 0);
+  background-color: rgba(255, 165, 0);
 }
-.MuiTableRow-root.higlited-table-row{
-  outline: 1px solid rgb(255,255,0);
-  background-color: rgba(255,255,0);
+.MuiTableRow-root.higlited-table-row {
+  outline: 1px solid rgb(255, 255, 0);
+  background-color: rgba(255, 255, 0);
 }
 .table-row:hover {
   background-color: rgba(0, 0, 255, 0.2);
@@ -15,7 +15,7 @@
 }
 
 .link {
-  stroke: blueviolet;
+  stroke: rgba(64, 107, 169, 1);
   stroke-width: 2px;
   fill: none;
 }
@@ -25,7 +25,7 @@
 }
 
 .link-group:hover .link {
-  stroke: blue;
+  stroke: rgba(255, 167, 64, 1);
   stroke-width: 2px;
   stroke-dasharray: 4 2;
   animation: dash 0.1s linear infinite;

@@ -417,6 +417,7 @@ const Provided = (props) => {
               SourceRect={SourceRect}
               handleEdit={handleEdit}
               key={`${objectFullName1}-${objectFullName2}${Math.random()}}`}
+              pathID={`pathID_${link.id}`}
               // isLoop={getTableId(link.object1) === getTableId(link.object2)}
               // onCreateSynonym={props.onCreateSynonym}
               isLoop={
