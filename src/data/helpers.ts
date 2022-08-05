@@ -6,7 +6,6 @@ import {
   PENDING_RESPONSE,
   PENDING_SERVER_TIMER,
   SERVER_API_URL,
-  WRONG_SESSION_ERRORS,
 } from '../common/constants/config';
 import { logoutUser } from './auth/authActions';
 import { notificationShown } from './reducers/notifications';
@@ -54,7 +53,7 @@ export const requestReady = async <T>({
             advice: errRecommend,
           }),
         );
-        if (WRONG_SESSION_ERRORS.includes(errorCode)) {
+        if (errorCode.includes('.00008')) {
           dispatch(logoutUser());
         }
         // }
