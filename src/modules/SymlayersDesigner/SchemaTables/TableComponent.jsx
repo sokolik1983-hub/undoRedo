@@ -245,7 +245,6 @@ const TableComponent = ({
   // eslint-disable-next-line consistent-return
   const getList = (obj) => {
     const tableNames = Object.keys(obj);
-    console.log(obj);
     if (tableNames.length) {
       const list = [];
       tableNames.forEach((i) => {

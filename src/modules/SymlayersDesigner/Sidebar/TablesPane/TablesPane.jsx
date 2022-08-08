@@ -30,8 +30,6 @@ const TablesPane = ({ onSelect }) => {
     setSelectedSchemes(selectedSch);
   }, [selectedSch]);
 
-  console.log(findedSchemes, selectedSchemes);
-
   return (
     <div className={styles.root}>
       <TablesPaneActions

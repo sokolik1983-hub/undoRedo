@@ -53,7 +53,6 @@ const ModalConfirmDeletion = ({
   };
 
   const filterDeletedTableInArray = (tableName) => {
-    console.log('array', tableName, globalStateTablesArray);
     dispatch(
       filterSelectedTablesArray(
         globalStateTablesArray.filter((table) => table.name !== tableName),
@@ -62,7 +61,6 @@ const ModalConfirmDeletion = ({
   };
 
   const filterDeletedTableInData = (tableName) => {
-    console.log('data', tableName, globalStateTablesData);
     dispatch(
       filterSelectedTablesData(
         globalStateTablesData.filter(
@@ -79,7 +77,6 @@ const ModalConfirmDeletion = ({
   };
 
   const deleteTable = (tableToDelete) => {
-    console.log(tableToDelete);
     onDeleteTable(tableItem);
     dispatch(filterSelectedTables(filterDeletedTable(tableToDelete)));
     dispatch(filterTablesLinks(filteredLinks));
