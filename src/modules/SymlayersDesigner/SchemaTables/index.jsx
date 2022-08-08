@@ -340,7 +340,7 @@ const Provided = (props) => {
     const finded = selectedTablesData?.find((tableData) => tableData.id === id);
     const schema = finded?.schema;
     const objectName = finded?.objectName;
-    const objectFullName = `${schema}_${objectName}`;
+    const objectFullName = `${schema}.${objectName}`;
     return objectFullName;
   };
 
@@ -375,11 +375,11 @@ const Provided = (props) => {
           const objectFullName2 = createObjectName(link.object2.table_id);
           let objectTable1 = Object.values(tables)?.find(
             (table) =>
-              `${table.schema}_${table.objectName}` === objectFullName1,
+              `${table.schema}.${table.objectName}` === objectFullName1,
           );
           let objectTable2 = Object.values(tables)?.find(
             (table) =>
-              `${table.schema}_${table.objectName}` === objectFullName2,
+              `${table.schema}.${table.objectName}` === objectFullName2,
           );
           let SourceRect;
           let TargetRect;
@@ -395,11 +395,11 @@ const Provided = (props) => {
           } else if (selectedTablesData.length) {
             objectTable1 = selectedTablesData.find(
               (table) =>
-                `${table.schema}_${table.objectName}` === objectFullName1,
+                `${table.schema}.${table.objectName}` === objectFullName1,
             );
             objectTable2 = selectedTablesData.find(
               (table) =>
-                `${table.schema}_${table.objectName}` === objectFullName2,
+                `${table.schema}.${table.objectName}` === objectFullName2,
             );
             SourceRect = targetRect(
               objectTable1,
@@ -417,6 +417,7 @@ const Provided = (props) => {
               SourceRect={SourceRect}
               handleEdit={handleEdit}
               key={`${objectFullName1}-${objectFullName2}${Math.random()}}`}
+              pathID={`pathID_${link.id}`}
               // isLoop={getTableId(link.object1) === getTableId(link.object2)}
               // onCreateSynonym={props.onCreateSynonym}
               isLoop={

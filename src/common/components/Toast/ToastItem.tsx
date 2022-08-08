@@ -1,11 +1,20 @@
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
+import React, { FC } from 'react';
 
 import CloseIcon from '../../../layout/assets/close.svg';
+import { ToastItem } from './Toast';
 import styles from './Toast.module.scss';
 
-const ToastItem = ({ type, title, deleteToast, id }) => {
-  const classes = clsx(styles.notification, styles[type]);
+interface IToastItemProps extends ToastItem {
+  deleteToast: (id: string) => void;
+}
+
+const ToastItem: FC<IToastItemProps> = ({ type, title, deleteToast, id }) => {
+  const classes = clsx(
+    styles.notification,
+    type === 'success' ? styles.success : styles.danger,
+  );
+
   return (
     <div className={classes}>
       <div className={styles.titleWrapper}>
@@ -19,10 +28,3 @@ const ToastItem = ({ type, title, deleteToast, id }) => {
 };
 
 export default ToastItem;
-
-ToastItem.propTypes = {
-  type: PropTypes.string,
-  title: PropTypes.string,
-  deleteToast: PropTypes.func,
-  id: PropTypes.string,
-};

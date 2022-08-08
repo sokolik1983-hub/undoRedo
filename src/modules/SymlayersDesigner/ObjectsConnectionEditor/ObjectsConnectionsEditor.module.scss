@@ -1,7 +1,7 @@
 .dialog {
   max-width: unset;
-  margin: 0 5%;
-  height: 570px;
+  width: 750px;
+  height: 569px;
 };
 
 .sqlDialog {
@@ -23,7 +23,7 @@
 .tableContent {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  min-width: 240px;
 }
 
 .buttonsWrapper {
@@ -51,7 +51,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  min-width: 156px;
+  min-width: 200px;
   padding: 64px 0;
 }
 
@@ -79,10 +79,12 @@
   flex-direction: row;
   align-items: center;
   margin-top: 4px;
+  width: 100%;
 }
 
 .connectionSelect {
   margin: 0 4px;
+  width: 100%;
 }
 
 .expressionWrapper {
@@ -147,6 +149,7 @@
   flex-direction: row;
   justify-content: flex-end;
   width: 100%;
+  font-size: 12px;
 }
 
 .formulaButtons {

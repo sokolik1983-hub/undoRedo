@@ -25,10 +25,10 @@ const CreateObjectLayerModal = ({ visible }) => {
   const handleClose = () => {
     return dispatch(setCreateObjectModal(false));
   };
-
+  console.log(field);
   const createObjectModalValues = {
     [CREATE_OBJECT_MODAL_VALUES.NAME]: '',
-    [CREATE_OBJECT_MODAL_VALUES.OBJECT_DATA_TYPE]: '',
+    [CREATE_OBJECT_MODAL_VALUES.OBJECT_DATA_TYPE]: field.fieldType,
     [CREATE_OBJECT_MODAL_VALUES.OBJECT_TYPE]: '',
     [CREATE_OBJECT_MODAL_VALUES.OBJECT_FUNCTION]: '',
     [CREATE_OBJECT_MODAL_VALUES.OBJECT_DESCRIPTION]: '',
@@ -91,6 +91,7 @@ const CreateObjectLayerModal = ({ visible }) => {
               [CREATE_OBJECT_MODAL_VALUES.OBJECT_FUNCTION],
             ]}
             onChange={handleChange}
+            value={field.fieldType}
           />
           <DescriptionBlock
             name="objectDescription"

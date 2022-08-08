@@ -183,7 +183,7 @@ const QueryPanel = ({ visible }) => {
       createQueryAndPostQueryPanelTab(createQueryParams, {
         dp_id: dpId,
         dp: {
-          dpConnect_id: 'TA',
+          dpConnect_id: connectorId,
           dpName: layerTitle,
           dpObjects: dpObjects.map((i) => ({
             dataType: i.dataType,

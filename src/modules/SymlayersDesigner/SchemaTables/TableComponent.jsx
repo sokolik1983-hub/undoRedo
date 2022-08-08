@@ -201,7 +201,7 @@ const TableComponent = ({
     return item?.field?.toLowerCase()?.includes(colorValue.toLowerCase());
   };
   let selectedTableColumns = [];
-  if (tableItem?.objectType === 'TABLE') {
+  if (tableItem?.objectType?.toLowerCase() === 'table') {
     if (selectedTables[getTableIdFromParams({ ...tableItem })]?.columns) {
       selectedTableColumns = selectedTables[
         getTableIdFromParams({ ...tableItem })
@@ -221,7 +221,7 @@ const TableComponent = ({
         };
       });
     }
-  } else if (tableItem.objectType === 'Alias') {
+  } else if (tableItem.objectType?.toLowerCase() === 'alias') {
     selectedTableColumns = tableItem.columns.map((item) => {
       return {
         ...item,
@@ -385,17 +385,19 @@ const TableComponent = ({
   );
 
   const onFieldDragStart = (event, field, table) => {
+    console.log(field);
     event.dataTransfer.setData(
       'field',
       JSON.stringify({
         fieldName: field.field,
         tableName: `${table.schema}.${table.objectName}`,
         tableId: table.table_id !== undefined ? table.table_id : table.id,
+        fieldType: field.dataType,
       }),
     );
     const object1 = {
       cardinality: 'one',
-      objectName: `${table.schema}_${table.objectName}`,
+      objectName: `${table.schema}.${table.objectName}`,
       table_id: table.table_id !== undefined ? table.table_id : table.id,
       outerJoin: null,
       fields: [field.field],
@@ -407,7 +409,7 @@ const TableComponent = ({
     const object1 = JSON.parse(event.dataTransfer.getData('object1'));
     const object2 = {
       cardinality: 'one',
-      objectName: `${table.schema}_${table.objectName}`,
+      objectName: `${table.schema}.${table.objectName}`,
       table_id: table.table_id !== undefined ? table.table_id : table.id,
       outerJoin: null,
       fields: [field.field],

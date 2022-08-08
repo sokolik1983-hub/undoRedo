@@ -88,7 +88,7 @@ const schemaDesigner = createSlice({
     loadSelectedTablesArray: (state, action) => {
       state.selectedTablesArray = action.payload.map((table) => {
         const tempTable = { ...table };
-        tempTable.name = `${tempTable.schema}_${tempTable.objectName}`;
+        tempTable.name = `${tempTable.schema}.${tempTable.objectName}`;
         tempTable.fields = tempTable.columns;
         delete tempTable.columns;
         delete tempTable.id;

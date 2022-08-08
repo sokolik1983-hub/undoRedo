@@ -4,12 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
+import { BUTTON, REDIRECT_LINKS } from '@src/common/constants/common';
+import { loginUser } from '@src/data/auth/authActions';
+
+import LogoIcon from '@images/loginPageLogo.svg';
+
 import Button from '../../common/components/Button';
 import TextInput from '../../common/components/TextInput';
-import { BUTTON, REDIRECT_LINKS } from '../../common/constants/common';
-import { loginUser } from '../../data/auth/authActions';
 import AvatarIcon from '../../layout/assets/loginPageAvatar.svg';
-import LogoIcon from '../../layout/assets/loginPageLogo.svg';
 import styles from './LoginPage.module.scss';
 
 const LoginPage = () => {

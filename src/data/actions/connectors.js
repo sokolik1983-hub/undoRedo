@@ -8,6 +8,9 @@ import {
   setConnectorsTypes,
   setCreateConnector,
   setCreateConnectorResult,
+  setCurrentFolderId,
+  setEditConnectorResult,
+  setNewConnectorData,
   setTestConnector,
 } from '../reducers/data';
 import { setConnectorObjects } from '../reducers/schemaDesigner';
@@ -67,15 +70,28 @@ export const setConnectorReady = (params) => {
   };
 };
 
-export const saveConnector = (queryParams) => {
+export const saveConnector = (connector, folderId) => {
+  return async (dispatch) => {
+    const response = await request({
+      code: 'CN.SAVE',
+      params: connector,
+      dispatch,
+    });
+    dispatch(setCreateConnectorResult(response));
+    dispatch(getConnectorFolderChildren({ id: folderId }));
+  };
+};
+
+export const editConnector = (connector, folderId) => {
   return async (dispatch) => {
     try {
       const response = await request({
         code: 'CN.SAVE',
-        params: queryParams,
+        params: connector,
         dispatch,
       });
-      dispatch(setCreateConnectorResult(response));
+      dispatch(setEditConnectorResult(response));
+      dispatch(getConnectorFolderChildren({ id: folderId }));
     } catch (err) {
       dispatch(
         notificationShown({ message: err.message, messageType: 'error' }),
@@ -95,6 +111,10 @@ export const getConnectorsFolderId = (queryParams) => {
       dispatch(setConnectorsFolderId(response.id));
     }
   };
+};
+
+export const getCurrentFolderId = (queryParams) => {
+  return (dispatch) => dispatch(setCurrentFolderId(queryParams.id));
 };
 
 export const getConnector = (queryParams) => {
@@ -161,5 +181,11 @@ export const testConnector = (queryParams) => {
     if (response?.result) {
       dispatch(setTestConnector(response));
     }
+  };
+};
+
+export const setNewConnector = (data) => {
+  return (dispatch) => {
+    dispatch(setConnectorData(data));
   };
 };

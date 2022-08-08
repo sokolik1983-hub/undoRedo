@@ -15,7 +15,7 @@ import {
 
 export const setReportStructure = (queryParams) => async (dispatch) => {
   const response = await request({
-    code: 'REP.SET_STRUCTURE',
+    code: 'REP.SET_REPORT_STRUCTURE',
     params: queryParams,
     dispatch,
   });

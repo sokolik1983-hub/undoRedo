@@ -15,8 +15,8 @@ const HomePageButton = ({
   hasTooltip,
   onRemoveFromFavorites,
   onOpenFile,
-  id,
   removable,
+  id,
 }) => {
   const getStyles = () => {
     const style = {
@@ -71,6 +71,9 @@ HomePageButton.propTypes = {
   appNameText: PropTypes.bool,
   hasTooltip: PropTypes.bool,
   kind: PropTypes.string,
+  onRemoveFromFavorites: PropTypes.func,
+  id: PropTypes.string,
+  onOpenReport: PropTypes.func,
 };
 
 export default HomePageButton;

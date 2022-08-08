@@ -19,6 +19,7 @@ declare namespace SchemaEditorBlockModuleScssNamespace {
     inputWrapper: string;
     item: string;
     itemHighlited: string;
+    itemIconStyle: string;
     itemsWrapper: string;
     list: string;
     magnifier: string;

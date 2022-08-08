@@ -106,21 +106,27 @@ const SemanticActions = () => {
       delete tempObj.keysWhereInput;
       delete tempObj.keysType;
       delete tempObj.usagePermission;
-      tempObj.dataType = 'Symbol';
+      tempObj.dataType = /^[a-zA-Z]+$/.test(tempObj.objectDataType)
+        ? tempObj.objectDataType
+        : translitNames(tempObj.objectDataType);
       tempObj.aggFunc = 'SUM';
       tempObj.aggFuncName = 'SUM';
       delete tempObj.objectFunction;
       tempObj.description = tempObj.objectDescription;
       delete tempObj.objectDescription;
-      tempObj.userDataType = translitNames(tempObj.objectDataType);
-      tempObj.objectType = translitNames(tempObj.objectType);
+      tempObj.userDataType = /^[a-zA-Z]+$/.test(tempObj.objectDataType)
+        ? tempObj.objectDataType
+        : translitNames(tempObj.objectDataType);
+      tempObj.objectType = /^[a-zA-Z]+$/.test(tempObj.objectType)
+        ? tempObj.objectType
+        : translitNames(tempObj.objectType);
       delete tempObj.objectDataType;
       tempObj.select = tempObj.selectQueryField;
       tempObj.where = tempObj.whereQueryField;
       delete tempObj.selectQueryField;
       delete tempObj.whereQueryField;
-      tempObj.tables = tempObj.tables?.length ? tempObj.tables : [0];
-      tempObj.parent_id = 1;
+      tempObj.tables = tempObj.tables;
+      tempObj.parent_id = 0;
       tempObj.mask = null;
       return tempObj;
     });
@@ -132,7 +138,7 @@ const SemanticActions = () => {
       const tempTable = JSON.parse(JSON.stringify(table));
       const { schema, objectName } = tempTable;
       const findedIdx = tablesCoord.findIndex(
-        (tab) => tab.tableId === `${schema}_${objectName}`,
+        (tab) => tab.tableId === `${schema}.${objectName}`,
       );
       tempTable.objectType =
         tempTable.objectType[0].toUpperCase() +
@@ -142,13 +148,13 @@ const SemanticActions = () => {
           x: tablesCoord[findedIdx].x,
           y: tablesCoord[findedIdx].y,
         };
-      } else if (tablesCoord.length < selectedTablesData.length) {
+      } else if (table.position.deltaPosition) {
         tempTable.position = table.position.deltaPosition;
       }
       return tempTable;
     });
     setUpdatedCoordsTables(tables);
-  }, [tablesCoord]);
+  }, [tablesCoord, selectedTablesData]);
 
   const saveUniverse = () => {
     const universe = JSON.parse(JSON.stringify(currentUniverse));
@@ -157,6 +163,7 @@ const SemanticActions = () => {
       : selectedTablesData;
     universe.data.links = links;
     universe.data.objects = formattedObjectLayer;
+    console.log(universe.data.objects);
     universe.data.connector_id = selectedConnectorId;
     dispatch(createUniverse(universe, currentUniverse.header.name));
   };

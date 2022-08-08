@@ -1,9 +1,5 @@
 import { request } from '../helpers';
-import {
-  setReposChildren,
-  setReposFolderId,
-  setUniverses,
-} from '../reducers/data';
+import { setReposChildren, setReposFolderId } from '../reducers/data';
 import {
   failedFavoriteObjects,
   loadingFavoriteObjects,
@@ -63,18 +59,6 @@ export const showToast = (type, title, description) => {
 /**
  * Получение объектов, добавленных в Избранные.
  */
-
-export const getUniversesFolderChildren = (queryParams) => async (dispatch) => {
-  const response = await request({
-    code: 'REPOS.GET_CHILDREN',
-    params: queryParams,
-    dispatch,
-  });
-  if (response?.result) {
-    dispatch(setUniverses(response.data));
-  }
-};
-
 export const getFavoriteObjects = () => async (dispatch) => {
   dispatch(loadingFavoriteObjects());
   const response = await request({
@@ -95,18 +79,16 @@ export const getFavoriteObjects = () => async (dispatch) => {
  *
  * @prop queryParams Параметры.
  */
-export const setObjectFavoriteStatus = (queryParams, callback) => {
-  return async (dispatch) => {
-    await request({
+export const setObjectFavoriteStatus =
+  (queryParams, callback) => async (dispatch) => {
+    const response = await request({
       code: 'CMS.USER.SET_FAVORITE',
       params: queryParams,
       dispatch,
-    }).then((response) => {
-      if (queryParams.isExclude === 1) {
-        if (response.result === 1) {
-          callback(true);
-        }
-      }
     });
+    if (queryParams.isExclude === 1) {
+      if (response?.result === 1) {
+        callback(true);
+      }
+    }
   };
-};

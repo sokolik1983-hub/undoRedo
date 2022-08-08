@@ -1,8 +1,7 @@
-/* eslint-disable react/jsx-curly-newline */
-/* eslint-disable no-unused-vars */
 import React, { useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
+import uuid from 'react-uuid';
 
 import { REDIRECT_LINKS, TOAST_TYPE } from '../../../common/constants/common';
 import {
@@ -77,7 +76,7 @@ const ReportActions = () => {
     <div className={styles.actionsContainer}>
       {REPORT_PAGE_ACTIONS.map((item) => {
         return (
-          <>
+          <div key={uuid()}>
             <div
               className={
                 item.type === 'divider' ? styles.divider : styles.actionWrapper
@@ -89,7 +88,7 @@ const ReportActions = () => {
             >
               {item.icon}
             </div>
-          </>
+          </div>
         );
       })}
 

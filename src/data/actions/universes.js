@@ -105,6 +105,7 @@ export const openUniverse = (queryParams, layerName) => {
       dispatch(setLoadingUniverse(true));
 
       response.data.tables.forEach((table) => {
+        console.log(table);
         dispatch(
           setSelectedTables({
             [getTableIdFromParams(table)]: table,
@@ -132,16 +133,18 @@ export const openUniverse = (queryParams, layerName) => {
       tempObj.keysWhereInput = '';
       tempObj.keysType = '';
       tempObj.usagePermission = '';
-      tempObj.dataType = 'Symbol';
       tempObj.aggFunc = 'SUM';
       tempObj.aggFuncName = 'SUM';
       tempObj.objectFunction = '';
       tempObj.objectDescription = tempObj.description;
-      tempObj.objectDataType = translitNames(tempObj.userDataType);
-      tempObj.objectType = translitNames(tempObj.objectType);
+      tempObj.objectDataType = /^[a-zA-Z]+$/.test(tempObj.dataType)
+        ? translitNames(tempObj.dataType)
+        : tempObj.dataType;
+      tempObj.objectType = /^[a-zA-Z]+$/.test(tempObj.objectType)
+        ? translitNames(tempObj.objectType)
+        : tempObj.objectType;
       tempObj.selectQueryField = tempObj.select;
       tempObj.whereQueryField = tempObj.where;
-      tempObj.tables = [1];
       tempObj.parent_id = 0;
       tempObj.mask = null;
       delete tempObj.where;
@@ -151,7 +154,6 @@ export const openUniverse = (queryParams, layerName) => {
       delete tempObj.dataType;
       delete tempObj.aggFunc;
       delete tempObj.aggFuncName;
-      delete tempObj.tables;
       delete tempObj.parent_id;
       delete tempObj.mask;
       return tempObj;

@@ -45,7 +45,7 @@
 }
 
 .content {
-  background: rgba(0,0,0, 0.5);
+  background: rgba(0, 0, 0, 0.5);
   margin-bottom: 13px;
   overflow: hidden;
   overflow-y: auto;
@@ -62,6 +62,11 @@
   max-height: 212px;
 }
 
+.itemIconStyle {
+  transform: scale(1.5);
+  margin-right: 8px;
+}
+
 .item {
   font-size: 12px;
   line-height: 14px;
@@ -70,12 +75,18 @@
   padding: 3px 16px;
   cursor: pointer;
   //border-bottom: 1px solid rgba(255,255,255, 25%);
-  outline: 1px solid rgba(255,255,255, 25%);
+  outline: 1px solid rgba(255, 255, 255, 25%);
   outline-offset: -1px;
 
   &:hover {
     transition: 0.3s ease-in-out;
     background: rgba(196, 196, 196, 0.25);
+  }
+}
+
+.item:hover > .itemIconStyle {
+  path {
+    fill: #ffffff;
   }
 }
 
@@ -162,7 +173,8 @@
   cursor: pointer;
 }
 
-.arrowBtnOpened, .arrowBtnClosed {
+.arrowBtnOpened,
+.arrowBtnClosed {
   margin: 0 5px 0 3px;
 
   & path {

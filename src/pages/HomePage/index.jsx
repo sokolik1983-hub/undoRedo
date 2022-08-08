@@ -1,19 +1,15 @@
 import clsx from 'clsx';
 /* eslint-disable */
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-import DropdownItem from '../../common/components/Dropdown/DropdownItem';
-import Dropdown from '../../common/components/Dropdown/index';
+import { REDIRECT_LINKS } from '@src/common/constants/common';
+import { PAGE } from '@src/common/constants/pages';
+import { getFavoriteObjects } from '@src/data/actions/app';
+import { setCurrentPage } from '@src/data/reducers/ui';
+
 import FloatingButton from '../../common/components/FloatingButton';
-import InlinePreloader from '../../common/components/InlinePreloader/index';
-import { REDIRECT_LINKS } from '../../common/constants/common';
-import { HOME_PAGE_BUTTON_ACTIONS } from '../../common/constants/common';
-import { PAGE } from '../../common/constants/pages';
-import { getFavoriteObjects } from '../../data/actions/app';
-import { setCurrentPage } from '../../data/reducers/ui';
-import ExplorerIcon from '../../layout/assets/icons/buttonPlus.svg';
 import navigationMenu from '../../navigation';
 import FavoritesList from './Favorites/FavoritesList.jsx';
 import styles from './HomePage.module.scss';

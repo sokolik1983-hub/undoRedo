@@ -20,19 +20,13 @@ export default function Connectors() {
   // Видима/невидима модалка создания коннектора
   const [isVisible, setIsVisible] = useState(false);
 
-  const [isActive, setIsActive] = useState(false);
-  const [showTestOk, setshowTestOk] = useState(false);
-  const [showTestFailed, setshowTestFailed] = useState(false);
-
-  const createConnectorForm = document.getElementById('createConnectorForm');
-
   const closeCreateConnectorModal = () => {
     setIsVisible(false);
   };
   // Хэнделры для открытия/закрытия модалки
   const openCreateConnectorModal = () => {
     setIsVisible(true);
-    dispatch(getConnectorTypesSources({})); // Запрос типов и ресурсов на бек
+    dispatch(getConnectorTypesSources({})); // Запрос типов и ресурсов с сервера
   };
 
   return (

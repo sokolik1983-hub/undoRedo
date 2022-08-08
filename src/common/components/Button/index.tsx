@@ -13,7 +13,6 @@ import styles from './Button.module.scss';
 
 /**
  * @param children - нода для отрисовки внутри кнопки
- * @param onClick - функция - обработчик события клика на кнопку
  * @param className - класс, который добавится кнопке
  * @param disabled - булево значение, которое дизейблит кнопку
  * @param active - булево значение для определения активного состояния
@@ -30,7 +29,6 @@ interface IButtonProps
     HTMLButtonElement
   > {
   children: ReactNode | string | number;
-  onClick: (e: SyntheticEvent) => void;
   className?: string;
   disabled?: boolean;
   active?: boolean;
@@ -39,7 +37,6 @@ interface IButtonProps
 
 const Button: FC<IButtonProps> = ({
   children,
-  onClick,
   className = EMPTY_STRING,
   disabled = false,
   active = false,
@@ -63,21 +60,8 @@ const Button: FC<IButtonProps> = ({
     { [styles.disabled]: disabled },
   );
 
-  const onClickAction = (event: MouseEvent<HTMLButtonElement>) => {
-    if (disabled) {
-      event.preventDefault();
-    } else {
-      onClick(event);
-    }
-  };
-
   return (
-    <button
-      className={classes}
-      onClick={onClickAction}
-      disabled={disabled}
-      {...props}
-    >
+    <button className={classes} disabled={disabled} {...props}>
       {children}
     </button>
   );
