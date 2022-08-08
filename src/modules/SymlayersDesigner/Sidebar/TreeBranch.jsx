@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import style from './Sidebar.module.scss';
 import TreeItem from './TreeItem';
 
-const TreeBranch = ({ treeData, idx, name, onSelect, opened }) => {
+const TreeBranch = ({ treeData, idx, name, onSelect, opened, searchMod }) => {
   const [isActive, setActive] = useState(false);
 
   useEffect(() => {
@@ -24,6 +24,7 @@ const TreeBranch = ({ treeData, idx, name, onSelect, opened }) => {
             name={item.objectName}
             table={item}
             onSelect={onSelect}
+            searchMod={searchMod}
           />
         ))}
       </div>

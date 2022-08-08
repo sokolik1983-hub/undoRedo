@@ -24,7 +24,7 @@ const TablesPaneActions = ({
   onSwitchSearchMod,
 }) => {
   const dispatch = useDispatch();
-  const { coloredValue, connectorObjects, selectedTablesArray } = useSelector(
+  const { coloredValue, connectorObjects } = useSelector(
     (state) => state.app.schemaDesigner,
   );
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
@@ -37,20 +37,6 @@ const TablesPaneActions = ({
       dispatch(setShowDataList(false));
     }
   };
-
-  useEffect(() => {
-    if (searchMod) {
-      const selectedSchemesArr = [];
-      connectorObjects.forEach((obj) => {
-        selectedTablesArray.forEach((tab) => {
-          if (`${obj.schema}_${obj.objectName}` === tab.name) {
-            selectedSchemesArr.push(obj);
-          }
-        });
-      });
-      setSelectedSchemes(selectedSchemesArr);
-    }
-  }, [selectedTablesArray, connectorObjects, searchMod]);
 
   const searchTable = (event) => {
     if (event.key === 'Enter' && searchValue.length) {

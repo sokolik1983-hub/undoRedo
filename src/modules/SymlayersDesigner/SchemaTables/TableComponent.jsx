@@ -245,15 +245,24 @@ const TableComponent = ({
   // eslint-disable-next-line consistent-return
   const getList = (obj) => {
     const tableNames = Object.keys(obj);
+    console.log(obj);
     if (tableNames.length) {
       const list = [];
       tableNames.forEach((i) => {
-        const choosenItems = obj[i].columns.reduce(
-          (acc, item) =>
-            searchMatches(item) && coloredValue ? [...acc, item.field] : acc,
-          [],
-        );
-
+        let choosenItems;
+        if (obj[i].columns) {
+          choosenItems = obj[i].columns.reduce(
+            (acc, item) =>
+              searchMatches(item) && coloredValue ? [...acc, item.field] : acc,
+            [],
+          );
+        } else {
+          choosenItems = obj[i].reduce(
+            (acc, item) =>
+              searchMatches(item) && coloredValue ? [...acc, item.field] : acc,
+            [],
+          );
+        }
         if (choosenItems.length) {
           list.push({ name: i, line: choosenItems });
         }

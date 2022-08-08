@@ -14,14 +14,23 @@ const TablesPane = ({ onSelect }) => {
     (state) => state.app.schemaDesigner.connectorObjects,
   );
   const layerName = useSelector((state) => state.app.schemaDesigner.layerName);
+  const selectedSch = useSelector(
+    (state) => state.app.schemaDesigner.selectedTablesData,
+  );
 
-  const [selectedSchemes, setSelectedSchemes] = useState([]);
+  const [selectedSchemes, setSelectedSchemes] = useState(selectedSch);
   const [findedSchemes, setFindedSchemes] = useState([]);
   const [searchMod, setSearchMod] = useState(false);
 
   const handleSwitchSearchMod = (mod) => {
     setSearchMod(mod);
   };
+
+  useEffect(() => {
+    setSelectedSchemes(selectedSch);
+  }, [selectedSch]);
+
+  console.log(findedSchemes, selectedSchemes);
 
   return (
     <div className={styles.root}>
@@ -50,6 +59,7 @@ const TablesPane = ({ onSelect }) => {
             (searchMod && !!selectedSchemes?.length) ||
             (!searchMod && !!findedSchemes?.length)
           }
+          searchMod={searchMod}
         />
       </div>
     </div>

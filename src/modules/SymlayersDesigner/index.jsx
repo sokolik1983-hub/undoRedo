@@ -68,17 +68,11 @@ function SymlayersDesigner() {
     }
   }, [selectedTablesArray]);
 
-  const handleSelectTable = (selected, event) => {
+  const handleSelectTable = (selected) => {
     const { schema, objectName } = selected;
     dispatch(getObjectFields({ id: connectorId, schema, objectName }));
     const table_id = selectedTablesArray.length + 1;
-    if (event) {
-      setChecked([...checked, { table_id, ...selected }]);
-    } else {
-      setChecked(
-        checked.filter((item) => item.objectName !== selected.objectName),
-      );
-    }
+    setChecked([...checked, { table_id, ...selected }]);
   };
 
   const handleAddSynonym = (table) => {
@@ -167,10 +161,7 @@ function SymlayersDesigner() {
             className={styles.tables}
             onDrop={(e) => {
               if (e.dataTransfer.getData('item'))
-                handleSelectTable(
-                  JSON.parse(e.dataTransfer.getData('item')),
-                  e,
-                );
+                handleSelectTable(JSON.parse(e.dataTransfer.getData('item')));
             }}
             onDragOver={(e) => e.preventDefault()}
           >

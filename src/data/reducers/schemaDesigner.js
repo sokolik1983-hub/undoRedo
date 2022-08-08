@@ -36,6 +36,7 @@ const schemaDesigner = createSlice({
     },
     tablesCoord: [],
     univerName: '',
+    highlightedTables: [],
   },
   reducers: {
     setIsLoading: (state, action) => {
@@ -191,6 +192,12 @@ const schemaDesigner = createSlice({
     setUniverseName: (state, action) => {
       state.layerName = action.payload;
     },
+    addHighlight: (state, action) => {
+      state.highlightedTables = [...state.highlightedTables, action.payload];
+    },
+    deleteHighlight: (state, action) => {
+      state.highlightedTables.splice(action.payload, 1);
+    },
   },
 });
 
@@ -230,6 +237,8 @@ export const {
   loadObjectsLayer,
   setTablesCoord,
   setUniverseName,
+  addHighlight,
+  deleteHighlight,
 } = schemaDesigner.actions;
 
 export default schemaDesigner.reducer;
