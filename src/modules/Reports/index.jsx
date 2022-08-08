@@ -245,7 +245,7 @@ const Reports = () => {
                   ? () => onFolderDoubleClick(item)
                   : () => handleOpenClick(item.id)
               }
-              icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
+              icon={isFolder ? <FolderIcon /> : <ReportIcon />}
               menu={menu}
             />
           )}
