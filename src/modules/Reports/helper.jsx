@@ -56,11 +56,6 @@ export const REPORT_STRUCTURE_DROPDOWN_ACTIONS = [
 
 export const FOLDER_ITEM_DROPDOWN_ACTIONS_REPORTS = [
   {
-    title: 'Просмотр',
-    icon: <ShowIcon />,
-    action: 'open',
-  },
-  {
     title: 'Редактировать',
     icon: <EditIcon />,
     action: 'edit',

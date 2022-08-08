@@ -297,7 +297,7 @@ function ReportDesigner() {
         (item) => !(isLast && item.action === 'delete'),
       ).map((item) => (
         <DropdownItem
-          key={item.title}
+          key={uuid()}
           className={styles.dropdownItem}
           onClick={(action) => handleClick(action)}
           item={item}
@@ -445,7 +445,7 @@ function ReportDesigner() {
                 const isLast =
                   reportDesigner.reportsData.present.reports.length === 1;
                 return (
-                  <div>
+                  <div key={uuid()}>
                     <Dropdown
                       trigger={isActive ? ['contextMenu'] : ''}
                       overlay={menu(isLast)}

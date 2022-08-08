@@ -162,9 +162,6 @@ const Reports = () => {
 
   const handleItemClick = (id, action, kind) => {
     switch (action) {
-      case 'open':
-        handleOpenClick(id);
-        break;
       case 'edit':
         handleEditClick(id);
         break;
@@ -243,8 +240,12 @@ const Reports = () => {
             <ListItem
               className={styles.folderItemsColumnView}
               name={item.name}
-              onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
-              icon={isFolder ? <FolderIcon /> : <ReportIcon />}
+              onDoubleClick={
+                isFolder
+                  ? () => onFolderDoubleClick(item)
+                  : () => handleOpenClick(item.id)
+              }
+              icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
               menu={menu}
             />
           )}
