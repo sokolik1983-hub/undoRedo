@@ -160,6 +160,10 @@ const Reports = () => {
     dispatch(setObjectFavoriteStatus({ id, kind, isExclude }));
   };
 
+  const handleReportCreate = () => {
+    navigate(REDIRECT_LINKS.REPORT_CREATE);
+  };
+
   const handleItemClick = (id, action, kind) => {
     switch (action) {
       case 'edit':
@@ -308,9 +312,7 @@ const Reports = () => {
         ) : (
           <Preloader />
         )}
-        <Link to="/report">
-          <FloatingButton text="Создать отчет" />
-        </Link>
+        <FloatingButton text="Создать отчет" onClick={handleReportCreate} />
       </div>
     </div>
   );
