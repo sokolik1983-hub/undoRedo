@@ -1,49 +1,60 @@
 import clsx from 'clsx';
-import React, { FC } from 'react';
+import React, { ChangeEvent, FC } from 'react';
 
-import Magnifier from '../../../layout/assets/magnifier.svg';
+import Magnifier from '../../../layout/assets/reportObjectsPanelIcons/magnifier.svg';
 import IconButton from '../IconButton';
 import TextInput from '../TextInput';
 import Tooltip from '../Tooltip';
 import { ICON_POSITION } from './constant';
 import styles from './Search.module.scss';
 
-interface SearchProps {
-  className: string;
-  onSubmit: () => void;
+interface ISearchProps {
+  className?: string;
+  inputClassName?: string;
+  iconStyle?: string;
+  onSubmit?: () => void;
   value: string;
-  onChange: () => void;
-  iconButtonPosition: string;
+  fullWidth?: boolean;
+  onChange: (el: ChangeEvent<HTMLInputElement>) => void;
+  iconButtonPosition?: string;
 }
 
-const Search: FC<SearchProps> = ({
-  className,
-  onSubmit,
+const Search: FC<ISearchProps> = ({
   value,
+  className,
+  inputClassName,
+  iconStyle,
   onChange,
   iconButtonPosition,
 }) => {
   const classes = clsx(styles.searchForm, className);
+  const inputClasses = clsx(styles.searchInput, inputClassName);
 
   const getIconButton = () => {
     return (
-      <Tooltip placement="topLeft" overlay="Поиск">
-        <IconButton className={styles.btn} icon={<Magnifier />} type="submit" />
+      <Tooltip placement="topLeft" overlay="Поиск" trigger={['hover']}>
+        <IconButton
+          className={styles.btn}
+          iconStyle={iconStyle}
+          icon={<Magnifier />}
+          type="submit"
+        />
       </Tooltip>
     );
   };
 
   return (
-    <form className={classes} onSubmit={onSubmit}>
+    <div className={classes}>
       {iconButtonPosition === ICON_POSITION.LEFT && getIconButton()}
       <TextInput
-        className={styles.searchInput}
+        className={inputClasses}
         id="search"
         value={value}
         onChange={onChange}
+        fullWidth
       />
       {iconButtonPosition === ICON_POSITION.RIGHT && getIconButton()}
-    </form>
+    </div>
   );
 };
 

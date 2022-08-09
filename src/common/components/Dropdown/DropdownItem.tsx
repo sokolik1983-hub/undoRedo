@@ -6,15 +6,16 @@ import styles from './Dropdown.module.scss';
 interface IDropdownItemProps {
   className?: string;
   onClick: (el: string) => void;
-  children: ReactNode;
+  children?: ReactNode;
   iconClassName?: string;
   item: Item;
 }
 
-interface Item {
+export interface Item {
   icon?: ReactNode;
   text?: string | null;
   action: string;
+  value?: string;
 }
 
 const DropdownItem: FC<IDropdownItemProps> = ({
