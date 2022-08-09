@@ -1,5 +1,12 @@
 import clsx from 'clsx';
-import React, { FC, ReactEventHandler, ReactNode } from 'react';
+import React, {
+  ButtonHTMLAttributes,
+  DetailedHTMLProps,
+  FC,
+  ReactNode,
+} from 'react';
+
+import { EMPTY_STRING } from '@src/common/constants/common';
 
 import styles from './IconButton.module.scss';
 
@@ -14,95 +21,46 @@ import styles from './IconButton.module.scss';
  * @param icon - иконка для кнопки
  */
 
-interface IconButtonProps {
-  onClick?: (event: React.MouseEvent) => void;
+interface IconButtonProps
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
   size?: string;
   color?: string;
   disabled?: boolean;
   className?: string;
+  iconStyle?: string;
   active?: boolean;
   icon?: ReactNode;
-  href?: string;
-  type?: string;
 }
 
-const defaultProps = {
-  children: null,
-  onClick: () => {
-    // some action
-  },
-  size: 'medium',
-  color: '',
-  disabled: false,
-  icon: null,
-};
-
 const IconButton: FC<IconButtonProps> = ({
-  onClick,
-  size,
-  color,
+  size = 'medium',
+  color = EMPTY_STRING,
   disabled,
   className,
+  iconStyle,
   active,
   icon,
-  href,
+  ...props
 }) => {
   const classes = clsx(
     styles.iconButton,
     className,
     { [styles.active]: active },
-    // @ts-ignore
-    [styles[size]],
+    // [styles[size]],
   );
 
-  const onClickAction = (event: React.MouseEvent) => {
-    if (disabled) {
-      event.preventDefault();
-    } else {
-      if (onClick) {
-        onClick(event);
-      }
-    }
-  };
-
-  const Tag = href ? 'a' : 'button';
+  const iconClassName = clsx(styles.icon, iconStyle);
 
   return (
-    <Tag
-      disabled={disabled}
-      type="button"
-      className={classes}
-      onClick={onClickAction}
-    >
-      <span className={styles.icon} color={color}>
+    <button disabled={disabled} className={classes} {...props}>
+      <span className={iconClassName} color={color}>
         {icon}
       </span>
-    </Tag>
+    </button>
   );
 };
-IconButton.defaultProps = defaultProps;
 
 export default IconButton;
-//
-// IconButton.propTypes = {
-//     children: PropTypes.node,
-//     onClick: PropTypes.func,
-//     size: PropTypes.string,
-//     color: PropTypes.string,
-//     disabled: PropTypes.bool,
-//     active: PropTypes.bool,
-//     className: PropTypes.string,
-//     href: PropTypes.string,
-//     icon: PropTypes.node,
-// };
-//
-// IconButton.defaultProps = {
-//     children: null,
-//     onClick: () => {
-//         // something
-//     },
-//     size: 'medium',
-//     color: '',
-//     disabled: false,
-//     icon: null,
-// };

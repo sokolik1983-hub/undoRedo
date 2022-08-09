@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -13,12 +14,30 @@ const TablesPane = ({ onSelect }) => {
     (state) => state.app.schemaDesigner.connectorObjects,
   );
   const layerName = useSelector((state) => state.app.schemaDesigner.layerName);
+  const selectedSch = useSelector(
+    (state) => state.app.schemaDesigner.selectedTablesData,
+  );
 
-  const [selectedSchemes, setSelectedSchemes] = useState([]);
+  const [selectedSchemes, setSelectedSchemes] = useState(selectedSch);
+  const [findedSchemes, setFindedSchemes] = useState([]);
+  const [searchMod, setSearchMod] = useState(false);
+
+  const handleSwitchSearchMod = (mod) => {
+    setSearchMod(mod);
+  };
+
+  useEffect(() => {
+    setSelectedSchemes(selectedSch);
+  }, [selectedSch]);
 
   return (
     <div className={styles.root}>
-      <TablesPaneActions setSelectedSchemes={setSelectedSchemes} />
+      <TablesPaneActions
+        setSelectedSchemes={setSelectedSchemes}
+        setFindedSchemes={setFindedSchemes}
+        searchMod={searchMod}
+        onSwitchSearchMod={handleSwitchSearchMod}
+      />
       <Divider color="#0D6CDD" />
       <div className={styles.tables}>
         <div className={styles.owner}>
@@ -26,9 +45,19 @@ const TablesPane = ({ onSelect }) => {
           <span>{layerName}</span>
         </div>
         <HierTreeView
-          data={selectedSchemes.length ? selectedSchemes : connectorObjects}
+          data={
+            searchMod
+              ? selectedSchemes
+              : !searchMod && findedSchemes.length
+              ? findedSchemes
+              : connectorObjects
+          }
           onSelect={onSelect}
-          isOpen={!!selectedSchemes?.length}
+          isOpen={
+            (searchMod && !!selectedSchemes?.length) ||
+            (!searchMod && !!findedSchemes?.length)
+          }
+          searchMod={searchMod}
         />
       </div>
     </div>

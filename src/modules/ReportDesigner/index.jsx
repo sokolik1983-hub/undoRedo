@@ -1,29 +1,17 @@
-// /* eslint-disable consistent-return */
-// /* eslint-disable no-unused-vars */
-// import clsx from 'clsx';
-// import lodash, {cloneDeep} from 'lodash';
-// import React, {useEffect, useState} from 'react';
-// import {useDispatch, useSelector} from 'react-redux';
-// import {useNavigate, useParams} from 'react-router';
-
-// import Button from '../../common/components/Button';
-// import Dropdown from '../../common/components/Dropdown';
-// import DropdownItem from '../../common/components/Dropdown/DropdownItem';
-// import ReportSidebar from './ReportSidebar';
-
 import clsx from 'clsx';
 import lodash, { cloneDeep } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
-/* eslint-disable consistent-return */
 import uuid from 'react-uuid';
 
 import Button from '../../common/components/Button';
 import Dropdown from '../../common/components/Dropdown';
 import DropdownItem from '../../common/components/Dropdown/DropdownItem';
+import FormulaEditorModal from '../../common/components/FormulaEditorModal';
 import IconButton from '../../common/components/IconButton';
 import Tooltip from '../../common/components/Tooltip';
+import VarEditorModal from '../../common/components/VarEditorModal';
 import { BUTTON } from '../../common/constants/common';
 import { PAGE } from '../../common/constants/pages';
 import { REPORT_ACTIONS } from '../../common/constants/reportDesigner/reportActions';
@@ -55,6 +43,7 @@ import PlusIcon from '../../layout/assets/queryPanel/plus.svg';
 import ClearFormulaIcon from '../../layout/assets/reportDesigner/clearFormula.svg';
 import MiniFormulaIcon from '../../layout/assets/reportDesigner/miniFormula.svg';
 import OkFormulaIcon from '../../layout/assets/reportDesigner/okFormula.svg';
+import EditIcon from '../../layout/assets/reportDesigner/pencil.svg';
 import PagesNav from '../../layout/components/ReportActions/PagesNav/index';
 import QueryPanel from '../QueryPanel';
 import { createReportElement, generateId, getCurrentReport } from './helpers';
@@ -308,7 +297,7 @@ function ReportDesigner() {
         (item) => !(isLast && item.action === 'delete'),
       ).map((item) => (
         <DropdownItem
-          key={item.title}
+          key={uuid()}
           className={styles.dropdownItem}
           onClick={(action) => handleClick(action)}
           item={item}
@@ -316,7 +305,7 @@ function ReportDesigner() {
       ))}
     </div>
   );
-  // -------------------действия с отчетом---------------------------------
+
   function checkIsActiveNode(id) {
     return !lodash.isEmpty(
       lodash.find(
@@ -335,7 +324,11 @@ function ReportDesigner() {
   const handleShowSelector = () => {
     setSemanticLayer(true);
   };
+  const variable = ''; // ToDo
   const [formula, setFormula] = useState('');
+  const [isFormulaEditorModalOpen, setIsFormulaEditorModalOpen] =
+    useState(false);
+  const [isVarEditorModalOpen, setIsVarEditorModalOpen] = useState(false);
   const activeNode =
     reportDesigner.reportsData.present.activeNodes &&
     reportDesigner.reportsData.present.activeNodes[0];
@@ -346,6 +339,15 @@ function ReportDesigner() {
       setFormula('');
     }
   }, [activeNode]);
+
+  const handleKeyUpFormula = (ev) => {
+    if (ev.key === 'Enter') {
+      dispatch(setActiveNodeFormula(ev.target.value));
+      dispatch(setActiveNodes([]));
+      dispatch(setConfigPanelVisible(false));
+    }
+  };
+
   const handleChange = (e) => setFormula(e.target.value);
   const handleSelectBlock = (structureItem, addItem) => {
     if (
@@ -383,7 +385,16 @@ function ReportDesigner() {
       <div className={styles.wrapper}>
         {reportDesigner.reportsUi.ui.showFormulaEditor && (
           <div className={activeTab === 1 ? formulaCompressed : styles.formula}>
-            <MiniFormulaIcon />
+            <IconButton
+              className={styles.icon}
+              onClick={() => setIsVarEditorModalOpen(true)}
+              icon={<MiniFormulaIcon />}
+            />
+            <IconButton
+              className={styles.icon}
+              onClick={() => setIsFormulaEditorModalOpen(true)}
+              icon={<EditIcon />}
+            />
             <textarea
               className={styles.formulaTextarea}
               type="text"
@@ -391,15 +402,9 @@ function ReportDesigner() {
               value={formula}
               onChange={handleChange}
               disabled={!activeNode}
-              onKeyUp={(ev) => {
-                if (ev.key === 'Enter') {
-                  dispatch(setActiveNodeFormula(ev.target.value));
-                  dispatch(setActiveNodes([]));
-                  dispatch(setConfigPanelVisible(false));
-                }
-              }}
+              onKeyUp={handleKeyUp}
             />
-            <div className={styles.formulaIcons}>
+            <div className={styles.icons}>
               <IconButton
                 size="small"
                 className={styles.okFormula}
@@ -440,7 +445,7 @@ function ReportDesigner() {
                 const isLast =
                   reportDesigner.reportsData.present.reports.length === 1;
                 return (
-                  <div>
+                  <div key={uuid()}>
                     <Dropdown
                       trigger={isActive ? ['contextMenu'] : ''}
                       overlay={menu(isLast)}
@@ -493,6 +498,25 @@ function ReportDesigner() {
       </div>
       {isQueryPanelModalOpened && (
         <QueryPanel visible={isQueryPanelModalOpened && true} />
+      )}
+      {isFormulaEditorModalOpen && (
+        <FormulaEditorModal
+          formula={formula}
+          handleKeyUp={handleKeyUpFormula}
+          onChange={handleChange}
+          activeNode={activeNode}
+          visible={isFormulaEditorModalOpen && true}
+          onClose={() => setIsFormulaEditorModalOpen(false)}
+        />
+      )}
+      {isVarEditorModalOpen && (
+        <VarEditorModal
+          variable={variable}
+          onChange={console.log('onChangeVariable')}
+          activeNode={activeNode}
+          visible={isVarEditorModalOpen && true}
+          onClose={() => setIsVarEditorModalOpen(false)}
+        />
       )}
     </div>
   );

@@ -45,11 +45,13 @@
     padding-bottom: 1px;
     padding-left: 35px;
     background-color: inherit;
+    cursor: pointer;
   }
 
   span {
     font-weight: 400;
     font-size: 12px;
+    cursor: pointer;
   }
 }
 
@@ -90,10 +92,11 @@
   @extend %item;
   flex-direction: column;
   height: fit-content;
-
+  
   button {
     background-color: #2B6DD0;
     color:#ffffff;
+    cursor: pointer;
   }
 
   .iconActive {

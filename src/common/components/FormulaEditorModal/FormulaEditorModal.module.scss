@@ -1,0 +1,305 @@
+.modal {
+  overflow: visible;
+}
+
+.dialog {
+  background: linear-gradient(152.97deg, #005889 0%, rgba(0, 88, 137, 0.5) 100%);
+  box-shadow: 0px 7px 17px rgba(34, 82, 102, 0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  max-width: unset !important;
+  width: 950px !important;
+  color: #FFFFFF;
+  height: 477px;
+  overflow: visible !important;
+}
+
+.modalBody {
+  overflow: visible;
+}
+
+.modalContent {
+  padding: 0 0 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.input {
+  width: 100%;
+  background: white;
+  box-shadow: initial;
+}
+
+.buttonsWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  margin-left: 12px;
+}
+
+.dots {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+}
+
+.formulaBlock {
+  height: 117px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0 12px;
+  display: flex;
+}
+
+.varBlock {
+  @extend .formulaBlock;
+
+  flex-direction: column;
+  background: initial;
+  height: 100%;
+  padding: 0;
+}
+
+.headingFormula {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  color: #FFFFFF;
+  margin: 0 0 8px 0;
+}
+
+.icon {
+  margin-right: 10px;
+  margin-top: 8px;
+}
+
+.searchIcon {
+  margin: 3px -5px 0 0;
+}
+
+.modalHeader {
+  padding: 20px 10px 13px 19px;
+}
+
+.testButton {
+  background: linear-gradient(199.32deg, #1AE3D7 -13.92%, #0945DF 111.71%);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  font-style: normal;
+  font-weight: bold;
+  color: white;
+  border: none;
+  font-size: 10px;
+  line-height: 12px;
+  height: 22px;
+  margin: 85px 0 10px 0;
+}
+
+.formulaTextarea {
+  background: #FFFFFF;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+  width: 840px;
+  height: 79px;
+  border: none;
+  padding: 4px 4px 1px 4px;
+  resize: none;
+}
+
+.varTextarea {
+  @extend .formulaTextarea;
+
+  width: 525px;
+}
+
+.testBlock {
+  position: relative;
+  margin-left: 10px;
+}
+
+.gearsIcon {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+}
+
+.search {
+  display: flex;
+  width: 100%;
+  align-items: initial;
+  margin-bottom: 6px;
+  background: white;
+  box-shadow: none;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100%;
+  padding: 10px 23px 0;
+  color: #FFFFFF;
+  margin-bottom: 20px;
+}
+
+.save {
+  margin: unset;
+}
+
+.modalContent {
+  padding-top: 0;
+  padding-bottom: 17px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 42%;
+  padding-right: 12px;
+}
+
+.middleBlock {
+  width: 145px !important;
+}
+
+.lastBlock {
+  @extend .wrapper;
+
+  padding-right: 0;
+}
+
+.checkBoxWrapper {
+  align-items: center;
+}
+
+.column {
+  height: 166px;
+  background:white;
+  padding: 9px 16px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.itemIcon {
+  margin-right: 5px;
+}
+
+.name {
+  display: flex;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tableName {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  margin-bottom: 4px;
+}
+
+.text {
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: #000000;
+  padding-left: 1px;
+  cursor: pointer;
+}
+
+.dropDownItem {
+  @extend .text;
+  background: #ffffff;
+  height: 22px;
+  padding: 5px;
+  border-bottom: 1px solid #eeeeee;
+
+  &:hover {
+    background: #33568c;
+    border-bottom: 1px solid transparent;
+    color: #ffffff;
+    border-radius: 0;
+  }
+}
+
+.dropDownItem:last-child,
+.dropDownItem:first-child {
+  border-radius: 0;
+}
+
+.arrow {
+  margin: 0 4px;
+  left: -10px;
+  z-index: 10;
+}
+
+.form {
+  padding: 0 18px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.varSelects {
+  @extend .form;
+  padding: 0 0 0 24px;
+  width: 260px;
+  justify-content: initial;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  color: #ffffff;
+  margin: 0 0 6px -5px;
+}
+
+.types, .wrapperForm {
+  display: flex;
+}
+
+.varWrapperForm {
+  display: flex;
+  background: rgba(0, 0, 0, 0.5);
+  padding-top: 4px;
+}
+
+.varTypes {
+  display: flex;
+  margin-top: 14px;
+}
+
+.selectData {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 22px;
+  width: 111px;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.varWrapper {
+  margin-left: 55px;
+}
+
+.selectedIconText {
+  display: flex;
+  flex-direction: row;
+}
+
+.type {
+  margin-left: 11px;
+}

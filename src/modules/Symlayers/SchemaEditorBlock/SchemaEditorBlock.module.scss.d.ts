@@ -6,6 +6,7 @@ declare namespace SchemaEditorBlockModuleScssNamespace {
     arrowBtnOpened: string;
     buttonIndents: string;
     buttons: string;
+    clickedWrapper: string;
     content: string;
     contentWithSearch: string;
     copyModalWrapper: string;

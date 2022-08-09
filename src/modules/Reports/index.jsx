@@ -25,9 +25,9 @@ import {
 } from '../../data/actions/universes';
 import { setCurrentPage } from '../../data/reducers/ui';
 import { deleteReport } from '../../data/reportDesigner/reportsData/reportsDataActions';
-import ConnectorIcon from '../../layout/assets/connectorIcon.svg';
 import CreateConnector from '../../layout/assets/createConnector.svg';
 import FolderIcon from '../../layout/assets/folderIcon.svg';
+import ReportIcon from '../../layout/assets/reportDesigner/report.svg';
 import { getCurrentReport } from '../ReportDesigner/helpers';
 import {
   FOLDER_DROPDOWN_ACTIONS,
@@ -160,11 +160,12 @@ const Reports = () => {
     dispatch(setObjectFavoriteStatus({ id, kind, isExclude }));
   };
 
+  const handleReportCreate = () => {
+    navigate(REDIRECT_LINKS.REPORT_CREATE);
+  };
+
   const handleItemClick = (id, action, kind) => {
     switch (action) {
-      case 'open':
-        handleOpenClick(id);
-        break;
       case 'edit':
         handleEditClick(id);
         break;
@@ -243,8 +244,12 @@ const Reports = () => {
             <ListItem
               className={styles.folderItemsColumnView}
               name={item.name}
-              onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
-              icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
+              onDoubleClick={
+                isFolder
+                  ? () => onFolderDoubleClick(item)
+                  : () => handleOpenClick(item.id)
+              }
+              icon={isFolder ? <FolderIcon /> : <ReportIcon />}
               menu={menu}
             />
           )}
@@ -272,7 +277,7 @@ const Reports = () => {
           onDoubleClick={isFolder ? () => onFolderDoubleClick(item) : null}
           isEditMode={editListItemId === currentId}
           onEditEnd={() => setEditListItemId(null)}
-          icon={isFolder ? <FolderIcon /> : <ConnectorIcon />}
+          icon={isFolder ? <FolderIcon /> : <ReportIcon />}
           name={item.name}
           menu={menu}
           connectType={item.kind || TABLE_CELL_EMPTY_VALUE}
@@ -307,9 +312,7 @@ const Reports = () => {
         ) : (
           <Preloader />
         )}
-        <Link to="/report">
-          <FloatingButton text="Создать отчет" />
-        </Link>
+        <FloatingButton text="Создать отчет" onClick={handleReportCreate} />
       </div>
     </div>
   );

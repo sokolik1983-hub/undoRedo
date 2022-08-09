@@ -1,3 +1,6 @@
+// @ts-ignore
+import uuid from 'react-uuid';
+
 export const SQL_OPERATORS = [
   { action: 'LESS', text: '<' },
   { action: 'LESS_EQUALS', text: '<=' },
@@ -9,15 +12,37 @@ export const SQL_OPERATORS = [
   { action: 'BETWEEN_AND', text: 'Between and' },
 ];
 
+export const TABLE4_EXAMPLE = {
+  id: 1,
+  name: 'Table1',
+  columns: [
+    { id: uuid(), name: 'column1', type: 'Measure' },
+    { id: uuid(), name: 'column2', type: 'Dimension' },
+    { id: uuid(), name: 'column3', type: 'Dimension' },
+    { id: uuid(), name: 'column4', type: 'Filter' },
+    { id: uuid(), name: 'column5', type: 'Measure' },
+    { id: uuid(), name: 'column1', type: 'Measure' },
+    { id: uuid(), name: 'column2', type: 'Filter' },
+    { id: uuid(), name: 'column3', type: 'Dimension' },
+    { id: uuid(), name: 'column4', type: 'Measure' },
+    { id: uuid(), name: 'column5', type: 'Filter' },
+    { id: uuid(), name: 'column1', type: 'Dimension' },
+    { id: uuid(), name: 'column2', type: 'Dimension' },
+    { id: uuid(), name: 'column3', type: 'Filter' },
+    { id: uuid(), name: 'column4', type: 'Measure' },
+    { id: uuid(), name: 'column5', type: 'Dimension' },
+  ],
+};
+
 export const TABLE1_EXAMPLE = {
   id: 1,
   name: 'Table1',
   columns: [
-    { id: 1, name: 'column1' },
-    { id: 2, name: 'column2' },
-    { id: 3, name: 'column3' },
-    { id: 4, name: 'column4' },
-    { id: 5, name: 'column5' },
+    { id: 1, name: 'column6' },
+    { id: 2, name: 'column7' },
+    { id: 3, name: 'column8' },
+    { id: 4, name: 'column9' },
+    { id: 5, name: 'column10' },
   ],
 };
 

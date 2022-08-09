@@ -10,7 +10,7 @@ import SimpleDropDown from '../../../../common/components/SimpleDropDown/index';
 import Tooltip from '../../../../common/components/Tooltip';
 import { deepObjectSearch } from '../../../../data/helpers';
 import { setStructure } from '../../../../data/reportDesigner/reportsData/reportsDataReducer';
-import StructureIcon from '../../../../layout/assets/reportDesigner/structure.svg';
+import ReportIcon from '../../../../layout/assets/reportDesigner/report.svg';
 import BodyIcon from '../../../../layout/assets/reportDesigner/structureBody.svg';
 import FooterIcon from '../../../../layout/assets/reportDesigner/structureFooter.svg';
 import HeaderIcon from '../../../../layout/assets/reportDesigner/structureHeader.svg';
@@ -106,7 +106,7 @@ const Structure = ({ currentReport, onSelect, isActiveNode }) => {
   return (
     <div className={styles.сontainer}>
       <div className={styles.wrapper}>
-        <StructureIcon />
+        <ReportIcon />
         <p className={styles.report}>{currentReport?.name}</p>
       </div>
       <div className={styles.wrapperInner}>
