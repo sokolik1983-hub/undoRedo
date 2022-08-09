@@ -36,6 +36,7 @@ const schemaDesigner = createSlice({
     },
     tablesCoord: [],
     univerName: '',
+    highlightedTables: [],
   },
   reducers: {
     setIsLoading: (state, action) => {
@@ -65,6 +66,9 @@ const schemaDesigner = createSlice({
         { ...action.payload },
       ];
     },
+    filterSelectedTablesArray: (state, action) => {
+      state.selectedTablesArray = action.payload;
+    },
     setSelectedTablesFiltered: (state, action) => {
       state.selectedTables = action.payload;
     },
@@ -78,6 +82,9 @@ const schemaDesigner = createSlice({
       delete action.payload.catalog;
       delete action.payload.comment;
       state.selectedTablesData = [...state.selectedTablesData, action.payload];
+    },
+    filterSelectedTablesData: (state, action) => {
+      state.selectedTablesData = action.payload;
     },
     loadSelectedTablesArray: (state, action) => {
       state.selectedTablesArray = action.payload.map((table) => {
@@ -153,8 +160,8 @@ const schemaDesigner = createSlice({
     clearDataList: (state) => {
       state.dataList = [];
     },
-    setShowDataList: (state) => {
-      state.showDataList = !state.showDataList;
+    setShowDataList: (state, action) => {
+      state.showDataList = action.payload;
     },
     setSemantycLayerName: (state, action) => {
       state.semantycLayerName = action.payload;
@@ -185,6 +192,12 @@ const schemaDesigner = createSlice({
     setUniverseName: (state, action) => {
       state.layerName = action.payload;
     },
+    addHighlight: (state, action) => {
+      state.highlightedTables = [...state.highlightedTables, action.payload];
+    },
+    deleteHighlight: (state, action) => {
+      state.highlightedTables.splice(action.payload, 1);
+    },
   },
 });
 
@@ -197,7 +210,9 @@ export const {
   setConnectorData,
   setSelectedTables,
   setSelectedTablesArray,
+  filterSelectedTablesArray,
   setSelectedTablesData,
+  filterSelectedTablesData,
   addLink,
   setLinks,
   setLink,
@@ -222,6 +237,8 @@ export const {
   loadObjectsLayer,
   setTablesCoord,
   setUniverseName,
+  addHighlight,
+  deleteHighlight,
 } = schemaDesigner.actions;
 
 export default schemaDesigner.reducer;

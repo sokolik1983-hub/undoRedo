@@ -89,8 +89,20 @@ const SchemaEditorBlock = ({
   const headerRef = useRef(null);
   const tableRef = useRef(null);
   const fieldRefs = useRef([React.createRef(), React.createRef()]);
+  const [addWrapper, setAddWrapper] = useState(false);
 
   const dispatch = useDispatch();
+  const highlightedTables = useSelector(
+    (state) => state.app.schemaDesigner.highlightedTables,
+  );
+
+  useEffect(() => {
+    if (
+      highlightedTables.findIndex((tab) => tab === selectedTableFullName) !== -1
+    ) {
+      setAddWrapper(true);
+    } else setAddWrapper(false);
+  }, [highlightedTables]);
 
   const updateFieldsCount = (value) => {
     setFieldsCount(value);
@@ -180,6 +192,8 @@ const SchemaEditorBlock = ({
 
   const highlightOutline = filterableFields.filter((i) => i.colored).length
     ? styles.wrapperHighlight
+    : addWrapper
+    ? styles.clickedWrapper
     : styles.wrapper;
 
   const onCloseInput = () => {

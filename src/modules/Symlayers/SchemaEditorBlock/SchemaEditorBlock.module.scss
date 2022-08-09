@@ -217,3 +217,8 @@
 .skeletonLine {
   padding: 0 16px;
 }
+
+.clickedWrapper {
+  @extend .wrapper;
+  outline: 2px solid #FFA740;
+}

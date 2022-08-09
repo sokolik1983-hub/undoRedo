@@ -248,12 +248,20 @@ const TableComponent = ({
     if (tableNames.length) {
       const list = [];
       tableNames.forEach((i) => {
-        const choosenItems = obj[i].reduce(
-          (acc, item) =>
-            searchMatches(item) && coloredValue ? [...acc, item.field] : acc,
-          [],
-        );
-
+        let choosenItems;
+        if (obj[i].columns) {
+          choosenItems = obj[i].columns.reduce(
+            (acc, item) =>
+              searchMatches(item) && coloredValue ? [...acc, item.field] : acc,
+            [],
+          );
+        } else {
+          choosenItems = obj[i].reduce(
+            (acc, item) =>
+              searchMatches(item) && coloredValue ? [...acc, item.field] : acc,
+            [],
+          );
+        }
         if (choosenItems.length) {
           list.push({ name: i, line: choosenItems });
         }
@@ -264,15 +272,13 @@ const TableComponent = ({
 
   useEffect(() => {
     if (showDataList) {
-      setColorValue(coloredValue);
-    }
-  }, [showDataList]);
-
-  useEffect(() => {
-    if (showDataList) {
       setIsHighlighted(true);
       dispatch(setDataList(getList(selectedTables)));
-      dispatch(setShowDataList());
+      setColorValue(coloredValue);
+    } else {
+      setIsHighlighted(false);
+      setColorValue('');
+      dispatch(setShowDataList(false));
     }
   }, [showDataList]);
 
@@ -514,6 +520,7 @@ const TableComponent = ({
             onFieldDragOver={onFieldDragOver}
             selectedTableColumns={selectedTableColumns}
             selectedTableName={tableItem.objectName}
+            selectedTableFullName={`${tableItem.schema}_${tableItem.objectName}`}
             addRefToColumns={addRefToColumns}
             addRefToTable={addRefToTable}
             addRefToHeader={addRefToHeader}

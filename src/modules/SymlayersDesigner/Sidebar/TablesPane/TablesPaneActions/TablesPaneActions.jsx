@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-curly-newline */
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import IconButton from '../../../../../common/components/IconButton';
@@ -17,20 +17,24 @@ import ViewsIcon from '../../../../../layout/assets/icons/viewsShow.svg';
 import Magnifier from '../../../../../layout/assets/magnifier.svg';
 import styles from './TablesPaneActions.module.scss';
 
-const TablesPaneActions = ({ setSelectedSchemes }) => {
+const TablesPaneActions = ({
+  setSelectedSchemes,
+  setFindedSchemes,
+  searchMod,
+  onSwitchSearchMod,
+}) => {
   const dispatch = useDispatch();
   const { coloredValue, connectorObjects } = useSelector(
     (state) => state.app.schemaDesigner,
   );
-  const [searchMod, setSearchMod] = useState(false);
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
 
   const handleShowDataList = (event) => {
     if (event.key === 'Enter' && coloredValue.length) {
       event.preventDefault();
-      dispatch(setShowDataList());
+      dispatch(setShowDataList(true));
     } else if (event.key === 'Enter') {
-      dispatch(setShowDataList());
+      dispatch(setShowDataList(false));
     }
   };
 
@@ -49,9 +53,9 @@ const TablesPaneActions = ({ setSelectedSchemes }) => {
         item.opened = true;
         return item;
       });
-      setSelectedSchemes(result);
+      setFindedSchemes(result);
     } else if (event.key === 'Enter') {
-      setSelectedSchemes([]);
+      setFindedSchemes([]);
     }
   };
 
@@ -59,9 +63,10 @@ const TablesPaneActions = ({ setSelectedSchemes }) => {
     <div className={styles.root}>
       <Tooltip placement="rightBottom" overlay="Поиск по таблицам на схеме">
         <IconButton
-          className={styles.iconBtn}
+          className={searchMod ? styles.actIconBtn : styles.iconBtn}
           icon={<AddTableIcon />}
-          onClick={() => setSearchMod(!searchMod)}
+          onClick={() => onSwitchSearchMod(!searchMod)}
+          active
         />
       </Tooltip>
       <div className={styles.searchGroup}>
@@ -113,4 +118,6 @@ export default TablesPaneActions;
 
 TablesPaneActions.propTypes = {
   setSelectedSchemes: PropTypes.func,
+  searchMod: PropTypes.bool,
+  onSwitchSearchMod: PropTypes.func,
 };

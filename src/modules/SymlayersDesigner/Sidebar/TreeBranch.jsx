@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import TreeItem from './TreeItem';
-import style from './Sidebar.module.scss';
+import React, { useEffect, useState } from 'react';
 
-const TreeBranch = ({treeData, idx, name, onSelect, opened}) => {
+import style from './Sidebar.module.scss';
+import TreeItem from './TreeItem';
+
+const TreeBranch = ({ treeData, idx, name, onSelect, opened, searchMod }) => {
   const [isActive, setActive] = useState(false);
 
   useEffect(() => {
-    setActive(opened)
-  }, [opened])
+    setActive(opened);
+  }, [opened]);
 
   return (
     <div>
@@ -17,19 +18,26 @@ const TreeBranch = ({treeData, idx, name, onSelect, opened}) => {
       </div>
       <div className={isActive ? style.actListItems : style.disListItems}>
         {treeData[name].map((item) => (
-          <TreeItem id={idx} key={item.objectName} name={item.objectName} table={item} onSelect={onSelect} />
+          <TreeItem
+            id={idx}
+            key={item.objectName}
+            name={item.objectName}
+            table={item}
+            onSelect={onSelect}
+            searchMod={searchMod}
+          />
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
 TreeBranch.propTypes = {
   treeData: PropTypes.object,
   idx: PropTypes.number,
   name: PropTypes.string,
   onSelect: PropTypes.func,
-  opened: PropTypes.bool
-}
+  opened: PropTypes.bool,
+};
 
 export default TreeBranch;
