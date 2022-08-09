@@ -2,9 +2,14 @@
 // Please do not change this file!
 declare namespace SchemaTablesModuleScssNamespace {
   export interface ISchemaTablesModuleScss {
+    headerData: string;
+    headerTitle: string;
+    previewModalHeader: string;
+    previewTableHeader: string;
     scalePanel: string;
     scalePanelButton: string;
     scaleValueWrapper: string;
+    tableHeaderTitle: string;
     tablePreviewContent: string;
     tablePreviewModal: string;
     tablePreviewTable: string;

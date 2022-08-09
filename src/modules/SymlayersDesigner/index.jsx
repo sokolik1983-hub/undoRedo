@@ -39,6 +39,10 @@ function SymlayersDesigner() {
     (state) => state.app.ui.modalVisible === OBJECTS_CONNECTIONS_MODAL,
   );
 
+  const isTablePreviewModalOpened = useSelector(
+    (state) => state.app.ui.modalVisible === TABLE_PREVIEW_MODAL,
+  );
+
   const selectedTablesData = useSelector(
     (state) => state.app.schemaDesigner.selectedTablesData,
   );
@@ -186,7 +190,7 @@ function SymlayersDesigner() {
           visible={isObjectsConnectionsModalOpened && true}
         />
       )}
-      {/* {isTablePreviewModalOpened && <TablePreview />} */}
+      {isTablePreviewModalOpened && <TablePreview />}
     </div>
   );
 }

@@ -34,7 +34,7 @@ interface IModalProps {
   withoutTitle?: boolean;
   headerClassName?: string;
   onClose: () => void;
-  title?: string;
+  title?: string | ReactElement;
   titleClassName?: string;
   visible: boolean;
   withScroll?: boolean;
@@ -108,7 +108,7 @@ const Modal: FC<IModalProps> = ({
       <div className={modalDialogClasses} onClick={(e) => e.stopPropagation()}>
         {!withoutTitle && (
           <div className={headerClasses}>
-            <h3 className={titleClasses}>{title}</h3>
+            <div className={titleClasses}>{title}</div>
             <span className={styles.modalClose} onClick={handleClose}>
               <div className={styles.close}>
                 <CloseIcon />
