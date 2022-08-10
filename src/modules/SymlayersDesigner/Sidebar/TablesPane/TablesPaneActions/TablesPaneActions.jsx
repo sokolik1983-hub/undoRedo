@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import IconButton from '../../../../../common/components/IconButton';
-import TextInput from '../../../../../common/components/TextInput';
-import Tooltip from '../../../../../common/components/Tooltip';
-import { EMPTY_STRING } from '../../../../../common/constants/common';
+import { EMPTY_STRING } from '@src/common/constants/common';
 import {
   setColoredValue,
   setShowDataList,
-} from '../../../../../data/reducers/schemaDesigner';
+} from '@src/data/reducers/schemaDesigner';
+
+import IconButton from '../../../../../common/components/IconButton';
+import TextInput from '../../../../../common/components/TextInput';
+import Tooltip from '../../../../../common/components/Tooltip';
 import AddTableIcon from '../../../../../layout/assets/icons/tablesAdd.svg';
 import FiltersIcon from '../../../../../layout/assets/icons/tablesFilters.svg';
 import ViewsIcon from '../../../../../layout/assets/icons/viewsShow.svg';

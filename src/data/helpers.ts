@@ -21,6 +21,7 @@ export const requestReady = async <T>({
   id,
   dispatch,
 }: IRequestReadyParams<T>) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const response = await axios.request<any>({
     method: 'get',
     url: `${SERVER_API_URL}?id=${id}`,
@@ -41,6 +42,7 @@ export const requestReady = async <T>({
     }
 
     if (response.data.result === 0 && response.data.errors) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       response.data.errors.forEach((item: any) => {
         // eslint-disable-next-line camelcase
         const { errText, errRecommend, errReason, errorCode } = item;
@@ -84,6 +86,7 @@ const requesterTimeout = <T>({
 }: IRequesterTimeout<T>): Promise<T> =>
   new Promise((resolve, reject) => {
     let tryCount = 0;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const interval = async (): Promise<any> => {
       tryCount++;
       const response = await requestReady({
@@ -240,6 +243,7 @@ export const deepObjectSearch = <T extends Record<string, never>>({
   parentNodes = [],
   parentKey = null,
 }: IDeepObjectSearchParams<T>) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let result = [] as any;
   const keys = Object.keys(target);
   for (let i = 0; i < keys.length; i++) {

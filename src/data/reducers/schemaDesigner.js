@@ -7,7 +7,8 @@ const schemaDesigner = createSlice({
     connectorId: 4, // demo data
     selectedTables: [],
     connectorObjects: [],
-    connectorData: {},
+    connectorData: null,
+    tablePreviewData: null,
     // selectedTables: {},
     selectedTablesArray: [],
     selectedTablesData: [],
@@ -150,6 +151,7 @@ const schemaDesigner = createSlice({
     },
     unsetTablePreviewData: (state) => {
       state.connectorData = null;
+      state.tablePreviewData = null;
     },
     setColoredValue: (state, action) => {
       state.coloredValue = action.payload;
@@ -191,6 +193,9 @@ const schemaDesigner = createSlice({
     },
     setUniverseName: (state, action) => {
       state.layerName = action.payload;
+    },
+    setTablePreviewData: (state, action) => {
+      state.tablePreviewData = action.payload;
     },
     addHighlight: (state, action) => {
       state.highlightedTables = [...state.highlightedTables, action.payload];
@@ -239,6 +244,7 @@ export const {
   setUniverseName,
   addHighlight,
   deleteHighlight,
+  setTablePreviewData,
 } = schemaDesigner.actions;
 
 export default schemaDesigner.reducer;

@@ -36,7 +36,7 @@ interface IModalProps {
   withoutTitle?: boolean;
   headerClassName?: string;
   onClose: () => void;
-  title?: string;
+  title?: string | ReactElement;
   icon?: ReactNode;
   iconClassName?: string;
   titleClassName?: string;
@@ -115,7 +115,7 @@ const Modal: FC<IModalProps> = ({
         {!withoutTitle && (
           <div className={headerClasses}>
             {icon && <div className={iconClassName}>{icon}</div>}
-            <h3 className={titleClasses}>{title}</h3>
+            <div className={titleClasses}>{title}</div>
             <span className={styles.modalClose} onClick={handleClose}>
               <div className={styles.close}>
                 <CloseIcon />

@@ -19,7 +19,7 @@ const appReducer = combineReducers({
   trash: trashReducer,
   schemaDesigner: schemaDesignerReducer,
 });
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const rootReducer = (state: any, action: AnyAction) => {
   // when a logout action is dispatched it will reset redux state
   if (action.type === 'auth/logout') {

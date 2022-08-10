@@ -13,7 +13,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TOAST_TYPE } from '@src/common/constants/common';
 import { OBJECTS_CONNECTIONS_MODAL } from '@src/common/constants/popups';
 import { showToast } from '@src/data/actions/app';
-import { getObjectFields } from '@src/data/actions/schemaDesigner';
+import {
+  getObjectFields,
+  getTablePreview,
+  setPreviewTableData,
+} from '@src/data/actions/schemaDesigner';
 
 import {
   setObjectsConnectionsModal,
@@ -354,18 +358,20 @@ const TableComponent = ({
   useEffect(updateTableSize, [columns, expanded, onFilter, columnFilter]);
   useEffect(forceUpdate, [expanded, onFilter, columnFilter, forceUpdate]);
 
-  const handlePopupShow = () => {
+  const handlePreviewTablePopupShow = () => {
     dispatch(setTablePreviewModal(true));
     const { type, catalog, schema, objectName } = tableItem;
-    // dispatch(getObjectData({ id: connect_id, dataType: type, catalog, schema, objectName }));
-    //   .then(
-    //   response => {
-    //     if (response && response.success) {
-    //       setTableData(response.result);
-    //       setIsLoadingData(false);
-    //     }
-    //   }
-    // );
+    dispatch(setPreviewTableData(objectName));
+    dispatch(
+      getTablePreview({
+        id: connect_id,
+        dataType: 'Table',
+        // TODO: Азим, надо достать catalog и положить сюда как параметр
+        schema,
+        objectName,
+        maxRows: 100,
+      }),
+    );
   };
 
   // const handleEditPopupShow = item => () => {
@@ -524,7 +530,7 @@ const TableComponent = ({
             addRefToColumns={addRefToColumns}
             addRefToTable={addRefToTable}
             addRefToHeader={addRefToHeader}
-            onTablePreviewClick={handlePopupShow}
+            onTablePreviewClick={handlePreviewTablePopupShow}
             onCloseSchemaEditorBlock={setActiveSchemaEditorBlock}
             onDeleteTable={onDeleteTable}
             tableItem={tableItem}

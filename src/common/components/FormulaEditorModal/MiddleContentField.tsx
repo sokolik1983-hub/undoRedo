@@ -6,6 +6,7 @@ import FunctionIcon from '../../../layout/assets/reportDesigner/function.svg';
 import { getIconByItemType } from '../../../modules/QueryPanel/queryPanelHelper';
 import Search from '../Search';
 import styles from './FormulaEditorModal.module.scss';
+
 interface IMiddleContentProps {
   fields: Array<any>;
   title: string;
